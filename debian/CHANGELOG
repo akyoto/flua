@@ -1,0 +1,31 @@
+blitzprog (0.1.3) unstable; urgency=low
+
+	* Initial SVN release.
+
+ -- Eduard Urbach <eduard@eduard-desktop>  Wed, 19 Mar 2008 10:40:31 +0100
+ 
+blitzprog (0.1.2) unstable; urgency=low
+
+	* New keyword: Import
+	* New keywords: Select/EndSelect
+	* New "PrgmLang" interface
+	* Function calls without brackets
+
+ -- Eduard Urbach <eduard@eduard-desktop>  Sun, 16 Mar 2008 12:17:45 +0100
+
+blitzprog (0.1.1) unstable; urgency=low
+
+	* New keywords: While/Wend
+	* New keywords: Repeat/Until
+	* New keywords: Do/While
+	* Bugfix: Improved exception handling in 'Local', 'Global' and 'Field'
+	* Bugfix: Multiple strings in one line don't cause an error
+	* Bugfix: Strings in comments
+
+ -- Eduard Urbach <eduard@eduard-desktop>  Sat, 15 Mar 2008 15:39:27 +0100
+
+blitzprog (0.1.0) unstable; urgency=low
+
+	* Initial release.
+
+ -- Eduard Urbach <eduard@eduard-desktop>  Thu, 13 Mar 2008 13:10:11 +0100

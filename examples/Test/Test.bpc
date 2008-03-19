@@ -1,0 +1,34 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Module:				Test
+; Author:				-
+; Description:			Test file (bpc)
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Import Blitzprog.FileSystem
+Import Blitzprog.FileSystem.XML
+
+Define Int = int
+
+Type Vector2D
+	Field x:Int
+	Field y:Int
+	
+	Method SetPosition(x:Int, y:Int)
+		Self.x = x
+		Self.y = y
+	End Method
+End Type
+
+Function Main()
+	Print 1
+	Print 2
+	
+	If FileExists("Test.bpc")
+		Print 3
+	End If
+	
+	Return
+End Function
+

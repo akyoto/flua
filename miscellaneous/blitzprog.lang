@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Author: Eduard Urbach <webmaster@blitzprog.de>
+ Copyright (C) 2008 Eduard Urbach <webmaster@blitzprog.de>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+
+-->
+<language id="bp" _name="Blitzprog" version="2.0" _section="Sources">
+  <metadata>
+    <property name="mimetypes">text/plain</property>
+    <property name="globs">*.bpc</property>
+    <property name="line-comment-start">;</property>
+  </metadata>
+
+  <styles>
+    <style id="comment" _name="Comment" map-to="def:comment"/>
+    <style id="string" _name="String" map-to="def:string"/>
+    <style id="preprocessor" _name="Preprocessor" map-to="def:preprocessor"/>
+    <style id="keyword" _name="Keyword" map-to="def:keyword"/>
+    <style id="type" _name="Data Type" map-to="def:type"/>
+    <style id="special-constant" _name="Special constant" map-to="def:special-constant"/>
+    <style id="boolean" _name="Boolean value" map-to="def:boolean"/>
+  </styles>
+
+  <default-regex-options case-sensitive="true"/>
+
+  <definitions>
+
+    <context id="line-comment" style-ref="comment" end-at-line-end="true">
+      <start>;</start>
+      <include>
+        <context ref="def:in-line-comment"/>
+      </include>
+    </context>
+
+    <context id="string" style-ref="string" end-at-line-end="true">
+      <start>&quot;</start>
+      <end>&quot;</end>
+    </context>
+
+    <context id="preprocessor" style-ref="preprocessor" end-at-line-end="true">
+      <start extended="true">
+        ^\s*\?\s*
+        (Linux|Win32|MacOS)
+        \b
+      </start>
+      <include>
+        <context ref="line-comment"/>
+      </include>
+    </context>
+
+    <context id="keywords" style-ref="keyword">
+		<keyword>End</keyword>        
+		<keyword>Import</keyword>
+		<keyword>Template</keyword>
+		<keyword>Select</keyword>
+		<keyword>Case</keyword>
+		<keyword>Default</keyword>
+		<keyword>Function</keyword>
+		<keyword>Method</keyword>
+		<keyword>Type</keyword>
+		<keyword>Field</keyword>
+		<keyword>Self</keyword>
+		<keyword>Local</keyword>
+		<keyword>Global</keyword>
+		<keyword>Const</keyword>
+		<keyword>While</keyword>
+		<keyword>Wend</keyword>
+		<keyword>Repeat</keyword>
+		<keyword>Until</keyword>
+		<keyword>If</keyword>
+		<keyword>Else</keyword>
+		<keyword>ElseIf</keyword>
+		<keyword>Try</keyword>
+		<keyword>Catch</keyword>
+		<keyword>New</keyword>
+		<keyword>Delete</keyword>
+		<keyword>Define</keyword>
+		<keyword>Shl</keyword>
+		<keyword>Shr</keyword>
+		<keyword>Not</keyword>
+		<keyword>Extends</keyword>
+		<keyword>For</keyword>
+		<keyword>To</keyword>
+		<keyword>Next</keyword>
+		<keyword>Step</keyword>
+		<keyword>Forever</keyword>
+		<keyword>Throw</keyword>
+    </context>
+
+    <context id="types" style-ref="type">
+        <keyword>String</keyword>
+        <keyword>Byte</keyword>
+        <keyword>Short</keyword>
+        <keyword>Int</keyword>
+        <keyword>Float</keyword>
+        <keyword>Double</keyword>
+	<keyword>Bool</keyword>
+    </context>
+
+    <context id="special-constants" style-ref="special-constant">
+      <keyword>Null</keyword>
+    </context>
+
+    <context id="boolean" style-ref="boolean">
+      <keyword>False</keyword>
+      <keyword>True</keyword>
+    </context>
+
+    <context id="bp">
+      <include>
+        <context ref="line-comment"/>
+        <context ref="string"/>
+        <context ref="preprocessor"/>
+        <context ref="keywords"/>
+        <context ref="types"/>
+        <context ref="special-constants"/>
+        <context ref="boolean"/>
+      </include>
+    </context>
+
+  </definitions>
+
+</language>

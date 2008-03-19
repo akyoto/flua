@@ -1,0 +1,160 @@
+#include "Input.hpp"
+
+/*
+ * Key codes from OIS - Object Oriented Input System
+ * TODO: Add link
+ * */
+
+//Constructor
+InputStartUp::InputStartUp()
+{
+	//TODO: Add descriptions for every button
+	EngineLog4("Initializing input buttons...");
+	TInput::buttonsDescription[KEY_UNASSIGNED]  = "";
+	TInput::buttonsDescription[KEY_ESCAPE]      = "";
+	TInput::buttonsDescription[KEY_1]           = "";
+	TInput::buttonsDescription[KEY_2]           = "";
+	TInput::buttonsDescription[KEY_3]           = "";
+	TInput::buttonsDescription[KEY_4]           = "";
+	TInput::buttonsDescription[KEY_5]           = "";
+	TInput::buttonsDescription[KEY_6]           = "";
+	TInput::buttonsDescription[KEY_7]           = "";
+	TInput::buttonsDescription[KEY_8]           = "";
+	TInput::buttonsDescription[KEY_9]           = "";
+	TInput::buttonsDescription[KEY_0]           = "";
+	TInput::buttonsDescription[KEY_MINUS]       = "";    // - on main keyboard
+	TInput::buttonsDescription[KEY_EQUALS]      = "";
+	TInput::buttonsDescription[KEY_BACK]        = "";    // backspace
+	TInput::buttonsDescription[KEY_TAB]         = "";
+	TInput::buttonsDescription[KEY_Q]           = "";
+	TInput::buttonsDescription[KEY_W]           = "";
+	TInput::buttonsDescription[KEY_E]           = "";
+	TInput::buttonsDescription[KEY_R]           = "";
+	TInput::buttonsDescription[KEY_T]           = "";
+	TInput::buttonsDescription[KEY_Y]           = "";
+	TInput::buttonsDescription[KEY_U]           = "";
+	TInput::buttonsDescription[KEY_I]           = "";
+	TInput::buttonsDescription[KEY_O]           = "";
+	TInput::buttonsDescription[KEY_P]           = "";
+	TInput::buttonsDescription[KEY_LBRACKET]    = "";
+	TInput::buttonsDescription[KEY_RBRACKET]    = "";
+	TInput::buttonsDescription[KEY_RETURN]      = "";    // Enter on main keyboard
+	TInput::buttonsDescription[KEY_ENTER]       = "";
+	TInput::buttonsDescription[KEY_LCONTROL]    = "";
+	TInput::buttonsDescription[KEY_A]           = "A";
+	TInput::buttonsDescription[KEY_S]           = "S";
+	TInput::buttonsDescription[KEY_D]           = "D";
+	TInput::buttonsDescription[KEY_F]           = "F";
+	TInput::buttonsDescription[KEY_G]           = "G";
+	TInput::buttonsDescription[KEY_H]           = "H";
+	TInput::buttonsDescription[KEY_J]           = "J";
+	TInput::buttonsDescription[KEY_K]           = "K";
+	TInput::buttonsDescription[KEY_L]           = "L";
+	TInput::buttonsDescription[KEY_SEMICOLON]   = "";
+	TInput::buttonsDescription[KEY_APOSTROPHE]  = "";
+	TInput::buttonsDescription[KEY_GRAVE]       = "";    // accent
+	TInput::buttonsDescription[KEY_LSHIFT]      = "";
+	TInput::buttonsDescription[KEY_BACKSLASH]   = "";
+	TInput::buttonsDescription[KEY_Z]           = "";
+	TInput::buttonsDescription[KEY_X]           = "";
+	TInput::buttonsDescription[KEY_C]           = "";
+	TInput::buttonsDescription[KEY_V]           = "";
+	TInput::buttonsDescription[KEY_B]           = "";
+	TInput::buttonsDescription[KEY_N]           = "";
+	TInput::buttonsDescription[KEY_M]           = "";
+	TInput::buttonsDescription[KEY_COMMA]       = "";
+	TInput::buttonsDescription[KEY_PERIOD]      = "";    // . on main keyboard
+	TInput::buttonsDescription[KEY_SLASH]       = "";    // / on main keyboard
+	TInput::buttonsDescription[KEY_RSHIFT]      = "";
+	TInput::buttonsDescription[KEY_MULTIPLY]    = "";    // * on numeric keypad
+	TInput::buttonsDescription[KEY_LMENU]       = "";    // left Alt
+	TInput::buttonsDescription[KEY_SPACE]       = "";
+	TInput::buttonsDescription[KEY_CAPITAL]     = "";
+	TInput::buttonsDescription[KEY_F1]          = "";
+	TInput::buttonsDescription[KEY_F2]          = "";
+	TInput::buttonsDescription[KEY_F3]          = "";
+	TInput::buttonsDescription[KEY_F4]          = "";
+	TInput::buttonsDescription[KEY_F5]          = "";
+	TInput::buttonsDescription[KEY_F6]          = "";
+	TInput::buttonsDescription[KEY_F7]          = "";
+	TInput::buttonsDescription[KEY_F8]          = "";
+	TInput::buttonsDescription[KEY_F9]          = "";
+	TInput::buttonsDescription[KEY_F10]         = "";
+	TInput::buttonsDescription[KEY_NUMLOCK]     = "";
+	TInput::buttonsDescription[KEY_SCROLL]      = "";    // Scroll Lock
+	TInput::buttonsDescription[KEY_NUMPAD7]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD8]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD9]     = "";
+	TInput::buttonsDescription[KEY_SUBTRACT]    = "";    // - on numeric keypad
+	TInput::buttonsDescription[KEY_NUMPAD4]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD5]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD6]     = "";
+	TInput::buttonsDescription[KEY_ADD]         = "";    // + on numeric keypad
+	TInput::buttonsDescription[KEY_NUMPAD1]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD2]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD3]     = "";
+	TInput::buttonsDescription[KEY_NUMPAD0]     = "";
+	TInput::buttonsDescription[KEY_DECIMAL]     = "";    // . on numeric keypad
+	TInput::buttonsDescription[KEY_OEM_102]     = "";    // < > | on UK/Germany keyboards
+	TInput::buttonsDescription[KEY_F11]         = "";
+	TInput::buttonsDescription[KEY_F12]         = "";
+	TInput::buttonsDescription[KEY_F13]         = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_F14]         = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_F15]         = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_KANA]        = "";    // (Japanese keyboard)
+	TInput::buttonsDescription[KEY_ABNT_C1]     = "";    // / ? on Portugese (Brazilian) keyboards
+	TInput::buttonsDescription[KEY_CONVERT]     = "";    // (Japanese keyboard)
+	TInput::buttonsDescription[KEY_NOCONVERT]   = "";    // (Japanese keyboard)
+	TInput::buttonsDescription[KEY_YEN]         = "";    // (Japanese keyboard)
+	TInput::buttonsDescription[KEY_ABNT_C2]     = "";    // Numpad . on Portugese (Brazilian) keyboards
+	TInput::buttonsDescription[KEY_NUMPADEQUALS]= "";    // = on numeric keypad (NEC PC98)
+	TInput::buttonsDescription[KEY_PREVTRACK]   = "";    // Previous Track (KEY_CIRCUMFLEX] on Japanese keyboard)
+	TInput::buttonsDescription[KEY_AT]          = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_COLON]       = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_UNDERLINE]   = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_KANJI]       = "";    // (Japanese keyboard)
+	TInput::buttonsDescription[KEY_STOP]        = "";    //                     (NEC PC98)
+	TInput::buttonsDescription[KEY_AX]          = "";    //                     (Japan AX)
+	TInput::buttonsDescription[KEY_UNLABELED]   = "";    //                        (J3100)
+	TInput::buttonsDescription[KEY_NEXTTRACK]   = "";    // Next Track
+	TInput::buttonsDescription[KEY_NUMPADENTER] = "";    // Enter on numeric keypad
+	TInput::buttonsDescription[KEY_RCONTROL]    = "";
+	TInput::buttonsDescription[KEY_MUTE]        = "";    // Mute
+	TInput::buttonsDescription[KEY_CALCULATOR]  = "";    // Calculator
+	TInput::buttonsDescription[KEY_PLAYPAUSE]   = "";    // Play / Pause
+	TInput::buttonsDescription[KEY_MEDIASTOP]   = "";    // Media Stop
+	TInput::buttonsDescription[KEY_VOLUMEDOWN]  = "";    // Volume -
+	TInput::buttonsDescription[KEY_VOLUMEUP]    = "";    // Volume +
+	TInput::buttonsDescription[KEY_WEBHOME]     = "";    // Web home
+	TInput::buttonsDescription[KEY_NUMPADCOMMA] = "";    // ; on numeric keypad (NEC PC98)
+	TInput::buttonsDescription[KEY_DIVIDE]      = "";    // / on numeric keypad
+	TInput::buttonsDescription[KEY_SYSRQ]       = "";
+	TInput::buttonsDescription[KEY_RMENU]       = "";    // right Alt
+	TInput::buttonsDescription[KEY_PAUSE]       = "";    // Pause
+	TInput::buttonsDescription[KEY_HOME]        = "";    // Home on arrow keypad
+	TInput::buttonsDescription[KEY_UP]          = "Up";    // UpArrow on arrow keypad
+	TInput::buttonsDescription[KEY_PGUP]        = "";    // PgUp on arrow keypad
+	TInput::buttonsDescription[KEY_LEFT]        = "Left";    // LeftArrow on arrow keypad
+	TInput::buttonsDescription[KEY_RIGHT]       = "Right";    // RightArrow on arrow keypad
+	TInput::buttonsDescription[KEY_END]         = "";    // End on arrow keypad
+	TInput::buttonsDescription[KEY_DOWN]        = "Down";    // DownArrow on arrow keypad
+	TInput::buttonsDescription[KEY_PGDOWN]      = "";    // PgDn on arrow keypad
+	TInput::buttonsDescription[KEY_INSERT]      = "Insert";    // Insert on arrow keypad
+	TInput::buttonsDescription[KEY_DELETE]      = "Delete";    // Delete on arrow keypad
+	TInput::buttonsDescription[KEY_LWIN]        = "";    // Left Windows key
+	TInput::buttonsDescription[KEY_RWIN]        = "";    // Right Windows key
+	TInput::buttonsDescription[KEY_APPS]        = "";    // AppMenu key
+	TInput::buttonsDescription[KEY_POWER]       = "";    // System Power
+	TInput::buttonsDescription[KEY_SLEEP]       = "";    // System Sleep
+	TInput::buttonsDescription[KEY_WAKE]        = "";    // System Wake
+	TInput::buttonsDescription[KEY_WEBSEARCH]   = "";    // Web Search
+	TInput::buttonsDescription[KEY_WEBFAVORITES]= "";    // Web Favorites
+	TInput::buttonsDescription[KEY_WEBREFRESH]  = "";    // Web Refresh
+	TInput::buttonsDescription[KEY_WEBSTOP]     = "";    // Web Stop
+	TInput::buttonsDescription[KEY_WEBFORWARD]  = "";    // Web Forward
+	TInput::buttonsDescription[KEY_WEBBACK]     = "";    // Web Back
+	TInput::buttonsDescription[KEY_MYCOMPUTER]  = "";    // My Computer
+	TInput::buttonsDescription[KEY_MAIL]        = "";    // Mail
+	TInput::buttonsDescription[KEY_MEDIASELECT] = "";    // Media Select
+	EngineLog4("Input buttons initialized.");
+}
