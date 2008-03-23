@@ -12,6 +12,8 @@
 #include "Lang/LangCPP.hpp"
 #include "Lang/LangBPC.hpp"
 
+#define Exec(cmd) Print(cmd); system(cmd)
+
 //Main
 void Main()
 {
@@ -79,6 +81,7 @@ void Main()
 			outputFile = ExtractName(inputFile);
 			outputFile += ".cpp";
 			ConvertToLang(inputFile, outputFile);
+			outputFile.AddLeft(ExtractDir(inputFile));	//TODO: Optimize
 			compile = true;
 			run = true;
 		}
@@ -109,7 +112,9 @@ void Main()
 	{
 		ms = MilliSecs();
 		Print("Compile with g++...");
-		system("g++ " + outputFile + " -I ../Blitzprog-API/src/ -o " + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
+		
+		//TODO: Optimize
+		Exec("g++ " + outputFile + " -I ./lib/ -o " + ExtractDir(outputFile) + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
 		Print("g++: " << MilliSecs() - ms << " ms");
 	}
 	
@@ -117,6 +122,8 @@ void Main()
 	if(run)
 	{
 		Print("Run...\n");
-		system("./" + ExtractName(outputFile));														//TODO: Replace 'system' with CreateProcess
+		
+		//TODO: Optimize
+		Exec(ExtractDir(outputFile) + ExtractName(outputFile));												//TODO: Replace 'system' with CreateProcess
 	}
 }

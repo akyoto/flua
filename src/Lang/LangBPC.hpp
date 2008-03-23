@@ -712,7 +712,7 @@ class TPrgmLangBPC: public TPrgmLang
 					//Return
 					if(exprLeft == "Return")
 					{
-						if(!inFunc)
+						if(!inSubProgram)
 							CompileError("'Return' can only be used in functions/methods/operators/casts");
 						
 						XMLNode node = CreateXMLNode("return");
@@ -871,7 +871,7 @@ class TPrgmLangBPC: public TPrgmLang
 					//Type
 					if(exprLeft == "Type")
 					{
-						if(inFunc || inClass)
+						if(inSubProgram || inClass)
 							CompileError("'Type' declaration can neither be used in expressions nor functions and it cannot be used inside a type defintion");
 						
 						inClass = true;
@@ -902,7 +902,7 @@ class TPrgmLangBPC: public TPrgmLang
 					//End Type
 					if(exprLeft == "EndType" || exprLeft == "End Type")
 					{
-						if(inFunc || !inClass)
+						if(inSubProgram || !inClass)
 							CompileError("'End Type' can neither be used in expressions nor functions");
 						
 						if(inClassTemplate)
@@ -1010,7 +1010,7 @@ class TPrgmLangBPC: public TPrgmLang
 					//Field
 					if(exprLeft == "Field")
 					{
-						if(inFunc || !inClass)
+						if(inSubProgram || !inClass)
 							CompileError("'Field' variable declaration can neither be used in expressions nor functions and has to be used inside a type definition");
 						
 						//If there is nothing more than 'Field'
@@ -1616,7 +1616,7 @@ class TPrgmLangBPC: public TPrgmLang
 		size_t lineCounter;
 		bool inClassTemplate;
 		//bool inFuncTemplate;
-		bool inFunc;
+		//bool inFunc;
 		bool inClass;
 		bool inSelect;
 		bool inWhile;
