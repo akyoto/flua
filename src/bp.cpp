@@ -12,6 +12,7 @@
 #include "Lang/LangCPP.hpp"
 #include "Lang/LangBPC.hpp"
 
+//TODO: Inline
 #define Exec(cmd) Print(cmd); system(cmd)
 
 //Main
@@ -114,7 +115,7 @@ void Main()
 		Print("Compile with g++...");
 		
 		//TODO: Optimize
-		Exec("g++ " + outputFile + " -I ./lib/ -o " + ExtractDir(outputFile) + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
+		Exec("g++ " + outputFile + " -o " + ExtractDir(outputFile) + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
 		Print("g++: " << MilliSecs() - ms << " ms");
 	}
 	

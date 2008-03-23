@@ -1,0 +1,27 @@
+COMPILE
+-------
+
+ * Linux and Windows
+ 	
+ 	1. Install Eclipse + CDT
+ 	2. Install Boost header files (you only need the header files, e.g. shared_ptr.hpp)
+ 	3. Copy the Blitzprog project into your Eclipse workspace
+ 	4. Start Eclipse and open the Blitzprog project
+ 	5. Add the path to the Boost header files to the compiler settings (only Windows)
+ 	6. Select the lib32 build configuration and compile it
+ 	7. Select the bin32 build configuration and compile it
+	
+INSTALL
+-------
+
+ * Linux
+	
+	Execute install.sh (as root)
+	
+ * Windows
+	
+	1. Copy the contents of the include directory into the MinGW include path (e.g. C:\MinGW\include)
+	2. Copy libblitzprog.a into the MinGW lib directory (e.g. C:\MinGW\lib)
+	3. Copy bp.exe into the MinGW bin path (e.g. C:\MinGW\bin) or copy it to another path which is listed in the PATH environment variable
+	
+	NOTE: If someone knows how to write a script for windows, please send me a mail <webmaster@blitzprog.com>
