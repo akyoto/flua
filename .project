@@ -39,7 +39,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
-					<value>${workspace_loc:/blitzprog/debug32}</value>
+					<value>${workspace_loc:/blitzprog/bin}</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.useDefaultBuildCmd</key>
@@ -60,10 +60,6 @@
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.fullBuildTarget</key>
 					<value>all</value>
-				</dictionary>
-				<dictionary>
-					<key>?children?</key>
-					<value>?name?=outputEntries\|?children?=?name?=entry\\\\\\\\\\\\\\\|\\\\\\\|?name?=entry\\\\\\\\\\\\\\\|\\\\\\\|\||</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.autoBuildTarget</key>
