@@ -109,7 +109,7 @@ void Main()
 	{
 		ms = MilliSecs();
 		Print("Compile with g++...");
-		system("g++ " + outputFile + " -I ../Blitzprog-API/src/ -o " + ExtractName(outputFile));
+		system("g++ " + outputFile + " -I ../Blitzprog-API/src/ -o " + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
 		Print("g++: " << MilliSecs() - ms << " ms");
 	}
 	
@@ -117,6 +117,6 @@ void Main()
 	if(run)
 	{
 		Print("Run...\n");
-		system("./" + ExtractName(outputFile));
+		system("./" + ExtractName(outputFile));														//TODO: Replace 'system' with CreateProcess
 	}
 }

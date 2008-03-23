@@ -364,7 +364,7 @@ class TPrgmLangBPC: public TPrgmLang
 			//Clean			//TODO: String version & optimize
 			expr.Trim();
 			
-			//TODO: Recongnize all unknown operators
+			//TODO: Recognize all unknown operators
 			if(expr.Find("&&") != String::npos)
 				CompileError("Use 'And' instead of '&&'");
 			if(expr.Find("||") != String::npos)
@@ -377,7 +377,7 @@ class TPrgmLangBPC: public TPrgmLang
 				CompileError("Use 'Shr' instead of '>>'");
 			
 			//Replace
-			expr.ReplaceStandalone("New", "New__");	//TODO: Other whitespaces
+			expr.ReplaceStandalone("New", "New__");
 			expr.ReplaceStandalone("And", "&&");
 			expr.ReplaceStandalone("Or", "||");
 			expr.ReplaceStandalone("Mod", "%");
