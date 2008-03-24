@@ -28,9 +28,9 @@ rem This function will install Blitzprog
 	)
 	call :getMinGW
 	echo starting installation...
-	xcopy ..\lib\* %mingw_dir%\include /E
-	xcopy ..\lib32\libblitzprog.a %mingw_dir%\lib
-	xcopy ..\bin32\bp.exe %mingw_dir%\bin
+	xcopy ..\..\lib\* %mingw_dir%\include /E
+	xcopy ..\..\lib32\libblitzprog.a %mingw_dir%\lib
+	xcopy ..\..\bin32\bp.exe %mingw_dir%\bin
 	echo.
 	echo Blitzprog has been successfully installed.
 	exit /B 0

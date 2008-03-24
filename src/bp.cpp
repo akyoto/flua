@@ -34,6 +34,7 @@ void Main()
 	String tmp;
 	String inputFile;
 	String outputFile;
+	String gccFlags;
 	for(int i = 1; i < argc; ++i)
 	{
 		tmp = argv[i];			//TODO: Optimise ("-")
@@ -51,13 +52,18 @@ void Main()
 		{
 			
 		}
-		else if(tmp == "-doc")
-		{
-			
-		}
 		else if(tmp == "-p")
 		{
 			
+		}
+		else if(tmp == "--debug")
+		{
+			
+		}
+		else if(tmp == "--gcc-flags")
+		{
+			gccFlags = argv[++i];
+			Print("GCC flags: " << gccFlags);
 		}
 		else if(tmp == "--clean")
 		{
@@ -69,7 +75,15 @@ void Main()
 		}
 		else if(tmp == "--help")
 		{
-			Print("Blitzprog Compiler " << version);
+			Print("-o                   Specify output file");
+			Print("-d                   Create documentation (not implemented)");
+			Print("-I                   Add include path (not implemented)");
+			Print("-p                   Use profiler (not implemented)");
+			Print("--gcc-flags          Specify gcc/g++ flags");
+			Print("--debug              Use debugger (not implemented)");
+			Print("--clean              Delete all generated files (not implemented)");
+			Print("--version            Show compiler version");
+			Print("--help               Show this help");
 		}
 		else if(FileExists(tmp))
 		{
@@ -133,23 +147,21 @@ void Main()
 		Print("Compile with g++...");
 		
 		//TODO: Optimize
-		Exec("g++ " + outputFile + " -o " + exeFile);	//TODO: Replace 'system' with CreateProcess
+		Exec("g++ " + outputFile + " -o " + exeFile + " " + gccFlags);	//TODO: Replace 'system' with CreateProcess
 		Print("g++: " << MilliSecs() - ms << " ms");
 	}
 	
 	//Clean
-	if(1)
+	if(clean)
 	{
 		ms = MilliSecs();
 		String fileName;
 		Dir currentDir = OpenDir(".");
-		Print("TEST1");
 		while(fileName = currentDir->GetNextVisibleFile())
 		{
-			Print(fileName);
+			Print(fileName);									//TODO: Delete generated files
 		}
-		Print("TEST2");
-		Print("Clean: " << MilliSecs() - ms << " ms");
+		Print("Clean: " << MilliSecs() - ms << " ms");			//BUG: This is never shown
 	}
 	
 	Print("Done.");
