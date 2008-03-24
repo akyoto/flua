@@ -38,6 +38,7 @@ void Main()
 	for(int i = 1; i < argc; ++i)
 	{
 		tmp = argv[i];			//TODO: Optimise ("-")
+		Print(argv[i]);
 		if(tmp == "-o")
 		{
 			outputFile = argv[++i];
@@ -80,6 +81,12 @@ void Main()
 			Print("-I                   Add include path (not implemented)");
 			Print("-p                   Use profiler (not implemented)");
 			Print("--gcc-flags          Specify gcc/g++ flags");
+			Print("                         Use escape characters if you want to add include directories:");
+			#ifdef LINUX
+			Print("                         --gcc-flags \"-I\\\"path\\\"\"");
+			#elif WIN32
+			Print("                         --gcc-flags \"-I^\"path^\"\"");
+			#endif
 			Print("--debug              Use debugger (not implemented)");
 			Print("--clean              Delete all generated files (not implemented)");
 			Print("--version            Show compiler version");
