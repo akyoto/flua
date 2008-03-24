@@ -325,6 +325,12 @@ class TString: public CPPString
 			return CPPStringW(this->begin(), this->end());
 		}
 		
+		//Cast: bool
+		inline operator bool() const
+		{
+			return !IsEmpty();
+		}
+		
 		/*
 		//Cast: int
 		inline operator int()
@@ -523,6 +529,12 @@ class TString: public CPPString
 		inline TString Until(const TString &str) const
 		{
 			return this->substr(0, this->find(str, 0));
+		}
+		
+		//UntilLast
+		inline TString UntilLast(char aChar) const
+		{
+			return this->substr(0, this->find_last_of(aChar));
 		}
 		
 		//From
@@ -769,6 +781,12 @@ inline String Replace(String str, const String &searchFor, const String &replWit
 inline String StripDir(const String &url)
 {
 	return url.Mid(url.FindLast('/') + 1);
+}
+
+//StripExt
+inline String StripExt(const String &url)
+{
+	return url.UntilLast('.');
 }
 
 //ExtractExt

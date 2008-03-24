@@ -18,18 +18,22 @@
 //Main
 void Main()
 {
+	//Version
+	String version = "0.1.4";
+	
 	//Get arguments
 	int argc = GetCAppArgsCount();
 	char **argv = GetCAppArgs();
 	
 	//Options
 	bool compile = 0;
+	bool clean = 0;
 	bool run = 0;
 	
 	//Parse arguments
+	String tmp;
 	String inputFile;
 	String outputFile;
-	String tmp;
 	for(int i = 1; i < argc; ++i)
 	{
 		tmp = argv[i];			//TODO: Optimise ("-")
@@ -55,6 +59,18 @@ void Main()
 		{
 			
 		}
+		else if(tmp == "--clean")
+		{
+			clean = true;
+		}
+		else if(tmp == "--version")
+		{
+			Print("Blitzprog Compiler " << version);
+		}
+		else if(tmp == "--help")
+		{
+			Print("Blitzprog Compiler " << version);
+		}
 		else if(FileExists(tmp))
 		{
 			inputFile = tmp;
@@ -62,7 +78,7 @@ void Main()
 	}
 	
 	//Check arguments
-	if(inputFile.IsEmpty())
+	if(inputFile.IsEmpty() && !clean)
 	{
 		Print("no input files" << endl << "Usage: bp in.bpc");
 		End(1);
@@ -91,7 +107,7 @@ void Main()
 			ConvertToLang(inputFile, outputFile);
 		}
 	}
-	else
+	else if(!inputFile.IsEmpty())
 	{
 		if(!outputFile.IsEmpty() && outputFile.Find('.') == String::npos)
 		{
@@ -106,7 +122,9 @@ void Main()
 		}
 	}
 	Print(MilliSecs() - ms << " ms");
-	Print("Done.");
+	
+	//Name of the binary file
+	String exeFile = StripExt(outputFile);
 	
 	//Compile
 	if(compile)
@@ -115,9 +133,26 @@ void Main()
 		Print("Compile with g++...");
 		
 		//TODO: Optimize
-		Exec("g++ " + outputFile + " -o " + ExtractDir(outputFile) + ExtractName(outputFile));	//TODO: Replace 'system' with CreateProcess
+		Exec("g++ " + outputFile + " -o " + exeFile);	//TODO: Replace 'system' with CreateProcess
 		Print("g++: " << MilliSecs() - ms << " ms");
 	}
+	
+	//Clean
+	if(1)
+	{
+		ms = MilliSecs();
+		String fileName;
+		Dir currentDir = OpenDir(".");
+		Print("TEST1");
+		while(fileName = currentDir->GetNextVisibleFile())
+		{
+			Print(fileName);
+		}
+		Print("TEST2");
+		Print("Clean: " << MilliSecs() - ms << " ms");
+	}
+	
+	Print("Done.");
 	
 	//Run
 	if(run)
@@ -125,6 +160,6 @@ void Main()
 		Print("Run...\n");
 		
 		//TODO: Optimize
-		Exec(ExtractDir(outputFile) + ExtractName(outputFile));												//TODO: Replace 'system' with CreateProcess
+		Exec(exeFile);												//TODO: Replace 'system' with CreateProcess
 	}
 }

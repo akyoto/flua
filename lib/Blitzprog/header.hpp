@@ -4,21 +4,24 @@
 //Includes
 #include <header.hpp>
 
-//Debug level
-#define DEBUG_LEVEL 4
-
 //Debug mode
-#define LOG_TO_FILE 1
+#define LOG_TO_FILE
 
-#if LOG_TO_FILE
-	#include <fstream>
-	#define DEBUG_LOG_FILE "engine-log.html"
-	static std::ofstream elog(DEBUG_LOG_FILE, std::ios::out);
-	#define LOG_FUNC(msg) { elog << msg << "<br />" << std::endl; }
-	#define LOG_FUNC_ERROR(msg) LOG_FUNC("<span style='color: red;'>" << msg << "</span>")
+#ifdef DEBUG
+	#define DEBUG_LEVEL 4
+	
+	#ifdef LOG_TO_FILE
+		#include <fstream>
+		#define DEBUG_LOG_FILE "engine-log.html"
+		static std::ofstream elog(DEBUG_LOG_FILE, std::ios::out);
+		#define LOG_FUNC(msg) { elog << msg << "<br />" << std::endl; }
+		#define LOG_FUNC_ERROR(msg) LOG_FUNC("<span style='color: red;'>" << msg << "</span>")
+	#else
+		#define LOG_FUNC(msg) std::cout << msg << std::endl
+		#define LOG_FUNC_ERROR(msg) std::cerr << "[" << __FUNCTION__ << "] " << msg << std::endl
+	#endif
 #else
-	#define LOG_FUNC(msg) std::cout << msg << std::endl
-	#define LOG_FUNC_ERROR(msg) std::cerr << "[" << __FUNCTION__ << "] " << msg << std::endl
+	#define DEBUG_LEVEL 0
 #endif
 
 //Enable/disable log macros

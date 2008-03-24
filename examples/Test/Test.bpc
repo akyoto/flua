@@ -26,7 +26,7 @@ Function Main()
 	Print 2
 	
 	If FileExists("Test.bpc")
-		Print 3
+		Print "Test.bpc exists"
 	End If
 	
 	Return
