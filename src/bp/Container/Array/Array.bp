@@ -1,0 +1,35 @@
+import Mem.*
+
+Array
+	clas.minSize = 1024	# elements, not bytes
+	
+	init dataType = Object
+		self.dataType = dataType
+		self.start = self.end = ~MemPointer(self.dataType, minSize)
+		self.endOfStorage = self.start + class.minSize
+		
+	delete
+		self.start.delete
+		
+	length
+		return self.end - self.start
+		
+	add element
+		self.end.data = element
+		self.end += 1
+		
+	reserve newSize
+		currentSize = self.length
+		newMem = ~MemPointer(self.dataType, newSize)
+		
+		copyMem self.start, newMem, currentSize		# source, dest, size
+		self.start.delete
+		
+		self.end = newMem + currentSize
+		self.start = newMem
+		self.endOfStorage = newMem + newSize
+		
+a = Array(Int)
+a.add 5
+a.add "ABC"		# error
+
