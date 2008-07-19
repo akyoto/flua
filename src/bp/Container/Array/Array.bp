@@ -1,7 +1,7 @@
 import Mem.*
 
 Array
-	clas.minSize = 1024	# elements, not bytes
+	class.minSize = 1024	# elements, not bytes
 	
 	init dataType = Object
 		self.dataType = dataType
