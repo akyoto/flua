@@ -5,7 +5,6 @@
 ####################################################################
 # Blitzprog Compiler
 # 
-# Version: 0.0.0.1
 # Website: www.blitzprog.de
 # Started: 19.07.2008 (Sat, Jul 19 2008)
 
@@ -36,144 +35,75 @@ from Utils import *
 import time
 
 ####################################################################
-# Global
+# Classes
 ####################################################################
-funcs = list()
-lines = list()
+class Node:
+    
+    def __init__(self, line, parent, tabs):
+        self.line = line
+        if parent:
+            self.parent = parent
+            parent.childs.append(self)
+        self.childs = list()
+        self.tabs = tabs
 
-####################################################################
-# Functions
-####################################################################
-def throwError(stri, lineNum, charPos = -1):
-    global lines
-    sys.stderr.write("Error\n")
+class Compiler:
     
-    # Print line and character position
-    if charPos is not -1:
-        sys.stderr.write("  line " + str(lineNum) + ", char " + str(charPos + 1) + "\n")
-    else:
-        sys.stderr.write("  line " + str(lineNum) + "\n")
-    
-    # Print the line itself
-    sys.stderr.write("    " + lines[lineNum].lstrip() + "\n")
-    
-    # Show the character
-    if charPos is not -1:
-        sys.stderr.write("    " + "^".rjust(charPos + 1) + "\n")
-    
-    # Print error message
-    sys.stderr.write(stri + "\n")
-    sys.stderr.flush()
-    
-    # TODO: Throw custom error
-    sys.exit()
+    def parse(self, file):
+        start = time.clock()
+        lineCount = 0
+        currentTabs = 0
+        currentNode = root = Node("", None, 0)
+        lineNode = None
+        
+        fileIn = open(file, "r")
+        
+        for line in fileIn:
+            lineCount += 1
+            line = line.rstrip()
+            if line:
+                line, tabs = self.countAndRemoveTabs(line)  # optimize
+                lineNode = Node(line, currentNode, tabs)
+                if tabs != currentTabs:
+                    if tabs > currentTabs:
+                        currentNode = lineNode
+                    elif tabs < currentTabs:
+                        currentNode = currentNode.parent
+                    currentTabs = tabs
+        
+        self.compile(root)
+        
+        out = open("Test.txt", "w")
+        #writeNode(root, out)
+        out.close()
+        
+        elapsedTime = time.clock() - start
+        
+        print ""
+        print "Lines:   " + str(lineCount)
+        print "Time:    " + str(elapsedTime * 1000) + " ms"
+        
+    def compile(self, node):
+        line = node.line
+        print line
+        for child in node.childs:
+            self.compile(child)
+        
+    def countAndRemoveTabs(self, line):
+        counter = 0
+        lineLength = len(line)
+        while line[counter] == '\t':
+            counter += 1
+            if counter >= lineLength:
+                break
+        return (line[counter:], counter)
 
 ####################################################################
 # Main
 ####################################################################
-try:
-    start = time.clock()
-    out = open("../Container/Array/Array.txt", "w")
-    
-    linesOrig = open("../Container/Array/Array.bp", "r").readlines()
-    
-    for line in linesOrig:
-        line = line.rstrip()
-        if line == "":
-            continue
-        if line[0] == "#":
-            continue
-        lines.append(line)
-        
-    # Just to make sure line[index + 1] works
-    lines.append("#")
-    
-    inClass = 0
-    inMethod = 0
-    
-    # For every line
-    for index, line in enumerate(lines):
-        #print line
-        
-        tabs = ""
-        
-        # Get tabs
-        # TODO: Better algorithm
-        while line[0] == '\t':
-            tabs += '\t'
-            line = line[1:]
-        
-        # Top-level
-        if len(tabs) == 0:
-            
-            # Currently top-level - so we are not in the class body
-            inClass = 0
-            
-            # Class or function - simply a word on the top level
-            if isValidVarName(line):
-                
-                # Get next line
-                nextLine = lines[index + 1].lstrip()
-                
-                # Check next line - it must be a class member declaration or the init method
-                if startswith(nextLine, "init") or nextLine.startswith("class"):
-                    
-                    # Class found
-                    print "CLASS: " + line
-                    inClass = 1                         # Number of tabs
-                    inMethod = inClass + 1              # Number of tabs
-                    
-                else:
-                    
-                    # Function found
-                    print "FUNC: " + line
-        else:
-            # Methods
-            if len(tabs) == inClass:
-                
-                # Simply one word in the class body => procedure
-                if isValidVarName(line):
-                    print "  METH|PROC: " + line
-                else:
-                    # Get position of first non-var-char
-                    # TODO: Optimize algo
-                    firstNonVarChar = 0
-                    while isVarChar(line[firstNonVarChar]):
-                        firstNonVarChar += 1
-                    
-                    # First non-var-char
-                    char = line[firstNonVarChar]
-                    
-                    # Method declaration with params
-                    if char == ' ':
-                        meth = line[:firstNonVarChar]
-                        params = line[firstNonVarChar+1:]
-                        print "  METH: " + meth
-                        print "    PARAMS: " + params
-                        
-                    # Class variable declaration
-                    elif char == '.':
-                        if line[:firstNonVarChar] != "class":
-                            print "Only 'class' member variables can be assigned in the class definition"
-                        
-                        # TODO: Extract assignment information
-                        # ...
-                        
-                        print "  CLASS|MEMBER: " + line
-                        
-                    # Unknown character
-                    else:
-                        throwError("Unknown character: Expected class variable initialisation or init method", index, firstNonVarChar)
-    
-    out.close()
-    
-    elapsedTime = time.clock() - start
-    
-    # Print elapsed time + processed lines
-    print ""
-    print str(elapsedTime * 1000) + " ms"
-    print "Lines: " + str(index + 1)
-except SystemExit:
-    pass
-except:
-    printTraceback()
+if __name__ == "__main__":
+    try:
+        compiler = Compiler()
+        compiler.parse("../Math/Vector3/Vector3.bp")
+    except:
+        printTraceback()
