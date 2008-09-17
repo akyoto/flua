@@ -49,11 +49,14 @@ class Node:
 
 class Compiler:
     
+    def __init__(self):
+        self.root = Node("", None, 0)
+    
     def parse(self, file):
         start = time.clock()
         lineCount = 0
         currentTabs = 0
-        currentNode = root = Node("", None, 0)
+        currentNode = self.root
         lineNode = None
         
         fileIn = open(file, "r")
@@ -71,7 +74,7 @@ class Compiler:
                         currentNode = currentNode.parent
                     currentTabs = tabs
         
-        self.compile(root)
+        self.compile(self.root)
         
         out = open("Test.txt", "w")
         #writeNode(root, out)
@@ -85,9 +88,29 @@ class Compiler:
         
     def compile(self, node):
         line = node.line
-        print line
+        self.process(line)
         for child in node.childs:
             self.compile(child)
+        
+    def process(self, line):
+        firstNonVarChar = self.findFirstNonVarChar(line)
+        if firstNonVarChar == -1:
+            print "NAME: " + line
+        else:
+            print "<"+line[firstNonVarChar]+">"
+        #print line
+        
+    def findFirstNonVarChar(self, line):
+        pos = 0
+        lineLen = len(line)
+        
+        while pos < lineLen and isVarChar(line[pos]):
+            pos += 1
+            
+        if pos == lineLen:
+            return -1
+        else:
+            return pos
         
     def countAndRemoveTabs(self, line):
         counter = 0
