@@ -28,4 +28,11 @@ Vector3
 				return y
 			2
 				return z
-
+	
+unitTest
+	vec = Vector3(1, 2, 3)
+	if vec.normalise.length == 1.0
+		print "[OK]"
+	vec = vec.normalise
+	if vec.length == 1.0
+		print "[OK]"

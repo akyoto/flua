@@ -51,3 +51,9 @@ def startswith(stri = str, prefix = str):
     stri = stri.lower()
     prefix = prefix.lower()
     return stri.startswith(prefix) and (len(prefix) == len(stri) or stri[len(prefix)].isspace())
+
+def strTimes(stri, times):
+    nStri = ""
+    for a in range(0, times):
+        nStri += stri
+    return nStri

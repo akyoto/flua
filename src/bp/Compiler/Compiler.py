@@ -35,9 +35,20 @@ from Utils import *
 import time
 
 ####################################################################
+# ToDo
+####################################################################
+#
+# Parser bug: False child/parent parsing
+#
+
+####################################################################
 # Classes
 ####################################################################
 class Node:
+    TypeUnknown = 0
+    TypeClass = 1
+    TypeKeyword = 2
+    TypeFunction = 3
     
     def __init__(self, line, parent, tabs):
         self.line = line
@@ -46,6 +57,7 @@ class Node:
             parent.childs.append(self)
         self.childs = list()
         self.tabs = tabs
+        self.type = Node.TypeUnknown
 
 class Compiler:
     
@@ -66,13 +78,17 @@ class Compiler:
             line = line.rstrip()
             if line:
                 line, tabs = self.countAndRemoveTabs(line)  # optimize
-                lineNode = Node(line, currentNode, tabs)
+                print strTimes("    ", tabs) + line
                 if tabs != currentTabs:
                     if tabs > currentTabs:
+                        lineNode = Node(line, currentNode, tabs)
                         currentNode = lineNode
                     elif tabs < currentTabs:
                         currentNode = currentNode.parent
+                        lineNode = Node(line, currentNode, tabs)
                     currentTabs = tabs
+                else:
+                    lineNode = Node(line, currentNode, tabs)
         
         self.compile(self.root)
         
@@ -87,18 +103,55 @@ class Compiler:
         print "Time:    " + str(elapsedTime * 1000) + " ms"
         
     def compile(self, node):
-        line = node.line
-        self.process(line)
         for child in node.childs:
             self.compile(child)
+        self.process(node)
         
-    def process(self, line):
+    def process(self, node):
+        line = node.line
+        
+        if len(node.childs) > 0:
+            print "*** " + str(len(node.childs)) + " *** " + node.line
+            
+            if startswith(line, "if"):
+                node.type = Node.TypeKeyword
+                condition = line[3:]
+                print "IF " + condition
+            
+            for child in node.childs:
+                if node.type == Node.TypeFunction:
+                    pass
+        else:
+            pass
+        
         firstNonVarChar = self.findFirstNonVarChar(line)
         if firstNonVarChar == -1:
             print "NAME: " + line
-        else:
-            print "<"+line[firstNonVarChar]+">"
-        #print line
+        elif firstNonVarChar == 0:
+            if line == "...":
+                print "EMPTY"
+        else:   # if firstNonVarChar > 0:
+            char = line[firstNonVarChar]
+            if char == ' ':
+                print "KEYWORD/FUNCTION"
+            elif char == '.':
+                print "OOP CALL"
+            elif char == '=':
+                print "ASSIGNMENT"
+            elif char == '+':               # +=
+                print "INCREMENT"
+            elif char == '-':               # -=
+                print "DECREMENT"
+            elif char == '*':               # *=
+                print "MULTIPLY"
+            elif char == '/':               # /=
+                print "DIVISION"
+            elif char == '^':               # ^=
+                print "POW"
+            elif char == '[':
+                print "ARRAY INDEX"
+            else:
+                print >>sys.stderr, "UNKNOWN CHAR"
         
     def findFirstNonVarChar(self, line):
         pos = 0
