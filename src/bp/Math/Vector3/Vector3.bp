@@ -32,7 +32,7 @@ Vector3
 unitTest
 	vec = Vector3(1, 2, 3)
 	if vec.normalise.length == 1.0
-		print "[OK]"
+		print "Float precision 1 [OK]"
 	vec = vec.normalise
 	if vec.length == 1.0
-		print "[OK]"
+		print "Float precision 2 [OK]"
