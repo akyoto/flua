@@ -38,4 +38,5 @@ d = a + b.each #
 
 print 3 * a.each ^ 2 + 6
 print a.each
+print a
 

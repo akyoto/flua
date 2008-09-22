@@ -1,0 +1,33 @@
+################################################################
+# Singleton class
+################################################################
+
+Singleton
+	public
+		singleton
+			static
+				instance = class()
+			return instance
+			
+	private
+		init
+		
+################################################################
+# Singleton.init is private => ResourceManager is a Singleton
+################################################################
+
+ResourceManager : Singleton
+	
+	init
+		...
+
+################################################################
+# How to use it
+################################################################
+
+# Error
+res = ResourceManager()
+
+# OK
+res = ResourceManager.singleton
+
