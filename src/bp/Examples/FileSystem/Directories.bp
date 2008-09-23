@@ -1,0 +1,10 @@
+################################################################
+# Get every file in the directory (not recursive)
+################################################################
+
+import FileSystem.*
+
+directory = Directory("~/")
+for file in directory
+	print file
+
