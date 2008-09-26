@@ -6,20 +6,20 @@ for i = 1 to 10
 	print i
 
 ################################################################
-# Iterate through all characters in the string
-################################################################
-
-string = "Hello World"
-for char in string
-	print char
-
-################################################################
 # Iterate through a list
 ################################################################
 
 list = [10, 100, 1000]
 for number in list
 	print number
+
+################################################################
+# Iterate through all characters in the string
+################################################################
+
+string = "Hello World"
+for char in string
+	print char
 
 ################################################################
 # Iterate through a list with the index

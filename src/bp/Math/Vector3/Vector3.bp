@@ -8,7 +8,7 @@ Vector3
 	delete
 		...
 		
-	move vector = Vector3
+	move vector : Vector3
 		self.[x, y, z] += vec.[x, y, z]
 		
 	move x, y, z
