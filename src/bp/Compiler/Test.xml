@@ -5,9 +5,23 @@
 			<import>BRL.Basic</import>
 			<import>BRL.PolledInput</import>
 			<import>BRL.Max2D</import>
+			<import>BRL.GLMax2D</import>
 		</dependencies>
 	</header>
 	<code>
+		<call function="Print">
+			<parameter>
+				"Hello World"
+			</parameter>
+		</call>
+		<call function="Graphics">
+			<parameter>
+				640
+			</parameter>
+			<parameter>
+				480
+			</parameter>
+		</call>
 		<while>
 	    	<condition>
 	    		<compare>
@@ -21,18 +35,13 @@
 	    		</compare>
 	    	</condition>
 	    	<code>
-	    		<call function="Print">
-	    			<parameter>
-	    				"Hello World"
-	    			</parameter>
-	    		</call>
 	    		<call function="Cls">
 	    		</call>
 	    		<call function="Flip">
 	    		</call>
 	    	</code>
 	    </while>
-	    <call function="print">
+	    <call function="Print">
 			<parameter>
 				"End of program"
 			</parameter>
