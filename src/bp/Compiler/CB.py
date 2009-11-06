@@ -34,16 +34,22 @@ from xml.etree.ElementTree import ElementTree, Element, SubElement
 # Classes
 ####################################################################
 class LanguageCB(ProgrammingLanguage):
-	codeText="" # der Text von der Klasse
-	tokens=[] # Die Liste der Tokens
+	# der Text von der Klasse
+	codeText=""
+	# Die Liste der Tokens
+	tokens=[]
 	
-	def __init__(self): # Konstruktor
+	# Konstruktor
+	def __init__(self):
 		self.extensions = ["cb"]
 		print("Hallo")
-	def compileXML(self, root): # kompiliert aus der XML Datei Code
-		return ""
 		
-	def compileCodeToXML(self, code): # erzeugt XML Code aus cb (console BASIC) dateien
+	# kompiliert aus der XML Datei Code
+	def compileXML(self, root):
+		return ""
+	
+	# erzeugt XML Code aus cb (console BASIC) dateien
+	def compileCodeToXML(self, code):
 		root = Element("module")
 		headerNode = SubElement(root, "header")
 		codeNode = SubElement(root, "code")
@@ -51,30 +57,33 @@ class LanguageCB(ProgrammingLanguage):
 		
 		tree = ElementTree(root)
 		return tree
-	#def startLexer(self):
-	#	# zerlege alles in Tokens
-	#	for char in self.codeText:
-	#		if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
-			
-	#def startAnalyser(self):
+	def startLexer(self):
+		# zerlege alles in Tokens
+		for char in self.codeText:
+			if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
+				# Hier mach nun was
 	# Analysiert die Tokens (welche Primitive Typen es sind)
-	
+	def startAnalyzer(self):
 		
-	#def startAnalyser2(self):
 	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
-
-	#def startSyntaxTree(self):
+	def startAnalyzer2(self):
+		
 	# erzeugt den Syntaxbaum
-
-	#def startGenerator(self):
+	def startSyntaxTree(self):
+		
 	# erzeugt die XML Datei
+	def startGenerator(self):
+	
 	def getName(self):
 		return "Console BASIC"
 class Token:
-	text="" # der Text vom Token
-	primitiveType="" # der Primtive Type (Zahl, String,...)
+	# der Text vom Token
+	text=""
+	# der Primtive Type (Zahl, String,...)
+	primitiveType=""
 	
-	def __init__(self): # Konstruktor
-		text=""
-		primtiveType=""
+	# Konstruktor
+	def __init__(self):
+		self.text=""
+		self.primtiveType=""
 		
