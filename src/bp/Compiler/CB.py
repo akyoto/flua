@@ -42,12 +42,15 @@ class LanguageCB(ProgrammingLanguage):
 		return ""
 		
 	def compileCodeToXML(self, code):
-		root = Element("root")
+		root = Element("module")
 		header = SubElement(root, "header")
 		code = SubElement(root, "code")
 		
 		tree = ElementTree(root)
 		return tree
+	def StartLexer(self):
+		#zerlege alles in Tokens
+		nichts="gg"
 		
 	def getName(self):
 		return "Console BASIC"
