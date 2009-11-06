@@ -61,10 +61,57 @@ class LanguageCB(ProgrammingLanguage):
 		return tree
 	def startLexer(self):
 		# zerlege alles in Tokens
+		
+		# Ob der Lexer sich gerade in einem String befindet
+		inString = false
+		
+		# Ob der Lexer sich gerade in einem Kommentar befindet
+		inComment = false
+		
+		# Der Text der durchgegangen wurde seit dem letzen mal
+		lastText = ""
+		
 		for char in self.codeText:
-			if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
-				# Hier mach nun was
-				pass
+			# Schauen ob ein String ist
+			if char == '"':
+				if inString == false:
+					inString = true
+				elif inString == true:
+					inString = true
+			# Fuehre das nur aus wenn der Lexer nicht gerade in einem String/Kommentar ist
+			if inString == false and inComment == false:
+				# Mathematik Operatoren
+				if char == '+' or char == '-' or char == '+' or char == '*' or char == '/':
+					# Erzeuge den Text davor Token
+					self.tokens.append(Token(lastText))
+					# Erzeuge das Operator Token
+					self.tokens.append(Token(char))
+					# Setze lastText wieder auf nichts
+					lastText = ''
+				# Sonderzeichen
+				elif char == ' ' or char == ':' or char == '\n':
+					# Erzeuge den Text davor Token
+					self.tokens.append(Token(lastText))
+					# Erzeuge das Operator Token
+					self.tokens.append(Token(char))
+					# Setze lastText wieder auf nichts
+					lastText = ''
+				# Kommentare
+				elif char == '//' or char == "'":
+					inComment = true
+				# Wenn nichts gefunden wurde fuege es dem lastText hinzu
+				else:
+					lastText = lastText + char
+			else:
+				lastText = ''
+			# Wenn neue Zeile ist, setze die Kommentare wieder zurueck
+			if char == '\n' and inComment == true:
+				inComment=false
+
+		#curText = ''
+		for curText in self.tokens:
+			pass
+			
 	# Analysiert die Tokens (welche Primitive Typen es sind)
 	def startAnalyzer(self):
 		pass
@@ -79,18 +126,18 @@ class LanguageCB(ProgrammingLanguage):
 		
 	# erzeugt die XML Datei
 	def startGenerator(self):
+
 		pass
-	
+
 	def getName(self):
 		return "Console BASIC"
 	
 class Token:
 	
 	# Konstruktor
-	def __init__(self):
+	def __init__(self, text):
 		# der Text vom Token
-		self.text=""
+		self.text = ""
 		
 		# der Primtive Type (Zahl, String,...)
-		self.primtiveType=""
-		
+		self.primtiveType = ""
