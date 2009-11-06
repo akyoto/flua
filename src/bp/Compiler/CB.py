@@ -51,26 +51,23 @@ class LanguageCB(ProgrammingLanguage):
 		
 		tree = ElementTree(root)
 		return tree
-	def startLexer(self):
-		# zerlege alles in Tokens
-		for char in self.codeText:
-			if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
-	def startAnalyser(self):
-		# Analysiert die Tokens (welche Primitive Typen es sind)
+	#def startLexer(self):
+	#	# zerlege alles in Tokens
+	#	for char in self.codeText:
+	#		if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
+			
+	#def startAnalyser(self):
+	# Analysiert die Tokens (welche Primitive Typen es sind)
+	
 		
-		
-	def startAnalyser2(self):
-		# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
-		
-		return
-	def startSyntaxTree(self):
-		# erzeugt den Syntaxbaum
-		
-		return
-	def startGenerator(self):
-		# erzeugt die XML Datei
-		
-		return
+	#def startAnalyser2(self):
+	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
+
+	#def startSyntaxTree(self):
+	# erzeugt den Syntaxbaum
+
+	#def startGenerator(self):
+	# erzeugt die XML Datei
 	def getName(self):
 		return "Console BASIC"
 class Token:
