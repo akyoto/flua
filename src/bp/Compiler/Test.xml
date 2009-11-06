@@ -1,0 +1,41 @@
+<module>
+	<header>
+		<title>Test file</title>
+		<dependencies>
+			<import>BRL.Basic</import>
+			<import>BRL.PolledInput</import>
+			<import>BRL.Max2D</import>
+		</dependencies>
+	</header>
+	<code>
+		<while>
+	    	<condition>
+	    		<compare>
+	    			<value>
+	    				<call function="AppTerminate">
+						</call>
+	    			</value>
+	    			<value>
+	    				0
+	    			</value>
+	    		</compare>
+	    	</condition>
+	    	<code>
+	    		<call object="" function="Print">
+	    			<parameter>
+	    				"Hello World"
+	    			</parameter>
+	    		</call>
+	    		<call function="Cls">
+	    		</call>
+	    		<call function="Flip">
+	    		</call>
+	    	</code>
+	    </while>
+	    <call function="print">
+			<parameter>
+				"End of program"
+			</parameter>
+		</call>
+	</code>
+</module>

@@ -1,0 +1,13 @@
+
+Echo = 7
+FTPData = 20
+FTP = 21
+SSH = 22
+Telnet = 23
+SMTP = ESMTP = 25
+Nameserver = 42
+Whois = 43
+HTTP = 80
+HTTPS = 443
+MySQL = 3306
+
