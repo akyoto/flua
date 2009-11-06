@@ -30,6 +30,7 @@
 # Imports
 ####################################################################
 import BMax
+import CB
 from Utils import *
 from xml.etree.ElementTree import ElementTree
 
@@ -72,10 +73,19 @@ class Compiler:
 				pass
 		
 	def compileCodeToXMLFile(self, inFile, outFile):
-		with open(inFile, "r") as inStream:
-			code = self.compileCodeToXML(inStream.read())
-			with open(outFile, "w") as out:
-				out.write(code)
+		ext = extractExt(inFile)
+		
+		for lang in self.languages:
+			try:
+				if lang.extensions.index(ext) != -1:
+					print("Lang: " + lang.getName())
+					
+					with open(inFile, "r") as inStream:
+						code = inStream.read()
+					root = self.compileCodeToXML(code, lang)
+					root.write(outFile)
+			except ValueError:
+				pass
 
 ####################################################################
 # Main
@@ -83,10 +93,12 @@ class Compiler:
 if __name__ == '__main__':
 	try:
 		compiler = Compiler()
+		compiler.addLanguage(CB.LanguageCB())
 		compiler.addLanguage(BMax.LanguageBMax())
-		compiler.compileXMLFile("Test.xml", "Test.bmx")
+		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
+		#compiler.compileXMLFile("Test.xml", "Test.bmx")
 		
-		if 1:
+		if 0:
 			#import sys
 			import subprocess
 			subprocess.call(["L:\\home\\eduard\\Apps\\BlitzMax\\bin\\bmk.exe", "makeapp", "L:\\home\\eduard\\Projects\\blitzprog\\src\\bp\\Compiler\\Test.bmx"])
