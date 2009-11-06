@@ -34,23 +34,50 @@ from xml.etree.ElementTree import ElementTree, Element, SubElement
 # Classes
 ####################################################################
 class LanguageCB(ProgrammingLanguage):
+	codeText="" # der Text von der Klasse
+	tokens=[] # Die Liste der Tokens
 	
-	def __init__(self):
+	def __init__(self): # Konstruktor
 		self.extensions = ["cb"]
-		
-	def compileXML(self, root):
+		print("Hallo")
+	def compileXML(self, root): # kompiliert aus der XML Datei Code
 		return ""
 		
-	def compileCodeToXML(self, code):
+	def compileCodeToXML(self, code): # erzeugt XML Code aus cb (console BASIC) dateien
 		root = Element("module")
-		header = SubElement(root, "header")
-		code = SubElement(root, "code")
+		headerNode = SubElement(root, "header")
+		codeNode = SubElement(root, "code")
+		
 		
 		tree = ElementTree(root)
 		return tree
-	def StartLexer(self):
-		#zerlege alles in Tokens
-		nichts="gg"
+	def startLexer(self):
+		# zerlege alles in Tokens
+		for char in self.codeText:
+			if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
+	def startAnalyser(self):
+		# Analysiert die Tokens (welche Primitive Typen es sind)
 		
+		
+	def startAnalyser2(self):
+		# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
+		
+		return
+	def startSyntaxTree(self):
+		# erzeugt den Syntaxbaum
+		
+		return
+	def startGenerator(self):
+		# erzeugt die XML Datei
+		
+		return
 	def getName(self):
 		return "Console BASIC"
+class Token:
+	text="" # der Text vom Token
+	primitiveType="" # der Primtive Type (Zahl, String,...)
+	
+	def __init__(self): # Konstruktor
+		text=""
+		primtiveType=""
+		
