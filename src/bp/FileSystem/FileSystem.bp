@@ -1,9 +1,0 @@
-import Stream.File.*
-
-FileLoader
-	
-	init
-		...
-		
-	load fileName
-		...
