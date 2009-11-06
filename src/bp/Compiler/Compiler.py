@@ -93,15 +93,22 @@ class Compiler:
 if __name__ == '__main__':
 	try:
 		compiler = Compiler()
+		
 		compiler.addLanguage(CB.LanguageCB())
 		compiler.addLanguage(BMax.LanguageBMax())
-		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
-		#compiler.compileXMLFile("Test.xml", "Test.bmx")
 		
-		if 0:
-			#import sys
+		print("---------")
+		print("CB to XML")
+		print("---------")
+		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
+		
+		print("---------")
+		print("XML to BMax")
+		print("---------")
+		compiler.compileXMLFile("Test.xml", "Test.bmx")
+		
+		if 1:
 			import subprocess
 			subprocess.call(["L:\\home\\eduard\\Apps\\BlitzMax\\bin\\bmk.exe", "makeapp", "L:\\home\\eduard\\Projects\\blitzprog\\src\\bp\\Compiler\\Test.bmx"])
-			#subprocess.Popen(["L:\\home\\eduard\\Apps\\BlitzMax\\bin\\bmk.exe", "makeapp", "L:\\home\\eduard\\Projects\\blitzprog\\src\\bp\\Compiler\\Test.bmx"], stdin = sys.stdin, stdout = sys.stdout, stderr = sys.stderr, cwd = os.path.abspath(os.curdir), bufsize = 0, close_fds=False, shell=True, universal_newlines=True)
 	except:
 		printTraceback()
