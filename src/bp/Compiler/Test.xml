@@ -21,7 +21,7 @@
 	    		</compare>
 	    	</condition>
 	    	<code>
-	    		<call object="" function="Print">
+	    		<call function="Print">
 	    			<parameter>
 	    				"Hello World"
 	    			</parameter>

@@ -34,13 +34,15 @@ from xml.etree.ElementTree import ElementTree, Element, SubElement
 # Classes
 ####################################################################
 class LanguageCB(ProgrammingLanguage):
-	# der Text von der Klasse
-	codeText=""
-	# Die Liste der Tokens
-	tokens=[]
-	
 	# Konstruktor
 	def __init__(self):
+		# der Text von der Klasse
+		self.codeText = ""
+		
+		# Die Liste der Tokens
+		self.tokens = []
+		
+		# File extensions
 		self.extensions = ["cb"]
 		print("Hallo")
 		
@@ -62,28 +64,33 @@ class LanguageCB(ProgrammingLanguage):
 		for char in self.codeText:
 			if char=='+' or char=='-' or char=='+' or char=='*' or char=='/':
 				# Hier mach nun was
+				pass
 	# Analysiert die Tokens (welche Primitive Typen es sind)
 	def startAnalyzer(self):
-		
+		pass
+	
 	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
 	def startAnalyzer2(self):
+		pass
 		
 	# erzeugt den Syntaxbaum
 	def startSyntaxTree(self):
+		pass
 		
 	# erzeugt die XML Datei
 	def startGenerator(self):
+		pass
 	
 	def getName(self):
 		return "Console BASIC"
+	
 class Token:
-	# der Text vom Token
-	text=""
-	# der Primtive Type (Zahl, String,...)
-	primitiveType=""
 	
 	# Konstruktor
 	def __init__(self):
+		# der Text vom Token
 		self.text=""
+		
+		# der Primtive Type (Zahl, String,...)
 		self.primtiveType=""
 		
