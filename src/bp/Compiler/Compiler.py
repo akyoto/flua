@@ -107,7 +107,7 @@ if __name__ == '__main__':
 		print("---------")
 		compiler.compileXMLFile("Test.xml", "Test.bmx")
 		
-		if 1:
+		if 0:
 			import subprocess
 			subprocess.call(["L:\\home\\eduard\\Apps\\BlitzMax\\bin\\bmk.exe", "makeapp", "L:\\home\\eduard\\Projects\\blitzprog\\src\\bp\\Compiler\\Test.bmx"])
 	except:

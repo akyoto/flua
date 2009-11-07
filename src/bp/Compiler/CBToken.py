@@ -28,6 +28,12 @@
 # Imports
 ####################################################################
 
+
+
+####################################################################
+# Classes
+####################################################################
+
 # Ein Token, dies ist die zerlegte Datei
 class Token:
 	# So sieht ein Operator aus
@@ -78,7 +84,7 @@ class Token:
 		# der Konkrete Type
 		self.concretType = ""
 	def setText(self, text):
-		self.text=text
+		self.text = text
 	def getText(self):
 		if self.text.find('"') == -1:
 			self.text = self.text.expandtabs().strip().lower()

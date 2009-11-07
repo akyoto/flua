@@ -9,6 +9,10 @@
 		</dependencies>
 	</header>
 	<code>
+		<class name="TTest">
+			<public></public>
+			<private></private>
+		</class>
 		<call function="Print">
 			<parameter>
 				"Hello World"

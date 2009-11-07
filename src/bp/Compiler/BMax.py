@@ -65,6 +65,14 @@ class LanguageBMax(ProgrammingLanguage):
 			return self.getExprFromXML(elem)
 		elif elem.tag == "compare":
 			return self.compileElementChilds(elem, " = ")
+		elif elem.tag == "class":
+			base = elem.get("base")
+			extends = ""
+			if base:
+				extends = " Extends " + base
+			else:
+				extends = ""
+			return "Type " + elem.get("name") + extends + "\n" + self.compileElementChilds(elem) + "\nEnd Type"
 		elif elem.tag == "while":
 			return "While " + self.compileElement(elem.find("condition")) + "\n" + self.compileElementChilds(elem.find("code")) + "\nWend"
 		return ""

@@ -28,6 +28,7 @@
 # Imports
 ####################################################################
 from ProgrammingLanguage import *
+from Utils import *
 from xml.etree.ElementTree import ElementTree, Element, SubElement
 import CBToken
 
@@ -160,7 +161,6 @@ class LanguageCB(ProgrammingLanguage):
 		# Ob der Analyser gerade in einer Variablen Deklarat
 		isInVariableDec = False
 		
-		
 		for token in self.tokens:
 			# Wenn der Token leer ist, loesche ihn
 			if token.getText == "":
@@ -168,7 +168,6 @@ class LanguageCB(ProgrammingLanguage):
 			# Ist der Token ein Operator?
 			if CBToken.isOperator(token.getText()):
 				token.primtiveType = CBToken.Token.primIsOperator
-			
 			# Ist dieses Token ein Keyword?
 			elif CBToken.isKeyword(token.getText()):
 				token.primtiveType = CBToken.Token.primIsKeyword
@@ -217,7 +216,6 @@ class LanguageCB(ProgrammingLanguage):
 					pass
 				elif token.getText() == "staticdim":
 					pass
-					
 			# Koennte der Token eine Variable sein?
 			elif isValidVarName(token.getText()):
 				token.primtiveType = CBToken.Token.primIsVariable
