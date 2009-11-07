@@ -30,6 +30,7 @@
 from ProgrammingLanguage import *
 from xml.etree.ElementTree import ElementTree, Element, SubElement
 import CBToken
+
 ####################################################################
 # Classes
 ####################################################################
@@ -82,7 +83,7 @@ class LanguageCB(ProgrammingLanguage):
 		
 		# Ob der Lexer sich gerade in einem String befindet
 		inString = False
-		stringToken = CBToken(self,"")
+		stringToken = CBToken.Token(self,"")
 		
 		# Ob der Lexer sich gerade in einem Kommentar befindet
 		inComment = False
@@ -95,25 +96,25 @@ class LanguageCB(ProgrammingLanguage):
 			if char == '"':
 				if inString == False:
 					inString = True
-					stringToken = Token(self,"")
+					stringToken = CBToken.Token(self,"")
 				elif inString == True:
 					inString = False
 			# Fuehre das nur aus wenn der Lexer nicht gerade in einem String/Kommentar ist
 			if inString == False and inComment == False:
 				# Mathematik Operatoren
-				if Token.isOperator(char):
+				if CBToken.isOperator(char):
 					# Erzeuge den Text davor Token
-					self.tokens.append(Token(self,lastText))
+					self.tokens.append(CBToken.Token(self, lastText))
 					# Erzeuge das Operator Token
-					self.tokens.append(Token(self,char))
+					self.tokens.append(CBToken.Token(self, char))
 					# Setze lastText wieder auf nichts
 					lastText = ''
 				# Sonderzeichen
 				elif char == ':':# or char == '\n':
 					# Erzeuge den Text davor Token
-					self.tokens.append(Token(self,lastText))
+					self.tokens.append(CBToken.Token(self, lastText))
 					# Erzeuge das Operator Token
-					self.tokens.append(Token(self,char))
+					self.tokens.append(CBToken.Token(self, char))
 					# Setze lastText wieder auf nichts
 					lastText = ''
 				# Kommentare
@@ -121,7 +122,7 @@ class LanguageCB(ProgrammingLanguage):
 					inComment = True
 				# Bei Leerzeichen einfach ignorieren
 				elif char == ' ' or char == '	':
-					self.tokens.append(Token(self,lastText))
+					self.tokens.append(CBToken.Token(self, lastText))
 					lastText = ""
 				# Wenn nichts einfach ignorieren
 				elif char == '':
@@ -154,12 +155,12 @@ class LanguageCB(ProgrammingLanguage):
 			if token.getText == "":
 				token.compiler.tokens.remove(token)
 			# Ist der Token ein Operator?
-			if Token.isOperator(token.getText()):
-				token.primtiveType = Token.primIsOperator
+			if CBToken.isOperator(token.getText()):
+				token.primtiveType = CBToken.Token.primIsOperator
 			
 			# Ist dieses Token ein Keyword?
-			elif Token.isKeyword(token.getText()):
-				token.primtiveType = Token.primIsKeyword
+			elif CBToken.isKeyword(token.getText()):
+				token.primtiveType = CBToken.Token.primIsKeyword
 				# Ueberpruefungen
 				if token.getText() == "if":
 					pass
@@ -208,7 +209,7 @@ class LanguageCB(ProgrammingLanguage):
 					
 			# Koennte der Token eine Variable sein?
 			elif isValidVarName(token.getText()):
-				token.primtiveType = Token.primIsVariable
+				token.primtiveType = CBToken.Token.primIsVariable
 	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
 	def startAnalyzer2(self):
 		pass
@@ -237,7 +238,7 @@ class Identifier:
 		self.text = text
 		# Der Token zu dem es gehoert
 		self.owner = token
-		self.typ = Idenifier.isVariable
+		self.typ = Identifier.isVariable
 
 # Ein  Scope ist ein Container von Variablen
 class Scope:

@@ -82,33 +82,34 @@ class Token:
 	def getText(self):
 		self.text = self.text.expandtabs().strip().lower()
 		return self.text
-	def isOperator(text):
-		operatorText = ""
-		
-		for operatorText in Token.operators:
-			if operatorText == text:
-				return True
-		return False
-	def isKeyword(text):
-		keywordText = ""
-		
-		# Schauen ob es eine Schleife ist
-		for keywordText in Token.loopKeyword:
-			if keywordText == text:
-				return True
-		
-		# Schauen ob es eine Abfrage ist
-		for keywordText in Token.checkKeyword:
-			if keywordText == text:
-				return True
-		
-		# Schauen ob es ein code Keyword ist (Function, sub,...)
-		for keywordText in Token.codeKeyword:
-			if keywordText == text:
-				return True
-		
-		#schauen ob es ein Variablen Keyword isz
-		for keywordText in Token.variableKeyword:
-			if keywordText == text:
-				return True
-		return False
+
+def isOperator(text):
+	operatorText = ""
+	
+	for operatorText in Token.operators:
+		if operatorText == text:
+			return True
+	return False
+def isKeyword(text):
+	keywordText = ""
+	
+	# Schauen ob es eine Schleife ist
+	for keywordText in Token.loopKeyword:
+		if keywordText == text:
+			return True
+	
+	# Schauen ob es eine Abfrage ist
+	for keywordText in Token.checkKeyword:
+		if keywordText == text:
+			return True
+	
+	# Schauen ob es ein code Keyword ist (Function, sub,...)
+	for keywordText in Token.codeKeyword:
+		if keywordText == text:
+			return True
+	
+	#schauen ob es ein Variablen Keyword isz
+	for keywordText in Token.variableKeyword:
+		if keywordText == text:
+			return True
+	return False
