@@ -1,1 +1,5 @@
-Print "Hello World"
+LOCAL Variable:Int = 100
+ 
+IF Variable = 100
+	PRINT ("Hallo Welt")
+ENDIF

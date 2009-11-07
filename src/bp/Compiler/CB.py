@@ -44,8 +44,13 @@ class LanguageCB(ProgrammingLanguage):
 		
 		# File extensions
 		self.extensions = ["cb"]
-		print("Hallo")
 		
+		# Datentypen (dazu zaehlen auch vom User definierte Klassen) - darum ist es auch eine Liste
+		# smallint=2byte
+		# int=4 byte
+		# bigint=8byte
+		# usw.
+		dataTypes = ["int","smallint","bigint","float","bigfloat","smallfloat","string"]
 	# kompiliert aus der XML Datei Code
 	def compileXML(self, root):
 		return ""
@@ -56,17 +61,26 @@ class LanguageCB(ProgrammingLanguage):
 		headerNode = SubElement(root, "header")
 		codeNode = SubElement(root, "code")
 		
+		# Setze den Text von der Datei
+		self.codeText = code
+		
+		# Lexe die Datei
+		self.startLexer()
+		
+		# Nun analysiere den Code im ersten Durchlauf
+		self.startAnalyzer()
 		
 		tree = ElementTree(root)
 		return tree
+	# Zerteilt den Code in Tokens, soweit es geht
 	def startLexer(self):
 		# zerlege alles in Tokens
 		
 		# Ob der Lexer sich gerade in einem String befindet
-		inString = false
+		inString = False
 		
 		# Ob der Lexer sich gerade in einem Kommentar befindet
-		inComment = false
+		inComment = False
 		
 		# Der Text der durchgegangen wurde seit dem letzen mal
 		lastText = ""
@@ -74,47 +88,52 @@ class LanguageCB(ProgrammingLanguage):
 		for char in self.codeText:
 			# Schauen ob ein String ist
 			if char == '"':
-				if inString == false:
-					inString = true
-				elif inString == true:
-					inString = true
+				if inString == False:
+					inString = True
+				elif inString == True:
+					inString = True
 			# Fuehre das nur aus wenn der Lexer nicht gerade in einem String/Kommentar ist
-			if inString == false and inComment == false:
+			if inString == False and inComment == False:
 				# Mathematik Operatoren
-				if char == '+' or char == '-' or char == '+' or char == '*' or char == '/':
+				if Token.isOperator(char):
 					# Erzeuge den Text davor Token
-					self.tokens.append(Token(lastText))
+					self.tokens.append(Token(self,lastText))
 					# Erzeuge das Operator Token
-					self.tokens.append(Token(char))
+					self.tokens.append(Token(self,char))
 					# Setze lastText wieder auf nichts
 					lastText = ''
 				# Sonderzeichen
-				elif char == ' ' or char == ':' or char == '\n':
+				elif char == ':':# or char == '\n':
 					# Erzeuge den Text davor Token
-					self.tokens.append(Token(lastText))
+					self.tokens.append(Token(self,lastText))
 					# Erzeuge das Operator Token
-					self.tokens.append(Token(char))
+					self.tokens.append(Token(self,char))
 					# Setze lastText wieder auf nichts
 					lastText = ''
 				# Kommentare
 				elif char == '//' or char == "'":
-					inComment = true
+					inComment = True
+				# Bei Leerzeichen einfach ignorieren
+				elif char == ' ' or char == '	':
+					self.tokens.append(Token(self,lastText))
+					lastText = ""
+				# Wenn nichts einfach ignorieren
+				elif char == '':
+					lastText = ''
 				# Wenn nichts gefunden wurde fuege es dem lastText hinzu
 				else:
 					lastText = lastText + char
 			else:
 				lastText = ''
 			# Wenn neue Zeile ist, setze die Kommentare wieder zurueck
-			if char == '\n' and inComment == true:
+			if char == '\n' and inComment == True:
 				inComment=false
-
-		#curText = ''
-		for curText in self.tokens:
-			pass
-			
+				
 	# Analysiert die Tokens (welche Primitive Typen es sind)
+	# Erkennt die Funktionen/Variablen/Konstanten
 	def startAnalyzer(self):
-		pass
+		for token in self.tokens:
+			token.analyze()
 	
 	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
 	def startAnalyzer2(self):
@@ -131,13 +150,84 @@ class LanguageCB(ProgrammingLanguage):
 
 	def getName(self):
 		return "Console BASIC"
-	
+
+# Ein Token, dies ist die zerlegte Datei
 class Token:
+	# So sieht ein Operator aus
+	operators = ("+", "-", "*", "/", "^", "or", "and", "xor", "=", "<", ">", "<=", ">=")
+	# Der & Operator ist zum verketten von Strings gedacht, der wird gesondert gemanaget, da er anders als diese Operatoren
+	# Keine Zahl (Float/Int) verlangt
+	
+	# Die Schluesselwoerter
+	# Schleifen
+	loopKeyword = ("exit", "continue", "repeat", "until", "while", "wend", "for", "to", "next")
+	
+	# Abfragen
+	checkKeyword = ("if", "then", "else", "elseif", "endif", "select", "case", "default", "endselect")
+	
+	# Code (Function, Sub,...)
+	codeKeyword = ("function", "endfunction", "return", "sub", "endsub")
+	
+	# Variablen deklarationen,...
+	variableKeyword = ("local", "global", "const", "static", "dim", "localdim", "globaldim", "staticdim")
+	
+	# Die Primitiven TokenTypen (Die die schon im ersten durchlauf erkannt werden koennen, anhand einfacher Syntax Regeln)
+	# Ob dieser Token eine Variable ist (von der Syntax Regel her)
+	primIsVariable = 1
+	# Ob dieser Token eine Literale (=Konstanter Wert) ist
+	primIsLiteral = 2
+	# Ob dieser Token ein Keyword ist
+	primIsKeyword = 3
+	# Ob dieser Token ein Operator ist
+	primIsOperator = 4
+	# Ein unbekanntes Token (wird spaeter ueberprueft)
+	primIsUnknown = 5
 	
 	# Konstruktor
-	def __init__(self, text):
+	def __init__(self, compiler, text = str):
+		# Setzt den Zeiger auf den Compiler
+		self.compiler = compiler
+		
 		# der Text vom Token
-		self.text = ""
+		self.text = text
 		
 		# der Primtive Type (Zahl, String,...)
 		self.primtiveType = ""
+	def analyze(self):
+		
+		# Wenn der Token leer ist, lösche ihn
+		if self.getText == "":
+			self.compiler.tokens.remove(self)
+		# Ist der Token ein Operator?
+		if Token.isOperator(self.getText()):
+			self.primtiveType = Token.primIsOperator
+		# Könnte der Token eine Variable sein?
+		elif isValidVarName(self.getText()):
+			self.primtiveType = Token.primIsVariable
+	def getText(self):
+		self.text = self.text.expandtabs().strip()
+		return self.text
+	def isOperator(text):
+		operatorText = ""
+		
+		for operatorText in Token.operators:
+			if operatorText == text:
+				return True
+		return False
+
+# Eine Variable/Funktion
+class Identifier:
+	# Ob dieser Identifier eine Variable ist
+	isVariable = 1
+	# Ob dieser Identifier eine Funktion ist
+	isFunction = 2
+	
+	def __init__(self, text, token):
+		# Der Text vom Idetifier
+		self.text = text
+		# Der Token zu dem es gehört
+		self.owner = token
+		self.typ = Idenifier.isVariable
+class Scope
+	def __init__(self, compiler):
+		self.compiler = compiler
