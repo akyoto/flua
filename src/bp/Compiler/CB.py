@@ -70,6 +70,10 @@ class LanguageCB(ProgrammingLanguage):
 		# Nun analysiere den Code im ersten Durchlauf
 		self.startAnalyzer()
 		
+		# Nun fuers Debuggen den Inhalt ausgeben
+		for token in self.tokens:
+			print(token.getText())
+		
 		tree = ElementTree(root)
 		return tree
 	# Zerteilt den Code in Tokens, soweit es geht
@@ -78,6 +82,7 @@ class LanguageCB(ProgrammingLanguage):
 		
 		# Ob der Lexer sich gerade in einem String befindet
 		inString = False
+		stringToken = Token(self,"")
 		
 		# Ob der Lexer sich gerade in einem Kommentar befindet
 		inComment = False
@@ -90,8 +95,9 @@ class LanguageCB(ProgrammingLanguage):
 			if char == '"':
 				if inString == False:
 					inString = True
+					stringToken = Token(self,"")
 				elif inString == True:
-					inString = True
+					inString = False
 			# Fuehre das nur aus wenn der Lexer nicht gerade in einem String/Kommentar ist
 			if inString == False and inComment == False:
 				# Mathematik Operatoren
@@ -124,6 +130,7 @@ class LanguageCB(ProgrammingLanguage):
 				else:
 					lastText = lastText + char
 			else:
+				stringToken.setText(stringToken.getText() + char)
 				lastText = ''
 			# Wenn neue Zeile ist, setze die Kommentare wieder zurueck
 			if char == '\n' and inComment == True:
@@ -132,9 +139,76 @@ class LanguageCB(ProgrammingLanguage):
 	# Analysiert die Tokens (welche Primitive Typen es sind)
 	# Erkennt die Funktionen/Variablen/Konstanten
 	def startAnalyzer(self):
+		# Ob der Analyzer gerade in einer funktion deklaration ist
+		isInFunctionDec = False
+		
+		# Ob der Analyser gerade in einer Sub Deklaration ist
+		isInSubDec = False
+		
+		# Ob der Analyser gerade in einer Variablen Deklarat
+		isInVariableDec = False
+		
+		
 		for token in self.tokens:
-			token.analyze()
-	
+			# Wenn der Token leer ist, loesche ihn
+			if token.getText == "":
+				token.compiler.tokens.remove(token)
+			# Ist der Token ein Operator?
+			if Token.isOperator(token.getText()):
+				token.primtiveType = Token.primIsOperator
+			
+			# Ist dieses Token ein Keyword?
+			elif Token.isKeyword(token.getText()):
+				token.primtiveType = Token.primIsKeyword
+				# Ueberpruefungen
+				if token.getText() == "if":
+					pass
+				elif token.getText() == "elseif":
+					pass
+				elif token.getText() == "else":
+					pass
+				elif token.getText() == "endif":
+					pass
+				# Schleifen
+				elif token.getText() == "while":
+					pass
+				elif token.getText() == "wend":
+					pass
+				elif token.getText() == "repat":
+					pass
+				elif token.getText() == "until":
+					pass
+				elif token.getText() == "for":
+					pass
+				elif token.getText() == "next":
+					pass
+				elif token.getText() == "to":
+					pass
+				elif token.getText() == "exit":
+					pass
+				elif token.getText() == "continue":
+					pass
+				# Variablen
+				elif token.getText() == "local":
+					pass
+				elif token.getText() == "global":
+					pass
+				elif token.getText() == "static":
+					pass
+				elif token.getText() == "const":
+					pass
+				elif token.getText() == "dim":
+					pass
+				elif token.getText() == "localdim":
+					pass
+				elif token.getText() == "globaldim":
+					pass
+				elif token.getText() == "staticdim":
+					pass
+					
+			# Koennte der Token eine Variable sein?
+			elif isValidVarName(token.getText()):
+				token.primtiveType = Token.primIsVariable
 	# genauerers analysieren  (welcher Datentyp wo steht, wie viele Parameter eine Funktion hat, etc.)
 	def startAnalyzer2(self):
 		pass
@@ -169,6 +243,10 @@ class Token:
 	codeKeyword = ("function", "endfunction", "return", "sub", "endsub")
 	
 	# Variablen deklarationen,...
+	# localdim = dim = deklariert ein lokales Array
+	# globaldim = deklariert ein globales Array
+	# staticdim = deklariert ein statisches Array
+	
 	variableKeyword = ("local", "global", "const", "static", "dim", "localdim", "globaldim", "staticdim")
 	
 	# Die Primitiven TokenTypen (Die die schon im ersten durchlauf erkannt werden koennen, anhand einfacher Syntax Regeln)
@@ -189,23 +267,17 @@ class Token:
 		self.compiler = compiler
 		
 		# der Text vom Token
-		self.text = text
+		self.setText(text)
 		
 		# der Primtive Type (Zahl, String,...)
 		self.primtiveType = ""
-	def analyze(self):
 		
-		# Wenn der Token leer ist, lösche ihn
-		if self.getText == "":
-			self.compiler.tokens.remove(self)
-		# Ist der Token ein Operator?
-		if Token.isOperator(self.getText()):
-			self.primtiveType = Token.primIsOperator
-		# Könnte der Token eine Variable sein?
-		elif isValidVarName(self.getText()):
-			self.primtiveType = Token.primIsVariable
+		# der Konkrete Type
+		self.concretType = ""
+	def setText(self, text):
+		self.text=text
 	def getText(self):
-		self.text = self.text.expandtabs().strip()
+		self.text = self.text.expandtabs().strip().lower()
 		return self.text
 	def isOperator(text):
 		operatorText = ""
@@ -214,7 +286,29 @@ class Token:
 			if operatorText == text:
 				return True
 		return False
-
+	def isKeyword(text):
+		keywordText = ""
+		
+		# Schauen ob es eine Schleife ist
+		for keywordText in Token.loopKeyword:
+			if keywordText == text:
+				return True
+		
+		# Schauen ob es eine Abfrage ist
+		for keywordText in Token.checkKeyword:
+			if keywordText == text:
+				return True
+		
+		# Schauen ob es ein code Keyword ist (Function, sub,...)
+		for keywordText in Token.codeKeyword:
+			if keywordText == text:
+				return True
+		
+		#schauen ob es ein Variablen Keyword isz
+		for keywordText in Token.variableKeyword:
+			if keywordText == text:
+				return True
+		return False
 # Eine Variable/Funktion
 class Identifier:
 	# Ob dieser Identifier eine Variable ist
@@ -225,9 +319,11 @@ class Identifier:
 	def __init__(self, text, token):
 		# Der Text vom Idetifier
 		self.text = text
-		# Der Token zu dem es gehört
+		# Der Token zu dem es gehoert
 		self.owner = token
 		self.typ = Idenifier.isVariable
-class Scope
+
+# Ein  Scope ist ein Container von Variablen
+class Scope:
 	def __init__(self, compiler):
 		self.compiler = compiler
