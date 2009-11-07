@@ -69,7 +69,7 @@ class LanguageCB(ProgrammingLanguage):
 		self.startLexer()
 		
 		# Nun analysiere den Code im ersten Durchlauf
-		self.startAnalyzer()
+		#self.startAnalyzer()
 		
 		# Nun fuers Debuggen den Inhalt ausgeben
 		for token in self.tokens:
@@ -83,7 +83,8 @@ class LanguageCB(ProgrammingLanguage):
 		
 		# Ob der Lexer sich gerade in einem String befindet
 		inString = False
-		stringToken = CBToken.Token(self,"")
+		# Der Text vom String
+		inStringText = ""
 		
 		# Ob der Lexer sich gerade in einem Kommentar befindet
 		inComment = False
@@ -91,16 +92,22 @@ class LanguageCB(ProgrammingLanguage):
 		# Der Text der durchgegangen wurde seit dem letzen mal
 		lastText = ""
 		
+		# Ob der Lexer sich gerade in einem Block Kommentar befindet
+		inBlockComment = False
+		
 		for char in self.codeText:
 			# Schauen ob ein String ist
 			if char == '"':
 				if inString == False:
 					inString = True
-					stringToken = CBToken.Token(self,"")
+					inStringText = ""
 				elif inString == True:
+					inStringText = inStringText + '"'
+					self.tokens.append(CBToken.Token(self,inStringText))
+					stringToken = None
 					inString = False
 			# Fuehre das nur aus wenn der Lexer nicht gerade in einem String/Kommentar ist
-			if inString == False and inComment == False:
+			if inString == False and inComment == False and inBlockComment == False:
 				# Mathematik Operatoren
 				if CBToken.isOperator(char):
 					# Erzeuge den Text davor Token
@@ -120,6 +127,9 @@ class LanguageCB(ProgrammingLanguage):
 				# Kommentare
 				elif char == '//' or char == "'":
 					inComment = True
+				# BlockKommentar
+				elif char == 'rem':
+					inBlockComment = True
 				# Bei Leerzeichen einfach ignorieren
 				elif char == ' ' or char == '	':
 					self.tokens.append(CBToken.Token(self, lastText))
@@ -130,13 +140,14 @@ class LanguageCB(ProgrammingLanguage):
 				# Wenn nichts gefunden wurde fuege es dem lastText hinzu
 				else:
 					lastText = lastText + char
-			else:
-				stringToken.setText(stringToken.getText() + char)
+			elif inString == True:
+				inStringText = inStringText + char
 				lastText = ''
+			elif char == 'endrem' and inBlockComment == True and inComment == False:
+				inBlockComment = False
 			# Wenn neue Zeile ist, setze die Kommentare wieder zurueck
 			if char == '\n' and inComment == True:
-				inComment=false
-				
+				inComment=False
 	# Analysiert die Tokens (welche Primitive Typen es sind)
 	# Erkennt die Funktionen/Variablen/Konstanten
 	def startAnalyzer(self):

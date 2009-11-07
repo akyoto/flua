@@ -80,7 +80,8 @@ class Token:
 	def setText(self, text):
 		self.text=text
 	def getText(self):
-		self.text = self.text.expandtabs().strip().lower()
+		if self.text.find('"') == -1:
+			self.text = self.text.expandtabs().strip().lower()
 		return self.text
 
 def isOperator(text):
