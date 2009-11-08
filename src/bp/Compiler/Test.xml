@@ -13,6 +13,13 @@
 			<public></public>
 			<private></private>
 		</class>
+		<var name="myArray">
+			<new datatype="Array">
+				<parameter>
+					Int
+				</parameter>
+			</new>
+		</var>
 		<call function="Print">
 			<parameter>
 				"Hello World"

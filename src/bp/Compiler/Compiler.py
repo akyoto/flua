@@ -29,8 +29,7 @@
 ####################################################################
 # Imports
 ####################################################################
-import BMax
-import CB
+from Languages import *
 from Utils import *
 from xml.etree.ElementTree import ElementTree
 
@@ -95,7 +94,7 @@ if __name__ == '__main__':
 		compiler = Compiler()
 		
 		compiler.addLanguage(CB.LanguageCB())
-		compiler.addLanguage(BMax.LanguageBMax())
+		compiler.addLanguage(CPP.LanguageCPP())
 		
 		print("---------")
 		print("CB to XML")
@@ -103,9 +102,9 @@ if __name__ == '__main__':
 		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
 		
 		print("---------")
-		print("XML to BMax")
+		print("XML to C++")
 		print("---------")
-		compiler.compileXMLFile("Test.xml", "Test.bmx")
+		compiler.compileXMLFile("Test.xml", "Test.cpp")
 		
 		if 0:
 			import subprocess

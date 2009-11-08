@@ -27,10 +27,10 @@
 ####################################################################
 # Imports
 ####################################################################
-from ProgrammingLanguage import *
+from Languages.ProgrammingLanguage import *
+from Languages.CB import CBToken
 from Utils import *
 from xml.etree.ElementTree import ElementTree, Element, SubElement
-import CBToken
 
 ####################################################################
 # Classes

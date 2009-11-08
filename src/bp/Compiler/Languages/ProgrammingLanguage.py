@@ -36,10 +36,13 @@ class ProgrammingLanguage:
 	def __init__(self):
 		self.extensions = []
 		
-	def compileXML(self, code):
-		pass
-		
 	def compileCodeToXML(self, code):
+		pass
+	
+	def compileXMLToCode(self, code):
+		pass
+	
+	def compileXML(self, code):
 		pass
 		
 	def getName(self):

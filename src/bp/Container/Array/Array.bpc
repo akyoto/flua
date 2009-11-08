@@ -3,8 +3,7 @@ import Mem.*
 Array
 	class.minSize = 1024	# elements, not bytes
 	
-	init dataType = Object
-		self.dataType = dataType
+	init self.dataType = Object
 		self.start = self.end = ~MemPointer(self.dataType, minSize)
 		self.endOfStorage = self.start + class.minSize
 		

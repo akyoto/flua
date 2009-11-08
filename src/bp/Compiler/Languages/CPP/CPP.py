@@ -27,28 +27,25 @@
 ####################################################################
 # Imports
 ####################################################################
-from ProgrammingLanguage import *
+from Languages.ProgrammingLanguage import *
 from xml.etree.ElementTree import ElementTree
 
 ####################################################################
 # Classes
 ####################################################################
-class LanguageBMax(ProgrammingLanguage):
+class LanguageCPP(ProgrammingLanguage):
 	
 	def __init__(self):
-		self.extensions = ["bmx"]
+		self.extensions = ["cpp"]
 		
 	def compileXML(self, root):
 		headerNode = root.find("header")
 		codeNode = root.find("code")
-		header = "'" + headerNode.find("title").text
+		header = "//" + headerNode.find("title").text
 		code = self.compileElementChilds(codeNode)
 		
-		header += "\nSuperStrict"
-		header += "\nFramework BRL.Blitz"
-		
 		for child in headerNode.find("dependencies").getchildren():
-			header += "\nImport " + child.text
+			header += "\n#include <" + child.text.replace(".", "/") + ">"
 		
 		return header + "\n" + code
 	
@@ -58,23 +55,21 @@ class LanguageBMax(ProgrammingLanguage):
 		elif elem.tag == "call":
 			obj = elem.get("object")
 			if obj:
-				return obj + "." + elem.get("function") + "(" + self.compileElementChilds(elem, ", ") + ")"
+				return obj + "->" + elem.get("function") + "(" + self.compileElementChilds(elem, ", ") + ")"
 			else:
 				return elem.get("function") + "(" + self.compileElementChilds(elem, ", ") + ")"
 		elif elem.tag == "value" or elem.tag == "condition" or elem.tag == "parameter":
 			return self.getExprFromXML(elem)
 		elif elem.tag == "compare":
-			return self.compileElementChilds(elem, " = ")
+			return self.compileElementChilds(elem, " == ")
 		elif elem.tag == "class":
 			base = elem.get("base")
 			extends = ""
 			if base:
-				extends = " Extends " + base
-			else:
-				extends = ""
-			return "Type " + elem.get("name") + extends + "\n" + self.compileElementChilds(elem) + "\nEnd Type"
+				extends = ": " + base
+			return "class " + elem.get("name") + extends + " {\n" + self.compileElementChilds(elem) + "\n};"
 		elif elem.tag == "while":
-			return "While " + self.compileElement(elem.find("condition")) + "\n" + self.compileElementChilds(elem.find("code")) + "\nWend"
+			return "while(" + self.compileElement(elem.find("condition")) + ") {\n" + self.compileElementChilds(elem.find("code")) + "\n}"
 		return ""
 		
 	def compileElementChilds(self, elem, separator = "\n"):
@@ -98,8 +93,5 @@ class LanguageBMax(ProgrammingLanguage):
 		# TODO: Mathematical expression parser
 		return ""
 		
-	def compileCodeToXML(self, code):
-		return ElementTree()
-		
 	def getName(self):
-		return "Blitz Max"
+		return "C++"
