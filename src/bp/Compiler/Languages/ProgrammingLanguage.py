@@ -44,6 +44,17 @@ class ProgrammingLanguage:
 	
 	def compileXML(self, code):
 		pass
-		
+	
 	def getName(self):
 		return ""
+
+class CompileError(Exception):
+	
+	def __init__(self, reason):
+		self.reason = reason
+		
+	def __str__(self):
+		return repr(self.reason)
+	
+def compileWarning(msg):
+	print("[Warning] " + msg)

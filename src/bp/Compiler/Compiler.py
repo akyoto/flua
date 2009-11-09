@@ -32,6 +32,7 @@
 from Languages import *
 from Utils import *
 from xml.etree.ElementTree import ElementTree
+import time
 
 ####################################################################
 # Classes
@@ -99,12 +100,23 @@ if __name__ == '__main__':
 		print("---------")
 		print("CB to XML")
 		print("---------")
+		start = time.clock()
+		
 		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
+		
+		elapsedTime1 = time.clock() - start
 		
 		print("---------")
 		print("XML to C++")
 		print("---------")
+		start = time.clock()
+		
 		compiler.compileXMLFile("Test.xml", "Test.cpp")
+		
+		elapsedTime2 = time.clock() - start
+		
+		print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
+		print("Time[2]:    " + str(elapsedTime2 * 1000) + " ms")
 		
 		if 0:
 			import subprocess

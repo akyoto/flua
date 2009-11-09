@@ -10,7 +10,40 @@
 	</header>
 	<code>
 		<class name="TTest">
-			<public></public>
+			<public>
+				<cast>
+					<to datatype="Array">
+						<parameter>
+							Int
+						</parameter>
+					</to>
+					<code>
+						
+					</code>
+				</cast>
+				<method name="sum">
+					<parameter>
+						<var name="a" datatype="Float">
+						</var>
+					</parameter>
+					<parameter>
+						<var name="b" datatype="Float">
+						</var>
+					</parameter>
+					<code>
+						<return>
+							<add>
+								<value>
+									a
+								</value>
+								<value>
+									b
+								</value>
+							</add>
+						</return>
+					</code>
+				</method>
+			</public>
 			<private></private>
 		</class>
 		<var name="myArray">
@@ -20,6 +53,14 @@
 				</parameter>
 			</new>
 		</var>
+		<call function="sum">
+			<parameter>
+				3
+			</parameter>
+			<parameter>
+				4
+			</parameter>
+		</call>
 		<call function="Print">
 			<parameter>
 				"Hello World"
@@ -57,5 +98,38 @@
 				"End of program"
 			</parameter>
 		</call>
+		<call function="sum">
+			<object>
+				TTest
+			</object>
+			<parameter>
+				12
+			</parameter>
+			<parameter>
+				13
+			</parameter>
+		</call>
+		<function name="sum">
+			<parameter>
+				<var name="a">
+				</var>
+			</parameter>
+			<parameter>
+				<var name="b">
+				</var>
+			</parameter>
+			<code>
+				<return>
+					<add>
+						<value>
+							a
+						</value>
+						<value>
+							b
+						</value>
+					</add>
+				</return>
+			</code>
+		</function>
 	</code>
 </module>
