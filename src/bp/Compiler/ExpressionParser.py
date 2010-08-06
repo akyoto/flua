@@ -84,7 +84,15 @@ class ExpressionParser:
 							# Left operand
 							start = i - 1
 							while start >= 0 and (isVarChar(expr[start]) or expr[start] == ')'):
+								bracketCounter = 1
+								while bracketCounter > 0 and start > 0:
+									start -= 1
+									if expr[start] == ')':
+										bracketCounter += 1
+									elif expr[start] == '(':
+										bracketCounter -= 1
 								start -= 1
+							
 							operandLeft = expr[start+1:i];
 							
 							# Right operand
