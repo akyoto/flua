@@ -42,9 +42,6 @@ class ProgrammingLanguage:
 	def compileXMLToCode(self, code):
 		pass
 	
-	def compileXML(self, code):
-		pass
-	
 	def getName(self):
 		return ""
 

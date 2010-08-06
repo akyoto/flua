@@ -38,7 +38,7 @@ class LanguageBMax(ProgrammingLanguage):
 	def __init__(self):
 		self.extensions = ["bmx"]
 		
-	def compileXML(self, root):
+	def compileXMLToCode(self, root):
 		headerNode = root.find("header")
 		codeNode = root.find("code")
 		header = "'" + headerNode.find("title").text

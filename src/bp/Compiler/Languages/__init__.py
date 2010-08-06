@@ -1,2 +1,1 @@
-from Languages.CPP import *
-from Languages.CB import *
+from Languages.BPC import *

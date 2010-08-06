@@ -11,16 +11,6 @@
 	<code>
 		<class name="TTest">
 			<public>
-				<cast>
-					<to datatype="Array">
-						<parameter>
-							Int
-						</parameter>
-					</to>
-					<code>
-						
-					</code>
-				</cast>
 				<method name="sum">
 					<parameter>
 						<var name="a" datatype="Float">

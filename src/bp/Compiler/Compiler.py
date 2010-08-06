@@ -31,7 +31,10 @@
 ####################################################################
 from Languages import *
 from Utils import *
-from xml.etree.ElementTree import ElementTree
+from xml.dom.minidom import *
+from pyparsing import Literal,CaselessLiteral,Word,Combine,Group,Optional,ZeroOrMore,Forward,nums,alphas
+import math
+import operator
 import time
 
 ####################################################################
@@ -49,8 +52,8 @@ class Compiler:
 	def addLanguage(self, language):
 		self.languages.append(language)
 		
-	def compileXML(self, xmlRoot, language):
-		return language.compileXML(xmlRoot)
+	def compileXMLToCode(self, xmlRoot, language):
+		return language.compileXMLToCode(xmlRoot)
 		
 	def compileCodeToXML(self, code, language):
 		return language.compileCodeToXML(code)
@@ -65,7 +68,7 @@ class Compiler:
 					
 					root = ElementTree()
 					root.parse(inFile)
-					code = self.compileXML(root, lang)
+					code = self.compileXMLToCode(root, lang)
 					with open(outFile, "w") as out:
 						out.write(code)
 					print(code)
@@ -83,7 +86,14 @@ class Compiler:
 					with open(inFile, "r") as inStream:
 						code = inStream.read()
 					root = self.compileCodeToXML(code, lang)
-					root.write(outFile)
+					if root is not None:
+						#root.write(outFile)
+						with open(outFile, "w") as outStream:
+							output = root.toprettyxml()
+							outStream.write(output)
+							print(output)
+					else:
+						print("Compiling process failed")
 			except ValueError:
 				pass
 
@@ -94,29 +104,28 @@ if __name__ == '__main__':
 	try:
 		compiler = Compiler()
 		
-		compiler.addLanguage(CB.LanguageCB())
-		compiler.addLanguage(CPP.LanguageCPP())
+		compiler.addLanguage(BPC.LanguageBPC())
 		
 		print("---------")
-		print("CB to XML")
+		print("BPC to XML")
 		print("---------")
 		start = time.clock()
 		
-		compiler.compileCodeToXMLFile("coolo-test.cb", "coolo-test.xml")
+		compiler.compileCodeToXMLFile("Test.bpc", "output.xml")
 		
 		elapsedTime1 = time.clock() - start
 		
-		print("---------")
-		print("XML to C++")
-		print("---------")
-		start = time.clock()
+		#print("---------")
+		#print("XML to C++")
+		#print("---------")
+		#start = time.clock()
 		
-		compiler.compileXMLFile("Test.xml", "Test.cpp")
+		#compiler.compileXMLFile("Test.xml", "Test.cpp")
 		
-		elapsedTime2 = time.clock() - start
+		#elapsedTime2 = time.clock() - start
 		
 		print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
-		print("Time[2]:    " + str(elapsedTime2 * 1000) + " ms")
+		#print("Time[2]:    " + str(elapsedTime2 * 1000) + " ms")
 		
 		if 0:
 			import subprocess

@@ -1,9 +1,0 @@
-LOCAL Variable:Int = 100
- 
-IF Variable = 100
-	PRINT ("Hallo Welt")
-	PRINT ("TSCHUESS WELttttt") //Ein Kommentar
-ENDIF
-REM
-	Ein Kommentar über mehrere Zeilen
-ENDREM

@@ -1,0 +1,8 @@
+if 1
+	print "Hello World"
+	if 3
+		print a
+	print "hello"
+
+if a
+	print "a"
