@@ -82,7 +82,7 @@ class Compiler:
 				if lang.extensions.index(ext) != -1:
 					print("Lang: " + lang.getName())
 					
-					with open(inFile, "r") as inStream:
+					with codecs.open(inFile, "r", "utf-8") as inStream:
 						code = inStream.read()
 					root = self.compileCodeToXML(code, lang)
 					if root is not None:

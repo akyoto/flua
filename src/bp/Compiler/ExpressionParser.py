@@ -73,7 +73,7 @@ class ExpressionParser:
 		return ""
 	
 	def buildOperation(self, expr):
-		while expr[0] == '(' and expr[len(expr)-1] == ')':
+		while expr and expr[0] == '(' and expr[len(expr)-1] == ')':
 			expr = expr[1:len(expr)-1]
 		
 		# Left operand
@@ -101,6 +101,10 @@ class ExpressionParser:
 		while opIndexEnd < len(expr) and not isVarChar(expr[opIndexEnd]) and not expr[opIndexEnd] == '(':
 			opIndexEnd += 1
 		operator = expr[opIndex:opIndexEnd]
+		
+		opName = self.getOperatorName(operator)
+		if not opName:
+			return self.doc.createTextNode(leftOperand)
 		
 		# Right operand
 		bracketCounter = 0
@@ -137,7 +141,7 @@ class ExpressionParser:
 		print(rightOperand)
 		print("---")
 		
-		node = self.doc.createElement(self.getOperatorName(operator))
+		node = self.doc.createElement(opName)
 		lNode = self.doc.createElement("value")
 		rNode = self.doc.createElement("value")
 		node.appendChild(lNode)
