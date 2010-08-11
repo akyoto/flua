@@ -133,7 +133,7 @@ if __name__ == '__main__':
 		
 		#elapsedTime2 = time.clock() - start
 		
-		#print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
+		print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
 		#print("Time[2]:    " + str(elapsedTime2 * 1000) + " ms")
 		
 		if 0:

@@ -42,7 +42,7 @@ class LanguageBPC(ProgrammingLanguage):
 		self.stringCount = 0
 		self.nextLineIndented = False
 		
-		self.keywordsBlock = "if;while;"
+		self.keywordsBlock = ["if", "while"]
 		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
@@ -220,7 +220,7 @@ class LanguageBPC(ProgrammingLanguage):
 						node.appendChild(paramNode)
 					
 					return node
-				elif self.keywordsBlock.find(funcName + ";") != -1:
+				elif self.keywordsBlock.index(funcName) != -1:
 					raise CompilerException("Keyword '" + funcName + "' needs an indented block on the next line")
 			
 			if not isVarChar(line[i]):
