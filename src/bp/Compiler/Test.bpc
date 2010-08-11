@@ -5,5 +5,10 @@ if 1
 	print "hello"
 	print (obj.x + 3) + 4 * obj.y
 
-if a
+if ((a == c) == b)
 	print "a"
+
+c = 3
+
+while x == 5
+	print x

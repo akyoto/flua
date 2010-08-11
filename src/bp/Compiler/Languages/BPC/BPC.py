@@ -40,26 +40,46 @@ class LanguageBPC(ProgrammingLanguage):
 		self.extensions = ["bpc"]
 		self.doc = None
 		self.stringCount = 0
+		self.nextLineIndented = False
 		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
-		# Access
+		# See http://www.cppreference.com/wiki/operator_precedence
+		
+		# 2: Access
 		operators = OperatorLevel()
 		operators.addOperator(Operator(".", "access", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
-		# Mul, Div
+		# 5: Mul, Div
 		operators = OperatorLevel()
 		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
 		operators.addOperator(Operator("/", "divide", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
-		# Add, Sub
+		# 6: Add, Sub
 		operators = OperatorLevel()
 		operators.addOperator(Operator("+", "add", Operator.BINARY))
 		operators.addOperator(Operator("-", "substract", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
+		
+		# 9: Comparison
+		operators = OperatorLevel()
+		operators.addOperator(Operator("==", "compare", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
+		# 16: Assign
+		operators = OperatorLevel()
+		operators.addOperator(Operator("=", "assign", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
+	def countTabs(self, line):
+		tabCount = 0
+		while tabCount < len(line) and line[tabCount] == '\t':
+			tabCount += 1
+		
+		return tabCount
 		
 	def compileCodeToXML(self, code):
 		lines = code.split('\n')
@@ -71,11 +91,18 @@ class LanguageBPC(ProgrammingLanguage):
 		currentNode = root.getElementsByTagName("code")[0]
 		lastNode = currentNode
 		
-		for line in lines:
+		for lineIndex in range(0, len(lines)):
+			line = lines[lineIndex]
 			if line:
-				tabCount = 0
-				while tabCount < len(line) and line[tabCount] == '\t':
-					tabCount += 1
+				tabCount = self.countTabs(line)
+				
+				self.nextLineIndented = False
+				if lineIndex < len(lines) - 1:
+					tabCountNextLine = self.countTabs(lines[lineIndex + 1])
+					if tabCountNextLine == tabCount + 1:
+						self.nextLineIndented = True
+						print("INDENT")
+				
 				line = line.strip()
 				
 				line = self.removeStrings(line)
@@ -115,6 +142,11 @@ class LanguageBPC(ProgrammingLanguage):
 				lastNode = node
 		return self.doc
 	
+	def functionExists(self, name):
+		if name == "print":
+			return True
+		return False
+	
 	def removeStrings(self, line):
 		i = 0
 		while i < len(line):
@@ -133,15 +165,27 @@ class LanguageBPC(ProgrammingLanguage):
 	
 	def parseLine(self, line):
 		node = None
-		if startswith(line, "if"):
-			node = self.doc.createElement("if")
-			condition = self.doc.createElement("condition")
-			code = self.doc.createElement("code")
-			
-			condition.appendChild(self.parseExpr(line[3:]))
-			
-			node.appendChild(condition)
-			node.appendChild(code)
+		
+		# Blocks
+		if self.nextLineIndented:
+			if startswith(line, "if"):
+				node = self.doc.createElement("if")
+				condition = self.doc.createElement("condition")
+				code = self.doc.createElement("code")
+				
+				condition.appendChild(self.parseExpr(line[len("if")+1:]))
+				
+				node.appendChild(condition)
+				node.appendChild(code)
+			elif startswith(line, "while"):
+				node = self.doc.createElement("while")
+				condition = self.doc.createElement("condition")
+				code = self.doc.createElement("code")
+				print("WHILE:")
+				condition.appendChild(self.parseExpr(line[len("while")+1:]))
+				
+				node.appendChild(condition)
+				node.appendChild(code)
 		else:
 			# Is it a function call?
 			node = self.parseExpr(line)
@@ -152,9 +196,11 @@ class LanguageBPC(ProgrammingLanguage):
 	
 	# This function is only used for procedure calls
 	def getFunctionCallNode(self, line):
+		print("getFunctionCall " + line)
 		for i in range(len(line)):
-				if line[i] == ' ':
-					funcName = line[:i]
+			if line[i] == ' ':
+				funcName = line[:i]
+				if self.functionExists(funcName):
 					node = self.doc.createElement("call")
 					node.setAttribute("function", funcName)
 					
@@ -167,9 +213,9 @@ class LanguageBPC(ProgrammingLanguage):
 						node.appendChild(paramNode)
 					
 					return node
-				
-				if not isVarChar(line[i]):
-					return None
+			
+			if not isVarChar(line[i]):
+				return None
 		return None
 	
 	def parseExpr(self, expr):

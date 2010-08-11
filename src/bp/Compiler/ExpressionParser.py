@@ -73,6 +73,9 @@ class ExpressionParser:
 		return ""
 	
 	def buildOperation(self, expr):
+		while expr[0] == '(' and expr[len(expr)-1] == ')':
+			expr = expr[1:len(expr)-1]
+		
 		# Left operand
 		bracketCounter = 0
 		i = 0
@@ -93,9 +96,15 @@ class ExpressionParser:
 		leftOperand = expr[:i]
 		opIndex = i
 		
+		# Operator
+		opIndexEnd = opIndex
+		while opIndexEnd < len(expr) and not isVarChar(expr[opIndexEnd]) and not expr[opIndexEnd] == '(':
+			opIndexEnd += 1
+		operator = expr[opIndex:opIndexEnd]
+		
 		# Right operand
 		bracketCounter = 0
-		i = opIndex + 1
+		i = opIndex + len(operator)
 		while i < len(expr) and (isVarChar(expr[i]) or expr[i] == '('):
 			while bracketCounter > 0 or (i < len(expr) and expr[i] == '('):
 				if expr[i] == '(':
@@ -107,7 +116,7 @@ class ExpressionParser:
 				i += 1
 			i += 1
 		
-		rightOperand = expr[opIndex+1:i]
+		rightOperand = expr[opIndex+len(operator):i]
 		
 		leftOperandNode = None
 		rightOperandNode = None
@@ -122,7 +131,11 @@ class ExpressionParser:
 		else:
 			rightOperandNode = self.doc.createTextNode(rightOperand)
 		
-		operator = expr[opIndex]
+		print("---")
+		print("OP: " + operator)
+		print(leftOperand)
+		print(rightOperand)
+		print("---")
 		
 		node = self.doc.createElement(self.getOperatorName(operator))
 		lNode = self.doc.createElement("value")
@@ -138,16 +151,10 @@ class ExpressionParser:
 	def buildXMLTree(self, expr):
 		self.doc = parseString("<expr></expr>")
 		node = self.doc.documentElement
-		
-		# TODO: Use it
-		print("Expr: " + expr)
+		print(expr)
 		expr = self.buildCleanExpr(expr)
-		print("Clean: " + expr)
 		
-		if expr[0] == '(':
-			opNode = self.buildOperation(expr[1:len(expr)-1])
-		else:
-			opNode = self.buildOperation(expr)
+		opNode = self.buildOperation(expr)
 		
 		node.appendChild(opNode)
 		return node.firstChild
@@ -162,66 +169,68 @@ class ExpressionParser:
 			for op in opLevel.operators:
 				lastOccurence = expr.find(op.text)
 				while lastOccurence is not -1:
-					if op.type == Operator.BINARY:
-						# Left operand
-						start = lastOccurence - 1
-						
-						while start >= 0 and (isVarChar(expr[start]) or (expr[start] == ')' and start == lastOccurence - 1)):
-							if expr[start] == ')':
-								bracketCounter = 1
-							else:
-								bracketCounter = 0
+					if isVarChar(expr[lastOccurence+1]) and expr[lastOccurence+1] != '(':
+						if op.type == Operator.BINARY:
+							# Left operand
+							start = lastOccurence - 1
 							
-							# Move to last part of the bracket
-							while bracketCounter > 0 and start > 0:
-								start -= 1
+							while start >= 0 and (isVarChar(expr[start]) or (expr[start] == ')' and start == lastOccurence - 1)):
 								if expr[start] == ')':
-									bracketCounter += 1
-								elif expr[start] == '(':
-									bracketCounter -= 1
-							start -= 1
-						
-						operandLeft = expr[start+1:lastOccurence];
-						
-						# Right operand
-						end = lastOccurence + op.textLen
-						while end < exprLen and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
-							if expr[end] == '(' and end == lastOccurence + 1:
-								bracketCounter = 1
-							else:
-								bracketCounter = 0
+									bracketCounter = 1
+								else:
+									bracketCounter = 0
+								
+								# Move to last part of the bracket
+								while bracketCounter > 0 and start > 0:
+									start -= 1
+									if expr[start] == ')':
+										bracketCounter += 1
+									elif expr[start] == '(':
+										bracketCounter -= 1
+								start -= 1
 							
-							# Move to last part of the bracket
-							while bracketCounter > 0 and end < exprLen-1:
+							operandLeft = expr[start+1:lastOccurence];
+							
+							# Right operand
+							end = lastOccurence + op.textLen
+							while end < exprLen and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
+								if expr[end] == '(' and end == lastOccurence + 1:
+									bracketCounter = 1
+								else:
+									bracketCounter = 0
+								
+								# Move to last part of the bracket
+								while bracketCounter > 0 and end < exprLen-1:
+									end += 1
+									if expr[end] == '(':
+										bracketCounter += 1
+									elif expr[end] == ')':
+										bracketCounter -= 1
 								end += 1
-								if expr[end] == '(':
-									bracketCounter += 1
-								elif expr[end] == ')':
-									bracketCounter -= 1
-							end += 1
-						
-						operandRight = expr[lastOccurence+1:end];
-						
-						print(operandLeft + " [" + op.text + "] " + operandRight)
-						
-						# Bind
-						#=======================================================
-						# if start >= 0:
-						#	print("START[" + str(start) + "]: " + expr[start])
-						# else:
-						#	print("START: " + "OUT OF STRING")
-						# 
-						# if end < exprLen:
-						#	print("END[" + str(end) + "]: " + expr[end])
-						# else:
-						#	print("END: " + "OUT OF STRING")
-						#=======================================================
 							
-						if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
-							expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
-							exprLen = len(expr)
+							operandRight = expr[lastOccurence+op.textLen:end];
+							
+							print(operandLeft + " [" + op.text + "] " + operandRight)
+							
+							# Bind
+							#=======================================================
+							# if start >= 0:
+							#	print("START[" + str(start) + "]: " + expr[start])
+							# else:
+							#	print("START: " + "OUT OF STRING")
+							# 
+							# if end < exprLen:
+							#	print("END[" + str(end) + "]: " + expr[end])
+							# else:
+							#	print("END: " + "OUT OF STRING")
+							#=======================================================
+								
+							if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
+								expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+								exprLen = len(expr)
+								print("EX: " + expr)
 						
-						lastOccurence = expr.find(op.text, lastOccurence + len(op.text) + 1)	# +1 for the additional left bracket
+					lastOccurence = expr.find(op.text, lastOccurence + len(op.text) + 1)	# +1 for the additional left bracket
 		return expr
 
 ####################################################################
