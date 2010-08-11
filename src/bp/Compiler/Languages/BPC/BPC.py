@@ -28,6 +28,7 @@
 # Imports
 ####################################################################
 from Languages.ProgrammingLanguage import *
+from ExpressionParser import *
 from xml.dom.minidom import *
 
 ####################################################################
@@ -40,9 +41,26 @@ class LanguageBPC(ProgrammingLanguage):
 		self.doc = None
 		self.stringCount = 0
 		
+	def initExprParser(self):
+		self.parser = ExpressionParser()
+		
+		# Mul, Div
+		operators = OperatorLevel()
+		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
+		operators.addOperator(Operator("/", "divide", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
+		# Add, Sub
+		operators = OperatorLevel()
+		operators.addOperator(Operator("+", "add", Operator.BINARY))
+		operators.addOperator(Operator("-", "substract", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 	def compileCodeToXML(self, code):
 		lines = code.split('\n')
 		self.doc = parseString("<root><header><title/><dependencies/></header><code></code></root>")
+		self.initExprParser()
+		
 		root = self.doc.documentElement
 		lastTabCount = 0
 		currentNode = root.getElementsByTagName("code")[0]
@@ -151,7 +169,7 @@ class LanguageBPC(ProgrammingLanguage):
 		if node is not None:
 			return node
 		else:
-			return self.doc.createTextNode(expr)
+			return self.parser.buildXMLTree(expr) #self.doc.createTextNode(expr)
 	
 	def compileXMLToCode(self, code):
 		pass

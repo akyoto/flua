@@ -40,9 +40,10 @@ class Operator:
 	BINARY = 2
 	TERNARY = 3
 	
-	def __init__(self, text, type):
+	def __init__(self, text, name, type):
 		self.text = text
 		self.textLen = len(text)
+		self.name = name
 		self.type = type
 
 class OperatorLevel:
@@ -57,18 +58,99 @@ class ExpressionParser:
 	
 	def __init__(self):
 		self.operatorLevels = []
+		self.doc = None
 		
 	def addOperatorLevel(self, opLevel):
 		self.operatorLevels.append(opLevel)
+		
+	def getOperatorName(self, opSign):
+		# For every operator level
+		for opLevel in self.operatorLevels:
+			# For every operator in the current level
+			for op in opLevel.operators:
+				if op.text == opSign:
+					return op.name
+		return ""
 	
+	def buildOperation(self, expr):
+		# Left operand
+		bracketCounter = 0
+		i = 0
+		while i < len(expr) and (isVarChar(expr[i]) or expr[i] == '('):
+			while bracketCounter > 0 or (i < len(expr) and expr[i] == '('):
+				if expr[i] == '(':
+					bracketCounter += 1
+				elif expr[i] == ')':
+					bracketCounter -= 1
+					if bracketCounter == 0:
+						break
+				i += 1
+			i += 1
+		
+		if i == len(expr):
+			return self.doc.createTextNode(expr)
+		
+		leftOperand = expr[:i]
+		opIndex = i
+		
+		# Right operand
+		bracketCounter = 0
+		i = opIndex + 1
+		while i < len(expr) and (isVarChar(expr[i]) or expr[i] == '('):
+			while bracketCounter > 0 or (i < len(expr) and expr[i] == '('):
+				if expr[i] == '(':
+					bracketCounter += 1
+				elif expr[i] == ')':
+					bracketCounter -= 1
+					if bracketCounter == 0:
+						break
+				i += 1
+			i += 1
+		
+		rightOperand = expr[opIndex+1:i]
+		
+		leftOperandNode = None
+		rightOperandNode = None
+		
+		if leftOperand and leftOperand[0] == '(':
+			leftOperandNode = self.buildOperation(leftOperand[1:len(leftOperand)-1])
+		else:
+			leftOperandNode = self.doc.createTextNode(leftOperand)
+			
+		if rightOperand and rightOperand[0] == '(':
+			rightOperandNode = self.buildOperation(rightOperand[1:len(rightOperand)-1])
+		else:
+			rightOperandNode = self.doc.createTextNode(rightOperand)
+		
+		operator = expr[opIndex]
+		
+		node = self.doc.createElement(self.getOperatorName(operator))
+		lNode = self.doc.createElement("value")
+		rNode = self.doc.createElement("value")
+		node.appendChild(lNode)
+		node.appendChild(rNode)
+		
+		lNode.appendChild(leftOperandNode)
+		rNode.appendChild(rightOperandNode)
+		
+		return node
+		
 	def buildXMLTree(self, expr):
-		node = parseString("<expr></expr>").documentElement
+		self.doc = parseString("<expr></expr>")
+		node = self.doc.documentElement
 		
 		# TODO: Use it
 		print("Expr: " + expr)
-		print("Clean: " + self.buildCleanExpr(expr))
+		expr = self.buildCleanExpr(expr)
+		print("Clean: " + expr)
 		
-		return node
+		if expr[0] == '(':
+			opNode = self.buildOperation(expr[1:len(expr)-1])
+		else:
+			opNode = self.buildOperation(expr)
+		
+		node.appendChild(opNode)
+		return node.firstChild
 	
 	def buildCleanExpr(self, expr):
 		expr = expr.replace(" ", "")
@@ -151,14 +233,14 @@ if __name__ == '__main__':
 		
 		# Mul, Div
 		operators = OperatorLevel()
-		operators.addOperator(Operator("*", Operator.BINARY))
-		operators.addOperator(Operator("/", Operator.BINARY))
+		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
+		operators.addOperator(Operator("/", "divide", Operator.BINARY))
 		parser.addOperatorLevel(operators)
 		
 		# Add, Sub
 		operators = OperatorLevel()
-		operators.addOperator(Operator("+", Operator.BINARY))
-		operators.addOperator(Operator("-", Operator.BINARY))
+		operators.addOperator(Operator("+", "add", Operator.BINARY))
+		operators.addOperator(Operator("-", "substract", Operator.BINARY))
 		parser.addOperatorLevel(operators)
 		
 		tree = parser.buildXMLTree("(2 + 5) * 3")
