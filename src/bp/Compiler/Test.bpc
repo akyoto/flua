@@ -3,6 +3,7 @@ if 1
 	if 3
 		print a
 	print "hello"
+	print (obj.x + 3) + 4 * obj.y
 
 if a
 	print "a"

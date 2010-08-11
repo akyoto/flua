@@ -44,6 +44,11 @@ class LanguageBPC(ProgrammingLanguage):
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
+		# Access
+		operators = OperatorLevel()
+		operators.addOperator(Operator(".", "access", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# Mul, Div
 		operators = OperatorLevel()
 		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
@@ -162,6 +167,9 @@ class LanguageBPC(ProgrammingLanguage):
 						node.appendChild(paramNode)
 					
 					return node
+				
+				if not isVarChar(line[i]):
+					return None
 		return None
 	
 	def parseExpr(self, expr):
