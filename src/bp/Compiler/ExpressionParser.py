@@ -65,7 +65,8 @@ class ExpressionParser:
 		node = parseString("<expr></expr>").documentElement
 		
 		# TODO: Use it
-		self.buildCleanExpr(expr)
+		print("Expr: " + expr)
+		print("Clean: " + self.buildCleanExpr(expr))
 		
 		return node
 	
@@ -73,35 +74,72 @@ class ExpressionParser:
 		expr = expr.replace(" ", "")
 		exprLen = len(expr)
 		
-		# For every character in expr
-		for i in range(0, exprLen):
-			# For every operator level
-			for opLevel in self.operatorLevels:
-				# For every operator in the current level
-				for op in opLevel.operators:
-					if expr[i:i+op.textLen] == op.text:
-						if op.type == Operator.BINARY:
-							# Left operand
-							start = i - 1
-							while start >= 0 and (isVarChar(expr[start]) or expr[start] == ')'):
+		# For every operator level
+		for opLevel in self.operatorLevels:
+			# For every operator in the current level
+			for op in opLevel.operators:
+				lastOccurence = expr.find(op.text)
+				while lastOccurence is not -1:
+					if op.type == Operator.BINARY:
+						# Left operand
+						start = lastOccurence - 1
+						
+						while start >= 0 and (isVarChar(expr[start]) or (expr[start] == ')' and start == lastOccurence - 1)):
+							if expr[start] == ')':
 								bracketCounter = 1
-								while bracketCounter > 0 and start > 0:
-									start -= 1
-									if expr[start] == ')':
-										bracketCounter += 1
-									elif expr[start] == '(':
-										bracketCounter -= 1
+							else:
+								bracketCounter = 0
+							
+							# Move to last part of the bracket
+							while bracketCounter > 0 and start > 0:
 								start -= 1
+								if expr[start] == ')':
+									bracketCounter += 1
+								elif expr[start] == '(':
+									bracketCounter -= 1
+							start -= 1
+						
+						operandLeft = expr[start+1:lastOccurence];
+						
+						# Right operand
+						end = lastOccurence + op.textLen
+						while end < exprLen and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
+							if expr[end] == '(' and end == lastOccurence + 1:
+								bracketCounter = 1
+							else:
+								bracketCounter = 0
 							
-							operandLeft = expr[start+1:i];
-							
-							# Right operand
-							end = i + op.textLen
-							while end < len(expr) and isVarChar(expr[end]):
+							# Move to last part of the bracket
+							while bracketCounter > 0 and end < exprLen-1:
 								end += 1
-							operandRight = expr[i+1:end];
+								if expr[end] == '(':
+									bracketCounter += 1
+								elif expr[end] == ')':
+									bracketCounter -= 1
+							end += 1
+						
+						operandRight = expr[lastOccurence+1:end];
+						
+						print(operandLeft + " [" + op.text + "] " + operandRight)
+						
+						# Bind
+						#=======================================================
+						# if start >= 0:
+						#	print("START[" + str(start) + "]: " + expr[start])
+						# else:
+						#	print("START: " + "OUT OF STRING")
+						# 
+						# if end < exprLen:
+						#	print("END[" + str(end) + "]: " + expr[end])
+						# else:
+						#	print("END: " + "OUT OF STRING")
+						#=======================================================
 							
-							print(operandLeft + " " + op.text + " " + operandRight)
+						if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
+							expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+							exprLen = len(expr)
+						
+						lastOccurence = expr.find(op.text, lastOccurence + len(op.text) + 1)	# +1 for the additional left bracket
 		return expr
 
 ####################################################################
@@ -111,13 +149,20 @@ if __name__ == '__main__':
 	try:
 		parser = ExpressionParser()
 		
+		# Mul, Div
+		operators = OperatorLevel()
+		operators.addOperator(Operator("*", Operator.BINARY))
+		operators.addOperator(Operator("/", Operator.BINARY))
+		parser.addOperatorLevel(operators)
+		
 		# Add, Sub
 		operators = OperatorLevel()
 		operators.addOperator(Operator("+", Operator.BINARY))
 		operators.addOperator(Operator("-", Operator.BINARY))
 		parser.addOperatorLevel(operators)
 		
-		tree = parser.buildXMLTree("(14 + (17 + 4)) + (21 - 42)")
+		tree = parser.buildXMLTree("(2 + 5) * 3")
+		
 		print(tree.toprettyxml())
 	except:
 		printTraceback()
