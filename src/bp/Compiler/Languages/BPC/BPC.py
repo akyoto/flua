@@ -190,8 +190,7 @@ class LanguageBPC(ProgrammingLanguage):
 			# Is it a function call?
 			node = self.parseExpr(line)
 			if node is None:
-				# TODO: Error msg
-				pass
+				raise CompilerException("Unknown command")
 		return node
 	
 	# This function is only used for procedure calls
@@ -223,7 +222,10 @@ class LanguageBPC(ProgrammingLanguage):
 		if node is not None:
 			return node
 		else:
-			return self.parser.buildXMLTree(expr) #self.doc.createTextNode(expr)
+			node = self.parser.buildXMLTree(expr)
+			if node.nodeType == Node.TEXT_NODE:
+				raise CompilerException("Unknown command")
+			return node
 	
 	def compileXMLToCode(self, code):
 		pass

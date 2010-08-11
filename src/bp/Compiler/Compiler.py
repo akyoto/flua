@@ -31,6 +31,7 @@
 ####################################################################
 from Languages import *
 from Utils import *
+from ExpressionParser import *
 from xml.dom.minidom import *
 import math
 import operator
@@ -84,7 +85,14 @@ class Compiler:
 					
 					with codecs.open(inFile, "r", "utf-8") as inStream:
 						code = inStream.read()
-					root = self.compileCodeToXML(code, lang)
+					
+					root = None
+					
+					try:
+						root = self.compileCodeToXML(code, lang)
+					except CompilerException as cp:
+						print(cp)
+					
 					if root is not None:
 						#root.write(outFile)
 						with open(outFile, "w") as outStream:

@@ -35,6 +35,14 @@ from xml.dom.minidom import *
 ####################################################################
 # Classes
 ####################################################################
+class CompilerException(Exception):
+	
+	def __init__(self, value):
+		self.value = value
+		
+	def __str__(self):
+		return repr(self.value)
+
 class Operator:
 	UNARY = 1
 	BINARY = 2
@@ -59,6 +67,9 @@ class ExpressionParser:
 	def __init__(self):
 		self.operatorLevels = []
 		self.doc = None
+		
+	def compileError(self, error):
+		raise CompilerException(error)
 		
 	def addOperatorLevel(self, opLevel):
 		self.operatorLevels.append(opLevel)
@@ -173,6 +184,8 @@ class ExpressionParser:
 			for op in opLevel.operators:
 				lastOccurence = expr.find(op.text)
 				while lastOccurence is not -1:
+					if lastOccurence == len(expr) - 1:
+						raise CompilerException("Missing operand")
 					if isVarChar(expr[lastOccurence+1]) and expr[lastOccurence+1] != '(':
 						if op.type == Operator.BINARY:
 							# Left operand
