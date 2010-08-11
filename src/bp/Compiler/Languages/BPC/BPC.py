@@ -42,6 +42,8 @@ class LanguageBPC(ProgrammingLanguage):
 		self.stringCount = 0
 		self.nextLineIndented = False
 		
+		self.keywordsBlock = "if;while;"
+		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
@@ -91,55 +93,60 @@ class LanguageBPC(ProgrammingLanguage):
 		currentNode = root.getElementsByTagName("code")[0]
 		lastNode = currentNode
 		
-		for lineIndex in range(0, len(lines)):
-			line = lines[lineIndex]
-			if line:
-				tabCount = self.countTabs(line)
-				
-				self.nextLineIndented = False
-				if lineIndex < len(lines) - 1:
-					tabCountNextLine = self.countTabs(lines[lineIndex + 1])
-					if tabCountNextLine == tabCount + 1:
-						self.nextLineIndented = True
-						print("INDENT")
-				
-				line = line.strip()
-				
-				line = self.removeStrings(line)
-				node = self.parseLine(line)
-				
-				#===============================================================
-				# print("--------------------------")
-				# print("Line: [" + line + "]")
-				# print("Node: [" + node.tagName + "]")
-				# print(node.getElementsByTagName("code"))
-				# print("Current Node: [" + currentNode.parentNode.tagName + "." + currentNode.tagName + "]")
-				#===============================================================
-				
-				# Block
-				if tabCount > lastTabCount:
-					currentNode = lastNode
+		try:
+			for lineIndex in range(0, len(lines)):
+				line = lines[lineIndex]
+				if line:
+					tabCount = self.countTabs(line)
 					
-					codeTags = currentNode.getElementsByTagName("code")
-					if codeTags:
-						currentNode = codeTags[0]
+					self.nextLineIndented = False
+					if lineIndex < len(lines) - 1:
+						tabCountNextLine = self.countTabs(lines[lineIndex + 1])
+						if tabCountNextLine == tabCount + 1:
+							self.nextLineIndented = True
+							print("INDENT")
 					
-					currentNode.appendChild(node)
-				elif tabCount < lastTabCount:
-					atTab = lastTabCount
-					while atTab > tabCount:
-						if currentNode.tagName == "code":
-							currentNode = currentNode.parentNode.parentNode
-						else:
-							currentNode = currentNode.parentNode
-						atTab -= 1
+					line = line.strip()
 					
-					currentNode.appendChild(node)
-				else:
-					currentNode.appendChild(node)
-				
-				lastTabCount = tabCount
-				lastNode = node
+					line = self.removeStrings(line)
+					node = self.parseLine(line)
+					
+					#===============================================================
+					# print("--------------------------")
+					# print("Line: [" + line + "]")
+					# print("Node: [" + node.tagName + "]")
+					# print(node.getElementsByTagName("code"))
+					# print("Current Node: [" + currentNode.parentNode.tagName + "." + currentNode.tagName + "]")
+					#===============================================================
+					
+					# Block
+					if tabCount > lastTabCount:
+						currentNode = lastNode
+						
+						codeTags = currentNode.getElementsByTagName("code")
+						if codeTags:
+							currentNode = codeTags[0]
+						
+						currentNode.appendChild(node)
+					elif tabCount < lastTabCount:
+						atTab = lastTabCount
+						while atTab > tabCount:
+							if currentNode.tagName == "code":
+								currentNode = currentNode.parentNode.parentNode
+							else:
+								currentNode = currentNode.parentNode
+							atTab -= 1
+						
+						currentNode.appendChild(node)
+					else:
+						currentNode.appendChild(node)
+					
+					lastTabCount = tabCount
+					lastNode = node
+		except CompilerException as e:
+			e.setLine(lineIndex + 1)
+			raise e
+			
 		return self.doc
 	
 	def functionExists(self, name):
@@ -189,6 +196,7 @@ class LanguageBPC(ProgrammingLanguage):
 		else:
 			# Is it a function call?
 			node = self.parseExpr(line)
+			
 			if node is None:
 				raise CompilerException("Unknown command")
 		return node
@@ -212,6 +220,8 @@ class LanguageBPC(ProgrammingLanguage):
 						node.appendChild(paramNode)
 					
 					return node
+				elif self.keywordsBlock.find(funcName + ";") != -1:
+					raise CompilerException("Keyword '" + funcName + "' needs an indented block on the next line")
 			
 			if not isVarChar(line[i]):
 				return None
@@ -223,8 +233,6 @@ class LanguageBPC(ProgrammingLanguage):
 			return node
 		else:
 			node = self.parser.buildXMLTree(expr)
-			if node.nodeType == Node.TEXT_NODE:
-				raise CompilerException("Unknown command")
 			return node
 	
 	def compileXMLToCode(self, code):

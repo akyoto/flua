@@ -90,17 +90,19 @@ class Compiler:
 					
 					try:
 						root = self.compileCodeToXML(code, lang)
-					except CompilerException as cp:
-						print(cp)
-					
-					if root is not None:
-						#root.write(outFile)
-						with open(outFile, "w") as outStream:
-							output = root.toprettyxml()
-							outStream.write(output)
-							print(output)
-					else:
-						print("Compiling process failed")
+						
+						if root is not None:
+							#root.write(outFile)
+							with open(outFile, "w") as outStream:
+								output = root.toprettyxml()
+								outStream.write(output)
+								print(output)
+						else:
+							print("Compiling process failed")
+					except CompilerException as e:
+						print("")
+						print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
+						#printTraceback()
 			except ValueError:
 				pass
 
@@ -131,7 +133,7 @@ if __name__ == '__main__':
 		
 		#elapsedTime2 = time.clock() - start
 		
-		print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
+		#print("Time[1]:    " + str(elapsedTime1 * 1000) + " ms")
 		#print("Time[2]:    " + str(elapsedTime2 * 1000) + " ms")
 		
 		if 0:

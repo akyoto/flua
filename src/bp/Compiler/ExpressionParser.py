@@ -39,6 +39,16 @@ class CompilerException(Exception):
 	
 	def __init__(self, value):
 		self.value = value
+		self.line = -1
+		
+	def getMsg(self):
+		return self.value
+		
+	def getLine(self):
+		return self.line
+		
+	def setLine(self, line):
+		self.line = line
 		
 	def __str__(self):
 		return repr(self.value)
