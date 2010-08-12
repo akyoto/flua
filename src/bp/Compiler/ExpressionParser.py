@@ -186,7 +186,6 @@ class ExpressionParser:
 	
 	def buildCleanExpr(self, expr):
 		expr = expr.replace(" ", "")
-		exprLen = len(expr)
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
@@ -220,7 +219,7 @@ class ExpressionParser:
 							
 							# Right operand
 							end = lastOccurence + op.textLen
-							while end < exprLen and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
+							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
 								if expr[end] == '(' and end == lastOccurence + 1:
 									bracketCounter = 1
 								else:
@@ -252,10 +251,35 @@ class ExpressionParser:
 							#	print("END: " + "OUT OF STRING")
 							#=======================================================
 								
-							if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
+							if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
 								expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
-								exprLen = len(expr)
-								print("EX: " + expr)
+								print("EX.BINARY: " + expr)
+							
+						elif op.type == Operator.UNARY:
+							# Right operand
+							end = lastOccurence + op.textLen
+							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
+								if expr[end] == '(' and end == lastOccurence + 1:
+									bracketCounter = 1
+								else:
+									bracketCounter = 0
+								
+								# Move to last part of the bracket
+								while bracketCounter > 0 and end < exprLen-1:
+									end += 1
+									if expr[end] == '(':
+										bracketCounter += 1
+									elif expr[end] == ')':
+										bracketCounter -= 1
+								end += 1
+							
+							operandRight = expr[lastOccurence+op.textLen:end];
+							print("UNARY " + operandRight)
+							
+							# TODO: ...
+							if (end >= len(expr) or expr[end] != ')'):
+								expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+								print("EX.UNARY: " + expr)
 						
 					lastOccurence = expr.find(op.text, lastOccurence + len(op.text) + 1)	# +1 for the additional left bracket
 		return expr
