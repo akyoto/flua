@@ -58,22 +58,24 @@ class Compiler:
 	def compileCodeToXML(self, code, language):
 		return language.compileCodeToXML(code)
 		
-	def compileXMLFile(self, inFile, outFile):
-		ext = extractExt(outFile)
-		
-		for lang in self.languages:
-			try:
-				if lang.extensions.index(ext) != -1:
-					print("Lang: " + lang.getName())
-					
-					root = ElementTree()
-					root.parse(inFile)
-					code = self.compileXMLToCode(root, lang)
-					with open(outFile, "w") as out:
-						out.write(code)
-					print(code)
-			except ValueError:
-				pass
+	#===========================================================================
+	# def compileXMLFile(self, inFile, outFile):
+	#	ext = extractExt(outFile)
+	#	
+	#	for lang in self.languages:
+	#		try:
+	#			if lang.extensions.index(ext) != -1:
+	#				print("Lang: " + lang.getName())
+	#				
+	#				root = ElementTree()
+	#				root.parse(inFile)
+	#				code = self.compileXMLToCode(root, lang)
+	#				with open(outFile, "w") as out:
+	#					out.write(code)
+	#				print(code)
+	#		except ValueError:
+	#			pass
+	#===========================================================================
 		
 	def compileCodeToXMLFile(self, inFile, outFile):
 		ext = extractExt(inFile)

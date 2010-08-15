@@ -226,7 +226,7 @@ class ExpressionParser:
 									bracketCounter = 0
 								
 								# Move to last part of the bracket
-								while bracketCounter > 0 and end < exprLen-1:
+								while bracketCounter > 0 and end < len(expr)-1:
 									end += 1
 									if expr[end] == '(':
 										bracketCounter += 1
@@ -265,7 +265,7 @@ class ExpressionParser:
 									bracketCounter = 0
 								
 								# Move to last part of the bracket
-								while bracketCounter > 0 and end < exprLen-1:
+								while bracketCounter > 0 and end < len(expr)-1:
 									end += 1
 									if expr[end] == '(':
 										bracketCounter += 1
