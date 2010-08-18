@@ -49,7 +49,7 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# See http://www.cppreference.com/wiki/operator_precedence
 		
-		# 1
+		# 1: Function calls
 		operators = OperatorLevel()
 		operators.addOperator(Operator("(", "direct-call", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
@@ -80,7 +80,7 @@ class LanguageBPC(ProgrammingLanguage):
 		# 6: Add, Sub
 		operators = OperatorLevel()
 		operators.addOperator(Operator("+", "add", Operator.BINARY))
-		operators.addOperator(Operator("-", "substract", Operator.BINARY))
+		operators.addOperator(Operator("-", "subtract", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 8: GT, LT
@@ -107,6 +107,10 @@ class LanguageBPC(ProgrammingLanguage):
 		# 16: Assign
 		operators = OperatorLevel()
 		operators.addOperator(Operator("=", "assign", Operator.BINARY))
+		operators.addOperator(Operator("+=", "assign-add", Operator.BINARY))
+		operators.addOperator(Operator("-=", "assign-subtract", Operator.BINARY))
+		operators.addOperator(Operator("*=", "assign-multiply", Operator.BINARY))
+		operators.addOperator(Operator("/=", "assign-divide", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Comma
