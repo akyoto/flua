@@ -77,9 +77,16 @@ class LanguageBPC(ProgrammingLanguage):
 		operators.addOperator(Operator("-", "substract", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
+		# 8: GT, LT
+		operators = OperatorLevel()
+		operators.addOperator(Operator(">", "greater-than", Operator.BINARY))
+		operators.addOperator(Operator("<", "less-than", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# 9: Comparison
 		operators = OperatorLevel()
-		operators.addOperator(Operator("==", "compare", Operator.BINARY))
+		operators.addOperator(Operator("==", "equal", Operator.BINARY))
+		operators.addOperator(Operator("!=", "not-equal", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 15: Ternary operator
