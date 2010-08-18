@@ -213,7 +213,7 @@ class ExpressionParser:
 				while lastOccurence is not -1:
 					if lastOccurence == len(expr) - 1:
 						raise CompilerException("Missing operand")
-					if isVarChar(expr[lastOccurence+1]) and expr[lastOccurence+1] != '(':
+					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(':
 						if op.type == Operator.BINARY:
 							# Left operand
 							start = lastOccurence - 1
@@ -274,6 +274,7 @@ class ExpressionParser:
 								print("EX.BINARY: " + expr)
 							
 						elif op.type == Operator.UNARY:
+							print("GO UNAAARY")
 							# Right operand
 							end = lastOccurence + op.textLen
 							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
