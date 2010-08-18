@@ -36,8 +36,8 @@ def printTraceback():
 def isVarChar(char):
 	return char.isalnum() or char == '_'
 
-def isVarChar2(stri = str, index = int):
-	return index < len(stri) and (stri[index].isalnum() or stri == "_")
+#def isVarChar2(stri = str, index = int):
+#	return index < len(stri) and (stri[index].isalnum() or stri == "_")
 
 def isValidVarName(stri):
 	for char in stri:

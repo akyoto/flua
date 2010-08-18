@@ -62,6 +62,7 @@ class LanguageBPC(ProgrammingLanguage):
 		# 3: Unary
 		operators = OperatorLevel()
 		operators.addOperator(Operator("!", "not", Operator.UNARY))
+		operators.addOperator(Operator("-", "negative", Operator.UNARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 5: Mul, Div
@@ -163,7 +164,9 @@ class LanguageBPC(ProgrammingLanguage):
 						currentNode.appendChild(node)
 					
 					# Check
-					if (node.tagName == "else-if" or node.tagName == "else") and currentNode.tagName != "if-block":
+					if node.nodeType == Node.TEXT_NODE:
+						pass
+					elif (node.tagName == "else-if" or node.tagName == "else") and currentNode.tagName != "if-block":
 						raise CompilerException("#elif and #else can only appear in an #if block")
 					
 					lastTabCount = tabCount
