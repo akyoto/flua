@@ -49,9 +49,15 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# See http://www.cppreference.com/wiki/operator_precedence
 		
+		# 1
+		operators = OperatorLevel()
+		operators.addOperator(Operator("(", "direct-call", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# 2: Access
 		operators = OperatorLevel()
 		operators.addOperator(Operator(".", "access", Operator.BINARY))
+		operators.addOperator(Operator("#", "call", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Loose pointer
@@ -103,6 +109,11 @@ class LanguageBPC(ProgrammingLanguage):
 		operators.addOperator(Operator("=", "assign", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
+		# Comma
+		operators = OperatorLevel()
+		operators.addOperator(Operator(",", "separate", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 	def countTabs(self, line):
 		tabCount = 0
 		while tabCount < len(line) and line[tabCount] == '\t':
@@ -112,7 +123,7 @@ class LanguageBPC(ProgrammingLanguage):
 		
 	def compileCodeToXML(self, code):
 		lines = code.split('\n')
-		self.doc = parseString("<root><header><title/><dependencies/></header><code></code></root>")
+		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
 		self.initExprParser()
 		
 		root = self.doc.documentElement
@@ -273,12 +284,17 @@ class LanguageBPC(ProgrammingLanguage):
 					node.setAttribute("function", funcName)
 					
 					# Parameters
-					parameterString = line[i+1:]
-					for parameter in parameterString.split(','):
-						parameter = parameter.strip()
-						paramNode = self.doc.createElement("parameter")
-						paramNode.appendChild(self.parseExpr(parameter))
-						node.appendChild(paramNode)
+					#===========================================================
+					# parameterString = line[i+1:]
+					# for parameter in parameterString.split(','):
+					#	parameter = parameter.strip()
+					#	paramNode = self.doc.createElement("parameter")
+					#	paramNode.appendChild(self.parseExpr(parameter))
+					#	node.appendChild(paramNode)
+					#===========================================================
+					paramNode = self.doc.createElement("parameters")
+					paramNode.appendChild(self.parseExpr(line[i+1:]))
+					node.appendChild(paramNode)
 					
 					return node
 				elif self.keywordsBlock.__contains__(funcName):

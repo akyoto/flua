@@ -235,7 +235,7 @@ class ExpressionParser:
 				while lastOccurence is not -1:
 					if lastOccurence == len(expr) - 1:
 						raise CompilerException("Missing operand")
-					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(':
+					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(':
 						if op.type == Operator.BINARY:
 							# Left operand
 							start = lastOccurence - 1
@@ -292,8 +292,11 @@ class ExpressionParser:
 								print("END: " + "OUT OF STRING")
 							#=======================================================
 							
-							if operandLeft and operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')):
-								expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+							if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')) or op.text == "("):
+								if op.text != "(":
+									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+								else:
+									expr = expr[:lastOccurence - len(operandLeft)] + "((" + operandLeft + ")#" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
 								print("EX.BINARY: " + expr)
 							else:
 								print("EX.BINARY expression change denied: [" + op.text + "]")
