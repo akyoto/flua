@@ -54,6 +54,11 @@ class LanguageBPC(ProgrammingLanguage):
 		operators.addOperator(Operator(".", "access", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
+		# Loose pointer
+		operators = OperatorLevel()
+		operators.addOperator(Operator("~", "loose-reference", Operator.UNARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# 3: Unary
 		operators = OperatorLevel()
 		operators.addOperator(Operator("!", "not", Operator.UNARY))

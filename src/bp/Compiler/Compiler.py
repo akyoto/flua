@@ -76,7 +76,7 @@ class Compiler:
 	#		except ValueError:
 	#			pass
 	#===========================================================================
-		
+	
 	def compileCodeToXMLFile(self, inFile, outFile):
 		ext = extractExt(inFile)
 		

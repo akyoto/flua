@@ -94,8 +94,18 @@ class ExpressionParser:
 		return ""
 	
 	def buildOperation(self, expr):
-		while expr and expr[0] == '(' and expr[len(expr)-1] == ')':
-			expr = expr[1:len(expr)-1]
+		bracketCounter = 1
+		i = 1
+		while i < len(expr) and (bracketCounter > 0 or expr[i] == ')'):
+			if expr[i] == '(':
+				bracketCounter += 1
+			elif expr[i] == ')':
+				bracketCounter -= 1
+			i += 1
+		
+		if bracketCounter == 0 and i == len(expr):
+			while expr and expr[0] == '(' and expr[len(expr)-1] == ')':
+				expr = expr[1:len(expr)-1]
 		
 		print("buildOperation: " + expr)
 		
@@ -282,8 +292,8 @@ class ExpressionParser:
 								end += 1
 							
 							operandRight = expr[lastOccurence+op.textLen:end];
-							print("UNARY " + operandRight)
-							print(end)
+							
+							print("[" + op.text + "] " + operandRight)
 							
 							start = lastOccurence - 1
 							
