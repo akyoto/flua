@@ -97,6 +97,8 @@ class ExpressionParser:
 		while expr and expr[0] == '(' and expr[len(expr)-1] == ')':
 			expr = expr[1:len(expr)-1]
 		
+		print("buildOperation: " + expr)
+		
 		# Left operand
 		bracketCounter = 0
 		i = 0
@@ -165,7 +167,10 @@ class ExpressionParser:
 		node = self.doc.createElement(opName)
 		lNode = self.doc.createElement("value")
 		rNode = self.doc.createElement("value")
-		node.appendChild(lNode)
+		
+		# Unary operator
+		if leftOperand:
+			node.appendChild(lNode)
 		node.appendChild(rNode)
 		
 		lNode.appendChild(leftOperandNode)
@@ -176,9 +181,10 @@ class ExpressionParser:
 	def buildXMLTree(self, expr):
 		self.doc = parseString("<expr></expr>")
 		node = self.doc.documentElement
-		print(expr)
-		expr = self.buildCleanExpr(expr)
 		
+		print("buildXMLTree: " + expr)
+		
+		expr = self.buildCleanExpr(expr)
 		opNode = self.buildOperation(expr)
 		
 		node.appendChild(opNode)
@@ -186,6 +192,8 @@ class ExpressionParser:
 	
 	def buildCleanExpr(self, expr):
 		expr = expr.replace(" ", "")
+		
+		print("buildCleanExpr: " + expr)
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
@@ -275,10 +283,12 @@ class ExpressionParser:
 							
 							operandRight = expr[lastOccurence+op.textLen:end];
 							print("UNARY " + operandRight)
+							print(end)
 							
-							# TODO: ...
-							if (end >= len(expr) or expr[end] != ')'):
-								expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+							start = lastOccurence - 1
+							
+							if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
+								expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
 								print("EX.UNARY: " + expr)
 						
 					lastOccurence = expr.find(op.text, lastOccurence + len(op.text) + 1)	# +1 for the additional left bracket
