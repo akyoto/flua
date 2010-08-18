@@ -274,7 +274,6 @@ class ExpressionParser:
 								print("EX.BINARY: " + expr)
 							
 						elif op.type == Operator.UNARY:
-							print("GO UNAAARY")
 							# Right operand
 							end = lastOccurence + op.textLen
 							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
