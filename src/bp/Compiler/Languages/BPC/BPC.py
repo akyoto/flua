@@ -42,7 +42,7 @@ class LanguageBPC(ProgrammingLanguage):
 		self.stringCount = 0
 		self.nextLineIndented = False
 		
-		self.keywordsBlock = ["if", "elif", "else", "while"]
+		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while"]
 		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
@@ -198,7 +198,6 @@ class LanguageBPC(ProgrammingLanguage):
 			raise e
 		except:
 			printTraceback()
-			
 			
 		return self.doc
 	

@@ -218,10 +218,80 @@ class ExpressionParser:
 		
 		expr = self.buildCleanExpr(expr)
 		opNode = self.buildOperation(expr)
+		self.adjustXMLTree(opNode)
 		
 		node.appendChild(opNode)
 		return node.firstChild
 	
+	def adjustXMLTree(self, node):
+		# Adjust node
+		if node.nodeType == Node.ELEMENT_NODE:
+			if node.tagName == "separate":
+				node.tagName = "parameters"
+				
+				# 'parameters' sub nodes
+				child = node.firstChild
+				while child is not None:
+					if child.hasChildNodes() and child.firstChild.nodeType == Node.ELEMENT_NODE and child.firstChild.tagName == "separate":
+						for param in child.firstChild.childNodes:
+							node.insertBefore(param.cloneNode(True), child)
+						oldChild = child
+						child = node.firstChild
+						node.removeChild(oldChild)
+						continue
+					child = child.nextSibling
+				
+				# 'parameter' tag name
+				for child in node.childNodes:
+					child.tagName = "parameter"
+			elif node.tagName == "call":
+				node.firstChild.tagName = "function"
+				params = node.childNodes[1].firstChild.cloneNode(True)
+				if params.nodeType == Node.TEXT_NODE and params.nodeValue:
+					allParams = self.doc.createElement("parameters")
+					thisParam = self.doc.createElement("parameter")
+					
+					thisParam.appendChild(params)
+					allParams.appendChild(thisParam)
+					node.appendChild(allParams)
+				elif params.nodeType == Node.ELEMENT_NODE:
+					print(params.tagName)
+					if params.tagName == "parameters":
+						for child in params:
+							node.appendChild(child.cloneNode(True))
+					else:
+						node.appendChild(params)
+				else:
+					#allParams = self.doc.createElement("parameters")
+					#node.appendChild(allParams)
+					pass
+				node.removeChild(node.childNodes[1])
+				
+				# Clean up whitespaces
+				for child in node.childNodes:
+					if child.nodeType == Node.TEXT_NODE:
+						node.removeChild(child)
+			elif node.tagName == "access":
+				try:
+					if node.childNodes[1].firstChild.tagName == "call":
+						node.tagName = "call"
+						node.firstChild.tagName = "object"
+						secondValue = node.childNodes[1]
+						callNode = secondValue.firstChild
+						
+						for child in callNode.childNodes:
+							node.appendChild(child.cloneNode(True))
+						node.removeChild(node.childNodes[1])
+						node.childNodes[1].tagName = "function"
+						node.childNodes[2].tagName = "parameters"
+				except AttributeError:
+					pass
+				except:
+					raise
+		
+		# Recursive
+		for child in node.childNodes:
+			self.adjustXMLTree(child)
 	def buildCleanExpr(self, expr):
 		expr = expr.replace(" ", "")
 		
@@ -260,7 +330,7 @@ class ExpressionParser:
 							# Right operand
 							end = lastOccurence + op.textLen
 							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
-								if expr[end] == '(' and end == lastOccurence + 1:
+								if op.text == '(' or (expr[end] == '(' and end == lastOccurence + 1):
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
