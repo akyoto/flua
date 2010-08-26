@@ -151,6 +151,7 @@ class LanguageBPC(ProgrammingLanguage):
 					line = line.strip()
 					
 					line = self.removeStrings(line)
+					line = self.removeComments(line)
 					node = self.parseLine(line)
 					
 					#===============================================================
@@ -222,6 +223,13 @@ class LanguageBPC(ProgrammingLanguage):
 			i += 1
 		return line
 	
+	def removeComments(self, line):
+		pos = line.find('#')
+		if pos is not -1:
+			return line[:pos]
+		else:
+			return line
+	
 	def parseLine(self, line):
 		node = None
 		
@@ -284,7 +292,9 @@ class LanguageBPC(ProgrammingLanguage):
 				funcName = line[:i]
 				if self.functionExists(funcName):
 					node = self.doc.createElement("call")
-					node.setAttribute("function", funcName)
+					func = self.doc.createElement("function")
+					func.appendChild(self.doc.createTextNode(funcName))
+					node.appendChild(func)
 					
 					# Parameters
 					#===========================================================
@@ -295,8 +305,17 @@ class LanguageBPC(ProgrammingLanguage):
 					#	paramNode.appendChild(self.parseExpr(parameter))
 					#	node.appendChild(paramNode)
 					#===========================================================
-					paramNode = self.doc.createElement("parameters")
-					paramNode.appendChild(self.parseExpr(line[i+1:]))
+					paramNode = None
+					params = self.parseExpr(line[i+1:])
+					if params.tagName == "parameters":
+						print("YAY " + params.tagName + params.toprettyxml())
+						paramNode = params
+					else:
+						print("UAH " + params.tagName + params.toprettyxml())
+						paramNode = self.doc.createElement("parameters")
+						singleParamNode = self.doc.createElement("parameter")
+						singleParamNode.appendChild(params)
+						paramNode.appendChild(singleParamNode)
 					node.appendChild(paramNode)
 					
 					return node

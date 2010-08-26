@@ -271,6 +271,7 @@ class ExpressionParser:
 				for child in node.childNodes:
 					if child.nodeType == Node.TEXT_NODE:
 						node.removeChild(child)
+			# Object-oriented call
 			elif node.tagName == "access":
 				try:
 					if node.childNodes[1].firstChild.tagName == "call":
@@ -284,6 +285,27 @@ class ExpressionParser:
 						node.removeChild(node.childNodes[1])
 						node.childNodes[1].tagName = "function"
 						node.childNodes[2].tagName = "parameters"
+						
+						params = node.childNodes[2].firstChild.cloneNode(True)
+						if params.nodeType == Node.TEXT_NODE and params.nodeValue:
+							allParams = self.doc.createElement("parameters")
+							thisParam = self.doc.createElement("parameter")
+							
+							thisParam.appendChild(params)
+							allParams.appendChild(thisParam)
+							node.appendChild(allParams)
+						elif params.nodeType == Node.ELEMENT_NODE:
+							print(params.tagName)
+							if params.tagName == "parameters":
+								for child in params:
+									node.appendChild(child.cloneNode(True))
+							else:
+								node.appendChild(params)
+						else:
+							#allParams = self.doc.createElement("parameters")
+							#node.appendChild(allParams)
+							pass
+						node.removeChild(node.childNodes[2])
 				except AttributeError:
 					pass
 				except:
