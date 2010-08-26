@@ -27,4 +27,4 @@ stream.write "GET / HTTP/1.1"
 stream.write "Host: google.com"
 stream.write ""
 print stream.read
-
+return

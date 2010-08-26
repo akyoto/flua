@@ -226,7 +226,7 @@ class LanguageBPC(ProgrammingLanguage):
 	def removeComments(self, line):
 		pos = line.find('#')
 		if pos is not -1:
-			return line[:pos]
+			return line[:pos].rstrip()
 		else:
 			return line
 	
@@ -275,11 +275,20 @@ class LanguageBPC(ProgrammingLanguage):
 				# TODO: Check for other block types: Classes, functions, ...
 				raise CompilerException("Unknown keyword")
 		else:
-			# Is it a function call?
-			node = self.parseExpr(line)
-			
-			if node is None:
-				raise CompilerException("Unknown command")
+			if startswith(line, "import"):
+				node = self.doc.createElement("import")
+				node.appendChild(self.parseExpr(line[len("import")+1:]))
+			elif startswith(line, "return"):
+				node = self.doc.createElement("return")
+				param = self.parseExpr(line[len("return")+1:])
+				if param.nodeValue or param.hasChildNodes():
+					node.appendChild(param)
+			else:
+				# Is it a function call?
+				node = self.parseExpr(line)
+				
+				if node is None:
+					raise CompilerException("Unknown command")
 		return node
 	
 	# This function is only used for procedure calls
