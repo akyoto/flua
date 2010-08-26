@@ -42,8 +42,9 @@ class LanguageBPC(ProgrammingLanguage):
 		self.stringCount = 0
 		self.nextLineIndented = False
 		
-		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while"]
-		
+		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
+		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
+        
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
