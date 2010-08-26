@@ -287,10 +287,14 @@ class LanguageBPC(ProgrammingLanguage):
 		print("getFunctionCall " + line)
 		line += " "
 		lineLen = len(line)
+		print("Len: " + str(lineLen))
 		for i in range(lineLen):
+			print(i)
 			if line[i] == ' ':
 				funcName = line[:i]
+				print("Func: " + funcName)
 				if self.functionExists(funcName):
+					print("FOUND!")
 					node = self.doc.createElement("call")
 					func = self.doc.createElement("function")
 					func.appendChild(self.doc.createTextNode(funcName))
@@ -318,13 +322,19 @@ class LanguageBPC(ProgrammingLanguage):
 						paramNode.appendChild(singleParamNode)
 					node.appendChild(paramNode)
 					
+					print("FUNC CALL")
 					return node
+				elif funcName.find('.') is not -1:
+					print("OBJECT CALL")
+					return self.parser.buildXMLTree(funcName + "(" + line[i+1:] + ")")
 				elif self.keywordsBlock.__contains__(funcName):
+					print("OH NOES!")
 					raise CompilerException("Keyword #" + funcName + " needs an indented block on the next line")
 				else:
+					print("NONE")
 					return None
 					
-			if not isVarChar(line[i]):
+			if not isVarChar(line[i]) and line[i] != '.':
 				return None
 		return None
 	

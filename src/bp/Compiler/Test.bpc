@@ -28,6 +28,3 @@ stream.write "Host: google.com"
 stream.write ""
 print stream.read
 
-# TODO:
-stream.write 2
-
