@@ -214,6 +214,19 @@ class ExpressionParser:
 		self.doc = parseString("<expr></expr>")
 		node = self.doc.documentElement
 		
+		# TODO: Remove double whitespaces
+		
+		# TODO: Check this:
+		expr = expr.replace(" is not ", " != ")
+		
+		# Whitespaces are required!
+		expr = expr.replace("\t", " ")
+		expr = expr.replace(" and ", " && ")
+		expr = expr.replace(" or ", " || ")
+		expr = expr.replace(" is ", " == ")
+		
+		expr = " " + expr
+		expr = expr.replace(" not ", "!")
 		print("buildXMLTree: " + expr)
 		
 		expr = self.buildCleanExpr(expr)

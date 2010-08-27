@@ -32,3 +32,7 @@ const xyz = 5
 break
 continue
 import a
+
+if a is not b
+	print x
+

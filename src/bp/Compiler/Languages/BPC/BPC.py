@@ -96,6 +96,16 @@ class LanguageBPC(ProgrammingLanguage):
 		operators.addOperator(Operator("!=", "not-equal", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
+		# 13: Logical AND
+		operators = OperatorLevel()
+		operators.addOperator(Operator("&&", "and", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
+		# 14: Logical OR
+		operators = OperatorLevel()
+		operators.addOperator(Operator("||", "or", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# 15: Ternary operator
 		operators = OperatorLevel()
 		operators.addOperator(Operator(":", "ternary-code", Operator.BINARY))
