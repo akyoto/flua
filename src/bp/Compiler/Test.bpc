@@ -1,38 +1,4 @@
-################################################################
-# Import the network module
-################################################################
-
-import Network
-
-################################################################
-# Get the HTML code of google.com
-################################################################
-
-print getHtml("google.com")
-
-################################################################
-# More control
-################################################################
-
-request = HTTP("google.com", "1.1")
-request.get "/"
-print request.receivedData, abc
-
-################################################################
-# Even more control
-################################################################
-
-stream = TCPStream("google.com", Port.HTTP)	# Port.HTTP = 80
-stream.write "GET / HTTP/1.1"
-stream.write "Host: google.com"
-stream.write ""
-print stream.read
-return
-const xyz = 5
-break
-continue
-import a
-
-if a is not b
+myFunc
 	print x
-
+	init
+		print y

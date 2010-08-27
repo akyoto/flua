@@ -41,6 +41,7 @@ class LanguageBPC(ProgrammingLanguage):
 		self.doc = None
 		self.stringCount = 0
 		self.nextLineIndented = False
+		self.currentNode = None
 		
 		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
@@ -143,8 +144,8 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		root = self.doc.documentElement
 		lastTabCount = 0
-		currentNode = root.getElementsByTagName("code")[0]
-		lastNode = currentNode
+		self.currentNode = root.getElementsByTagName("code")[0]
+		lastNode = self.currentNode
 		
 		try:
 			for lineIndex in range(0, len(lines)):
@@ -170,37 +171,37 @@ class LanguageBPC(ProgrammingLanguage):
 					# print("Line: [" + line + "]")
 					# print("Node: [" + node.tagName + "]")
 					# print(node.getElementsByTagName("code"))
-					# print("Current Node: [" + currentNode.parentNode.tagName + "." + currentNode.tagName + "]")
+					# print("Current Node: [" + self.currentNode.parentNode.tagName + "." + self.currentNode.tagName + "]")
 					#===============================================================
 					
 					# Block
 					if tabCount > lastTabCount:
-						currentNode = lastNode
+						self.currentNode = lastNode
 						
-						codeTags = currentNode.getElementsByTagName("code")
+						codeTags = self.currentNode.getElementsByTagName("code")
 						if codeTags:
-							currentNode = codeTags[0]
+							self.currentNode = codeTags[0]
 						
-						currentNode.appendChild(node)
+						self.currentNode.appendChild(node)
 					elif tabCount < lastTabCount:
 						atTab = lastTabCount
 						while atTab > tabCount:
-							if currentNode.tagName == "code":
-								currentNode = currentNode.parentNode.parentNode
-								if currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
-									currentNode = currentNode.parentNode
+							if self.currentNode.tagName == "code":
+								self.currentNode = self.currentNode.parentNode.parentNode
+								if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
+									self.currentNode = self.currentNode.parentNode
 							else:
-								currentNode = currentNode.parentNode
+								self.currentNode = self.currentNode.parentNode
 							atTab -= 1
 						
-						currentNode.appendChild(node)
+						self.currentNode.appendChild(node)
 					else:
-						currentNode.appendChild(node)
+						self.currentNode.appendChild(node)
 					
 					# Check
 					if node.nodeType == Node.TEXT_NODE:
 						pass
-					elif (node.tagName == "else-if" or node.tagName == "else") and currentNode.tagName != "if-block":
+					elif (node.tagName == "else-if" or node.tagName == "else") and self.currentNode.tagName != "if-block":
 						raise CompilerException("#elif and #else can only appear in an #if block")
 					
 					lastTabCount = tabCount
@@ -284,7 +285,33 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(code)
 			else:
 				# TODO: Check for other block types: Classes, functions, ...
-				raise CompilerException("Unknown keyword")
+				
+				# Check for function
+				funcName = ""
+				pos = 0
+				lineLen = len(line)
+				while pos < lineLen and isVarChar(line[pos]):
+					pos += 1
+				if pos is len(line):
+					funcName = line
+				elif line[pos] == ' ':
+					funcName = line[:pos]
+				else:
+					whiteSpace = line.find(' ')
+					if whiteSpace is not -1:
+						funcName = line[:whiteSpace]
+					else:
+						funcName = line
+					raise CompilerException("Invalid function name '" + funcName + "'")
+				
+				node = self.doc.createElement("function")
+				
+				nameNode = self.doc.createElement("name")
+				nameNode.appendChild(self.doc.createTextNode(funcName))
+				codeNode = self.doc.createElement("code")
+				
+				node.appendChild(nameNode)
+				node.appendChild(codeNode)
 		else:
 			if startswith(line, "import"):
 				node = self.doc.createElement("import")
@@ -292,7 +319,7 @@ class LanguageBPC(ProgrammingLanguage):
 				if param.nodeValue or param.hasChildNodes():
 					node.appendChild(param)
 				else:
-					raise CompilerException("'import' keyword expects a module name")
+					raise CompilerException("#import keyword expects a module name")
 			elif startswith(line, "return"):
 				node = self.doc.createElement("return")
 				param = self.parseExpr(line[len("return")+1:])
@@ -304,14 +331,14 @@ class LanguageBPC(ProgrammingLanguage):
 				if param.hasChildNodes() and param.tagName == "assign":
 					node.appendChild(param)
 				else:
-					raise CompilerException("'const' keyword expects a variable assignment")
+					raise CompilerException("#const keyword expects a variable assignment")
 			elif startswith(line, "throw"):
 				node = self.doc.createElement("throw")
 				param = self.parseExpr(line[len("throw")+1:])
 				if param.nodeValue or param.hasChildNodes():
 					node.appendChild(param)
 				else:
-					raise CompilerException("'throw' keyword expects a parameter (e.g. an exception object)")
+					raise CompilerException("#throw keyword expects a parameter (e.g. an exception object)")
 			elif startswith(line, "break"):
 				node = self.doc.createElement("break")
 			elif startswith(line, "continue"):
@@ -353,11 +380,9 @@ class LanguageBPC(ProgrammingLanguage):
 					#===========================================================
 					paramNode = None
 					params = self.parseExpr(line[i+1:])
-					if params.tagName == "parameters":
-						print("YAY " + params.tagName + params.toprettyxml())
+					if params.nodeType == Node.ELEMENT_NODE and params.tagName == "parameters":
 						paramNode = params
 					else:
-						print("UAH " + params.tagName + params.toprettyxml())
 						paramNode = self.doc.createElement("parameters")
 						singleParamNode = self.doc.createElement("parameter")
 						singleParamNode.appendChild(params)
