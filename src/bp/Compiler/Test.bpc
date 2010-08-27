@@ -28,3 +28,7 @@ stream.write "Host: google.com"
 stream.write ""
 print stream.read
 return
+const xyz = 5
+break
+continue
+import a

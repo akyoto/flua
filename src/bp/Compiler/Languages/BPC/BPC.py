@@ -278,12 +278,34 @@ class LanguageBPC(ProgrammingLanguage):
 		else:
 			if startswith(line, "import"):
 				node = self.doc.createElement("import")
-				node.appendChild(self.parseExpr(line[len("import")+1:]))
+				param = self.parseExpr(line[len("import")+1:])
+				if param.nodeValue or param.hasChildNodes():
+					node.appendChild(param)
+				else:
+					raise CompilerException("'import' keyword expects a module name")
 			elif startswith(line, "return"):
 				node = self.doc.createElement("return")
 				param = self.parseExpr(line[len("return")+1:])
 				if param.nodeValue or param.hasChildNodes():
 					node.appendChild(param)
+			elif startswith(line, "const"):
+				node = self.doc.createElement("const")
+				param = self.parseExpr(line[len("const")+1:])
+				if param.hasChildNodes() and param.tagName == "assign":
+					node.appendChild(param)
+				else:
+					raise CompilerException("'const' keyword expects a variable assignment")
+			elif startswith(line, "throw"):
+				node = self.doc.createElement("throw")
+				param = self.parseExpr(line[len("throw")+1:])
+				if param.nodeValue or param.hasChildNodes():
+					node.appendChild(param)
+				else:
+					raise CompilerException("'throw' keyword expects a parameter (e.g. an exception object)")
+			elif startswith(line, "break"):
+				node = self.doc.createElement("break")
+			elif startswith(line, "continue"):
+				node = self.doc.createElement("continue")
 			else:
 				# Is it a function call?
 				node = self.parseExpr(line)
