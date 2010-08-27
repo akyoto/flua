@@ -43,6 +43,9 @@ class LanguageBPC(ProgrammingLanguage):
 		self.nextLineIndented = False
 		self.currentNode = None
 		
+		self.inFunction = False
+		self.inClass = False
+		
 		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
         
@@ -187,6 +190,11 @@ class LanguageBPC(ProgrammingLanguage):
 						atTab = lastTabCount
 						while atTab > tabCount:
 							if self.currentNode.tagName == "code":
+								# TODO: Leaving function
+								#print("XYZ: " + self.currentNode.parentNode.tagName)
+								#if self.currentNode.parentNode.tagName == "function":
+								#	print("LEFT FUNCTION")
+								#	self.inFunction = False
 								self.currentNode = self.currentNode.parentNode.parentNode
 								if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
 									self.currentNode = self.currentNode.parentNode
@@ -304,6 +312,10 @@ class LanguageBPC(ProgrammingLanguage):
 						funcName = line
 					raise CompilerException("Invalid function name '" + funcName + "'")
 				
+				if self.inFunction and funcName == "init":
+					self.currentNode.parentNode.tagName = "class"
+					self.inClass = True
+				
 				node = self.doc.createElement("function")
 				
 				nameNode = self.doc.createElement("name")
@@ -312,6 +324,9 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				node.appendChild(nameNode)
 				node.appendChild(codeNode)
+				
+				self.inFunction = True
+				print("ENTERED FUNCTION")
 		else:
 			if startswith(line, "import"):
 				node = self.doc.createElement("import")

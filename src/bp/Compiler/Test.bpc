@@ -1,4 +1,5 @@
 myFunc
-	print x
 	init
 		print y
+	
+
