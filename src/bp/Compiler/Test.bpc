@@ -1,5 +1,5 @@
 myFunc
 	init
+		print x
+	meth
 		print y
-	
-

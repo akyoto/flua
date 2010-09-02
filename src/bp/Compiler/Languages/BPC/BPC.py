@@ -141,7 +141,7 @@ class LanguageBPC(ProgrammingLanguage):
 		return tabCount
 		
 	def compileCodeToXML(self, code):
-		lines = code.split('\n')
+		lines = code.split('\n') + ["__bp__EOM"]
 		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
 		self.initExprParser()
 		
@@ -167,6 +167,17 @@ class LanguageBPC(ProgrammingLanguage):
 					
 					line = self.removeStrings(line)
 					line = self.removeComments(line)
+					
+					# Function leaving
+					if tabCount < lastTabCount:
+						if self.currentNode.tagName == "code":
+							if self.currentNode.parentNode.tagName == "function":
+								print("LEFT FUNCTION")
+								self.inFunction = False
+							elif self.currentNode.parentNode.tagName == "class":
+								print("LEFT CLASS")
+								self.inClass = False
+					
 					node = self.parseLine(line)
 					
 					#===============================================================
@@ -190,11 +201,6 @@ class LanguageBPC(ProgrammingLanguage):
 						atTab = lastTabCount
 						while atTab > tabCount:
 							if self.currentNode.tagName == "code":
-								# TODO: Leaving function
-								#print("XYZ: " + self.currentNode.parentNode.tagName)
-								#if self.currentNode.parentNode.tagName == "function":
-								#	print("LEFT FUNCTION")
-								#	self.inFunction = False
 								self.currentNode = self.currentNode.parentNode.parentNode
 								if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
 									self.currentNode = self.currentNode.parentNode
@@ -208,7 +214,8 @@ class LanguageBPC(ProgrammingLanguage):
 					
 					# Check
 					if node.nodeType == Node.TEXT_NODE:
-						pass
+						if node.nodeValue == "__bp__EOM":
+							self.currentNode.removeChild(node)
 					elif (node.tagName == "else-if" or node.tagName == "else") and self.currentNode.tagName != "if-block":
 						raise CompilerException("#elif and #else can only appear in an #if block")
 					
@@ -315,6 +322,7 @@ class LanguageBPC(ProgrammingLanguage):
 				if self.inFunction and funcName == "init":
 					self.currentNode.parentNode.tagName = "class"
 					self.inClass = True
+					print("ENTERED CLASS")
 				
 				node = self.doc.createElement("function")
 				
@@ -373,7 +381,6 @@ class LanguageBPC(ProgrammingLanguage):
 		lineLen = len(line)
 		print("Len: " + str(lineLen))
 		for i in range(lineLen):
-			print(i)
 			if line[i] == ' ':
 				funcName = line[:i]
 				print("Func: " + funcName)
