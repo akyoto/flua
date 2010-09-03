@@ -1,4 +1,5 @@
 Block:
+ - class
  - if
  - elif
  - else

@@ -46,7 +46,7 @@ class LanguageBPC(ProgrammingLanguage):
 		self.inFunction = False
 		self.inClass = False
 		
-		self.keywordsBlock = ["if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
+		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
         
 	def initExprParser(self):
@@ -172,7 +172,7 @@ class LanguageBPC(ProgrammingLanguage):
 					if tabCount < lastTabCount:
 						if self.currentNode.tagName == "code":
 							if self.currentNode.parentNode.tagName == "function":
-								print("LEFT FUNCTION")
+								print("LEFT FUNCTION: " + str(self.currentNode.parentNode.firstChild.firstChild.nodeValue))
 								self.inFunction = False
 							elif self.currentNode.parentNode.tagName == "class":
 								print("LEFT CLASS")
@@ -193,6 +193,11 @@ class LanguageBPC(ProgrammingLanguage):
 						self.currentNode = lastNode
 						
 						codeTags = self.currentNode.getElementsByTagName("code")
+						if not codeTags:
+							codeTags = self.currentNode.getElementsByTagName("public")
+						if not codeTags:
+							codeTags = self.currentNode.getElementsByTagName("private")
+						
 						if codeTags:
 							self.currentNode = codeTags[0]
 						
@@ -200,7 +205,7 @@ class LanguageBPC(ProgrammingLanguage):
 					elif tabCount < lastTabCount:
 						atTab = lastTabCount
 						while atTab > tabCount:
-							if self.currentNode.tagName == "code":
+							if self.currentNode.tagName == "code" or self.currentNode.tagName == "public" or self.currentNode.tagName == "private":
 								self.currentNode = self.currentNode.parentNode.parentNode
 								if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
 									self.currentNode = self.currentNode.parentNode
@@ -298,9 +303,23 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				node.appendChild(condition)
 				node.appendChild(code)
-			else:
-				# TODO: Check for other block types: Classes, functions, ...
+			elif startswith(line, "class"):
+				className = line[len("class")+1:]
+				print("CLASS: " + className)
 				
+				node = self.doc.createElement("class")
+				
+				nameNode = self.doc.createElement("name")
+				nameNode.appendChild(self.doc.createTextNode(className))
+				publicNode = self.doc.createElement("public")
+				privateNode = self.doc.createElement("private")
+				
+				node.appendChild(nameNode)
+				node.appendChild(publicNode)
+				node.appendChild(privateNode)
+				
+				self.inClass = True
+			else:
 				# Check for function
 				funcName = ""
 				pos = 0
@@ -319,11 +338,6 @@ class LanguageBPC(ProgrammingLanguage):
 						funcName = line
 					raise CompilerException("Invalid function name '" + funcName + "'")
 				
-				if self.inFunction and funcName == "init":
-					self.currentNode.parentNode.tagName = "class"
-					self.inClass = True
-					print("ENTERED CLASS")
-				
 				node = self.doc.createElement("function")
 				
 				nameNode = self.doc.createElement("name")
@@ -334,7 +348,7 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(codeNode)
 				
 				self.inFunction = True
-				print("ENTERED FUNCTION")
+				print("ENTERED FUNCTION: " + funcName)
 		else:
 			if startswith(line, "import"):
 				node = self.doc.createElement("import")

@@ -2,7 +2,7 @@
 # Singleton class
 ################################################################
 
-Singleton
+class Singleton
 	public
 		singleton
 			static
@@ -16,7 +16,7 @@ Singleton
 # Singleton.init is private => ResourceManager is a Singleton
 ################################################################
 
-ResourceManager : Singleton
+class ResourceManager : Singleton
 	
 	init
 		...

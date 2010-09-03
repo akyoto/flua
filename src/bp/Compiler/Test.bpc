@@ -1,5 +1,6 @@
-myFunc
+class myFunc
 	init
 		print x
 	meth
 		print y
+print z
