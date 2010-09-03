@@ -153,6 +153,10 @@ class LanguageBPC(ProgrammingLanguage):
 		try:
 			for lineIndex in range(0, len(lines)):
 				line = lines[lineIndex].rstrip()
+				
+				#if lineIndex + 1 < len(lines) and len(lines[lineIndex+1].strip()) == 0:
+				#	lines[lineIndex] = ""
+				
 				if line:
 					tabCount = self.countTabs(line)
 					
@@ -201,7 +205,8 @@ class LanguageBPC(ProgrammingLanguage):
 						if codeTags:
 							self.currentNode = codeTags[0]
 						
-						self.currentNode.appendChild(node)
+						if node is not None:
+							self.currentNode.appendChild(node)
 					elif tabCount < lastTabCount:
 						atTab = lastTabCount
 						while atTab > tabCount:
@@ -213,16 +218,19 @@ class LanguageBPC(ProgrammingLanguage):
 								self.currentNode = self.currentNode.parentNode
 							atTab -= 1
 						
-						self.currentNode.appendChild(node)
+						if node is not None:
+							self.currentNode.appendChild(node)
 					else:
-						self.currentNode.appendChild(node)
+						if node is not None:
+							self.currentNode.appendChild(node)
 					
 					# Check
-					if node.nodeType == Node.TEXT_NODE:
-						if node.nodeValue == "__bp__EOM":
-							self.currentNode.removeChild(node)
-					elif (node.tagName == "else-if" or node.tagName == "else") and self.currentNode.tagName != "if-block":
-						raise CompilerException("#elif and #else can only appear in an #if block")
+					if node is not None:
+						if node.nodeType == Node.TEXT_NODE:
+							if node.nodeValue == "__bp__EOM":
+								self.currentNode.removeChild(node)
+						elif (node.tagName == "else-if" or node.tagName == "else") and self.currentNode.tagName != "if-block":
+							raise CompilerException("#elif and #else can only appear in an #if block")
 					
 					lastTabCount = tabCount
 					lastNode = node
@@ -342,6 +350,9 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				node = self.doc.createElement("function")
 				
+				params = self.parseExpr(line[len(funcName)+1:])
+				print(params.toprettyxml())
+				
 				nameNode = self.doc.createElement("name")
 				nameNode.appendChild(self.doc.createTextNode(funcName))
 				codeNode = self.doc.createElement("code")
@@ -351,7 +362,9 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				self.inFunction = True
 		else:
-			if startswith(line, "import"):
+			if line == "...":
+				node = None
+			elif startswith(line, "import"):
 				node = self.doc.createElement("import")
 				param = self.parseExpr(line[len("import")+1:])
 				if param.nodeValue or param.hasChildNodes():

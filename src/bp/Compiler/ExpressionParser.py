@@ -211,6 +211,8 @@ class ExpressionParser:
 		return node
 		
 	def buildXMLTree(self, expr):
+		print(" - buildXMLTree: " + expr)
+		
 		self.doc = parseString("<expr></expr>")
 		node = self.doc.documentElement
 		

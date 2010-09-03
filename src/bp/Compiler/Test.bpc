@@ -1,5 +1,8 @@
 class MyController
 	
+	init
+		...
+		
 	insert data
 		print data
 	
@@ -8,3 +11,6 @@ class MyController
 		
 	update id, data
 		print id, data
+		
+self.x(y)
+self.x = y
