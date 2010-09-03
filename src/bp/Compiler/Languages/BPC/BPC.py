@@ -161,7 +161,7 @@ class LanguageBPC(ProgrammingLanguage):
 						tabCountNextLine = self.countTabs(lines[lineIndex + 1])
 						if tabCountNextLine == tabCount + 1:
 							self.nextLineIndented = True
-							print("INDENT")
+							#print("INDENT")
 					
 					line = line.strip()
 					
@@ -338,6 +338,8 @@ class LanguageBPC(ProgrammingLanguage):
 						funcName = line
 					raise CompilerException("Invalid function name '" + funcName + "'")
 				
+				print("ENTERED FUNCTION: " + funcName)
+				
 				node = self.doc.createElement("function")
 				
 				nameNode = self.doc.createElement("name")
@@ -348,7 +350,6 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(codeNode)
 				
 				self.inFunction = True
-				print("ENTERED FUNCTION: " + funcName)
 		else:
 			if startswith(line, "import"):
 				node = self.doc.createElement("import")
@@ -390,16 +391,16 @@ class LanguageBPC(ProgrammingLanguage):
 	
 	# This function is only used for procedure calls
 	def getFunctionCallNode(self, line):
-		print("getFunctionCall " + line)
+		#print("getFunctionCall " + line)
 		line += " "
 		lineLen = len(line)
-		print("Len: " + str(lineLen))
+		#print("Len: " + str(lineLen))
 		for i in range(lineLen):
 			if line[i] == ' ':
 				funcName = line[:i]
-				print("Func: " + funcName)
+				#print("Func: " + funcName)
 				if self.functionExists(funcName):
-					print("FOUND!")
+					#print("FOUND!")
 					node = self.doc.createElement("call")
 					func = self.doc.createElement("function")
 					func.appendChild(self.doc.createTextNode(funcName))
@@ -425,16 +426,16 @@ class LanguageBPC(ProgrammingLanguage):
 						paramNode.appendChild(singleParamNode)
 					node.appendChild(paramNode)
 					
-					print("FUNC CALL")
+					print("FUNC CALL: " + funcName)
 					return node
 				elif funcName.find('.') is not -1:
-					print("OBJECT CALL")
+					print("OBJECT CALL: " + funcName)
 					return self.parser.buildXMLTree(funcName + "(" + line[i+1:] + ")")
 				elif self.keywordsBlock.__contains__(funcName):
-					print("OH NOES!")
+					#print("OH NOES!")
 					raise CompilerException("Keyword #" + funcName + " needs an indented block on the next line")
 				else:
-					print("NONE")
+					#print("NONE")
 					return None
 					
 			if not isVarChar(line[i]) and line[i] != '.':

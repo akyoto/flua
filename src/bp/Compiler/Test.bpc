@@ -1,6 +1,10 @@
-class myFunc
-	init
-		print x
-	meth
-		print y
-print z
+class MyController
+	
+	insert data
+		print data
+	
+	delete id
+		print id
+		
+	update id, data
+		print id, data

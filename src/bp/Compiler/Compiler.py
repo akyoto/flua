@@ -117,9 +117,9 @@ if __name__ == '__main__':
 		
 		compiler.addLanguage(BPC.LanguageBPC())
 		
-		print("---------")
+		print("----------")
 		print("BPC to XML")
-		print("---------")
+		print("----------")
 		start = time.clock()
 		
 		compiler.compileCodeToXMLFile("Test.bpc", "output.xml")

@@ -103,7 +103,7 @@ class ExpressionParser:
 		return False
 		
 	def buildOperation(self, expr):
-		print("buildOperation.dirty: " + expr)
+		#print("buildOperation.dirty: " + expr)
 		
 		bracketCounter = 0
 		i = len(expr)
@@ -120,12 +120,12 @@ class ExpressionParser:
 			
 			if bracketCounter == 0 and i == len(expr):
 				expr = expr[1:len(expr)-1]
-				print("NEW EXPR: " + expr)
+				#print("NEW EXPR: " + expr)
 				
 				# In order to continue the loop: Adjust i
 				i = len(expr)
 				
-		print("buildOperation.clean: " + expr)
+		#print("buildOperation.clean: " + expr)
 		
 		# Left operand
 		bracketCounter = 0
@@ -190,11 +190,11 @@ class ExpressionParser:
 		else:
 			rightOperandNode = self.doc.createTextNode(rightOperand)
 		
-		print("---")
-		print("OP: " + operator)
-		print(leftOperand)
-		print(rightOperand)
-		print("---")
+		#print("---")
+		#print("OP: " + operator)
+		#print(leftOperand)
+		#print(rightOperand)
+		#print("---")
 		
 		node = self.doc.createElement(opName)
 		lNode = self.doc.createElement("value")
@@ -227,7 +227,7 @@ class ExpressionParser:
 		
 		expr = " " + expr
 		expr = expr.replace(" not ", "!")
-		print("buildXMLTree: " + expr)
+		#print("buildXMLTree: " + expr)
 		
 		expr = self.buildCleanExpr(expr)
 		opNode = self.buildOperation(expr)
@@ -268,7 +268,7 @@ class ExpressionParser:
 					allParams.appendChild(thisParam)
 					node.appendChild(allParams)
 				elif params.nodeType == Node.ELEMENT_NODE:
-					print(params.tagName)
+					#print(params.tagName)
 					if params.tagName == "parameters":
 						for child in params:
 							node.appendChild(child.cloneNode(True))
@@ -308,7 +308,7 @@ class ExpressionParser:
 							allParams.appendChild(thisParam)
 							node.appendChild(allParams)
 						elif params.nodeType == Node.ELEMENT_NODE:
-							print(params.tagName)
+							#print(params.tagName)
 							if params.tagName == "parameters":
 								for child in params:
 									node.appendChild(child.cloneNode(True))
@@ -330,7 +330,7 @@ class ExpressionParser:
 	def buildCleanExpr(self, expr):
 		expr = expr.replace(" ", "")
 		
-		print("buildCleanExpr: " + expr)
+		#print("buildCleanExpr: " + expr)
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
@@ -381,33 +381,36 @@ class ExpressionParser:
 							
 							operandRight = expr[lastOccurence+op.textLen:end];
 							
-							print("  buildCleanExpr: " + operandLeft + " [" + op.text + "] " + operandRight)
+							#print("  buildCleanExpr: " + operandLeft + " [" + op.text + "] " + operandRight)
 							
 							# Bind
-							#=======================================================
-							print(expr)
-							if start >= 0:
-								print("START[" + str(start) + "]: " + expr[start])
-							else:
-								print("START: " + "OUT OF STRING")
-							
-							if end < len(expr):
-								print("END[" + str(end) + "]: " + expr[end])
-							else:
-								print("END: " + "OUT OF STRING")
-							#=======================================================
+							#===================================================
+							# #=======================================================
+							# print(expr)
+							# if start >= 0:
+							#	print("START[" + str(start) + "]: " + expr[start])
+							# else:
+							#	print("START: " + "OUT OF STRING")
+							# 
+							# if end < len(expr):
+							#	print("END[" + str(end) + "]: " + expr[end])
+							# else:
+							#	print("END: " + "OUT OF STRING")
+							# #=======================================================
+							#===================================================
 							
 							if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')) or op.text == "("):
 								if op.text != "(":
 									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
 								else:
 									expr = expr[:lastOccurence - len(operandLeft)] + "((" + operandLeft + ")#" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
-								print("EX.BINARY: " + expr)
+								#print("EX.BINARY: " + expr)
 							else:
-								print("EX.BINARY expression change denied: [" + op.text + "]")
+								pass
+								#print("EX.BINARY expression change denied: [" + op.text + "]")
 							
 						elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):
-							print("Unary check for operator [" + op.text + "]")
+							#print("Unary check for operator [" + op.text + "]")
 							#print("  Unary.lastOccurence: " + str(lastOccurence))
 							#print("  Unary.expr[lastOccurence - 1]: " + expr[lastOccurence - 1])
 							#print("  Unary.isVarChar(expr[lastOccurence - 1]): " + str(isVarChar(expr[lastOccurence - 1])))
@@ -431,16 +434,17 @@ class ExpressionParser:
 							
 							operandRight = expr[lastOccurence+op.textLen:end];
 							
-							print("[" + op.text + "] " + operandRight)
+							#print("[" + op.text + "] " + operandRight)
 							
 							start = lastOccurence - 1
 							
 							if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
 								expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
 								lastOccurence += 1
-								print("EX.UNARY: " + expr)
+								#print("EX.UNARY: " + expr)
 							else:
-								print("EX.UNARY expression change denied: [" + op.text + "]")
+								pass
+								#print("EX.UNARY expression change denied: [" + op.text + "]")
 						else:
 							# If a binary version does not exist it means the operator has been used incorrectly
 							if not self.similarOperatorExists(op):
