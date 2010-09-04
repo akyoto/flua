@@ -78,5 +78,13 @@ def getCleanName(stri):
 			result += char
 	return result
 
+def getNextNonWhitespacePos(stri, fromIndex):
+	striLen = len(stri)
+	while fromIndex < striLen and stri[fromIndex].isspace():
+		fromIndex += 1
+	if fromIndex == striLen:
+		return -1
+	return fromIndex
+
 def stripAll(path):
 	return stripExt(os.path.basename(path))

@@ -56,13 +56,15 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# 1: Function calls
 		operators = OperatorLevel()
-		operators.addOperator(Operator("(", "direct-call", Operator.BINARY))
+		operators.addOperator(Operator("(", "call.unused", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 2: Access
 		operators = OperatorLevel()
 		operators.addOperator(Operator(".", "access", Operator.BINARY))
+		operators.addOperator(Operator("[", "index.unused", Operator.BINARY))
 		operators.addOperator(Operator("#", "call", Operator.BINARY))
+		operators.addOperator(Operator("@", "index", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Loose pointer
@@ -351,7 +353,6 @@ class LanguageBPC(ProgrammingLanguage):
 				node = self.doc.createElement("function")
 				
 				params = self.parseExpr(line[len(funcName)+1:])
-				print(params.toprettyxml())
 				
 				nameNode = self.doc.createElement("name")
 				nameNode.appendChild(self.doc.createTextNode(funcName))
@@ -443,7 +444,16 @@ class LanguageBPC(ProgrammingLanguage):
 					return node
 				elif funcName.find('.') is not -1:
 					print("OBJECT CALL: " + funcName)
-					return self.parser.buildXMLTree(funcName + "(" + line[i+1:] + ")")
+
+					nextCharPos = getNextNonWhitespacePos(line, i)
+					if nextCharPos is not -1:
+						nextChar = line[nextCharPos]
+						if nextChar == '=':
+							return self.parser.buildXMLTree(funcName + line[i+1:])
+						else:
+							return self.parser.buildXMLTree(funcName + "(" + line[i+1:] + ")")
+					else:
+						return self.parser.buildXMLTree(funcName)
 				elif self.keywordsBlock.__contains__(funcName):
 					#print("OH NOES!")
 					raise CompilerException("Keyword #" + funcName + " needs an indented block on the next line")

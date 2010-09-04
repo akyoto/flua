@@ -1,16 +1,16 @@
-class MyController
-	
-	init
-		...
-		
-	insert data
-		print data
-	
-	delete id
-		print id
-		
-	update id, data
-		print id, data
-		
-self.x(y)
-self.x = y
+#class MyController
+#	
+#	init
+#		...
+#		
+#	insert data
+#		print data
+#	
+#	delete id
+#		print id
+#		
+#	update id, data
+#		print id, data
+
+print x(42)
+print r[21]
