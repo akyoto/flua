@@ -151,7 +151,7 @@ class ExpressionParser:
 							# Right operand
 							end = lastOccurence + op.textLen
 							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
-								if op.text == '(' or (expr[end] == '(' and end == lastOccurence + 1):
+								if op.text == '[' or op.text == '(' or (expr[end] == '(' and end == lastOccurence + 1):
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
@@ -159,9 +159,9 @@ class ExpressionParser:
 								# Move to last part of the bracket
 								while bracketCounter > 0 and end < len(expr)-1:
 									end += 1
-									if expr[end] == '(':
+									if expr[end] == '(' or expr[end] == '[':
 										bracketCounter += 1
-									elif expr[end] == ')':
+									elif expr[end] == ')' or expr[end] == ']':
 										bracketCounter -= 1
 										if bracketCounter == 0:
 											end -= 1
@@ -169,7 +169,7 @@ class ExpressionParser:
 							
 							operandRight = expr[lastOccurence + op.textLen:end];
 							
-							print(self.getDebugPrefix() + " * buildCleanExpr: " + operandLeft + " [" + op.text + "] " + operandRight)
+							print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
 							
 							# Bind
 							#===================================================

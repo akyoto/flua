@@ -12,5 +12,4 @@
 #	update id, data
 #		print id, data
 
-print x(42)
-print r[21]
+x[42, 43]
