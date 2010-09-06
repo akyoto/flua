@@ -12,4 +12,4 @@
 #	update id, data
 #		print id, data
 
-x[42, 43]
+a = b(2+3)
