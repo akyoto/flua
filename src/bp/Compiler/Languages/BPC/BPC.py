@@ -364,6 +364,7 @@ class LanguageBPC(ProgrammingLanguage):
 				codeNode = self.doc.createElement("code")
 				
 				node.appendChild(nameNode)
+				node.appendChild(self.parser.getParametersNode(params))
 				node.appendChild(codeNode)
 				
 				self.inFunction = True

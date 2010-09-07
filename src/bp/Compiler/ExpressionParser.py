@@ -1,10 +1,7 @@
 ####################################################################
 # Header
 ####################################################################
-# Blitzprog Compiler
-# 
-# Website: www.blitzprog.de
-# Started: 19.07.2008 (Sat, Jul 19 2008)
+# Expression parser
 
 ####################################################################
 # License
@@ -423,30 +420,7 @@ class ExpressionParser:
 			elif node.tagName == "call":
 				node.firstChild.tagName = "function"
 				params = node.childNodes[1].firstChild.cloneNode(True)
-				if params.nodeType == Node.TEXT_NODE and params.nodeValue:
-					allParams = self.doc.createElement("parameters")
-					thisParam = self.doc.createElement("parameter")
-					
-					thisParam.appendChild(params)
-					allParams.appendChild(thisParam)
-					node.appendChild(allParams)
-				elif params.nodeType == Node.ELEMENT_NODE:
-					#print(params.tagName)
-					
-					# Multiple parameters
-					if params.tagName == "separate":
-						node.appendChild(params)
-					# Single parameter (needs to be enclosed by parameter tags)
-					else:
-						allParams = self.doc.createElement("parameters")
-						param = self.doc.createElement("parameter")
-						param.appendChild(params.cloneNode(True))
-						allParams.appendChild(param)
-						node.appendChild(allParams)
-				else:
-					#allParams = self.doc.createElement("parameters")
-					#node.appendChild(allParams)
-					pass
+				node.appendChild(self.getParametersNode(params))
 				node.removeChild(node.childNodes[1])
 				
 				# Clean up whitespaces
@@ -469,24 +443,7 @@ class ExpressionParser:
 						node.childNodes[2].tagName = "parameters"
 						
 						params = node.childNodes[2].firstChild.cloneNode(True)
-						if params.nodeType == Node.TEXT_NODE and params.nodeValue:
-							allParams = self.doc.createElement("parameters")
-							thisParam = self.doc.createElement("parameter")
-							
-							thisParam.appendChild(params)
-							allParams.appendChild(thisParam)
-							node.appendChild(allParams)
-						elif params.nodeType == Node.ELEMENT_NODE:
-							#print(params.tagName)
-							if params.tagName == "parameters":
-								for child in params:
-									node.appendChild(child.cloneNode(True))
-							else:
-								node.appendChild(params)
-						else:
-							#allParams = self.doc.createElement("parameters")
-							#node.appendChild(allParams)
-							pass
+						node.appendChild(self.getParametersNode(params))
 						node.removeChild(node.childNodes[2])
 				except AttributeError:
 					pass
@@ -496,6 +453,33 @@ class ExpressionParser:
 		# Recursive
 		for child in node.childNodes:
 			self.adjustXMLTree(child)
+
+	# Helper function
+	def getParametersNode(self, params):
+		# Text
+		if params.nodeType == Node.TEXT_NODE and params.nodeValue:
+			allParams = self.doc.createElement("parameters")
+			thisParam = self.doc.createElement("parameter")
+			
+			thisParam.appendChild(params)
+			allParams.appendChild(thisParam)
+			return allParams
+		# Elements
+		elif params.nodeType == Node.ELEMENT_NODE:
+			# Multiple parameters
+			if params.tagName == "separate" or params.tagName == "parameters":
+				return params
+			# Single parameter (needs to be enclosed by parameter tags)
+			else:
+				allParams = self.doc.createElement("parameters")
+				param = self.doc.createElement("parameter")
+				param.appendChild(params.cloneNode(True))
+				allParams.appendChild(param)
+				return allParams
+		# Exception
+		else:
+			# Empty text
+			return self.doc.createElement("parameters")
 
 ####################################################################
 # Main
