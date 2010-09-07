@@ -195,7 +195,7 @@ class LanguageBPC(ProgrammingLanguage):
 					#===============================================================
 					
 					# Block
-					if node is not None:
+					if (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != ""):
 						if tabCount > lastTabCount:
 							self.currentNode = lastNode
 							
