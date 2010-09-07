@@ -164,7 +164,10 @@ class ExpressionParser:
 									elif expr[end] == ')' or expr[end] == ']':
 										bracketCounter -= 1
 										print(bracketCounter)
-										if bracketCounter == 0: # and expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
+										if bracketCounter == 1 and op.text != '[' and op.text != '(':
+											end -= 1
+											bracketCounter = 0
+										elif bracketCounter == 0: # and expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
 											end -= 2
 									end += 1
 								end += 1
@@ -429,11 +432,17 @@ class ExpressionParser:
 					node.appendChild(allParams)
 				elif params.nodeType == Node.ELEMENT_NODE:
 					#print(params.tagName)
-					if params.tagName == "parameters":
-						for child in params:
-							node.appendChild(child.cloneNode(True))
-					else:
+					
+					# Multiple parameters
+					if params.tagName == "separate":
 						node.appendChild(params)
+					# Single parameter (needs to be enclosed by parameter tags)
+					else:
+						allParams = self.doc.createElement("parameters")
+						param = self.doc.createElement("parameter")
+						param.appendChild(params.cloneNode(True))
+						allParams.appendChild(param)
+						node.appendChild(allParams)
 				else:
 					#allParams = self.doc.createElement("parameters")
 					#node.appendChild(allParams)

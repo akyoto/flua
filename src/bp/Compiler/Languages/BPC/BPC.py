@@ -195,39 +195,37 @@ class LanguageBPC(ProgrammingLanguage):
 					#===============================================================
 					
 					# Block
-					if tabCount > lastTabCount:
-						self.currentNode = lastNode
-						
-						codeTags = self.currentNode.getElementsByTagName("code")
-						if not codeTags:
-							codeTags = self.currentNode.getElementsByTagName("public")
-						if not codeTags:
-							codeTags = self.currentNode.getElementsByTagName("private")
-						
-						if codeTags:
-							self.currentNode = codeTags[0]
-						
-						if node is not None:
-							self.currentNode.appendChild(node)
-					elif tabCount < lastTabCount:
-						atTab = lastTabCount
-						while atTab > tabCount:
-							if self.currentNode.tagName == "code" or self.currentNode.tagName == "public" or self.currentNode.tagName == "private":
-								self.currentNode = self.currentNode.parentNode.parentNode
-								if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
-									self.currentNode = self.currentNode.parentNode
-							else:
-								self.currentNode = self.currentNode.parentNode
-							atTab -= 1
-						
-						if node is not None:
-							self.currentNode.appendChild(node)
-					else:
-						if node is not None:
-							self.currentNode.appendChild(node)
-					
-					# Check
 					if node is not None:
+						if tabCount > lastTabCount:
+							self.currentNode = lastNode
+							
+							codeTags = self.currentNode.getElementsByTagName("code")
+							if not codeTags:
+								codeTags = self.currentNode.getElementsByTagName("public")
+							if not codeTags:
+								codeTags = self.currentNode.getElementsByTagName("private")
+							
+							if codeTags:
+								self.currentNode = codeTags[0]
+							
+							if node is not None:
+								self.currentNode.appendChild(node)
+						elif tabCount < lastTabCount:
+							atTab = lastTabCount
+							while atTab > tabCount:
+								if self.currentNode.tagName == "code" or self.currentNode.tagName == "public" or self.currentNode.tagName == "private":
+									self.currentNode = self.currentNode.parentNode.parentNode
+									if self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
+										self.currentNode = self.currentNode.parentNode
+								else:
+									self.currentNode = self.currentNode.parentNode
+								atTab -= 1
+							
+							self.currentNode.appendChild(node)
+						else:
+							self.currentNode.appendChild(node)
+						
+						# Check
 						if node.nodeType == Node.TEXT_NODE:
 							if node.nodeValue == "__bp__EOM":
 								self.currentNode.removeChild(node)

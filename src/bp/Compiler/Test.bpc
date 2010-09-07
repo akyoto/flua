@@ -12,4 +12,4 @@
 #	update id, data
 #		print id, data
 
-a = b(2+3)
+a = b((2), (a.x[5]))
