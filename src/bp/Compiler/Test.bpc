@@ -1,15 +1,15 @@
-#class MyController
-#	
-#	init
-#		...
-#		
-#	insert data
-#		print data
-#	
-#	delete id
-#		print id
-#		
-#	update id, data
-#		print id, data
+class MyController
+	
+	init
+		...
+	
+	insert data
+		print data
+	
+	delete id
+		print id
+		
+	update id, data
+		print id, data
 
-a = b((2), (a.x[5]))
+ctl = MyController()
