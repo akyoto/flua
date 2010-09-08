@@ -123,7 +123,7 @@ class ExpressionParser:
 				while lastOccurence is not -1:
 					if lastOccurence == len(expr) - 1:
 						raise CompilerException("Missing operand")
-					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(':
+					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(' or expr[lastOccurence + len(op.text)] == '[' or op.text == '[':
 						if op.type == Operator.BINARY:
 							# Left operand
 							start = lastOccurence - 1
@@ -210,8 +210,8 @@ class ExpressionParser:
 							
 							# Right operand
 							end = lastOccurence + op.textLen
-							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1)):
-								if expr[end] == '(' and end == lastOccurence + 1:
+							while end < len(expr) and (isVarChar(expr[end]) or ((expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1)):
+								if (expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1:
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
@@ -219,9 +219,9 @@ class ExpressionParser:
 								# Move to last part of the bracket
 								while bracketCounter > 0 and end < len(expr)-1:
 									end += 1
-									if expr[end] == '(':
+									if expr[end] == '(' or expr[end] == '[':
 										bracketCounter += 1
-									elif expr[end] == ')':
+									elif expr[end] == ')' or expr[end] == ']':
 										bracketCounter -= 1
 								end += 1
 							
@@ -242,7 +242,7 @@ class ExpressionParser:
 							# If a binary version does not exist it means the operator has been used incorrectly
 							if not self.similarOperatorExists(op):
 								raise CompilerException("Syntax error concerning the unary operator [" + op.text + "]")
-					elif expr[lastOccurence + len(op.text)] != '(':
+					elif expr[lastOccurence + len(op.text)] != '(' and expr[lastOccurence + len(op.text)] != '[':
 						if self.similarOperatorExists(op):
 							pass
 						else:

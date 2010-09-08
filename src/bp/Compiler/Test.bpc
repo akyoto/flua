@@ -12,4 +12,4 @@ class MyController
 	update id, data
 		print id, data
 
-a = x[3, 4].name
+a = !x[!3, !4]
