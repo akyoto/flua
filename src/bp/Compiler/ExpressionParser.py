@@ -117,137 +117,147 @@ class ExpressionParser:
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
-			# For every operator in the current level
-			for op in opLevel.operators:
-				lastOccurence = expr.find(op.text)
-				while lastOccurence is not -1:
-					if lastOccurence == len(expr) - 1:
-						raise CompilerException("Missing operand")
-					if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(' or expr[lastOccurence + len(op.text)] == '[' or op.text == '[':
-						if op.type == Operator.BINARY:
-							# Left operand
-							start = lastOccurence - 1
-							
-							while start >= 0 and (isVarChar(expr[start]) or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
-								if expr[start] == ')' or expr[start] == ']':
-									bracketCounter = 1
-								else:
-									bracketCounter = 0
+			i = 0
+			while i < len(expr):
+				# For every operator in the current level
+				for op in opLevel.operators:
+					if i < len(expr) - op.textLen and expr[i:i+op.textLen] == op.text:
+						lastOccurence = i
+					else:
+						lastOccurence = -1
+					
+					if lastOccurence is not -1:
+						if lastOccurence == len(expr) - 1:
+							raise CompilerException("Missing operand")
+						if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(' or expr[lastOccurence + len(op.text)] == '[' or op.text == '[':
+							if op.type == Operator.BINARY:
+								# Left operand
+								start = lastOccurence - 1
 								
-								# Move to last part of the bracket
-								while bracketCounter > 0 and start > 0:
-									start -= 1
+								while start >= 0 and (isVarChar(expr[start]) or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
 									if expr[start] == ')' or expr[start] == ']':
-										bracketCounter += 1
-									elif expr[start] == '(' or expr[start] == '[':
-										bracketCounter -= 1
-								start -= 1
-							
-							operandLeft = expr[start+1:lastOccurence];
-							
-							# Right operand
-							end = lastOccurence + op.textLen
-							while end < len(expr) and (isVarChar(expr[end]) or (expr[end] == '(' and end == lastOccurence + 1) or (expr[end] == '[' and end == lastOccurence + 1)):
+										bracketCounter = 1
+									else:
+										bracketCounter = 0
+									
+									# Move to last part of the bracket
+									while bracketCounter > 0 and start > 0:
+										start -= 1
+										if expr[start] == ')' or expr[start] == ']':
+											bracketCounter += 1
+										elif expr[start] == '(' or expr[start] == '[':
+											bracketCounter -= 1
+									start -= 1
+								
+								operandLeft = expr[start+1:lastOccurence];
+								
+								# Right operand
+								end = lastOccurence + op.textLen
+								
 								if op.text == '[' or op.text == '(' or (expr[end] == '(' and end == lastOccurence + 1) or (expr[end] == '[' and end == lastOccurence + 1):
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
 								
-								# Move to last part of the bracket
-								while bracketCounter > 0 and end < len(expr):
-									if expr[end] == '(' or expr[end] == '[':
-										bracketCounter += 1
-										print(bracketCounter)
-									elif expr[end] == ')' or expr[end] == ']':
-										bracketCounter -= 1
-										print(bracketCounter)
-										if bracketCounter == 1 and op.text != '[' and op.text != '(':
-											end -= 1
-											bracketCounter = 0
-										elif bracketCounter == 0: # and expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
-											end -= 2
+								while end < len(expr) and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + 1 and (expr[end] == '(' or expr[end] == '['))):
+									# Move to last part of the bracket
+									while bracketCounter > 0 and end < len(expr):
+										if expr[end] == '(' or expr[end] == '[':
+											bracketCounter += 1
+											print(bracketCounter)
+										elif expr[end] == ')' or expr[end] == ']':
+											bracketCounter -= 1
+											print(bracketCounter)
+											if bracketCounter == 1 and op.text != '[' and op.text != '(':
+												end -= 1
+												bracketCounter = 0
+											elif bracketCounter == 0: # and expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
+												end -= 2
+										end += 1
 									end += 1
-								end += 1
-							
-							operandRight = expr[lastOccurence + op.textLen:end];
-							
-							print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
-							
-							# Bind
-							#===================================================
-							# #=======================================================
-							# print(expr)
-							# if start >= 0:
-							#	print("START[" + str(start) + "]: " + expr[start])
-							# else:
-							#	print("START: " + "OUT OF STRING")
-							# 
-							# if end < len(expr):
-							#	print("END[" + str(end) + "]: " + expr[end])
-							# else:
-							#	print("END: " + "OUT OF STRING")
-							# #=======================================================
-							#===================================================
-							
-							if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')) or op.text == "("):
-								if op.text == "(":
-									newOpText = "#"
-									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
-								elif op.text == "[":
-									newOpText = "@"
-									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
-								else:
-									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
-								print(self.getDebugPrefix() + "    * Expression changed: " + expr)
-							else:
-								print(self.getDebugPrefix() + "    * Expression change denied for operator: [" + op.text + "]")
-							
-						elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):
-							#print("Unary check for operator [" + op.text + "]")
-							#print("  Unary.lastOccurence: " + str(lastOccurence))
-							#print("  Unary.expr[lastOccurence - 1]: " + expr[lastOccurence - 1])
-							#print("  Unary.isVarChar(expr[lastOccurence - 1]): " + str(isVarChar(expr[lastOccurence - 1])))
-							
-							# Right operand
-							end = lastOccurence + op.textLen
-							while end < len(expr) and (isVarChar(expr[end]) or ((expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1)):
-								if (expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1:
-									bracketCounter = 1
-								else:
-									bracketCounter = 0
 								
-								# Move to last part of the bracket
-								while bracketCounter > 0 and end < len(expr)-1:
+								operandRight = expr[lastOccurence + op.textLen:end];
+								
+								print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
+								
+								# Bind
+								#===================================================
+								# #=======================================================
+								# print(expr)
+								# if start >= 0:
+								#	print("START[" + str(start) + "]: " + expr[start])
+								# else:
+								#	print("START: " + "OUT OF STRING")
+								# 
+								# if end < len(expr):
+								#	print("END[" + str(end) + "]: " + expr[end])
+								# else:
+								#	print("END: " + "OUT OF STRING")
+								# #=======================================================
+								#===================================================
+								
+								if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')) or op.text == "("):
+									if op.text == "(":
+										newOpText = "#"
+										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
+									elif op.text == "[":
+										newOpText = "@"
+										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
+									else:
+										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+									print(self.getDebugPrefix() + "    * Expression changed: " + expr)
+								else:
+									print(self.getDebugPrefix() + "    * Expression change denied for operator: [" + op.text + "]")
+								
+							elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):
+								#print("Unary check for operator [" + op.text + "]")
+								#print("  Unary.lastOccurence: " + str(lastOccurence))
+								#print("  Unary.expr[lastOccurence - 1]: " + expr[lastOccurence - 1])
+								#print("  Unary.isVarChar(expr[lastOccurence - 1]): " + str(isVarChar(expr[lastOccurence - 1])))
+								
+								# Right operand
+								end = lastOccurence + op.textLen
+								while end < len(expr) and (isVarChar(expr[end]) or ((expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1)):
+									if (expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1:
+										bracketCounter = 1
+									else:
+										bracketCounter = 0
+									
+									# Move to last part of the bracket
+									while bracketCounter > 0 and end < len(expr)-1:
+										end += 1
+										if expr[end] == '(' or expr[end] == '[':
+											bracketCounter += 1
+										elif expr[end] == ')' or expr[end] == ']':
+											bracketCounter -= 1
 									end += 1
-									if expr[end] == '(' or expr[end] == '[':
-										bracketCounter += 1
-									elif expr[end] == ')' or expr[end] == ']':
-										bracketCounter -= 1
-								end += 1
-							
-							operandRight = expr[lastOccurence+op.textLen:end];
-							
-							#print("[" + op.text + "] " + operandRight)
-							
-							start = lastOccurence - 1
-							
-							if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
-								expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
-								lastOccurence += 1
-								#print("EX.UNARY: " + expr)
+								
+								operandRight = expr[lastOccurence+op.textLen:end];
+								
+								#print("[" + op.text + "] " + operandRight)
+								
+								start = lastOccurence - 1
+								
+								if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
+									expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+									lastOccurence += 1
+									#print("EX.UNARY: " + expr)
+								else:
+									pass
+									#print("EX.UNARY expression change denied: [" + op.text + "]")
 							else:
+								# If a binary version does not exist it means the operator has been used incorrectly
+								if not self.similarOperatorExists(op):
+									raise CompilerException("Syntax error concerning the unary operator [" + op.text + "]")
+						elif expr[lastOccurence + len(op.text)] != '(' and expr[lastOccurence + len(op.text)] != '[':
+							if self.similarOperatorExists(op):
 								pass
-								#print("EX.UNARY expression change denied: [" + op.text + "]")
-						else:
-							# If a binary version does not exist it means the operator has been used incorrectly
-							if not self.similarOperatorExists(op):
-								raise CompilerException("Syntax error concerning the unary operator [" + op.text + "]")
-					elif expr[lastOccurence + len(op.text)] != '(' and expr[lastOccurence + len(op.text)] != '[':
-						if self.similarOperatorExists(op):
-							pass
-						else:
-							raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + len(op.text)] + "')")
-					lastOccurence = expr.find(op.text, lastOccurence + len(op.text))
+							else:
+								raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + len(op.text)] + "')")
+							#lastOccurence = expr.find(op.text, lastOccurence + len(op.text))
+						i += op.textLen
+				else:
+					i += 1
 		
 		self.recursionLevel -= 1
 		return expr
