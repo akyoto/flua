@@ -128,8 +128,8 @@ class ExpressionParser:
 							# Left operand
 							start = lastOccurence - 1
 							
-							while start >= 0 and (isVarChar(expr[start]) or (expr[start] == ')' and start == lastOccurence - 1)):
-								if expr[start] == ')':
+							while start >= 0 and (isVarChar(expr[start]) or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
+								if expr[start] == ')' or expr[start] == ']':
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
@@ -137,9 +137,9 @@ class ExpressionParser:
 								# Move to last part of the bracket
 								while bracketCounter > 0 and start > 0:
 									start -= 1
-									if expr[start] == ')':
+									if expr[start] == ')' or expr[start] == ']':
 										bracketCounter += 1
-									elif expr[start] == '(':
+									elif expr[start] == '(' or expr[start] == '[':
 										bracketCounter -= 1
 								start -= 1
 							
@@ -200,7 +200,6 @@ class ExpressionParser:
 									expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
 								print(self.getDebugPrefix() + "    * Expression changed: " + expr)
 							else:
-								pass
 								print(self.getDebugPrefix() + "    * Expression change denied for operator: [" + op.text + "]")
 							
 						elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):

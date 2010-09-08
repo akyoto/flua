@@ -12,7 +12,4 @@ class MyController
 	update id, data
 		print id, data
 
-#ctl = MyController()
-#ctl.insert 5
-#ctl.delete 1
-#ctl.update 1, 4
+a = x[3, 4].name
