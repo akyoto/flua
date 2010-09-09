@@ -44,7 +44,6 @@ class LanguageBPC(ProgrammingLanguage):
 		self.currentNode = None
 		
 		self.inFunction = False
-		self.inClass = False
 		
 		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
@@ -92,8 +91,10 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# 8: GT, LT
 		operators = OperatorLevel()
-		operators.addOperator(Operator(">", "greater-than", Operator.BINARY))
-		operators.addOperator(Operator("<", "less-than", Operator.BINARY))
+		operators.addOperator(Operator(">=", "greater-or-equal", Operator.BINARY))
+		operators.addOperator(Operator(">", "greater", Operator.BINARY))
+		operators.addOperator(Operator("<=", "less-or-equal", Operator.BINARY))
+		operators.addOperator(Operator("<", "less", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 9: Comparison
@@ -134,6 +135,9 @@ class LanguageBPC(ProgrammingLanguage):
 		operators = OperatorLevel()
 		operators.addOperator(Operator(",", "separate", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
+		
+		# Classes
+		self.currentClass = self.parser.getClass("")
 		
 	def countTabs(self, line):
 		tabCount = 0
@@ -182,7 +186,7 @@ class LanguageBPC(ProgrammingLanguage):
 								self.inFunction = False
 							elif self.currentNode.parentNode.tagName == "class":
 								print("LEFT CLASS")
-								self.inClass = False
+								self.currentClass = self.parser.getClass("")
 					
 					node = self.parseLine(line)
 					
@@ -246,7 +250,13 @@ class LanguageBPC(ProgrammingLanguage):
 			raise e
 		except:
 			printTraceback()
-			
+		
+		print("Class Tree:")
+		for gClass in self.parser.getClassObjects():
+			print(" * " + gClass.getName())
+			for gFunc in gClass.methods.values():
+				print("    * " + gFunc.getName() + "(" + gFunc.getParametersString() + ")")
+		
 		return self.doc
 	
 	def functionExists(self, name):
@@ -321,6 +331,7 @@ class LanguageBPC(ProgrammingLanguage):
 			elif startswith(line, "class"):
 				className = line[len("class")+1:]
 				print("CLASS: " + className)
+				self.parser.addClass(className)
 				
 				node = self.doc.createElement("class")
 				
@@ -333,7 +344,7 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(publicNode)
 				node.appendChild(privateNode)
 				
-				self.inClass = True
+				self.currentClass = self.parser.getClass(className)
 			else:
 				# Check for function
 				funcName = ""
@@ -361,12 +372,14 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				nameNode = self.doc.createElement("name")
 				nameNode.appendChild(self.doc.createTextNode(funcName))
+				paramsNode = self.parser.getParametersNode(params)
 				codeNode = self.doc.createElement("code")
 				
 				node.appendChild(nameNode)
-				node.appendChild(self.parser.getParametersNode(params))
+				node.appendChild(paramsNode)
 				node.appendChild(codeNode)
 				
+				self.currentClass.addMethod(GenericFunction(funcName, paramsNode))
 				self.inFunction = True
 		else:
 			if line == "...":
@@ -478,6 +491,9 @@ class LanguageBPC(ProgrammingLanguage):
 		else:
 			node = self.parser.buildXMLTree(expr)
 			return node
+	
+	def isInClass(self):
+		return self.currentClass != self.parser.getClass("")
 	
 	def compileXMLToCode(self, code):
 		pass

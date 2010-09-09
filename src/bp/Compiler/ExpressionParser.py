@@ -32,6 +32,49 @@ from xml.dom.minidom import *
 ####################################################################
 # Classes
 ####################################################################
+allClasses = dict()
+
+class GenericClass:
+	
+	def __init__(self, name):
+		self.name = name
+		self.base = ""
+		self.methods = dict()
+		allClasses[self.name] = self
+		
+	def getName(self):
+		return self.name
+		
+	def setBaseClass(self, newBase):
+		self.base = newBase
+		
+	def addMethod(self, func):
+		self.methods[func.getName()] = func
+		
+class GenericFunction:
+	
+	def __init__(self, name, parameters):
+		self.name = name
+		self.params = parameters
+		
+	def getName(self):
+		return self.name
+	
+	def getParametersString(self):
+		txt = ""
+		for node in self.params.childNodes:
+			txt += getParameterFuncName(node)
+			defaultVal = getParameterDefaultValueNode(node)
+			if defaultVal:
+				txt += " = " + defaultVal.toxml()
+			
+			txt += ", "
+			
+		if txt:
+			return txt[:len(txt)-2]
+		else:
+			return ""
+
 class CompilerException(Exception):
 	
 	def __init__(self, value):
@@ -75,6 +118,19 @@ class ExpressionParser:
 		self.operatorLevels = []
 		self.recursionLevel = 0
 		self.doc = None
+		self.topClass = GenericClass("")
+		
+	def addClass(self, name):
+		GenericClass(name)
+		
+	def getClass(self, name):
+		return allClasses[name]
+		
+	def getClasses(self):
+		return allClasses.keys()
+	
+	def getClassObjects(self):
+		return allClasses.values()
 		
 	def compileError(self, error):
 		raise CompilerException(error)
@@ -427,7 +483,15 @@ class ExpressionParser:
 				for child in node.childNodes:
 					child.tagName = "parameter"
 			elif node.tagName == "call":
-				node.firstChild.tagName = "function"
+				# Object based method calls will be ignored for this test
+				directFuncName = node.firstChild.firstChild.nodeValue
+				if directFuncName:
+					if self.getClass(directFuncName):
+						node.tagName = "new"
+						node.firstChild.tagName = "type"
+					else:
+						node.firstChild.tagName = "function"
+				
 				params = node.childNodes[1].firstChild.cloneNode(True)
 				node.appendChild(self.getParametersNode(params))
 				node.removeChild(node.childNodes[1])
@@ -463,7 +527,7 @@ class ExpressionParser:
 		for child in node.childNodes:
 			self.adjustXMLTree(child)
 
-	# Helper function
+	# Helper methods
 	def getParametersNode(self, params):
 		# Text
 		if params.nodeType == Node.TEXT_NODE and params.nodeValue:
@@ -489,7 +553,24 @@ class ExpressionParser:
 		else:
 			# Empty text
 			return self.doc.createElement("parameters")
-
+		
+# Helper functions
+def getParameterFuncName(node):
+	if node.firstChild.nodeType == Node.TEXT_NODE:
+		return node.firstChild.nodeValue
+	elif node.firstChild.tagName == "assign":
+		return node.firstChild.firstChild.firstChild.nodeValue
+	else:
+		raise CompilerException("Invalid parameter initialization")
+	
+def getParameterDefaultValueNode(node):
+	if node.firstChild.nodeType == Node.TEXT_NODE:
+		return None
+	elif node.firstChild.tagName == "assign":
+		return node.firstChild.childNodes[1].firstChild
+	else:
+		raise CompilerException("Invalid parameter default value")
+		
 ####################################################################
 # Main
 ####################################################################

@@ -3,7 +3,7 @@ class MyController
 	init
 		...
 	
-	insert data
+	insert data = ""
 		print data
 	
 	delete id
@@ -12,4 +12,4 @@ class MyController
 	update id, data
 		print id, data
 
-a = a.x[2, 4].name
+a = MyController()
