@@ -42,6 +42,8 @@ class LanguageBPC(ProgrammingLanguage):
 		self.stringCount = 0
 		self.nextLineIndented = False
 		self.currentNode = None
+		self.lastNode = None
+		self.lastClassNode = None
 		
 		self.inFunction = False
 		
@@ -154,7 +156,7 @@ class LanguageBPC(ProgrammingLanguage):
 		root = self.doc.documentElement
 		lastTabCount = 0
 		self.currentNode = root.getElementsByTagName("code")[0]
-		lastNode = self.currentNode
+		self.lastNode = self.currentNode
 		
 		try:
 			for lineIndex in range(0, len(lines)):
@@ -187,6 +189,7 @@ class LanguageBPC(ProgrammingLanguage):
 							elif self.currentNode.parentNode.tagName == "class":
 								print("LEFT CLASS")
 								self.currentClass = self.parser.getClass("")
+								self.lastClassNode = None
 					
 					node = self.parseLine(line)
 					
@@ -205,7 +208,10 @@ class LanguageBPC(ProgrammingLanguage):
 						
 					# Block
 					if tabCount > lastTabCount:
-						self.currentNode = lastNode
+						self.parser.pushScope()
+						print("Scope level: " + str(len(self.parser.scopes)))
+						
+						self.currentNode = self.lastNode
 						
 						codeTags = self.currentNode.getElementsByTagName("code")
 						if not codeTags:
@@ -214,20 +220,25 @@ class LanguageBPC(ProgrammingLanguage):
 							codeTags = self.currentNode.getElementsByTagName("private")
 						
 						if codeTags:
-							self.currentNode = codeTags[0]
+							self.currentNode = codeTags[len(codeTags)-1]
 						
 						if nodeIsValid:
 							self.currentNode.appendChild(node)
+							
+						print("Current node: " + self.currentNode.tagName)
 					elif tabCount < lastTabCount:
 						atTab = lastTabCount
 						while atTab > tabCount:
-							if self.currentNode.tagName == "code" or self.currentNode.tagName == "public" or self.currentNode.tagName == "private":
+							if self.currentNode.tagName == "code": #or (self.currentNode.tagName == "public" or self.currentNode.tagName == "private"):
 								self.currentNode = self.currentNode.parentNode.parentNode
 								if (not isinstance(self.currentNode, Document)) and self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
 									self.currentNode = self.currentNode.parentNode
 							else:
 								self.currentNode = self.currentNode.parentNode
+							self.parser.popScope()
+							print("Scope level: " + str(len(self.parser.scopes)))
 							atTab -= 1
+							print("Current node: " + self.currentNode.tagName)
 						
 						if nodeIsValid:
 							self.currentNode.appendChild(node)
@@ -244,18 +255,24 @@ class LanguageBPC(ProgrammingLanguage):
 							raise CompilerException("#elif and #else can only appear in an #if block")
 					
 					lastTabCount = tabCount
-					lastNode = node
+					
+					if nodeIsValid:
+						self.lastNode = node
 		except CompilerException as e:
 			e.setLine(lineIndex + 1)
 			raise e
 		except:
 			printTraceback()
 		
+		print("------------------------------------------------------")
 		print("Class Tree:")
 		for gClass in self.parser.getClassObjects():
 			print(" * " + gClass.getName())
-			for gFunc in gClass.methods.values():
-				print("    * " + gFunc.getName() + "(" + gFunc.getParametersString() + ")")
+			
+			print("    * " + "Public:")
+			for gFunc in gClass.publicMethods.values():
+				print("       * " + gFunc.getName() + "(" + gFunc.getParametersString() + ")")
+		print("------------------------------------------------------")
 		
 		return self.doc
 	
@@ -273,7 +290,7 @@ class LanguageBPC(ProgrammingLanguage):
 					h += 1
 				# TODO: Add string to string list
 				#print("STRING: " + line[i:h+1])
-				identifier = "string_" + str(self.stringCount)
+				identifier = "_bp_string_" + str(self.stringCount)
 				line = line[:i] + identifier + line[h+1:]
 				self.stringCount += 1
 				i += len(identifier)
@@ -337,14 +354,19 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				nameNode = self.doc.createElement("name")
 				nameNode.appendChild(self.doc.createTextNode(className))
-				publicNode = self.doc.createElement("public")
-				privateNode = self.doc.createElement("private")
+				#publicNode = self.doc.createElement("public")
+				#privateNode = self.doc.createElement("private")
 				
 				node.appendChild(nameNode)
-				node.appendChild(publicNode)
-				node.appendChild(privateNode)
+				#node.appendChild(publicNode)
+				#node.appendChild(privateNode)
 				
 				self.currentClass = self.parser.getClass(className)
+				self.lastClassNode = node
+			elif startswith(line, "public"):
+				node = self.doc.createElement("public")
+			elif startswith(line, "private"):
+				node = self.doc.createElement("private")
 			else:
 				# Check for function
 				funcName = ""
@@ -379,7 +401,13 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(paramsNode)
 				node.appendChild(codeNode)
 				
-				self.currentClass.addMethod(GenericFunction(funcName, paramsNode))
+				#if self.currentNode.tagName == "public" or self.currentNode.tagName == "code":
+				#	self.currentClass.addPublicMethod(GenericFunction(funcName, paramsNode))
+				#elif self.currentNode.tagName == "private":
+				#	self.currentClass.addPrivateMethod(GenericFunction(funcName, paramsNode))
+				#else:
+				#	raise CompilerException("Functions can't be defined here")
+					
 				self.inFunction = True
 		else:
 			if line == "...":

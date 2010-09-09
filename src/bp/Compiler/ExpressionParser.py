@@ -39,7 +39,8 @@ class GenericClass:
 	def __init__(self, name):
 		self.name = name
 		self.base = ""
-		self.methods = dict()
+		self.publicMethods = dict()
+		self.privateMethods = dict()
 		allClasses[self.name] = self
 		
 	def getName(self):
@@ -48,8 +49,11 @@ class GenericClass:
 	def setBaseClass(self, newBase):
 		self.base = newBase
 		
-	def addMethod(self, func):
-		self.methods[func.getName()] = func
+	def addPublicMethod(self, func):
+		self.publicMethods[func.getName()] = func
+		
+	def addPrivateMethod(self, func):
+		self.privateMethods[func.getName()] = func
 		
 class GenericFunction:
 	
@@ -74,6 +78,17 @@ class GenericFunction:
 			return txt[:len(txt)-2]
 		else:
 			return ""
+
+class GenericVariable:
+	
+	def __init__(self, name, dataType):
+		self.name = name
+		self.dataType = dataType
+
+class GenericScope:
+	
+	def __init__(self):
+		self.variables = []
 
 class CompilerException(Exception):
 	
@@ -119,12 +134,23 @@ class ExpressionParser:
 		self.recursionLevel = 0
 		self.doc = None
 		self.topClass = GenericClass("")
+		self.scopes = []
+		
+	def pushScope(self):
+		self.scopes.append(GenericScope())
+		
+	def popScope(self):
+		return self.scopes.pop()
 		
 	def addClass(self, name):
-		GenericClass(name)
+		if not self.hasClass(name):
+			GenericClass(name)
 		
 	def getClass(self, name):
 		return allClasses[name]
+	
+	def hasClass(self, name):
+		return name in allClasses
 		
 	def getClasses(self):
 		return allClasses.keys()
@@ -220,10 +246,8 @@ class ExpressionParser:
 									while bracketCounter > 0 and end < len(expr):
 										if expr[end] == '(' or expr[end] == '[':
 											bracketCounter += 1
-											print(bracketCounter)
 										elif expr[end] == ')' or expr[end] == ']':
 											bracketCounter -= 1
-											print(bracketCounter)
 											if bracketCounter == 1 and op.text != '[' and op.text != '(':
 												end -= 1
 												bracketCounter = 0
