@@ -262,18 +262,18 @@ class LanguageBPC(ProgrammingLanguage):
 							self.currentNode.appendChild(node)
 							if node.nodeValue == "__bp__EOM":
 								self.currentNode.removeChild(node)
-						elif (node.tagName == "else-if" or node.tagName == "else"):
-							if len(self.currentNode.childNodes):
-								if self.getLastElementInCurrentNode().tagName != "if-block":
-									raise CompilerException("#elif and #else can only appear in an #if block")
-								else:
-									self.getLastElementInCurrentNode().appendChild(node)
-						elif (node.tagName == "catch"):
-							if len(self.currentNode.childNodes):
-								if self.getLastElementInCurrentNode().tagName != "try-block":
-									raise CompilerException("#catch can only appear in a #try block")
-								else:
-									self.getLastElementInCurrentNode().appendChild(node)
+						elif len(self.currentNode.childNodes) and (node.tagName == "else-if" or node.tagName == "else"):
+							if node.tagName == "else" and self.currentNode.tagName == "switch":
+								self.currentNode.appendChild(node)
+							elif self.getLastElementInCurrentNode().tagName != "if-block":
+								raise CompilerException("#elif and #else can only appear in an #if block (found in '" + self.getLastElementInCurrentNode().tagName + "' block)")
+							else:
+								self.getLastElementInCurrentNode().appendChild(node)
+						elif len(self.currentNode.childNodes) and (node.tagName == "catch"):
+							if self.getLastElementInCurrentNode().tagName != "try-block":
+								raise CompilerException("#catch can only appear in a #try block")
+							else:
+								self.getLastElementInCurrentNode().appendChild(node)
 						else:
 							self.currentNode.appendChild(node)
 						

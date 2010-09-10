@@ -104,7 +104,7 @@ class Compiler:
 					except CompilerException as e:
 						print("")
 						print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
-						#printTraceback()
+						printTraceback()
 			except ValueError:
 				pass
 

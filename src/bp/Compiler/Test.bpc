@@ -1,8 +1,10 @@
 switch x
 	"1", "4"
-		print 1
 		if a
 			print 1
+		else
+			print 2
+		print 2
 	"2"
 		print 2
 	else
