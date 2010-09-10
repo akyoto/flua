@@ -267,7 +267,6 @@ class ExpressionParser:
 								operandRight = expr[lastOccurence + op.textLen:end];
 								
 								print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
-								
 								# Bind
 								#===================================================
 								# #=======================================================
@@ -467,6 +466,10 @@ class ExpressionParser:
 			else:
 				print("Variable declaration: " + leftOperand)
 				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
+		
+		# Right operand missing
+		if len(rightOperand) == 0:
+			raise CompilerException("Operator [" + operator + "] expects a second operator")
 		
 		self.recursionLevel -= 1
 		

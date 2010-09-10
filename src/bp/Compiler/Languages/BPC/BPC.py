@@ -148,6 +148,9 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		return tabCount
 		
+	def getLastElementInCurrentNode(self):
+		return self.currentNode.childNodes[len(self.currentNode.childNodes)-1]
+		
 	def compileCodeToXML(self, code):
 		lines = code.split('\n') + ["__bp__EOM"]
 		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
@@ -247,25 +250,23 @@ class LanguageBPC(ProgrammingLanguage):
 					#===============================================================
 					
 					# Check node
-					nodeIsValid = False
 					if (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != ""):
-						nodeIsValid = True
-					
-					if nodeIsValid:
-						self.currentNode.appendChild(node)
-					
-					# Check
-					if nodeIsValid:
 						if node.nodeType == Node.TEXT_NODE:
+							self.currentNode.appendChild(node)
 							if node.nodeValue == "__bp__EOM":
 								self.currentNode.removeChild(node)
-						elif (node.tagName == "else-if" or node.tagName == "else") and self.currentNode.tagName != "if-block":
-							raise CompilerException("#elif and #else can only appear in an #if block")
+						elif (node.tagName == "else-if" or node.tagName == "else"):
+							if len(self.currentNode.childNodes) and self.getLastElementInCurrentNode().tagName != "if-block":
+								raise CompilerException("#elif and #else can only appear in an #if block")
+							else:
+								self.getLastElementInCurrentNode().appendChild(node)
+						else:
+							self.currentNode.appendChild(node)
+						
+						self.lastNode = node
 					
 					lastTabCount = tabCount
-					
-					if nodeIsValid:
-						self.lastNode = node
+						
 		except CompilerException as e:
 			e.setLine(lineIndex + 1)
 			raise e
@@ -357,6 +358,15 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				node.appendChild(condition)
 				node.appendChild(code)
+			elif startswith(line, "in"):
+				node = self.doc.createElement("in")
+				block = self.doc.createElement("block")
+				code = self.doc.createElement("code")
+				print("IN:")
+				block.appendChild(self.parseExpr(line[len("in")+1:]))
+				
+				node.appendChild(block)
+				node.appendChild(code)
 			elif startswith(line, "class"):
 				className = line[len("class")+1:]
 				print("CLASS: " + className)
@@ -377,6 +387,10 @@ class LanguageBPC(ProgrammingLanguage):
 				self.lastClassNode = node
 			elif startswith(line, "private"):
 				node = self.doc.createElement("private")
+			elif startswith(line, "try"):
+				node = self.doc.createElement("try")
+			elif startswith(line, "catch"):
+				node = self.doc.createElement("catch")
 			else:
 				# Check for function
 				funcName = ""

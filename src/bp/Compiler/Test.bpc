@@ -1,36 +1,12 @@
-sum a, b
-	return a + b
-
-class MyController
-	
-	init
-		...
-	
-	insert data = ""
-		print data
-
-	delete id
-		print id
-		
-	update id, data
-		print id, data
-	
-	private
-		getData id
-			return dataArray[id]
-			
-		getID data
-			return abc
-	
-	toString
-		return data
-
-a = MyController()
-
-if a
-	b = MyController()
-	print b
-y.x = 5
-a = b
-a = 5
-a = 3
+if x == 5
+	a = 5
+	if y == 5
+		print a
+		in z
+			print a
+		print z
+elif x == 3
+	b = 3
+else
+	c = 6
+d = 4
