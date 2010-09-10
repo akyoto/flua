@@ -47,7 +47,7 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		self.inFunction = False
 		
-		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch", "private"]
+		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "for", "while", "try", "catch", "private", "static"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
         
 	def initExprParser(self):
