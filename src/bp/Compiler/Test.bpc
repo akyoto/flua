@@ -2,7 +2,7 @@ switch x
 	"1", "4"
 		print 1
 		if a
-			print 2
+			print 1
 	"2"
 		print 2
 	else
