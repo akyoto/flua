@@ -216,7 +216,7 @@ class LanguageBPC(ProgrammingLanguage):
 						while atTab > tabCount:
 							if self.currentNode.tagName == "code": #or (self.currentNode.tagName == "public" or self.currentNode.tagName == "private"):
 								self.currentNode = self.currentNode.parentNode.parentNode
-								if (not isinstance(self.currentNode, Document)) and self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else":
+								if (not isinstance(self.currentNode, Document)) and (self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else") or (self.currentNode.tagName == "try-block" and node.tagName != "catch"):
 									self.currentNode = self.currentNode.parentNode
 							else:
 								self.currentNode = self.currentNode.parentNode
@@ -250,16 +250,23 @@ class LanguageBPC(ProgrammingLanguage):
 					#===============================================================
 					
 					# Check node
-					if (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != ""):
+					if nodeIsValid(node):
 						if node.nodeType == Node.TEXT_NODE:
 							self.currentNode.appendChild(node)
 							if node.nodeValue == "__bp__EOM":
 								self.currentNode.removeChild(node)
 						elif (node.tagName == "else-if" or node.tagName == "else"):
-							if len(self.currentNode.childNodes) and self.getLastElementInCurrentNode().tagName != "if-block":
-								raise CompilerException("#elif and #else can only appear in an #if block")
-							else:
-								self.getLastElementInCurrentNode().appendChild(node)
+							if len(self.currentNode.childNodes):
+								if self.getLastElementInCurrentNode().tagName != "if-block":
+									raise CompilerException("#elif and #else can only appear in an #if block")
+								else:
+									self.getLastElementInCurrentNode().appendChild(node)
+						elif (node.tagName == "catch"):
+							if len(self.currentNode.childNodes):
+								if self.getLastElementInCurrentNode().tagName != "try-block":
+									raise CompilerException("#catch can only appear in a #try block")
+								else:
+									self.getLastElementInCurrentNode().appendChild(node)
 						else:
 							self.currentNode.appendChild(node)
 						
@@ -388,9 +395,25 @@ class LanguageBPC(ProgrammingLanguage):
 			elif startswith(line, "private"):
 				node = self.doc.createElement("private")
 			elif startswith(line, "try"):
-				node = self.doc.createElement("try")
+				node = self.doc.createElement("try-block")
+				
+				tryNode = self.doc.createElement("try")
+				code = self.doc.createElement("code")
+				
+				tryNode.appendChild(code)
+				
+				node.appendChild(tryNode)
 			elif startswith(line, "catch"):
 				node = self.doc.createElement("catch")
+				exceptionType = self.doc.createElement("type")
+				code = self.doc.createElement("code")
+				
+				typeNode = self.parseExpr(line[len("catch")+1:])
+				if nodeIsValid(typeNode):
+					exceptionType.appendChild(typeNode)
+				
+				node.appendChild(exceptionType)
+				node.appendChild(code)
 			else:
 				# Check for function
 				funcName = ""
@@ -552,3 +575,7 @@ class LanguageBPC(ProgrammingLanguage):
 	
 	def getName(self):
 		return "BPC"
+	
+# Check whether node has some usable content
+def nodeIsValid(node):
+	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")

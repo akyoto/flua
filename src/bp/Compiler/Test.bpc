@@ -1,12 +1,7 @@
-if x == 5
-	a = 5
-	if y == 5
-		print a
-		in z
-			print a
-		print z
-elif x == 3
-	b = 3
-else
-	c = 6
-d = 4
+try
+	print a
+	print b
+catch
+	print c
+	print d
+print e
