@@ -217,8 +217,19 @@ class LanguageBPC(ProgrammingLanguage):
 									self.currentNode = self.currentNode.parentNode
 							else:
 								self.currentNode = self.currentNode.parentNode
-							self.parser.popScope()
+							
+							# Pop scope
+							scope = self.parser.popScope()
+							
+							if len(scope.variables.values()):
+								print("------------------------------------------------------")
+								print("Variables in this scope:")
+								for var in scope.variables.values():
+									print(" * " + var.getName())
+								print("------------------------------------------------------")
+							
 							print("Scope level: " + str(len(self.parser.scopes)))
+							
 							atTab -= 1
 							print("Current node: " + self.currentNode.tagName)
 					else:
@@ -401,6 +412,7 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(paramsNode)
 				node.appendChild(codeNode)
 				
+				# TODO: In the future there should be a isInPrivate flag
 				if self.currentNode.tagName == "private":
 					self.currentClass.addPrivateMethod(GenericFunction(funcName, paramsNode))
 				else:

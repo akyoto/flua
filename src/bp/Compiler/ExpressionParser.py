@@ -84,11 +84,20 @@ class GenericVariable:
 	def __init__(self, name, dataType):
 		self.name = name
 		self.dataType = dataType
+		
+	def getName(self):
+		return self.name
 
 class GenericScope:
 	
 	def __init__(self):
-		self.variables = []
+		self.variables = dict()
+		
+	def addVariable(self, var):
+		self.variables[var.getName()] = var
+		
+	def containsVariable(self, var):
+		return var in self.variables.keys()
 
 class CompilerException(Exception):
 	
@@ -135,12 +144,16 @@ class ExpressionParser:
 		self.doc = None
 		self.topClass = GenericClass("")
 		self.scopes = []
+		self.pushScope()
 		
 	def pushScope(self):
 		self.scopes.append(GenericScope())
 		
 	def popScope(self):
 		return self.scopes.pop()
+		
+	def getCurrentScope(self):
+		return self.scopes[len(self.scopes)-1]
 		
 	def addClass(self, name):
 		if not self.hasClass(name):
@@ -183,12 +196,7 @@ class ExpressionParser:
 		return False
 		
 	def getDebugPrefix(self):
-		debugPrefix = ""
-		i = 0
-		while i < self.recursionLevel:
-			debugPrefix += "   "
-			i += 1
-		return debugPrefix
+		return "   " * self.recursionLevel
 		
 	def buildCleanExpr(self, expr):
 		self.recursionLevel += 1
@@ -452,6 +460,13 @@ class ExpressionParser:
 		
 		lNode.appendChild(leftOperandNode)
 		rNode.appendChild(rightOperandNode)
+		
+		if operator == "=" and leftOperandNode.nodeType == Node.TEXT_NODE:
+			if self.getCurrentScope().containsVariable(leftOperand):
+				pass
+			else:
+				print("Variable declaration: " + leftOperand)
+				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
 		
 		self.recursionLevel -= 1
 		
