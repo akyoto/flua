@@ -196,8 +196,8 @@ class LanguageBPC(ProgrammingLanguage):
 								print("LEFT CLASS")
 								self.currentClass = self.parser.getClass("")
 								self.lastClassNode = None
-						elif self.currentNode.tagName == "case":
-							self.inCase = False
+							elif self.currentNode.parentNode.tagName == "case":
+								self.inCase = False
 						elif self.currentNode.tagName == "switch":
 							self.inSwitch = False
 					
@@ -352,6 +352,7 @@ class LanguageBPC(ProgrammingLanguage):
 				
 					node.appendChild(values)
 					node.appendChild(code)
+				self.inCase = True
 			elif startswith(line, "if"):
 				node = self.doc.createElement("if-block")
 				

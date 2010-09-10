@@ -569,7 +569,7 @@ class ExpressionParser:
 		# Recursive
 		for child in node.childNodes:
 			self.adjustXMLTree(child)
-
+	
 	# Helper methods
 	def getParametersNode(self, params):
 		# Text
