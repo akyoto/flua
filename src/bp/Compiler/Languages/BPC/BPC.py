@@ -46,6 +46,8 @@ class LanguageBPC(ProgrammingLanguage):
 		self.lastClassNode = None
 		
 		self.inFunction = False
+		self.inSwitch = False
+		self.inCase = False
 		
 		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "for", "while", "try", "catch", "private", "static"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
@@ -126,11 +128,12 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# 16: Assign
 		operators = OperatorLevel()
-		operators.addOperator(Operator("=", "assign", Operator.BINARY))
 		operators.addOperator(Operator("+=", "assign-add", Operator.BINARY))
 		operators.addOperator(Operator("-=", "assign-subtract", Operator.BINARY))
 		operators.addOperator(Operator("*=", "assign-multiply", Operator.BINARY))
 		operators.addOperator(Operator("/=", "assign-divide", Operator.BINARY))
+		#operators.addOperator(Operator("}=", "assign-each-in", Operator.BINARY))
+		operators.addOperator(Operator("=", "assign", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Comma
@@ -193,6 +196,10 @@ class LanguageBPC(ProgrammingLanguage):
 								print("LEFT CLASS")
 								self.currentClass = self.parser.getClass("")
 								self.lastClassNode = None
+						elif self.currentNode.tagName == "case":
+							self.inCase = False
+						elif self.currentNode.tagName == "switch":
+							self.inSwitch = False
 					
 					# Block
 					if tabCount > lastTabCount:
@@ -329,7 +336,23 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# Blocks
 		if self.nextLineIndented:
-			if startswith(line, "if"):
+			if self.inSwitch and not self.inCase:
+				if startswith(line, "else"):
+					node = self.doc.createElement("default-case")
+					code = self.doc.createElement("code")
+					node.appendChild(code)
+				else:
+					node = self.doc.createElement("case")
+					values = self.parser.getParametersNode(self.parseExpr(line))
+					code = self.doc.createElement("code")
+				
+					values.tagName = "values"
+					for value in values.childNodes:
+						value.tagName = "value"
+				
+					node.appendChild(values)
+					node.appendChild(code)
+			elif startswith(line, "if"):
 				node = self.doc.createElement("if-block")
 				
 				ifNode = self.doc.createElement("if")
@@ -394,6 +417,15 @@ class LanguageBPC(ProgrammingLanguage):
 				self.lastClassNode = node
 			elif startswith(line, "private"):
 				node = self.doc.createElement("private")
+			elif startswith(line, "switch"):
+				node = self.doc.createElement("switch")
+				value = self.doc.createElement("value")
+				print("SWITCH:")
+				value.appendChild(self.parseExpr(line[len("switch")+1:]))
+				
+				node.appendChild(value)
+				
+				self.inSwitch = True
 			elif startswith(line, "try"):
 				node = self.doc.createElement("try-block")
 				

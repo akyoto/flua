@@ -1,7 +1,8 @@
-try
-	print a
-	print b
-catch
-	print c
-	print d
-print e
+switch x
+	"1", "4"
+		print 1
+	"2"
+		print 2
+	else
+		print 3
+print 4

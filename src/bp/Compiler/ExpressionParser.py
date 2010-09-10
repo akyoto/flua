@@ -491,6 +491,7 @@ class ExpressionParser:
 		expr = expr.replace(" and ", " && ")
 		expr = expr.replace(" or ", " || ")
 		expr = expr.replace(" is ", " == ")
+		#expr = expr.replace(" in ", " }= ")
 		
 		expr = " " + expr
 		expr = expr.replace(" not ", "!")
