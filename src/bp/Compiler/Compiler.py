@@ -85,26 +85,7 @@ class Compiler:
 				if lang.extensions.index(ext) != -1:
 					print("Lang: " + lang.getName())
 					
-					with codecs.open(inFile, "r", "utf-8") as inStream:
-						code = inStream.read()
-					
-					root = None
-					
-					try:
-						root = self.compileCodeToXML(code, lang)
-						
-						if root is not None:
-							#root.write(outFile)
-							with open(outFile, "w") as outStream:
-								output = root.toprettyxml()
-								outStream.write(output)
-								print(output)
-						else:
-							print("Compiling process failed")
-					except CompilerException as e:
-						print("")
-						print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
-						printTraceback()
+					lang.compileFileToXML(inFile, outFile)
 			except ValueError:
 				pass
 
@@ -122,7 +103,7 @@ if __name__ == '__main__':
 		print("----------")
 		start = time.clock()
 		
-		compiler.compileCodeToXMLFile("Test.bpc", "output.xml")
+		compiler.compileCodeToXMLFile("Test.bpc", "")
 		
 		elapsedTime1 = time.clock() - start
 		

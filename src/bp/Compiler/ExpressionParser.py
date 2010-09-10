@@ -529,7 +529,7 @@ class ExpressionParser:
 				# Object based method calls will be ignored for this test
 				directFuncName = node.firstChild.firstChild.nodeValue
 				if directFuncName:
-					if self.getClass(directFuncName):
+					if self.hasClass(directFuncName):
 						node.tagName = "new"
 						node.firstChild.tagName = "type"
 					else:

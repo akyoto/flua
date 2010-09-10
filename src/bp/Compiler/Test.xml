@@ -1,125 +1,21 @@
+<?xml version="1.0" ?>
 <module>
 	<header>
-		<title>Test file</title>
-		<dependencies>
-			<import>BRL.Basic</import>
-			<import>BRL.PolledInput</import>
-			<import>BRL.Max2D</import>
-			<import>BRL.GLMax2D</import>
-		</dependencies>
+		<title/>
+		<dependencies/>
 	</header>
 	<code>
-		<class name="TTest">
-			<public>
-				<method name="sum">
-					<parameter>
-						<var name="a" datatype="Float">
-						</var>
-					</parameter>
-					<parameter>
-						<var name="b" datatype="Float">
-						</var>
-					</parameter>
-					<code>
-						<return>
-							<add>
-								<value>
-									a
-								</value>
-								<value>
-									b
-								</value>
-							</add>
-						</return>
-					</code>
-				</method>
-			</public>
-			<private></private>
+		<class>
+			<name>
+				x
+			</name>
+			<function>
+				<name>
+					init
+				</name>
+				<parameters/>
+				<code/>
+			</function>
 		</class>
-		<var name="myArray">
-			<new datatype="Array">
-				<parameter>
-					Int
-				</parameter>
-			</new>
-		</var>
-		<call function="sum">
-			<parameter>
-				3
-			</parameter>
-			<parameter>
-				4
-			</parameter>
-		</call>
-		<call function="Print">
-			<parameter>
-				"Hello World"
-			</parameter>
-		</call>
-		<call function="Graphics">
-			<parameter>
-				640
-			</parameter>
-			<parameter>
-				480
-			</parameter>
-		</call>
-		<while>
-	    	<condition>
-	    		<compare>
-	    			<value>
-	    				<call function="AppTerminate">
-						</call>
-	    			</value>
-	    			<value>
-	    				0
-	    			</value>
-	    		</compare>
-	    	</condition>
-	    	<code>
-	    		<call function="Cls">
-	    		</call>
-	    		<call function="Flip">
-	    		</call>
-	    	</code>
-	    </while>
-	    <call function="Print">
-			<parameter>
-				"End of program"
-			</parameter>
-		</call>
-		<call function="sum">
-			<object>
-				TTest
-			</object>
-			<parameter>
-				12
-			</parameter>
-			<parameter>
-				13
-			</parameter>
-		</call>
-		<function name="sum">
-			<parameter>
-				<var name="a">
-				</var>
-			</parameter>
-			<parameter>
-				<var name="b">
-				</var>
-			</parameter>
-			<code>
-				<return>
-					<add>
-						<value>
-							a
-						</value>
-						<value>
-							b
-						</value>
-					</add>
-				</return>
-			</code>
-		</function>
 	</code>
 </module>

@@ -35,6 +35,7 @@ from xml.dom.minidom import *
 # Classes
 ####################################################################
 class LanguageBPC(ProgrammingLanguage):
+	allFiles = dict()
 	
 	def __init__(self):
 		self.extensions = ["bpc"]
@@ -46,12 +47,12 @@ class LanguageBPC(ProgrammingLanguage):
 		self.lastClassNode = None
 		
 		self.inFunction = False
-		self.inSwitch = False
+		self.inSwitch = 0
 		self.inCase = False
 		
 		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "for", "while", "try", "catch", "private", "static"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
-        
+		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
@@ -154,6 +155,55 @@ class LanguageBPC(ProgrammingLanguage):
 	def getLastElementInCurrentNode(self):
 		return self.currentNode.childNodes[len(self.currentNode.childNodes)-1]
 		
+	def compileFileToXML(self, inFile, outFile):
+		if not outFile:
+			outFile = inFile.replace(".bpc", ".xml") #os.path.dirname(inFile) + "/" + os.path.basename(inFile) + ".xml"
+		
+		outFileAbsPath = os.path.abspath(outFile)
+		currentDir = fixPath(os.getcwd())
+		moveToDir = fixPath(os.path.dirname(outFileAbsPath))
+		inFileAbsPath = fixPath(os.path.abspath(inFile))
+		
+		if inFileAbsPath in LanguageBPC.allFiles:
+			return
+		else:
+			# Will be set to XML root later
+			LanguageBPC.allFiles[inFileAbsPath] = None
+			
+			print("------------------------------------------------------")
+			print("Importing:       " + inFileAbsPath)
+			print("Currently in:    " + currentDir)
+			print("Moving to:       " + moveToDir)
+			
+			os.chdir(moveToDir)
+			
+			with codecs.open(inFileAbsPath, "r", "utf-8") as inStream:
+				code = inStream.read()
+			
+			root = None
+			
+			try:
+				compilerInstance = LanguageBPC()
+				root = compilerInstance.compileCodeToXML(code)
+				
+				if root is not None:
+					# Set file in file list
+					LanguageBPC.allFiles[inFileAbsPath] = root
+					
+					# Write to file
+					with open(outFileAbsPath, "w") as outStream:
+						output = root.toprettyxml()
+						outStream.write(output)
+						print(output)
+				else:
+					print("Compiling process failed")
+			except CompilerException as e:
+				print("")
+				print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
+				printTraceback()
+			finally:
+				os.chdir(currentDir)
+				
 	def compileCodeToXML(self, code):
 		lines = code.split('\n') + ["__bp__EOM"]
 		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
@@ -199,7 +249,7 @@ class LanguageBPC(ProgrammingLanguage):
 							elif self.currentNode.parentNode.tagName == "case":
 								self.inCase = False
 						elif self.currentNode.tagName == "switch":
-							self.inSwitch = False
+							self.inSwitch -= 1
 					
 					# Block
 					if tabCount > lastTabCount:
@@ -336,7 +386,7 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		# Blocks
 		if self.nextLineIndented:
-			if self.inSwitch and not self.inCase:
+			if self.inSwitch > 0 and self.currentNode.tagName == "switch":
 				if startswith(line, "else"):
 					node = self.doc.createElement("default-case")
 					code = self.doc.createElement("code")
@@ -345,7 +395,7 @@ class LanguageBPC(ProgrammingLanguage):
 					node = self.doc.createElement("case")
 					values = self.parser.getParametersNode(self.parseExpr(line))
 					code = self.doc.createElement("code")
-				
+					
 					values.tagName = "values"
 					for value in values.childNodes:
 						value.tagName = "value"
@@ -426,7 +476,7 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				node.appendChild(value)
 				
-				self.inSwitch = True
+				self.inSwitch += 1
 			elif startswith(line, "try"):
 				node = self.doc.createElement("try-block")
 				
@@ -494,7 +544,13 @@ class LanguageBPC(ProgrammingLanguage):
 				node = None
 			elif startswith(line, "import"):
 				node = self.doc.createElement("import")
-				param = self.parseExpr(line[len("import")+1:])
+				dottedPath = line[len("import")+1:]
+				modPath = self.getRealModulePath(dottedPath)
+				
+				# Compile imported file
+				self.compileFileToXML(modPath, "")
+				
+				param = self.getImportNode(dottedPath)
 				if param.nodeValue or param.hasChildNodes():
 					node.appendChild(param)
 				else:
@@ -529,6 +585,12 @@ class LanguageBPC(ProgrammingLanguage):
 				if node is None:
 					raise CompilerException("Unknown command")
 		return node
+	
+	def getImportNode(self, path):
+		return self.doc.createTextNode(path)
+	
+	def getRealModulePath(self, dottedPath):
+		return dottedPath.replace(".", "/") + ".bpc"
 	
 	# This function is only used for procedure calls
 	def getFunctionCallNode(self, line):
