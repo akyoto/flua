@@ -47,7 +47,7 @@ class LanguageBPC(ProgrammingLanguage):
 		
 		self.inFunction = False
 		
-		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch"]
+		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "do", "for", "while", "try", "catch", "private"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
         
 	def initExprParser(self):
@@ -191,21 +191,6 @@ class LanguageBPC(ProgrammingLanguage):
 								self.currentClass = self.parser.getClass("")
 								self.lastClassNode = None
 					
-					node = self.parseLine(line)
-					
-					#===============================================================
-					# print("--------------------------")
-					# print("Line: [" + line + "]")
-					# print("Node: [" + node.tagName + "]")
-					# print(node.getElementsByTagName("code"))
-					# print("Current Node: [" + self.currentNode.parentNode.tagName + "." + self.currentNode.tagName + "]")
-					#===============================================================
-					
-					# Check node
-					nodeIsValid = False
-					if (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != ""):
-						nodeIsValid = True
-						
 					# Block
 					if tabCount > lastTabCount:
 						self.parser.pushScope()
@@ -222,9 +207,6 @@ class LanguageBPC(ProgrammingLanguage):
 						if codeTags:
 							self.currentNode = codeTags[len(codeTags)-1]
 						
-						if nodeIsValid:
-							self.currentNode.appendChild(node)
-							
 						print("Current node: " + self.currentNode.tagName)
 					elif tabCount < lastTabCount:
 						atTab = lastTabCount
@@ -239,12 +221,27 @@ class LanguageBPC(ProgrammingLanguage):
 							print("Scope level: " + str(len(self.parser.scopes)))
 							atTab -= 1
 							print("Current node: " + self.currentNode.tagName)
-						
-						if nodeIsValid:
-							self.currentNode.appendChild(node)
 					else:
-						if nodeIsValid:
-							self.currentNode.appendChild(node)
+						pass
+					
+					# Parse it
+					node = self.parseLine(line)
+					
+					#===============================================================
+					# print("--------------------------")
+					# print("Line: [" + line + "]")
+					# print("Node: [" + node.tagName + "]")
+					# print(node.getElementsByTagName("code"))
+					# print("Current Node: [" + self.currentNode.parentNode.tagName + "." + self.currentNode.tagName + "]")
+					#===============================================================
+					
+					# Check node
+					nodeIsValid = False
+					if (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != ""):
+						nodeIsValid = True
+					
+					if nodeIsValid:
+						self.currentNode.appendChild(node)
 					
 					# Check
 					if nodeIsValid:
@@ -271,6 +268,10 @@ class LanguageBPC(ProgrammingLanguage):
 			
 			print("    * " + "Public:")
 			for gFunc in gClass.publicMethods.values():
+				print("       * " + gFunc.getName() + "(" + gFunc.getParametersString() + ")")
+				
+			print("    * " + "Private:")
+			for gFunc in gClass.privateMethods.values():
 				print("       * " + gFunc.getName() + "(" + gFunc.getParametersString() + ")")
 		print("------------------------------------------------------")
 		
@@ -363,8 +364,6 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				self.currentClass = self.parser.getClass(className)
 				self.lastClassNode = node
-			elif startswith(line, "public"):
-				node = self.doc.createElement("public")
 			elif startswith(line, "private"):
 				node = self.doc.createElement("private")
 			else:
@@ -387,6 +386,7 @@ class LanguageBPC(ProgrammingLanguage):
 					raise CompilerException("Invalid function name '" + funcName + "'")
 				
 				print("ENTERED FUNCTION: " + funcName)
+				#print(" belongs to " + self.currentNode.tagName)
 				
 				node = self.doc.createElement("function")
 				
@@ -401,12 +401,10 @@ class LanguageBPC(ProgrammingLanguage):
 				node.appendChild(paramsNode)
 				node.appendChild(codeNode)
 				
-				#if self.currentNode.tagName == "public" or self.currentNode.tagName == "code":
-				#	self.currentClass.addPublicMethod(GenericFunction(funcName, paramsNode))
-				#elif self.currentNode.tagName == "private":
-				#	self.currentClass.addPrivateMethod(GenericFunction(funcName, paramsNode))
-				#else:
-				#	raise CompilerException("Functions can't be defined here")
+				if self.currentNode.tagName == "private":
+					self.currentClass.addPrivateMethod(GenericFunction(funcName, paramsNode))
+				else:
+					self.currentClass.addPublicMethod(GenericFunction(funcName, paramsNode))
 					
 				self.inFunction = True
 		else:

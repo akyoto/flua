@@ -2,18 +2,27 @@ sum a, b
 	return a + b
 
 class MyController
-	public
-		init
-			...
-		
-		insert data = ""
-			print data
 	
-	public
-		delete id
-			print id
+	init
+		...
+	
+	insert data = ""
+		print data
+
+	delete id
+		print id
+		
+	update id, data
+		print id, data
+	
+	private
+		getData id
+			return dataArray[id]
 			
-		update id, data
-			print id, data
+		getID data
+			return abc
+	
+	toString
+		return data
 
 a = MyController()
