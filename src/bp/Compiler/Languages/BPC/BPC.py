@@ -36,6 +36,7 @@ from xml.dom.minidom import *
 ####################################################################
 class LanguageBPC(ProgrammingLanguage):
 	allFiles = dict()
+	modDirectory = fixPath(os.path.abspath("../../")) + "/"
 	
 	def __init__(self):
 		self.extensions = ["bpc"]
@@ -171,7 +172,7 @@ class LanguageBPC(ProgrammingLanguage):
 			LanguageBPC.allFiles[inFileAbsPath] = None
 			
 			print("------------------------------------------------------")
-			print("Importing:       " + inFileAbsPath)
+			print("Compiling:       " + inFileAbsPath)
 			print("Currently in:    " + currentDir)
 			print("Moving to:       " + moveToDir)
 			
@@ -188,7 +189,7 @@ class LanguageBPC(ProgrammingLanguage):
 				
 				if root is not None:
 					# Set file in file list
-					LanguageBPC.allFiles[inFileAbsPath] = root
+					LanguageBPC.allFiles[inFileAbsPath] = compilerInstance
 					
 					# Write to file
 					with open(outFileAbsPath, "w") as outStream:
@@ -590,7 +591,28 @@ class LanguageBPC(ProgrammingLanguage):
 		return self.doc.createTextNode(path)
 	
 	def getRealModulePath(self, dottedPath):
-		return dottedPath.replace(".", "/") + ".bpc"
+		ext = ".bpc"
+		path = dottedPath.replace(".", "/")
+		
+		# Priority for module search:
+		# ########################### #
+		# 1. Local    # 4. Global     #
+		# ########################### #
+		# 2. File     # 5.  File      #
+		# 3. Dir      # 6.  Dir       #
+		
+		
+		# Local first (file first, directory afterwards)
+		if os.path.isfile(path + ext):
+			return path + ext
+		elif os.path.isdir(path):
+			return path + "/" + os.path.basename(path) + ext
+		elif os.path.isfile(LanguageBPC.modDirectory + path + ext):
+			return LanguageBPC.modDirectory + path + ext
+		elif os.path.isdir(LanguageBPC.modDirectory + path):
+			return LanguageBPC.modDirectory + path + "/" + os.path.basename(path) + ext
+		else:
+			raise CompilerException("Imported file not found (" + dottedPath + "). Mod directory: " + LanguageBPC.modDirectory)
 	
 	# This function is only used for procedure calls
 	def getFunctionCallNode(self, line):

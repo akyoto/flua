@@ -5,17 +5,18 @@
 		<dependencies/>
 	</header>
 	<code>
-		<class>
-			<name>
-				x
-			</name>
+		<import>
+			test.Print123
+		</import>
+		<call>
 			<function>
-				<name>
-					init
-				</name>
-				<parameters/>
-				<code/>
+				print
 			</function>
-		</class>
+			<parameters>
+				<parameter>
+					_bp_string_0
+				</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>
