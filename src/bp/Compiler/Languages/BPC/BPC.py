@@ -156,23 +156,15 @@ class LanguageBPC(ProgrammingLanguage):
 	def getLastElementInCurrentNode(self):
 		return self.currentNode.childNodes[len(self.currentNode.childNodes)-1]
 		
-	def compileFileToXML(self, inFile, outFile):
-		if not outFile:
-			outFile = inFile.replace(".bpc", ".xml") #os.path.dirname(inFile) + "/" + os.path.basename(inFile) + ".xml"
-		
-		outFileAbsPath = os.path.abspath(outFile)
+	def scanFile(self, inFile):
 		currentDir = fixPath(os.getcwd())
-		moveToDir = fixPath(os.path.dirname(outFileAbsPath))
 		inFileAbsPath = fixPath(os.path.abspath(inFile))
+		moveToDir = fixPath(os.path.dirname(inFileAbsPath))
 		
 		if inFileAbsPath in LanguageBPC.allFiles:
 			return
 		else:
-			# Will be set to XML root later
-			LanguageBPC.allFiles[inFileAbsPath] = None
-			
 			print("------------------------------------------------------")
-			print("Compiling:       " + inFileAbsPath)
 			print("Currently in:    " + currentDir)
 			print("Moving to:       " + moveToDir)
 			
@@ -181,29 +173,78 @@ class LanguageBPC(ProgrammingLanguage):
 			with codecs.open(inFileAbsPath, "r", "utf-8") as inStream:
 				code = inStream.read()
 			
-			root = None
+			# Will be set to compilerInstance later
+			LanguageBPC.allFiles[inFileAbsPath] = code
 			
 			try:
-				compilerInstance = LanguageBPC()
-				root = compilerInstance.compileCodeToXML(code)
+				lines = code.split('\n') + ["__bp__EOM"]
 				
-				if root is not None:
-					# Set file in file list
-					LanguageBPC.allFiles[inFileAbsPath] = compilerInstance
+				for lineIndex in range(0, len(lines)):
+					# TODO: Remove comments
+					line = lines[lineIndex].strip()
 					
-					# Write to file
-					with open(outFileAbsPath, "w") as outStream:
-						output = root.toprettyxml()
-						outStream.write(output)
-						print(output)
-				else:
-					print("Compiling process failed")
+					if startswith(line, "import"):
+						module = line[len("import")+1:]
+						self.scanFile(self.getRealModulePath(module))
 			except CompilerException as e:
 				print("")
 				print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
 				printTraceback()
 			finally:
 				os.chdir(currentDir)
+		
+	# Main compile function for first file (calls scanFile and creates a thread for every file)
+	def compileFileToXML(self, inFile):
+		inFileAbsPath = fixPath(os.path.abspath(inFile))
+		
+		print("Main compiler started!")
+		
+		self.scanFile(inFile)
+		
+		print("------------------------------------------------------")
+		print("File list: ")
+		
+		for file in LanguageBPC.allFiles:
+			print(" * [" + file + "]")
+		print("------------------------------------------------------")
+		
+		for filePath in LanguageBPC.allFiles:
+			self.compileSingleFileToXMLThread(filePath)
+		
+		print("Main compiler finished!")
+		
+	def compileSingleFileToXMLThread(self, inFileAbsPath):
+		print("Thread: " + inFileAbsPath)
+		
+		outFile = inFileAbsPath.replace(".bpc", ".xml")
+		outFileAbsPath = os.path.abspath(outFile)
+		
+		root = None
+		
+		try:
+			compilerInstance = LanguageBPC()
+			
+			# Get code from the value of the file key
+			code = LanguageBPC.allFiles[inFileAbsPath]
+			
+			print("Compiling:       " + inFileAbsPath)
+			root = compilerInstance.compileCodeToXML(code)
+			
+			# Set file in file list
+			LanguageBPC.allFiles[inFileAbsPath] = compilerInstance
+			
+			if root is not None:
+				# Write to file
+				with open(outFileAbsPath, "w") as outStream:
+					output = root.toprettyxml()
+					outStream.write(output)
+					print(output)
+			else:
+				print("Compiling process failed")
+		except CompilerException as e:
+			print("")
+			print("[Line " + str(e.getLine()) + "]: " + e.getMsg())
+			printTraceback()
 				
 	def compileCodeToXML(self, code):
 		lines = code.split('\n') + ["__bp__EOM"]
@@ -544,16 +585,20 @@ class LanguageBPC(ProgrammingLanguage):
 			if line == "...":
 				node = None
 			elif startswith(line, "import"):
-				node = self.doc.createElement("import")
+				# This will be added to the header
+				node = None
+				importNode = self.doc.createElement("import")
 				dottedPath = line[len("import")+1:]
-				modPath = self.getRealModulePath(dottedPath)
 				
-				# Compile imported file
-				self.compileFileToXML(modPath, "")
+				# TODO: Merge data with the other compiler instance of the imported file
 				
 				param = self.getImportNode(dottedPath)
 				if param.nodeValue or param.hasChildNodes():
-					node.appendChild(param)
+					# TODO: Check whether that module has already been registered
+					importNode.appendChild(param)
+					header = self.doc.firstChild.getElementsByTagName("header")[0]
+					dependencies = header.getElementsByTagName("dependencies")[0]
+					dependencies.appendChild(importNode)
 				else:
 					raise CompilerException("#import keyword expects a module name")
 			elif startswith(line, "return"):

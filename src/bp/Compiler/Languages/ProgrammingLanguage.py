@@ -36,7 +36,7 @@ class ProgrammingLanguage:
 	def __init__(self):
 		self.extensions = []
 		
-	def compileFileToXML(self, fileIn, fileOut):
+	def compileFileToXML(self, fileIn):
 		pass
 		
 	def compileCodeToXML(self, code):

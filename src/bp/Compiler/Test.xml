@@ -2,21 +2,38 @@
 <module>
 	<header>
 		<title/>
-		<dependencies/>
+		<dependencies>
+			<import>
+				test.Print123
+			</import>
+		</dependencies>
 	</header>
 	<code>
-		<import>
-			test.Print123
-		</import>
+		<assign>
+			<value>
+				a
+			</value>
+			<value>
+				<call>
+					<function>
+						MyClass
+					</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
 		<call>
-			<function>
-				print
-			</function>
-			<parameters>
-				<parameter>
-					_bp_string_0
-				</parameter>
-			</parameters>
+			<value>
+				<access>
+					<value>
+						a
+					</value>
+					<value>
+						doSomething
+					</value>
+				</access>
+			</value>
+			<parameters/>
 		</call>
 	</code>
 </module>

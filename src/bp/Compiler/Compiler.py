@@ -77,7 +77,7 @@ class Compiler:
 	#			pass
 	#===========================================================================
 	
-	def compileCodeToXMLFile(self, inFile, outFile):
+	def compileCodeToXMLFile(self, inFile):
 		ext = extractExt(inFile)
 		
 		for lang in self.languages:
@@ -85,7 +85,7 @@ class Compiler:
 				if lang.extensions.index(ext) != -1:
 					print("Lang: " + lang.getName())
 					
-					lang.compileFileToXML(inFile, outFile)
+					lang.compileFileToXML(inFile)
 			except ValueError:
 				pass
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 		print("----------")
 		start = time.clock()
 		
-		compiler.compileCodeToXMLFile("Test.bpc", "")
+		compiler.compileCodeToXMLFile("Test.bpc")
 		
 		elapsedTime1 = time.clock() - start
 		
