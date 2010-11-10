@@ -2,7 +2,7 @@
 # Get every file in the directory (not recursive)
 ################################################################
 
-import FileSystem.*
+import FileSystem
 
 directory = Directory("~/")
 for file in directory
