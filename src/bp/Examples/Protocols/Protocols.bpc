@@ -2,13 +2,13 @@
 # Import the network module
 ################################################################
 
-import Network.*
+import Network
 
 ################################################################
 # Get the HTML code of google.com
 ################################################################
 
-print getHtml("google.com")
+print getHTML("google.com")
 
 ################################################################
 # More control
@@ -23,8 +23,8 @@ print request.receivedData
 ################################################################
 
 stream = TCPStream("google.com", Port.HTTP)	# Port.HTTP = 80
-stream.write "GET / HTTP/1.1"
-stream.write "Host: google.com"
-stream.write ""
+stream.writeLine "GET / HTTP/1.1"
+stream.writeLine "Host: google.com"
+stream.writeLine ""
 print stream.read
 

@@ -1,4 +1,4 @@
-import Stream.File.*
+import Stream.File
 
 FileLoader
 	

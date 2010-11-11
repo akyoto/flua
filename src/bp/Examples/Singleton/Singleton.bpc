@@ -3,12 +3,11 @@
 ################################################################
 
 class Singleton
-	public
-		singleton
-			static
-				instance = class()
-			return instance
-			
+	singleton
+		static
+			instance = class()
+		return instance
+	
 	private
 		init
 		
