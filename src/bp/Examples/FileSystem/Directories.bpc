@@ -1,8 +1,20 @@
 ################################################################
+# Import FileSystem library
+################################################################
+
+import bp.FileSystem
+
+################################################################
 # Get every file in the directory (not recursive)
 ################################################################
 
-import FileSystem
+directory = Directory("~/")
+for file in directory
+	print file
+
+################################################################
+# Get every file in the directory (recursive)
+################################################################
 
 directory = Directory("~/")
 for file in directory

@@ -1,6 +1,6 @@
-import Math
+import bp.Math
 
-Vector3
+class Vector3
 	
 	init self.x, self.y, self.z
 		...
@@ -9,16 +9,13 @@ Vector3
 		...
 		
 	move vector : Vector3
-		self.[x, y, z] += vec.[x, y, z]
+		self += vec
 		
 	move x, y, z
 		self.[x, y, z] += x, y, z
 		
-	length
-		return Math.Sqr(self.x ^ 2 + self.y ^ 2 + self.z ^ 2)
-		
 	normalise
-		self.[x, y, z] /= self.length()
+		self /= self.length
 		
 	[index]
 		switch index
@@ -29,10 +26,45 @@ Vector3
 			2
 				return self.z
 	
-unitTest
+	operator
+		+= value : Float
+			self.[x, y, z] += value
+		
+		-= value : Float
+			self.[x, y, z] -= value
+		
+		*= value : Float
+			self.[x, y, z] *= value
+		
+		/= value : Float
+			self.[x, y, z] /= value
+		
+		+= vector : Vector3
+			self.[x, y, z] += vector.[x, y, z]
+		
+		-= vector : Vector3
+			self.[x, y, z] -= vector.[x, y, z]
+	
+	get
+		length
+			return sqr(self.x ^ 2 + self.y ^ 2 + self.z ^ 2)
+	
+	set
+		length newLength
+			self.normalise
+			self *= newLength
+
+main
 	vec = Vector3(1, 2, 3)
-	if vec.normalise.length == 1.0
-		print "Float precision 1 [OK]"
-	vec = vec.normalise
+	if vec.normalise().length == 1.0
+		print "Float test 1 [OK]"
+	
+	vec = Vector3(1, 2, 3)
+	vec = vec.normalise()
 	if vec.length == 1.0
-		print "Float precision 2 [OK]"
+		print "Float test 2 [OK]"
+	
+	vec = Vector3(1, 2, 3)
+	vec.normalise
+	if vec.length == 1.0
+		print "Float test 3 [OK]"

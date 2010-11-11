@@ -2,7 +2,7 @@
 # Import the network module
 ################################################################
 
-import Network
+import bp.Network
 
 ################################################################
 # Get the HTML code of google.com
