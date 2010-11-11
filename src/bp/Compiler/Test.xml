@@ -4,7 +4,7 @@
 		<title/>
 		<dependencies>
 			<import>
-				test.Print123
+				bp.Examples.HelloWorld
 			</import>
 		</dependencies>
 	</header>
@@ -35,5 +35,38 @@
 			</value>
 			<parameters/>
 		</call>
+		<class>
+			<name>
+				MyClass
+			</name>
+			<function>
+				<name>
+					init
+				</name>
+				<parameters>
+					<parameter>
+						<assign>
+							<value>
+								a
+							</value>
+							<value>
+								3
+							</value>
+						</assign>
+					</parameter>
+					<parameter>
+						<assign>
+							<value>
+								b
+							</value>
+							<value>
+								4
+							</value>
+						</assign>
+					</parameter>
+				</parameters>
+				<code/>
+			</function>
+		</class>
 	</code>
 </module>

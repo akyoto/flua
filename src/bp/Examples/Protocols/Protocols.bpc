@@ -26,5 +26,5 @@ stream = TCPStream("google.com", Port.HTTP)	# Port.HTTP = 80
 stream.writeLine "GET / HTTP/1.1"
 stream.writeLine "Host: google.com"
 stream.writeLine ""
-print stream.read
+print stream.receivedData
 

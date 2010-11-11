@@ -1,4 +1,8 @@
-import test.Print123
+import bp.Examples.HelloWorld
 
 a = MyClass()
 a.doSomething()
+
+class MyClass
+	init a = 3, b = 4
+		...

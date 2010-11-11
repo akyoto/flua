@@ -1,0 +1,4 @@
+import FileSystem.XML
+
+file = XML("test.xml")
+root = file.root

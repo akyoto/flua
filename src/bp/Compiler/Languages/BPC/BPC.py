@@ -54,6 +54,8 @@ class LanguageBPC(ProgrammingLanguage):
 		self.keywordsBlock = ["class", "if", "elif", "else", "switch", "in", "for", "while", "try", "catch", "private", "static"]
 		self.keywordsNoBlock = ["import", "return", "const", "break", "continue", "throw"]
 		
+		self.initExprParser()
+		
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
@@ -209,11 +211,11 @@ class LanguageBPC(ProgrammingLanguage):
 		print("------------------------------------------------------")
 		
 		for filePath in LanguageBPC.allFiles:
-			self.compileSingleFileToXMLThread(filePath)
+			self.compileSingleFileToXML(filePath)
 		
 		print("Main compiler finished!")
 		
-	def compileSingleFileToXMLThread(self, inFileAbsPath):
+	def compileSingleFileToXML(self, inFileAbsPath):
 		print("Thread: " + inFileAbsPath)
 		
 		outFile = inFileAbsPath.replace(".bpc", ".xml")
@@ -249,7 +251,6 @@ class LanguageBPC(ProgrammingLanguage):
 	def compileCodeToXML(self, code):
 		lines = code.split('\n') + ["__bp__EOM"]
 		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
-		self.initExprParser()
 		
 		root = self.doc.documentElement
 		lastTabCount = 0
@@ -315,7 +316,8 @@ class LanguageBPC(ProgrammingLanguage):
 						while atTab > tabCount:
 							if self.currentNode.tagName == "code": #or (self.currentNode.tagName == "public" or self.currentNode.tagName == "private"):
 								self.currentNode = self.currentNode.parentNode.parentNode
-								if (not isinstance(self.currentNode, Document)) and (self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else") or (self.currentNode.tagName == "try-block" and node.tagName != "catch"):
+								# (not isinstance(self.currentNode, Document)) and 
+								if ((self.currentNode.tagName == "if-block" and node.tagName != "else-if" and node.tagName != "else") or (self.currentNode.tagName == "try-block" and node.tagName != "catch")):
 									self.currentNode = self.currentNode.parentNode
 							else:
 								self.currentNode = self.currentNode.parentNode
@@ -366,6 +368,10 @@ class LanguageBPC(ProgrammingLanguage):
 								raise CompilerException("#catch can only appear in a #try block")
 							else:
 								self.getLastElementInCurrentNode().appendChild(node)
+						elif (node.tagName == "import"):
+							header = self.doc.firstChild.getElementsByTagName("header")[0]
+							dependencies = header.getElementsByTagName("dependencies")[0]
+							dependencies.appendChild(node)
 						else:
 							self.currentNode.appendChild(node)
 						
@@ -586,8 +592,8 @@ class LanguageBPC(ProgrammingLanguage):
 				node = None
 			elif startswith(line, "import"):
 				# This will be added to the header
-				node = None
 				importNode = self.doc.createElement("import")
+				node = importNode
 				dottedPath = line[len("import")+1:]
 				
 				# TODO: Merge data with the other compiler instance of the imported file
@@ -596,9 +602,6 @@ class LanguageBPC(ProgrammingLanguage):
 				if param.nodeValue or param.hasChildNodes():
 					# TODO: Check whether that module has already been registered
 					importNode.appendChild(param)
-					header = self.doc.firstChild.getElementsByTagName("header")[0]
-					dependencies = header.getElementsByTagName("dependencies")[0]
-					dependencies.appendChild(importNode)
 				else:
 					raise CompilerException("#import keyword expects a module name")
 			elif startswith(line, "return"):
@@ -645,7 +648,6 @@ class LanguageBPC(ProgrammingLanguage):
 		# ########################### #
 		# 2. File     # 5.  File      #
 		# 3. Dir      # 6.  Dir       #
-		
 		
 		# Local first (file first, directory afterwards)
 		if os.path.isfile(path + ext):

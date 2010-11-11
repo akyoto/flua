@@ -3,7 +3,7 @@
 ################################################################
 
 class Singleton
-	singleton
+	getSingleton
 		static
 			instance = class()
 		return instance
@@ -28,5 +28,5 @@ class ResourceManager : Singleton
 res = ResourceManager()
 
 # OK
-res = ResourceManager.singleton
+res = ResourceManager.getSingleton()
 
