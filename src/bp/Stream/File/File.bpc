@@ -1,11 +1,11 @@
-import String.*
-import Memory.*
+import String
+import Memory
 
 File
 	class.readBytesDefault = 1024
 	
 	init self.fileName
-		self.fd = Int
+		self.fd : Int
 		
 	open
 		self.fd = sys.open(self.fileName)
