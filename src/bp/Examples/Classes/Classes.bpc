@@ -1,0 +1,38 @@
+class MyApp
+	
+	init self.title
+		self.active = true
+		self.width = self.guiGetWidth()
+		self.height = self.guiGetHeight()
+	
+	set
+		active state
+			self.guiActivate state
+			self.active = state
+	
+		width nWidth
+			self.guiSetWidth nWidth
+			self.width = self.guiGetWidth()
+			
+		height nHeight
+			self.guiSetHeight nHeight
+			self.height = self.guiGetHeight()
+		
+		size nWidth, nHeight
+			self.width = nWidth
+			self.height = nHeight
+	
+	run
+		while self.active
+			print "Running."
+	
+	enterBlock
+		print "Started."
+	
+	exitBlock
+		print "Closed."
+
+app = MyApp("Simple application")
+in app
+	app.size = 640, 480
+	app.run()
