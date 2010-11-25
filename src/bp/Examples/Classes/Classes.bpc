@@ -26,11 +26,12 @@ class MyApp
 		while self.active
 			print "Running."
 	
-	enterBlock
-		print "Started."
-	
-	exitBlock
-		print "Closed."
+	block
+		enter
+			print "Started."
+		
+		exit
+			print "Closed."
 
 app = MyApp("Simple application")
 in app
