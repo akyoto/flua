@@ -1,4 +1,0 @@
-import bp.FileSystem.XML
-
-file = XML("test.xml")
-root = file.root
