@@ -165,7 +165,7 @@ class BPCCompiler:
 		dirOut = os.path.abspath(dirOut) + "/"
 		
 		for bpcFile in self.compiledFiles.values():
-			fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".xml"
+			fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
@@ -187,6 +187,7 @@ class BPCFile:
 		self.nextLineIndented = False
 		self.savedNextNode = 0
 		self.inSwitch = 0
+		self.inCase = 0
 		self.parser = self.compiler.parser
 		
 		# XML tags which can follow another tag
@@ -205,7 +206,7 @@ class BPCFile:
 			"for" : [],
 			"in" : [],
 			"switch" : [],
-			"case" : ["case"]
+			"case" : []
 		}
 		
 		# This is used for xml tags which have a "code" node
@@ -243,9 +244,6 @@ class BPCFile:
 				if tabCountNextLine == tabCount + 1:
 					self.nextLineIndented = True
 			
-			#print(">" * tabCount + line)
-			currentLine = self.processLine(line)
-			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
 				if self.savedNextNode:
@@ -256,7 +254,13 @@ class BPCFile:
 			elif tabCount < prevTabCount:
 				atTab = prevTabCount
 				while atTab > tabCount:
+					if self.currentNode.tagName == "switch":
+						self.inSwitch -= 1
+					
 					self.currentNode = self.currentNode.parentNode
+					
+					if self.currentNode.tagName == "case":
+						self.inCase -= 1
 					
 					# XML elements with "code" tags need special treatment
 					if self.currentNode.parentNode.tagName in self.blocks:
@@ -271,6 +275,7 @@ class BPCFile:
 							self.currentNode = self.currentNode.parentNode
 					atTab -= 1
 			
+			currentLine = self.processLine(line)
 			self.savedNextNode = self.nextNode
 			
 			self.lastNode = self.currentNode.appendChild(currentLine)
@@ -357,6 +362,7 @@ class BPCFile:
 		node.appendChild(values)
 		node.appendChild(code)
 		
+		self.inCase += 1
 		self.nextNode = code
 		return node
 		

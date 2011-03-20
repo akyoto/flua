@@ -1,5 +1,27 @@
-import sub1
-import sub2
-import sub3
+#import sub1
+#import sub2
+#import sub3
 
-x -> y
+a = 5
+
+if a
+	if b
+		c
+	d
+
+switch a
+	1, 2
+		switch b
+			obj.x, obj.y
+				print bla
+		break
+	3, 4
+		print 2
+		print 2
+	5, 6
+		print 3
+		print 3
+
+a
+b
+c
