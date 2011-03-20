@@ -1,0 +1,5 @@
+import main
+
+sub2
+	print "sub2"
+	sub1()

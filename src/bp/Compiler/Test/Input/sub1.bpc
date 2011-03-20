@@ -1,0 +1,4 @@
+import main
+
+sub1
+	print "sub1"
