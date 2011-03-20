@@ -31,73 +31,6 @@ from Utils import *
 ####################################################################
 # Classes
 ####################################################################
-allClasses = dict()
-
-class GenericClass:
-	
-	def __init__(self, name):
-		self.name = name
-		self.base = ""
-		self.publicMethods = dict()
-		self.privateMethods = dict()
-		allClasses[self.name] = self
-		
-	def getName(self):
-		return self.name
-		
-	def setBaseClass(self, newBase):
-		self.base = newBase
-		
-	def addPublicMethod(self, func):
-		self.publicMethods[func.getName()] = func
-		
-	def addPrivateMethod(self, func):
-		self.privateMethods[func.getName()] = func
-		
-class GenericFunction:
-	
-	def __init__(self, name, parameters):
-		self.name = name
-		self.params = parameters
-		
-	def getName(self):
-		return self.name
-	
-	def getParametersString(self):
-		txt = ""
-		for node in self.params.childNodes:
-			txt += getParameterFuncName(node)
-			defaultVal = getParameterDefaultValueNode(node)
-			if defaultVal:
-				txt += " = " + defaultVal.toxml()
-			
-			txt += ", "
-			
-		if txt:
-			return txt[:len(txt)-2]
-		else:
-			return ""
-
-class GenericVariable:
-	
-	def __init__(self, name, dataType):
-		self.name = name
-		self.dataType = dataType
-		
-	def getName(self):
-		return self.name
-
-class GenericScope:
-	
-	def __init__(self):
-		self.variables = dict()
-		
-	def addVariable(self, var):
-		self.variables[var.getName()] = var
-		
-	def containsVariable(self, var):
-		return var in self.variables.keys()
-
 class CompilerException(Exception):
 	
 	def __init__(self, value):
@@ -141,34 +74,6 @@ class ExpressionParser:
 		self.operatorLevels = []
 		self.recursionLevel = 0
 		self.doc = None
-		self.topClass = GenericClass("")
-		self.scopes = []
-		self.pushScope()
-		
-	def pushScope(self):
-		self.scopes.append(GenericScope())
-		
-	def popScope(self):
-		return self.scopes.pop()
-		
-	def getCurrentScope(self):
-		return self.scopes[len(self.scopes)-1]
-		
-	def addClass(self, name):
-		if not self.hasClass(name):
-			GenericClass(name)
-		
-	def getClass(self, name):
-		return allClasses[name]
-	
-	def hasClass(self, name):
-		return name in allClasses
-		
-	def getClasses(self):
-		return allClasses.keys()
-	
-	def getClassObjects(self):
-		return allClasses.values()
 		
 	def compileError(self, error):
 		raise CompilerException(error)
@@ -360,7 +265,6 @@ class ExpressionParser:
 		bracketCounter = 0
 		i = len(expr)
 		while expr and expr[0] == '(' and expr[len(expr)-1] == ')' and bracketCounter == 0 and i == len(expr):
-			#print("WHIIIIILE")
 			bracketCounter = 1
 			i = 1
 			while i < len(expr) and (bracketCounter > 0 or expr[i] == ')'):
@@ -461,12 +365,12 @@ class ExpressionParser:
 		lNode.appendChild(leftOperandNode)
 		rNode.appendChild(rightOperandNode)
 		
-		if operator == "=" and leftOperandNode.nodeType == Node.TEXT_NODE:
-			if self.getCurrentScope().containsVariable(leftOperand):
-				pass
-			else:
-				#print("Variable declaration: " + leftOperand)
-				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
+#		if operator == "=" and leftOperandNode.nodeType == Node.TEXT_NODE:
+#			if self.getCurrentScope().containsVariable(leftOperand):
+#				pass
+#			else:
+#				#print("Variable declaration: " + leftOperand)
+#				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
 		
 		# Right operand missing
 		if len(rightOperand) == 0:

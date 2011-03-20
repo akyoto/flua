@@ -332,23 +332,47 @@ class BPCFile:
 			return node
 		
 	def addBrackets(self, line):
-		# If the character that follows the first whitespace is a VarChar we assume it's a function call
-		nextWhitespace = getNextWhitespacePos(line, 0)
-		if nextWhitespace == -1:
-			# No whitespaces, so we need to check if it's a procedure call
-			for char in line:
-				if (not isVarChar(char)) and (char != '.'):
-					return line
-			
-			# Seems this is a procedure call
-			return line + "()"
+		bracketCounter = 0
+		char = ''
 		
-		# We found a whitespace, so check the next character
-		char = line[nextWhitespace+1]
-		if isVarChar(char):
-			return line[:nextWhitespace] + "(" + line[nextWhitespace+1:] + ")"
+		for i in range(len(line)):
+			char = line[i]
+			
+			if char == '(' or char == '[':
+				bracketCounter += 1
+			elif char == ')' or char == ']':
+				bracketCounter -= 1
+			elif (not isVarChar(char)) and char != '.' and bracketCounter == 0:
+				break
+		
+		if i < len(line) - 1:
+			nextChar = line[i+1]
+			
+			if char.isspace() and (isVarChar(nextChar)):
+				line = line[:i] + "(" + line[i+1:] + ")"
+		elif line[-1] != ')':
+			line += "()"
 		
 		return line
+		
+#	def addBrackets(self, line):
+#		# If the character that follows the first whitespace is a VarChar we assume it's a function call
+#		nextWhitespace = getNextWhitespacePos(line, 0)
+#		if nextWhitespace == -1:
+#			# No whitespaces, so we need to check if it's a procedure call
+#			for char in line:
+#				if (not isVarChar(char)) and (char != '.'):
+#					return line
+#			
+#			# Seems this is a procedure call
+#			return line + "()"
+#		
+#		# We found a whitespace, so check the next character
+#		char = line[nextWhitespace+1]
+#		if isVarChar(char):
+#			return line[:nextWhitespace] + "(" + line[nextWhitespace+1:] + ")"
+#		
+#		return line
 		
 	def handleCase(self, line):
 		node = self.doc.createElement("case")
