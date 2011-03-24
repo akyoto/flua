@@ -30,6 +30,9 @@ import os
 # Functions
 ####################################################################
 
+def fixPath(stri):
+	return stri.replace("\\", "/")
+
 def isVarChar(char):
 	return char.isalnum() or char == '_'
 

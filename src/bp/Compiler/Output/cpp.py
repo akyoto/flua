@@ -35,10 +35,56 @@ import codecs
 ####################################################################
 class CPPOutputCompiler:
 	
-	def __init__(self):
+	def __init__(self, inpCompiler):
+		self.inputCompiler = inpCompiler
+		self.inputFiles = inpCompiler.getCompiledFiles()
+		self.compiledFiles = dict()
+		self.projectDir = self.inputCompiler.projectDir
+	
+	def compile(self):
+		for inpFile in self.inputFiles:
+			cppOut = CPPOutputFile(self, inpFile)
+			cppOut.compile()
+			self.compiledFiles[inpFile] = cppOut
+	
+	def writeToFS(self, dirOut):
+		dirOut = fixPath(os.path.abspath(dirOut)) + "/"
+		
+		for cppFile in self.compiledFiles.values():
+			fileOut = dirOut + stripExt(cppFile.file[len(self.projectDir):]) + ".cpp"
+			
+			# Directory structure
+			concreteDirOut = os.path.dirname(fileOut)
+			if not os.path.isdir(concreteDirOut):
+				os.makedirs(concreteDirOut)
+			
+			with open(fileOut, "w") as outStream:
+				outStream.write(cppFile.getCode())
+	
+	def build(self):
 		pass
 	
 class CPPOutputFile:
 	
-	def __init__(self):
-		pass
+	def __init__(self, compiler, inpFile):
+		self.compiler = compiler
+		self.file = inpFile.file
+		self.root = inpFile.getRoot()
+		self.codeNode = self.root.getElementsByTagName("code")[0]
+		self.topLevel = ""
+		
+	def compile(self):
+		print("Output: " + self.file)
+		
+		for node in self.codeNode.childNodes:
+			if isTextNode(node):
+				self.topLevel += node.nodeValue
+			elif node.tagName == "call":
+				self.topLevel += self.parseExpr(node.getElementsByTagName("function")[0].childNodes[0]) + ";\n";
+		
+	def parseExpr(self, node):
+		if isTextNode(node):
+			return node.nodeValue
+		
+	def getCode(self):
+		return self.topLevel

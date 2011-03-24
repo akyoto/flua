@@ -48,6 +48,9 @@ class BPCCompiler:
 		self.compiledFiles = dict()
 		self.initExprParser()
 	
+	def getCompiledFiles(self):
+		return self.compiledFiles.values()
+	
 	def initExprParser(self):
 		self.parser = ExpressionParser()
 		
@@ -140,7 +143,7 @@ class BPCCompiler:
 		self.parser.addOperatorLevel(operators)
 	
 	def compile(self, mainFile):
-		fileIn = os.path.abspath(mainFile)
+		fileIn = fixPath(os.path.abspath(mainFile))
 		
 		if not self.compiledFiles:
 			self.projectDir = os.path.dirname(fileIn) + "/"
@@ -158,9 +161,6 @@ class BPCCompiler:
 		myFile.compile()
 		return myFile
 	
-	def validate(self):
-		pass
-	
 	def writeToFS(self, dirOut):
 		dirOut = os.path.abspath(dirOut) + "/"
 		
@@ -173,8 +173,7 @@ class BPCCompiler:
 				os.makedirs(concreteDirOut)
 			
 			with open(fileOut, "w") as outStream:
-				output = bpcFile.root.toprettyxml()
-				outStream.write(output)
+				outStream.write(bpcFile.root.toprettyxml())
 
 class BPCFile:
 	
@@ -189,6 +188,8 @@ class BPCFile:
 		self.inSwitch = 0
 		self.inCase = 0
 		self.parser = self.compiler.parser
+		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
+		self.root = self.doc.documentElement
 		
 		# XML tags which can follow another tag
 		
@@ -212,11 +213,12 @@ class BPCFile:
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
 		
+	def getRoot(self):
+		return self.root
+		
 	def compile(self):
 		print("Compiling: " + self.file)
 		
-		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
-		self.root = self.doc.documentElement
 		self.currentNode = self.root.getElementsByTagName("code")[0]
 		
 		# Read
@@ -354,25 +356,6 @@ class BPCFile:
 			line += "()"
 		
 		return line
-		
-#	def addBrackets(self, line):
-#		# If the character that follows the first whitespace is a VarChar we assume it's a function call
-#		nextWhitespace = getNextWhitespacePos(line, 0)
-#		if nextWhitespace == -1:
-#			# No whitespaces, so we need to check if it's a procedure call
-#			for char in line:
-#				if (not isVarChar(char)) and (char != '.'):
-#					return line
-#			
-#			# Seems this is a procedure call
-#			return line + "()"
-#		
-#		# We found a whitespace, so check the next character
-#		char = line[nextWhitespace+1]
-#		if isVarChar(char):
-#			return line[:nextWhitespace] + "(" + line[nextWhitespace+1:] + ")"
-#		
-#		return line
 		
 	def handleCase(self, line):
 		node = self.doc.createElement("case")
@@ -672,7 +655,6 @@ if __name__ == '__main__':
 		
 		bpc = BPCCompiler()
 		bpc.compile("../Test/Input/main.bpc")
-		bpc.validate()
 		#bpc.writeToFS("../Test/Output/")
 		
 		elapsedTime = time.clock() - start

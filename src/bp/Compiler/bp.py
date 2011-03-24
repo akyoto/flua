@@ -30,6 +30,7 @@
 # Imports
 ####################################################################
 from Input import *
+from Output import *
 
 ####################################################################
 # Main
@@ -41,8 +42,11 @@ if __name__ == '__main__':
 		
 		bpc = BPCCompiler()
 		bpc.compile("Test/Input/main.bpc")
-		bpc.validate()
-		#bpc.writeToFS("../Test/Output/")
+		
+		cpp = CPPOutputCompiler(bpc)
+		cpp.compile()
+		cpp.writeToFS("Test/Output/")
+		cpp.build()
 		
 		elapsedTime = time.clock() - start
 		print("Time:    " + str(elapsedTime * 1000) + " ms")

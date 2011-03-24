@@ -1,6 +1,6 @@
-#import sub1
-#import sub2
-#import sub3
+import sub1
+import sub2
+import sub3
 
 print
 print()
