@@ -40,16 +40,27 @@ if __name__ == '__main__':
 		print("Starting:")
 		start = time.clock()
 		
-		bpc = BPCCompiler()
+		# Compile
+		bpc = BPCCompiler("../../")
 		bpc.compile("Test/Input/main.bpc")
 		
 		cpp = CPPOutputCompiler(bpc)
 		cpp.compile()
 		cpp.writeToFS("Test/Output/")
-		cpp.build()
 		
 		elapsedTime = time.clock() - start
-		print("Time:    " + str(elapsedTime * 1000) + " ms")
-		print("Done.")
+		print("CompileTime:  " + str(elapsedTime * 1000) + " ms")
+		
+		# Build
+		start = time.clock()
+		
+		exe = cpp.build()
+		
+		elapsedTime = time.clock() - start
+		print("BuildTime:    " + str(elapsedTime * 1000) + " ms")
+		
+		# Exec
+		print("\nOutput:")
+		os.system(exe)
 	except:
 		printTraceback()

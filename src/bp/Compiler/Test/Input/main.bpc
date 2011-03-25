@@ -2,7 +2,4 @@ import sub1
 import sub2
 import sub3
 
-print
-print()
-print 3
-print 3, 4
+printf("Main\n")

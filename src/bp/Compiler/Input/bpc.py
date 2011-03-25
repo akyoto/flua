@@ -44,12 +44,15 @@ class CompilerException(Exception):
 
 class BPCCompiler:
 	
-	def __init__(self):
+	def __init__(self, modDir):
 		self.compiledFiles = dict()
+		self.compiledFilesList = []
+		self.projectDir = ""
+		self.modDir = fixPath(os.path.abspath(modDir))
 		self.initExprParser()
 	
 	def getCompiledFiles(self):
-		return self.compiledFiles.values()
+		return self.compiledFilesList
 	
 	def initExprParser(self):
 		self.parser = ExpressionParser()
@@ -145,19 +148,23 @@ class BPCCompiler:
 	def compile(self, mainFile):
 		fileIn = fixPath(os.path.abspath(mainFile))
 		
-		if not self.compiledFiles:
+		isMainFile = not self.compiledFiles
+		
+		if isMainFile:
 			self.projectDir = os.path.dirname(fileIn) + "/"
 		
-		bpcFile = self.spawnFileCompiler(fileIn)
+		bpcFile = self.spawnFileCompiler(fileIn, isMainFile)
+		
 		self.compiledFiles[fileIn] = bpcFile
+		self.compiledFilesList.append(bpcFile)
 		
 		for file in bpcFile.importedFiles:
 			if not file in self.compiledFiles:
 				# TODO: Change directory
 				self.compile(file)
 		
-	def spawnFileCompiler(self, fileIn):
-		myFile = BPCFile(self, fileIn)
+	def spawnFileCompiler(self, fileIn, isMainFile):
+		myFile = BPCFile(self, fileIn, isMainFile)
 		myFile.compile()
 		return myFile
 	
@@ -177,7 +184,7 @@ class BPCCompiler:
 
 class BPCFile:
 	
-	def __init__(self, compiler, fileIn):
+	def __init__(self, compiler, fileIn, isMainFile):
 		self.compiler = compiler
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
@@ -188,8 +195,12 @@ class BPCFile:
 		self.inSwitch = 0
 		self.inCase = 0
 		self.parser = self.compiler.parser
-		self.doc = parseString("<module><header><title/><dependencies/></header><code></code></module>")
+		self.isMainFile = isMainFile
+		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
 		self.root = self.doc.documentElement
+		self.header = self.root.getElementsByTagName("header")[0]
+		self.dependencies = self.header.getElementsByTagName("dependencies")[0]
+		self.strings = self.header.getElementsByTagName("strings")[0]
 		
 		# XML tags which can follow another tag
 		
@@ -280,7 +291,8 @@ class BPCFile:
 			currentLine = self.processLine(line)
 			self.savedNextNode = self.nextNode
 			
-			self.lastNode = self.currentNode.appendChild(currentLine)
+			if currentLine:
+				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
 		
 		print(self.doc.toprettyxml())
@@ -592,6 +604,12 @@ class BPCFile:
 		pImportedInFolder = self.compiler.projectDir + importedModulePath
 		pImportedInFolder += "/" + stripAll(pImportedInFolder) + ".bpc"
 		
+		# Global
+		gImportedFile = self.compiler.modDir + importedModulePath + ".bpc"
+		
+		gImportedInFolder = self.compiler.modDir + importedModulePath
+		gImportedInFolder += "/" + stripAll(pImportedInFolder) + ".bpc"
+		
 		# TODO: Implement global variant
 		
 		if os.path.isfile(importedFile):
@@ -602,12 +620,18 @@ class BPCFile:
 			self.importedFiles.append(pImportedFile)
 		elif os.path.isfile(pImportedInFolder):
 			self.importedFiles.append(pImportedInFolder)
+		elif os.path.isfile(gImportedFile):
+			self.importedFiles.append(pImportedFile)
+		elif os.path.isfile(gImportedInFolder):
+			self.importedFiles.append(pImportedInFolder)
 		else:
 			raise CompilerException("Module not found: " + importedModule)
 		
 		element = self.doc.createElement("import")
 		element.appendChild(self.doc.createTextNode(importedModule))
-		return element
+		self.dependencies.appendChild(element)
+		
+		return None
 	
 	def countTabs(self, line):
 		tabCount = 0
@@ -624,8 +648,14 @@ class BPCFile:
 				while h < len(line) and line[h] != '"':
 					h += 1
 				# TODO: Add string to string list
-				#print("STRING: " + line[i:h+1])
-				identifier = "_bp_string_" + str(self.stringCount)
+				identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
+				
+				# Create XML node
+				stringNode = self.doc.createElement("string")
+				stringNode.setAttribute("id", identifier)
+				stringNode.appendChild(self.doc.createTextNode(line[i+1:h]))
+				self.strings.appendChild(stringNode)
+				
 				line = line[:i] + identifier + line[h+1:]
 				self.stringCount += 1
 				i += len(identifier)
@@ -653,7 +683,7 @@ if __name__ == '__main__':
 		print("Starting:")
 		start = time.clock()
 		
-		bpc = BPCCompiler()
+		bpc = BPCCompiler("../../../")
 		bpc.compile("../Test/Input/main.bpc")
 		#bpc.writeToFS("../Test/Output/")
 		

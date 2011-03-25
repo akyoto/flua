@@ -1,4 +1,3 @@
 import main
 
-sub1
-	print "sub1"
+printf("Sub1\n")
