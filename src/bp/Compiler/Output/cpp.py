@@ -37,9 +37,11 @@ import subprocess
 ####################################################################
 class CPPClass:
 	
-	def __init__(self, name):
+	def __init__(self, name, cppFile):
 		self.name = name
+		self.cppFile = cppFile
 		self.functions = {}
+		self.members = {}
 		
 class CPPVariable:
 	
@@ -57,7 +59,7 @@ class CPPFunction:
 		self.implementations = {}
 		
 	def getName(self):
-		return self.node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		return getElementByTagName(self.node, "name").childNodes[0].nodeValue
 
 class FunctionImplRequest:
 	
@@ -93,7 +95,7 @@ class CPPOutputCompiler:
 		self.functionTypes = {}
 		
 		self.classes = {}
-		self.classes[""] = CPPClass("")
+		self.classes[""] = CPPClass("", None)
 	
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile)
@@ -150,7 +152,7 @@ class CPPOutputCompiler:
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		cmd = ["g++", self.mainFile, "-o", exe, "-I" + self.outputDir]
+		cmd = ["g++", self.mainFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir]
 		try:
 			proc = subprocess.Popen(cmd)
 			proc.wait()
@@ -189,15 +191,16 @@ class CPPOutputFile(ScopeController):
 		self.root = inpFile.getRoot()
 		self.isMainFile = inpFile.isMainFile
 		self.dir = inpFile.dir
-		self.codeNode = self.root.getElementsByTagName("code")[0]
-		self.headerNode = self.root.getElementsByTagName("header")[0]
-		self.dependencies = self.headerNode.getElementsByTagName("dependencies")[0]
-		self.strings = self.headerNode.getElementsByTagName("strings")[0]
+		self.codeNode = getElementByTagName(self.root, "code")
+		self.headerNode = getElementByTagName(self.root, "header")
+		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
+		self.strings = getElementByTagName(self.headerNode, "strings")
 		self.exprPrefix = ""
 		self.exprPostfix = ""
 		
 		self.classes = dict()
-		self.classes[""] = CPPClass("")
+		self.classes[""] = CPPClass("", self)
+		self.compiler.classes[""].cppFile = self
 		
 		self.currentClass = self.compiler.classes[""]
 		
@@ -309,55 +312,56 @@ class CPPOutputFile(ScopeController):
 				return self.id + "_" + node.nodeValue
 			else:
 				return node.nodeValue
-		elif node.tagName == "value":
+		
+		tagName = node.tagName
+		
+		if tagName == "value":
 			return self.parseExpr(node.childNodes[0])
-		elif node.tagName == "const":
-			self.inConst = True
-			expr = self.parseExpr(node.childNodes[0])
-			self.inConst = False
-			
-			return expr
-		elif node.tagName == "assign":
+		elif tagName == "access":
+			return self.handleAccess(node)
+		elif tagName == "assign":
 			return self.handleAssign(node)
-		elif node.tagName == "call":
+		elif tagName == "call":
 			return self.handleCall(node)
-		elif node.tagName == "if-block" or node.tagName == "try-block":
+		elif tagName == "if-block" or tagName == "try-block":
 			return self.parseChilds(node, "", "")
-		elif node.tagName == "else":
+		elif tagName == "else":
 			return self.handleElse(node)
-		elif node.tagName == "class":
+		elif tagName == "class":
 			return ""
-		elif node.tagName == "function":
+		elif tagName == "function":
 			if self.currentClass.name == "":
 				return ""
 			return self.handleFunction(node)
-		elif node.tagName == "extern":
+		elif tagName == "extern":
 			return self.handleExtern(node)
-		elif node.tagName == "extern-function":
+		elif tagName == "extern-function":
 			return self.handleExternFunction(node)
-		elif node.tagName == "target":
+		elif tagName == "target":
 			return self.handleTarget(node)
-		elif node.tagName == "new":
+		elif tagName == "new":
 			return self.handleNew(node)
-		elif node.tagName == "return":
+		elif tagName == "return":
 			return self.handleReturn(node)
-		elif node.tagName == "include":
+		elif tagName == "include":
 			self.header += "#include \"" + node.childNodes[0].nodeValue + "\"\n"
 			return ""
-		elif node.tagName == "noop":
+		elif tagName == "const":
+			return self.handleConst(node)
+		elif tagName == "noop":
 			return ""
 		
 		# Check parameterized blocks
-		if node.tagName in self.paramBlocks:
+		if tagName in self.paramBlocks:
 			paramBlock = self.paramBlocks[node.tagName]
 			keywordName = paramBlock[0]
 			paramTagName = paramBlock[1]
 			codeTagName = paramBlock[2]
 			
-			condition = self.parseExpr(node.getElementsByTagName(paramTagName)[0].childNodes[0])
+			condition = self.parseExpr(getElementByTagName(node, paramTagName).childNodes[0])
 			
 			self.pushScope()
-			code = self.parseChilds(node.getElementsByTagName(codeTagName)[0], "\t" * self.currentTabLevel, ";\n")
+			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
 			self.popScope()
 			
 			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
@@ -365,24 +369,34 @@ class CPPOutputFile(ScopeController):
 		# Check operators
 		for opLevel in self.compiler.inputCompiler.parser.operatorLevels:
 			for op in opLevel.operators:
-				if node.tagName == op.name:
+				if tagName == op.name:
 					if op.type == Operator.BINARY:
 						if op.text == "\\":
 							return self.parseBinaryOperator(node, " / ")
-						elif op.text == ".":
-							return self.parseBinaryOperator(node, "->")
 						return self.parseBinaryOperator(node, " " + op.text + " ")
 					elif op.type == Operator.UNARY:
 						return op.text + "(" + self.parseExpr(node.childNodes[0]) + ")"
 		
 		return "";
 		
+	def handleAccess(self, node):
+		return self.parseBinaryOperator(node, "->")
+		
+	def handleConst(self, node):
+		self.inConst = True
+		expr = self.parseExpr(node.childNodes[0])
+		self.inConst = False
+		
+		return expr
+		
 	def handleAssign(self, node):
 		variable = self.parseExpr(node.childNodes[0])
 		value = self.parseExpr(node.childNodes[1])
 		valueTypeOriginal = self.getExprDataType(node.childNodes[1].childNodes[0])
 		
-		if not self.variableExistsAnywhere(variable):
+		variableExisted = self.variableExistsAnywhere(variable)
+		
+		if not variableExisted:
 			var = CPPVariable(variable, valueTypeOriginal, value, self.inConst)
 			self.getCurrentScope().variables[variable] = var
 			if self.getCurrentScope() == self.getTopLevelScope():
@@ -392,10 +406,17 @@ class CPPOutputFile(ScopeController):
 				if self.getCurrentScope() == self.getTopLevelScope():
 					return ""
 				else:
-					return "const " + valueTypeOriginal + " " + variable + " = " + value
+					return "const %s %s = %s" % (valueTypeOriginal, variable, value)
 			#print(variable + " = " + valueTypeOriginal)
 		
-		return variable + " = " + value
+		if variable.startswith("this->"):
+			member = variable[len("this->"):]
+			self.currentClass.members[member] = valueTypeOriginal
+			
+		if variableExisted or self.getCurrentScope() == self.getTopLevelScope():
+			return variable + " = " + value
+		else:
+			return valueTypeOriginal + " " + variable + " = " + value
 		
 	def handleExtern(self, node):
 		self.pushScope()
@@ -405,7 +426,7 @@ class CPPOutputFile(ScopeController):
 		return code
 	
 	def handleExternFunction(self, node):
-		name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		types = node.getElementsByTagName("type")
 		type = "void"
 		
@@ -428,8 +449,8 @@ class CPPOutputFile(ScopeController):
 		return "return " + expr
 		
 	def handleNew(self, node):
-		typeName = self.parseExpr(node.getElementsByTagName("type")[0].childNodes[0])
-		params = node.getElementsByTagName("parameters")[0]
+		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0])
+		params = getElementByTagName(node, "parameters")
 		
 		paramsString, paramTypes = self.handleParameters(params)
 		
@@ -453,55 +474,14 @@ class CPPOutputFile(ScopeController):
 		
 		return "new " + prefix + typeName + "(" + paramsString + ")"
 		
-	def handleCall(self, node):
-		funcName = self.parseExpr(node.getElementsByTagName("function")[0].childNodes[0])
-		params = node.getElementsByTagName("parameters")[0]
-		
-		paramsString, paramTypes = self.handleParameters(params)
-		implRequest = FunctionImplRequest(funcName, paramTypes)
-		
-		fullName = funcName + self.buildCallPostfix(paramTypes)
-		
-		if not funcName.startswith("bp_"):
-			if not implRequest.getPrototype() in self.compiler.implementationRequests:
-				self.compiler.implementationRequests[implRequest.getPrototype()] = implRequest
-				print("Requested implementation of " + implRequest.getPrototype())
-				
-				className = ""
-				if funcName in self.compiler.classes[className].functions:
-					func = self.compiler.classes[className].functions[funcName]
-				else:
-					raise CompilerException("Function '" + funcName + "' has not been defined")
-				
-				self.functionsHeader += self.implementFunction(func.node, implRequest.paramTypes)
-				self.prototypesHeader += "inline " + self.compiler.functionTypes[fullName] + " " + fullName + "(" + ", ".join(paramTypes) + ");\n"
-			
-			return fullName + "(" + paramsString + ")"
-		else:
-			return funcName + "(" + paramsString + ")"
-		
-	def getCallDataType(self, node):
-		funcName = self.parseExpr(node.getElementsByTagName("function")[0].childNodes[0])
-		params = node.getElementsByTagName("parameters")[0]
-		
-		paramsString, paramTypes = self.handleParameters(params)
-		
-		if not funcName.startswith("bp_"):
-			funcName += self.buildCallPostfix(paramTypes)
-		
-		if not funcName in self.compiler.functionTypes:
-			raise CompilerException("Function '" + funcName + "' has not been defined")
-		
-		return self.compiler.functionTypes[funcName]
-		
 	def handleClass(self, node):
-		name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		
 		self.pushScope()
 		self.inClass = True
-		self.currentClass = self.classes[name] = self.compiler.classes[name] = CPPClass(name)
+		self.currentClass = self.classes[name] = self.compiler.classes[name] = CPPClass(name, self)
 		
-		code = self.parseChilds(node.getElementsByTagName("code")[0], "\t", ";\n")
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t", ";\n")
 		
 		self.currentClass = self.compiler.classes[""]
 		self.inClass = False
@@ -510,38 +490,102 @@ class CPPOutputFile(ScopeController):
 		return ""
 		
 	def handleFunction(self, node):
-		name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		self.currentClass.functions[name] = CPPFunction(self, node)
 		
 		#print("Registered " + name)
 		return ""
 		
+	def getCallFunction(self, node):
+		funcNameNode = getElementByTagName(node, "function").childNodes[0]
+		
+		caller = ""
+		callerType = ""
+		if isTextNode(funcNameNode): #and funcNameNode.tagName == "access":
+			funcName = funcNameNode.nodeValue
+		else:
+			callerType = self.getExprDataType(funcNameNode.childNodes[0].childNodes[0])
+			caller = self.parseExpr(funcNameNode.childNodes[0].childNodes[0])
+			funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+			#print(callerType + "::" + funcName)
+		
+		return caller, callerType, funcName
+		
+	def handleCall(self, node):
+		caller, callerType, funcName = self.getCallFunction(node)
+		
+		params = getElementByTagName(node, "parameters")
+		
+		paramsString, paramTypes = self.handleParameters(params)
+		implRequest = FunctionImplRequest(callerType + "::" + funcName, paramTypes)
+		
+		fullName = funcName + self.buildCallPostfix(paramTypes)
+		
+		if not funcName.startswith("bp_"):
+			if not implRequest.getPrototype() in self.compiler.implementationRequests:
+				self.compiler.implementationRequests[implRequest.getPrototype()] = implRequest
+				#print("Requested implementation of " + implRequest.getPrototype())
+				
+				if funcName in self.compiler.classes[callerType].functions:
+					func = self.compiler.classes[callerType].functions[funcName]
+				else:
+					raise CompilerException("Function '" + funcName + "' has not been defined")
+				
+				self.oldClass = self.currentClass
+				self.currentClass = self.compiler.classes[callerType]
+				if callerType:
+					self.currentClass.functions[funcName].implementations[self.buildCallPostfix(paramTypes)] = self.implementFunction(func.node, implRequest.paramTypes)
+				else:
+					cppFile = self
+					cppFile.functionsHeader += self.implementFunction(func.node, implRequest.paramTypes)
+					
+					prototype = "inline " + self.compiler.functionTypes[callerType + "::" + fullName] + " " + fullName + "(" + ", ".join(paramTypes) + ");\n"
+					cppFile.prototypesHeader += prototype
+					
+					if self.oldClass:
+						self.oldClass.cppFile.prototypesHeader += prototype
+				self.currentClass = self.oldClass
+			
+			if callerType in self.dataTypeWeights:
+				return ["", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
+			else:
+				return ["", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
+		else:
+			return funcName + "(" + paramsString + ")"
+		
 	def implementFunction(self, node, types, tabLevel = ""):
-		name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		origName = name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		
 		#if self.inClass:
 		#	tabLevel *= self.currentTabLevel
 		
 		self.pushScope()
+		self.getCurrentScope().variables["self"] = CPPVariable("self", self.currentClass.name, "")
+		
+		# Add class variables to scope
+		for memberName, memberType in self.currentClass.members.items():
+			self.getCurrentScope().variables[memberName] = CPPVariable(memberName, memberType, "")
+		
 		self.inFunction = True
 		self.currentFuncReturnTypes = []
 		
-		parameters = self.getParameterDefinitions(node.getElementsByTagName("parameters")[0], types)
-		code = self.parseChilds(node.getElementsByTagName("code")[0], tabLevel + "\t", ";\n")
+		parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(node, "parameters"), types)
+		code = self.parseChilds(getElementByTagName(node, "code"), tabLevel + "\t", ";\n")
 		
 		self.inFunction = False
 		self.popScope()
 		
 		funcReturnType = self.getFunctionReturnType()
 		
-		print(name + self.buildCallPostfix(types) + " -> " + funcReturnType)
+		name = self.currentClass.name + "::" + name
+		#print(name + self.buildCallPostfix(types) + " -> " + funcReturnType)
 		self.compiler.functionTypes[name + self.buildCallPostfix(types)] = funcReturnType
 		
-		funcName = funcReturnType + " " + name + self.buildCallPostfix(types)
-		if self.inClass and name == "init":
+		funcName = funcReturnType + " " + origName + self.buildCallPostfix(types)
+		if self.inClass and name == self.currentClass.name + "::init":
 			funcName = "BP" + self.currentClass.name
 		
-		return "inline " + funcName + "(" + parameters + ") {\n" + code + tabLevel + "}\n\n"
+		return "inline " + funcName + "(" + parameters + ") {\n" + funcStartCode + code + tabLevel + "}\n\n"
 #		if self.inClass:
 #			return tabLevel + "inline void " + name + "(" + parameters + ") {\n" + code + tabLevel + "}\n\n"
 #		else:
@@ -564,15 +608,15 @@ class CPPOutputFile(ScopeController):
 		
 	def handleElse(self, node):
 		self.pushScope()
-		code = self.parseChilds(node.getElementsByTagName("code")[0], "\t" * self.currentTabLevel, ";\n")
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 		self.popScope()
 		
 		return " else {\n" + code + "\t" * self.currentTabLevel + "}"
 		
 	def handleTarget(self, node):
-		name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		if name == self.compiler.getTargetName():
-			return self.parseChilds(node.getElementsByTagName("code")[0], "\t" * self.currentTabLevel, ";\n")
+			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 		
 	def handleString(self, node):
 		id = self.id + "_" + node.getAttribute("id")
@@ -601,15 +645,21 @@ class CPPOutputFile(ScopeController):
 	
 	def getParameterDefinitions(self, pNode, types):
 		pList = ""
+		funcStartCode = ""
 		counter = 0
 		
 		for node in pNode.childNodes:
 			name = self.parseExpr(node.childNodes[0])
+			if name.startswith("this->"):
+				member = name[len("this->"):]
+				self.currentClass.members[member] = types[counter]
+				name = "__" + member
+				funcStartCode += "\t" * self.currentTabLevel + "this->" + member + " = " + name + ";\n"
 			pList += types[counter] + " " + name + ", "
 			self.getCurrentScope().variables[name] = CPPVariable(name, types[counter], "")
 			counter += 1
 		
-		return pList[:len(pList)-2]
+		return pList[:len(pList)-2], funcStartCode
 	
 	def handleImport(self, node):
 		importedModulePath = node.childNodes[0].nodeValue.replace(".", "/")
@@ -642,21 +692,32 @@ class CPPOutputFile(ScopeController):
 			modPath = pImportedFile
 		elif os.path.isfile(pImportedInFolder):
 			modPath = pImportedInFolder
-		
-		if modPath != "":
-			modPath = modPath[len(self.compiler.projectDir):]
 		elif os.path.isfile(gImportedFile):
 			modPath = gImportedFile
 		elif os.path.isfile(gImportedInFolder):
 			modPath = gImportedInFolder
 		
+		if modPath.startswith(self.compiler.projectDir):
+			modPath = modPath[len(self.compiler.projectDir):]
+		elif modPath.startswith(self.compiler.modDir):
+			modPath = modPath[len(self.compiler.modDir):]
+		
 		return "#include <" + stripExt(modPath) + "-out.hpp>\n"
 		
 	def parseBinaryOperator(self, node, connector):
+		op1 = self.parseExpr(node.childNodes[0])
+		op2 = self.parseExpr(node.childNodes[1])
+		
+		if op2 == "self":
+			op2 = "this"
+		
+		if op1 == "self":
+			op1 = "this"
+		
 		if connector != " / ":
-			return self.exprPrefix + self.parseExpr(node.childNodes[0]) + connector + self.parseExpr(node.childNodes[1]) + self.exprPostfix
+			return self.exprPrefix + op1 + connector + op2 + self.exprPostfix
 		else:
-			return self.exprPrefix + "float(" + self.parseExpr(node.childNodes[0]) + ")" + connector + self.parseExpr(node.childNodes[1]) + self.exprPostfix
+			return self.exprPrefix + "float(" + op1 + ")" + connector + op2 + self.exprPostfix
 		
 	def getCombinationResult(self, operation, operatorType1, operatorType2):
 		if operatorType1 in self.dataTypeWeights and operatorType2 in self.dataTypeWeights:
@@ -699,16 +760,35 @@ class CPPOutputFile(ScopeController):
 			# Binary operators
 			if node.tagName == "new":
 				# TODO: Template based types
-				return node.getElementsByTagName("type")[0].childNodes[0].nodeValue
+				return getElementByTagName(node, "type").childNodes[0].nodeValue
 			elif node.tagName == "call":
 				return self.getCallDataType(node)
+			elif node.tagName == "access":
+				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
+				memberType = self.compiler.classes[callerType].members[node.childNodes[1].childNodes[0].nodeValue]
+				
+				return memberType
 			elif len(node.childNodes) == 2:
 				return self.getCombinationResult(node.tagName, self.getExprDataType(node.childNodes[0].childNodes[0]), self.getExprDataType(node.childNodes[1].childNodes[0]))
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
 		
+	def getCallDataType(self, node):
+		caller, callerType, funcName = self.getCallFunction(node)
+		params = getElementByTagName(node, "parameters")
+		
+		paramsString, paramTypes = self.handleParameters(params)
+		
+		if not funcName.startswith("bp_"):
+			funcName += self.buildCallPostfix(paramTypes)
+		
+		if not (callerType + "::" + funcName) in self.compiler.functionTypes:
+			raise CompilerException("Function '" + funcName + "' has not been defined")
+		
+		return self.compiler.functionTypes[callerType + "::" + funcName]
+		
 	def variableExistsAnywhere(self, name):
-		if self.variableExists(name) or name in self.compiler.globalScope.variables:
+		if self.variableExists(name) or (name in self.compiler.globalScope.variables):
 			return 1
 		
 		return 0
@@ -722,22 +802,29 @@ class CPPOutputFile(ScopeController):
 			return self.compiler.globalScope.variables[name].type
 		
 		raise CompilerException("Unknown variable: " + name)
+	
+	def getVariableScopeAnywhere(self, name):
+		scope = self.getVariableScope(name)
+		if scope:
+			return scope
 		
-#	def implement(self):
-#		funcs = self.classes[""].functions.copy()
-#		reqs = self.compiler.implementationRequests.copy()
-#		
-#		for func in funcs.values():
-#			for implRequest in reqs.values():
-#				if func.getName() == implRequest.getName() and not implRequest.isImplemented():
-#					print("Implementing " + implRequest.getPrototype())
-#					implRequest.implementation = self.implementFunction(func.node, implRequest.paramTypes)
-#					self.functionsHeader += implRequest.implementation
+		if name in self.compiler.globalScope.variables:
+			return self.compiler.globalScope
+		
+		raise CompilerException("Unknown variable: " + name)
 		
 	def getCode(self):
 		for classObj in self.classes.values():
 			if classObj.name != "":
 				code = ""
+				
+				# Members
+				for memberName, memberType in classObj.members.items():
+					code += "\t" + memberType + " " + memberName + ";\n"
+				
+				code += "\t\n"
+				
+				# Functions
 				for func in classObj.functions.values():
 					for impl in func.implementations.values():
 						code += "\t" + impl + "\n"

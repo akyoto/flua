@@ -207,9 +207,9 @@ class BPCFile(ScopeController):
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
 		self.root = self.doc.documentElement
-		self.header = self.root.getElementsByTagName("header")[0]
-		self.dependencies = self.header.getElementsByTagName("dependencies")[0]
-		self.strings = self.header.getElementsByTagName("strings")[0]
+		self.header = getElementByTagName(self.root, "header")
+		self.dependencies = getElementByTagName(self.header, "dependencies")
+		self.strings = getElementByTagName(self.header, "strings")
 		
 		# XML tags which can follow another tag
 		
@@ -235,13 +235,16 @@ class BPCFile(ScopeController):
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
 		
+		# parseExpr
+		self.parseExpr = self.parser.buildXMLTree
+		
 	def getRoot(self):
 		return self.root
 		
 	def compile(self):
 		print("Compiling: " + self.file)
 		
-		self.currentNode = self.root.getElementsByTagName("code")[0]
+		self.currentNode = getElementByTagName(self.root, "code")
 		self.lastNode = None
 		
 		# Read
@@ -271,6 +274,11 @@ class BPCFile(ScopeController):
 				tabCountNextLine = self.countTabs(lines[lineIndex + 1])
 				if tabCountNextLine == tabCount + 1:
 					self.nextLineIndented = True
+			
+			# Remove whitespaces
+			line = line.replace("\t", " ")
+			while line.find("  ") != -1:
+				line = line.replace("  ", " ")
 			
 			if tabCount < prevTabCount:
 				savedCurrentNode = self.currentNode
@@ -330,9 +338,6 @@ class BPCFile(ScopeController):
 					self.currentNode = self.currentNode.parentNode
 			atTab -= 1
 		
-	def parseExpr(self, expr):
-		return self.parser.buildXMLTree(expr)
-		
 	def processLine(self, line):
 		if self.inExtern:
 			return self.handleExternLine(line)
@@ -340,6 +345,8 @@ class BPCFile(ScopeController):
 			return self.handleImport(line)
 		elif startsWith(line, "while"):
 			return self.handleWhile(line)
+		elif startsWith(line, "for"):
+			return self.handleFor(line)
 		elif startsWith(line, "try"):
 			return self.handleTry(line)
 		elif startsWith(line, "catch"):
@@ -404,7 +411,7 @@ class BPCFile(ScopeController):
 			nextChar = line[i+1]
 			
 			if char.isspace() and (isVarChar(nextChar)):
-				line = line[:i] + "(" + line[i+1:] + ")"
+				line = "%s(%s)" % (line[:i], line[i+1:])
 		elif line[-1] != ')':
 			line += "()"
 		
@@ -447,6 +454,11 @@ class BPCFile(ScopeController):
 		node.appendChild(code)
 		
 		self.nextNode = code
+		return node
+		
+	def handleFor(self, line):
+		node = self.doc.createElement("for")
+		self.nextNode = node
 		return node
 		
 	def handlePrivate(self, line):

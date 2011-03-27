@@ -1,0 +1,1183 @@
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)
+
+# Comment
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+if c.contains(c.midPoint)
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if 1
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+if c.diameter() > 2
+	p = Point(3.0, 4.0)
+	c = Circle(p, 5.0)
+	c2 = Circle(c.midPoint, c.radius)
+	dia = c.diameter()
+	con = c.contains(c.midPoint)
+
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+c.diameter()
+c.contains(c.midPoint)

@@ -1,7 +1,12 @@
 import sub1
 import sub2
 import sub3
+import performanceTest
 
-a = Point(3, 4)
-print("Main")
-print(a)
+p = Point(3.0, 4.0)
+c = Circle(p, 5.0)
+c2 = Circle(c.midPoint, c.radius)
+dia = c.diameter()
+con = c.contains(c.midPoint)
+
+print("Main finished.")

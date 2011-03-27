@@ -106,24 +106,27 @@ class ExpressionParser:
 		self.recursionLevel += 1
 		
 		expr = expr.replace(" ", "")
+		exprLen = len(expr)
 		
 		#print(self.getDebugPrefix() + " * buildCleanExpr: " + expr)
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
 			i = 0
-			while i < len(expr):
+			while i < exprLen:
+				operators = opLevel.operators
+				
 				# For every operator in the current level
-				for op in opLevel.operators:
-					if i < len(expr) - op.textLen and expr[i:i+op.textLen] == op.text:
+				for op in operators:
+					if i < exprLen - op.textLen and expr[i:i+op.textLen] == op.text:
 						lastOccurence = i
 					else:
 						lastOccurence = -1
 					
 					if lastOccurence is not -1:
-						if lastOccurence == len(expr) - 1:
+						if lastOccurence == exprLen - 1:
 							raise CompilerException("Missing operand")
-						if isVarChar(expr[lastOccurence + len(op.text)]) or expr[lastOccurence + len(op.text)] == '(' or op.text == '(' or expr[lastOccurence + len(op.text)] == '[' or op.text == '[':
+						if isVarChar(expr[lastOccurence + op.textLen]) or expr[lastOccurence + op.textLen] == '(' or op.text == '(' or expr[lastOccurence + op.textLen] == '[' or op.text == '[':
 							if op.type == Operator.BINARY:
 								# Left operand
 								start = lastOccurence - 1
@@ -153,9 +156,9 @@ class ExpressionParser:
 								else:
 									bracketCounter = 0
 								
-								while end < len(expr) and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + 1 and (expr[end] == '(' or expr[end] == '['))):
+								while end < exprLen and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + 1 and (expr[end] == '(' or expr[end] == '['))):
 									# Move to last part of the bracket
-									while bracketCounter > 0 and end < len(expr):
+									while bracketCounter > 0 and end < exprLen:
 										if expr[end] == '(' or expr[end] == '[':
 											bracketCounter += 1
 										elif expr[end] == ')' or expr[end] == ']':
@@ -168,7 +171,7 @@ class ExpressionParser:
 										end += 1
 									end += 1
 								
-								operandRight = expr[lastOccurence + op.textLen:end];
+								operandRight = expr[lastOccurence + op.textLen:end]
 								
 								#print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
 								
@@ -181,22 +184,22 @@ class ExpressionParser:
 								# else:
 								#	print("START: " + "OUT OF STRING")
 								# 
-								# if end < len(expr):
+								# if end < exprLen:
 								#	print("END[" + str(end) + "]: " + expr[end])
 								# else:
 								#	print("END: " + "OUT OF STRING")
 								# #=======================================================
 								#===================================================
-								
-								if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')')) or op.text == "("):
+								if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')')) or op.text == "("):
 									if op.text == "(":
 										newOpText = "#"
-										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
+										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + len(operandRight) + 1:])
 									elif op.text == "[":
 										newOpText = "@"
-										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + ")" + newOpText + "(" + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight) + 1:]
+										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + len(operandRight) + 1:])
 									else:
-										expr = expr[:lastOccurence - len(operandLeft)] + "(" + operandLeft + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+										expr = "%s(%s%s%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, op.text, operandRight, expr[lastOccurence + op.textLen + len(operandRight):])
+									exprLen = len(expr)
 									#print(self.getDebugPrefix() + "    * Expression changed: " + expr)
 								else:
 									pass
@@ -210,14 +213,14 @@ class ExpressionParser:
 								
 								# Right operand
 								end = lastOccurence + op.textLen
-								while end < len(expr) and (isVarChar(expr[end]) or ((expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1)):
+								while end < exprLen and (isVarChar(expr[end]) or ((expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1)):
 									if (expr[end] == '(' or expr[end] == '[') and end == lastOccurence + 1:
 										bracketCounter = 1
 									else:
 										bracketCounter = 0
 									
 									# Move to last part of the bracket
-									while bracketCounter > 0 and end < len(expr)-1:
+									while bracketCounter > 0 and end < exprLen-1:
 										end += 1
 										if expr[end] == '(' or expr[end] == '[':
 											bracketCounter += 1
@@ -231,8 +234,9 @@ class ExpressionParser:
 								
 								start = lastOccurence - 1
 								
-								if (start < 0 or expr[start] != '(') or (end >= len(expr) or expr[end] != ')'):
-									expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + len(op.text) + len(operandRight):]
+								if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
+									expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + op.textLen + len(operandRight):]
+									exprLen = len(expr)
 									lastOccurence += 1
 									#print("EX.UNARY: " + expr)
 								else:
@@ -242,12 +246,12 @@ class ExpressionParser:
 								# If a binary version does not exist it means the operator has been used incorrectly
 								if not self.similarOperatorExists(op):
 									raise CompilerException("Syntax error concerning the unary operator [" + op.text + "]")
-						elif expr[lastOccurence + len(op.text)] != '(' and expr[lastOccurence + len(op.text)] != '[':
+						elif expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
 							if self.similarOperatorExists(op):
 								pass
 							else:
-								raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + len(op.text)] + "')")
-							#lastOccurence = expr.find(op.text, lastOccurence + len(op.text))
+								raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + op.textLen] + "')")
+							#lastOccurence = expr.find(op.text, lastOccurence + op.textLen)
 						i += op.textLen
 				else:
 					i += 1
@@ -418,31 +422,41 @@ class ExpressionParser:
 				# 'parameters' sub nodes
 				child = node.firstChild
 				while child is not None:
+					child.tagName = "parameter"
+					
+					# TODO: Optimize this
+					
+					# Put all nested "separates" on the same level
 					if child.hasChildNodes() and child.firstChild.nodeType == Node.ELEMENT_NODE and child.firstChild.tagName == "separate":
 						for param in child.firstChild.childNodes:
 							node.insertBefore(param.cloneNode(True), child)
-						oldChild = child
+						
+						node.removeChild(child)
 						child = node.firstChild
-						node.removeChild(oldChild)
+						
+						# 2
+						#oldChild = child
+						#child = node.firstChild
+						#node.removeChild(oldChild)
 						continue
+					
 					child = child.nextSibling
 				
 				# 'parameter' tag name
-				for child in node.childNodes:
-					child.tagName = "parameter"
+				#for child in node.childNodes:
+				#	child.tagName = "parameter"
 			elif node.tagName == "call":
 				# Object based method calls will be ignored for this test
 				node.firstChild.tagName = "function"
 				
-				params = node.childNodes[1].firstChild.cloneNode(True)
-				node.appendChild(self.getParametersNode(params))
-				node.removeChild(node.childNodes[1])
+				node.replaceChild(self.getParametersNode(node.childNodes[1].firstChild), node.childNodes[1])
 				
 				# Clean up whitespaces
-				for child in node.childNodes:
-					if child.nodeType == Node.TEXT_NODE:
-						node.removeChild(child)
+				#for child in node.childNodes:
+				#	if child.nodeType == Node.TEXT_NODE:
+				#		node.removeChild(child)
 			elif node.tagName == "access":
+				# Correct float values being interpreted as access calls
 				value1 = node.childNodes[0].childNodes[0]
 				value2 = node.childNodes[1].childNodes[0]
 				if isTextNode(value1) and isTextNode(value2) and value1.nodeValue.isdigit() and value2.nodeValue.isdigit():

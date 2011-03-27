@@ -1,6 +1,10 @@
 #include "main-out.hpp"
 
 int main(int argc, char *argv[]) {
+	exec_file_11();
+	exec_file_10();
+	exec_file_9();
+	exec_file_8();
 	exec_file_7();
 	exec_file_6();
 	exec_file_5();

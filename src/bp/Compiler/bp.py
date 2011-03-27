@@ -39,7 +39,7 @@ from Output import *
 if __name__ == '__main__':
 	try:
 		print("Starting:")
-		start = time.clock()
+		totalStart = time.clock()
 		
 		# Compile
 		start = time.clock()
@@ -47,8 +47,7 @@ if __name__ == '__main__':
 		bpc = BPCCompiler("../../")
 		bpc.compile("Test/Input/main.bpc")
 		
-		elapsedTime = time.clock() - start
-		print("CompileTime:  " + str(elapsedTime * 1000) + " ms")
+		compileTime = time.clock() - start
 		
 		# Post-processing
 		start = time.clock()
@@ -56,8 +55,7 @@ if __name__ == '__main__':
 		bp = BPPostProcessor(bpc)
 		bp.process(bpc.getCompiledFiles()[0])
 		
-		elapsedTime = time.clock() - start
-		print("PostProcessTime:  " + str(elapsedTime * 1000) + " ms")
+		postProcessTime = time.clock() - start
 		
 		# Generate
 		start = time.clock()
@@ -66,16 +64,23 @@ if __name__ == '__main__':
 		cpp.compile(bpc.getCompiledFiles()[0])
 		cpp.writeToFS("Test/Output/")
 		
-		elapsedTime = time.clock() - start
-		print("GenerateTime:  " + str(elapsedTime * 1000) + " ms")
+		generateTime = time.clock() - start
 		
 		# Build
 		start = time.clock()
 		
 		exe = cpp.build()
 		
-		elapsedTime = time.clock() - start
-		print("BuildTime:    " + str(elapsedTime * 1000) + " ms")
+		buildTime = time.clock() - start
+		totalTime = time.clock() - totalStart
+		
+		print("")
+		print("CompileTime:      " + str(compileTime * 1000).rjust(8) + " ms")
+		print("PostProcessTime:  " + str(postProcessTime * 1000).rjust(8) + " ms")
+		print("GenerateTime:     " + str(generateTime * 1000).rjust(8) + " ms")
+		print("BuildTime:        " + str(buildTime * 1000).rjust(8) + " ms")
+		print("-----------------------------")
+		print("TotalTime:        " + str(totalTime * 1000).rjust(8) + " ms")
 		
 		# Exec
 		print("\nOutput:")

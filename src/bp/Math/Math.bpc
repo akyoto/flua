@@ -1,3 +1,5 @@
+import Geometry.Euclidean
+
 target C++
 	include Math.hpp
 
@@ -10,13 +12,6 @@ extern
 const π = 3.14159265358979323846264338327
 const DEG_TO_RAD = 0.017453293
 const RAD_TO_DEG = 57.295777937
-
-# Classes
-Point
-	init x, y
-		#self.x = x
-		#self.y = y
-		...
 
 # Functions
 degToRad deg
@@ -39,3 +34,10 @@ sinDegree degree
 	
 cosDegree degree
 	return bp_cos(degree * DEG_TO_RAD)
+	
+distanceSqr x1, y1, x2, y2
+	dX = x2 - x1
+	dY = y2 - y1
+	
+	# TODO: ^2
+	return dX * dX + dY * dY

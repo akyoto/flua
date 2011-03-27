@@ -62,8 +62,8 @@ class BPPostProcessorFile:
 	def process(self):
 		print("Processing: " + self.inpFile.file)
 		
-		self.findDefinitions(self.inpFile.root.getElementsByTagName("code")[0])
-		self.processNode(self.inpFile.root.getElementsByTagName("code")[0])
+		self.findDefinitions(getElementByTagName(self.inpFile.root, "code"))
+		self.processNode(getElementByTagName(self.inpFile.root, "code"))
 		
 		print(self.inpFile.doc.toprettyxml())
 		
@@ -74,7 +74,7 @@ class BPPostProcessorFile:
 		if isTextNode(node):
 			return
 		elif node.tagName == "class":
-			className = node.getElementsByTagName("name")[0].childNodes[0].nodeValue
+			className = getElementByTagName(node, "name").childNodes[0].nodeValue
 			
 			# TODO: Class extending
 			self.processor.classes[className] = BPClass(className)
@@ -86,10 +86,10 @@ class BPPostProcessorFile:
 		if isTextNode(node):
 			return
 		elif node.tagName == "call":
-			funcNameNode = node.getElementsByTagName("function")[0].childNodes[0]
+			funcNameNode = getElementByTagName(node, "function").childNodes[0]
 			
 			if isTextNode(funcNameNode):
 				funcName = funcNameNode.nodeValue
 				if funcName in self.processor.classes:
 					node.tagName = "new"
-					node.getElementsByTagName("function")[0].tagName = "type"
+					getElementByTagName(node, "function").tagName = "type"

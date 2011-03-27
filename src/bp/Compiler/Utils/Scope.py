@@ -61,6 +61,15 @@ class ScopeController:
 			i -= 1
 		
 		return None
+	
+	def getVariableScope(self, name):
+		i = len(self.scopes) - 1
+		while i >= 0:
+			if name in self.scopes[i].variables:
+				return self.scopes[i]
+			i -= 1
+		
+		return None
 		
 	def variableExists(self, name):
 		i = len(self.scopes) - 1
