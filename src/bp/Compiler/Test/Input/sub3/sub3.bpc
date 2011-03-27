@@ -1,3 +1,3 @@
 import sub4
 
-printf("Sub3\n")
+print "Sub3"

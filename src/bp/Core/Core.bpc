@@ -1,0 +1,16 @@
+target C++
+	include Core.hpp
+
+extern
+	bp_print
+	bp_usleep : Int
+	bp_milliSecs : Int
+
+print stri
+	bp_print stri
+
+sleep ms
+	bp_usleep ms * 1000
+	
+milliSecs
+	return bp_milliSecs()

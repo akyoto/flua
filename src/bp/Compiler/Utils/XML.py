@@ -35,10 +35,14 @@ def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")
 
 def isTextNode(node):
+	if node is None:
+		return False
 	return node.nodeType == Node.TEXT_NODE
 
 def tagName(node):
-	if(isTextNode(node)):
+	if node is None:
+		return ""
+	elif(isTextNode(node)):
 		return node.nodeValue
 	else:
 		return node.tagName

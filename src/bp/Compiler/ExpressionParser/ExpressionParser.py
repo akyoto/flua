@@ -442,6 +442,14 @@ class ExpressionParser:
 				for child in node.childNodes:
 					if child.nodeType == Node.TEXT_NODE:
 						node.removeChild(child)
+			elif node.tagName == "access":
+				value1 = node.childNodes[0].childNodes[0]
+				value2 = node.childNodes[1].childNodes[0]
+				if isTextNode(value1) and isTextNode(value2) and value1.nodeValue.isdigit() and value2.nodeValue.isdigit():
+					parent = node.parentNode
+					parent.insertBefore(self.doc.createTextNode(value1.nodeValue + "." + value2.nodeValue), node)
+					parent.removeChild(node)
+			
 			# Object-oriented call
 #			elif node.tagName == "access":
 #				try:

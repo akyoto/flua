@@ -1,0 +1,41 @@
+target C++
+	include Math.hpp
+
+extern
+	bp_sin : Double
+	bp_cos : Double
+	bp_sqrt : Double
+
+# Vars
+const π = 3.14159265358979323846264338327
+const DEG_TO_RAD = 0.017453293
+const RAD_TO_DEG = 57.295777937
+
+# Classes
+Point
+	init x, y
+		#self.x = x
+		#self.y = y
+		...
+
+# Functions
+degToRad deg
+	return deg * DEG_TO_RAD
+	
+radToDeg rad
+	return rad * RAD_TO_DEG
+
+sin radian
+	return bp_sin(radian)
+	
+cos radian
+	return bp_cos(radian)
+	
+sqrt num
+	return bp_sqrt(num)
+
+sinDegree degree
+	return bp_sin(degree * DEG_TO_RAD)
+	
+cosDegree degree
+	return bp_cos(degree * DEG_TO_RAD)

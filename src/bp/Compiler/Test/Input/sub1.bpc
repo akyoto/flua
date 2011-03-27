@@ -1,3 +1,4 @@
+import bp.Math
 import main
 
-printf("Sub1\n")
+print "Sub1"

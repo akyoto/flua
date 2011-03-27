@@ -1,1 +1,1 @@
-printf("Sub5\n")
+print "Sub5"

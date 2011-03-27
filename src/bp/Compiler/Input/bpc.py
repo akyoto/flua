@@ -48,11 +48,16 @@ class BPCCompiler:
 		self.compiledFiles = dict()
 		self.compiledFilesList = []
 		self.projectDir = ""
-		self.modDir = fixPath(os.path.abspath(modDir))
+		self.modDir = fixPath(os.path.abspath(modDir)) + "/"
 		self.initExprParser()
+		
+		#print("Mods: " + self.modDir)
 	
 	def getCompiledFiles(self):
 		return self.compiledFilesList
+	
+	def getFileInstanceByPath(self, path):
+		return self.compiledFiles[path]
 	
 	def initExprParser(self):
 		self.parser = ExpressionParser()
@@ -87,6 +92,7 @@ class BPCCompiler:
 		operators = OperatorLevel()
 		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
 		operators.addOperator(Operator("/", "divide", Operator.BINARY))
+		operators.addOperator(Operator("\\", "divide-floor", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 6: Add, Sub
@@ -181,10 +187,12 @@ class BPCCompiler:
 			
 			with open(fileOut, "w") as outStream:
 				outStream.write(bpcFile.root.toprettyxml())
-
-class BPCFile:
+		
+class BPCFile(ScopeController):
 	
 	def __init__(self, compiler, fileIn, isMainFile):
+		ScopeController.__init__(self)
+		
 		self.compiler = compiler
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
@@ -194,6 +202,7 @@ class BPCFile:
 		self.savedNextNode = 0
 		self.inSwitch = 0
 		self.inCase = 0
+		self.inExtern = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
@@ -218,7 +227,9 @@ class BPCFile:
 			"for" : [],
 			"in" : [],
 			"switch" : [],
-			"case" : []
+			"case" : [],
+			"target" : [],
+			"extern" : []
 		}
 		
 		# This is used for xml tags which have a "code" node
@@ -231,12 +242,13 @@ class BPCFile:
 		print("Compiling: " + self.file)
 		
 		self.currentNode = self.root.getElementsByTagName("code")[0]
+		self.lastNode = None
 		
 		# Read
 		with codecs.open(self.file, "r", "utf-8") as inStream:
 			codeText = inStream.read()
 		
-		lines = codeText.split('\n') + [""]
+		lines = ["import bp.Core"] + codeText.split('\n') + [""]
 		tabCount = 0
 		prevTabCount = 0
 		
@@ -251,11 +263,21 @@ class BPCFile:
 			if line == "":
 				continue
 			
+			# pi
+			line = line.replace("π", "pi")
+			
 			self.nextLineIndented = False
 			if lineIndex < len(lines) - 1:
 				tabCountNextLine = self.countTabs(lines[lineIndex + 1])
 				if tabCountNextLine == tabCount + 1:
 					self.nextLineIndented = True
+			
+			if tabCount < prevTabCount:
+				savedCurrentNode = self.currentNode
+				self.tabBack(currentLine, prevTabCount, tabCount, True)
+				self.currentNode = savedCurrentNode
+			
+			currentLine = self.processLine(line)
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -265,43 +287,56 @@ class BPCFile:
 				else:
 					self.currentNode = self.lastNode
 			elif tabCount < prevTabCount:
-				atTab = prevTabCount
-				while atTab > tabCount:
-					if self.currentNode.tagName == "switch":
-						self.inSwitch -= 1
-					
-					self.currentNode = self.currentNode.parentNode
-					
-					if self.currentNode.tagName == "case":
-						self.inCase -= 1
-					
-					# XML elements with "code" tags need special treatment
-					if self.currentNode.parentNode.tagName in self.blocks:
-						tagsAllowed = self.blocks[self.currentNode.parentNode.tagName]
-						if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
-							self.currentNode = self.currentNode.parentNode.parentNode
-						else:
-							self.currentNode = self.currentNode.parentNode
-					elif self.currentNode.tagName in self.simpleBlocks:
-						tagsAllowed = self.simpleBlocks[self.currentNode.tagName]
-						if atTab != tabCount + 1 or isTextNode(currentLine) or not currentLine.tagName in tagsAllowed:
-							self.currentNode = self.currentNode.parentNode
-					atTab -= 1
+				self.tabBack(currentLine, prevTabCount, tabCount, False)
 			
-			currentLine = self.processLine(line)
 			self.savedNextNode = self.nextNode
 			
 			if currentLine:
+				if not isTextNode(currentLine) and currentLine.tagName == "assign":
+					variableNode = currentLine.childNodes[0].childNodes[0]
+					if isTextNode(variableNode):
+						variable = variableNode.nodeValue
+						if not variable in self.getCurrentScope().variables:
+							self.getCurrentScope().variables[variable] = currentLine
+				
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
 		
-		print(self.doc.toprettyxml())
+	def tabBack(self, currentLine, prevTabCount, tabCount, countIns):
+		atTab = prevTabCount
+		while atTab > tabCount:
+			if countIns:
+				if self.currentNode.tagName == "switch":
+					self.inSwitch -= 1
+				if self.currentNode.tagName == "extern":
+					self.inExtern -= 1
+			
+			self.currentNode = self.currentNode.parentNode
+			
+			if countIns:
+				if self.currentNode.tagName == "case":
+					self.inCase -= 1
+			
+			# XML elements with "code" tags need special treatment
+			if self.currentNode.parentNode.tagName in self.blocks:
+				tagsAllowed = self.blocks[self.currentNode.parentNode.tagName]
+				if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
+					self.currentNode = self.currentNode.parentNode.parentNode
+				else:
+					self.currentNode = self.currentNode.parentNode
+			elif self.currentNode.tagName in self.simpleBlocks:
+				tagsAllowed = self.simpleBlocks[self.currentNode.tagName]
+				if atTab != tabCount + 1 or isTextNode(currentLine) or not currentLine.tagName in tagsAllowed:
+					self.currentNode = self.currentNode.parentNode
+			atTab -= 1
 		
 	def parseExpr(self, expr):
 		return self.parser.buildXMLTree(expr)
 		
 	def processLine(self, line):
-		if startsWith(line, "import"):
+		if self.inExtern:
+			return self.handleExternLine(line)
+		elif startsWith(line, "import"):
 			return self.handleImport(line)
 		elif startsWith(line, "while"):
 			return self.handleWhile(line)
@@ -331,6 +366,12 @@ class BPCFile:
 			return self.handleIn(line)
 		elif startsWith(line, "switch"):
 			return self.handleSwitch(line)
+		elif startsWith(line, "target"):
+			return self.handleTarget(line)
+		elif startsWith(line, "extern"):
+			return self.handleExtern(line)
+		elif startsWith(line, "include"):
+			return self.handleInclude(line)
 		elif line == "...":
 			return self.handleNOOP(line)
 		elif self.nextLineIndented:
@@ -427,6 +468,46 @@ class BPCFile:
 		
 		self.nextNode = code
 		return node
+	
+	def handleTarget(self, line):
+		node = self.doc.createElement("target")
+		condition = self.doc.createElement("name")
+		code = self.doc.createElement("code")
+		condition.appendChild(self.doc.createTextNode(line[len("target")+1:]))
+		
+		node.appendChild(condition)
+		node.appendChild(code)
+		
+		self.nextNode = code
+		return node
+	
+	def handleExtern(self, line):
+		node = self.doc.createElement("extern")
+		self.inExtern += 1
+		
+		self.nextNode = node
+		return node
+	
+	def handleExternLine(self, line):
+		node = self.doc.createElement("extern-function")
+		name = self.doc.createElement("name")
+		node.appendChild(name)
+		
+		pos = line.find(":")
+		
+		if pos == -1:
+			name.appendChild(self.doc.createTextNode(line))
+		else:
+			funcName = line[:pos].rstrip()
+			funcType = line[pos+1:].lstrip()
+			
+			type = self.doc.createElement("type")
+			node.appendChild(type)
+			
+			name.appendChild(self.doc.createTextNode(funcName))
+			type.appendChild(self.doc.createTextNode(funcType))
+		
+		return node
 		
 	def handleContinue(self, line):
 		return self.doc.createElement("continue")
@@ -457,6 +538,15 @@ class BPCFile:
 			node.appendChild(param)
 		else:
 			raise CompilerException("#throw keyword expects a parameter (e.g. an exception object)")
+		return node
+	
+	def handleInclude(self, line):
+		node = self.doc.createElement("include")
+		param = self.doc.createTextNode(line[len("include")+1:])
+		if param.nodeValue:
+			node.appendChild(param)
+		else:
+			raise CompilerException("#include keyword expects a file name")
 		return node
 		
 	def handleFunction(self, line):
@@ -556,7 +646,6 @@ class BPCFile:
 		
 		node.appendChild(ifNode)
 		
-		print("Setting nextNode!")
 		self.nextNode = code
 		return node
 	
@@ -621,9 +710,9 @@ class BPCFile:
 		elif os.path.isfile(pImportedInFolder):
 			self.importedFiles.append(pImportedInFolder)
 		elif os.path.isfile(gImportedFile):
-			self.importedFiles.append(pImportedFile)
+			self.importedFiles.append(gImportedFile)
 		elif os.path.isfile(gImportedInFolder):
-			self.importedFiles.append(pImportedInFolder)
+			self.importedFiles.append(gImportedInFolder)
 		else:
 			raise CompilerException("Module not found: " + importedModule)
 		

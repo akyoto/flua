@@ -1,3 +1,3 @@
 import main
 
-printf("Sub2\n")
+print "Sub2"

@@ -2,4 +2,6 @@ import sub1
 import sub2
 import sub3
 
-printf("Main\n")
+a = Point(3, 4)
+print("Main")
+print(a)
