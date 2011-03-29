@@ -93,6 +93,7 @@ class BPCCompiler:
 		operators.addOperator(Operator("*", "multiply", Operator.BINARY))
 		operators.addOperator(Operator("/", "divide", Operator.BINARY))
 		operators.addOperator(Operator("\\", "divide-floor", Operator.BINARY))
+		operators.addOperator(Operator("%", "modulo", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 6: Add, Sub
@@ -458,7 +459,34 @@ class BPCFile(ScopeController):
 		
 	def handleFor(self, line):
 		node = self.doc.createElement("for")
-		self.nextNode = node
+		
+		pos = line.find(" to ")
+		if pos == -1:
+			node.tagName = "foreach"
+			# TODO: Foreach
+			return None
+		else:
+			initExpr = self.parseExpr(line[len("for")+1:pos])
+			toExpr = self.parseExpr(line[pos+len(" to "):])
+			
+			iterNode = self.doc.createElement("iterator")
+			iterNode.appendChild(initExpr.childNodes[0].childNodes[0])
+			
+			fromNode = self.doc.createElement("from")
+			fromNode.appendChild(initExpr.childNodes[1].childNodes[0])
+			
+			toNode = self.doc.createElement("to")
+			toNode.appendChild(toExpr)
+			
+			codeNode = self.doc.createElement("code")
+			
+			node.appendChild(iterNode)
+			node.appendChild(fromNode)
+			node.appendChild(toNode)
+			node.appendChild(codeNode)
+			
+			self.nextNode = codeNode
+		
 		return node
 		
 	def handlePrivate(self, line):

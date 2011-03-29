@@ -2,14 +2,6 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-// Typedefs
-typedef bool Bool;
-typedef char Byte;
-typedef short Short;
-typedef int Int;
-typedef float Float;
-typedef double Double;
-
 // Standard functions
 template <typename T>
 inline void bp_print(T var) {

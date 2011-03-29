@@ -1,4 +1,4 @@
-import bp.Math
-import main
+import sub2
 
+a = 1
 print "Sub1"

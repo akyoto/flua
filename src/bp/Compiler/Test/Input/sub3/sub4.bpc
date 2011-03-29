@@ -1,3 +1,4 @@
 import sub5
 
+a = 4
 print "Sub4"

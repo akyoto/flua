@@ -68,11 +68,17 @@ class FunctionImplRequest:
 		self.paramTypes = paramTypes
 		self.implementation = ""
 		
+	def buildPostfix(self):
+		postfix = ""
+		for dataType in self.paramTypes:
+			postfix += "__" + dataType
+		return postfix
+		
 	def getName(self):
 		return self.name
 		
 	def getPrototype(self):
-		return self.name + "(" + ", ".join(self.paramTypes) + ")"
+		return self.name + self.buildPostfix() + "(" + ", ".join(self.paramTypes) + ")"
 	
 	def isImplemented(self):
 		return self.implementation != ""
@@ -89,24 +95,45 @@ class CPPOutputCompiler:
 		self.stringCounter = 0;
 		self.fileCounter = 0;
 		self.outputDir = ""
-		self.mainFile = ""
+		self.mainFile = None
+		self.mainCppFile = ""
 		self.globalScope = Scope()
 		self.implementationRequests = {}
 		self.functionTypes = {}
 		
 		self.classes = {}
 		self.classes[""] = CPPClass("", None)
+		
+		self.dataTypeWeights = {
+			"Bool" : 1,
+			"Byte" : 2,
+			"Short" : 3,
+			"Int" : 4,
+			"Float" : 5,
+			"Double" : 6
+		}
 	
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile)
-		self.compiledFiles[inpFile] = cppOut
-		self.compiledFilesList.insert(0, cppOut)
 		
+		if len(self.compiledFiles) == 0:
+			self.mainFile = cppOut
+		
+		# This needs to be executed BEFORE the imported files have been compiled
+		# It'll prevent a file from being processed twice
+		self.compiledFiles[inpFile] = cppOut
+		
+		# Import files
 		for imp in inpFile.importedFiles:
 			inFile = self.inputCompiler.getFileInstanceByPath(imp)
 			if (not inFile in self.compiledFiles):
 				self.compile(inFile)
 		
+		# This needs to be executed AFTER the imported files have been compiled
+		# It'll make sure the files are called in the correct (recursive) order
+		self.compiledFilesList.append(cppOut)
+		
+		# After the dependencies have been compiled, compile itself
 		cppOut.compile()
 		
 #		self.inputFiles.reverse()
@@ -141,18 +168,48 @@ class CPPOutputCompiler:
 				hppFile = os.path.basename(fileOut)
 				
 				fileOut = dirOut + stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
-				self.mainFile = fileOut
+				self.mainCppFile = fileOut
 				
 				# Write main file
 				with open(fileOut, "w") as outStream:
-					outStream.write("#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + self.getFileExecList() + "\treturn 0;\n}\n")
+					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + self.getFileExecList() + "\treturn 0;\n}\n")
 		
+		# Decls file
+		fileOut = dirOut + "bp_decls.hpp"
+		with open(fileOut, "w") as outStream:
+			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
+			
+			# Basic data types
+			for dataType in self.dataTypeWeights.keys():
+				if dataType == "Byte":
+					cDataType = "char"
+				else:
+					cDataType = dataType.lower()
+				
+				outStream.write("typedef %s %s;\n" % (cDataType, dataType))
+			outStream.write("typedef %s %s;\n" % ("const char*", "String"))
+			outStream.write("\n")
+			
+			for className in self.classes.keys():
+				if className:
+					outStream.write("class BP" + className + ";\ntypedef BP" + className + "* " + className + ";\n\n")
+			
+			for req in self.implementationRequests.values():
+				protoType = req.getPrototype()
+				if protoType.startswith("::"):
+					protoType = protoType[2:]
+					reqName = req.getName()
+					funcType = self.functionTypes[reqName + req.buildPostfix()]
+					outStream.write("inline " + funcType + " " + protoType + ";\n")
+					
+			outStream.write("\n#endif\n")
+	
 	def build(self):
-		exe = stripExt(self.mainFile)
+		exe = stripExt(self.mainCppFile)
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		cmd = ["g++", self.mainFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir]
+		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir]
 		try:
 			proc = subprocess.Popen(cmd)
 			proc.wait()
@@ -209,15 +266,6 @@ class CPPOutputFile(ScopeController):
 		self.inFunction = False
 		self.currentFuncReturnTypes = []
 		
-		self.dataTypeWeights = {
-			"Bool" : 1,
-			"Byte" : 2,
-			"Short" : 3,
-			"Int" : 4,
-			"Float" : 5,
-			"Double" : 6
-		}
-		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
 			"if" : ["if", "condition", "code"],
@@ -258,7 +306,7 @@ class CPPOutputFile(ScopeController):
 		for node in self.dependencies.childNodes:
 			self.header += self.handleImport(node)
 		
-		self.header += "\n#define String const char *\n"
+		#self.header += "\n#define String const char *\n"
 		
 		# Functions
 		self.functionsHeader += "\n// Functions\n";
@@ -343,11 +391,17 @@ class CPPOutputFile(ScopeController):
 			return self.handleNew(node)
 		elif tagName == "return":
 			return self.handleReturn(node)
+		elif tagName == "for":
+			return self.handleFor(node)
 		elif tagName == "include":
 			self.header += "#include \"" + node.childNodes[0].nodeValue + "\"\n"
 			return ""
 		elif tagName == "const":
 			return self.handleConst(node)
+		elif tagName == "break":
+			return "break"
+		elif tagName == "continue":
+			return "continue"
 		elif tagName == "noop":
 			return ""
 		
@@ -455,7 +509,7 @@ class CPPOutputFile(ScopeController):
 		paramsString, paramTypes = self.handleParameters(params)
 		
 		prefix = ""
-		if not typeName in self.dataTypeWeights:
+		if not typeName in self.compiler.dataTypeWeights:
 			prefix = "BP"
 		
 		oldClass = self.currentClass
@@ -533,20 +587,26 @@ class CPPOutputFile(ScopeController):
 				
 				self.oldClass = self.currentClass
 				self.currentClass = self.compiler.classes[callerType]
+				
 				if callerType:
-					self.currentClass.functions[funcName].implementations[self.buildCallPostfix(paramTypes)] = self.implementFunction(func.node, implRequest.paramTypes)
+					definedInFile = self.currentClass.cppFile
+					definedInFile.currentClass = self.currentClass
+					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
+					self.currentClass.functions[funcName].implementations[self.buildCallPostfix(paramTypes)] = implementation
 				else:
-					cppFile = self
-					cppFile.functionsHeader += self.implementFunction(func.node, implRequest.paramTypes)
+					definedInFile = func.file
+					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
+					definedInFile.functionsHeader += implementation
 					
 					prototype = "inline " + self.compiler.functionTypes[callerType + "::" + fullName] + " " + fullName + "(" + ", ".join(paramTypes) + ");\n"
-					cppFile.prototypesHeader += prototype
+					self.prototypesHeader += prototype
 					
-					if self.oldClass:
-						self.oldClass.cppFile.prototypesHeader += prototype
+					#if self.oldClass.cppFile != self:
+					#	self.oldClass.cppFile.prototypesHeader += prototype
+						#self.oldClass.cppFile.functionsHeader += implementation
 				self.currentClass = self.oldClass
 			
-			if callerType in self.dataTypeWeights:
+			if callerType in self.compiler.dataTypeWeights:
 				return ["", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
 				return ["", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
@@ -596,7 +656,7 @@ class CPPOutputFile(ScopeController):
 		heaviest = None
 		
 		for type in self.currentFuncReturnTypes:
-			if type in self.dataTypeWeights:
+			if type in self.compiler.dataTypeWeights:
 				heaviest = self.heavierOperator(heaviest, type)
 			else:
 				return type
@@ -605,6 +665,26 @@ class CPPOutputFile(ScopeController):
 			return heaviest
 		else:
 			return "void"
+		
+	def handleFor(self, node):
+		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
+		fromType = self.getExprDataType(fromNodeContent)
+		
+		iterExpr = self.parseExpr(getElementByTagName(node, "iterator").childNodes[0])
+		fromExpr = self.parseExpr(fromNodeContent)
+		toExpr = self.parseExpr(getElementByTagName(node, "to").childNodes[0])
+		#stepExpr = self.parseExpr(getElementByTagName(node, "step").childNodes[0])
+		
+		self.pushScope()
+		var = CPPVariable(iterExpr, fromType, fromExpr, False)
+		typeInit = ""
+		if not self.variableExistsAnywhere(iterExpr):
+			self.getCurrentScope().variables[iterExpr] = var
+			typeInit = fromType + " "
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
+		self.popScope()
+		
+		return "for(%s%s = %s; %s <= %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
 		
 	def handleElse(self, node):
 		self.pushScope()
@@ -720,7 +800,7 @@ class CPPOutputFile(ScopeController):
 			return self.exprPrefix + "float(" + op1 + ")" + connector + op2 + self.exprPostfix
 		
 	def getCombinationResult(self, operation, operatorType1, operatorType2):
-		if operatorType1 in self.dataTypeWeights and operatorType2 in self.dataTypeWeights:
+		if operatorType1 in self.compiler.dataTypeWeights and operatorType2 in self.compiler.dataTypeWeights:
 			if operation == "divide":
 				dataType = self.heavierOperator(operatorType1, operatorType2)
 				if dataType == "Double":
@@ -738,8 +818,8 @@ class CPPOutputFile(ScopeController):
 		if operatorType2 is None:
 			return operatorType1
 		
-		weight1 = self.dataTypeWeights[operatorType1]
-		weight2 = self.dataTypeWeights[operatorType2]
+		weight1 = self.compiler.dataTypeWeights[operatorType1]
+		weight2 = self.compiler.dataTypeWeights[operatorType2]
 		
 		if weight1 > weight2:
 			return operatorType1
@@ -781,17 +861,16 @@ class CPPOutputFile(ScopeController):
 		
 		if not funcName.startswith("bp_"):
 			funcName += self.buildCallPostfix(paramTypes)
-		
-		if not (callerType + "::" + funcName) in self.compiler.functionTypes:
-			raise CompilerException("Function '" + funcName + "' has not been defined")
-		
-		return self.compiler.functionTypes[callerType + "::" + funcName]
-		
-	def variableExistsAnywhere(self, name):
-		if self.variableExists(name) or (name in self.compiler.globalScope.variables):
-			return 1
-		
-		return 0
+			
+			if not (callerType + "::" + funcName) in self.compiler.functionTypes:
+				raise CompilerException("Function '" + funcName + "' has not been defined")
+			
+			return self.compiler.functionTypes[callerType + "::" + funcName]
+		else:
+			if not (funcName) in self.compiler.functionTypes:
+				raise CompilerException("Function '" + funcName + "' has not been defined")
+			
+			return self.compiler.functionTypes[funcName]
 	
 	def getVariableTypeAnywhere(self, name):
 		var = self.getVariable(name)
@@ -813,6 +892,12 @@ class CPPOutputFile(ScopeController):
 		
 		raise CompilerException("Unknown variable: " + name)
 		
+	def variableExistsAnywhere(self, name):
+		if self.variableExists(name) or (name in self.compiler.globalScope.variables):
+			return 1
+		
+		return 0
+		
 	def getCode(self):
 		for classObj in self.classes.values():
 			if classObj.name != "":
@@ -830,7 +915,7 @@ class CPPOutputFile(ScopeController):
 						code += "\t" + impl + "\n"
 				prefix = "BP"
 				
-				self.typeDefsHeader += "class " + prefix + classObj.name + ";\ntypedef " + prefix + classObj.name + "* " + classObj.name + ";\n"
+				#self.typeDefsHeader += "class " + prefix + classObj.name + ";\ntypedef " + prefix + classObj.name + "* " + classObj.name + ";\n"
 				self.classesHeader += "class " + prefix + classObj.name + " {\npublic:\n" + code + "};\n"
 		
 		return self.header + self.typeDefsHeader + self.prototypesHeader + self.varsHeader + self.functionsHeader + self.classesHeader + "\n" + self.topLevel + "\n" + self.footer

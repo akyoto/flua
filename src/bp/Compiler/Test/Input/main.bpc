@@ -1,12 +1,5 @@
-import sub1
-import sub2
-import sub3
-import performanceTest
+#import sub1
+#import performanceTest
+import keywordsTest1
 
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-print("Main finished.")
+print "Main"
