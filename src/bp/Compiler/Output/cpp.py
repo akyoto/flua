@@ -161,7 +161,8 @@ class CPPOutputCompiler:
 		self.compiledFilesList = []
 		self.projectDir = self.inputCompiler.projectDir
 		self.modDir = inpCompiler.modDir
-		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/"))
+		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../")) + "/"
+		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/")) + "/"
 		self.stringCounter = 0;
 		self.fileCounter = 0;
 		self.outputDir = ""
@@ -269,7 +270,28 @@ class CPPOutputCompiler:
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir, "-L" + self.libsDir, "-std=c++0x", "-O3"]
+#		-march=athlon-xp -O3 -fexpensive-optimizations 
+#		-funroll-loops -frerun-cse-after-loop -frerun-loop-opt 
+#		-fomit-frame-pointer -fschedule-insns2 -minline-all-stringops 
+#		-mfancy-math-387 -mfp-ret-in-387 -m3dnow -msse -mfpmath=sse -mmmx 
+#		-malign-double -falign-functions=4 -preferred-stack-boundary=4
+#		-fforce-addr -pipe
+		
+		cmd = [
+			"g++",
+			self.mainCppFile,
+			"-o", exe,
+			"-I" + self.outputDir,
+			"-I" + self.modDir,
+			"-I" + self.bpRoot + "include/cpp/",
+			"-L" + self.libsDir,
+			"-std=c++0x",
+			#"-funroll-loops",
+			#"-frerun-cse-after-loop",
+			#"-frerun-loop-opt",
+			#"-ffast-math",
+			#"-O3"
+		]
 		
 		print("\n" + "\n ".join(cmd))
 		
@@ -328,6 +350,8 @@ class CPPOutputFile(ScopeController):
 		self.inConst = False
 		self.inClass = False
 		self.inFunction = False
+		self.inGetter = False
+		self.inSetter = False
 		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
@@ -465,6 +489,18 @@ class CPPOutputFile(ScopeController):
 			return "break"
 		elif tagName == "continue":
 			return "continue"
+		elif tagName == "get" or tagName == "set":
+			return self.parseChilds(node, "", "")
+		elif tagName == "getter":
+			self.inGetter = True
+			result = self.handleFunction(node)
+			self.inGetter = False
+			return result
+		elif tagName == "setter":
+			self.inSetter = True
+			result = self.handleFunction(node)
+			self.inSetter = False
+			return result
 		elif tagName == "template":
 			return self.handleTemplate(node)
 		elif node.tagName == "template-call":
@@ -530,6 +566,23 @@ class CPPOutputFile(ScopeController):
 		return op1 + "<" + op2 + ">"
 		
 	def handleAccess(self, node):
+		op1 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[1].childNodes[0]
+		
+		# GET access
+		if isTextNode(op2) and op2.nodeValue in self.compiler.classes[removeGenerics(self.getExprDataType(op1))].members:
+			var = op2.nodeValue
+			varGetter = "get" + var.title()
+			
+			#print(self.currentFunction.getName() + " -> " + varGetter)
+			#print(self.currentFunction.getName() == varGetter)
+			if not (isTextNode(op1) and op1.nodeValue == "self"):
+				# Make a virtual call
+				obj = self.parseExpr(op1)
+				
+				getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1.toxml(), varGetter)).documentElement
+				return self.handleCall(getFunc)
+		
 		return self.parseBinaryOperator(node, "->")
 		
 	def handleConst(self, node):
@@ -663,6 +716,10 @@ class CPPOutputFile(ScopeController):
 		
 	def handleFunction(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		
+		if self.inGetter:
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + name.title()
+		
 		self.currentClass.functions[name] = CPPFunction(self, node)
 		
 		#print("Registered " + name)
@@ -739,6 +796,14 @@ class CPPOutputFile(ScopeController):
 			return funcName + "(" + paramsString + ")"
 		
 	def implementFunction(self, node, types, tabLevel = ""):
+		oldGetter = self.inGetter
+		oldSetter = self.inSetter
+		
+		if node.tagName == "getter":
+			self.inGetter = True
+		elif node.tagName == "setter":
+			self.inSetter = True
+		
 		origName = name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		self.currentFunction = self.currentClass.functions[name]
 		
@@ -771,6 +836,9 @@ class CPPOutputFile(ScopeController):
 		funcName = funcReturnType + " " + origName + self.buildCallPostfix(types)
 		if self.inClass and name == self.currentClass.name + "::init":
 			funcName = "BP" + self.currentClass.name
+		
+		self.inGetter = oldGetter
+		self.inSetter = oldSetter
 		
 		return "inline " + funcName + "(" + parameters + ") {\n" + funcStartCode + code + tabLevel + "}\n\n"
 #		if self.inClass:
@@ -1098,12 +1166,6 @@ class CPPOutputFile(ScopeController):
 			if classObj.name != "":
 				code = ""
 				
-				# Members
-				for memberName, memberType in classObj.members.items():
-					code += "\t" + memberType + " " + memberName + ";\n"
-				
-				code += "\t\n"
-				
 				# Functions
 				for func in classObj.functions.values():
 					for impl in func.implementations.values():
@@ -1113,6 +1175,13 @@ class CPPOutputFile(ScopeController):
 				
 				code += "~" + prefix + classObj.name + "() {bp_print(\"Destructed " + classObj.name + "\");}"
 				code += "\n"
+				
+				# Members
+				code += "private:\n"
+				for memberName, memberType in classObj.members.items():
+					code += "\t" + memberType + " " + memberName + ";\n"
+				
+				code += "\t\n"
 				
 				#self.typeDefsHeader += "class " + prefix + classObj.name + ";\ntypedef " + prefix + classObj.name + "* " + classObj.name + ";\n"
 				if classObj.templateParams:

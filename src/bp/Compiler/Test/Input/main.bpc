@@ -1,2 +1,24 @@
-import old.generics
-import old.keywordsTest1
+#import tests.generics
+#import tests.keywordsTest1
+#import tests.performanceTest
+
+MyClass
+	init
+		self.var = 5
+		
+	getVar2
+		return self.var * 2
+		
+	get
+		var
+			return self.var * 3
+	
+	set
+		var nValue
+			print nValue
+			#self.var = nValue
+
+myClassInst = MyClass()
+myClassInst.var = 7
+print myClassInst.getVar2()
+print myClassInst.var

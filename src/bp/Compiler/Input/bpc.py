@@ -207,6 +207,8 @@ class BPCFile(ScopeController):
 		self.inCase = 0
 		self.inExtern = 0
 		self.inTemplate = 0
+		self.inGetter = 0
+		self.inSetter = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
@@ -234,7 +236,9 @@ class BPCFile(ScopeController):
 			"case" : [],
 			"target" : [],
 			"extern" : [],
-			"template" : []
+			"template" : [],
+			"get" : [],
+			"set" : []
 		}
 		
 		# This is used for xml tags which have a "code" node
@@ -325,6 +329,10 @@ class BPCFile(ScopeController):
 					self.inExtern -= 1
 				elif self.currentNode.tagName == "template":
 					self.inTemplate -= 1
+				elif self.currentNode.tagName == "get":
+					self.inGetter -= 1
+				elif self.currentNode.tagName == "set":
+					self.inSetter -= 1
 			
 			self.currentNode = self.currentNode.parentNode
 			
@@ -388,6 +396,10 @@ class BPCFile(ScopeController):
 			return self.handleInclude(line)
 		elif startsWith(line, "template"):
 			return self.handleTemplate(line)
+		elif startsWith(line, "get"):
+			return self.handleGet(line)
+		elif startsWith(line, "set"):
+			return self.handleSet(line)
 		elif line == "...":
 			return self.handleNOOP(line)
 		elif self.nextLineIndented:
@@ -483,6 +495,20 @@ class BPCFile(ScopeController):
 		node.appendChild(value)
 		
 		self.inSwitch += 1
+		self.nextNode = node
+		return node
+		
+	def handleGet(self, line):
+		node = self.doc.createElement("get")
+		
+		self.inGetter = 1
+		self.nextNode = node
+		return node
+	
+	def handleSet(self, line):
+		node = self.doc.createElement("set")
+		
+		self.inSetter = 1
 		self.nextNode = node
 		return node
 		
@@ -664,7 +690,12 @@ class BPCFile(ScopeController):
 		
 		#print(" belongs to " + self.currentNode.tagName)
 		
-		node = self.doc.createElement("function")
+		if self.inSetter:
+			node = self.doc.createElement("setter")
+		elif self.inGetter:
+			node = self.doc.createElement("getter")
+		else:
+			node = self.doc.createElement("function")
 		
 		params = self.parseExpr(line[len(funcName)+1:])
 		
