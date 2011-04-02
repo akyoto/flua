@@ -101,6 +101,7 @@ class CPPFunction:
 	def __init__(self, file, node):
 		self.file = file
 		self.node = node
+		self.returnTypes = []
 		self.implementations = {}
 		
 	def getName(self):
@@ -304,7 +305,6 @@ class CPPOutputFile(ScopeController):
 		self.inConst = False
 		self.inClass = False
 		self.inFunction = False
-		self.currentFuncReturnTypes = []
 		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
@@ -579,7 +579,7 @@ class CPPOutputFile(ScopeController):
 		
 	def handleReturn(self, node):
 		expr = self.parseExpr(node.childNodes[0])
-		self.currentFuncReturnTypes.append(self.getExprDataType(node.childNodes[0]))
+		self.currentFunction.returnTypes.append(self.getExprDataType(node.childNodes[0]))
 		return "return " + expr
 		
 	def handleNew(self, node):
@@ -707,6 +707,7 @@ class CPPOutputFile(ScopeController):
 		
 	def implementFunction(self, node, types, tabLevel = ""):
 		origName = name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		self.currentFunction = self.currentClass.functions[name]
 		
 		#if self.inClass:
 		#	tabLevel *= self.currentTabLevel
@@ -720,7 +721,7 @@ class CPPOutputFile(ScopeController):
 			self.getCurrentScope().variables[memberName] = CPPVariable(memberName, memberType, "", False, (not memberType in nonPointerClasses))
 		
 		self.inFunction = True
-		self.currentFuncReturnTypes = []
+		self.currentFunction.returnTypes = []
 		
 		parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(node, "parameters"), types)
 		code = self.parseChilds(getElementByTagName(node, "code"), tabLevel + "\t", ";\n")
@@ -748,7 +749,7 @@ class CPPOutputFile(ScopeController):
 	def getFunctionReturnType(self):
 		heaviest = None
 		
-		for type in self.currentFuncReturnTypes:
+		for type in self.currentFunction.returnTypes:
 			if type in dataTypeWeights:
 				heaviest = self.heavierOperator(heaviest, type)
 			else:
@@ -944,8 +945,8 @@ class CPPOutputFile(ScopeController):
 				if self.inFunction:
 					# Recursive functions: Try to guess
 					if self.currentFunction and getElementByTagName(node, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFuncReturnTypes:
-							return self.currentFuncReturnTypes[0]
+						if self.currentFunction.returnTypes:
+							return self.currentFunction.returnTypes[0]
 						else:
 							raise CompilerException("Unknown data type for recursive call: " + self.currentFunction.getName())
 						
@@ -962,13 +963,13 @@ class CPPOutputFile(ScopeController):
 				if self.inFunction and self.currentFunction:
 					# Recursive functions: Try to guess
 					if tagName(op2) == "call" and getElementByTagName(op2, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFuncReturnTypes:
-							return self.currentFuncReturnTypes[0]
+						if self.currentFunction.returnTypes:
+							return self.currentFunction.returnTypes[0]
 						else:
 							return self.getExprDataType(op1)
 					elif tagName(op1) == "call" and getElementByTagName(op1, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFuncReturnTypes:
-							return self.currentFuncReturnTypes[0]
+						if self.currentFunction.returnTypes:
+							return self.currentFunction.returnTypes[0]
 						else:
 							return self.getExprDataType(op2)
 				

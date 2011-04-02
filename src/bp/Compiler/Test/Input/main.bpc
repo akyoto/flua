@@ -16,6 +16,19 @@ myFunc()
 if f.getVal() == 5
 	print "It's working!"
 
+GenericsTest
+	template
+		TDataType2
+	
+	init
+		self.value : TDataType2
+		
+	setValue element
+		self.value = element
+		
+	getValue
+		return self.value
+
 Array
 	template
 		TDataType
@@ -32,4 +45,6 @@ Array
 myFunc
 	c = 6
 	d = 8
-	tmp = Array<Int>()
+	tmp = GenericsTest<Float>()
+	tmp.setValue(5.0)
+	tmp.getValue()
