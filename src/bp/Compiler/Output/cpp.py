@@ -33,6 +33,30 @@ import codecs
 import subprocess
 
 ####################################################################
+# Global
+####################################################################
+pointerType = "boost::shared_ptr"
+
+dataTypeWeights = {
+	"Bool" : 1,
+	"Byte" : 2,
+	"Short" : 3,
+	"Int" : 4,
+	"Float" : 5,
+	"Double" : 6
+}
+
+nonPointerClasses = {
+	"Bool" : 1,
+	"Byte" : 2,
+	"Short" : 3,
+	"Int" : 4,
+	"Float" : 5,
+	"Double" : 6,
+	"String" : 7
+}
+
+####################################################################
 # Classes
 ####################################################################
 class CPPClass:
@@ -42,14 +66,35 @@ class CPPClass:
 		self.cppFile = cppFile
 		self.functions = {}
 		self.members = {}
+		self.templateParams = []
 		
+	def mapTemplateParams(self, params):
+		paramMap = {}
+		paramsList = params.split(', ')
+		for i in range(len(paramsList)):
+			param = paramsList[i]
+#			paramClass = removeGenerics(param)
+#			pointer = ""
+#			if not paramClass in nonPointerClasses:
+#				paramClass = "BP" + paramClass
+#				pointer = "*"
+			paramMap[self.templateParams[i]] = param #+ pointer
+		return paramMap
+		
+	def setTemplateParams(self, nList):
+		self.templateParams = nList
+
 class CPPVariable:
 	
-	def __init__(self, name, type, value, isConst = False):
+	def __init__(self, name, type, value, isConst, isPointer):
 		self.name = name
 		self.type = type
 		self.value = value
 		self.isConst = isConst
+		self.isPointer = isPointer
+	
+	def getFullPrototype(self):
+		return adjustDataType(self.type) + " " + self.name
 		
 class CPPFunction:
 	
@@ -71,7 +116,7 @@ class FunctionImplRequest:
 	def buildPostfix(self):
 		postfix = ""
 		for dataType in self.paramTypes:
-			postfix += "__" + dataType
+			postfix += "__" + dataType.replace("<", "_").replace(">", "_")
 		return postfix
 		
 	def getName(self):
@@ -92,6 +137,7 @@ class CPPOutputCompiler:
 		self.compiledFilesList = []
 		self.projectDir = self.inputCompiler.projectDir
 		self.modDir = inpCompiler.modDir
+		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/"))
 		self.stringCounter = 0;
 		self.fileCounter = 0;
 		self.outputDir = ""
@@ -103,15 +149,6 @@ class CPPOutputCompiler:
 		
 		self.classes = {}
 		self.classes[""] = CPPClass("", None)
-		
-		self.dataTypeWeights = {
-			"Bool" : 1,
-			"Byte" : 2,
-			"Short" : 3,
-			"Int" : 4,
-			"Float" : 5,
-			"Double" : 6
-		}
 	
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile)
@@ -180,7 +217,7 @@ class CPPOutputCompiler:
 			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
 			
 			# Basic data types
-			for dataType in self.dataTypeWeights.keys():
+			for dataType in dataTypeWeights.keys():
 				if dataType == "Byte":
 					cDataType = "char"
 				else:
@@ -190,9 +227,11 @@ class CPPOutputCompiler:
 			outStream.write("typedef %s %s;\n" % ("const char*", "String"))
 			outStream.write("\n")
 			
-			for className in self.classes.keys():
+			for className, classObj in self.classes.items():
 				if className:
-					outStream.write("class BP" + className + ";\ntypedef BP" + className + "* " + className + ";\n\n")
+					if classObj.templateParams:
+						outStream.write("template <typename %s> " % (", typename ".join(classObj.templateParams)))
+					outStream.write("class BP" + className + ";\n//typedef BP" + className + "* " + className + ";\n\n")
 			
 			for req in self.implementationRequests.values():
 				protoType = req.getPrototype()
@@ -209,7 +248,7 @@ class CPPOutputCompiler:
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir]
+		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir, "-L" + self.libsDir, "-O3"]
 		try:
 			proc = subprocess.Popen(cmd)
 			proc.wait()
@@ -260,6 +299,7 @@ class CPPOutputFile(ScopeController):
 		self.compiler.classes[""].cppFile = self
 		
 		self.currentClass = self.compiler.classes[""]
+		self.currentFunction = None
 		
 		self.inConst = False
 		self.inClass = False
@@ -331,9 +371,9 @@ class CPPOutputFile(ScopeController):
 		self.varsHeader = "\n// Variables\n";
 		for var in self.getTopLevelScope().variables.values():
 			if var.isConst:
-				self.varsHeader += "const " + var.type + " " + var.name + " = " + var.value + ";\n";
+				self.varsHeader += "const " + var.getFullPrototype() + " = " + var.value + ";\n";
 			else:
-				self.varsHeader += var.type + " " + var.name + ";\n";
+				self.varsHeader += var.getFullPrototype() + ";\n";
 		
 		#print(self.getCode())
 		
@@ -402,6 +442,12 @@ class CPPOutputFile(ScopeController):
 			return "break"
 		elif tagName == "continue":
 			return "continue"
+		elif tagName == "template":
+			return self.handleTemplate(node)
+		elif node.tagName == "template-call":
+			return self.handleTemplateCall(node)
+		elif node.tagName == "declare-type":
+			return self.handleTypeDeclaration(node)
 		elif tagName == "noop":
 			return ""
 		
@@ -414,11 +460,12 @@ class CPPOutputFile(ScopeController):
 			
 			condition = self.parseExpr(getElementByTagName(node, paramTagName).childNodes[0])
 			
-			self.pushScope()
-			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
-			self.popScope()
-			
-			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
+			if condition != "0":
+				self.pushScope()
+				code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
+				self.popScope()
+				
+				return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
 		
 		# Check operators
 		for opLevel in self.compiler.inputCompiler.parser.operatorLevels:
@@ -433,44 +480,77 @@ class CPPOutputFile(ScopeController):
 		
 		return "";
 		
+	def handleTypeDeclaration(self, node):
+		typeName = self.parseExpr(node.childNodes[1])
+		varName = self.parseExpr(node.childNodes[0])
+		
+		if varName.startswith("this->"):
+			varName = varName[len("this->"):]
+			self.currentClass.members[varName] = typeName
+			return ""
+		
+		if self.variableExistsAnywhere(varName):
+			raise CompilerException("'" + varName + "' has already been defined.")
+		else:
+			# TODO: Non-member type declaration
+			pass
+			
+		return ""
+		
+	def handleTemplate(self, node):
+		self.currentClass.setTemplateParams(self.getParameterList(node))
+		
+	def handleTemplateCall(self, node):
+		op1 = self.parseExpr(node.childNodes[0])
+		op2 = self.parseExpr(node.childNodes[1])
+		
+		return op1 + "<" + op2 + ">"
+		
 	def handleAccess(self, node):
 		return self.parseBinaryOperator(node, "->")
 		
 	def handleConst(self, node):
 		self.inConst = True
-		expr = self.parseExpr(node.childNodes[0])
+		expr = self.handleAssign(node.childNodes[0])
 		self.inConst = False
 		
 		return expr
+		
+	def registerVariable(self, var):
+		#print("Registered variable '" + var.name + "' of type '" + var.type + "'")
+		self.getCurrentScope().variables[var.name] = var
+		if self.getCurrentScope() == self.getTopLevelScope():
+			self.compiler.globalScope.variables[var.name] = var
 		
 	def handleAssign(self, node):
 		variable = self.parseExpr(node.childNodes[0])
 		value = self.parseExpr(node.childNodes[1])
 		valueTypeOriginal = self.getExprDataType(node.childNodes[1].childNodes[0])
 		
+		if variable.startswith("this->"):
+			variable = variable[len("this->"):]
+			
+			if not variable in self.currentClass.members:
+				self.currentClass.members[variable] = valueTypeOriginal
+		
 		variableExisted = self.variableExistsAnywhere(variable)
 		
 		if not variableExisted:
-			var = CPPVariable(variable, valueTypeOriginal, value, self.inConst)
-			self.getCurrentScope().variables[variable] = var
-			if self.getCurrentScope() == self.getTopLevelScope():
-				self.compiler.globalScope.variables[variable] = var
+			var = CPPVariable(variable, valueTypeOriginal, value, self.inConst, not valueTypeOriginal in nonPointerClasses)
+			self.registerVariable(var)
 				
 			if self.inConst:
 				if self.getCurrentScope() == self.getTopLevelScope():
 					return ""
 				else:
-					return "const %s %s = %s" % (valueTypeOriginal, variable, value)
+					return "const %s = %s" % (var.getFullPrototype(), value)
+			
 			#print(variable + " = " + valueTypeOriginal)
-		
-		if variable.startswith("this->"):
-			member = variable[len("this->"):]
-			self.currentClass.members[member] = valueTypeOriginal
 			
 		if variableExisted or self.getCurrentScope() == self.getTopLevelScope():
 			return variable + " = " + value
 		else:
-			return valueTypeOriginal + " " + variable + " = " + value
+			return var.getFullPrototype() + " = " + value
 		
 	def handleExtern(self, node):
 		self.pushScope()
@@ -494,7 +574,7 @@ class CPPOutputFile(ScopeController):
 	def buildCallPostfix(self, types):
 		postfix = ""
 		for dataType in types:
-			postfix += "__" + dataType
+			postfix += "__" + dataType.replace("<", "_").replace(">", "_")
 		return postfix
 		
 	def handleReturn(self, node):
@@ -506,14 +586,18 @@ class CPPOutputFile(ScopeController):
 		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0])
 		params = getElementByTagName(node, "parameters")
 		
+		# Template params
+		className = ""
+		pos = typeName.find("<")
+		if pos != -1:
+			className = typeName[:pos]
+		else:
+			className = typeName
+		
 		paramsString, paramTypes = self.handleParameters(params)
 		
-		prefix = ""
-		if not typeName in self.compiler.dataTypeWeights:
-			prefix = "BP"
-		
 		oldClass = self.currentClass
-		self.currentClass = self.compiler.classes[typeName]
+		self.currentClass = self.compiler.classes[className]
 		
 		# Implement init
 		funcName = "init"
@@ -526,7 +610,8 @@ class CPPOutputFile(ScopeController):
 		self.inClass = False
 		self.currentClass = oldClass
 		
-		return "new " + prefix + typeName + "(" + paramsString + ")"
+		finalTypeName = adjustDataType(typeName, False)
+		return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
 		
 	def handleClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -567,6 +652,7 @@ class CPPOutputFile(ScopeController):
 		
 	def handleCall(self, node):
 		caller, callerType, funcName = self.getCallFunction(node)
+		callerClass = removeGenerics(callerType)
 		
 		params = getElementByTagName(node, "parameters")
 		
@@ -580,21 +666,26 @@ class CPPOutputFile(ScopeController):
 				self.compiler.implementationRequests[implRequest.getPrototype()] = implRequest
 				#print("Requested implementation of " + implRequest.getPrototype())
 				
-				if funcName in self.compiler.classes[callerType].functions:
-					func = self.compiler.classes[callerType].functions[funcName]
+				if funcName in self.compiler.classes[callerClass].functions:
+					func = self.compiler.classes[callerClass].functions[funcName]
 				else:
 					raise CompilerException("Function '" + funcName + "' has not been defined")
 				
 				self.oldClass = self.currentClass
-				self.currentClass = self.compiler.classes[callerType]
+				self.currentClass = self.compiler.classes[callerClass]
+				
+				oldFunction = self.currentFunction
+				self.currentFunction = self.currentClass.functions[funcName]
 				
 				if callerType:
 					definedInFile = self.currentClass.cppFile
 					definedInFile.currentClass = self.currentClass
+					definedInFile.currentFunction = self.currentFunction
 					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
-					self.currentClass.functions[funcName].implementations[self.buildCallPostfix(paramTypes)] = implementation
+					self.currentFunction.implementations[self.buildCallPostfix(paramTypes)] = implementation
 				else:
 					definedInFile = func.file
+					definedInFile.currentFunction = self.currentFunction
 					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
 					definedInFile.functionsHeader += implementation
 					
@@ -604,9 +695,10 @@ class CPPOutputFile(ScopeController):
 					#if self.oldClass.cppFile != self:
 					#	self.oldClass.cppFile.prototypesHeader += prototype
 						#self.oldClass.cppFile.functionsHeader += implementation
+				self.currentFunction = oldFunction
 				self.currentClass = self.oldClass
 			
-			if callerType in self.compiler.dataTypeWeights:
+			if callerClass in nonPointerClasses:
 				return ["", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
 				return ["", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
@@ -618,13 +710,14 @@ class CPPOutputFile(ScopeController):
 		
 		#if self.inClass:
 		#	tabLevel *= self.currentTabLevel
+		tabLevel = "\t" * self.currentTabLevel
 		
 		self.pushScope()
-		self.getCurrentScope().variables["self"] = CPPVariable("self", self.currentClass.name, "")
+		self.getCurrentScope().variables["self"] = CPPVariable("self", self.currentClass.name, "", False, True)
 		
 		# Add class variables to scope
 		for memberName, memberType in self.currentClass.members.items():
-			self.getCurrentScope().variables[memberName] = CPPVariable(memberName, memberType, "")
+			self.getCurrentScope().variables[memberName] = CPPVariable(memberName, memberType, "", False, (not memberType in nonPointerClasses))
 		
 		self.inFunction = True
 		self.currentFuncReturnTypes = []
@@ -656,7 +749,7 @@ class CPPOutputFile(ScopeController):
 		heaviest = None
 		
 		for type in self.currentFuncReturnTypes:
-			if type in self.compiler.dataTypeWeights:
+			if type in dataTypeWeights:
 				heaviest = self.heavierOperator(heaviest, type)
 			else:
 				return type
@@ -702,7 +795,7 @@ class CPPOutputFile(ScopeController):
 		id = self.id + "_" + node.getAttribute("id")
 		value = node.childNodes[0].nodeValue
 		line = id + " = \"" + value + "\";\n"
-		self.getTopLevelScope().variables[id] = CPPVariable(id, "String", value)
+		self.getTopLevelScope().variables[id] = CPPVariable(id, "String", value, False, False)
 		self.compiler.stringCounter += 1
 		return line
 		
@@ -735,8 +828,8 @@ class CPPOutputFile(ScopeController):
 				self.currentClass.members[member] = types[counter]
 				name = "__" + member
 				funcStartCode += "\t" * self.currentTabLevel + "this->" + member + " = " + name + ";\n"
-			pList += types[counter] + " " + name + ", "
-			self.getCurrentScope().variables[name] = CPPVariable(name, types[counter], "")
+			pList += adjustDataType(types[counter]) + " " + name + ", "
+			self.getCurrentScope().variables[name] = CPPVariable(name, types[counter], "", False, not types[counter] in nonPointerClasses)
 			counter += 1
 		
 		return pList[:len(pList)-2], funcStartCode
@@ -800,7 +893,7 @@ class CPPOutputFile(ScopeController):
 			return self.exprPrefix + "float(" + op1 + ")" + connector + op2 + self.exprPostfix
 		
 	def getCombinationResult(self, operation, operatorType1, operatorType2):
-		if operatorType1 in self.compiler.dataTypeWeights and operatorType2 in self.compiler.dataTypeWeights:
+		if operatorType1 in dataTypeWeights and operatorType2 in dataTypeWeights:
 			if operation == "divide":
 				dataType = self.heavierOperator(operatorType1, operatorType2)
 				if dataType == "Double":
@@ -818,8 +911,8 @@ class CPPOutputFile(ScopeController):
 		if operatorType2 is None:
 			return operatorType1
 		
-		weight1 = self.compiler.dataTypeWeights[operatorType1]
-		weight2 = self.compiler.dataTypeWeights[operatorType2]
+		weight1 = dataTypeWeights[operatorType1]
+		weight2 = dataTypeWeights[operatorType2]
 		
 		if weight1 > weight2:
 			return operatorType1
@@ -839,9 +932,23 @@ class CPPOutputFile(ScopeController):
 		else:
 			# Binary operators
 			if node.tagName == "new":
-				# TODO: Template based types
-				return getElementByTagName(node, "type").childNodes[0].nodeValue
+				typeNode = getElementByTagName(node, "type").childNodes[0]
+				
+				if isTextNode(typeNode):
+					return typeNode.nodeValue
+				else:
+					# Template parameters
+					return self.parseExpr(typeNode)
+					#return typeNode.childNodes[0].childNodes[0].nodeValue
 			elif node.tagName == "call":
+				if self.inFunction:
+					# Recursive functions: Try to guess
+					if self.currentFunction and getElementByTagName(node, "function").childNodes[0].nodeValue == self.currentFunction.getName():
+						if self.currentFuncReturnTypes:
+							return self.currentFuncReturnTypes[0]
+						else:
+							raise CompilerException("Unknown data type for recursive call: " + self.currentFunction.getName())
+						
 				return self.getCallDataType(node)
 			elif node.tagName == "access":
 				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -849,7 +956,23 @@ class CPPOutputFile(ScopeController):
 				
 				return memberType
 			elif len(node.childNodes) == 2:
-				return self.getCombinationResult(node.tagName, self.getExprDataType(node.childNodes[0].childNodes[0]), self.getExprDataType(node.childNodes[1].childNodes[0]))
+				op1 = node.childNodes[0].childNodes[0]
+				op2 = node.childNodes[1].childNodes[0]
+				
+				if self.inFunction and self.currentFunction:
+					# Recursive functions: Try to guess
+					if tagName(op2) == "call" and getElementByTagName(op2, "function").childNodes[0].nodeValue == self.currentFunction.getName():
+						if self.currentFuncReturnTypes:
+							return self.currentFuncReturnTypes[0]
+						else:
+							return self.getExprDataType(op1)
+					elif tagName(op1) == "call" and getElementByTagName(op1, "function").childNodes[0].nodeValue == self.currentFunction.getName():
+						if self.currentFuncReturnTypes:
+							return self.currentFuncReturnTypes[0]
+						else:
+							return self.getExprDataType(op2)
+				
+				return self.getCombinationResult(node.tagName, self.getExprDataType(op1), self.getExprDataType(op2))
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
 		
@@ -862,10 +985,22 @@ class CPPOutputFile(ScopeController):
 		if not funcName.startswith("bp_"):
 			funcName += self.buildCallPostfix(paramTypes)
 			
-			if not (callerType + "::" + funcName) in self.compiler.functionTypes:
-				raise CompilerException("Function '" + funcName + "' has not been defined")
+			callerClassName = removeGenerics(callerType)
 			
-			return self.compiler.functionTypes[callerType + "::" + funcName]
+			templatesUsed = 0
+			if callerClassName != callerType:
+				templatesUsed = 1
+				callerClass = self.compiler.classes[callerClassName]
+				templateParams = callerType[len(callerClassName) + 1: -1]
+				translateTemplateParams = callerClass.mapTemplateParams(templateParams)
+			
+			if not (callerClassName + "::" + funcName) in self.compiler.functionTypes:
+				raise CompilerException("Function '" + (callerClassName + "::" + funcName) + "' has not been defined")
+			
+			if templatesUsed:
+				return translateTemplateParams[self.compiler.functionTypes[callerClassName + "::" + funcName]]
+			else:
+				return self.compiler.functionTypes[callerClassName + "::" + funcName]
 		else:
 			if not (funcName) in self.compiler.functionTypes:
 				raise CompilerException("Function '" + funcName + "' has not been defined")
@@ -880,6 +1015,10 @@ class CPPOutputFile(ScopeController):
 		if name in self.compiler.globalScope.variables:
 			return self.compiler.globalScope.variables[name].type
 		
+		#print(self.getTopLevelScope().variables)
+		#print(self.compiler.globalScope.variables)
+		if name in self.compiler.classes:
+			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
 		raise CompilerException("Unknown variable: " + name)
 	
 	def getVariableScopeAnywhere(self, name):
@@ -893,9 +1032,10 @@ class CPPOutputFile(ScopeController):
 		raise CompilerException("Unknown variable: " + name)
 		
 	def variableExistsAnywhere(self, name):
-		if self.variableExists(name) or (name in self.compiler.globalScope.variables):
+		if self.variableExists(name) or (name in self.compiler.globalScope.variables) or (name in self.currentClass.members):
+			#print(name + " exists")
 			return 1
-		
+		#print(name + " doesn't exist")
 		return 0
 		
 	def getCode(self):
@@ -913,9 +1053,63 @@ class CPPOutputFile(ScopeController):
 				for func in classObj.functions.values():
 					for impl in func.implementations.values():
 						code += "\t" + impl + "\n"
+				
 				prefix = "BP"
 				
+				code += "~" + prefix + classObj.name + "() {bp_print(\"Destructed " + classObj.name + "\");}"
+				code += "\n"
+				
 				#self.typeDefsHeader += "class " + prefix + classObj.name + ";\ntypedef " + prefix + classObj.name + "* " + classObj.name + ";\n"
+				if classObj.templateParams:
+					self.classesHeader += "template <typename %s>\n" % (", typename ".join(classObj.templateParams))
 				self.classesHeader += "class " + prefix + classObj.name + " {\npublic:\n" + code + "};\n"
 		
-		return self.header + self.typeDefsHeader + self.prototypesHeader + self.varsHeader + self.functionsHeader + self.classesHeader + "\n" + self.topLevel + "\n" + self.footer
+		return self.header + self.typeDefsHeader + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + "\n" + self.topLevel + "\n" + self.footer
+
+####################################################################
+# Functions
+####################################################################
+def adjustDataType(type, adjustOuterAsWell = True):
+	# Adjust template params
+	pos = type.find('<')
+	postFixCount = 0
+	typeName = ""
+	className = ""
+	standardClassPrefix = "BP"
+	
+	classPrefix = pointerType + "<" + standardClassPrefix
+	classPostfix = ">"
+	
+	if adjustOuterAsWell:
+		if pos != -1:
+			className = type[:pos]
+		else:
+			className = type
+			
+		if not className in nonPointerClasses:
+			pos += len(classPrefix)
+			postFixCount += len(classPostfix)
+			type = classPrefix + type + classPostfix
+	else:
+		type = standardClassPrefix + type
+	
+	while 1:
+		pos = type.find('<', pos)
+		if pos == -1:
+			break
+		postFixCount += 1
+		typeName = type[pos+1:-postFixCount]
+		className = removeGenerics(typeName)
+		
+		if className in nonPointerClasses:
+			pos += 1
+		else:
+			type = type[:pos+1] + classPrefix + type[pos+1:-postFixCount] + classPostfix + type[-postFixCount:]
+			
+			# Because of the postfix pointer sign
+			postFixCount += 1
+			
+			# Because of the prefixes
+			pos += len(classPrefix) + len(classPostfix) + 1
+	
+	return type.replace("<", "< ").replace(">", " >")

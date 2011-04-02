@@ -1,5 +1,35 @@
-#import sub1
-#import performanceTest
-import keywordsTest1
+import bp.Math
+p = Point(3, 4)
 
-print "Main"
+
+myArray = Array<Int>()
+
+a = Array<Array<Int>>()
+b = 5
+c = 7
+a.setVal(myArray)
+f = a.getVal()
+f.setVal(5)
+
+myFunc()
+
+if f.getVal() == 5
+	print "It's working!"
+
+Array
+	template
+		TDataType
+	
+	init
+		self.value : TDataType
+		
+	setVal element
+		self.value = element
+		
+	getVal
+		return self.value
+
+myFunc
+	c = 6
+	d = 8
+	tmp = Array<Int>()

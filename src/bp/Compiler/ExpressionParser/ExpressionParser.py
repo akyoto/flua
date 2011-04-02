@@ -107,6 +107,14 @@ class ExpressionParser:
 		
 		expr = expr.replace(" ", "")
 		exprLen = len(expr)
+		i = 0
+		lastOccurence = 0
+		start = 0
+		end = 0
+		bracketCounter = 0
+		operators = None
+		operandLeft = ""
+		operandRight = ""
 		
 		#print(self.getDebugPrefix() + " * buildCleanExpr: " + expr)
 		

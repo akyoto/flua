@@ -88,8 +88,12 @@ class BPPostProcessorFile:
 		elif node.tagName == "call":
 			funcNameNode = getElementByTagName(node, "function").childNodes[0]
 			
+			funcName = ""
 			if isTextNode(funcNameNode):
 				funcName = funcNameNode.nodeValue
-				if funcName in self.processor.classes:
-					node.tagName = "new"
-					getElementByTagName(node, "function").tagName = "type"
+			elif funcNameNode.tagName == "template-call":
+				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+			
+			if funcName in self.processor.classes:
+				node.tagName = "new"
+				getElementByTagName(node, "function").tagName = "type"

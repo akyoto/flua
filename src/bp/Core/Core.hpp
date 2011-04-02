@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/time.h>
+#include <boost/shared_ptr.hpp>
 
 // Standard functions
 template <typename T>

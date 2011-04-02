@@ -3,6 +3,8 @@
 
 int main(int argc, char *argv[]) {
 	exec_file_1();
+	exec_file_4();
+	exec_file_5();
 	exec_file_3();
 	exec_file_2();
 	exec_file_0();

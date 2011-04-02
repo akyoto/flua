@@ -65,3 +65,9 @@ def getNextNonWhitespacePos(stri, fromIndex):
 	if fromIndex == striLen:
 		return -1
 	return fromIndex
+
+def removeGenerics(typeName):
+	pos = typeName.find('<')
+	if pos != -1:
+		return typeName[:pos]
+	return typeName

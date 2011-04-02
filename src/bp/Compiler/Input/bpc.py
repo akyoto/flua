@@ -67,6 +67,7 @@ class BPCCompiler:
 		# 1: Function calls
 		operators = OperatorLevel()
 		operators.addOperator(Operator("(", "call.unused", Operator.BINARY))
+		operators.addOperator(Operator("§", "template-call", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 2: Access
@@ -75,6 +76,7 @@ class BPCCompiler:
 		operators.addOperator(Operator("[", "index.unused", Operator.BINARY))
 		operators.addOperator(Operator("#", "call", Operator.BINARY))
 		operators.addOperator(Operator("@", "index", Operator.BINARY))
+		operators.addOperator(Operator(":", "declare-type", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Loose pointer
@@ -127,13 +129,13 @@ class BPCCompiler:
 		self.parser.addOperatorLevel(operators)
 		
 		# 15: Ternary operator
-		operators = OperatorLevel()
-		operators.addOperator(Operator(":", "ternary-code", Operator.BINARY))
-		self.parser.addOperatorLevel(operators)
-		
-		operators = OperatorLevel()
-		operators.addOperator(Operator("?", "ternary-condition", Operator.BINARY))
-		self.parser.addOperatorLevel(operators)
+#		operators = OperatorLevel()
+#		operators.addOperator(Operator(":", "ternary-code", Operator.BINARY))
+#		self.parser.addOperatorLevel(operators)
+#		
+#		operators = OperatorLevel()
+#		operators.addOperator(Operator("?", "ternary-condition", Operator.BINARY))
+#		self.parser.addOperatorLevel(operators)
 		
 		# 16: Assign
 		operators = OperatorLevel()
@@ -204,6 +206,7 @@ class BPCFile(ScopeController):
 		self.inSwitch = 0
 		self.inCase = 0
 		self.inExtern = 0
+		self.inTemplate = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
@@ -230,7 +233,8 @@ class BPCFile(ScopeController):
 			"switch" : [],
 			"case" : [],
 			"target" : [],
-			"extern" : []
+			"extern" : [],
+			"template" : []
 		}
 		
 		# This is used for xml tags which have a "code" node
@@ -317,8 +321,10 @@ class BPCFile(ScopeController):
 			if countIns:
 				if self.currentNode.tagName == "switch":
 					self.inSwitch -= 1
-				if self.currentNode.tagName == "extern":
+				elif self.currentNode.tagName == "extern":
 					self.inExtern -= 1
+				elif self.currentNode.tagName == "template":
+					self.inTemplate -= 1
 			
 			self.currentNode = self.currentNode.parentNode
 			
@@ -380,6 +386,8 @@ class BPCFile(ScopeController):
 			return self.handleExtern(line)
 		elif startsWith(line, "include"):
 			return self.handleInclude(line)
+		elif startsWith(line, "template"):
+			return self.handleTemplate(line)
 		elif line == "...":
 			return self.handleNOOP(line)
 		elif self.nextLineIndented:
@@ -390,9 +398,39 @@ class BPCFile(ScopeController):
 			else:
 				return self.handleClass(line)
 		else:
+			if self.inTemplate:
+				return self.handleTemplateParameter(line)
+			
 			line = self.addBrackets(line)
+			line = self.addGenerics(line)
 			node = self.parseExpr(line)
 			return node
+	
+	def addGenerics(self, line):
+		bracketCounter = 0
+		char = ''
+		startGeneric = -1
+		
+		for i in range(len(line)):
+			char = line[i]
+			
+			if char == '<':
+				bracketCounter += 1
+				if bracketCounter == 1:
+					startGeneric = i
+			elif char == '>':
+				bracketCounter -= 1
+				
+				# End of template parameter
+				if bracketCounter == 0:
+					templateParam = self.addGenerics(line[startGeneric+1:i])
+					line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
+					return line
+					
+			elif bracketCounter > 0 and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
+				break
+		
+		return line
 		
 	def addBrackets(self, line):
 		bracketCounter = 0
@@ -443,6 +481,19 @@ class BPCFile(ScopeController):
 		
 		self.inSwitch += 1
 		self.nextNode = node
+		return node
+		
+	def handleTemplate(self, line):
+		node = self.doc.createElement("template")
+		
+		self.inTemplate = 1
+		self.nextNode = node
+		return node
+		
+	def handleTemplateParameter(self, line):
+		node = self.doc.createElement("parameter")
+		node.appendChild(self.doc.createTextNode(line))
+		
 		return node
 		
 	def handleIn(self, line):
