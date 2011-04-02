@@ -410,6 +410,7 @@ class BPCFile(ScopeController):
 		bracketCounter = 0
 		char = ''
 		startGeneric = -1
+		#oldLine = line
 		
 		for i in range(len(line)):
 			char = line[i]
@@ -425,11 +426,13 @@ class BPCFile(ScopeController):
 				if bracketCounter == 0:
 					templateParam = self.addGenerics(line[startGeneric+1:i])
 					line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
-					return line
 					
 			elif bracketCounter > 0 and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
 				break
 		
+#		if oldLine != line:
+#			print("Start: " + oldLine)
+#			print("End: " + line)
 		return line
 		
 	def addBrackets(self, line):

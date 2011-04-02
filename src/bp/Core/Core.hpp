@@ -3,6 +3,13 @@
 #include <sys/time.h>
 #include <boost/shared_ptr.hpp>
 
+// Macros
+#define bp_sizeOf sizeof
+
+// Const
+const bool True = 1;
+const bool False = 0;
+
 // Standard functions
 template <typename T>
 inline void bp_print(T var) {
@@ -10,11 +17,11 @@ inline void bp_print(T var) {
 }
 
 template <typename T>
-inline int bp_usleep(T ms) {
+inline Int bp_usleep(T ms) {
 	return usleep(ms);
 }
 
-inline int bp_milliSecs() {
+inline time_t bp_systemTime() {
 	timeval ts;
 	gettimeofday(&ts, NULL);
 	

@@ -4,7 +4,8 @@ target C++
 extern
 	bp_print
 	bp_usleep : Int
-	bp_milliSecs : Int
+	bp_systemTime : Int64
+	bp_sizeOf : Size
 
 print stri
 	bp_print stri
@@ -12,5 +13,8 @@ print stri
 sleep ms
 	bp_usleep ms * 1000
 	
-milliSecs
-	return bp_milliSecs()
+systemTime
+	return bp_systemTime()
+	
+sizeOf a
+	return bp_sizeOf(a)

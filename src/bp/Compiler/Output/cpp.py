@@ -37,13 +37,32 @@ import subprocess
 ####################################################################
 pointerType = "boost::shared_ptr"
 
+dataTypeDefinitions = {
+	"Bool" : "bool",
+	"Byte" : "char",
+	"Short" : "short",
+	"Int" : "int_fast32_t",
+	"Int32" : "int32_t",
+	"Int64" : "int64_t",
+	"Size" : "size_t",
+	"Float" : "float",
+	"Float32" : "float",
+	"Float64" : "double",
+	"String" : "const char *"
+}
+
 dataTypeWeights = {
 	"Bool" : 1,
 	"Byte" : 2,
 	"Short" : 3,
 	"Int" : 4,
-	"Float" : 5,
-	"Double" : 6
+	"Int32" : 5,
+	"Int64" : 6,
+	"Size" : 7,
+	"Float" : 8,
+	"Float32" : 9,
+	"Float64" : 10,
+	"String" : 11
 }
 
 nonPointerClasses = {
@@ -51,9 +70,13 @@ nonPointerClasses = {
 	"Byte" : 2,
 	"Short" : 3,
 	"Int" : 4,
-	"Float" : 5,
-	"Double" : 6,
-	"String" : 7
+	"Int32" : 5,
+	"Int64" : 6,
+	"Size" : 7,
+	"Float" : 8,
+	"Float32" : 9,
+	"Float64" : 10,
+	"String" : 11
 }
 
 ####################################################################
@@ -218,13 +241,10 @@ class CPPOutputCompiler:
 			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
 			
 			# Basic data types
-			for dataType in dataTypeWeights.keys():
-				if dataType == "Byte":
-					cDataType = "char"
-				else:
-					cDataType = dataType.lower()
-				
-				outStream.write("typedef %s %s;\n" % (cDataType, dataType))
+			outStream.write("#include <cstdint>\n")
+			outStream.write("#include <cstdlib>\n")
+			for dataType, definition in dataTypeDefinitions.items():
+				outStream.write("typedef %s %s;\n" % (definition, dataType))
 			outStream.write("typedef %s %s;\n" % ("const char*", "String"))
 			outStream.write("\n")
 			
@@ -249,7 +269,10 @@ class CPPOutputCompiler:
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir, "-L" + self.libsDir, "-O3"]
+		cmd = ["g++", self.mainCppFile, "-o", exe, "-I" + self.outputDir, "-I" + self.modDir, "-L" + self.libsDir, "-std=c++0x", "-O3"]
+		
+		print("\n" + "\n ".join(cmd))
+		
 		try:
 			proc = subprocess.Popen(cmd)
 			proc.wait()
@@ -460,12 +483,11 @@ class CPPOutputFile(ScopeController):
 			
 			condition = self.parseExpr(getElementByTagName(node, paramTagName).childNodes[0])
 			
-			if condition != "0":
-				self.pushScope()
-				code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
-				self.popScope()
-				
-				return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
+			self.pushScope()
+			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
+			self.popScope()
+			
+			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
 		
 		# Check operators
 		for opLevel in self.compiler.inputCompiler.parser.operatorLevels:
@@ -490,12 +512,13 @@ class CPPOutputFile(ScopeController):
 			return ""
 		
 		if self.variableExistsAnywhere(varName):
-			raise CompilerException("'" + varName + "' has already been defined.")
+			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]) + self.getVariableTypeAnywhere(varName) + "'")
 		else:
-			# TODO: Non-member type declaration
-			pass
+			print("Declaring '%s' as '%s'" % (varName, typeName))
+			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses)
+			self.registerVariable(var)
 			
-		return ""
+		return varName
 		
 	def handleTemplate(self, node):
 		self.currentClass.setTemplateParams(self.getParameterList(node))
@@ -523,6 +546,8 @@ class CPPOutputFile(ScopeController):
 			self.compiler.globalScope.variables[var.name] = var
 		
 	def handleAssign(self, node):
+		self.inAssignment = True
+		
 		variable = self.parseExpr(node.childNodes[0])
 		value = self.parseExpr(node.childNodes[1])
 		valueTypeOriginal = self.getExprDataType(node.childNodes[1].childNodes[0])
@@ -535,6 +560,8 @@ class CPPOutputFile(ScopeController):
 		
 		variableExisted = self.variableExistsAnywhere(variable)
 		
+		self.inAssignment = False
+		
 		if not variableExisted:
 			var = CPPVariable(variable, valueTypeOriginal, value, self.inConst, not valueTypeOriginal in nonPointerClasses)
 			self.registerVariable(var)
@@ -546,8 +573,14 @@ class CPPOutputFile(ScopeController):
 					return "const %s = %s" % (var.getFullPrototype(), value)
 			
 			#print(variable + " = " + valueTypeOriginal)
-			
-		if variableExisted or self.getCurrentScope() == self.getTopLevelScope():
+		
+		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
+		
+		if self.getCurrentScope() == self.getTopLevelScope():
+			return variable + " = " + value
+		elif declaredInline:
+			return adjustDataType(self.getVariableTypeAnywhere(variable)) + " " + variable + " = " + value
+		elif variableExisted:
 			return variable + " = " + value
 		else:
 			return var.getFullPrototype() + " = " + value
@@ -770,7 +803,7 @@ class CPPOutputFile(ScopeController):
 		#stepExpr = self.parseExpr(getElementByTagName(node, "step").childNodes[0])
 		
 		self.pushScope()
-		var = CPPVariable(iterExpr, fromType, fromExpr, False)
+		var = CPPVariable(iterExpr, fromType, fromExpr, False, False)
 		typeInit = ""
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
@@ -821,16 +854,35 @@ class CPPOutputFile(ScopeController):
 		pList = ""
 		funcStartCode = ""
 		counter = 0
+		typesLen = len(types)
 		
 		for node in pNode.childNodes:
 			name = self.parseExpr(node.childNodes[0])
+			usedAs = types[counter]
 			if name.startswith("this->"):
 				member = name[len("this->"):]
-				self.currentClass.members[member] = types[counter]
+				self.currentClass.members[member] = usedAs
 				name = "__" + member
 				funcStartCode += "\t" * self.currentTabLevel + "this->" + member + " = " + name + ";\n"
-			pList += adjustDataType(types[counter]) + " " + name + ", "
-			self.getCurrentScope().variables[name] = CPPVariable(name, types[counter], "", False, not types[counter] in nonPointerClasses)
+			
+			if counter >= typesLen:
+				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
+			
+			pList += adjustDataType(usedAs) + " " + name + ", "
+			
+			declaredInline = (tagName(node.childNodes[0]) == "declare-type")
+			if not declaredInline:
+				self.getCurrentScope().variables[name] = CPPVariable(name, usedAs, "", False, not usedAs in nonPointerClasses)
+			else:
+				definedAs = self.getVariableTypeAnywhere(name)
+				if definedAs != usedAs:
+					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
+						heavier = self.heavierOperator(definedAs, usedAs)
+						if usedAs == heavier:
+							CompilerWarning("Information might be lost by converting '%s' to '%s' for the parameter '%s' in the function '%s'" % (usedAs, definedAs, name, self.currentFunction.getName()))
+					else:
+						raise CompilerException("'%s' expects the type '%s' where you used the type '%s' for the parameter '%s'" % (self.currentFunction.getName(), definedAs, usedAs, name))
+			
 			counter += 1
 		
 		return pList[:len(pList)-2], funcStartCode
@@ -928,6 +980,8 @@ class CPPOutputFile(ScopeController):
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
 				return "String"
+			elif node.nodeValue == "True" or node.nodeValue == "False":
+				return "Bool"
 			else:
 				return self.getVariableTypeAnywhere(node.nodeValue)
 		else:

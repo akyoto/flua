@@ -49,6 +49,9 @@ class CompilerException(Exception):
 	def __str__(self):
 		return repr(self.value)
 
+def CompilerWarning(msg):
+	print("[Warning] " + msg)
+
 class Operator:
 	UNARY = 1
 	BINARY = 2

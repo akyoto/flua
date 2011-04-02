@@ -65,7 +65,8 @@ class BPPostProcessorFile:
 		self.findDefinitions(getElementByTagName(self.inpFile.root, "code"))
 		self.processNode(getElementByTagName(self.inpFile.root, "code"))
 		
-		print(self.inpFile.doc.toprettyxml())
+		if not self.inpFile.file.endswith("Core.bpc"):
+			print(self.inpFile.doc.toprettyxml())
 		
 	def findDefinitions(self, node):
 		for child in node.childNodes:
