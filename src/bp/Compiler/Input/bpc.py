@@ -238,7 +238,9 @@ class BPCFile(ScopeController):
 			"extern" : [],
 			"template" : [],
 			"get" : [],
-			"set" : []
+			"set" : [],
+			"getter" : [],
+			"setter" : []
 		}
 		
 		# This is used for xml tags which have a "code" node

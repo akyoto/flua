@@ -1,3 +1,17 @@
 Point
 	init self.x, self.y
 		...
+		
+	get
+		x
+			return self.x
+			
+		y
+			return self.y
+	
+	set
+		x value
+			self.x = value
+		
+		y value
+			self.y = value

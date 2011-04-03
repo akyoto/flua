@@ -3,14 +3,13 @@
 
 myArray = ElementHolder<Int>()
 myArray.value = 5
-print myArray.value
 
 gh = ElementHolder<ElementHolder<Int>>()
 gh.value = myArray
 f = gh.value
 
 if f.value == 5
-	print "It's working!"
+	print "Generics are working!"
 
 ElementHolder
 	template

@@ -567,7 +567,11 @@ class CPPOutputFile(ScopeController):
 		return op1 + "<" + op2 + ">"
 		
 	def isMemberAccessFromOutside(self, op1, op2):
-		if isTextNode(op2) and op2.nodeValue in self.compiler.classes[removeGenerics(self.getExprDataType(op1))].members:
+		op1Type = removeGenerics(self.getExprDataType(op1))
+		print(("get" + op2.nodeValue.title()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
+		
+		accessingGetter = ("get" + op2.nodeValue.title()) in self.compiler.classes[op1Type].functions
+		if isTextNode(op2) and op1Type in self.compiler.classes and (accessingGetter or (op2.nodeValue in self.compiler.classes[op1Type].members)):
 			var = op2.nodeValue
 			
 			#print(self.currentFunction.getName() + " -> " + varGetter)
@@ -587,8 +591,12 @@ class CPPOutputFile(ScopeController):
 		# GET access
 		isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 		if isMemberAccess:
+			print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.title()))
 			getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1.toxml(), "get" + op2.nodeValue.title())).documentElement
+			print(getFunc.toprettyxml())
 			return self.handleCall(getFunc)
+		else:
+			print("NOT a member ACCESS: %s %s" % (op1.toxml(), op2.toxml()))
 		
 		return self.parseBinaryOperator(node, "->")
 		
@@ -743,6 +751,7 @@ class CPPOutputFile(ScopeController):
 		if isTextNode(funcNameNode): #and funcNameNode.tagName == "access":
 			funcName = funcNameNode.nodeValue
 		else:
+			#print("XML: " + funcNameNode.childNodes[0].childNodes[0].toxml())
 			callerType = self.getExprDataType(funcNameNode.childNodes[0].childNodes[0])
 			caller = self.parseExpr(funcNameNode.childNodes[0].childNodes[0])
 			funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
@@ -766,10 +775,16 @@ class CPPOutputFile(ScopeController):
 				self.compiler.implementationRequests[implRequest.getPrototype()] = implRequest
 				#print("Requested implementation of " + implRequest.getPrototype())
 				
+#				getter = "get" + funcName.title()
+#				setter = "set" + funcName.title()
 				if funcName in self.compiler.classes[callerClass].functions:
 					func = self.compiler.classes[callerClass].functions[funcName]
+#				elif getter in self.compiler.classes[callerClass].functions:
+#					func = self.compiler.classes[callerClass].functions[getter]
+#				elif setter in self.compiler.classes[callerClass].functions:
+#					func = self.compiler.classes[callerClass].functions[setter]
 				else:
-					raise CompilerException("Function '" + funcName + "' has not been defined")
+					raise CompilerException("Function '%s.%s' has not been defined" % (callerClass, funcName))
 				
 				self.oldClass = self.currentClass
 				self.currentClass = self.compiler.classes[callerClass]
@@ -785,7 +800,6 @@ class CPPOutputFile(ScopeController):
 					# Add template types to scope
 					definedInFile.currentTemplateParams = {}
 					if callerClass != callerType:
-						print("TEMPLATED: " + callerType)
 						templateParams = callerType[len(callerClass) + 1: -1]
 						definedInFile.currentTemplateParams = self.currentClass.mapTemplateParams(templateParams)
 					
@@ -851,7 +865,7 @@ class CPPOutputFile(ScopeController):
 		#print(name + self.buildCallPostfix(types) + " -> " + funcReturnType)
 		self.compiler.functionTypes[name + self.buildCallPostfix(types)] = funcReturnType
 		
-		funcName = funcReturnType + " " + origName + self.buildCallPostfix(types)
+		funcName = adjustDataType(funcReturnType, True, self.currentClass.templateParams) + " " + origName + self.buildCallPostfix(types)
 		if self.inClass and name == self.currentClass.name + "::init":
 			funcName = "BP" + self.currentClass.name
 		
@@ -1115,8 +1129,15 @@ class CPPOutputFile(ScopeController):
 				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 				callerClassName = removeGenerics(callerType)
 				callerClass = self.compiler.classes[callerClassName]
-				memberType = callerClass.members[node.childNodes[1].childNodes[0].nodeValue]
-				return memberType
+				memberName = node.childNodes[1].childNodes[0].nodeValue
+				
+				if memberName in callerClass.members:
+					memberType = callerClass.members[memberName]
+					return memberType
+				else:
+					memberFunc = "get" + memberName.title()
+					virtualGetCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)).documentElement
+					return self.getCallDataType(virtualGetCall)
 				
 #				templatesUsed = (callerClassName != callerType)
 #				
@@ -1236,7 +1257,7 @@ class CPPOutputFile(ScopeController):
 				# Members
 				code += "private:\n"
 				for memberName, memberType in classObj.members.items():
-					code += "\t" + memberType + " " + memberName + ";\n"
+					code += "\t" + adjustDataType(memberType, True, classObj.templateParams) + " " + memberName + ";\n"
 				
 				code += "\t\n"
 				
@@ -1250,8 +1271,8 @@ class CPPOutputFile(ScopeController):
 ####################################################################
 # Functions
 ####################################################################
-def adjustDataType(type, adjustOuterAsWell = True):
-	if type == "void" or type in nonPointerClasses:
+def adjustDataType(type, adjustOuterAsWell = True, templateParams = []):
+	if type == "void" or type in nonPointerClasses or type in templateParams:
 		return type
 	
 	# Adjust template params
