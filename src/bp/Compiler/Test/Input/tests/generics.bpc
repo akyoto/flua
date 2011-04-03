@@ -1,55 +1,28 @@
-import bp.Math
-p = Point(3, 4)
+#import bp.Math
+#p = Point(3, 4)
 
-myArray = Array<Int>()
+myArray = ElementHolder<Int>()
+myArray.value = 5
+print myArray.value
 
-a = Array<Array<Int>>()
-b = 5
-c = 7
-#a.setVal(myArray)
-f = a.val
-#f.val = 5
+gh = ElementHolder<ElementHolder<Int>>()
+gh.value = myArray
+f = gh.value
 
-myFunc()
-
-if f.val == 5
+if f.value == 5
 	print "It's working!"
 
-GenericsTest
+ElementHolder
 	template
 		TDataType
 	
 	init
 		self.value : TDataType
 		
-	set
-		val element
-			self.value = element
-		
 	get
-		val
+		value
 			return self.value
-
-Array
-	template
-		TDataType
-	
-	init
-		self.value : TDataType
 		
 	set
-		val element
+		value element
 			self.value = element
-		
-	get
-		val
-			return self.value
-
-myFunc
-	for i = 0 to 20
-		print factorial(i)
-	c = 6
-	d = 8
-	tmp = GenericsTest<Float>()
-	#tmp.val = 5.0
-	h = tmp.val

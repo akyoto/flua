@@ -346,6 +346,7 @@ class CPPOutputFile(ScopeController):
 		
 		self.currentClass = self.compiler.classes[""]
 		self.currentFunction = None
+		self.currentTemplateParams = {}
 		
 		self.inConst = False
 		self.inClass = False
@@ -565,41 +566,48 @@ class CPPOutputFile(ScopeController):
 		
 		return op1 + "<" + op2 + ">"
 		
+	def isMemberAccessFromOutside(self, op1, op2):
+		if isTextNode(op2) and op2.nodeValue in self.compiler.classes[removeGenerics(self.getExprDataType(op1))].members:
+			var = op2.nodeValue
+			
+			#print(self.currentFunction.getName() + " -> " + varGetter)
+			#print(self.currentFunction.getName() == varGetter)
+			
+			if not (isTextNode(op1) and op1.nodeValue == "self"):
+				# Make a virtual call
+				return True
+		
+		return False
+				
+		
 	def handleAccess(self, node):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		
 		# GET access
-		if isTextNode(op2) and op2.nodeValue in self.compiler.classes[removeGenerics(self.getExprDataType(op1))].members:
-			var = op2.nodeValue
-			varGetter = "get" + var.title()
-			
-			#print(self.currentFunction.getName() + " -> " + varGetter)
-			#print(self.currentFunction.getName() == varGetter)
-			if not (isTextNode(op1) and op1.nodeValue == "self"):
-				# Make a virtual call
-				obj = self.parseExpr(op1)
-				
-				getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1.toxml(), varGetter)).documentElement
-				return self.handleCall(getFunc)
+		isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
+		if isMemberAccess:
+			getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1.toxml(), "get" + op2.nodeValue.title())).documentElement
+			return self.handleCall(getFunc)
 		
 		return self.parseBinaryOperator(node, "->")
 		
-	def handleConst(self, node):
-		self.inConst = True
-		expr = self.handleAssign(node.childNodes[0])
-		self.inConst = False
-		
-		return expr
-		
-	def registerVariable(self, var):
-		#print("Registered variable '" + var.name + "' of type '" + var.type + "'")
-		self.getCurrentScope().variables[var.name] = var
-		if self.getCurrentScope() == self.getTopLevelScope():
-			self.compiler.globalScope.variables[var.name] = var
-		
 	def handleAssign(self, node):
 		self.inAssignment = True
+		
+		op1 = node.childNodes[0].childNodes[0]
+		if not isTextNode(op1) and op1.tagName == "access":
+			accessOp1 = op1.childNodes[0].childNodes[0]
+			accessOp2 = op1.childNodes[1].childNodes[0]
+			
+			isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
+			if isMemberAccess:
+				setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + accessOp2.nodeValue.title(), node.childNodes[1].childNodes[0].toxml())).documentElement
+				print(setFunc.toprettyxml())
+				return self.handleCall(setFunc)
+			#pass
+			#variableType = self.getExprDataType(op1)
+			#variableClass = self.compiler.classes[removeGenerics(variableType)]
 		
 		variable = self.parseExpr(node.childNodes[0])
 		value = self.parseExpr(node.childNodes[1])
@@ -665,7 +673,7 @@ class CPPOutputFile(ScopeController):
 		
 	def handleReturn(self, node):
 		expr = self.parseExpr(node.childNodes[0])
-		self.currentFunction.returnTypes.append(self.getExprDataType(node.childNodes[0]))
+		self.currentFunction.returnTypes.append(self.getExprDataTypeClean(node.childNodes[0]))
 		return "return " + expr
 		
 	def handleNew(self, node):
@@ -719,6 +727,8 @@ class CPPOutputFile(ScopeController):
 		
 		if self.inGetter:
 			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + name.title()
+		elif self.inSetter:
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + name.title()
 		
 		self.currentClass.functions[name] = CPPFunction(self, node)
 		
@@ -771,6 +781,14 @@ class CPPOutputFile(ScopeController):
 					definedInFile = self.currentClass.cppFile
 					definedInFile.currentClass = self.currentClass
 					definedInFile.currentFunction = self.currentFunction
+					
+					# Add template types to scope
+					definedInFile.currentTemplateParams = {}
+					if callerClass != callerType:
+						print("TEMPLATED: " + callerType)
+						templateParams = callerType[len(callerClass) + 1: -1]
+						definedInFile.currentTemplateParams = self.currentClass.mapTemplateParams(templateParams)
+					
 					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
 					self.currentFunction.implementations[self.buildCallPostfix(paramTypes)] = implementation
 				else:
@@ -814,7 +832,7 @@ class CPPOutputFile(ScopeController):
 		self.pushScope()
 		self.getCurrentScope().variables["self"] = CPPVariable("self", self.currentClass.name, "", False, True)
 		
-		# Add class variables to scope
+		# Add class member to scope
 		for memberName, memberType in self.currentClass.members.items():
 			self.getCurrentScope().variables[memberName] = CPPVariable(memberName, memberType, "", False, (not memberType in nonPointerClasses))
 		
@@ -909,6 +927,19 @@ class CPPOutputFile(ScopeController):
 			pTypes.append(self.getExprDataType(node.childNodes[0]))
 		
 		return pList[:len(pList)-2], pTypes
+	
+	def handleConst(self, node):
+		self.inConst = True
+		expr = self.handleAssign(node.childNodes[0])
+		self.inConst = False
+		
+		return expr
+		
+	def registerVariable(self, var):
+		#print("Registered variable '" + var.name + "' of type '" + var.type + "'")
+		self.getCurrentScope().variables[var.name] = var
+		if self.getCurrentScope() == self.getTopLevelScope():
+			self.compiler.globalScope.variables[var.name] = var
 	
 	def getParameterList(self, pNode):
 		pList = []
@@ -1041,6 +1072,13 @@ class CPPOutputFile(ScopeController):
 			return operatorType2
 		
 	def getExprDataType(self, node):
+		dataType = self.getExprDataTypeClean(node)
+		if dataType in self.currentTemplateParams:
+			return self.currentTemplateParams[dataType]
+		else:
+			return dataType
+		
+	def getExprDataTypeClean(self, node):
 		if isTextNode(node):
 			if node.nodeValue.isdigit():
 				return "Int"
@@ -1075,9 +1113,23 @@ class CPPOutputFile(ScopeController):
 				return self.getCallDataType(node)
 			elif node.tagName == "access":
 				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
-				memberType = self.compiler.classes[callerType].members[node.childNodes[1].childNodes[0].nodeValue]
-				
+				callerClassName = removeGenerics(callerType)
+				callerClass = self.compiler.classes[callerClassName]
+				memberType = callerClass.members[node.childNodes[1].childNodes[0].nodeValue]
 				return memberType
+				
+#				templatesUsed = (callerClassName != callerType)
+#				
+#				if templatesUsed:
+#					templateParams = callerType[len(callerClassName) + 1: -1]
+#					translateTemplateParams = callerClass.mapTemplateParams(templateParams)
+#					
+#					if memberType in translateTemplateParams:
+#						return translateTemplateParams[memberType]
+#					else:
+#						return memberType
+#				else:
+#					return memberType
 			elif len(node.childNodes) == 2:
 				op1 = node.childNodes[0].childNodes[0]
 				op2 = node.childNodes[1].childNodes[0]
@@ -1110,20 +1162,25 @@ class CPPOutputFile(ScopeController):
 			
 			callerClassName = removeGenerics(callerType)
 			
-			templatesUsed = 0
-			if callerClassName != callerType:
-				templatesUsed = 1
-				callerClass = self.compiler.classes[callerClassName]
-				templateParams = callerType[len(callerClassName) + 1: -1]
-				translateTemplateParams = callerClass.mapTemplateParams(templateParams)
+#			templatesUsed = 0
+#			if callerClassName != callerType:
+#				templatesUsed = 1
+#				callerClass = self.compiler.classes[callerClassName]
+#				templateParams = callerType[len(callerClassName) + 1: -1]
+#				translateTemplateParams = callerClass.mapTemplateParams(templateParams)
 			
 			if not (callerClassName + "::" + funcName) in self.compiler.functionTypes:
 				raise CompilerException("Function '" + (callerClassName + "::" + funcName) + "' has not been defined")
 			
-			if templatesUsed:
-				return translateTemplateParams[self.compiler.functionTypes[callerClassName + "::" + funcName]]
-			else:
-				return self.compiler.functionTypes[callerClassName + "::" + funcName]
+			return self.compiler.functionTypes[callerClassName + "::" + funcName]
+#			if templatesUsed:
+#				param = self.compiler.functionTypes[callerClassName + "::" + funcName]
+#				if param in translateTemplateParams:
+#					return translateTemplateParams[param]
+#				else:
+#					return param
+#			else:
+#				return self.compiler.functionTypes[callerClassName + "::" + funcName]
 		else:
 			if not (funcName) in self.compiler.functionTypes:
 				raise CompilerException("Function '" + funcName + "' has not been defined")
@@ -1194,6 +1251,9 @@ class CPPOutputFile(ScopeController):
 # Functions
 ####################################################################
 def adjustDataType(type, adjustOuterAsWell = True):
+	if type == "void" or type in nonPointerClasses:
+		return type
+	
 	# Adjust template params
 	pos = type.find('<')
 	postFixCount = 0

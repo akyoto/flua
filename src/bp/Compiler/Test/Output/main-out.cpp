@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[]) {
 	exec_file_1();
+	exec_file_2();
 	exec_file_0();
 	return 0;
 }
