@@ -1,15 +1,12 @@
-#import bp.Math
-#p = Point(3, 4)
+#myArray = ElementHolder<Int>()
+#myArray.value = 5
 
-myArray = ElementHolder<Int>()
-myArray.value = 5
+#gh = ElementHolder<ElementHolder<Int>>()
+#gh.value = myArray
+#f = gh.value
 
-gh = ElementHolder<ElementHolder<Int>>()
-gh.value = myArray
-f = gh.value
-
-if f.value == 5
-	print "Generics are working!"
+#if f.value == 5
+#	print "Generics are working!"
 
 ElementHolder
 	template

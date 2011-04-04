@@ -90,6 +90,7 @@ class CPPClass:
 		self.functions = {}
 		self.members = {}
 		self.templateParams = []
+		self.usesActorModel = False
 		
 	def mapTemplateParams(self, params):
 		paramMap = {}
@@ -106,6 +107,12 @@ class CPPClass:
 		
 	def setTemplateParams(self, nList):
 		self.templateParams = nList
+		
+	def getNameWithTemplates(self):
+		if self.templateParams:
+			return self.name + "<" +  ", ".join(self.templateParams) + ">"
+		else:
+			return self.name
 
 class CPPVariable:
 	
@@ -124,18 +131,35 @@ class CPPFunction:
 	def __init__(self, file, node):
 		self.file = file
 		self.node = node
+		self.paramNames = []
 		self.returnTypes = []
 		self.implementations = {}
 		
+	def addImplementation(self, impl):
+		self.implementations[impl.buildPostfix()] = impl
+		impl.func = self
+		
 	def getName(self):
 		return getElementByTagName(self.node, "name").childNodes[0].nodeValue
-
-class FunctionImplRequest:
 	
-	def __init__(self, name, paramTypes):
-		self.name = name
+	def getParamNames(self):
+		return self.paramNames
+	
+	def getInitList(self):
+		stri = ""
+		for param in self.paramNames:
+			stri += "%s(%s), " % (param, param)
+		return stri[:-2]
+
+class FunctionImplementation:
+	
+	def __init__(self, typeName, funcName, paramTypes):
+		self.typeName = typeName
+		self.funcName = funcName
 		self.paramTypes = paramTypes
-		self.implementation = ""
+		
+		self.code = ""
+		self.returnType = ""
 		
 	def buildPostfix(self):
 		postfix = ""
@@ -143,14 +167,56 @@ class FunctionImplRequest:
 			postfix += "__" + dataType.replace("<", "_").replace(">", "_")
 		return postfix
 		
-	def getName(self):
-		return self.name
+	def getParamTypes(self):
+		return self.paramTypes
+	
+	def getParamsString(self):
+		stri = ""
+		for i in range(len(self.paramTypes)):
+			stri += "%s %s, " % (self.paramTypes[i], self.func.paramNames[i])
+		return stri[:-2]
+		
+	def setReturnType(self, type):
+		self.returnType = type
+		
+	def getReturnType(self):
+		return self.returnType
+		
+	def getTypeName(self):
+		return self.typeName
+	
+	def getFuncName(self):
+		return self.funcName
+	
+	def getFullFuncName(self):
+		return self.funcName + self.buildPostfix()
+		
+	def getDeclName(self):
+		return self.getTypeName() + "::" + self.funcName
+		
+	def getMsgHandlerName(self):
+		return self.getFullFuncName() + "_msgHandler"
+	
+	def getMsgStructName(self):
+		return self.getFullFuncName() + "_msgType"
+	
+	def getMsgStructVars(self):
+		stri = ""
+		for i in range(len(self.paramTypes)):
+			stri += "\t%s %s;\n" % (self.paramTypes[i], self.func.paramNames[i])
+		return stri
 		
 	def getPrototype(self):
-		return self.name + self.buildPostfix() + "(" + ", ".join(self.paramTypes) + ")"
+		return self.typeName + "::" + self.getFullFuncName() + "(" + ", ".join(self.paramTypes) + ")"
 	
 	def isImplemented(self):
-		return self.implementation != ""
+		return self.code != ""
+	
+	def getInnerCode(self):
+		return self.code
+	
+	def getFullCode(self):
+		return self.code
 
 class CPPOutputCompiler:
 	
@@ -162,19 +228,23 @@ class CPPOutputCompiler:
 		self.projectDir = self.inputCompiler.projectDir
 		self.modDir = inpCompiler.modDir
 		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../")) + "/"
-		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/")) + "/"
+		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/cpp/"))
 		self.stringCounter = 0;
 		self.fileCounter = 0;
 		self.outputDir = ""
 		self.mainFile = None
 		self.mainCppFile = ""
+		self.addDestructorOutput = False
+		self.customCompilerFlags = []
+		
 		self.globalScope = Scope()
+		self.classes = {}
+		self.classes[""] = CPPClass("", None)
+		
+		# TODO: Get rid of these
 		self.implementationRequests = {}
 		self.functionTypes = {}
 		
-		self.classes = {}
-		self.classes[""] = CPPClass("", None)
-	
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile)
 		
@@ -242,7 +312,7 @@ class CPPOutputCompiler:
 			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
 			
 			# Basic data types
-			outStream.write("#include <cstdint>\n")
+			outStream.write("#include <stdint.h>\n")
 			outStream.write("#include <cstdlib>\n")
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
@@ -253,13 +323,21 @@ class CPPOutputCompiler:
 				if className:
 					if classObj.templateParams:
 						outStream.write("template <typename %s> " % (", typename ".join(classObj.templateParams)))
-					outStream.write("class BP" + className + ";\n//typedef BP" + className + "* " + className + ";\n\n")
+					outStream.write("class BP" + className + ";\n\n")
+					
+					if classObj.templateParams:
+						outStream.write("template <typename %s> " % (", typename ".join(classObj.templateParams)))
+					outStream.write("class BPActor" + className + ";\n\n")
+					
+					if classObj.templateParams:
+						outStream.write("template <typename %s> " % (", typename ".join(classObj.templateParams)))
+					outStream.write("class BPActorWrapper" + className + ";\n\n")
 			
 			for req in self.implementationRequests.values():
 				protoType = req.getPrototype()
 				if protoType.startswith("::"):
 					protoType = protoType[2:]
-					reqName = req.getName()
+					reqName = req.getDeclName()
 					funcType = self.functionTypes[reqName + req.buildPostfix()]
 					outStream.write("inline " + funcType + " " + protoType + ";\n")
 					
@@ -277,27 +355,48 @@ class CPPOutputCompiler:
 #		-malign-double -falign-functions=4 -preferred-stack-boundary=4
 #		-fforce-addr -pipe
 		
-		cmd = [
+		# Compiler
+		ccCmd = [
 			"g++",
+			"-c",
 			self.mainCppFile,
-			"-o", exe,
+			"-o%s" % (exe + ".o"),
 			"-I" + self.outputDir,
 			"-I" + self.modDir,
 			"-I" + self.bpRoot + "include/cpp/",
-			"-L" + self.libsDir,
-			"-std=c++0x",
+			#"-L" + self.libsDir,
+			#"-std=c++0x",
 			#"-funroll-loops",
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
-			#"-O3"
+			"-Wall",
+			"-O3"
 		]
 		
-		print("\n" + "\n ".join(cmd))
+		# Linker
+		linkCmd = [
+			"g++",
+			"-o%s" % (exe),
+			exe + ".o",
+			"-L" + self.libsDir,
+			#"-ltheron",
+			#"-lboost_thread",
+			#"-lpthread"
+		] + self.customCompilerFlags
 		
 		try:
-			proc = subprocess.Popen(cmd)
-			proc.wait()
+			print("\nStarting compiler:")
+			print("\n ".join(ccCmd))
+			#print("\n" + " ".join(ccCmd))
+			procCompile = subprocess.Popen(ccCmd)
+			procCompile.wait()
+			
+			print("\nStarting linker:")
+			print("\n ".join(linkCmd))
+			#print("\n" + " ".join(linkCmd))
+			procLink = subprocess.Popen(linkCmd)
+			procLink.wait()
 		except OSError:
 			print("Couldn't start g++")
 		
@@ -372,6 +471,7 @@ class CPPOutputFile(ScopeController):
 		self.varsHeader = ""
 		self.functionsHeader = ""
 		self.classesHeader = ""
+		self.actorClassesHeader = ""
 		self.typeDefsHeader = "\n// Typedefs\n"
 		self.prototypesHeader = "\n// Prototypes\n"
 		
@@ -508,6 +608,10 @@ class CPPOutputFile(ScopeController):
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
 			return self.handleTypeDeclaration(node)
+		elif node.tagName == "compiler-flags":
+			return self.parseChilds(node, "", "")
+		elif node.tagName == "compiler-flag":
+			return self.handleCompilerFlag(node)
 		elif tagName == "noop":
 			return ""
 		
@@ -560,6 +664,10 @@ class CPPOutputFile(ScopeController):
 	def handleTemplate(self, node):
 		self.currentClass.setTemplateParams(self.getParameterList(node))
 		
+	def handleCompilerFlag(self, node):
+		self.compiler.customCompilerFlags.insert(0, node.childNodes[0].nodeValue)
+		return ""
+		
 	def handleTemplateCall(self, node):
 		op1 = self.parseExpr(node.childNodes[0])
 		op2 = self.parseExpr(node.childNodes[1])
@@ -568,7 +676,7 @@ class CPPOutputFile(ScopeController):
 		
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = removeGenerics(self.getExprDataType(op1))
-		print(("get" + op2.nodeValue.title()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
+		#print(("get" + op2.nodeValue.title()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
 		
 		accessingGetter = ("get" + op2.nodeValue.title()) in self.compiler.classes[op1Type].functions
 		if isTextNode(op2) and op1Type in self.compiler.classes and (accessingGetter or (op2.nodeValue in self.compiler.classes[op1Type].members)):
@@ -591,12 +699,13 @@ class CPPOutputFile(ScopeController):
 		# GET access
 		isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 		if isMemberAccess:
-			print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.title()))
+			#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.title()))
 			getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1.toxml(), "get" + op2.nodeValue.title())).documentElement
-			print(getFunc.toprettyxml())
+			#print(getFunc.toprettyxml())
 			return self.handleCall(getFunc)
 		else:
-			print("NOT a member ACCESS: %s %s" % (op1.toxml(), op2.toxml()))
+			#print("NOT a member ACCESS: %s %s" % (op1.toxml(), op2.toxml()))
+			pass
 		
 		return self.parseBinaryOperator(node, "->")
 		
@@ -693,6 +802,11 @@ class CPPOutputFile(ScopeController):
 		pos = typeName.find("<")
 		if pos != -1:
 			className = typeName[:pos]
+			
+			# Actor
+			if className == "Actor":
+				actorBoundClass = removeGenerics(typeName[pos+1:-1])
+				self.compiler.classes[actorBoundClass].usesActorModel = True
 		else:
 			className = typeName
 		
@@ -703,11 +817,17 @@ class CPPOutputFile(ScopeController):
 		
 		# Implement init
 		funcName = "init"
+		if not funcName in self.currentClass.functions:
+			raise CompilerException("Every class needs a constructor called 'init' which doesn't exist in '%s'" % (self.currentClass.name))
 		func = self.currentClass.functions[funcName]
 		
 		self.inClass = True
 		
-		func.implementations[self.buildCallPostfix(paramTypes)] = self.implementFunction(func.node, paramTypes, "\t")
+		impl = FunctionImplementation(typeName, funcName, paramTypes)
+		impl.code = self.implementFunction(func.node, paramTypes, "\t")
+		
+		func.addImplementation(impl)
+		#func.implementations[self.buildCallPostfix(paramTypes)] = impl
 		
 		self.inClass = False
 		self.currentClass = oldClass
@@ -761,18 +881,21 @@ class CPPOutputFile(ScopeController):
 		
 	def handleCall(self, node):
 		caller, callerType, funcName = self.getCallFunction(node)
-		callerClass = removeGenerics(callerType)
 		
+		if callerType.startswith("Actor<"):
+			callerType = callerType[len("Actor<"):-1]
+		
+		callerClass = removeGenerics(callerType)
 		params = getElementByTagName(node, "parameters")
 		
 		paramsString, paramTypes = self.handleParameters(params)
-		implRequest = FunctionImplRequest(callerType + "::" + funcName, paramTypes)
-		
 		fullName = funcName + self.buildCallPostfix(paramTypes)
 		
+		implementation = FunctionImplementation(callerType, funcName, paramTypes)
+		
 		if not funcName.startswith("bp_"):
-			if not implRequest.getPrototype() in self.compiler.implementationRequests:
-				self.compiler.implementationRequests[implRequest.getPrototype()] = implRequest
+			if not implementation.getPrototype() in self.compiler.implementationRequests:
+				self.compiler.implementationRequests[implementation.getPrototype()] = implementation
 				#print("Requested implementation of " + implRequest.getPrototype())
 				
 #				getter = "get" + funcName.title()
@@ -803,13 +926,14 @@ class CPPOutputFile(ScopeController):
 						templateParams = callerType[len(callerClass) + 1: -1]
 						definedInFile.currentTemplateParams = self.currentClass.mapTemplateParams(templateParams)
 					
-					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
-					self.currentFunction.implementations[self.buildCallPostfix(paramTypes)] = implementation
+					implementation.code = definedInFile.implementFunction(func.node, implementation.paramTypes)
+					definedInFile.currentFunction.addImplementation(implementation)
 				else:
 					definedInFile = func.file
 					definedInFile.currentFunction = self.currentFunction
-					implementation = definedInFile.implementFunction(func.node, implRequest.paramTypes)
-					definedInFile.functionsHeader += implementation
+					implementation.code = definedInFile.implementFunction(func.node, implementation.paramTypes)
+					definedInFile.currentFunction.addImplementation(implementation)
+					definedInFile.functionsHeader += implementation.getFullCode()
 					
 					prototype = "inline " + self.compiler.functionTypes[callerType + "::" + fullName] + " " + fullName + "(" + ", ".join(paramTypes) + ");\n"
 					self.prototypesHeader += prototype
@@ -978,6 +1102,8 @@ class CPPOutputFile(ScopeController):
 				name = "__" + member
 				funcStartCode += "\t" * self.currentTabLevel + "this->" + member + " = " + name + ";\n"
 			
+			self.currentFunction.paramNames.append(name)
+			
 			if counter >= typesLen:
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
 			
@@ -992,7 +1118,7 @@ class CPPOutputFile(ScopeController):
 					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
 						heavier = self.heavierOperator(definedAs, usedAs)
 						if usedAs == heavier:
-							CompilerWarning("Information might be lost by converting '%s' to '%s' for the parameter '%s' in the function '%s'" % (usedAs, definedAs, name, self.currentFunction.getName()))
+							compilerWarning("Information might be lost by converting '%s' to '%s' for the parameter '%s' in the function '%s'" % (usedAs, definedAs, name, self.currentFunction.getName()))
 					else:
 						raise CompilerException("'%s' expects the type '%s' where you used the type '%s' for the parameter '%s'" % (self.currentFunction.getName(), definedAs, usedAs, name))
 			
@@ -1221,7 +1347,7 @@ class CPPOutputFile(ScopeController):
 		if name in self.compiler.classes:
 			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
 		raise CompilerException("Unknown variable: " + name)
-	
+		
 	def getVariableScopeAnywhere(self, name):
 		scope = self.getVariableScope(name)
 		if scope:
@@ -1239,7 +1365,89 @@ class CPPOutputFile(ScopeController):
 		#print(name + " doesn't exist")
 		return 0
 		
-	def getCode(self):
+	def implementActorClasses(self):
+		prefix = "BP"
+		actorPrefix = "BPActor"
+		wrapperPrefix = "BPActorWrapper"
+		actorInit = ""
+		wrapperInit = ""
+		
+		for classObj in self.classes.values():
+			if classObj.name != "" and classObj.usesActorModel:
+				code = ""
+				wrapperCode = ""
+				structCode = ""
+				actorClassName = actorPrefix + classObj.name
+				wrapperClassName = wrapperPrefix + classObj.name
+				
+				actorInit = "%s() {\n" % (actorClassName)
+				wrapperInit = "%s() : actorRef(theronFramework.CreateActor< %s >()) {\n" % (wrapperClassName, actorPrefix + classObj.getNameWithTemplates())
+				
+				for func in classObj.functions.values():
+					if func.getName() != "init":
+						for impl in func.implementations.values():
+							# Call parameters
+							callParams = ""
+							if func.getParamNames():
+								callParams = ("message." + ", message.".join(func.getParamNames()))
+							paramsString = impl.getParamsString()
+							initList = ""
+							if paramsString:
+								initList = " : %s" % (func.getInitList())
+							
+							# Msg struct
+							structCode += "struct %s {\n%s" % (impl.getMsgStructName(), impl.getMsgStructVars())
+							structCode += "\t%s(%s)%s {}\n" % (impl.getMsgStructName(), paramsString, initList)
+							structCode += "};\n"
+							
+							# Msg handler
+							code += "\tinline void %s(const %s &message, const Theron::Address from) {\n\t\t" % (impl.getMsgHandlerName(), impl.getMsgStructName())
+							code += "this->sequentialObj.%s(%s);" % (impl.getFullFuncName(), callParams)
+							code += "\n\t}\n\n"
+							
+							# Msg sender
+							wrapperCode += "\tinline void %s(%s) {\n\t\t" % (impl.getFullFuncName(), paramsString)
+							wrapperCode += "this->actorRef.Push(%s(%s), theronReceiver.GetAddress());" % (impl.getMsgStructName(), ", ".join(func.getParamNames()))
+							wrapperCode += "\n\t}\n\n"
+							
+							# Register the msg handler
+							actorInit += "\t\tRegisterHandler(this, &%s::%s);\n" % (actorClassName, impl.getMsgHandlerName())
+				
+				actorInit += "\t}"
+				wrapperInit += "\t}"
+				
+				code += "\t" + actorInit + "\n"
+				wrapperCode += "\t" + wrapperInit + "\n"
+				
+				# Private members
+				code += "private:\n"
+				code += "\t%s sequentialObj;\n" % (prefix + classObj.getNameWithTemplates())
+				
+				wrapperCode += "private:\n"
+				wrapperCode += "\tTheron::ActorRef actorRef;\n"
+				
+				# Structs
+				self.actorClassesHeader += structCode + "\n"
+				
+				# Templates
+				if classObj.templateParams:
+					self.actorClassesHeader += "template <typename %s>\n" % (", typename ".join(classObj.templateParams))
+				
+				# Add code to classes header
+				self.actorClassesHeader += "class " + actorClassName + ": public Theron::Actor " + ("{\npublic:\n" + code + "};\n")
+				
+				self.actorClassesHeader += "\n"
+				
+				# Templates
+				if classObj.templateParams:
+					self.actorClassesHeader += "template <typename %s>\n" % (", typename ".join(classObj.templateParams))
+				
+				# Add code to classes header
+				self.actorClassesHeader += "class " + wrapperClassName + " " + ("{\npublic:\n" + wrapperCode + "};\n\n")
+				
+	def implementClasses(self):
+		prefix = "BP"
+		
 		for classObj in self.classes.values():
 			if classObj.name != "":
 				code = ""
@@ -1247,30 +1455,45 @@ class CPPOutputFile(ScopeController):
 				# Functions
 				for func in classObj.functions.values():
 					for impl in func.implementations.values():
-						code += "\t" + impl + "\n"
+						code += "\t" + impl.getFullCode() + "\n"
 				
-				prefix = "BP"
+				# Destructor
+				if self.compiler.addDestructorOutput:
+					code += "~" + prefix + classObj.name + "() {bp_print(\"Destructed " + classObj.name + "\");}"
+					code += "\n"
 				
-				code += "~" + prefix + classObj.name + "() {bp_print(\"Destructed " + classObj.name + "\");}"
-				code += "\n"
-				
-				# Members
+				# Private members
 				code += "private:\n"
 				for memberName, memberType in classObj.members.items():
 					code += "\t" + adjustDataType(memberType, True, classObj.templateParams) + " " + memberName + ";\n"
 				
 				code += "\t\n"
 				
-				#self.typeDefsHeader += "class " + prefix + classObj.name + ";\ntypedef " + prefix + classObj.name + "* " + classObj.name + ";\n"
+				# Templates
 				if classObj.templateParams:
 					self.classesHeader += "template <typename %s>\n" % (", typename ".join(classObj.templateParams))
-				self.classesHeader += "class " + prefix + classObj.name + " {\npublic:\n" + code + "};\n"
+				
+				# Add code to classes header
+				self.classesHeader += "// %s\nclass %s" % (classObj.name, prefix + classObj.name) + " {\npublic:\n" + code + "};\n\n"
 		
-		return self.header + self.typeDefsHeader + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + "\n" + self.topLevel + "\n" + self.footer
+	def getCode(self):
+		self.implementClasses()
+		self.implementActorClasses()
+		
+		return self.header + self.typeDefsHeader + self.prototypesHeader + self.varsHeader + self.classesHeader + self.actorClassesHeader + self.functionsHeader + "\n" + self.topLevel + "\n" + self.footer
 
 ####################################################################
 # Functions
 ####################################################################
+def replaceActorGenerics(type, actorPrefix):
+	while 1:
+		posActor = type.find('Actor<')
+		if posActor != -1:
+			type = actorPrefix + type[posActor + len('Actor<'):-1]
+		else:
+			break
+	return type
+
 def adjustDataType(type, adjustOuterAsWell = True, templateParams = []):
 	if type == "void" or type in nonPointerClasses or type in templateParams:
 		return type
@@ -1281,9 +1504,13 @@ def adjustDataType(type, adjustOuterAsWell = True, templateParams = []):
 	typeName = ""
 	className = ""
 	standardClassPrefix = "BP"
+	actorPrefix = "ActorWrapper"
 	
 	classPrefix = pointerType + "<" + standardClassPrefix
 	classPostfix = ">"
+	
+	# Actors
+	type = replaceActorGenerics(type, actorPrefix)
 	
 	if adjustOuterAsWell:
 		if pos != -1:

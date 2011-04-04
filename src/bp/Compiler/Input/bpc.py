@@ -34,14 +34,6 @@ import codecs
 ####################################################################
 # Classes
 ####################################################################
-class CompilerException(Exception):
-	
-	def __init__(self, reason):
-		self.reason = reason
-		
-	def __str__(self):
-		return repr(self.reason)
-
 class BPCCompiler:
 	
 	def __init__(self, modDir):
@@ -145,8 +137,10 @@ class BPCCompiler:
 		operators.addOperator(Operator("/=", "assign-divide", Operator.BINARY))
 		#operators.addOperator(Operator("}=", "assign-each-in", Operator.BINARY))
 		operators.addOperator(Operator("=", "assign", Operator.BINARY))
-		operators.addOperator(Operator("->", "flows-to", Operator.BINARY))
-		operators.addOperator(Operator("<-", "flows-from", Operator.BINARY))
+		operators.addOperator(Operator("-->", "flow-and-assign-to", Operator.BINARY))
+		operators.addOperator(Operator("<--", "flow-and-assign-from", Operator.BINARY))
+		operators.addOperator(Operator("->", "flow-to", Operator.BINARY))
+		operators.addOperator(Operator("<-", "flow-from", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Comma
@@ -209,6 +203,7 @@ class BPCFile(ScopeController):
 		self.inTemplate = 0
 		self.inGetter = 0
 		self.inSetter = 0
+		self.inCompilerFlags = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
@@ -236,6 +231,7 @@ class BPCFile(ScopeController):
 			"case" : [],
 			"target" : [],
 			"extern" : [],
+			"compiler-flags" : [],
 			"template" : [],
 			"get" : [],
 			"set" : [],
@@ -335,6 +331,8 @@ class BPCFile(ScopeController):
 					self.inGetter -= 1
 				elif self.currentNode.tagName == "set":
 					self.inSetter -= 1
+				elif self.currentNode.tagName == "compiler-flags":
+					self.inCompilerFlags -= 1
 			
 			self.currentNode = self.currentNode.parentNode
 			
@@ -390,8 +388,6 @@ class BPCFile(ScopeController):
 			return self.handleIn(line)
 		elif startsWith(line, "switch"):
 			return self.handleSwitch(line)
-		elif startsWith(line, "target"):
-			return self.handleTarget(line)
 		elif startsWith(line, "extern"):
 			return self.handleExtern(line)
 		elif startsWith(line, "include"):
@@ -402,6 +398,10 @@ class BPCFile(ScopeController):
 			return self.handleGet(line)
 		elif startsWith(line, "set"):
 			return self.handleSet(line)
+		elif startsWith(line, "target"):
+			return self.handleTarget(line)
+		elif startsWith(line, "compilerflags"):
+			return self.handleCompilerFlags(line)
 		elif line == "...":
 			return self.handleNOOP(line)
 		elif self.nextLineIndented:
@@ -414,6 +414,8 @@ class BPCFile(ScopeController):
 		else:
 			if self.inTemplate:
 				return self.handleTemplateParameter(line)
+			elif self.inCompilerFlags:
+				return self.handleCompilerFlag(line)
 			
 			line = self.addBrackets(line)
 			line = self.addGenerics(line)
@@ -474,6 +476,9 @@ class BPCFile(ScopeController):
 		return line
 		
 	def handleCase(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("case", line)
+		
 		node = self.doc.createElement("case")
 		values = self.compiler.parser.getParametersNode(self.parseExpr(line))
 		code = self.doc.createElement("code")
@@ -490,6 +495,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleSwitch(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("switch", line)
+		
 		node = self.doc.createElement("switch")
 		value = self.doc.createElement("value")
 		value.appendChild(self.parseExpr(line[len("switch")+1:]))
@@ -501,6 +509,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleGet(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("get", line)
+		
 		node = self.doc.createElement("get")
 		
 		self.inGetter = 1
@@ -508,6 +519,9 @@ class BPCFile(ScopeController):
 		return node
 	
 	def handleSet(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("set", line)
+		
 		node = self.doc.createElement("set")
 		
 		self.inSetter = 1
@@ -515,6 +529,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleTemplate(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("template", line)
+		
 		node = self.doc.createElement("template")
 		
 		self.inTemplate = 1
@@ -528,6 +545,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleIn(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("in", line)
+		
 		node = self.doc.createElement("in")
 		expr = self.doc.createElement("expression")
 		code = self.doc.createElement("code")
@@ -540,6 +560,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleFor(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("for", line)
+		
 		node = self.doc.createElement("for")
 		
 		pos = line.find(" to ")
@@ -572,6 +595,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handlePrivate(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("private", line)
+		
 		node = self.doc.createElement("private")
 		self.nextNode = node
 		return node
@@ -580,6 +606,9 @@ class BPCFile(ScopeController):
 		return self.doc.createElement("noop")
 		
 	def handleWhile(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("while", line)
+		
 		node = self.doc.createElement("while")
 		condition = self.doc.createElement("condition")
 		code = self.doc.createElement("code")
@@ -592,6 +621,9 @@ class BPCFile(ScopeController):
 		return node
 	
 	def handleTarget(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("target", line)
+		
 		node = self.doc.createElement("target")
 		condition = self.doc.createElement("name")
 		code = self.doc.createElement("code")
@@ -603,7 +635,26 @@ class BPCFile(ScopeController):
 		self.nextNode = code
 		return node
 	
+	def handleCompilerFlags(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("compilerflags", line)
+		
+		node = self.doc.createElement("compiler-flags")
+		self.inCompilerFlags += 1
+		
+		self.nextNode = node
+		return node
+	
+	def handleCompilerFlag(self, line):
+		node = self.doc.createElement("compiler-flag")
+		node.appendChild(self.doc.createTextNode(line))
+		
+		return node
+	
 	def handleExtern(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("extern", line)
+		
 		node = self.doc.createElement("extern")
 		self.inExtern += 1
 		
@@ -734,6 +785,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleTry(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("try", line)
+		
 		node = self.doc.createElement("try-block")
 		
 		tryNode = self.doc.createElement("try")
@@ -746,6 +800,9 @@ class BPCFile(ScopeController):
 		return node
 	
 	def handleCatch(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("catch", line)
+		
 		node = self.doc.createElement("catch")
 		exceptionType = self.doc.createElement("variable")
 		code = self.doc.createElement("code")
@@ -759,14 +816,24 @@ class BPCFile(ScopeController):
 		self.nextNode = code
 		return node
 		
+	def raiseBlockException(self, keyword, line):
+		raise CompilerException("It is required to have an indented %s block after '%s'" % (keyword, line))
+		
 	def handleIf(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("if", line)
+		
 		node = self.doc.createElement("if-block")
 		
 		ifNode = self.doc.createElement("if")
 		condition = self.doc.createElement("condition")
 		code = self.doc.createElement("code")
 		
-		condition.appendChild(self.parseExpr(line[len("if")+1:]))
+		conditionText = line[len("if")+1:]
+		if conditionText == "":
+			raise CompilerException("You need to specify an if condition")
+		
+		condition.appendChild(self.parseExpr(conditionText))
 		
 		ifNode.appendChild(condition)
 		ifNode.appendChild(code)
@@ -777,6 +844,9 @@ class BPCFile(ScopeController):
 		return node
 	
 	def handleElif(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("elif", line)
+		
 		node = self.doc.createElement("else-if")
 		condition = self.doc.createElement("condition")
 		code = self.doc.createElement("code")
@@ -790,6 +860,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleElse(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("else", line)
+		
 		node = self.doc.createElement("else")
 		code = self.doc.createElement("code")
 		
@@ -798,6 +871,9 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleImport(self, line):
+		if self.nextLineIndented:
+			raise CompilerException("import can not be used as a block (yet)")
+		
 		# Priority for module search:
 		# ########################### #
 		# 1. Local    # 4. Project    # 7. Global     #
@@ -840,6 +916,8 @@ class BPCFile(ScopeController):
 			self.importedFiles.append(gImportedFile)
 		elif os.path.isfile(gImportedInFolder):
 			self.importedFiles.append(gImportedInFolder)
+		elif importedModule == "":
+			raise CompilerException("You need to specify which module you want to import")
 		else:
 			raise CompilerException("Module not found: " + importedModule)
 		
@@ -884,12 +962,6 @@ class BPCFile(ScopeController):
 			return line[:pos].rstrip()
 		else:
 			return line
-	
-####################################################################
-# Functions
-####################################################################
-def compileWarning(msg):
-	print("[Warning] " + msg)
 
 ####################################################################
 # Main
@@ -899,8 +971,11 @@ if __name__ == '__main__':
 		print("Starting:")
 		start = time.clock()
 		
-		bpc = BPCCompiler("../../../")
-		bpc.compile("../Test/Input/main.bpc")
+		modDir = "../../../"
+		compileFile = "../Test/Input/main.bpc"
+		
+		bpc = BPCCompiler(modDir)
+		bpc.compile(compileFile)
 		#bpc.writeToFS("../Test/Output/")
 		
 		elapsedTime = time.clock() - start

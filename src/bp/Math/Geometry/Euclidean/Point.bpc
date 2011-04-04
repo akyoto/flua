@@ -15,3 +15,6 @@ Point
 		
 		y value
 			self.y = value
+			
+	distanceTo point
+		return sqrt(distanceSqr(self.x, self.y, point.x, point.y))

@@ -1,14 +1,27 @@
 import tests.generics
-import tests.keywordsTest1
-#import tests.performanceTest
-import bp.Math
+import bp.Concurrency
 
-# Comment
-poi = Point(3.0, 4.0)
-cir1 = Circle(poi, 5.0)
-cir2 = Circle(cir1.midPoint, cir1.radius)
+# Class definition
+Calculator
+	template
+		TDataType
+	
+	init
+		self.result : TDataType
+	
+	sum x, y
+		self.result = x + y
+		print self.result
 
-if cir1.contains(Point(7.0, 4.0))
-	print cir1.midPoint.x
-	print cir1.diameter
-	print cir2.diameter
+# Create some calculators
+c1 = Actor<Calculator<Float>>()
+c2 = Actor<Calculator<Float>>()
+c3 = Actor<Calculator<Float>>()
+
+# Parallel, non-blocking calls
+c1.sum(1, 1)
+c2.sum(2, 4)
+c3.sum(3, 6)
+
+# Simple way to make sure we see the result
+sleep 1000

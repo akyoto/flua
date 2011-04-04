@@ -1,1187 +1,1011 @@
-import bp.Math
+import bp.Math.Geometry
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(Point(7.0, 4.0))
-	print c.diameter()
-	print c2.diameter()
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
-
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
-
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
 
 # Comment
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-if c.contains(c.midPoint)
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-if 1
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+con = cir1.contains(poi)
 
-if c.diameter() > 2
-	p = Point(3.0, 4.0)
-	c = Circle(p, 5.0)
-	c2 = Circle(c.midPoint, c.radius)
-	dia = c.diameter()
-	con = c.contains(c.midPoint)
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
 
-p = Point(3.0, 4.0)
-c = Circle(p, 5.0)
-c2 = Circle(c.midPoint, c.radius)
-dia = c.diameter()
-con = c.contains(c.midPoint)
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
 
-c.diameter()
-c.contains(c.midPoint)
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)
+
+# Comment
+poi = Point(3.0, 4.0)
+cir1 = Circle(poi, 5.0)
+cir2 = Circle(cir1.midPoint, cir1.radius)
+
+if cir1.contains(Point(7.0, 4.0))
+	print cir1.midPoint.x
+	print cir1.diameter
+	print cir2.diameter
+
+con = cir1.contains(poi)

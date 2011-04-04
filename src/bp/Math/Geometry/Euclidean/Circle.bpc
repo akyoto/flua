@@ -1,13 +1,21 @@
 import bp.Math
 import Point
 
+
 Circle
 	init self.midPoint, self.radius
 		...
-		
-	contains point
-		return distanceSqr(self.midPoint.x, self.midPoint.y, point.x, point.y) <= (self.radius * self.radius)
-		
+	
+	set
+		midPoint nPoint
+			self.midPoint = nPoint
+			
+		radius nRadius
+			self.radius = nRadius
+			
+		diameter nDiameter
+			self.radius = nDiameter / 2
+	
 	get
 		midPoint
 			return self.midPoint
@@ -17,6 +25,17 @@ Circle
 			
 		diameter
 			return self.radius * 2
+		
+		# TODO: english
+		umfang
+			return 2 * π * self.radius
+		
+	contains point
+		return distanceSqr(self.midPoint.x, self.midPoint.y, point.x, point.y) <= (self.radius * self.radius)
+	
+	# TODO: Polymorphism	
+	#contains circle : Circle
+	#	...
 		
 	intersects circle
 		distance = distanceSqr(self.midPoint.x, self.midPoint.y, circle.midPoint.x, circle.midPoint.y)

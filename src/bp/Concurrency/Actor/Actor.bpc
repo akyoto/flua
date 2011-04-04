@@ -1,0 +1,19 @@
+import bp.Concurrency.Thread
+
+target C++
+	include Actor.hpp
+	compilerflags
+		-ltheron
+
+extern
+	bp_waitActorMsg
+	
+Actor
+	template
+		TClassName
+	
+	init
+		...
+	
+waitActorMsg
+	bp_waitActorMsg()

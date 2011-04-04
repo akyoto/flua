@@ -31,3 +31,6 @@
 def printTraceback():
 	import traceback
 	traceback.print_exc()
+	
+def compilerWarning(msg):
+	print("[Warning] " + msg)

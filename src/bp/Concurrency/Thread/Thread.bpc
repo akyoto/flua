@@ -1,0 +1,5 @@
+target C++
+	include Thread.hpp
+	compilerflags
+		-lpthread
+		-lboost_thread

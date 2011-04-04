@@ -1,12 +1,10 @@
-import Geometry.Euclidean
-
 target C++
 	include Math.hpp
 
 extern
-	bp_sin : Double
-	bp_cos : Double
-	bp_sqrt : Double
+	bp_sin : Float64
+	bp_cos : Float64
+	bp_sqrt : Float64
 
 # Vars
 const π = 3.14159265358979323846264338327

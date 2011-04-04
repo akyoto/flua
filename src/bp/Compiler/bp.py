@@ -41,11 +41,16 @@ if __name__ == '__main__':
 		print("Starting:")
 		totalStart = time.time()
 		
+		# Configuration
+		modDir = "../../"
+		compileFile = "Test/Input/main.bpc"
+		outputDir = "Test/Output/"
+		
 		# Compile
 		start = time.time()
 		
-		bpc = BPCCompiler("../../")
-		bpc.compile("Test/Input/main.bpc")
+		bpc = BPCCompiler(modDir)
+		bpc.compile(compileFile)
 		
 		compileTime = time.time() - start
 		
@@ -62,7 +67,7 @@ if __name__ == '__main__':
 		
 		cpp = CPPOutputCompiler(bpc)
 		cpp.compile(bpc.getCompiledFiles()[0])
-		cpp.writeToFS("Test/Output/")
+		cpp.writeToFS(outputDir)
 		
 		generateTime = time.time() - start
 		
