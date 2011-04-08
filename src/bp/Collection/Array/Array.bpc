@@ -1,0 +1,58 @@
+import bp.Memory
+
+const arrayMinSize = 1024	# elements, not bytes
+
+Array
+	template
+		TDataType
+	
+	init
+		self.start = ~MemPointer<TDataType>(arrayMinSize)
+		self.end = self.start
+		self.endOfStorage = self.start
+		self.endOfStorage += arrayMinSize
+		
+	gcDelete
+		self.start.delMem()
+		
+	reserve newSize
+		currentSize = self.getLength()
+		newMem = ~MemPointer<TDataType>(newSize)
+		
+		bp_copyMem self.start, newMem, currentSize		# source, dest, size
+		self.start.delMem()
+	
+		self.end = newMem
+		self.end += currentSize
+		self.start = newMem
+		self.endOfStorage = newMem
+		self.endOfStorage += newSize
+		
+	add element
+		self.end.data = element
+		self.end += 1
+		if self.end == self.endOfStorage
+			self.reserve(self.getLength() * 2)
+		
+	operator
+		[] index
+			return self.start[index]
+		
+	get
+		start
+			return self.start
+		
+		end
+			return self.end
+			
+		endOfStorage
+			return self.endOfStorage
+		
+		length
+			return self.end - self.start
+		
+	set
+		length newLength
+			self.endOfStorage = self.start
+			self.endOfStorage += newLength
+

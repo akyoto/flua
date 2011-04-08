@@ -1,0 +1,30 @@
+import bp.Collection.Array
+
+errorCode = 0
+
+array = Array<Int>()
+
+if array.length != 0
+	errorCode += 1
+
+array.add(5)
+array.add(8)
+array.add(13)
+
+print array[0]
+print array[1]
+print array[2]
+
+if array.length != 3
+	errorCode += 1
+
+array2 = Array<Array<Int>>()
+array2.add(array)
+
+if array[0] != array2[0][0] or array[1] != array2[0][1] or array[2] != array2[0][2]
+	errorCode += 1
+
+if errorCode
+	print "Array module not working"
+else
+	print "Array module working"

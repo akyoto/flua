@@ -1,0 +1,23 @@
+import bp.Concurrency
+
+# Class definition
+Calculator
+	template
+		TDataType
+	
+	init
+		self.result : TDataType
+	
+	sum x, y
+		self.result = x + y
+		print self.result
+
+# Create some calculators
+c1 = Calculator<Float>()
+c2 = Calculator<Float>()
+c3 = Calculator<Float>()
+
+# Parallel, non-blocking calls
+c1.sum(1, 2)
+c2.sum(3, 4)
+c3.sum(5, 6)

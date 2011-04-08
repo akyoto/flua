@@ -24,21 +24,24 @@ sin radian
 cos radian
 	return bp_cos(radian)
 	
-sqrt num
+sqr num
 	return bp_sqrt(num)
 
 sinDegree degree
-	return bp_sin(degree * DEG_TO_RAD)
+	return bp_sin(degToRad(degree))
 	
 cosDegree degree
-	return bp_cos(degree * DEG_TO_RAD)
+	return bp_cos(radToDeg(degree))
 	
-distanceSqr x1, y1, x2, y2
+distanceSq x1, y1, x2, y2
 	dX = x2 - x1
 	dY = y2 - y1
 	
 	# TODO: ^2
 	return dX * dX + dY * dY
+
+distance x1, y1, x2, y2
+	return sqr(distanceSq(x1, y1, x2, y2))
 
 factorial n
 	require

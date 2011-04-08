@@ -73,7 +73,7 @@ class BPCCompiler:
 		
 		# Loose pointer
 		operators = OperatorLevel()
-		operators.addOperator(Operator("~", "loose-reference", Operator.UNARY))
+		operators.addOperator(Operator("~", "unmanaged", Operator.UNARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 3: Unary
@@ -197,12 +197,14 @@ class BPCFile(ScopeController):
 		self.importedFiles = []
 		self.nextLineIndented = False
 		self.savedNextNode = 0
+		self.inClass = 0
 		self.inSwitch = 0
 		self.inCase = 0
 		self.inExtern = 0
 		self.inTemplate = 0
 		self.inGetter = 0
 		self.inSetter = 0
+		self.inOperators = 0
 		self.inCompilerFlags = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
@@ -323,6 +325,8 @@ class BPCFile(ScopeController):
 			if countIns:
 				if self.currentNode.tagName == "switch":
 					self.inSwitch -= 1
+				elif self.currentNode.tagName == "class":
+					self.inClass -= 1
 				elif self.currentNode.tagName == "extern":
 					self.inExtern -= 1
 				elif self.currentNode.tagName == "template":
@@ -331,6 +335,8 @@ class BPCFile(ScopeController):
 					self.inGetter -= 1
 				elif self.currentNode.tagName == "set":
 					self.inSetter -= 1
+				elif self.currentNode.tagName == "operators":
+					self.inOperators -= 1
 				elif self.currentNode.tagName == "compiler-flags":
 					self.inCompilerFlags -= 1
 			
@@ -354,9 +360,7 @@ class BPCFile(ScopeController):
 			atTab -= 1
 		
 	def processLine(self, line):
-		if self.inExtern:
-			return self.handleExternLine(line)
-		elif startsWith(line, "import"):
+		if startsWith(line, "import"):
 			return self.handleImport(line)
 		elif startsWith(line, "while"):
 			return self.handleWhile(line)
@@ -398,6 +402,8 @@ class BPCFile(ScopeController):
 			return self.handleGet(line)
 		elif startsWith(line, "set"):
 			return self.handleSet(line)
+		elif startsWith(line, "operator"):
+			return self.handleOperatorBlock(line)
 		elif startsWith(line, "target"):
 			return self.handleTarget(line)
 		elif startsWith(line, "compilerflags"):
@@ -407,7 +413,7 @@ class BPCFile(ScopeController):
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
-			elif line[0].islower():
+			elif self.inOperators or line[0].islower():
 				return self.handleFunction(line)
 			else:
 				return self.handleClass(line)
@@ -416,6 +422,9 @@ class BPCFile(ScopeController):
 				return self.handleTemplateParameter(line)
 			elif self.inCompilerFlags:
 				return self.handleCompilerFlag(line)
+			
+			if self.inExtern and not self.inClass:
+				return self.handleExternLine(line)
 			
 			line = self.addBrackets(line)
 			line = self.addGenerics(line)
@@ -443,7 +452,7 @@ class BPCFile(ScopeController):
 					templateParam = self.addGenerics(line[startGeneric+1:i])
 					line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
 					
-			elif bracketCounter > 0 and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
+			elif bracketCounter > 0 and char != '~' and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
 				break
 		
 #		if oldLine != line:
@@ -525,6 +534,16 @@ class BPCFile(ScopeController):
 		node = self.doc.createElement("set")
 		
 		self.inSetter = 1
+		self.nextNode = node
+		return node
+	
+	def handleOperatorBlock(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("operator", line)
+		
+		node = self.doc.createElement("operators")
+		
+		self.inOperators = 1
 		self.nextNode = node
 		return node
 		
@@ -729,6 +748,7 @@ class BPCFile(ScopeController):
 		lineLen = len(line)
 		while pos < lineLen and isVarChar(line[pos]):
 			pos += 1
+		
 		if pos is len(line):
 			funcName = line
 		elif line[pos] == ' ':
@@ -739,7 +759,9 @@ class BPCFile(ScopeController):
 				funcName = line[:whiteSpace]
 			else:
 				funcName = line
-			raise CompilerException("Invalid function name '" + funcName + "'")
+			
+			if not self.inOperators:
+				raise CompilerException("Invalid function name '" + funcName + "'")
 		
 		#print(" belongs to " + self.currentNode.tagName)
 		
@@ -747,6 +769,8 @@ class BPCFile(ScopeController):
 			node = self.doc.createElement("setter")
 		elif self.inGetter:
 			node = self.doc.createElement("getter")
+		elif self.inOperators:
+			node = self.doc.createElement("operator")
 		else:
 			node = self.doc.createElement("function")
 		
@@ -766,6 +790,8 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleClass(self, line):
+		self.inClass += 1
+		
 		className = line
 		
 		node = self.doc.createElement("class")

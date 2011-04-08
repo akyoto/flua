@@ -6,10 +6,6 @@
 // Macros
 #define bp_sizeOf sizeof
 
-// Const
-const bool True = 1;
-const bool False = 0;
-
 // Standard functions
 template <typename T>
 inline void bp_print(T var) {

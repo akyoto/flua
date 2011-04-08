@@ -31,13 +31,13 @@ Circle
 			return 2 * π * self.radius
 		
 	contains point
-		return distanceSqr(self.midPoint.x, self.midPoint.y, point.x, point.y) <= (self.radius * self.radius)
+		return distanceSq(self.midPoint.x, self.midPoint.y, point.x, point.y) <= (self.radius * self.radius)
 	
 	# TODO: Polymorphism	
 	#contains circle : Circle
 	#	...
 		
 	intersects circle
-		distance = distanceSqr(self.midPoint.x, self.midPoint.y, circle.midPoint.x, circle.midPoint.y)
+		distance = distanceSq(self.midPoint.x, self.midPoint.y, circle.midPoint.x, circle.midPoint.y)
 		sumRadi = self.radius + circle.radius
 		return d < (sumRadi * sumRadi)

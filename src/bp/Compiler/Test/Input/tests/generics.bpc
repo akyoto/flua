@@ -1,12 +1,18 @@
-#myArray = ElementHolder<Int>()
-#myArray.value = 5
+myArray = ElementHolder<Int>()
+myArray.value = 5
 
-#gh = ElementHolder<ElementHolder<Int>>()
-#gh.value = myArray
-#f = gh.value
+gh = ElementHolder<ElementHolder<Int>>()
+gh.value = myArray
+f = gh.value
 
-#if f.value == 5
-#	print "Generics are working!"
+myArray.value = 7
+f = gh.value
+
+if f.value == 7
+	print "Generics are working!"
+
+if gh.value == myArray
+	print "Generics are truly working!"
 
 ElementHolder
 	template
