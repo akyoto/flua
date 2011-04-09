@@ -13,15 +13,15 @@ Array
 		self.endOfStorage += arrayMinSize
 		
 	gcDelete
-		self.start.delMem()
+		self.start.free()
 		
 	reserve newSize
 		currentSize = self.getLength()
 		newMem = ~MemPointer<TDataType>(newSize)
 		
-		bp_copyMem self.start, newMem, currentSize		# source, dest, size
-		self.start.delMem()
-	
+		copyMem self.start, newMem, currentSize		# source, dest, size
+		self.start.free()
+		
 		self.end = newMem
 		self.end += currentSize
 		self.start = newMem

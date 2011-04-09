@@ -13,11 +13,13 @@ Calculator
 		print self.result
 
 # Create some calculators
-c1 = Calculator<Float>()
-c2 = Calculator<Float>()
-c3 = Calculator<Float>()
+c1 = Actor<Calculator<Float>>()
+c2 = Actor<Calculator<Float>>()
+c3 = Actor<Calculator<Float>>()
 
 # Parallel, non-blocking calls
 c1.sum(1, 2)
 c2.sum(3, 4)
 c3.sum(5, 6)
+
+sleep 100

@@ -5,7 +5,8 @@ class BPMemPointer {
 	public:
 		inline BPMemPointer() : ptr(NULL) {}
 		inline BPMemPointer(Size size) : ptr(new TDataType[size]) {}
-		inline BPMemPointer(const BPMemPointer<TDataType> *memPtr) : ptr(memPtr->ptr) {}
+		inline BPMemPointer(BPMemPointer<TDataType> *memPtr) : ptr(memPtr->ptr) {}
+		inline BPMemPointer(TDataType *memPtr) : ptr(memPtr) {}
 		
 		inline TDataType &getData() {
 			return *ptr;
@@ -19,6 +20,10 @@ class BPMemPointer {
 		template <typename sizeType>
 		inline TDataType operator [](sizeType index) {
 			return ptr[index];
+		}
+		
+		inline void operator =(TDataType *memPtr) {
+			ptr = memPtr;
 		}
 		
 		inline void operator =(const BPMemPointer &memPtr) {
@@ -51,7 +56,7 @@ class BPMemPointer {
 			return ptr;
 		}
 		
-		inline void delMem() {
+		inline void free() {
 			delete [] ptr;
 		}
 		
@@ -60,6 +65,6 @@ class BPMemPointer {
 };
 
 template <typename TSource, typename TDest, typename sizeType>
-inline TDest bp_copyMem(TSource source, TDest dest, sizeType numBytes) {
-	return memcpy(dest, source, numBytes);
+inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numBytes) {
+	return static_cast<TDest*>(memcpy(dest, source, numBytes));
 }

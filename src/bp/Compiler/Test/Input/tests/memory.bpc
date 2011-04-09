@@ -1,12 +1,13 @@
 import bp.Memory
 
-ptrA = ~MemPointer<Int>(1024)
-ptrB = ~MemPointer<Int>(ptrA)
+ptrA = ~MemPointer<Int>(4096)
+ptrB = ptrA
 
 ptrA.data = 5
-#ptrB += 1
-#ptrB.data = 7
-#ptrB -= 1
+ptrB += 1
+ptrB.data = 7
+ptrB -= 1
+ptrB = ptrB + 1 - 1
 print ptrA.data
 
 if (ptrA == ptrB) and (ptrA.data == ptrB.data)

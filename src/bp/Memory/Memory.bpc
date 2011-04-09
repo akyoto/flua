@@ -1,6 +1,9 @@
 target C++
 	include Memory.hpp
 
+copyMem source, dest, size
+	bp_copyMem source, dest, size
+
 extern
 	bp_copyMem
 	
@@ -11,7 +14,7 @@ extern
 		init size
 			...
 			
-		delMem
+		free
 			...
 			
 		operator
@@ -27,6 +30,3 @@ extern
 			data
 				retValue : TDataType
 				return retValue
-
-copyMem source, dest, size
-	bp_copyMem source, dest, size

@@ -28,6 +28,10 @@
 ####################################################################
 # Functions
 ####################################################################
+def debugStop():
+	import pdb
+	pdb.set_trace()
+
 def printTraceback():
 	import traceback
 	traceback.print_exc()

@@ -1,18 +1,20 @@
-myArray = ElementHolder<Int>()
-myArray.value = 5
+sample = ElementHolder<Int>()
+sample.value = 5				# Int
 
-gh = ElementHolder<ElementHolder<Int>>()
-gh.value = myArray
-f = gh.value
+wrapper = ElementHolder<ElementHolder<Int>>()
+wrapper.value = sample			# ElementHolder<Int>
+inst = wrapper.value			# ElementHolder<Int>
 
-myArray.value = 7
-f = gh.value
+sample.value = 7				# Int
 
-if f.value == 7
+if inst.value == 7				# Int
 	print "Generics are working!"
 
-if gh.value == myArray
+if wrapper.value == sample		# ElementHolder<Int>
 	print "Generics are truly working!"
+	
+if wrapper == wrapper		# ElementHolder<ElementHolder<Int>>
+	print "Generics are perfectly working!"
 
 ElementHolder
 	template

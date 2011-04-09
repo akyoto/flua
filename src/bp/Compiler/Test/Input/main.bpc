@@ -1,11 +1,12 @@
-import tests.keywordsTest1
-import tests.memory
+#import tests.keywordsTest1
+#import tests.memory
 import tests.generics
-import tests.actor
-import tests.math
+#import tests.actor
+#import tests.math
 #import tests.array
 
 #import bp.Collection.Array
+#import bp.Memory
 
 #start = systemTime()
 
@@ -19,3 +20,15 @@ import tests.math
 #length = a.length
 #print systemTime() - start
 #print length
+
+#MyClass
+#	init
+#		self.ptr = ~MemPointer<Int>(1024)
+		
+#	get
+#		ptr
+#			return self.ptr
+
+#ghj = MyClass()
+#ghj.ptr.data = 7
+#print ghj.ptr.data
