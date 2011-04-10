@@ -76,7 +76,7 @@ class ExpressionParser:
 	def __init__(self):
 		self.operatorLevels = []
 		self.recursionLevel = 0
-		self.doc = None
+		self.doc = parseString("<expr></expr>")
 		
 	def compileError(self, error):
 		raise CompilerException(error)
@@ -157,17 +157,17 @@ class ExpressionParser:
 											bracketCounter -= 1
 									start -= 1
 								
-								operandLeft = expr[start+1:lastOccurence];
+								operandLeft = expr[start+1:lastOccurence]
 								
 								# Right operand
 								end = lastOccurence + op.textLen
 								
-								if op.text == '[' or op.text == '(' or (expr[end] == '(' and end == lastOccurence + 1) or (expr[end] == '[' and end == lastOccurence + 1):
+								if op.text == '[' or op.text == '(' or (expr[end] == '(' and end == lastOccurence + op.textLen) or (expr[end] == '[' and end == lastOccurence + op.textLen):
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
 								
-								while end < exprLen and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + 1 and (expr[end] == '(' or expr[end] == '['))):
+								while end < exprLen and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + op.textLen and (expr[end] == '(' or expr[end] == '['))):
 									# Move to last part of the bracket
 									while bracketCounter > 0 and end < exprLen:
 										if expr[end] == '(' or expr[end] == '[':
@@ -183,6 +183,14 @@ class ExpressionParser:
 									end += 1
 								
 								operandRight = expr[lastOccurence + op.textLen:end]
+								
+								if op.text == "&&":
+									print(">> " + operandLeft + " AND " + operandRight)
+									print(expr)
+									print(lastOccurence)
+									print(end)
+									print(expr[lastOccurence:end])
+									print(bracketCounter)
 								
 								#print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
 								
@@ -239,7 +247,7 @@ class ExpressionParser:
 											bracketCounter -= 1
 									end += 1
 								
-								operandRight = expr[lastOccurence+op.textLen:end];
+								operandRight = expr[lastOccurence+op.textLen:end]
 								
 								#print("[" + op.text + "] " + operandRight)
 								
@@ -398,8 +406,7 @@ class ExpressionParser:
 	def buildXMLTree(self, expr):
 		#print(" * buildXMLTree: " + expr)
 		
-		self.doc = parseString("<expr></expr>")
-		node = self.doc.documentElement
+		node = self.doc.createElement("expr")
 		
 		# TODO: Remove double whitespaces
 		
