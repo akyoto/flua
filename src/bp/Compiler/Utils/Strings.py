@@ -66,8 +66,32 @@ def getNextNonWhitespacePos(stri, fromIndex):
 		return -1
 	return fromIndex
 
+def extractClassName(name):
+	return removeUnmanaged(removeGenerics(name))
+
+def extractTemplateValues(name):
+	pos = name.find('<')
+	if pos == -1:
+		return ""
+	return name[pos + 1:-1]
+
 def removeGenerics(typeName):
 	pos = typeName.find('<')
 	if pos != -1:
 		return typeName[:pos]
 	return typeName
+
+def removeUnmanaged(type):
+	return type.replace("~", "")
+
+def splitParams(line):
+	params = line.split(",")
+	for i in range(len(params)):
+		params[i] = params[i].strip()
+	return params
+
+def buildPostfix(paramTypes):
+	postfix = ""
+	for dataType in paramTypes:
+		postfix += "__" + dataType.replace("<", "_").replace(">", "_").replace("~", "_")
+	return postfix

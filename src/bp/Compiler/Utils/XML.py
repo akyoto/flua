@@ -39,6 +39,9 @@ def isTextNode(node):
 		return False
 	return node.nodeType == Node.TEXT_NODE
 
+def isElemNode(node):
+	return not isTextNode(node)
+
 def getElementByTagName(node, name):
 	for child in node.childNodes:
 		if child.nodeType != Node.TEXT_NODE and child.tagName == name:

@@ -22,12 +22,47 @@
 # along with Blitzprog.  If not, see <http://www.gnu.org/licenses/>.
 
 ####################################################################
-# Imports
+# Global
 ####################################################################
+
+dbgTabLevel = 0
+
+####################################################################
+# Classes
+####################################################################
+class CompilerException(Exception):
+	
+	def __init__(self, value):
+		self.value = value
+		self.line = -1
+		
+	def getMsg(self):
+		return self.value
+		
+	def getLine(self):
+		return self.line
+		
+	def setLine(self, line):
+		self.line = line
+		
+	def __str__(self):
+		return repr(self.value)
+
+def CompilerWarning(msg):
+	print("[Warning] " + msg)
 
 ####################################################################
 # Functions
 ####################################################################
+def debug(msg):
+	print("\t" * dbgTabLevel + str(msg))
+	
+def debugPush():
+	dbgTabLevel += 1
+	
+def debugPop():
+	dbgTabLevel -= 1
+
 def debugStop():
 	import pdb
 	pdb.set_trace()

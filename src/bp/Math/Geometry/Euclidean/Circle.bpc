@@ -1,7 +1,6 @@
 import bp.Math
 import Point
 
-
 Circle
 	init self.midPoint, self.radius
 		...

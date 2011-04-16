@@ -25,6 +25,7 @@ ElementHolder
 		
 	get
 		value
+			self.a = 5
 			return self.value
 		
 	set

@@ -1,12 +1,16 @@
-#import tests.keywordsTest1
-#import tests.memory
+import tests.keywordsTest1
+import tests.memory
 import tests.generics
 #import tests.actor
-#import tests.math
-#import tests.array
+import tests.math
+import tests.array
 
 #import bp.Collection.Array
 #import bp.Memory
+#import bp.Math
+
+#print(distanceSq(1.0, 1.0, 2.0, 2.0))
+#print(distance(1.0, 1.0, 2.0, 2.0))
 
 #start = systemTime()
 

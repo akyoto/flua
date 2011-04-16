@@ -3,7 +3,9 @@ import bp.Math.Geometry
 circleA = Circle(Point(3.0, 4.0), 10.0)
 circleB = Circle(Point(5.0, 6.0), 10.0)
 pointA = Point(4.0, 5.0)
-pointB = Point(-3.0, -3.0)
+pointB = Point(-1.0, -1.0)
 
 if circleA.contains(pointA) and circleA.contains(pointB) and pointA.distanceTo(pointB) < 8.0
 	print "Geometry module working"
+else
+	print "Geometry module NOT working"
