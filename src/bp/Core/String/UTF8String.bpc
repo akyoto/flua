@@ -1,0 +1,36 @@
+import bp.Core.String
+import bp.Collection.Array
+
+UTF8String
+	init stri
+		self.array = Array<Byte>()
+		len = bp_strlen(stri)
+		for i = 0 until len
+			self.array.add(stri[i])
+			
+	print
+		for i = 0 until self.array.length
+			bp_print self.array[i]
+		bp_print "\n"
+		
+	get
+		length
+			count : Size = 0
+			len = self.array.length
+			
+			for i = 0 until len
+				lead = self.array[i]
+				count += 1
+				
+				if lead < 0x80
+					continue
+				elif (lead >> 5) == 0x6
+					i += 1
+				elif (lead >> 4) == 0xe
+					i += 2
+				elif (lead >> 3) == 0x1e
+					i += 3
+			return count
+			
+		lengthInBytes
+			return self.array.length

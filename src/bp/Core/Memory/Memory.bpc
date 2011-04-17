@@ -1,0 +1,32 @@
+target C++
+	include Memory.hpp
+
+copyMem source, dest, size
+	bp_copyMem source, dest, size
+
+extern
+	bp_copyMem
+	
+	MemPointer
+		template
+			TDataType
+			
+		init size
+			...
+			
+		free
+			...
+			
+		operator
+			[] index
+				retValue : TDataType
+				return retValue
+			
+		set
+			data nValue
+				...
+			
+		get
+			data
+				retValue : TDataType
+				return retValue

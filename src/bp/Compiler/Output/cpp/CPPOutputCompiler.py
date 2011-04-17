@@ -53,6 +53,7 @@ class CPPOutputCompiler:
 		self.mainCppFile = ""
 		self.customCompilerFlags = []
 		self.funcImplCache = {}
+		self.includes = []
 		
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([])
@@ -116,14 +117,26 @@ class CPPOutputCompiler:
 			outStream.write("#include <cstdlib>\n")
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
-			outStream.write("typedef %s %s;\n" % ("const char*", "String"))
-			outStream.write("#define %s %s\n" % ("SPtr", "boost::shared_ptr"))
+			outStream.write("typedef %s %s;\n" % ("CString", "String"))
+			outStream.write("#define %s %s\n" % ("Ptr", "boost::shared_ptr"))
 			outStream.write("\n")
 			
+			# Classes
 			for className, classObj in self.mainClass.classes.items():
 				if classObj.templateNames:
 					outStream.write("template <typename %s> " % (", typename ".join(classObj.templateNames)))
 				outStream.write("class BP%s;\n" % (className))
+			
+			#for implName, impl in self.mainClass.implementations[""].funcImplementations:
+			#	outStream.write("// func %s;\n" % (implName))
+			
+			# Extern functions
+			for externFunc in self.mainClass.externFunctions:
+				outStream.write("// extern func %s;\n" % (externFunc))
+			
+			# Includes
+			for incl in self.includes:
+				outStream.write("#include <%s>\n" % (incl))
 			
 			outStream.write("\n#endif\n")
 	
@@ -146,11 +159,10 @@ class CPPOutputCompiler:
 			#"-L" + self.libsDir,
 			"-std=c++0x",
 			"-pipe",
-			#"-funroll-loops",
+			"-Wall",
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
-			"-Wall",
 			#"-O3"
 		]
 		

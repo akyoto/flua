@@ -1,38 +1,24 @@
-import tests.keywordsTest1
-import tests.memory
-import tests.generics
+#import tests.all
 #import tests.actor
-import tests.math
-import tests.array
+
+a = UTF8String("κόσμε")
+
+a.print()
+print a.length
+
+#print a
+
+#print bp_strlen("Test")
 
 #import bp.Collection.Array
-#import bp.Memory
-#import bp.Math
-
-#print(distanceSq(1.0, 1.0, 2.0, 2.0))
-#print(distance(1.0, 1.0, 2.0, 2.0))
-
+#
 #start = systemTime()
-
-#a = Array<Int>()
-
-#a.add(8)
-#a.add(7.0)
-#for i = 0 to 15000 - 1
-#	a.add(i)
-
-#length = a.length
+#
+#const iterations = 20000
+#for h = 0 to iterations
+#	a = Array<Int>()
+#	for i = 0 to 5000
+#		a.add i
+#		a[i] *= 2
+#
 #print systemTime() - start
-#print length
-
-#MyClass
-#	init
-#		self.ptr = ~MemPointer<Int>(1024)
-		
-#	get
-#		ptr
-#			return self.ptr
-
-#ghj = MyClass()
-#ghj.ptr.data = 7
-#print ghj.ptr.data

@@ -1,3 +1,6 @@
+import Memory
+import String
+
 target C++
 	include Core.hpp
 	
@@ -9,6 +12,7 @@ extern
 
 print stri
 	bp_print stri
+	bp_print "\n"
 
 sleep ms
 	bp_usleep ms * 1000

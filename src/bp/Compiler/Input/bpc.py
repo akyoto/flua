@@ -96,6 +96,12 @@ class BPCCompiler:
 		operators.addOperator(Operator("-", "subtract", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
+		# 7: Shift operations
+		operators = OperatorLevel()
+		operators.addOperator(Operator("<<", "shift-left", Operator.BINARY))
+		operators.addOperator(Operator(">>", "shift-right", Operator.BINARY))
+		self.parser.addOperatorLevel(operators)
+		
 		# 8: GT, LT
 		operators = OperatorLevel()
 		operators.addOperator(Operator(">=", "greater-or-equal", Operator.BINARY))
@@ -108,6 +114,7 @@ class BPCCompiler:
 		operators = OperatorLevel()
 		operators.addOperator(Operator("==", "equal", Operator.BINARY))
 		operators.addOperator(Operator("!=", "not-equal", Operator.BINARY))
+		operators.addOperator(Operator("~=", "almost-equal", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 13: Logical AND
@@ -135,6 +142,8 @@ class BPCCompiler:
 		operators.addOperator(Operator("-=", "assign-subtract", Operator.BINARY))
 		operators.addOperator(Operator("*=", "assign-multiply", Operator.BINARY))
 		operators.addOperator(Operator("/=", "assign-divide", Operator.BINARY))
+		operators.addOperator(Operator("<<=", "assign-shift-left", Operator.BINARY))
+		operators.addOperator(Operator(">>=", "assign-shift-right", Operator.BINARY))
 		#operators.addOperator(Operator("}=", "assign-each-in", Operator.BINARY))
 		operators.addOperator(Operator("=", "assign", Operator.BINARY))
 		operators.addOperator(Operator("-->", "flow-and-assign-to", Operator.BINARY))
@@ -585,13 +594,23 @@ class BPCFile(ScopeController):
 		node = self.doc.createElement("for")
 		
 		pos = line.find(" to ")
-		if pos == -1:
+		posUntil = line.find(" until ")
+		if pos == -1 and posUntil == -1:
 			node.tagName = "foreach"
 			# TODO: Foreach
 			return None
 		else:
+			toUsed = 1
+			if pos == -1:
+				pos = posUntil
+				toUsed = 0
+			
 			initExpr = self.parseExpr(line[len("for")+1:pos])
-			toExpr = self.parseExpr(line[pos+len(" to "):])
+			
+			if toUsed:
+				toExpr = self.parseExpr(line[pos+len(" to "):])
+			else:
+				toExpr = self.parseExpr(line[pos+len(" until "):])
 			
 			iterNode = self.doc.createElement("iterator")
 			iterNode.appendChild(initExpr.childNodes[0].childNodes[0])
@@ -599,7 +618,10 @@ class BPCFile(ScopeController):
 			fromNode = self.doc.createElement("from")
 			fromNode.appendChild(initExpr.childNodes[1].childNodes[0])
 			
-			toNode = self.doc.createElement("to")
+			if toUsed:
+				toNode = self.doc.createElement("to")
+			else:
+				toNode = self.doc.createElement("until")
 			toNode.appendChild(toExpr)
 			
 			codeNode = self.doc.createElement("code")

@@ -1,0 +1,5 @@
+import tests.keywordsTest1
+import tests.math
+import tests.generics
+import tests.memory
+import tests.array

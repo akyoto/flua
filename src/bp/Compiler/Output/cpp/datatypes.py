@@ -32,11 +32,12 @@ from Utils import *
 ####################################################################
 # Global
 ####################################################################
-pointerType = "SPtr"
+pointerType = "Ptr"
 
 dataTypeDefinitions = {
 	"Bool" : "bool",
-	"Byte" : "char",
+	"Byte" : "unsigned char",
+	"ConstChar" : "const char",
 	"Short" : "short",
 	"Int" : "int_fast32_t",
 	"Int32" : "int32_t",
@@ -45,35 +46,37 @@ dataTypeDefinitions = {
 	"Float" : "float",
 	"Float32" : "float",
 	"Float64" : "double",
-	"String" : "const char *"
+	"CString" : "ConstChar *"
 }
 
 dataTypeWeights = {
 	"Bool" : 1,
 	"Byte" : 2,
-	"Short" : 3,
-	"Int" : 4,
-	"Int32" : 5,
-	"Int64" : 6,
-	"Size" : 7,
-	"Float" : 8,
-	"Float32" : 9,
-	"Float64" : 10,
-	"String" : 11
+	"ConstChar" : 3,
+	"Short" : 4,
+	"Int" : 5,
+	"Int32" : 6,
+	"Int64" : 7,
+	"Size" : 8,
+	"Float" : 9,
+	"Float32" : 10,
+	"Float64" : 11,
+	"CString" : 12
 }
 
 nonPointerClasses = {
 	"Bool" : 1,
 	"Byte" : 2,
-	"Short" : 3,
-	"Int" : 4,
-	"Int32" : 5,
-	"Int64" : 6,
-	"Size" : 7,
-	"Float" : 8,
-	"Float32" : 9,
-	"Float64" : 10,
-	"String" : 11
+	"ConstChar" : 3,
+	"Short" : 4,
+	"Int" : 5,
+	"Int32" : 6,
+	"Int64" : 7,
+	"Size" : 8,
+	"Float" : 9,
+	"Float32" : 10,
+	"Float64" : 11,
+	"CString" : 12
 }
 
 ####################################################################

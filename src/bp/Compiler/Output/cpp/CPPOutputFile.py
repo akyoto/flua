@@ -143,6 +143,8 @@ class CPPOutputFile(ScopeController):
 				name = exprNode.nodeValue
 			elif exprNode.tagName == "access":
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
+			elif exprNode.tagName == "assign":
+				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
 			else:
 				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			pList.append(name)
@@ -220,7 +222,8 @@ class CPPOutputFile(ScopeController):
 		elif tagName == "for":
 			return self.handleFor(node)
 		elif tagName == "include":
-			self.header += "#include \"" + node.childNodes[0].nodeValue + "\"\n"
+			fileName = node.childNodes[0].nodeValue
+			self.compiler.includes.append((self.dir + fileName)[len(self.compiler.modDir):]) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
 			return ""
 		elif tagName == "const":
 			return self.handleConst(node)
@@ -417,8 +420,8 @@ class CPPOutputFile(ScopeController):
 			return variableName + " = " + value
 		elif variableExisted:
 			return variableName + " = " + value
-		#elif declaredInline:
-		#	return var.getPrototype() + " = " + value
+		elif declaredInline:
+			return variableName + " = " + value
 		else:
 			return var.getPrototype() + " = " + value
 		
@@ -446,6 +449,11 @@ class CPPOutputFile(ScopeController):
 			return "delete [] %s" % (caller)
 		
 		if not funcName.startswith("bp_"):
+			if not funcName in callerClass.functions:
+				if funcName[0].islower():
+					raise CompilerException("Function '%s.%s' has not been defined" % (callerType, funcName))
+				else:
+					raise CompilerException("Class '%s' has not been defined" % (funcName))
 			func = callerClass.functions[funcName]
 			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
@@ -469,6 +477,8 @@ class CPPOutputFile(ScopeController):
 			return self.compiler.funcImplCache[key]
 		
 		className = extractClassName(typeName)
+		if not funcName in self.getClass(className).functions:
+			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
 		func = self.getClass(className).functions[funcName]
 		definedInFile = func.cppFile
 		
@@ -644,6 +654,11 @@ class CPPOutputFile(ScopeController):
 			if operatorType1.startswith("~MemPointer"):
 				if operation == "index":
 					return operatorType1[len("~MemPointer<"):-1]
+				if operatorType2.startswith("~MemPointer"):
+					if operation == "subtract":
+						return "Size"
+				if operation == "add":
+					return operatorType1
 				return self.getCombinationResult(operation, "Size", operatorType2)
 			if operatorType2.startswith("~MemPointer"):
 				return self.getCombinationResult(operation, operatorType1, "Size")
@@ -727,7 +742,7 @@ class CPPOutputFile(ScopeController):
 		if types:
 			type = types[0].childNodes[0].nodeValue
 		
-		self.currentClass.addExternFunction(name, type)
+		self.compiler.mainClass.addExternFunction(name, type)
 	
 	def getVariableScopeAnywhere(self, name):
 		scope = self.getVariableScope(name)
@@ -744,10 +759,10 @@ class CPPOutputFile(ScopeController):
 			return var.type
 		
 		if name in self.currentClassImpl.members:
-			return self.currentClassImpl.members.type
+			return self.currentClassImpl.members[name].type
 		
 		if name in self.compiler.mainClassImpl.members:
-			return self.compiler.mainClassImpl.members.type
+			return self.compiler.mainClassImpl.members[name].type
 		
 		#print(self.getTopLevelScope().variables)
 		#print(self.compiler.globalScope.variables)
@@ -799,10 +814,10 @@ class CPPOutputFile(ScopeController):
 			#debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
 			return funcImpl.getReturnType()
 		else:
-			if not (funcName in self.currentClass.externFunctions):
+			if not (funcName in self.compiler.mainClass.externFunctions):
 				raise CompilerException("Function '" + funcName + "' has not been defined")
 			
-			return self.currentClass.externFunctions[funcName]
+			return self.compiler.mainClass.externFunctions[funcName]
 	
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
@@ -815,7 +830,7 @@ class CPPOutputFile(ScopeController):
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
-				return "String"
+				return "~MemPointer<ConstChar>"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
 			#elif node.nodeValue == "self":
@@ -862,7 +877,7 @@ class CPPOutputFile(ScopeController):
 				callerClassImpl = self.getClassImplementationByTypeName(callerType)
 				
 				if memberName in callerClassImpl.members:
-					debug("Member '" + memberName + "' does exist")
+					#debug("Member '" + memberName + "' does exist")
 					memberType = callerClassImpl.members[memberName].type
 #					print(memberType)
 #					print(callerType)
@@ -872,7 +887,8 @@ class CPPOutputFile(ScopeController):
 #					print("-----")
 					return self.currentClassImpl.translateTemplateName(memberType)
 				else:
-					debug("Member '" + memberName + "' doesn't exist")
+					pass
+					#debug("Member '" + memberName + "' doesn't exist")
 					
 					# data access from a pointer
 					if callerClassName == "MemPointer" and memberName == "data":
@@ -925,27 +941,37 @@ class CPPOutputFile(ScopeController):
 	def registerVariable(self, var):
 		#debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
-		self.currentClassImpl.addMember(var)
+		#self.currentClassImpl.addMember(var)
 	
 	def handleFor(self, node):
 		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
+		toLimiterNode = getElementByTagName(node, "to")
+		
+		if toLimiterNode:
+			toNodeContent = toLimiterNode.childNodes[0]
+			operator = "<="
+		else:
+			toNodeContent = getElementByTagName(node, "until").childNodes[0]
+			operator = "<"
+		
 		fromType = self.getExprDataType(fromNodeContent)
 		
 		iterExpr = self.parseExpr(getElementByTagName(node, "iterator").childNodes[0])
 		fromExpr = self.parseExpr(fromNodeContent)
-		toExpr = self.parseExpr(getElementByTagName(node, "to").childNodes[0])
+		toExpr = self.parseExpr(toNodeContent)
+		toType = self.getExprDataType(toNodeContent)
 		#stepExpr = self.parseExpr(getElementByTagName(node, "step").childNodes[0])
 		
 		self.pushScope()
-		var = CPPVariable(iterExpr, fromType, fromExpr, False, False, False)
+		var = CPPVariable(iterExpr, getHeavierOperator(fromType, toType), fromExpr, False, False, False)
 		typeInit = ""
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
-			typeInit = fromType + " "
+			typeInit = var.type + " "
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 		self.popScope()
 		
-		return "for(%s%s = %s; %s <= %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
+		return "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
 	
 	def handleReturn(self, node):
 		expr = self.parseExpr(node.childNodes[0])
@@ -996,7 +1022,7 @@ class CPPOutputFile(ScopeController):
 		id = self.id + "_" + node.getAttribute("id")
 		value = node.childNodes[0].nodeValue
 		line = id + " = \"" + value + "\";\n"
-		var = CPPVariable(id, "String", value, False, False, True)
+		var = CPPVariable(id, "CString", value, False, False, True)
 		#self.currentClassImpl.addMember(var)
 		self.getTopLevelScope().variables[id] = var
 		self.compiler.stringCounter += 1

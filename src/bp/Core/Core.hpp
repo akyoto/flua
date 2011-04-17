@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
-#include <sys/time.h>
 #include <boost/shared_ptr.hpp>
+#include <sys/time.h>
 
 // Macros
 #define bp_sizeOf sizeof
@@ -9,7 +9,7 @@
 // Standard functions
 template <typename T>
 inline void bp_print(T var) {
-	std::cout << var << std::endl;
+	std::cout << var;
 }
 
 template <typename T>

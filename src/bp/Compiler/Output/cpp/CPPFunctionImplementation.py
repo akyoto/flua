@@ -54,12 +54,18 @@ class CPPFunctionImplementation:
 			stri += "%s, " % (adjustDataType(self.paramTypes[i]))
 		return stri[:-2]
 		
+	def getReferenceString(self):
+		# TODO: Remove hardcoded stuff
+		if self.getFuncName() == "operatorIndex":
+			return "&"
+		return ""
+		
 	def getPrototype(self):
-		return "inline %s %s(%s);\n" % (adjustDataType(self.getReturnType()), self.name, self.getParamTypeString())
+		return "inline %s %s(%s);\n" % (adjustDataType(self.getReturnType()) + self.getReferenceString(), self.name, self.getParamTypeString())
 		
 	def getFullCode(self):
 		# TODO: Add parameters
-		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()), self.name, self.getParamString(), self.code)
+		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()) + self.getReferenceString(), self.name, self.getParamString(), self.code)
 	
 	def getConstructorCode(self):
 		# TODO: Add parameters

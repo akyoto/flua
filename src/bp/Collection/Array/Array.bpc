@@ -1,4 +1,4 @@
-import bp.Memory
+import bp.Core.Memory
 
 const arrayMinSize = 1024	# elements, not bytes
 
@@ -9,11 +9,11 @@ Array
 	init
 		self.start = ~MemPointer<TDataType>(arrayMinSize)
 		self.end = self.start
-		self.endOfStorage = self.start
-		self.endOfStorage += arrayMinSize
+		self.endOfStorage = self.start + arrayMinSize
 		
 	gcDelete
 		self.start.free()
+		print "Array free"
 		
 	reserve newSize
 		currentSize = self.getLength()
@@ -22,17 +22,19 @@ Array
 		copyMem self.start, newMem, currentSize		# source, dest, size
 		self.start.free()
 		
-		self.end = newMem
-		self.end += currentSize
+		self.end = newMem + currentSize
 		self.start = newMem
-		self.endOfStorage = newMem
-		self.endOfStorage += newSize
+		self.endOfStorage = newMem + newSize
 		
 	add element
 		self.end.data = element
 		self.end += 1
 		if self.end == self.endOfStorage
-			self.reserve(self.getLength() * 2)
+			self.reserve(self.getLength() * 4)
+		
+	removeLast
+		if self.end != self.start
+			self.end -= 1
 		
 	operator
 		[] index
@@ -53,6 +55,7 @@ Array
 		
 	set
 		length newLength
-			self.endOfStorage = self.start
-			self.endOfStorage += newLength
+			self.end = self.start + newLength
+			if self.end >= self.endOfStorage
+				self.reserve(self.getLength() * 4)
 

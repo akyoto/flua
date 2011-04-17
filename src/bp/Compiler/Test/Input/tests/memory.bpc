@@ -1,4 +1,4 @@
-import bp.Memory
+import bp.Core.Memory
 
 ptrA = ~MemPointer<Int>(4096)
 ptrB = ptrA

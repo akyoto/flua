@@ -5,11 +5,14 @@ extern
 	bp_sin : Float64
 	bp_cos : Float64
 	bp_sqrt : Float64
+	bp_atan2 : Float64
+	bp_log : Float64
+	bp_log10 : Float64
 
 # Vars
 const π = 3.14159265358979323846264338327
-const DEG_TO_RAD = 0.017453293
-const RAD_TO_DEG = 57.295777937
+const DEG_TO_RAD = 0.0174532925199432957692369076848861
+const RAD_TO_DEG = 57.2957795130823208767981548141052
 
 # Functions
 degToRad deg
@@ -26,6 +29,15 @@ cos radian
 	
 sqr num
 	return bp_sqrt(num)
+	
+aTan2 x, y
+	return bp_atan2(y, x)
+	
+ln x
+	return bp_log(x)
+	
+lg x
+	return bp_log10(x)
 
 sinDegree degree
 	return bp_sin(degToRad(degree))
