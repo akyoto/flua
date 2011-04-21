@@ -75,5 +75,5 @@ class CPPClassImplementation:
 #		return "<" + ", ".join(self.templateValues) + ">"
 		
 	def addFuncImplementation(self, impl):
-		debug("'%s' added function implementation %s" % (self.classObj.name + "<" + self.getTemplateValuesString() + ">", impl.name))
+		debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
 		self.funcImplementations[impl.name] = impl

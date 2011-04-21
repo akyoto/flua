@@ -150,7 +150,6 @@ class CPPOutputFile(ScopeController):
 			elif exprNode.tagName == "declare-type":
 				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
 				type = self.parseExpr(exprNode.childNodes[1].childNodes[0])
-				debug("Type: " + type)
 			else:
 				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			pList.append(name)
@@ -718,14 +717,26 @@ class CPPOutputFile(ScopeController):
 	
 	def scanClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		extendingClass = False
 		
 		self.pushScope()
-		self.pushClass(CPPClass(name))
 		
-		self.localClasses.append(self.currentClass)
+		if name in self.compiler.mainClass.classes:
+			refClass = self.compiler.mainClass.classes[name]
+			extendingClass = True
+			oldClass = self.currentClass
+			self.currentClass = refClass
+		else:
+			refClass = CPPClass(name)
+			self.pushClass(refClass)
+			self.localClasses.append(self.currentClass)
+		
 		self.scanAhead(getElementByTagName(node, "code"))
 		
-		self.popClass()
+		if extendingClass:
+			self.currentClass = oldClass
+		else:
+			self.popClass()
 		self.popScope()
 	
 	def scanFunction(self, node):

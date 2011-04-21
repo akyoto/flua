@@ -12,6 +12,7 @@ Test
 	func x
 		print x
 		
+Test
 	func x : Byte
 		print "You did it!"
 
@@ -22,6 +23,7 @@ a.func(b)
 a.func(65)
 a.func(b)
 a.func(65)
+a.func("test")
 
 #print a
 

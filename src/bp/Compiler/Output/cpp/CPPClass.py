@@ -31,6 +31,10 @@ class CPPClass:
 		func.classObj = self
 		if not func.name in self.functions:
 			self.functions[func.name] = []
+		else:
+			for iterFunc in self.functions[func.name]:
+				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
+					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.name, func.paramTypesByDefinition))
 		self.functions[func.name].append(func)
 		
 	def addExternFunction(self, name, type):
@@ -42,13 +46,13 @@ class CPPClass:
 		self.templateNames = names
 		
 	def getMatchingFunction(self, funcName, paramTypes):
-		debug("Function '%s' has been called with types '%s' (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
+		#debug("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
 		candidates = self.functions[funcName]
 		winner = None
 		winnerScore = 0
 		for func in candidates:
 			score = func.getMatchingScore(paramTypes)
-			debug("Candidate: '%s' with score '%s'" % (func.paramTypesByDefinition, score))
+			#debug("Candidate: %s with score '%s'" % (func.paramTypesByDefinition, score))
 			if score > winnerScore:
 				winner = func
 				winnerScore = score
