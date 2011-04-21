@@ -56,13 +56,13 @@ class CPPClassImplementation:
 		key = funcName + buildPostfix(paramTypes)
 		if not key in self.funcImplementations:
 			codeExists = 0
-			debug(self.classObj.functions)
+			#debug(self.classObj.functions)
 			if not funcName in self.classObj.functions:
 				if self.classObj.name:
 					raise CompilerException("Function '%s.%s' has not been defined" % (self.classObj.name, funcName))
 				else:
 					raise CompilerException("Function '%s' has not been defined" % (funcName))
-			self.addFuncImplementation(CPPFunctionImplementation(self, self.classObj.functions[funcName], paramTypes))
+			self.addFuncImplementation(CPPFunctionImplementation(self, self.classObj.getMatchingFunction(funcName, paramTypes), paramTypes))
 		return self.funcImplementations[key], codeExists
 		
 	def getFuncImplementation(self, funcName, paramTypes):

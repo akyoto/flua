@@ -34,3 +34,6 @@ UTF8String
 			
 		lengthInBytes
 			return self.array.length
+
+#print u8stri : UTF8String
+#	u8stri.print()

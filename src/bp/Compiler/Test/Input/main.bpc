@@ -1,10 +1,27 @@
-#import tests.all
+import tests.all
 #import tests.actor
 
-a = UTF8String("κόσμε")
+#a = UTF8String("κόσμε")
 
-a.print()
-print a.length
+#a.print()
+#print a.length
+Test
+	init
+		...
+	
+	func x
+		print x
+		
+	func x : Byte
+		print "You did it!"
+
+b : Byte = 65
+
+a = Test()
+a.func(b)
+a.func(65)
+a.func(b)
+a.func(65)
 
 #print a
 

@@ -82,6 +82,12 @@ nonPointerClasses = {
 ####################################################################
 # Functions
 ####################################################################
+def canBeCastedTo(fromType, toType):
+	# TODO: Implement this fully...
+	if fromType in nonPointerClasses and toType in nonPointerClasses:
+		return True
+	return False
+
 def removeUnmanaged(type):
 	return type.replace("~", "")
 

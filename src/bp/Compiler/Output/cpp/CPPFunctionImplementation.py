@@ -48,8 +48,8 @@ class CPPFunctionImplementation:
 	def getParamTypeString(self):
 		stri = ""
 		paramNames = self.func.getParamNames()
-		print(paramNames)
-		print(self.paramTypes)
+		#print(paramNames)
+		#print(self.paramTypes)
 		for i in range(len(paramNames)):
 			stri += "%s, " % (adjustDataType(self.paramTypes[i]))
 		return stri[:-2]

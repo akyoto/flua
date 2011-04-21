@@ -136,8 +136,10 @@ class CPPOutputFile(ScopeController):
 		
 	def getParameterList(self, pNode):
 		pList = []
+		pTypes = []
 		for node in pNode.childNodes:
 			name = ""
+			type = ""
 			exprNode = node.childNodes[0]
 			if isTextNode(exprNode):
 				name = exprNode.nodeValue
@@ -145,10 +147,15 @@ class CPPOutputFile(ScopeController):
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
 				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+			elif exprNode.tagName == "declare-type":
+				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+				type = self.parseExpr(exprNode.childNodes[1].childNodes[0])
+				debug("Type: " + type)
 			else:
 				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			pList.append(name)
-		return pList
+			pTypes.append(type)
+		return pList, pTypes
 	
 	def parseChilds(self, parent, prefix = "", postfix = ""):
 		lines = ""
@@ -460,9 +467,9 @@ class CPPOutputFile(ScopeController):
 			fullName = funcImpl.getName()
 			
 			if callerClass in nonPointerClasses:
-				return ["", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
+				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
-				return ["", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
+				return ["::", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
 		else:
 			return funcName + "(" + paramsString + ")"
 		
@@ -479,7 +486,7 @@ class CPPOutputFile(ScopeController):
 		className = extractClassName(typeName)
 		if not funcName in self.getClass(className).functions:
 			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
-		func = self.getClass(className).functions[funcName]
+		func = self.getClass(className).getMatchingFunction(funcName, paramTypes)
 		definedInFile = func.cppFile
 		
 		# Push
@@ -559,6 +566,9 @@ class CPPOutputFile(ScopeController):
 		typesLen = len(types)
 		
 		for node in pNode.childNodes:
+			#if isElemNode(node.childNodes[0]) and node.childNodes[0].tagName == "declare-type":
+			#	name = node.childNodes[0].childNodes[0].childNodes[0].nodeValue
+			#else:
 			name = self.parseExpr(node.childNodes[0])
 			
 			# Not enough parameters
@@ -572,16 +582,17 @@ class CPPOutputFile(ScopeController):
 				name = "__" + member
 				funcStartCode += "\t" * self.currentTabLevel + "this->" + member + " = " + name + ";\n"
 			
-			pList += adjustDataType(usedAs) + " " + name + ", "
-			
 			declaredInline = (tagName(node.childNodes[0]) == "declare-type")
 			if not declaredInline:
 				self.getCurrentScope().variables[name] = CPPVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
+				pList += adjustDataType(usedAs) + " " + name + ", "
 			else:
 				definedAs = self.getVariableTypeAnywhere(name)
+				pList += adjustDataType(definedAs) + " " + name + ", "
+				
 				if definedAs != usedAs:
 					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
-						heavier = self.heavierOperator(definedAs, usedAs)
+						heavier = getHeavierOperator(definedAs, usedAs)
 						if usedAs == heavier:
 							compilerWarning("Information might be lost by converting '%s' to '%s' for the parameter '%s' in the function '%s'" % (usedAs, definedAs, name, self.currentFunction.getName()))
 					else:
@@ -702,7 +713,8 @@ class CPPOutputFile(ScopeController):
 					self.scanExternFunction(node)
 	
 	def scanTemplate(self, node):
-		self.currentClass.setTemplateNames(self.getParameterList(node))
+		pNames, pTypes = self.getParameterList(node)
+		self.currentClass.setTemplateNames(pNames)
 	
 	def scanClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -728,7 +740,10 @@ class CPPOutputFile(ScopeController):
 		name = correctOperators(name)
 		
 		newFunc = CPPFunction(self, node)
-		newFunc.paramNames = self.getParameterList(getElementByTagName(node, "parameters"))
+		paramNames, paramTypesByDefinition = self.getParameterList(getElementByTagName(node, "parameters"))
+		newFunc.paramNames = paramNames
+		newFunc.paramTypesByDefinition = paramTypesByDefinition
+		#debug("Types:" + str(newFunc.paramTypesByDefintion))
 		self.currentClass.addFunction(newFunc)
 		
 		if self.currentClass.name == "":
@@ -997,7 +1012,8 @@ class CPPOutputFile(ScopeController):
 			#print("Declaring '%s' as '%s'" % (varName, typeName))
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
-			return adjustDataType(typeName, True) + " " + varName
+			return varName
+			#return adjustDataType(typeName, True) + " " + varName
 			
 		return varName
 	

@@ -163,13 +163,13 @@ class ExpressionParser:
 								
 								operandRight = expr[lastOccurence + op.textLen:end]
 								
-								if op.text == "&&":
-									print(">> " + operandLeft + " AND " + operandRight)
-									print(expr)
-									print(lastOccurence)
-									print(end)
-									print(expr[lastOccurence:end])
-									print(bracketCounter)
+#								if op.text == "&&":
+#									print(">> " + operandLeft + " AND " + operandRight)
+#									print(expr)
+#									print(lastOccurence)
+#									print(end)
+#									print(expr[lastOccurence:end])
+#									print(bracketCounter)
 								
 								#print(self.getDebugPrefix() + " * buildCleanExpr.operators: " + operandLeft + " [" + op.text + "] " + operandRight)
 								

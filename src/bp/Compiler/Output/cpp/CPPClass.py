@@ -29,7 +29,9 @@ class CPPClass:
 	def addFunction(self, func):
 		debug("'%s' added function '%s'" % (self.name, func.name))
 		func.classObj = self
-		self.functions[func.name] = func
+		if not func.name in self.functions:
+			self.functions[func.name] = []
+		self.functions[func.name].append(func)
 		
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s'" % (self.name, name))
@@ -38,3 +40,20 @@ class CPPClass:
 	def setTemplateNames(self, names):
 		debug("'%s' set the template names %s" % (self.name, names))
 		self.templateNames = names
+		
+	def getMatchingFunction(self, funcName, paramTypes):
+		debug("Function '%s' has been called with types '%s' (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
+		candidates = self.functions[funcName]
+		winner = None
+		winnerScore = 0
+		for func in candidates:
+			score = func.getMatchingScore(paramTypes)
+			debug("Candidate: '%s' with score '%s'" % (func.paramTypesByDefinition, score))
+			if score > winnerScore:
+				winner = func
+				winnerScore = score
+		
+		if winner is None:
+			raise CompilerException("No matching function found for the call '%s.%s' with the parameter types '%s'" % (self.name, funcName, paramTypes))
+		
+		return winner
