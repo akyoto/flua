@@ -568,7 +568,13 @@ class BPCFile(ScopeController):
 		
 	def handleTemplateParameter(self, line):
 		node = self.doc.createElement("parameter")
-		node.appendChild(self.doc.createTextNode(line))
+		paramName = line
+		# TODO: Handle default parameters
+		#pos = line.find("=")
+		#if pos != -1:
+		#	paramName = 
+		node.appendChild(self.doc.createTextNode(paramName))
+		
 		
 		return node
 		

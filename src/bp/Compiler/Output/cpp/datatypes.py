@@ -180,18 +180,23 @@ def adjustDataType(type, adjustOuterAsWell = True, templateParamsMap = {}):
 		if pos == -1:
 			break
 		postFixCount += 1
-		typeName = type[pos+1:-postFixCount]
-		className = extractClassName(typeName)
+		typeNames = type[pos+1:-postFixCount]
 		
-		if className in nonPointerClasses: #or className in templateParams:
-			pos += 1
-		else:
-			type = type[:pos+1] + classPrefix + type[pos+1:-postFixCount] + classPostfix + type[-postFixCount:]
+		# TODO: This contains a bug...remove it! T< Point<A, B>, C >
+		# TODO: This splitting absolutely does not work...replace it!
+		for typeName in typeNames.split(","):
+			typeName = typeName.strip()
+			className = extractClassName(typeName)
 			
-			# Because of the postfix pointer sign
-			postFixCount += 1
-			
-			# Because of the prefixes
-			pos += len(classPrefix) + len(classPostfix) + 1
+			if className in nonPointerClasses: #or className in templateParams:
+				pos += 1
+			else:
+				type = type[:pos+1] + classPrefix + type[pos+1:-postFixCount] + classPostfix + type[-postFixCount:]
+				
+				# Because of the postfix pointer sign
+				postFixCount += 1
+				
+				# Because of the prefixes
+				pos += len(classPrefix) + len(classPostfix) + 1
 	
 	return type.replace("<", "< ").replace(">", " >")

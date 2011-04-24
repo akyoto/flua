@@ -62,7 +62,9 @@ class CPPClassImplementation:
 					raise CompilerException("Function '%s.%s' has not been defined" % (self.classObj.name, funcName))
 				else:
 					raise CompilerException("Function '%s' has not been defined" % (funcName))
-			self.addFuncImplementation(CPPFunctionImplementation(self, self.classObj.getMatchingFunction(funcName, paramTypes), paramTypes))
+			impl = CPPFunctionImplementation(self, self.getMatchingFunction(funcName, paramTypes), paramTypes)
+			self.addFuncImplementation(impl)
+			return impl, codeExists
 		return self.funcImplementations[key], codeExists
 		
 	def getFuncImplementation(self, funcName, paramTypes):
@@ -77,3 +79,20 @@ class CPPClassImplementation:
 	def addFuncImplementation(self, impl):
 		debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
 		self.funcImplementations[impl.name] = impl
+		
+	def getMatchingFunction(self, funcName, paramTypes):
+		#debug("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
+		candidates = self.classObj.functions[funcName]
+		winner = None
+		winnerScore = 0
+		for func in candidates:
+			score = func.getMatchingScore(paramTypes, self)
+			#debug("Candidate: %s with score '%s'" % (func.paramTypesByDefinition, score))
+			if score > winnerScore:
+				winner = func
+				winnerScore = score
+		
+		if winner is None:
+			raise CompilerException("No matching function found for the call '%s.%s' with the parameter types '%s'" % (self.getName(), funcName, paramTypes))
+		
+		return winner

@@ -1,43 +1,27 @@
-import tests.all
+#import tests.all
 #import tests.actor
+#import bp.Math.Geometry
 
-#a = UTF8String("κόσμε")
-
-#a.print()
-#print a.length
-Test
-	init
-		...
-	
-	func x
-		print x
+Point
+	template
+		TDataType1
+		TDataType2
 		
-Test
-	func x : Byte
-		print "You did it!"
+	init self.x : TDataType1, self.y : TDataType2
+		...
+		
+	get
+		x
+			return self.x
+			
+		y
+			return self.y
 
-b : Byte = 65
+a = Point<Int, Int>(3, 4)
+b = Point<Float, Float>(5.0, 6.0)
 
-a = Test()
-a.func(b)
-a.func(65)
-a.func(b)
-a.func(65)
-a.func("test")
+print a.x
+print a.y
 
-#print a
-
-#print bp_strlen("Test")
-
-#import bp.Collection.Array
-#
-#start = systemTime()
-#
-#const iterations = 20000
-#for h = 0 to iterations
-#	a = Array<Int>()
-#	for i = 0 to 5000
-#		a.add i
-#		a[i] *= 2
-#
-#print systemTime() - start
+print b.x
+print b.y

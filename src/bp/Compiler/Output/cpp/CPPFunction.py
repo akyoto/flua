@@ -24,7 +24,7 @@ class CPPFunction:
 	def getParamNamesString(self):
 		return ", ".join(self.paramNames)
 	
-	def getMatchingScore(self, calledTypes):
+	def getMatchingScore(self, calledTypes, classImpl):
 		numCalledTypes = len(calledTypes)
 		numTypesByDef = len(self.paramTypesByDefinition)
 		score = 0
@@ -39,6 +39,7 @@ class CPPFunction:
 			for i in range(numTypesByDef):
 				typeA = calledTypes[i]
 				typeB = self.paramTypesByDefinition[i]
+				typeB = classImpl.translateTemplateName(typeB)
 				if typeA == typeB:
 					score += 3
 				elif typeB == "":

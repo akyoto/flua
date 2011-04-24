@@ -7,6 +7,12 @@ class CPPFunctionImplementation:
 		self.classImpl = classImpl
 		self.func = func
 		self.paramTypes = paramTypes
+		
+		for i in range(len(self.func.paramTypesByDefinition)):
+			byDef = self.func.paramTypesByDefinition[i]
+			if byDef:
+				self.paramTypes[i] = self.classImpl.translateTemplateName(byDef)
+		
 		self.name = self.func.name + self.buildPostfix()
 		self.code = ""
 		self.returnTypes = []

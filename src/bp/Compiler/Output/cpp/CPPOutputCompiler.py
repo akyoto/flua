@@ -56,7 +56,7 @@ class CPPOutputCompiler:
 		self.includes = []
 		
 		self.mainClass = CPPClass("")
-		self.mainClassImpl = self.mainClass.requestImplementation([])
+		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile)

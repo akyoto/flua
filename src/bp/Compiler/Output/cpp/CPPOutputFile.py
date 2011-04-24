@@ -71,7 +71,7 @@ class CPPOutputFile(ScopeController):
 		
 		# Current
 		self.currentClass = self.compiler.mainClass
-		self.currentClassImpl = self.currentClass.requestImplementation("")
+		self.currentClassImpl = self.currentClass.requestImplementation([], [])
 		self.currentFunction = None
 		self.currentFunctionImpl = None
 		
@@ -109,6 +109,7 @@ class CPPOutputFile(ScopeController):
 		
 		# Header
 		self.header += "// Includes\n";
+		self.header += "#include <bp_decls.hpp>\n"
 		for node in self.dependencies.childNodes:
 			self.header += self.handleImport(node)
 		
@@ -133,28 +134,6 @@ class CPPOutputFile(ScopeController):
 			else:
 				self.varsHeader += var.getPrototype() + ";\n";
 		self.varsHeader += "\n"
-		
-	def getParameterList(self, pNode):
-		pList = []
-		pTypes = []
-		for node in pNode.childNodes:
-			name = ""
-			type = ""
-			exprNode = node.childNodes[0]
-			if isTextNode(exprNode):
-				name = exprNode.nodeValue
-			elif exprNode.tagName == "access":
-				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
-			elif exprNode.tagName == "assign":
-				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
-			elif exprNode.tagName == "declare-type":
-				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
-				type = self.parseExpr(exprNode.childNodes[1].childNodes[0])
-			else:
-				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
-			pList.append(name)
-			pTypes.append(type)
-		return pList, pTypes
 	
 	def parseChilds(self, parent, prefix = "", postfix = ""):
 		lines = ""
@@ -242,7 +221,10 @@ class CPPOutputFile(ScopeController):
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
-			return self.handleTypeDeclaration(node)
+			name = self.handleTypeDeclaration(node)
+			if node.parentNode.tagName == "code":
+				return ""
+			return name
 		elif node.tagName == "unmanaged":
 			return self.handleUnmanaged(node)
 		elif node.tagName == "compiler-flags":
@@ -280,16 +262,91 @@ class CPPOutputFile(ScopeController):
 		
 		return ""
 	
-	def handleParameters(self, pNode):
-		pList = ""
-		pTypes = []
-		for node in pNode.childNodes:
-			paramType = self.getExprDataType(node.childNodes[0])
-			#paramType = self.translateTemplateParam(paramType)
-			pList += self.parseExpr(node.childNodes[0]) + ", "
-			pTypes.append(paramType)
+	def implementFunction(self, typeName, funcName, paramTypes):
+		#if funcName == "init":
+		#	print("%s.%s(%s)" % (typeName, funcName, ", ".join(paramTypes)))
+			#classImpl = self.getClassImplementationByTypeName(typeName)
+			#classImpl.initCallTypes = paramTypes
 		
-		return pList[:len(pList)-2], pTypes
+		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
+		if key in self.compiler.funcImplCache:
+			return self.compiler.funcImplCache[key]
+		
+		className = extractClassName(typeName)
+		if not funcName in self.getClass(className).functions:
+			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
+		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
+		definedInFile = func.cppFile
+		
+		# Push
+		oldFunc = definedInFile.currentFunction
+		
+		# Implement
+		definedInFile.currentFunction = func
+		funcImpl = definedInFile.implementLocalFunction(typeName, funcName, paramTypes)
+		
+		# Pop
+		definedInFile.currentFunction = oldFunc
+		
+		if className == "":
+			self.prototypesHeader += funcImpl.getPrototype()
+		
+		self.compiler.funcImplCache[key] = funcImpl
+		return funcImpl
+		
+	def implementLocalFunction(self, typeName, funcName, paramTypes):
+		className = extractClassName(typeName)
+		
+		# Save values
+		oldGetter = self.inGetter
+		oldSetter = self.inSetter
+		oldOperator = self.inOperator
+		oldImpl = self.currentClassImpl
+		oldClass = self.currentClass
+		oldFunction = self.currentFunction
+		oldFunctionImpl = self.currentFunctionImpl
+		self.inFunction += 1
+		
+		# Set new values
+		self.currentClass = self.getClass(className)
+		self.currentClassImpl = self.getClassImplementationByTypeName(typeName)
+		
+		node = self.currentFunction.node
+		if node.tagName == "getter":
+			self.inGetter += 1
+		elif node.tagName == "setter":
+			self.inSetter += 1
+		elif node.tagName == "operator":
+			self.inOperator += 1
+		
+		# Implement it
+		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)
+		self.currentFunctionImpl = funcImpl
+		
+		if not codeExists:
+			funcNode = funcImpl.func.node
+			codeNode = getElementByTagName(funcNode, "code")
+			
+			self.pushScope()
+			if typeName:
+				self.getCurrentScope().variables["self"] = CPPVariable("self", typeName, "", False, True, False)
+			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
+			
+			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
+			
+			self.popScope()
+		
+		# Load previous values
+		self.inFunction -= 1
+		self.currentFunction = oldFunction
+		self.currentFunctionImpl = oldFunctionImpl
+		self.inGetter = oldGetter
+		self.inSetter = oldSetter
+		self.inOperator = oldOperator
+		self.currentClass = oldClass
+		self.currentClassImpl = oldImpl
+		
+		return funcImpl
 	
 	def handleAccess(self, node):
 		op1 = node.childNodes[0].childNodes[0]
@@ -335,8 +392,6 @@ class CPPOutputFile(ScopeController):
 				ptrType = typeName[pos+1:-1]
 				if len(paramsNode.childNodes) > 1:
 					raise CompilerException("Too many parameters for the MemPointer constructor (only size needed)")
-				
-				paramsString, paramTypes = self.handleParameters(paramsNode)
 				
 				#if ptrType in self.currentTemplateParams:
 				#	ptrType = self.currentTemplateParams[ptrType]
@@ -433,14 +488,6 @@ class CPPOutputFile(ScopeController):
 		
 		return variableName + " = " + value
 		
-	def getClass(self, className):
-		if className == "":
-			return self.compiler.mainClass
-		elif className in self.compiler.mainClass.classes:
-			return self.compiler.mainClass.classes[className]
-		else:
-			raise CompilerException("Class '%s' has not been defined" % (className))
-		
 	def handleCall(self, node):
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		
@@ -472,91 +519,65 @@ class CPPOutputFile(ScopeController):
 		else:
 			return funcName + "(" + paramsString + ")"
 		
-	def getClassImplementationByTypeName(self, typeName):
+	def handleParameters(self, pNode):
+		pList = ""
+		pTypes = []
+		for node in pNode.childNodes:
+			paramType = self.getExprDataType(node.childNodes[0])
+			#paramType = self.translateTemplateParam(paramType)
+			pList += self.parseExpr(node.childNodes[0]) + ", "
+			pTypes.append(paramType)
+		
+		return pList[:len(pList)-2], pTypes
+		
+	def getClass(self, className):
+		if className == "":
+			return self.compiler.mainClass
+		elif className in self.compiler.mainClass.classes:
+			return self.compiler.mainClass.classes[className]
+		else:
+			raise CompilerException("Class '%s' has not been defined" % (className))
+		
+	def getClassImplementationByTypeName(self, typeName, initTypes = []):
 		className = extractClassName(typeName)
 		templateValues = extractTemplateValues(typeName)
-		return self.getClass(className).requestImplementation(splitParams(templateValues))
+		return self.getClass(className).requestImplementation(initTypes, splitParams(templateValues))
 		
-	def implementFunction(self, typeName, funcName, paramTypes):
-		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
-		if key in self.compiler.funcImplCache:
-			return self.compiler.funcImplCache[key]
-		
-		className = extractClassName(typeName)
-		if not funcName in self.getClass(className).functions:
-			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
-		func = self.getClass(className).getMatchingFunction(funcName, paramTypes)
-		definedInFile = func.cppFile
-		
-		# Push
-		oldFunc = definedInFile.currentFunction
-		
-		# Implement
-		definedInFile.currentFunction = func
-		funcImpl = definedInFile.implementLocalFunction(typeName, funcName, paramTypes)
-		
-		# Pop
-		definedInFile.currentFunction = oldFunc
-		
-		if className == "":
-			self.prototypesHeader += funcImpl.getPrototype()
-		
-		self.compiler.funcImplCache[key] = funcImpl
-		return funcImpl
-		
-	def implementLocalFunction(self, typeName, funcName, paramTypes):
-		className = extractClassName(typeName)
-		
-		# Save values
-		oldGetter = self.inGetter
-		oldSetter = self.inSetter
-		oldOperator = self.inOperator
-		oldImpl = self.currentClassImpl
-		oldClass = self.currentClass
-		oldFunction = self.currentFunction
-		oldFunctionImpl = self.currentFunctionImpl
-		self.inFunction += 1
-		
-		# Set new values
-		self.currentClass = self.getClass(className)
-		self.currentClassImpl = self.getClassImplementationByTypeName(typeName)
-		
-		node = self.currentFunction.node
-		if node.tagName == "getter":
-			self.inGetter += 1
-		elif node.tagName == "setter":
-			self.inSetter += 1
-		elif node.tagName == "operator":
-			self.inOperator += 1
-		
-		# Implement it
-		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)
-		self.currentFunctionImpl = funcImpl
-		
-		if not codeExists:
-			funcNode = funcImpl.func.node
-			codeNode = getElementByTagName(funcNode, "code")
+	def getParameterList(self, pNode):
+		pList = []
+		pTypes = []
+		for node in pNode.childNodes:
+			name = ""
+			type = ""
+			exprNode = node.childNodes[0]
+			if isTextNode(exprNode):
+				name = exprNode.nodeValue
+			elif exprNode.tagName == "access":
+				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
+			elif exprNode.tagName == "assign":
+				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+			elif exprNode.tagName == "declare-type":
+				op1 = exprNode.childNodes[0].childNodes[0]
+				if isElemNode(op1) and op1.tagName == "access":
+					accessingObject = self.parseExpr(op1.childNodes[0].childNodes[0])
+					accessingMember = self.parseExpr(op1.childNodes[1].childNodes[0])
+					if accessingObject == "this":
+						name = "__" + accessingMember
+					else:
+						raise CompilerException("'%s.%s' may not be used as a function parameter" % (accessingObject, accessingMember))
+				else:
+					name = self.parseExpr(op1)
+				
+				type = self.parseExpr(exprNode.childNodes[1].childNodes[0])
+			else:
+				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			
-			self.pushScope()
-			if typeName:
-				self.getCurrentScope().variables["self"] = CPPVariable("self", typeName, "", False, True, False)
-			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
+			pList.append(name)
 			
-			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
-			
-			self.popScope()
+			type = self.currentClassImpl.translateTemplateName(type)
+			pTypes.append(type)
 		
-		# Load previous values
-		self.inFunction -= 1
-		self.currentFunction = oldFunction
-		self.currentFunctionImpl = oldFunctionImpl
-		self.inGetter = oldGetter
-		self.inSetter = oldSetter
-		self.inOperator = oldOperator
-		self.currentClass = oldClass
-		self.currentClassImpl = oldImpl
-		
-		return funcImpl
+		return pList, pTypes
 		
 	def getParameterDefinitions(self, pNode, types):
 		pList = ""
@@ -569,7 +590,8 @@ class CPPOutputFile(ScopeController):
 			#	name = node.childNodes[0].childNodes[0].childNodes[0].nodeValue
 			#else:
 			name = self.parseExpr(node.childNodes[0])
-			
+			print("Name: " + name)
+			print(node.toprettyxml())
 			# Not enough parameters
 			if counter >= typesLen:
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
@@ -586,7 +608,15 @@ class CPPOutputFile(ScopeController):
 				self.getCurrentScope().variables[name] = CPPVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
 				pList += adjustDataType(usedAs) + " " + name + ", "
 			else:
-				definedAs = self.getVariableTypeAnywhere(name)
+				#for member in self.currentClassImpl.members.values():
+				#	print(member.name)
+				#	print(member.type)
+				
+				definedAs = self.parseExpr(node.childNodes[0].childNodes[1]) #self.getVariableTypeAnywhere(name)
+				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
+				print("Defined: " + definedAs)
+				print(name)
+				print("------------")
 				pList += adjustDataType(definedAs) + " " + name + ", "
 				
 				if definedAs != usedAs:
@@ -600,12 +630,6 @@ class CPPOutputFile(ScopeController):
 			counter += 1
 		
 		return pList[:len(pList)-2], funcStartCode
-		
-	def handleUnmanaged(self, node):
-		self.inUnmanaged += 1
-		expr = self.parseExpr(node.childNodes[0])
-		self.inUnmanaged -= 1
-		return expr
 		
 	def parseBinaryOperator(self, node, connector, checkPointer = False):
 		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
@@ -678,97 +702,6 @@ class CPPOutputFile(ScopeController):
 				return operatorType1[len("Array<"):-1]
 			
 			raise CompilerException("Could not find an operator for the operation: " + operation + " " + operatorType1 + " " + operatorType2)
-		
-	def scanAhead(self, parent):
-		for node in parent.childNodes:
-			if isElemNode(node):
-				if node.tagName == "class":
-					self.scanClass(node)
-				elif node.tagName == "function" or node.tagName == "operator":
-					self.scanFunction(node)
-				elif node.tagName == "getter":
-					self.inGetter += 1
-					result = self.scanFunction(node)
-					self.inGetter -= 1
-				elif node.tagName == "setter":
-					self.inSetter += 1
-					result = self.scanFunction(node)
-					self.inSetter -= 1
-				elif node.tagName == "extern":
-					self.inExtern += 1
-					self.scanAhead(node)
-					self.inExtern -= 1
-				elif node.tagName == "operators":
-					self.inOperators += 1
-					self.scanAhead(node)
-					self.inOperators -= 1
-				elif node.tagName == "get" or node.tagName == "set":
-					self.scanAhead(node)
-				elif node.tagName == "template":
-					self.inTemplate += 1
-					self.scanTemplate(node)
-					self.inTemplate -= 1
-				elif node.tagName == "extern-function":
-					self.scanExternFunction(node)
-	
-	def scanTemplate(self, node):
-		pNames, pTypes = self.getParameterList(node)
-		self.currentClass.setTemplateNames(pNames)
-	
-	def scanClass(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		extendingClass = False
-		
-		self.pushScope()
-		
-		if name in self.compiler.mainClass.classes:
-			refClass = self.compiler.mainClass.classes[name]
-			extendingClass = True
-			oldClass = self.currentClass
-			self.currentClass = refClass
-		else:
-			refClass = CPPClass(name)
-			self.pushClass(refClass)
-			self.localClasses.append(self.currentClass)
-		
-		self.scanAhead(getElementByTagName(node, "code"))
-		
-		if extendingClass:
-			self.currentClass = oldClass
-		else:
-			self.popClass()
-		self.popScope()
-	
-	def scanFunction(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		
-		if self.inGetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + name.title()
-		elif self.inSetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + name.title()
-		
-		# Index operator
-		name = correctOperators(name)
-		
-		newFunc = CPPFunction(self, node)
-		paramNames, paramTypesByDefinition = self.getParameterList(getElementByTagName(node, "parameters"))
-		newFunc.paramNames = paramNames
-		newFunc.paramTypesByDefinition = paramTypesByDefinition
-		#debug("Types:" + str(newFunc.paramTypesByDefintion))
-		self.currentClass.addFunction(newFunc)
-		
-		if self.currentClass.name == "":
-			self.localFunctions.append(newFunc)
-	
-	def scanExternFunction(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		types = node.getElementsByTagName("type")
-		type = "void"
-		
-		if types:
-			type = types[0].childNodes[0].nodeValue
-		
-		self.compiler.mainClass.addExternFunction(name, type)
 	
 	def getVariableScopeAnywhere(self, name):
 		scope = self.getVariableScope(name)
@@ -859,8 +792,8 @@ class CPPOutputFile(ScopeController):
 				return "~MemPointer<ConstChar>"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
-			#elif node.nodeValue == "self":
-			#	return self.currentClassImpl.getName()
+			elif node.nodeValue == "self":
+				return self.currentClassImpl.getName()
 			else:
 				return self.getVariableTypeAnywhere(node.nodeValue)
 		else:
@@ -969,6 +902,12 @@ class CPPOutputFile(ScopeController):
 		self.getCurrentScope().variables[var.name] = var
 		#self.currentClassImpl.addMember(var)
 	
+	def handleUnmanaged(self, node):
+		self.inUnmanaged += 1
+		expr = self.parseExpr(node.childNodes[0])
+		self.inUnmanaged -= 1
+		return expr
+	
 	def handleFor(self, node):
 		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
 		toLimiterNode = getElementByTagName(node, "to")
@@ -1013,9 +952,9 @@ class CPPOutputFile(ScopeController):
 		self.inTypeDeclaration -= 1
 		
 		if varName.startswith("this->"):
-			varName = varName[len("this->"):]
-			self.currentClassImpl.addMember(CPPVariable(varName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
-			return ""
+			memberName = varName[len("this->"):]
+			self.currentClassImpl.addMember(CPPVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
+			return varName # ""
 		
 		if self.variableExistsAnywhere(varName):
 			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]) + self.getVariableTypeAnywhere(varName) + "'")
@@ -1110,6 +1049,97 @@ class CPPOutputFile(ScopeController):
 		
 		return "#include <" + stripExt(modPath) + "-out.hpp>\n"
 	
+	def scanAhead(self, parent):
+		for node in parent.childNodes:
+			if isElemNode(node):
+				if node.tagName == "class":
+					self.scanClass(node)
+				elif node.tagName == "function" or node.tagName == "operator":
+					self.scanFunction(node)
+				elif node.tagName == "getter":
+					self.inGetter += 1
+					result = self.scanFunction(node)
+					self.inGetter -= 1
+				elif node.tagName == "setter":
+					self.inSetter += 1
+					result = self.scanFunction(node)
+					self.inSetter -= 1
+				elif node.tagName == "extern":
+					self.inExtern += 1
+					self.scanAhead(node)
+					self.inExtern -= 1
+				elif node.tagName == "operators":
+					self.inOperators += 1
+					self.scanAhead(node)
+					self.inOperators -= 1
+				elif node.tagName == "get" or node.tagName == "set":
+					self.scanAhead(node)
+				elif node.tagName == "template":
+					self.inTemplate += 1
+					self.scanTemplate(node)
+					self.inTemplate -= 1
+				elif node.tagName == "extern-function":
+					self.scanExternFunction(node)
+	
+	def scanTemplate(self, node):
+		pNames, pTypes = self.getParameterList(node)
+		self.currentClass.setTemplateNames(pNames)
+	
+	def scanClass(self, node):
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		extendingClass = False
+		
+		self.pushScope()
+		
+		if name in self.compiler.mainClass.classes:
+			refClass = self.compiler.mainClass.classes[name]
+			extendingClass = True
+			oldClass = self.currentClass
+			self.currentClass = refClass
+		else:
+			refClass = CPPClass(name)
+			self.pushClass(refClass)
+			self.localClasses.append(self.currentClass)
+		
+		self.scanAhead(getElementByTagName(node, "code"))
+		
+		if extendingClass:
+			self.currentClass = oldClass
+		else:
+			self.popClass()
+		self.popScope()
+	
+	def scanFunction(self, node):
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		
+		if self.inGetter:
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + name.title()
+		elif self.inSetter:
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + name.title()
+		
+		# Index operator
+		name = correctOperators(name)
+		
+		newFunc = CPPFunction(self, node)
+		paramNames, paramTypesByDefinition = self.getParameterList(getElementByTagName(node, "parameters"))
+		newFunc.paramNames = paramNames
+		newFunc.paramTypesByDefinition = paramTypesByDefinition
+		#debug("Types:" + str(newFunc.paramTypesByDefintion))
+		self.currentClass.addFunction(newFunc)
+		
+		if self.currentClass.name == "":
+			self.localFunctions.append(newFunc)
+	
+	def scanExternFunction(self, node):
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		types = node.getElementsByTagName("type")
+		type = "void"
+		
+		if types:
+			type = types[0].childNodes[0].nodeValue
+		
+		self.compiler.mainClass.addExternFunction(name, type)
+	
 	def pushScope(self):
 		self.currentTabLevel += 1
 		ScopeController.pushScope(self)
@@ -1174,4 +1204,4 @@ class CPPOutputFile(ScopeController):
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.varsHeader + self.functionsHeader + self.classesHeader + self.actorClassesHeader + self.body + self.footer
+		return self.header + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.body + self.footer

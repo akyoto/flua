@@ -15,8 +15,8 @@ class CPPClass:
 		self.isExtern = False
 		self.usesActorModel = False
 		
-	def requestImplementation(self, templateValues):
-		key = ", ".join(templateValues)
+	def requestImplementation(self, initTypes, templateValues):
+		key = ", ".join(initTypes + templateValues)
 		if not key in self.implementations:
 			self.implementations[key] = CPPClassImplementation(self, templateValues)
 		return self.implementations[key]
@@ -44,20 +44,3 @@ class CPPClass:
 	def setTemplateNames(self, names):
 		debug("'%s' set the template names %s" % (self.name, names))
 		self.templateNames = names
-		
-	def getMatchingFunction(self, funcName, paramTypes):
-		#debug("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
-		candidates = self.functions[funcName]
-		winner = None
-		winnerScore = 0
-		for func in candidates:
-			score = func.getMatchingScore(paramTypes)
-			#debug("Candidate: %s with score '%s'" % (func.paramTypesByDefinition, score))
-			if score > winnerScore:
-				winner = func
-				winnerScore = score
-		
-		if winner is None:
-			raise CompilerException("No matching function found for the call '%s.%s' with the parameter types '%s'" % (self.name, funcName, paramTypes))
-		
-		return winner
