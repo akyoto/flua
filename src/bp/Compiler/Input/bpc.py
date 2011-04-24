@@ -567,16 +567,17 @@ class BPCFile(ScopeController):
 		return node
 		
 	def handleTemplateParameter(self, line):
-		node = self.doc.createElement("parameter")
-		paramName = line
-		# TODO: Handle default parameters
-		#pos = line.find("=")
-		#if pos != -1:
-		#	paramName = 
-		node.appendChild(self.doc.createTextNode(paramName))
+		paramNode = self.parseExpr(line)
 		
-		
-		return node
+		if isElemNode(paramNode) and paramNode.tagName == "assign":
+			paramNode.tagName = "parameter"
+			paramNode.childNodes[0].tagName = "name"
+			paramNode.childNodes[1].tagName = "default-value"
+			return paramNode
+		else:
+			node = self.doc.createElement("parameter")
+			node.appendChild(paramNode)
+			return node
 		
 	def handleIn(self, line):
 		if not self.nextLineIndented:

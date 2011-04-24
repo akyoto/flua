@@ -1,11 +1,11 @@
-#import tests.all
+import tests.all
 #import tests.actor
 #import bp.Math.Geometry
 
-Point
+TestPoint
 	template
-		TDataType1
-		TDataType2
+		TDataType1 = Float
+		TDataType2 = Float
 		
 	init self.x : TDataType1, self.y : TDataType2
 		...
@@ -17,11 +17,11 @@ Point
 		y
 			return self.y
 
-a = Point<Int, Int>(3, 4)
-b = Point<Float, Float>(5.0, 6.0)
+testPointA = TestPoint(3, 4)
+testPointB = TestPoint(5.0, 6.0)
 
-print a.x
-print a.y
+print testPointA.x
+print testPointA.y
 
-print b.x
-print b.y
+print testPointB.x
+print testPointB.y

@@ -11,6 +11,7 @@ class CPPClass:
 		self.externFunctions = {}
 		self.implementations = {}
 		self.templateNames = []
+		self.templateDefaultValues = []
 		self.parent = None
 		self.isExtern = False
 		self.usesActorModel = False
@@ -41,6 +42,7 @@ class CPPClass:
 		debug("'%s' added extern function '%s'" % (self.name, name))
 		self.externFunctions[name] = type
 	
-	def setTemplateNames(self, names):
+	def setTemplateNames(self, names, defaultValues):
 		debug("'%s' set the template names %s" % (self.name, names))
 		self.templateNames = names
+		self.templateDefaultValues = defaultValues

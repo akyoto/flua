@@ -3,3 +3,4 @@ import tests.math
 import tests.generics
 import tests.memory
 import tests.array
+import tests.overloading

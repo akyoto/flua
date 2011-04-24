@@ -1,0 +1,9 @@
+
+testFunc x
+	print x
+	
+testFunc x : Point
+	print "Function overloading working!"
+
+a = Point(3.0, 4.0)
+testFunc a

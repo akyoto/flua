@@ -172,6 +172,8 @@ class CPPOutputFile(ScopeController):
 		elif tagName == "parameters":
 			return self.parseChilds(node, "", ", ")[:-2]
 		elif tagName == "parameter":
+			if getElementByTagName(node, "default-value"):
+				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
 		elif tagName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
@@ -399,6 +401,11 @@ class CPPOutputFile(ScopeController):
 				ptrType = self.currentClassImpl.translateTemplateName(ptrType)
 				ptrType = adjustDataType(ptrType, True);
 				return "new %s[%s]" % (ptrType, paramsString)
+		else:
+			className = typeName
+			classObj = self.getClass(className)
+			if classObj.templateNames:
+				typeName += "<%s>" % (", ".join(classObj.templateDefaultValues))
 		
 		self.implementFunction(typeName, "init", paramTypes)
 		
@@ -546,12 +553,18 @@ class CPPOutputFile(ScopeController):
 	def getParameterList(self, pNode):
 		pList = []
 		pTypes = []
+		pDefault = []
+		
 		for node in pNode.childNodes:
 			name = ""
 			type = ""
+			defaultValue = ""
 			exprNode = node.childNodes[0]
 			if isTextNode(exprNode):
 				name = exprNode.nodeValue
+			elif exprNode.tagName == "name":
+				name = exprNode.childNodes[0].nodeValue
+				defaultValue = self.parseExpr(node.childNodes[1].childNodes[0])
 			elif exprNode.tagName == "access":
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
@@ -576,8 +589,9 @@ class CPPOutputFile(ScopeController):
 			
 			type = self.currentClassImpl.translateTemplateName(type)
 			pTypes.append(type)
+			pDefault.append(defaultValue)
 		
-		return pList, pTypes
+		return pList, pTypes, pDefault
 		
 	def getParameterDefinitions(self, pNode, types):
 		pList = ""
@@ -590,8 +604,9 @@ class CPPOutputFile(ScopeController):
 			#	name = node.childNodes[0].childNodes[0].childNodes[0].nodeValue
 			#else:
 			name = self.parseExpr(node.childNodes[0])
-			print("Name: " + name)
-			print(node.toprettyxml())
+			#print("Name: " + name)
+			#print(node.toprettyxml())
+			
 			# Not enough parameters
 			if counter >= typesLen:
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
@@ -614,9 +629,11 @@ class CPPOutputFile(ScopeController):
 				
 				definedAs = self.parseExpr(node.childNodes[0].childNodes[1]) #self.getVariableTypeAnywhere(name)
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
-				print("Defined: " + definedAs)
-				print(name)
-				print("------------")
+				
+				#print("Defined: " + definedAs)
+				#print(name)
+				#print("------------")
+				
 				pList += adjustDataType(definedAs) + " " + name + ", "
 				
 				if definedAs != usedAs:
@@ -780,6 +797,13 @@ class CPPOutputFile(ScopeController):
 	
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
+		
+		if dataType in self.compiler.mainClass.classes:
+			print(dataType)
+			classObj = self.getClass(dataType)
+			if classObj.templateNames:
+				dataType += "<%s>" % (", ".join(classObj.templateDefaultValues))
+		
 		return dataType#self.currentClassImpl.translateTemplateName(dataType)
 	
 	def getExprDataTypeClean(self, node):
@@ -805,7 +829,8 @@ class CPPOutputFile(ScopeController):
 					return typeNode.nodeValue
 				else:
 					# Template parameters
-					return self.parseExpr(typeNode)
+					typeName = self.parseExpr(typeNode)
+					return typeName
 					#return typeNode.childNodes[0].childNodes[0].nodeValue
 			elif node.tagName == "call":
 				if self.inFunction:
@@ -1082,8 +1107,8 @@ class CPPOutputFile(ScopeController):
 					self.scanExternFunction(node)
 	
 	def scanTemplate(self, node):
-		pNames, pTypes = self.getParameterList(node)
-		self.currentClass.setTemplateNames(pNames)
+		pNames, pTypes, pDefaultValues = self.getParameterList(node)
+		self.currentClass.setTemplateNames(pNames, pDefaultValues)
 	
 	def scanClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -1121,7 +1146,7 @@ class CPPOutputFile(ScopeController):
 		name = correctOperators(name)
 		
 		newFunc = CPPFunction(self, node)
-		paramNames, paramTypesByDefinition = self.getParameterList(getElementByTagName(node, "parameters"))
+		paramNames, paramTypesByDefinition, paramDefaultValues = self.getParameterList(getElementByTagName(node, "parameters"))
 		newFunc.paramNames = paramNames
 		newFunc.paramTypesByDefinition = paramTypesByDefinition
 		#debug("Types:" + str(newFunc.paramTypesByDefintion))

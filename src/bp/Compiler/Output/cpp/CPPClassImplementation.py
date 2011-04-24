@@ -43,7 +43,10 @@ class CPPClassImplementation:
 		templateNames = self.classObj.templateNames
 		for i in range(len(templateNames)):
 			if dataType == templateNames[i]:
-				return self.templateValues[i]
+				if i < len(self.templateValues):
+					return self.templateValues[i]
+				else:
+					return self.classObj.templateDefaultValues[i]
 		return dataType
 		
 	def addMember(self, var):
