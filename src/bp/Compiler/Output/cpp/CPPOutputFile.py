@@ -402,10 +402,7 @@ class CPPOutputFile(ScopeController):
 				ptrType = adjustDataType(ptrType, True);
 				return "new %s[%s]" % (ptrType, paramsString)
 		else:
-			className = typeName
-			classObj = self.getClass(className)
-			if classObj.templateNames:
-				typeName += "<%s>" % (", ".join(classObj.templateDefaultValues))
+			typeName = self.addMissingTemplateValues(typeName)
 		
 		self.implementFunction(typeName, "init", paramTypes)
 		
@@ -588,6 +585,7 @@ class CPPOutputFile(ScopeController):
 			pList.append(name)
 			
 			type = self.currentClassImpl.translateTemplateName(type)
+			type = self.addMissingTemplateValues(type)
 			pTypes.append(type)
 			pDefault.append(defaultValue)
 		
@@ -629,6 +627,7 @@ class CPPOutputFile(ScopeController):
 				
 				definedAs = self.parseExpr(node.childNodes[0].childNodes[1]) #self.getVariableTypeAnywhere(name)
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
+				definedAs = self.addMissingTemplateValues(definedAs)
 				
 				#print("Defined: " + definedAs)
 				#print(name)
@@ -795,15 +794,29 @@ class CPPOutputFile(ScopeController):
 			
 			return self.compiler.mainClass.externFunctions[funcName]
 	
+	def addMissingTemplateValues(self, typeName):
+		pos = typeName.find("<")
+		
+		if pos == -1:
+			if typeName in self.compiler.mainClass.classes:
+				classObj = self.getClass(typeName)
+				if classObj.templateNames:
+					typeName += "<"
+					for dataType in classObj.templateDefaultValues:
+						dataType = self.currentClassImpl.translateTemplateName(dataType)
+						typeName += self.addMissingTemplateValues(dataType) + ", "
+					typeName = typeName[:-2] + ">"
+		else:
+			pass
+			#templateValues = typeName[pos+1:-1].split(",")
+			#for templateValue in templateValues:
+			#	templateValue = templateValue.strip()
+			#	print(templateValue)
+		return typeName
+	
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
-		
-		if dataType in self.compiler.mainClass.classes:
-			print(dataType)
-			classObj = self.getClass(dataType)
-			if classObj.templateNames:
-				dataType += "<%s>" % (", ".join(classObj.templateDefaultValues))
-		
+		dataType = self.addMissingTemplateValues(dataType)
 		return dataType#self.currentClassImpl.translateTemplateName(dataType)
 	
 	def getExprDataTypeClean(self, node):

@@ -123,7 +123,36 @@ def correctOperators(sign):
 	
 	return sign
 
-def adjustDataType(type, adjustOuterAsWell = True, templateParamsMap = {}):
+def adjustDataType(type, adjustOuterAsWell = True):
+	if type == "void" or type in nonPointerClasses:
+		return type
+	
+	standardClassPrefix = "BP"
+	classPrefix = pointerType + "<" + standardClassPrefix
+	classPostfix = ">"
+	
+	pos = type.find('<')
+	if pos != -1:
+		params = splitParams(type[pos+1:-1])
+		paramsNew = []
+		for param in params:
+			paramsNew.append(adjustDataType(param))
+		type = type[:pos] + "<" + ", ".join(paramsNew) + ">"
+	
+	if not isUnmanaged(type):
+		if adjustOuterAsWell:
+			type = classPrefix + type + classPostfix
+		else:
+			type = standardClassPrefix + type
+	else:
+		className = extractClassName(type)
+		if className == "MemPointer":
+			return paramsNew[0] + "*"
+		else:
+			type = standardClassPrefix + removeUnmanaged(type)
+	return type.replace("<", "< ").replace(">", " >").replace("  ", " ")
+
+def adjustDataType2(type, adjustOuterAsWell = True, templateParamsMap = {}):
 	if type == "void" or type in nonPointerClasses:
 		return type
 	
@@ -184,7 +213,7 @@ def adjustDataType(type, adjustOuterAsWell = True, templateParamsMap = {}):
 		
 		# TODO: This contains a bug...remove it! T< Point<A, B>, C >
 		# TODO: This splitting absolutely does not work...replace it!
-		for typeName in typeNames.split(","):
+		for typeName in splitParams(typeNames):
 			typeName = typeName.strip()
 			className = extractClassName(typeName)
 			
@@ -200,3 +229,19 @@ def adjustDataType(type, adjustOuterAsWell = True, templateParamsMap = {}):
 				pos += len(classPrefix) + len(classPostfix) + 1
 	
 	return type.replace("<", "< ").replace(">", " >")
+
+#print(adjustDataType("Float"))
+#print(adjustDataType2("Float"))
+#print(adjustDataType("Point"))
+#print(adjustDataType2("Point"))
+#print(adjustDataType("Point<Int, Int>"))
+#print(adjustDataType2("Point<Int, Int>"))
+#print(adjustDataType("Circle<Point<Int, Test>, Float>"))
+#print(adjustDataType2("Circle<Point<Int, Test>, Float>"))
+#print(adjustDataType("~Point"))
+#print(adjustDataType2("~Point"))
+#print(adjustDataType("MemPointer<Int>"))
+#print(adjustDataType2("MemPointer<Int>"))
+#print(adjustDataType("~MemPointer<Int>"))
+#print(adjustDataType2("~MemPointer<Int>"))
+#raise CompilerException("done")

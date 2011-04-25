@@ -2,12 +2,16 @@ import bp.Math
 import Point
 
 Circle
-	init self.midPoint, self.radius
+	template
+		Tcenter = Point
+		Tradius = Float
+	
+	init self.center : Tcenter, self.radius : Tradius
 		...
 	
 	set
-		midPoint nPoint
-			self.midPoint = nPoint
+		center nPoint
+			self.center = nPoint
 			
 		radius nRadius
 			self.radius = nRadius
@@ -16,8 +20,8 @@ Circle
 			self.radius = nDiameter / 2
 	
 	get
-		midPoint
-			return self.midPoint
+		center
+			return self.center
 			
 		radius
 			return self.radius
@@ -30,13 +34,13 @@ Circle
 			return 2 * π * self.radius
 		
 	contains point
-		return distanceSq(self.midPoint.x, self.midPoint.y, point.x, point.y) <= (self.radius * self.radius)
+		return distanceSq(self.center.x, self.center.y, point.x, point.y) <= (self.radius * self.radius)
 	
 	# TODO: Polymorphism	
 	#contains circle : Circle
 	#	...
 		
 	intersects circle
-		distance = distanceSq(self.midPoint.x, self.midPoint.y, circle.midPoint.x, circle.midPoint.y)
+		distance = distanceSq(self.center.x, self.center.y, circle.center.x, circle.center.y)
 		sumRadi = self.radius + circle.radius
 		return d < (sumRadi * sumRadi)

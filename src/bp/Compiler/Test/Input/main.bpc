@@ -1,27 +1,7 @@
 import tests.all
 #import tests.actor
-#import bp.Math.Geometry
 
-TestPoint
-	template
-		TDataType1 = Float
-		TDataType2 = Float
-		
-	init self.x : TDataType1, self.y : TDataType2
-		...
-		
-	get
-		x
-			return self.x
-			
-		y
-			return self.y
+p1 = Point(3, 4)
+c1 = Circle(Point(4, 5), 6)
 
-testPointA = TestPoint(3, 4)
-testPointB = TestPoint(5.0, 6.0)
-
-print testPointA.x
-print testPointA.y
-
-print testPointB.x
-print testPointB.y
+print c1.center.distanceTo(p1)

@@ -85,13 +85,26 @@ def removeUnmanaged(type):
 	return type.replace("~", "")
 
 def splitParams(line):
-	params = line.split(",")
-	for i in range(len(params)):
-		params[i] = params[i].strip()
+	params = []
+	bracketCounter = 0
+	lastStart = 0
+	
+	for i in range(len(line)):
+		c = line[i]
+		if c == '<':
+			bracketCounter += 1
+		elif c == '>':
+			bracketCounter -= 1
+		elif c == ',' and bracketCounter == 0:
+			param = line[lastStart:i]
+			lastStart = i + 1
+			params.append(param.strip())
+	
+	params.append(line[lastStart:].strip())
 	return params
 
 def buildPostfix(paramTypes):
 	postfix = ""
 	for dataType in paramTypes:
-		postfix += "__" + dataType.replace("<", "_").replace(">", "_").replace("~", "_")
+		postfix += "__" + dataType.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
 	return postfix

@@ -1,6 +1,6 @@
 
 testFunc x
-	print x
+	print "Function overloading NOT working!"
 	
 testFunc x : Point
 	print "Function overloading working!"

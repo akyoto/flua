@@ -84,8 +84,9 @@ class CPPClassImplementation:
 		self.funcImplementations[impl.name] = impl
 		
 	def getMatchingFunction(self, funcName, paramTypes):
-		#debug("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.functions[funcName])))
+		#print("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
 		candidates = self.classObj.functions[funcName]
+		#print(candidates[0].paramTypesByDefinition)
 		winner = None
 		winnerScore = 0
 		for func in candidates:

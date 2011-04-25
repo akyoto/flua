@@ -1,6 +1,14 @@
 Point
-	init self.x, self.y
+	template
+		Tx = Float
+		Ty = Float
+		
+	init self.x : Tx, self.y : Ty
 		...
+		
+	move offX, offY
+		self.x += offX
+		self.y += offY
 		
 	get
 		x
@@ -24,3 +32,4 @@ print p : Point
 	bp_print p.x
 	bp_print ", "
 	bp_print p.y
+	bp_print "\n"

@@ -29,6 +29,10 @@ class CPPFunction:
 		numTypesByDef = len(self.paramTypesByDefinition)
 		score = 0
 		
+		#print(calledTypes)
+		#print(self.paramTypesByDefinition)
+		#print("<--------------")
+		
 		if numCalledTypes > numTypesByDef:
 			return 0
 		elif numCalledTypes < numTypesByDef:
@@ -40,6 +44,14 @@ class CPPFunction:
 				typeA = calledTypes[i]
 				typeB = self.paramTypesByDefinition[i]
 				typeB = classImpl.translateTemplateName(typeB)
+				
+#				print(typeA)
+#				print(typeB)
+#				print(self.paramTypesByDefinition[i])
+#				print(classImpl.translateTemplateName("Tradius"))
+#				print(classImpl.templateValues)
+#				print("---------------->")
+				
 				if typeA == typeB:
 					score += 3
 				elif typeB == "":
