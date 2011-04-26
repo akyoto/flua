@@ -48,6 +48,7 @@ class CPPOutputCompiler:
 		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/cpp/"))
 		self.stringCounter = 0
 		self.fileCounter = 0
+		self.forVarCounter = 0
 		self.outputDir = ""
 		self.mainFile = None
 		self.mainCppFile = ""

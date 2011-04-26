@@ -32,6 +32,38 @@ from Utils import *
 import codecs
 
 ####################################################################
+# Variables
+####################################################################
+# XML tags which can follow another tag
+
+# 2 levels
+blocks = {
+	"if-block" : ["else-if", "else"],
+	"try-block" : ["catch"]
+}
+
+# 1 level
+simpleBlocks = {
+	"class" : [],
+	"function" : [],
+	"while" : [],
+	"for" : [],
+	"in" : [],
+	"switch" : [],
+	"case" : [],
+	"target" : [],
+	"extern" : [],
+	"compiler-flags" : [],
+	"template" : [],
+	"get" : [],
+	"set" : [],
+	"cast-definition" : [],
+	"getter" : [],
+	"setter" : [],
+	"casts" : []
+}
+
+####################################################################
 # Classes
 ####################################################################
 class BPCCompiler:
@@ -184,7 +216,8 @@ class BPCCompiler:
 		dirOut = os.path.abspath(dirOut) + "/"
 		
 		for bpcFile in self.compiledFiles.values():
-			fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
+			#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
+			fileOut = dirOut + stripAll(bpcFile.file) + ".bp"
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
@@ -213,6 +246,7 @@ class BPCFile(ScopeController):
 		self.inTemplate = 0
 		self.inGetter = 0
 		self.inSetter = 0
+		self.inCasts = 0
 		self.inOperators = 0
 		self.inCompilerFlags = 0
 		self.parser = self.compiler.parser
@@ -222,33 +256,6 @@ class BPCFile(ScopeController):
 		self.header = getElementByTagName(self.root, "header")
 		self.dependencies = getElementByTagName(self.header, "dependencies")
 		self.strings = getElementByTagName(self.header, "strings")
-		
-		# XML tags which can follow another tag
-		
-		# 2 levels
-		self.blocks = {
-			"if-block" : ["else-if", "else"],
-			"try-block" : ["catch"]
-		}
-		
-		# 1 level
-		self.simpleBlocks = {
-			"class" : [],
-			"function" : [],
-			"while" : [],
-			"for" : [],
-			"in" : [],
-			"switch" : [],
-			"case" : [],
-			"target" : [],
-			"extern" : [],
-			"compiler-flags" : [],
-			"template" : [],
-			"get" : [],
-			"set" : [],
-			"getter" : [],
-			"setter" : []
-		}
 		
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
@@ -344,6 +351,8 @@ class BPCFile(ScopeController):
 					self.inGetter -= 1
 				elif self.currentNode.tagName == "set":
 					self.inSetter -= 1
+				elif self.currentNode.tagName == "casts":
+					self.inCasts = 0
 				elif self.currentNode.tagName == "operators":
 					self.inOperators -= 1
 				elif self.currentNode.tagName == "compiler-flags":
@@ -356,14 +365,14 @@ class BPCFile(ScopeController):
 					self.inCase -= 1
 			
 			# XML elements with "code" tags need special treatment
-			if self.currentNode.parentNode.tagName in self.blocks:
-				tagsAllowed = self.blocks[self.currentNode.parentNode.tagName]
+			if self.currentNode.parentNode.tagName in blocks:
+				tagsAllowed = blocks[self.currentNode.parentNode.tagName]
 				if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode.parentNode
 				else:
 					self.currentNode = self.currentNode.parentNode
-			elif self.currentNode.tagName in self.simpleBlocks:
-				tagsAllowed = self.simpleBlocks[self.currentNode.tagName]
+			elif self.currentNode.tagName in simpleBlocks:
+				tagsAllowed = simpleBlocks[self.currentNode.tagName]
 				if atTab != tabCount + 1 or isTextNode(currentLine) or not currentLine.tagName in tagsAllowed:
 					self.currentNode = self.currentNode.parentNode
 			atTab -= 1
@@ -411,6 +420,8 @@ class BPCFile(ScopeController):
 			return self.handleGet(line)
 		elif startsWith(line, "set"):
 			return self.handleSet(line)
+		elif startsWith(line, "to"):
+			return self.handleCasts(line)
 		elif startsWith(line, "operator"):
 			return self.handleOperatorBlock(line)
 		elif startsWith(line, "target"):
@@ -422,7 +433,7 @@ class BPCFile(ScopeController):
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
-			elif self.inOperators or line[0].islower():
+			elif self.inOperators or self.inCasts or line[0].islower():
 				return self.handleFunction(line)
 			else:
 				return self.handleClass(line)
@@ -523,6 +534,16 @@ class BPCFile(ScopeController):
 		node.appendChild(value)
 		
 		self.inSwitch += 1
+		self.nextNode = node
+		return node
+		
+	def handleCasts(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("casts", line)
+		
+		node = self.doc.createElement("casts")
+		
+		self.inCasts = 1
 		self.nextNode = node
 		return node
 		
@@ -789,10 +810,11 @@ class BPCFile(ScopeController):
 			else:
 				funcName = line
 			
-			if not self.inOperators:
+			if (not self.inOperators) and (not self.inCasts):
 				raise CompilerException("Invalid function name '" + funcName + "'")
 		
 		#print(" belongs to " + self.currentNode.tagName)
+		nameNode = self.doc.createElement("name")
 		
 		if self.inSetter:
 			node = self.doc.createElement("setter")
@@ -800,13 +822,18 @@ class BPCFile(ScopeController):
 			node = self.doc.createElement("getter")
 		elif self.inOperators:
 			node = self.doc.createElement("operator")
+		elif self.inCasts:
+			node = self.doc.createElement("cast-definition")
+			nameNode.tagName = "to"
+			nameNode.appendChild(self.parseExpr(self.addGenerics(funcName)))
 		else:
 			node = self.doc.createElement("function")
 		
+		if not self.inCasts:
+			nameNode.appendChild(self.doc.createTextNode(funcName))
+		
 		params = self.parseExpr(line[len(funcName)+1:])
 		
-		nameNode = self.doc.createElement("name")
-		nameNode.appendChild(self.doc.createTextNode(funcName))
 		paramsNode = self.parser.getParametersNode(params)
 		codeNode = self.doc.createElement("code")
 		

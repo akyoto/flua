@@ -51,6 +51,7 @@ if __name__ == '__main__':
 		
 		bpc = BPCCompiler(modDir)
 		bpc.compile(compileFile)
+		bpc.writeToFS(outputDir + "xml/")
 		
 		compileTime = time.time() - start
 		

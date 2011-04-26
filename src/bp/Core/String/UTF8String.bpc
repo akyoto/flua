@@ -8,10 +8,27 @@ UTF8String
 		for i = 0 until len
 			self.array.add(stri[i])
 			
-	print
-		for i = 0 until self.array.length
-			bp_print self.array[i]
-		bp_print "\n"
+#	print
+#		for i = 0 until self.array.length
+#			bp_print self.array[i]
+#		bp_print "\n"
+		
+	#operator
+	#	[] index
+	#		count : Size = 0
+	#		for i = 0 to index
+	#			lead = self.array[i]
+	#			
+	#			if lead < 0x80
+	#				count += 1
+	#			elif (lead >> 5) == 0x6
+	#				count += 2
+	#			elif (lead >> 4) == 0xe
+	#				count += 3
+	#			elif (lead >> 3) == 0x1e
+	#				count += 4
+	#		
+	#		return self.array[index]
 		
 	get
 		length
@@ -22,18 +39,33 @@ UTF8String
 				lead = self.array[i]
 				count += 1
 				
-				if lead < 0x80
+				if isUTF8Lead1(lead)
 					continue
-				elif (lead >> 5) == 0x6
+				elif isUTF8Lead2(lead)
 					i += 1
-				elif (lead >> 4) == 0xe
+				elif isUTF8Lead3(lead)
 					i += 2
-				elif (lead >> 3) == 0x1e
+				elif isUTF8Lead4(lead)
 					i += 3
 			return count
 			
 		lengthInBytes
 			return self.array.length
+	
+	to
+		~MemPointer<Byte>
+			return self.array.start
 
-#print u8stri : UTF8String
-#	u8stri.print()
+isUTF8Lead1 lead
+	return lead < 0x80
+
+isUTF8Lead2 lead
+	return (lead >> 5) == 0x6
+
+isUTF8Lead3 lead
+	return (lead >> 4) == 0xe
+
+isUTF8Lead4 lead
+	return (lead >> 3) == 0x1e
+
+#define U8_IS_TRAIL(c) (((c)&0xc0)==0x80)

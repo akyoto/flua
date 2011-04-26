@@ -1,7 +1,26 @@
 import tests.all
 #import tests.actor
+#import bp.Graphics.OpenGL
 
-p1 = Point(3, 4)
-c1 = Circle(Point(4, 5), 6)
+utf = ~UTF8String("κόσμε")
 
-print c1.center.distanceTo(p1)
+print utf.length
+print utf.lengthInBytes
+print utf
+
+#if !bp_glInit()
+#	print "Error!"
+#else
+#	print "Initialized OpenGL!"
+#
+#if !bp_glCreateWindow()
+#	print "Error opening the window!"
+#	bp_glTerminate()
+#else
+#	while bp_glWindowOpen()
+#		bp_glClear
+#		bp_glSwapBuffers
+#	
+#	bp_glCloseWindow
+#	
+#	bp_glTerminate

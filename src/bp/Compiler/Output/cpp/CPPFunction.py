@@ -6,7 +6,18 @@ class CPPFunction:
 	def __init__(self, cppFile, node):
 		self.node = node
 		self.cppFile = cppFile
-		self.name = correctOperators(getElementByTagName(node, "name").childNodes[0].nodeValue)
+		self.isCast = (node.tagName == "cast-definition")
+		self.castToUnmanaged = False
+		
+		if self.isCast:
+			typeNode = getElementByTagName(node, "to")
+			self.name = cppFile.parseExpr(typeNode.childNodes[0])
+			# TODO: Remove quick fix
+			if isElemNode(typeNode.childNodes[0]) and typeNode.childNodes[0].tagName == "unmanaged":
+				self.castToUnmanaged = True
+		else:
+			self.name = correctOperators(getElementByTagName(node, "name").childNodes[0].nodeValue)
+		
 		self.classObj = None
 		self.implementations = {}
 		self.paramNames = []

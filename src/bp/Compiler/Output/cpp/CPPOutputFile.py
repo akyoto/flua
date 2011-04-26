@@ -79,11 +79,13 @@ class CPPOutputFile(ScopeController):
 		self.inExtern = 0
 		self.inGetter = 0
 		self.inSetter = 0
+		self.inCastDefinition = 0
 		self.inTemplate = 0
 		self.inAssignment = 0
 		self.inConst = 0
 		self.inUnmanaged = 0
 		self.inOperators = 0
+		self.inCasts = 0
 		self.inOperator = 0
 		self.inTypeDeclaration = 0
 		self.inFunction = 0
@@ -95,7 +97,7 @@ class CPPOutputFile(ScopeController):
 		
 		# Other code types
 		self.stringsHeader = "\t// Strings\n";
-		self.varsHeader = ""
+		self.varsHeader = "\n// Variables\n";
 		self.functionsHeader = "// Functions\n"
 		self.classesHeader = ""
 		self.actorClassesHeader = ""
@@ -127,11 +129,10 @@ class CPPOutputFile(ScopeController):
 		self.body += "}\n"
 		
 		# Variables
-		self.varsHeader = "\n// Variables\n";
 		for var in self.getTopLevelScope().variables.values():
 			if var.isConst:
 				self.varsHeader += "const " + var.getPrototype() + " = " + var.value + ";\n";
-			else:
+			elif not isUnmanaged(var.type):
 				self.varsHeader += var.getPrototype() + ";\n";
 		self.varsHeader += "\n"
 	
@@ -165,6 +166,8 @@ class CPPOutputFile(ScopeController):
 			return self.handleAssign(node)
 		elif tagName == "call":
 			return self.handleCall(node)
+		elif tagName == "new":
+			return self.handleNew(node)
 		elif tagName == "if-block" or tagName == "try-block":
 			return self.parseChilds(node, "", "")
 		elif tagName == "else":
@@ -190,7 +193,9 @@ class CPPOutputFile(ScopeController):
 			return self.handleCall(virtualIndexCall)
 		elif tagName == "class":
 			return ""
-		elif tagName == "function" or tagName == "operator":
+		elif tagName == "function" or tagName == "operator" or tagName == "cast-definition":
+			return ""
+		elif tagName == "get" or tagName == "set":
 			return ""
 		elif tagName == "extern":
 			return ""
@@ -202,8 +207,6 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "target":
 			return self.handleTarget(node)
-		elif tagName == "new":
-			return self.handleNew(node)
 		elif tagName == "return":
 			return self.handleReturn(node)
 		elif tagName == "for":
@@ -218,8 +221,6 @@ class CPPOutputFile(ScopeController):
 			return "break"
 		elif tagName == "continue":
 			return "continue"
-		elif tagName == "get" or tagName == "set":
-			return ""
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
@@ -269,6 +270,7 @@ class CPPOutputFile(ScopeController):
 		#	print("%s.%s(%s)" % (typeName, funcName, ", ".join(paramTypes)))
 			#classImpl = self.getClassImplementationByTypeName(typeName)
 			#classImpl.initCallTypes = paramTypes
+		funcName = correctOperators(funcName)
 		
 		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
 		if key in self.compiler.funcImplCache:
@@ -365,13 +367,13 @@ class CPPOutputFile(ScopeController):
 			# GET access
 			isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 			if isMemberAccess:
-				#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.title()))
+				#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.capitalize()))
 				#if isTextNode(op1) and op1.nodeValue == "self":
 				#	op1xml = "this"
 				#else:
 				op1xml = op1.toxml()
 				
-				getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + op2.nodeValue.title())).documentElement
+				getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
 				#print(getFunc.toprettyxml())
 				return self.handleCall(getFunc)
 		
@@ -409,7 +411,8 @@ class CPPOutputFile(ScopeController):
 		finalTypeName = adjustDataType(typeName, False)
 		
 		if self.inUnmanaged:
-			return finalTypeName + "(" + paramsString + ")"
+			return paramsString
+			#return finalTypeName + "(" + paramsString + ")"
 		else:
 			return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
 		
@@ -432,7 +435,7 @@ class CPPOutputFile(ScopeController):
 				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
 				if isMemberAccess:
 					#print("Using setter for type '%s'" % (accessOp1type))
-					setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + accessOp2.nodeValue.title(), node.childNodes[1].childNodes[0].toxml())).documentElement
+					setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
 				#pass
 				#variableType = self.getExprDataType(op1)
@@ -481,6 +484,9 @@ class CPPOutputFile(ScopeController):
 		# Inline type declarations
 		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
 		
+		if isUnmanaged(valueType) and not variableExisted:
+			return var.getPrototype() + "(" + value + ")"
+		
 		if self.getCurrentScope() == self.getTopLevelScope():
 			return variableName + " = " + value
 		elif variableExisted:
@@ -516,7 +522,7 @@ class CPPOutputFile(ScopeController):
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
 			
-			if callerClass in nonPointerClasses:
+			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
 				return ["::", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
@@ -696,7 +702,7 @@ class CPPOutputFile(ScopeController):
 					return dataType
 				else:
 					return "Float"
-			elif operation == "less" or operation == "greater" or operation == "less-or-equal" or operation == "greater-or-equal":
+			elif operation == "less" or operation == "greater" or operation == "less-or-equal" or operation == "greater-or-equal" or operation == "equal" or operation == "not-equal" or operation == "almost-equal" or operation == "and" or operation == "or":
 				return "Bool"
 			else:
 				return getHeavierOperator(operatorType1, operatorType2)
@@ -714,8 +720,12 @@ class CPPOutputFile(ScopeController):
 				return self.getCombinationResult(operation, operatorType1, "Size")
 			
 			# TODO: Remove temporary fix
-			if operation == "index" and operatorType1.startswith("Array<"):
-				return operatorType1[len("Array<"):-1]
+			if operation == "index":
+				if operatorType1.startswith("Array<"):
+					return operatorType1[len("Array<"):-1]
+				else:
+					impl = self.implementFunction(operatorType1, "[]", [operatorType2])
+					return impl.getReturnType()
 			
 			raise CompilerException("Could not find an operator for the operation: " + operation + " " + operatorType1 + " " + operatorType2)
 	
@@ -755,12 +765,12 @@ class CPPOutputFile(ScopeController):
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
 		op1ClassName = extractClassName(op1Type)
-		#print(("get" + op2.nodeValue.title()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
+		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
 		
 		if not op1ClassName in self.compiler.mainClass.classes:
 			return False
 		
-		accessingGetter = ("get" + op2.nodeValue.title()) in self.getClass(op1ClassName).functions
+		accessingGetter = ("get" + capitalize(op2.nodeValue)) in self.getClass(op1ClassName).functions
 		if isTextNode(op2) and (accessingGetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
 			#print(self.currentFunction.getName() + " -> " + varGetter)
 			#print(self.currentFunction.getName() == varGetter)
@@ -822,6 +832,8 @@ class CPPOutputFile(ScopeController):
 	def getExprDataTypeClean(self, node):
 		if isTextNode(node):
 			if node.nodeValue.isdigit():
+				return "Int"
+			elif node.nodeValue.startswith("0x"):
 				return "Int"
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
@@ -891,7 +903,7 @@ class CPPOutputFile(ScopeController):
 					if callerClassName == "MemPointer" and memberName == "data":
 						return callerType[callerType.find('<')+1:-1]
 					
-					memberFunc = "get" + memberName.title()
+					memberFunc = "get" + capitalize(memberName)
 					virtualGetCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)).documentElement
 					return self.getCallDataType(virtualGetCall)
 				
@@ -974,7 +986,17 @@ class CPPOutputFile(ScopeController):
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 		self.popScope()
 		
-		return "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
+		varDefs = ""
+		if not self.variableExistsAnywhere(toExpr):
+			toVar = CPPVariable("bp_for_end_%s" % (self.compiler.forVarCounter), toType, "", False, not toType in nonPointerClasses, False)
+			#self.getTopLevelScope().variables[toVar.name] = toVar
+			self.varsHeader += toVar.type + " " + toVar.name + ";\n"
+			varDefs = "%s = %s;\n" % (toVar.name, toExpr)
+			varDefs += "\t" * self.currentTabLevel
+			toExpr = toVar.name
+			self.compiler.forVarCounter += 1
+		
+		return varDefs + "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
 	
 	def handleReturn(self, node):
 		expr = self.parseExpr(node.childNodes[0])
@@ -1000,8 +1022,8 @@ class CPPOutputFile(ScopeController):
 			#print("Declaring '%s' as '%s'" % (varName, typeName))
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
-			return varName
-			#return adjustDataType(typeName, True) + " " + varName
+			#return varName
+			return adjustDataType(typeName) + " " + varName
 			
 		return varName
 	
@@ -1087,6 +1109,10 @@ class CPPOutputFile(ScopeController):
 		
 		return "#include <" + stripExt(modPath) + "-out.hpp>\n"
 	
+	def handleCompilerFlag(self, node):
+		self.compiler.customCompilerFlags.insert(0, node.childNodes[0].nodeValue)
+		return ""
+	
 	def scanAhead(self, parent):
 		for node in parent.childNodes:
 			if isElemNode(node):
@@ -1102,6 +1128,10 @@ class CPPOutputFile(ScopeController):
 					self.inSetter += 1
 					result = self.scanFunction(node)
 					self.inSetter -= 1
+				elif node.tagName == "cast-definition":
+					self.inCastDefinition += 1
+					result = self.scanFunction(node)
+					self.inCastDefinition -= 1
 				elif node.tagName == "extern":
 					self.inExtern += 1
 					self.scanAhead(node)
@@ -1110,6 +1140,10 @@ class CPPOutputFile(ScopeController):
 					self.inOperators += 1
 					self.scanAhead(node)
 					self.inOperators -= 1
+				elif node.tagName == "casts":
+					self.inCasts += 1
+					self.scanAhead(node)
+					self.inCasts -= 1
 				elif node.tagName == "get" or node.tagName == "set":
 					self.scanAhead(node)
 				elif node.tagName == "template":
@@ -1148,12 +1182,15 @@ class CPPOutputFile(ScopeController):
 		self.popScope()
 	
 	def scanFunction(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		if self.inCastDefinition:
+			name = self.parseExpr(getElementByTagName(node, "to").childNodes[0])
+		else:
+			name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		
 		if self.inGetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + name.title()
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + capitalize(name)
 		elif self.inSetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + name.title()
+			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + capitalize(name)
 		
 		# Index operator
 		name = correctOperators(name)
@@ -1208,6 +1245,16 @@ class CPPOutputFile(ScopeController):
 			if not classObj.isExtern:
 				for classImplId, classImpl in classObj.implementations.items():
 					code = ""
+					
+					# Implement casts
+					for funcList in classObj.functions.values():
+						if funcList:
+							func = funcList[0]
+							if func.isCast:
+								print("===>")
+								print(classImpl.getName())
+								print(func.node.toprettyxml())
+								self.implementFunction(classImpl.getName(), func.getName(), [])
 					
 					# Functions
 					for funcImpl in classImpl.funcImplementations.values():

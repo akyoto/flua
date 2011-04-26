@@ -66,6 +66,9 @@ def getNextNonWhitespacePos(stri, fromIndex):
 		return -1
 	return fromIndex
 
+def capitalize(stri):
+	return stri[0].upper() + stri[1:]
+
 def extractClassName(name):
 	return removeUnmanaged(removeGenerics(name))
 

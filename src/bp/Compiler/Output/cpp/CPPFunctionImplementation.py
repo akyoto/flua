@@ -71,6 +71,13 @@ class CPPFunctionImplementation:
 		
 	def getFullCode(self):
 		# TODO: Add parameters
+		if self.func.isCast:
+			castType = ""
+			if self.func.castToUnmanaged:
+				castType = adjustDataType("~" + self.name)
+			else:
+				castType = adjustDataType(self.name)
+			return "// Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
 		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()) + self.getReferenceString(), self.name, self.getParamString(), self.code)
 	
 	def getConstructorCode(self):

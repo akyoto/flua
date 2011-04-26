@@ -58,4 +58,7 @@ Array
 			self.end = self.start + newLength
 			if self.end >= self.endOfStorage
 				self.reserve(self.getLength() * 4)
-
+	
+	#to
+	#	~MemPointer<TDataType>
+	#		return self.start
