@@ -13,8 +13,8 @@ class CPPFunction:
 			typeNode = getElementByTagName(node, "to")
 			self.name = cppFile.parseExpr(typeNode.childNodes[0])
 			# TODO: Remove quick fix
-			if isElemNode(typeNode.childNodes[0]) and typeNode.childNodes[0].tagName == "unmanaged":
-				self.castToUnmanaged = True
+			#if isElemNode(typeNode.childNodes[0]) and typeNode.childNodes[0].tagName == "unmanaged":
+			#	self.castToUnmanaged = True
 		else:
 			self.name = correctOperators(getElementByTagName(node, "name").childNodes[0].nodeValue)
 		

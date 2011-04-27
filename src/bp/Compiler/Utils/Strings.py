@@ -103,7 +103,9 @@ def splitParams(line):
 			lastStart = i + 1
 			params.append(param.strip())
 	
-	params.append(line[lastStart:].strip())
+	lastParam = line[lastStart:].strip()
+	if lastParam:
+		params.append(lastParam)
 	return params
 
 def buildPostfix(paramTypes):

@@ -118,8 +118,12 @@ def getHeavierOperator(operatorType1, operatorType2):
 		return operatorType2
 
 def correctOperators(sign):
-	if sign == "[]":
+	if sign == "[]" or sign == "index":
 		return "operatorIndex"
+	elif sign == "+" or sign == "add":
+		return "operatorAdd"
+	elif sign == "-" or sign == "subtract":
+		return "operatorSubtract"
 	
 	return sign
 

@@ -144,7 +144,14 @@ class CPPOutputFile(ScopeController):
 				lines += prefix + line + postfix
 		return lines
 	
-	def parseExpr(self, node):
+	def parseExpr(self, node, keepUnmanagedSign = True):
+		if not keepUnmanagedSign:
+			expr = self.parseExpr(node, True)
+			# Remove unmanaged sign
+			if len(expr) and expr[0] == "~":
+				return expr[1:]
+			return expr
+		
 		# Return text nodes directly (if it is not a string)
 		if isTextNode(node):
 			if node.nodeValue.startswith("bp_string_"):
@@ -178,6 +185,21 @@ class CPPOutputFile(ScopeController):
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
+		elif tagName == "add":
+			caller = self.parseExpr(node.childNodes[0].childNodes[0])
+			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
+			op2 = self.parseExpr(node.childNodes[1].childNodes[0])
+			callerClassName = extractClassName(callerType)
+			
+			if callerClassName in nonPointerClasses:
+				return "(%s+%s)" % (caller, op2)
+			elif callerClassName == "MemPointer" and isUnmanaged(callerType):
+				return "(%s + %s)" % (caller, op2)
+			
+			memberFunc = "+"
+			virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
+			
+			return self.handleCall(virtualIndexCall)
 		elif tagName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -278,6 +300,8 @@ class CPPOutputFile(ScopeController):
 		
 		className = extractClassName(typeName)
 		if not funcName in self.getClass(className).functions:
+			print(className + " contains the following functions:")
+			print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
 			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
 		definedInFile = func.cppFile
@@ -380,7 +404,7 @@ class CPPOutputFile(ScopeController):
 		return self.parseBinaryOperator(node, "->")
 	
 	def handleNew(self, node):
-		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0])
+		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0], True)
 		paramsNode = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(paramsNode)
 		
@@ -444,7 +468,8 @@ class CPPOutputFile(ScopeController):
 				return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
 		
 		variableName = self.parseExpr(node.childNodes[0].childNodes[0])
-		value = self.parseExpr(node.childNodes[1].childNodes[0])
+		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
+		
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
 		memberName = variableName
 		
@@ -506,6 +531,8 @@ class CPPOutputFile(ScopeController):
 		
 		callerClassName = extractClassName(callerType)
 		callerClass = self.getClass(callerClassName)
+		
+		#print("--> Call: " + caller + "." + funcName + " (self : " + callerType + ")")
 		
 		# MemPointer.free
 		if funcName == "free" and callerClassName == "MemPointer":
@@ -584,7 +611,10 @@ class CPPOutputFile(ScopeController):
 				else:
 					name = self.parseExpr(op1)
 				
-				type = self.parseExpr(exprNode.childNodes[1].childNodes[0])
+				typeNode = exprNode.childNodes[1].childNodes[0]
+				type = self.parseExpr(typeNode, True)
+				#if typeNode.childNodes and isElemNode(typeNode) and typeNode.tagName == "unmanaged":
+				#	type = "~" + type
 			else:
 				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			
@@ -631,7 +661,7 @@ class CPPOutputFile(ScopeController):
 				#	print(member.name)
 				#	print(member.type)
 				
-				definedAs = self.parseExpr(node.childNodes[0].childNodes[1]) #self.getVariableTypeAnywhere(name)
+				definedAs = self.parseExpr(node.childNodes[0].childNodes[1], True) #self.getVariableTypeAnywhere(name)
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
 				definedAs = self.addMissingTemplateValues(definedAs)
 				
@@ -726,6 +756,10 @@ class CPPOutputFile(ScopeController):
 				else:
 					impl = self.implementFunction(operatorType1, "[]", [operatorType2])
 					return impl.getReturnType()
+			
+			custom = self.implementFunction(operatorType1, correctOperators(operation), [operatorType2])
+			if custom:
+				return custom.getReturnType()
 			
 			raise CompilerException("Could not find an operator for the operation: " + operation + " " + operatorType1 + " " + operatorType2)
 	
@@ -854,7 +888,7 @@ class CPPOutputFile(ScopeController):
 					return typeNode.nodeValue
 				else:
 					# Template parameters
-					typeName = self.parseExpr(typeNode)
+					typeName = self.parseExpr(typeNode, True)
 					return typeName
 					#return typeNode.childNodes[0].childNodes[0].nodeValue
 			elif node.tagName == "call":
@@ -956,7 +990,7 @@ class CPPOutputFile(ScopeController):
 		self.inUnmanaged += 1
 		expr = self.parseExpr(node.childNodes[0])
 		self.inUnmanaged -= 1
-		return expr
+		return "~" + expr
 	
 	def handleFor(self, node):
 		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
@@ -999,7 +1033,7 @@ class CPPOutputFile(ScopeController):
 		return varDefs + "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
 	
 	def handleReturn(self, node):
-		expr = self.parseExpr(node.childNodes[0])
+		expr = self.parseExpr(node.childNodes[0], False)
 		retType = self.getExprDataType(node.childNodes[0])
 		self.currentFunctionImpl.returnTypes.append(retType)
 		#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
@@ -1007,7 +1041,7 @@ class CPPOutputFile(ScopeController):
 	
 	def handleTypeDeclaration(self, node):
 		self.inTypeDeclaration += 1
-		typeName = self.currentClassImpl.translateTemplateName(self.parseExpr(node.childNodes[1]))
+		typeName = self.currentClassImpl.translateTemplateName(self.parseExpr(node.childNodes[1], True))
 		varName = self.parseExpr(node.childNodes[0])
 		self.inTypeDeclaration -= 1
 		
@@ -1183,8 +1217,9 @@ class CPPOutputFile(ScopeController):
 	
 	def scanFunction(self, node):
 		if self.inCastDefinition:
-			name = self.parseExpr(getElementByTagName(node, "to").childNodes[0])
+			name = self.parseExpr(getElementByTagName(node, "to").childNodes[0], True)
 		else:
+			#print(node.toprettyxml())
 			name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		
 		if self.inGetter:
@@ -1204,7 +1239,7 @@ class CPPOutputFile(ScopeController):
 		
 		if self.currentClass.name == "":
 			self.localFunctions.append(newFunc)
-	
+		
 	def scanExternFunction(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		types = node.getElementsByTagName("type")
@@ -1229,9 +1264,18 @@ class CPPOutputFile(ScopeController):
 		
 	def popClass(self):
 		self.currentClass = self.currentClass.parent
-		
-	def inClass(self):
-		return self.currentClass.name == ""
+	
+	def implementCasts(self):
+		# Implement casts BEFORE class functions are written
+		for classObj in self.localClasses:
+			if not classObj.isExtern:
+				for classImplId, classImpl in classObj.implementations.items():
+					for funcList in classObj.functions.values():
+						if funcList:
+							func = funcList[0]
+							if func.isCast:
+								#print("===> " + classImpl.getName() + "." + func.getName())
+								self.implementFunction(classImpl.getName(), func.getName(), [])
 	
 	def writeFunctions(self):
 		for func in self.localFunctions:
@@ -1245,16 +1289,6 @@ class CPPOutputFile(ScopeController):
 			if not classObj.isExtern:
 				for classImplId, classImpl in classObj.implementations.items():
 					code = ""
-					
-					# Implement casts
-					for funcList in classObj.functions.values():
-						if funcList:
-							func = funcList[0]
-							if func.isCast:
-								print("===>")
-								print(classImpl.getName())
-								print(func.node.toprettyxml())
-								self.implementFunction(classImpl.getName(), func.getName(), [])
 					
 					# Functions
 					for funcImpl in classImpl.funcImplementations.values():

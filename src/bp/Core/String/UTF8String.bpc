@@ -4,32 +4,41 @@ import bp.Collection.Array
 UTF8String
 	init stri
 		self.array = Array<Byte>()
+		self.append(stri)
+		
+	append stri
 		len = bp_strlen(stri)
 		for i = 0 until len
 			self.array.add(stri[i])
-			
+		
 #	print
 #		for i = 0 until self.array.length
 #			bp_print self.array[i]
 #		bp_print "\n"
 		
-	#operator
-	#	[] index
-	#		count : Size = 0
-	#		for i = 0 to index
-	#			lead = self.array[i]
-	#			
-	#			if lead < 0x80
-	#				count += 1
-	#			elif (lead >> 5) == 0x6
-	#				count += 2
-	#			elif (lead >> 4) == 0xe
-	#				count += 3
-	#			elif (lead >> 3) == 0x1e
-	#				count += 4
-	#		
-	#		return self.array[index]
-		
+#	operator
+#		[] index
+#			count : Size = 0
+#			for i = 0 to index
+#				lead = self.array[i]
+#				
+#				if lead < 0x80
+#					count += 1
+#				elif (lead >> 5) == 0x6
+#					count += 2
+#				elif (lead >> 4) == 0xe
+#					count += 3
+#				elif (lead >> 3) == 0x1e
+#					count += 4
+#			
+#			return self.array[index]
+	
+	operator
+		+ stri : ~UTF8String
+			cpy = ~UTF8String("One")
+			cpy.append("Two")
+			return cpy
+	
 	get
 		length
 			count : Size = 0

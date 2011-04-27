@@ -60,6 +60,8 @@ simpleBlocks = {
 	"cast-definition" : [],
 	"getter" : [],
 	"setter" : [],
+	"operators" : [],
+	"operator" : [],
 	"casts" : []
 }
 
@@ -100,12 +102,16 @@ class BPCCompiler:
 		operators.addOperator(Operator("[", "index.unused", Operator.BINARY))
 		operators.addOperator(Operator("#", "call", Operator.BINARY))
 		operators.addOperator(Operator("@", "index", Operator.BINARY))
-		operators.addOperator(Operator(":", "declare-type", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# Loose pointer
 		operators = OperatorLevel()
 		operators.addOperator(Operator("~", "unmanaged", Operator.UNARY))
+		self.parser.addOperatorLevel(operators)
+		
+		# Type declaration
+		operators = OperatorLevel()
+		operators.addOperator(Operator(":", "declare-type", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
 		
 		# 3: Unary

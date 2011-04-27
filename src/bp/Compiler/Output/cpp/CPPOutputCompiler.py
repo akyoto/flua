@@ -85,8 +85,14 @@ class CPPOutputCompiler:
 	def writeToFS(self, dirOut):
 		dirOut = fixPath(os.path.abspath(dirOut)) + "/"
 		self.outputDir = dirOut
+		cppFiles = self.compiledFiles.values()
 		
-		for cppFile in self.compiledFiles.values():
+		# Implement all casts
+		for cppFile in cppFiles:
+			cppFile.implementCasts()
+		
+		# Write to files
+		for cppFile in cppFiles:
 			fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
 			
 			# Directory structure

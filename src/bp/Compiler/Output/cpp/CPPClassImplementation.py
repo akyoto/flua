@@ -97,6 +97,9 @@ class CPPClassImplementation:
 				winnerScore = score
 		
 		if winner is None:
+			print("Candidates were:")
+			for func in candidates:
+				print(" * " + func.getName() + " " + str(func.paramTypesByDefinition))
 			raise CompilerException("No matching function found for the call '%s.%s' with the parameter types '%s'" % (self.getName(), funcName, paramTypes))
 		
 		return winner
