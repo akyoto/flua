@@ -37,6 +37,7 @@ class ScopeController:
 	
 	def __init__(self):
 		self.scopes = []
+		self.scopeBackups = []
 		self.pushScope()
 	
 	def getCurrentScope(self):
@@ -52,6 +53,34 @@ class ScopeController:
 	def popScope(self):
 		self.scopes.pop()
 		self.currentScope = self.scopes[-1]
+		
+	def saveScopes(self):
+		self.scopeBackups.append(list(self.scopes))
+	
+	def restoreScopes(self):
+		if len(self.scopeBackups) > 0:
+			self.scopes = self.scopeBackups.pop()
+			self.currentScope = self.scopes[-1]
+		
+	#===========================================================================
+	# def updateScopes(self):
+	#	scopeBackup = self.scopes
+	#	if len(self.scopeBackups) > 0:
+	#		self.scopes = self.scopeBackups.pop()
+	#	self.scopeBackups.append(scopeBackup)
+	#===========================================================================
+		
+	#===========================================================================
+	# def pushPrivateScopeList(self, newScopeList):
+	#	oldScopeList = self.scopes
+	#	self.scopeListBackups.append(oldScopeList)
+	#	self.scopes = newScopeList
+	#	self.pushScope()
+	# 
+	# def popPrivateScopeList(self):
+	#	self.scopes = self.scopeListBackups.pop()
+	#	self.currentScope = self.scopes[-1]
+	#===========================================================================
 		
 	def getVariable(self, name):
 		i = len(self.scopes) - 1

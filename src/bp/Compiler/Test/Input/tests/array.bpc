@@ -11,9 +11,8 @@ array.add(5)
 array.add(8)
 array.add(13)
 
-print array[0]
-print array[1]
-print array[2]
+if array[0] + array[1] != array[2]
+	errorCode += 1
 
 if array.length != 3
 	errorCode += 1
@@ -25,6 +24,6 @@ if array[0] != array2[0][0] or array[1] != array2[0][1] or array[2] != array2[0]
 	errorCode += 1
 
 if errorCode
-	print "Array module not working"
+	print "Array module NOT working!"
 else
-	print "Array module working"
+	print "Array module working!"

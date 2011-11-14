@@ -11,10 +11,16 @@ Array
 		self.end = self.start
 		self.endOfStorage = self.start + arrayMinSize
 		
-	gcDelete
-		self.start.free()
-		print "Array free"
-		
+	#gcDelete
+	#	self.start.free()
+	#	print "Array free"
+	
+	add element
+		self.end.data = element
+		self.end += 1
+		if self.end == self.endOfStorage
+			self.reserve(self.getLength() * 4)
+	
 	reserve newSize
 		currentSize = self.getLength()
 		newMem = ~MemPointer<TDataType>(newSize)
@@ -25,12 +31,6 @@ Array
 		self.end = newMem + currentSize
 		self.start = newMem
 		self.endOfStorage = newMem + newSize
-		
-	add element
-		self.end.data = element
-		self.end += 1
-		if self.end == self.endOfStorage
-			self.reserve(self.getLength() * 4)
 		
 	removeLast
 		if self.end != self.start

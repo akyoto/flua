@@ -4,3 +4,4 @@ import tests.generics
 import tests.memory
 import tests.array
 import tests.overloading
+import tests.unicode

@@ -1,0 +1,26 @@
+﻿utf1 = ~UTF8String("κόσμε")
+utf2 = ~UTF8String("εμσόκ")
+
+errors = 0
+if utf1.length != 5
+	errors += 1
+
+if utf1.lengthInBytes != 11
+	errors += 1
+
+if utf2.length != 5
+	errors += 1
+
+if utf2.lengthInBytes != 11
+	errors += 1
+
+#if utf1 + utf2 != "κόσμεεμσόκ"
+#	errors += 1
+	
+print "UTF-8 output: "
+print utf1
+	
+if errors > 0
+	print "Unicode (UTF-8) NOT working!"
+else
+	print "Unicode (UTF-8) perfectly working!"

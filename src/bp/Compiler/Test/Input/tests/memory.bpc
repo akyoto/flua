@@ -8,7 +8,7 @@ ptrB += 1
 ptrB.data = 7
 ptrB -= 1
 ptrB = ptrB + 1 - 1
-print ptrA.data
+#print ptrA.data
 
 if (ptrA == ptrB) and (ptrA.data == ptrB.data)
 	print "MemPointer working!"

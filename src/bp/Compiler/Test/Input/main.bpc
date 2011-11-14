@@ -1,33 +1,4 @@
 import tests.all
 #import tests.actor
-#import bp.Graphics.OpenGL
 
-utf1 = ~UTF8String("κόσμε")
-utf2 = ~UTF8String("εμσόκ")
-
-print utf1.length
-print utf1.lengthInBytes
-print utf1
-
-print utf2.length
-print utf2.lengthInBytes
-print utf2
-
-print utf1 + utf2
-
-#if !bp_glInit()
-#	print "Error!"
-#else
-#	print "Initialized OpenGL!"
-#
-#if !bp_glCreateWindow()
-#	print "Error opening the window!"
-#	bp_glTerminate()
-#else
-#	while bp_glWindowOpen()
-#		bp_glClear
-#		bp_glSwapBuffers
-#	
-#	bp_glCloseWindow
-#	
-#	bp_glTerminate
+print("End of tests.")

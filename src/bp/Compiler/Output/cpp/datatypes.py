@@ -86,7 +86,12 @@ def canBeCastedTo(fromType, toType):
 	# TODO: Implement this fully...
 	if fromType in nonPointerClasses and toType in nonPointerClasses:
 		return True
-	return False
+	elif fromType == toType:
+		return True
+	#elif "~" + fromType == toType:
+	#	return True
+	else:
+		return False
 
 def removeUnmanaged(type):
 	return type.replace("~", "")

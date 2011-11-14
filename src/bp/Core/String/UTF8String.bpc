@@ -3,24 +3,42 @@ import bp.Collection.Array
 
 UTF8String
 	init stri
-		self.array = Array<Byte>()
+		self.data = Array<Byte>()
 		self.append(stri)
 		
+	init bytes : Array<Byte>
+		self.data = Array<Byte>()
+		self.append(bytes)
+		
+	#append stri
+	#	return
+	
+	#mySelf
+	#	return self
+	
+	print
+		for i = 0 until self.data.length
+			bp_print self.data[i]
+		bp_print "\n"
+	
 	append stri
+		for i = 0 until stri.lengthInBytes
+			self.data.add(stri.data[i])
+	
+	append bytes : Array<Byte>
+		for i = 0 until bytes.length
+			self.data.add(bytes[i])
+	
+	append stri : ~MemPointer<ConstChar>
 		len = bp_strlen(stri)
 		for i = 0 until len
-			self.array.add(stri[i])
-		
-#	print
-#		for i = 0 until self.array.length
-#			bp_print self.array[i]
-#		bp_print "\n"
+			self.data.add(stri[i])
 		
 #	operator
 #		[] index
 #			count : Size = 0
 #			for i = 0 to index
-#				lead = self.array[i]
+#				lead = self.data[i]
 #				
 #				if lead < 0x80
 #					count += 1
@@ -31,21 +49,30 @@ UTF8String
 #				elif (lead >> 3) == 0x1e
 #					count += 4
 #			
-#			return self.array[index]
+#			return self.data[index]
 	
 	operator
 		+ stri : ~UTF8String
-			cpy = ~UTF8String("One")
-			cpy.append("Two")
+			cpy = ~UTF8String("")
+			cpy.append(self.data)
+			cpy.append(stri)
 			return cpy
-	
+			
+		#+= stri : ~UTF8String
+			#len = stri.data.length
+			#for i = 0 until len
+			#	self.data.add(stri.data[i])
+		#	return "+= not defined yet"
 	get
+		data
+			return self.data
+		
 		length
 			count : Size = 0
-			len = self.array.length
+			len = self.data.length
 			
 			for i = 0 until len
-				lead = self.array[i]
+				lead = self.data[i]
 				count += 1
 				
 				if isUTF8Lead1(lead)
@@ -59,11 +86,11 @@ UTF8String
 			return count
 			
 		lengthInBytes
-			return self.array.length
+			return self.data.length
 	
 	to
 		~MemPointer<Byte>
-			return self.array.start
+			return self.data.start
 
 isUTF8Lead1 lead
 	return lead < 0x80
@@ -72,9 +99,12 @@ isUTF8Lead2 lead
 	return (lead >> 5) == 0x6
 
 isUTF8Lead3 lead
-	return (lead >> 4) == 0xe
+	return (lead >> 4) == 0xE
 
 isUTF8Lead4 lead
-	return (lead >> 3) == 0x1e
+	return (lead >> 3) == 0x1E
+
+print stri : ~UTF8String	
+	stri.print()
 
 #define U8_IS_TRAIL(c) (((c)&0xc0)==0x80)

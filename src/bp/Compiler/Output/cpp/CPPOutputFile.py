@@ -158,7 +158,14 @@ class CPPOutputFile(ScopeController):
 				return self.id + "_" + node.nodeValue
 			else:
 				if node.nodeValue == "self":
-					return "this"
+					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
+					opNode = node.parentNode.parentNode
+					numChildNodes = len(opNode.childNodes)
+					if numChildNodes > 1:
+						return "this"
+					else:
+						# TODO: Unmanaged object initiations need to return 'this'
+						return "shared_from_this()"
 				else:
 					return node.nodeValue
 		
@@ -287,6 +294,14 @@ class CPPOutputFile(ScopeController):
 		
 		return ""
 	
+	def debugScopes(self):
+		counter = 0
+		for scope in self.scopes:
+			debug("[" + str(counter) + "]")
+			for name, variable in scope.variables.items():
+				debug(" => " + variable.name.ljust(40) + " : " + variable.type)
+			counter += 1
+	
 	def implementFunction(self, typeName, funcName, paramTypes):
 		#if funcName == "init":
 		#	print("%s.%s(%s)" % (typeName, funcName, ", ".join(paramTypes)))
@@ -355,14 +370,26 @@ class CPPOutputFile(ScopeController):
 			funcNode = funcImpl.func.node
 			codeNode = getElementByTagName(funcNode, "code")
 			
+			#debug("Before:")
+			#self.debugScopes()
+			#debugPush()
+			
+			self.saveScopes()
+			self.scopes = self.scopes[:1]
+			
 			self.pushScope()
-			if typeName:
-				self.getCurrentScope().variables["self"] = CPPVariable("self", typeName, "", False, True, False)
+			
+			if typeName: #and not self.variableExistsAnywhere("self"):
+				self.registerVariable(CPPVariable("self", typeName, "", False, True, False))
 			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
 			
 			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
 			
-			self.popScope()
+			self.restoreScopes()
+			
+			#debugPop()
+			#debug("After:")
+			#self.debugScopes()
 		
 		# Load previous values
 		self.inFunction -= 1
@@ -529,10 +556,10 @@ class CPPOutputFile(ScopeController):
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
 		
+		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [self : " + callerType + "]")
+		
 		callerClassName = extractClassName(callerType)
 		callerClass = self.getClass(callerClassName)
-		
-		#print("--> Call: " + caller + "." + funcName + " (self : " + callerType + ")")
 		
 		# MemPointer.free
 		if funcName == "free" and callerClassName == "MemPointer":
@@ -784,17 +811,20 @@ class CPPOutputFile(ScopeController):
 			return self.compiler.mainClassImpl.members[name].type
 		
 		#print(self.getTopLevelScope().variables)
-		#print(self.compiler.globalScope.variables)
 		if name in self.compiler.mainClass.classes:
 			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
 		raise CompilerException("Unknown variable: " + name)
 	
 	def variableExistsAnywhere(self, name):
-		if self.variableExists(name) or (name in self.currentClassImpl.members) or (name in self.compiler.mainClassImpl.members):
-			#print(name + " exists")
+		if self.variableExists(name):
 			return 1
-		#print(name + " doesn't exist")
-		return 0
+		elif name in self.currentClassImpl.members:
+			return 2
+		elif name in self.compiler.mainClassImpl.members:
+			return 3
+		else:
+			#print(name + " doesn't exist")
+			return 0
 	
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
@@ -982,7 +1012,7 @@ class CPPOutputFile(ScopeController):
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	
 	def registerVariable(self, var):
-		#debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
+		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
 		#self.currentClassImpl.addMember(var)
 	
@@ -1050,10 +1080,15 @@ class CPPOutputFile(ScopeController):
 			self.currentClassImpl.addMember(CPPVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
 			return varName # ""
 		
-		if self.variableExistsAnywhere(varName):
-			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]) + self.getVariableTypeAnywhere(varName) + "'")
+		variableExists = self.variableExistsAnywhere(varName)
+		if variableExists:
+			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
+			for item in self.scopes:
+				print(item.variables)
+				print("===")
+			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
 		else:
-			#print("Declaring '%s' as '%s'" % (varName, typeName))
+			#debug("Declaring '%s' as '%s'" % (varName, typeName))
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
 			#return varName
@@ -1318,7 +1353,8 @@ class CPPOutputFile(ScopeController):
 					self.classesHeader += templatePrefix
 					
 					# Add code to classes header
-					self.classesHeader += "class %s" % (prefix + classObj.name + templatePostfix) + " {\npublic:\n" + code + "};\n\n"
+					finalClassName = prefix + classObj.name + templatePostfix
+					self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName) + " {\npublic:\n" + code + "};\n\n"
 	
 	def getCode(self):
 		self.writeFunctions()

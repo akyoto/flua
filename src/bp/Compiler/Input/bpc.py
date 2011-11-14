@@ -230,7 +230,7 @@ class BPCCompiler:
 			if not os.path.isdir(concreteDirOut):
 				os.makedirs(concreteDirOut)
 			
-			with open(fileOut, "w") as outStream:
+			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
 				outStream.write(bpcFile.root.toprettyxml())
 		
 class BPCFile(ScopeController):
@@ -257,7 +257,7 @@ class BPCFile(ScopeController):
 		self.inCompilerFlags = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
-		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>")
+		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>".encode( "utf-8" ))
 		self.root = self.doc.documentElement
 		self.header = getElementByTagName(self.root, "header")
 		self.dependencies = getElementByTagName(self.header, "dependencies")
@@ -282,7 +282,13 @@ class BPCFile(ScopeController):
 		with codecs.open(self.file, "r", "utf-8") as inStream:
 			codeText = inStream.read()
 		
+		# TODO: Remove all BOMs
+		if codeText[0] == '\ufeff': #codecs.BOM_UTF8:
+			codeText = codeText[1:]
+		
 		lines = ["import bp.Core"] + codeText.split('\n') + [""]
+		if "unicode" in self.file:
+			print(lines)
 		tabCount = 0
 		prevTabCount = 0
 		
@@ -303,7 +309,7 @@ class BPCFile(ScopeController):
 			self.nextLineIndented = False
 			if lineIndex < len(lines) - 1:
 				tabCountNextLine = self.countTabs(lines[lineIndex + 1])
-				if tabCountNextLine == tabCount + 1:
+				if tabCountNextLine == tabCount + 1 and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
 			
 			# Remove whitespaces
@@ -838,7 +844,8 @@ class BPCFile(ScopeController):
 		if not self.inCasts:
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
-		params = self.parseExpr(line[len(funcName)+1:])
+		expr = self.addGenerics(line[len(funcName)+1:])
+		params = self.parseExpr(expr)
 		
 		paramsNode = self.parser.getParametersNode(params)
 		codeNode = self.doc.createElement("code")

@@ -1,4 +1,4 @@
-sample = ElementHolder<Int>()
+﻿sample = ElementHolder<Int>()
 sample.value = 5				# Int
 
 wrapper = ElementHolder<ElementHolder<Int>>()

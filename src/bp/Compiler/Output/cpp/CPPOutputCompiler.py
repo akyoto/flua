@@ -100,7 +100,7 @@ class CPPOutputCompiler:
 			if not os.path.isdir(concreteDirOut):
 				os.makedirs(concreteDirOut)
 			
-			with open(fileOut, "w") as outStream:
+			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
 				outStream.write(cppFile.getCode())
 			
 			# Write CPP main file (main-out.cpp)
