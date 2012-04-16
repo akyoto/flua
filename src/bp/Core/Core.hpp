@@ -18,6 +18,14 @@ inline void bp_println(T var) {
 	std::cout << var << std::endl;
 }
 
+// Standard functions
+template <typename T1, typename T2>
+inline void bp_swap(T1 &x, T2 &y) {
+	T1 tmp(x);
+	x = y;
+	y = tmp;
+}
+
 template <typename T>
 inline Int bp_usleep(T ms) {
 	return usleep(ms);

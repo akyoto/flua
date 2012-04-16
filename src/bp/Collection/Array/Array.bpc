@@ -35,6 +35,14 @@ Array
 		if self.end != self.start
 			self.end -= 1
 		
+	reverse
+		startRev = self.start
+		endRev = self.end - 1
+		while endRev - startRev > 0
+			bp_swap(startRev.data, endRev.data)
+			startRev += 1
+			endRev -= 1
+		
 	operator
 		[] index
 			return self.start[index]

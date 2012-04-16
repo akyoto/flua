@@ -12,12 +12,6 @@ UTF8String
 	init bytes : Array<Byte>
 		self.data = Array<Byte>()
 		self.append(bytes)
-		
-	#append stri
-	#	return
-	
-	#mySelf
-	#	return self
 	
 	print
 		for i = 0 until self.data.length
@@ -36,6 +30,9 @@ UTF8String
 		len = bp_strlen(stri)
 		for i = 0 until len
 			self.data.add(stri[i])
+		
+	reverse
+		self.data.reverse()
 		
 #	operator
 #		[] index

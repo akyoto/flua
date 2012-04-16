@@ -789,7 +789,7 @@ class CPPOutputFile(ScopeController):
 				if operatorType2.startswith("~MemPointer"):
 					if operation == "subtract":
 						return "Size"
-				if operation == "add":
+				if operation == "add" or operation == "subtract":
 					return operatorType1
 				return self.getCombinationResult(operation, "Size", operatorType2)
 			if operatorType2.startswith("~MemPointer"):

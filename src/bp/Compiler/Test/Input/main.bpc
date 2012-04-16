@@ -1,9 +1,6 @@
 import tests.all
 #import tests.actor
 
-print "A"
-print "B"
-print "C".length
-print "D".length
-print "E"
-print "End of tests."
+hello = "Hello"
+hello.reverse()
+print hello

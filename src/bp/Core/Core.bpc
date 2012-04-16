@@ -8,12 +8,14 @@ extern
 	bp_print
 	bp_println
 	bp_usleep : Int
-	bp_systemTime : Int64
 	bp_sizeOf : Size
+	bp_systemTime : Int64
+	bp_swap
 
 print stri
 	bp_println stri
 
+# TODO: Not working on Windows
 sleep ms
 	bp_usleep ms * 1000
 	
