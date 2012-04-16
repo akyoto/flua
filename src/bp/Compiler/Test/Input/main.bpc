@@ -1,11 +1,9 @@
 import tests.all
 #import tests.actor
 
-# TODO: print "A".length leaves strange characters
-
 print "A"
 print "B"
-print "C"
-print "D"
+print "C".length
+print "D".length
 print "E"
 print "End of tests."

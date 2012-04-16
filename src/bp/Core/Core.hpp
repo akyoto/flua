@@ -14,6 +14,11 @@ inline void bp_print(T var) {
 }
 
 template <typename T>
+inline void bp_println(T var) {
+	std::cout << var << std::endl;
+}
+
+template <typename T>
 inline Int bp_usleep(T ms) {
 	return usleep(ms);
 }
