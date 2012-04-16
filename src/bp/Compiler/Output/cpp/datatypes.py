@@ -129,6 +129,8 @@ def correctOperators(sign):
 		return "operatorAdd"
 	elif sign == "-" or sign == "subtract":
 		return "operatorSubtract"
+	elif sign == "=" or sign == "assign":
+		return "operatorAssign"
 	
 	return sign
 

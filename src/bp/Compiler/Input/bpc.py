@@ -283,12 +283,12 @@ class BPCFile(ScopeController):
 			codeText = inStream.read()
 		
 		# TODO: Remove all BOMs
-		if codeText[0] == '\ufeff': #codecs.BOM_UTF8:
+		if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
 			codeText = codeText[1:]
 		
 		lines = ["import bp.Core"] + codeText.split('\n') + [""]
-		if "unicode" in self.file:
-			print(lines)
+		#if "unicode" in self.file:
+		#	print(lines)
 		tabCount = 0
 		prevTabCount = 0
 		

@@ -2,6 +2,9 @@ import bp.Core.String
 import bp.Collection.Array
 
 UTF8String
+	init
+		self.data = Array<Byte>()
+	
 	init stri
 		self.data = Array<Byte>()
 		self.append(stri)
@@ -53,21 +56,28 @@ UTF8String
 	
 	operator
 		+ stri : ~UTF8String
-			cpy = ~UTF8String("")
+			cpy = ~UTF8String()
 			cpy.append(self.data)
 			cpy.append(stri)
 			return cpy
+			
+		= stri : ~MemPointer<ConstChar>
+			self.data = Array<Byte>()
+			self.append(stri)
 			
 		#+= stri : ~UTF8String
 			#len = stri.data.length
 			#for i = 0 until len
 			#	self.data.add(stri.data[i])
-		#	return "+= not defined yet"
+		
 	get
 		data
 			return self.data
 		
 		length
+			ensure
+				result >= 0
+			
 			count : Size = 0
 			len = self.data.length
 			
@@ -86,6 +96,9 @@ UTF8String
 			return count
 			
 		lengthInBytes
+			ensure
+				result >= 0
+			
 			return self.data.length
 	
 	to
@@ -104,7 +117,7 @@ isUTF8Lead3 lead
 isUTF8Lead4 lead
 	return (lead >> 3) == 0x1E
 
-print stri : ~UTF8String	
+print stri : ~UTF8String
 	stri.print()
 
-#define U8_IS_TRAIL(c) (((c)&0xc0)==0x80)
+# TODO: define U8_IS_TRAIL(c) (((c)&0xc0)==0x80)

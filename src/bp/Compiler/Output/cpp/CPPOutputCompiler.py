@@ -55,6 +55,8 @@ class CPPOutputCompiler:
 		self.customCompilerFlags = []
 		self.funcImplCache = {}
 		self.includes = []
+		self.stringDataType = "~UTF8String"
+		self.needToInitStringClass = False
 		
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
@@ -81,6 +83,10 @@ class CPPOutputCompiler:
 		
 		# After the dependencies have been compiled, compile itself
 		cppOut.compile()
+		
+		# Change string class
+		#if self.mainClass.hasClassByName("UTF8String"):
+		#	self.stringDataType = "~UTF8String"
 	
 	def writeToFS(self, dirOut):
 		dirOut = fixPath(os.path.abspath(dirOut)) + "/"
@@ -197,7 +203,7 @@ class CPPOutputCompiler:
 			procLink = subprocess.Popen(linkCmd)
 			procLink.wait()
 		except OSError:
-			print("Couldn't start g++")
+			print("Couldn't start " + compilerName)
 		
 		return exe
 	

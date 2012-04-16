@@ -1,5 +1,9 @@
-﻿utf1 = ~UTF8String("κόσμε")
-utf2 = ~UTF8String("εμσόκ")
+﻿# Current problem: ~UTF8String("a") <- "a"
+
+# NOTE: ~UTF8String() needs to be initialized one line before the actual string is used
+
+utf1 = "κόσμε"
+utf2 = "εμσόκ"
 
 errors = 0
 if utf1.length != 5
@@ -16,10 +20,11 @@ if utf2.lengthInBytes != 11
 
 #if utf1 + utf2 != "κόσμεεμσόκ"
 #	errors += 1
-	
+
 print "UTF-8 output: "
 print utf1
-	
+print utf2
+
 if errors > 0
 	print "Unicode (UTF-8) NOT working!"
 else

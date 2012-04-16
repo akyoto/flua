@@ -78,7 +78,14 @@ class CPPFunctionImplementation:
 			else:
 				castType = adjustDataType(self.name)
 			return "// Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
-		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()) + self.getReferenceString(), self.name, self.getParamString(), self.code)
+		
+		# TODO: Remove hardcoded stuff (here: Operator = for ~MemPointer<ConstChar> is directly used by C++ and therefore needs no name change)
+		if self.getFuncName() == "operatorAssign" and self.classImpl.getName() == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":
+			funcName = "operator="
+		else:
+			funcName = self.name
+		
+		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code)
 	
 	def getConstructorCode(self):
 		# TODO: Add parameters

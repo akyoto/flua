@@ -42,6 +42,9 @@ class CPPClass:
 		debug("'%s' added extern function '%s'" % (self.name, name))
 		self.externFunctions[name] = type
 	
+	def hasClassByName(self, name):
+		return name in self.classes
+	
 	def setTemplateNames(self, names, defaultValues):
 		debug("'%s' set the template names %s" % (self.name, names))
 		self.templateNames = names

@@ -1,4 +1,11 @@
 import tests.all
 #import tests.actor
 
-print("End of tests.")
+# TODO: print "A".length leaves strange characters
+
+print "A"
+print "B"
+print "C"
+print "D"
+print "E"
+print "End of tests."

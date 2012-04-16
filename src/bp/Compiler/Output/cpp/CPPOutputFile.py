@@ -65,6 +65,9 @@ class CPPOutputFile(ScopeController):
 		self.exprPrefix = ""
 		self.exprPostfix = ""
 		
+		# String class
+		self.stringClassDefined = False
+		
 		# Increment id
 		self.compiler.fileCounter += 1
 		self.id = "file_" + str(self.compiler.fileCounter)
@@ -106,11 +109,25 @@ class CPPOutputFile(ScopeController):
 	def compile(self):
 		print("Output: " + self.file)
 		
+		# Check whether string class has been defined or not
+		# NOTE: This has to be called before self.scanAhead is executed.
+		self.stringClassDefined = self.classExists("UTF8String")
+		
 		# Find classes, functions, operators and external stuff
 		self.scanAhead(self.codeNode)
 		
+		# Implement operator = of the string class manually to enable assignments
+		if self.compiler.needToInitStringClass:
+			self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
+			self.implementFunction("UTF8String", "init", [])
+			self.compiler.needToInitStringClass = False
+		
+		if self.classExists("UTF8String") and self.stringClassDefined == False:
+			self.compiler.needToInitStringClass = True
+			
+		
 		# Header
-		self.header += "// Includes\n";
+		self.header += "// Includes\n"
 		self.header += "#include <bp_decls.hpp>\n"
 		for node in self.dependencies.childNodes:
 			self.header += self.handleImport(node)
@@ -132,10 +149,11 @@ class CPPOutputFile(ScopeController):
 		for var in self.getTopLevelScope().variables.values():
 			if var.isConst:
 				self.varsHeader += "const " + var.getPrototype() + " = " + var.value + ";\n";
-			elif not isUnmanaged(var.type):
+			elif not isUnmanaged(var.type) or var.type == self.compiler.stringDataType:
 				self.varsHeader += var.getPrototype() + ";\n";
+				
 		self.varsHeader += "\n"
-	
+		
 	def parseChilds(self, parent, prefix = "", postfix = ""):
 		lines = ""
 		for node in parent.childNodes:
@@ -380,6 +398,7 @@ class CPPOutputFile(ScopeController):
 			self.pushScope()
 			
 			if typeName: #and not self.variableExistsAnywhere("self"):
+				# TODO: removeUnmanaged(typeName) ? yes/no?
 				self.registerVariable(CPPVariable("self", typeName, "", False, True, False))
 			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
 			
@@ -452,7 +471,7 @@ class CPPOutputFile(ScopeController):
 				#	ptrType = self.currentTemplateParams[ptrType]
 				
 				ptrType = self.currentClassImpl.translateTemplateName(ptrType)
-				ptrType = adjustDataType(ptrType, True);
+				ptrType = adjustDataType(ptrType, True)
 				return "new %s[%s]" % (ptrType, paramsString)
 		else:
 			typeName = self.addMissingTemplateValues(typeName)
@@ -519,7 +538,7 @@ class CPPOutputFile(ScopeController):
 		if not variableExisted:
 			var = CPPVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			self.registerVariable(var)
-				
+			
 			if self.inConst:
 				if self.getCurrentScope() == self.getTopLevelScope():
 					return ""
@@ -826,6 +845,14 @@ class CPPOutputFile(ScopeController):
 			#print(name + " doesn't exist")
 			return 0
 	
+	def classExists(self, className):
+		if className == "":
+			return True
+		elif className in self.compiler.mainClass.classes:
+			return True
+		else:
+			return False
+	
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
 		op1ClassName = extractClassName(op1Type)
@@ -902,7 +929,8 @@ class CPPOutputFile(ScopeController):
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
-				return "~MemPointer<ConstChar>"
+				#return "~MemPointer<ConstChar>"
+				return "~UTF8String"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
 			elif node.nodeValue == "self":
@@ -934,8 +962,9 @@ class CPPOutputFile(ScopeController):
 			elif node.tagName == "access":
 				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 				callerClassName = extractClassName(callerType)
-				callerClass = self.getClass(callerClassName)
 				memberName = node.childNodes[1].childNodes[0].nodeValue
+				
+				callerClass = self.getClass(callerClassName)
 				
 #				templateParams = self.getTemplateParams(removeUnmanaged(callerType), callerClassName, callerClass)
 #				print("getExprDataTypeClean:")
@@ -969,6 +998,7 @@ class CPPOutputFile(ScopeController):
 					
 					memberFunc = "get" + capitalize(memberName)
 					virtualGetCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)).documentElement
+					
 					return self.getCallDataType(virtualGetCall)
 				
 #				templatesUsed = (callerClassName != callerType)
@@ -1117,7 +1147,14 @@ class CPPOutputFile(ScopeController):
 		id = self.id + "_" + node.getAttribute("id")
 		value = node.childNodes[0].nodeValue
 		line = id + " = \"" + value + "\";\n"
-		var = CPPVariable(id, "CString", value, False, False, True)
+		
+		# TODO: classExists(self.compiler.stringDataType)
+		if self.stringClassDefined:
+			dataType = self.compiler.stringDataType
+		else:
+			dataType = "CString"
+		
+		var = CPPVariable(id, dataType, value, False, False, True)
 		#self.currentClassImpl.addMember(var)
 		self.getTopLevelScope().variables[id] = var
 		self.compiler.stringCounter += 1
