@@ -75,7 +75,7 @@ if __name__ == '__main__':
 		# Build
 		start = time.time()
 		
-		exe = cpp.build()
+		#exe = cpp.build()
 		
 		buildTime = time.time() - start
 		totalTime = time.time() - totalStart
@@ -88,8 +88,18 @@ if __name__ == '__main__':
 		print("-----------------------------")
 		print("TotalTime:        " + str(int(totalTime * 1000)).rjust(8) + " ms")
 		
+		# Debug data dependencies
+		debugPP("")
+		for bpPostFile in bp.compiledFiles.values():
+			if bpPostFile.inpFile.file.endswith("/main.bpc"):
+				debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
+				debugPush()
+				for key, value in bpPostFile.dataDeps.items():
+					debugPP(tagName(key.childNodes[0].childNodes[0]) + " -> " + str(value))
+				debugPop()
+		
 		# Exec
 		print("\nOutput:")
-		cpp.execute(exe)
+		#cpp.execute(exe)
 	except:
 		printTraceback()

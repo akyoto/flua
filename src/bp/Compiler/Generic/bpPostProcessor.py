@@ -58,6 +58,7 @@ class BPPostProcessorFile:
 	def __init__(self, processor, inpFile):
 		self.processor = processor
 		self.inpFile = inpFile
+		self.dataDeps = dict()
 		
 	def process(self):
 		print("Processing: " + self.inpFile.file)
@@ -80,18 +81,54 @@ class BPPostProcessorFile:
 			# TODO: Class extending
 			self.processor.classes[className] = BPClass(className)
 		
+	def getInstructionDependencies(self, node):
+		if isTextNode(node):
+			name = node.nodeValue
+			if isBPStringIdentifier(name):
+				return []
+			if isNumeric(name):
+				return []
+			if name[0].isupper():
+				return []
+			return [name]
+		elif node.tagName == "call": # Ignore function name, only parse parameters
+			return self.getInstructionDependencies(getElementByTagName(node, "parameters"))
+		elif node.tagName == "return":
+			return self.getInstructionDependencies(node.childNodes[0])
+		
+		deps = list()
+		for child in node.childNodes:
+			deps = deps + self.getInstructionDependencies(child)
+		return deps
+		
 	def processNode(self, node):
 		for child in node.childNodes:
 			self.processNode(child)
 		
 		if isTextNode(node):
 			return
-		elif node.tagName == "assign":
+		elif node.tagName.startswith("assign"):
+			# DTree
+			op1 = node.childNodes[0].childNodes[0]
 			op2 = node.childNodes[1].childNodes[0]
-			if isElemNode(op2) and op2.tagName == "template-call":
+			
+			deps = self.getInstructionDependencies(op2)
+			if node.tagName.startswith("assign-"):
+				deps = deps + self.getInstructionDependencies(op1)
+			if deps:
+				self.dataDeps[node] = deps
+			
+			debugPP(tagName(op1) + " |--[" + node.tagName + "]--> " + tagName(op2))
+			
+			# Check
+			if node.tagName == "assign" and isElemNode(op2) and op2.tagName == "template-call":
 				raise CompilerException("You forgot the brackets to initialize the object")
 		elif node.tagName == "call":
 			funcNameNode = getElementByTagName(node, "function").childNodes[0]
+			
+			deps = self.getInstructionDependencies(node)
+			if deps:
+				self.dataDeps[node] = deps
 			
 			funcName = ""
 			if isTextNode(funcNameNode):
@@ -99,6 +136,11 @@ class BPPostProcessorFile:
 			elif funcNameNode.tagName == "template-call":
 				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
 			
-			if funcName in self.processor.classes or funcName == "Actor":
+			if funcName in self.processor.classes: #or funcName == "Actor":
 				node.tagName = "new"
 				getElementByTagName(node, "function").tagName = "type"
+		elif node.tagName == "return":
+			# Data dependency
+			deps = self.getInstructionDependencies(node)
+			if deps:
+				self.dataDeps[node] = deps

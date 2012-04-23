@@ -36,6 +36,19 @@ def fixPath(stri):
 def isVarChar(char):
 	return char.isalnum() or char == '_'
 
+def isBPStringIdentifier(stri):
+	return stri.startswith("bp_string_")
+
+def isNumeric(stri):
+	parts = stri.split(".")
+	numParts = len(parts)
+	if numParts == 2:
+		return parts[0].isdigit() and parts[1].isdigit()
+	elif numParts == 1:
+		return stri.isdigit()
+	else:
+		return False
+
 def startsWith(stri = str, prefix = str):
 	stri = stri.lower()
 	prefix = prefix.lower()

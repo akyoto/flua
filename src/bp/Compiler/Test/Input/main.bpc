@@ -1,6 +1,17 @@
 import tests.all
-#import tests.actor
+
+paraFunc x, y
+	x += 5
+	y += 3
+	x += 7
+	y += 8
+	return x + y
 
 hello = "Hello"
 hello.reverse()
 print hello
+
+a = paraFunc(13, 10)
+b = paraFunc(19, 91)
+c = paraFunc(42, 42)
+print a
