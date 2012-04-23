@@ -93,10 +93,10 @@ if __name__ == '__main__':
 		for bpPostFile in bp.compiledFiles.values():
 			if bpPostFile.inpFile.file.endswith("/main.bpc"):
 				debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
-				debugPush()
-				for key, value in bpPostFile.dataDeps.items():
-					debugPP(tagName(key.childNodes[0].childNodes[0]) + " -> " + str(value))
-				debugPop()
+				for tree in bpPostFile.dTrees.values():
+					if len(tree.parents) == 0:
+						tree.printNodes()
+						print("")
 		
 		# Exec
 		print("\nOutput:")

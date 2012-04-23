@@ -34,6 +34,43 @@ class BPClass:
 	def __init__(self, name):
 		self.name = name
 
+class DTree:
+	
+	def __init__(self, name, instruction):
+		self.name = name
+		self.instruction = instruction
+		self.dependencies = list()
+		self.strength = 1
+		self.parents = list()
+		self.vars = set()
+		self.functions = set()
+		
+	def addVar(self, name):
+		self.vars.add(name)
+		
+	def addFunction(self, name):
+		self.functions.add(name)
+		
+	def addTree(self, dTreeObj):
+		self.dependencies.append(dTreeObj)
+		dTreeObj.parents.append(self)
+		
+	def removeTree(self, dTreeObj):
+		self.dependencies.remove(dTreeObj)
+		dTreeObj.parents.remove(self)
+		
+	def setInstruction(self, inst):
+		self.instruction = inst
+		
+	def printNodes(self, tabLevel = 0):
+		if tabLevel > 0:
+			sep = "|_"
+		else:
+			sep = ""
+		print("  " * tabLevel + sep + "[" + self.name + "]")
+		for node in self.dependencies:
+			node.printNodes(tabLevel + 1)
+
 class BPPostProcessor:
 	
 	def __init__(self, compiler):
@@ -58,7 +95,10 @@ class BPPostProcessorFile:
 	def __init__(self, processor, inpFile):
 		self.processor = processor
 		self.inpFile = inpFile
-		self.dataDeps = dict()
+		self.dTrees = dict() # Node -> DTree
+		self.dTreeByFunctionName = dict() # String -> DTree
+		self.lastOccurence = dict() # String -> DTree
+		self.currentDTree = None
 		
 	def process(self):
 		print("Processing: " + self.inpFile.file)
@@ -81,30 +121,65 @@ class BPPostProcessorFile:
 			# TODO: Class extending
 			self.processor.classes[className] = BPClass(className)
 		
-	def getInstructionDependencies(self, node):
-		if isTextNode(node):
-			name = node.nodeValue
+	def getInstructionDependencies(self, tree, xmlNode):
+		if isTextNode(xmlNode):
+			name = xmlNode.nodeValue
 			if isBPStringIdentifier(name):
-				return []
+				return
 			if isNumeric(name):
-				return []
+				return
 			if name[0].isupper():
-				return []
-			return [name]
-		elif node.tagName == "call": # Ignore function name, only parse parameters
-			return self.getInstructionDependencies(getElementByTagName(node, "parameters"))
-		elif node.tagName == "return":
-			return self.getInstructionDependencies(node.childNodes[0])
+				return
+			
+			if name in self.lastOccurence:
+				varTree = self.lastOccurence[name]
+				tree.addVar(name)
+				if len(varTree.parents) == 1 and varTree.parents[0] == self.currentDTree:
+					self.currentDTree.removeTree(varTree)
+				tree.addTree(varTree)
+			elif name in self.dTreeByFunctionName:
+				tree.addFunction(name)
+				tree.addTree(self.dTreeByFunctionName[name])
+		elif xmlNode.tagName == "access":
+			# TODO: Parse it
+			return
+		elif xmlNode.tagName == "call": # Ignore function name, only parse parameters
+			self.getInstructionDependencies(tree, getElementByTagName(xmlNode, "parameters"))
+		elif xmlNode.tagName == "return":
+			self.getInstructionDependencies(tree, xmlNode.childNodes[0])
 		
-		deps = list()
+		for child in xmlNode.childNodes:
+			self.getInstructionDependencies(tree, child)
+		
+	def getVarName(self, node):
+		if isTextNode(node):
+			return node.nodeValue
+		else:
+			# TODO: Access
+			return "UNKNOWN_VAR_NAME"
+		
+	def processNode(self, node, depth = 0):
+		hasSetCurrentTree = False
+		if isElemNode(node) and node.tagName == "function":
+			nameNode = getElementByTagName(node, "name")
+			if nameNode:
+				funcName = nameNode.childNodes[0].nodeValue
+				self.currentDTree = DTree(funcName, node)
+				self.dTreeByFunctionName[funcName] = self.currentDTree
+				hasSetCurrentTree = True
+			else:
+				# Probably a call
+				pass
+		
+		# Process child nodes
 		for child in node.childNodes:
-			deps = deps + self.getInstructionDependencies(child)
-		return deps
+			self.processNode(child, depth + 1)
 		
-	def processNode(self, node):
-		for child in node.childNodes:
-			self.processNode(child)
+		# Reset
+		if hasSetCurrentTree:
+			self.currentDTree = None
 		
+		# Process
 		if isTextNode(node):
 			return
 		elif node.tagName.startswith("assign"):
@@ -112,11 +187,19 @@ class BPPostProcessorFile:
 			op1 = node.childNodes[0].childNodes[0]
 			op2 = node.childNodes[1].childNodes[0]
 			
-			deps = self.getInstructionDependencies(op2)
+			thisOperation = DTree(self.getVarName(op1), node)
+			self.getInstructionDependencies(thisOperation, op2)
 			if node.tagName.startswith("assign-"):
-				deps = deps + self.getInstructionDependencies(op1)
-			if deps:
-				self.dataDeps[node] = deps
+				self.getInstructionDependencies(thisOperation, op1)
+			
+			self.dTrees[node] = thisOperation
+			self.lastOccurence[thisOperation.name] = thisOperation
+			
+			if self.currentDTree:
+				self.currentDTree.addTree(thisOperation)
+			
+			#if depth == 1:
+			#	self.dTree.addTree(thisOperation)
 			
 			debugPP(tagName(op1) + " |--[" + node.tagName + "]--> " + tagName(op2))
 			
@@ -125,10 +208,6 @@ class BPPostProcessorFile:
 				raise CompilerException("You forgot the brackets to initialize the object")
 		elif node.tagName == "call":
 			funcNameNode = getElementByTagName(node, "function").childNodes[0]
-			
-			deps = self.getInstructionDependencies(node)
-			if deps:
-				self.dataDeps[node] = deps
 			
 			funcName = ""
 			if isTextNode(funcNameNode):
@@ -139,8 +218,14 @@ class BPPostProcessorFile:
 			if funcName in self.processor.classes: #or funcName == "Actor":
 				node.tagName = "new"
 				getElementByTagName(node, "function").tagName = "type"
+			
+			# TODO: Is funcName appropriate?
+			#funcTree = self.dTree #DTree(funcName, node)
+			#self.getInstructionDependencies(funcTree, node)
+			
+			#if depth == 1:
+			#	self.dTree.addTree(funcTree)
 		elif node.tagName == "return":
 			# Data dependency
-			deps = self.getInstructionDependencies(node)
-			if deps:
-				self.dataDeps[node] = deps
+			#self.getInstructionDependencies(DTree("return", node), node)
+			pass
