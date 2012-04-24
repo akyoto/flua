@@ -39,6 +39,9 @@ class CPPFunctionImplementation:
 		self.code = newCode
 		
 	def getName(self):
+		# main -> _bp_custom_main
+		if self.name == "main":
+			return "_bp_custom_main"
 		return self.name
 	
 	def getFuncName(self):
@@ -67,7 +70,7 @@ class CPPFunctionImplementation:
 		return ""
 		
 	def getPrototype(self):
-		return "inline %s %s(%s);\n" % (adjustDataType(self.getReturnType()) + self.getReferenceString(), self.name, self.getParamTypeString())
+		return "inline %s %s(%s);\n" % (adjustDataType(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
 		
 	def getFullCode(self):
 		# TODO: Add parameters
@@ -83,10 +86,10 @@ class CPPFunctionImplementation:
 		if self.getFuncName() == "operatorAssign" and self.classImpl.getName() == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":
 			funcName = "operator="
 		else:
-			funcName = self.name
+			funcName = self.getName()
 		
-		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (self.func.name, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code)
+		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (funcName, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code)
 	
 	def getConstructorCode(self):
 		# TODO: Add parameters
-		return "// %s\n\tinline %s(%s) {\n%s\t}\n" % (self.func.name, "BP" + self.func.classObj.name, self.getParamString(), self.code)
+		return "// %s\n\tinline %s(%s) {\n%s\t}\n" % (self.getFuncName(), "BP" + self.func.classObj.name, self.getParamString(), self.code)

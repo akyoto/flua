@@ -10,6 +10,7 @@ extern
 	bp_usleep : Int
 	bp_sizeOf : Size
 	bp_systemTime : Int64
+	bp_systemCPUClock : Int64
 	bp_swap
 
 print stri
@@ -21,6 +22,9 @@ sleep ms
 	
 systemTime
 	return bp_systemTime()
+	
+systemCPUClock
+	return bp_systemCPUClock()
 	
 sizeOf a
 	return bp_sizeOf(a)

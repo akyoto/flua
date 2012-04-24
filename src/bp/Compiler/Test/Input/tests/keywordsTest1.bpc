@@ -30,21 +30,21 @@ switch 21 + 21
 		print "#switch NOT working"
 
 # for
-x = 0
-for x = 1 to 10
-	x = x * 2 / 2
+xTest = 0
+for xTest = 1 to 10
+	xTest = xTest * 2 / 2
 
-if x == 11
+if xTest == 11
 	print "#for working"
 else
 	print "#for NOT working"
 
 # while
-c = 0
-while c < 10
-	c += 2
+cTest = 0
+while cTest < 10
+	cTest += 2
 
-if c >= 10
+if cTest >= 10
 	print "#while working"
 else
 	print "#while NOT working"

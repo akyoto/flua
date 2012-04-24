@@ -75,7 +75,7 @@ if __name__ == '__main__':
 		# Build
 		start = time.time()
 		
-		#exe = cpp.build()
+		exe = cpp.build()
 		
 		buildTime = time.time() - start
 		totalTime = time.time() - totalStart
@@ -88,18 +88,24 @@ if __name__ == '__main__':
 		print("-----------------------------")
 		print("TotalTime:        " + str(int(totalTime * 1000)).rjust(8) + " ms")
 		
+		# OPs
+		#for opLevel in bpc.parser.operatorLevels:
+		#	for op in opLevel.operators:
+		#		print(op.name)
+		
 		# Debug data dependencies
 		debugPP("")
 		for bpPostFile in bp.compiledFiles.values():
 			if bpPostFile.inpFile.file.endswith("/main.bpc"):
 				debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
-				for tree in bpPostFile.dTrees.values():
-					if len(tree.parents) == 0:
+				filter = "main"
+				for tree in dTreeByFunctionName.values():
+					if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
 						tree.printNodes()
 						print("")
 		
 		# Exec
 		print("\nOutput:")
-		#cpp.execute(exe)
+		cpp.execute(exe)
 	except:
 		printTraceback()

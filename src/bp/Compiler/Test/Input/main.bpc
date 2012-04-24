@@ -1,17 +1,71 @@
 import tests.all
 
+md5 i, h
+	a = i
+	x = a
+	return x
+
 paraFunc x, y
-	x += 5
-	y += 3
-	x += 7
-	y += 8
+	x -= 5
+	y -= 3
+	x -= 7
+	y -= 8
 	return x + y
 
-hello = "Hello"
-hello.reverse()
-print hello
+a = 0
+b = 0
+c = 0
+d = 0
+e = 0
+f = 0
 
-a = paraFunc(13, 10)
-b = paraFunc(19, 91)
-c = paraFunc(42, 42)
-print a
+main
+	for counter = 0 to 10000000
+		a = distance(counter, counter, counter, counter)
+		b = a + 3
+		c = b + 7
+		d = c + 1
+		e = d + 4
+		f = e + 2
+		
+		a = paraFunc(13, 10)
+		b = paraFunc(12, 91)
+		c = paraFunc(43, 42)
+		d = paraFunc(14, 13)
+		e = paraFunc(15, 94)
+		f = paraFunc(46, 45)
+		g = paraFunc(17, 16)
+		h = paraFunc(18, 97)
+		i = paraFunc(49, 48)
+		j = paraFunc(10, 19)
+		k = paraFunc(11, 90)
+		l = paraFunc(42, 41)
+		
+		m = a + b + c + a
+		d = e + f + g + e
+		a = m + d
+		f = g + h
+		b = a + f
+		b = b + a
+		i = b + 5
+		b = b + c
+		b = b + e
+		j = i + 7
+		k = b + 2
+		l = b + 3
+
+print ""
+
+for i = 0 until 1
+	timeA = systemTime()
+	#clockA = systemCPUClock()
+	
+	#for counter = 0 to 10
+	#	main()
+	main()
+	
+	#clockB = systemCPUClock()
+	timeB = systemTime()
+	
+	print (timeB - timeA) - 30
+	#print (clockB - clockA) / 10000 - 30

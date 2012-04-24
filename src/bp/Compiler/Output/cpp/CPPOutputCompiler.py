@@ -176,7 +176,9 @@ class CPPOutputCompiler:
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
-			#"-O3"
+			#"-O3",
+			"-march=native",
+			"-mtune=native",
 		]
 		
 		# Linker

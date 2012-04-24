@@ -297,8 +297,7 @@ class BPCFile(ScopeController):
 			line = lines[lineIndex].rstrip()
 			tabCount = self.countTabs(line)
 			line = line.lstrip()
-			line = self.removeStrings(line)
-			line = self.removeComments(line)
+			line = self.removeStringsAndComments(line)
 			
 			if line == "":
 				continue
@@ -509,7 +508,7 @@ class BPCFile(ScopeController):
 		if i < len(line) - 1:
 			nextChar = line[i+1]
 			
-			if char.isspace() and (isVarChar(nextChar)):
+			if char.isspace() and (isVarChar(nextChar) or nextChar == '('):
 				line = "%s(%s)" % (line[:i], line[i+1:])
 		elif line[-1] != ')':
 			line += "()"
@@ -1029,9 +1028,12 @@ class BPCFile(ScopeController):
 		
 		return tabCount
 	
-	def removeStrings(self, line):
+	def removeStringsAndComments(self, line):
 		i = 0
 		while i < len(line):
+			if line[i] == '#':
+				return line[:i].rstrip()
+			
 			if line[i] == '"':
 				h = i + 1
 				while h < len(line) and line[h] != '"':
@@ -1050,13 +1052,6 @@ class BPCFile(ScopeController):
 				i += len(identifier)
 			i += 1
 		return line
-	
-	def removeComments(self, line):
-		pos = line.find('#')
-		if pos is not -1:
-			return line[:pos].rstrip()
-		else:
-			return line
 
 ####################################################################
 # Main

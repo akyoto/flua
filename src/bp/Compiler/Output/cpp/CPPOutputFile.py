@@ -216,6 +216,10 @@ class CPPOutputFile(ScopeController):
 			op2 = self.parseExpr(node.childNodes[1].childNodes[0])
 			callerClassName = extractClassName(callerType)
 			
+			if callerClassName == "void":
+				funcName = node.childNodes[0].childNodes[0].childNodes[0].childNodes[0].nodeValue
+				raise CompilerException("Function '%s' has no return value" % funcName)
+			
 			if callerClassName in nonPointerClasses:
 				return "(%s+%s)" % (caller, op2)
 			elif callerClassName == "MemPointer" and isUnmanaged(callerType):
@@ -332,6 +336,9 @@ class CPPOutputFile(ScopeController):
 			return self.compiler.funcImplCache[key]
 		
 		className = extractClassName(typeName)
+		if className in nonPointerClasses:
+			raise CompilerException("'%s' has not been defined (maybe another function returns the wrong value?)" % (key))
+			
 		if not funcName in self.getClass(className).functions:
 			print(className + " contains the following functions:")
 			print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
@@ -517,6 +524,9 @@ class CPPOutputFile(ScopeController):
 		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
 		
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
+		if valueType == "void":
+			raise CompilerException("'%s' which is assigned to '%s' does not return a value (void)" % (value, variableName))
+		
 		memberName = variableName
 		
 		if variableName.startswith("this->"):
@@ -578,6 +588,8 @@ class CPPOutputFile(ScopeController):
 		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [self : " + callerType + "]")
 		
 		callerClassName = extractClassName(callerType)
+		#if callerClassName == "void":
+		#	raise CompilerException("Function '%s' has no return value" % getElementByTagName(node, "function"))
 		callerClass = self.getClass(callerClassName)
 		
 		# MemPointer.free
