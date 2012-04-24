@@ -33,6 +33,9 @@ import os
 def fixPath(stri):
 	return stri.replace("\\", "/")
 
+def fixID(stri):
+	return stri.replace(".", "_").replace(" ", "__")
+
 def isVarChar(char):
 	return char.isalnum() or char == '_'
 

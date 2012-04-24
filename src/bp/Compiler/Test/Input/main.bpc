@@ -50,9 +50,10 @@ main
 		i = b + 5
 		b = b + c
 		b = b + e
-		j = i + 7
-		k = b + 2
-		l = b + 3
+		a = j + 7
+		b = i + 2
+		c = k + 3
+		d = l + 2
 
 print ""
 

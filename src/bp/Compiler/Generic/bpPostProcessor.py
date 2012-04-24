@@ -266,6 +266,27 @@ class DTree:
 	def getTimeMS(self):
 		return self.getTime() * 10000000
 		
+	def getGraphVizCode(self):
+		connections = ""
+		myLabel = self.name
+		myID = fixID(myLabel) + str(id(self.instruction))
+		depLabel = ""
+		depID = ""
+		
+		for dep in self.dependencies:
+			depLabel = dep.name
+			depID = fixID(depLabel) + str(id(dep.instruction))
+			connections += "%s -> %s;\n" % (depID, myID)
+			graph = dep.getGraphVizCode()
+			connections += graph
+		
+		connections += "%s [label=\"%s\", style=filled, fillcolor=\"#cccccc\"];\n" % (myID, myLabel)
+		return connections
+		
+	def getFullGraphVizCode(self):
+		connections, specialID = self.getGraphVizCode()
+		return "digraph %s {%s}" % (self.name, connections)
+		
 	def printNodes(self, tabLevel = 0):
 		if tabLevel > 0:
 			sep = "∟"
@@ -465,7 +486,7 @@ class BPPostProcessorFile:
 			#	self.dTree.addTree(funcTree)
 		elif node.tagName == "return":
 			# Data dependency
-			thisOperation = DTree("return", node)
+			thisOperation = DTree("return value", node)
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)

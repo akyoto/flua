@@ -45,6 +45,7 @@ if __name__ == '__main__':
 		modDir = "../../"
 		compileFile = "Test/Input/main.bpc"
 		outputDir = "Test/Output/"
+		buildAndExecute = 1
 		
 		# Compile
 		start = time.time()
@@ -75,7 +76,8 @@ if __name__ == '__main__':
 		# Build
 		start = time.time()
 		
-		exe = cpp.build()
+		if buildAndExecute:
+			exe = cpp.build()
 		
 		buildTime = time.time() - start
 		totalTime = time.time() - totalStart
@@ -94,18 +96,44 @@ if __name__ == '__main__':
 		#		print(op.name)
 		
 		# Debug data dependencies
-		debugPP("")
-		for bpPostFile in bp.compiledFiles.values():
-			if bpPostFile.inpFile.file.endswith("/main.bpc"):
-				debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
-				filter = "main"
-				for tree in dTreeByFunctionName.values():
-					if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
-						tree.printNodes()
-						print("")
+		#debugPP("")
+		#for bpPostFile in bp.compiledFiles.values():
+		#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
+		#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
+		filter = "main"
+		for tree in dTreeByFunctionName.values():
+			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
+				tree.printNodes()
+				print("")
+		
+		# GraphViz
+		#=======================================================================
+		# useRoot = True
+		# allGraphs = "digraph Dependencies {\n"
+		# for tree in dTreeByFunctionName.values():
+		#	if tree.name and tree.dependencies:
+		#		treeLabel = tree.name
+		#		treeID = fixID(treeLabel) + str(id(tree.instruction))
+		#		if useRoot:
+		#			allGraphs += "root -> " + treeID + ";\n"
+		#		#allGraphs += treeID + "[shape=box3d];\n"
+		#		
+		#		funcGraph = "subgraph %s {\n" % (treeID)
+		#		funcGraph += tree.getGraphVizCode()
+		#		funcGraph += "label = \"%s\";\n" % (treeLabel)
+		#		funcGraph += "}\n"
+		#		
+		#		allGraphs += funcGraph
+		# 
+		# if useRoot:
+		#	allGraphs += "root [shape=circle];\n"
+		# allGraphs += "}"
+		# print(allGraphs)
+		#=======================================================================
 		
 		# Exec
 		print("\nOutput:")
-		cpp.execute(exe)
+		if buildAndExecute:
+			cpp.execute(exe)
 	except:
 		printTraceback()
