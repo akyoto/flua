@@ -284,7 +284,7 @@ class DTree:
 		return connections
 		
 	def getFullGraphVizCode(self):
-		connections, specialID = self.getGraphVizCode()
+		connections = self.getGraphVizCode()
 		return "digraph %s {%s}" % (self.name, connections)
 		
 	def printNodes(self, tabLevel = 0):
