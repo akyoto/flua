@@ -783,10 +783,7 @@ class CPPOutputFile(ScopeController):
 			return self.exprPrefix + "float(" + op1 + ")" + connector + op2 + self.exprPostfix
 		
 	def getFunctionCallInfo(self, node):
-		if getElementByTagName(node, "function"):
-			funcNameNode = getElementByTagName(node, "function").childNodes[0]
-		else:
-			funcNameNode = getElementByTagName(node, "operator").childNodes[0]
+		funcNameNode = getFuncNameNode(node)
 		
 		caller = ""
 		callerType = ""

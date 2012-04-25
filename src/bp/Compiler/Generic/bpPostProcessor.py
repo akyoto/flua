@@ -101,6 +101,7 @@ floatAccessTime = 2	# Float
 intAccessTime = 0.5	# Int
 variableAccessTime = 2.4 # Variables
 dependencyDepthCost = 3
+minimumTimeForParallelization = 1
 
 ####################################################################
 # Functions
@@ -155,18 +156,69 @@ def getInstructionTime(xmlNode):
 	
 	return 0
 
-def getVarName(node):
+def nodeToPseudoCode(node):
 	if isTextNode(node):
 		return node.nodeValue
-	elif node.tagName == "access":
-		op1 = node.childNodes[0].childNodes[0]
-		op2 = node.childNodes[1].childNodes[0]
-		return getVarName(op1) + "." + getVarName(op2)
 	elif node.tagName == "declare-type":
 		op1 = node.childNodes[0].childNodes[0]
-		return getVarName(op1)
-	else:
-		raise CompilerException("Could not find out the variable name for node of type '%s'" % (node.tagName))
+		return nodeToPseudoCode(op1)
+	elif node.tagName == "call":
+		funcNameNode = getFuncNameNode(node)
+		
+		caller = ""
+		if isTextNode(funcNameNode):
+			funcName = funcNameNode.nodeValue
+		else:
+			caller = nodeToPseudoCode(funcNameNode.childNodes[0].childNodes[0])
+			funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+		
+		if caller:
+			funcName = caller + "." + funcName
+		parameters = nodeToPseudoCode(getElementByTagName(node, "parameters"))
+		return "%s(%s)" % (funcName, parameters)
+	elif node.tagName == "parameters":
+		params = []
+		for param in node.childNodes:
+			params.append(nodeToPseudoCode(param))
+		return ", ".join(params)
+	elif node.tagName == "parameter" or node.tagName == "value":
+		return nodeToPseudoCode(node.childNodes[0])
+	elif node.tagName == "return":
+		return "return " + nodeToPseudoCode(node.childNodes[0])
+	elif node.tagName == "unmanaged":
+		return "~" + nodeToPseudoCode(node.childNodes[0])
+	elif node.tagName == "new":
+		return "new #TODO()"
+	elif node.tagName in binaryOperatorTagToSymbol:
+		op1 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[1].childNodes[0]
+		space = " "
+		if node.tagName == "access":
+			space = ""
+		
+		return "(" + nodeToPseudoCode(op1) + space + binaryOperatorTagToSymbol[node.tagName] + space + nodeToPseudoCode(op2) + ")"
+	
+	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (node.tagName))
+	
+	#==========================================================================
+	 # # Let's do some cheating and use C++ syntax as pseudo code
+	 # inpFile = postProcFile.inpFile
+	 # proc = postProcFile.processor
+	 # inpCompiler = proc.inputCompiler
+	 # 
+	 # cpp = CPPOutputCompiler(inpCompiler)
+	 # cppFile = CPPOutputFile(cpp, inpFile)
+	 # 
+	 # return cppFile.parseExpr(node)
+	 #==========================================================================
+	
+def automaticallyParallelize():
+	for node, dTree in dTreeByNode.items():
+		if len(dTree.parents) == 0:
+			spawnPoint = dTree.getNextThreadSpawnPoint()
+			#if spawnPoint is None:
+			#	return False
+			print("PARALLEL: " + dTree.name)
 
 ####################################################################
 # Classes
@@ -187,6 +239,37 @@ class DTree:
 		self.functionCalls = list()
 		self.costCalculationRunning = False
 		self.timeNeeded = 0
+		
+	def hasSideEffects(self):
+		for dep in self.dependencies:
+			if dep.hasSideEffects():
+				return True
+		
+		return False
+		
+	def worthParallelizing(self):
+		return self.getTime() >= minimumTimeForParallelization
+		
+	def canParallelizeSubtrees(self):
+		if len(self.dependencies) < 2:
+			return False
+		
+		for dep in self.dependencies:
+			if dep.hasSideEffects():
+				return False
+		
+		return True
+		
+	def getNextThreadSpawnPoint(self):
+		if self.canParallelizeSubtrees():
+			return self
+		
+		for dep in self.dependencies:
+			dTree = dep.getNextThreadSpawnPoint()
+			if dTree is not None:
+				return dTree
+		
+		return None
 		
 	def getParentsDepth(self):
 		return max(self.getParentsDepthPriv() - 1, 0)
@@ -438,13 +521,13 @@ class BPPostProcessorFile:
 			op1 = node.childNodes[0].childNodes[0]
 			op2 = node.childNodes[1].childNodes[0]
 			
-			thisOperation = DTree(getVarName(op1), node)
+			thisOperation = DTree(nodeToPseudoCode(node), node)
 			self.getInstructionDependencies(thisOperation, op2)
 			if node.tagName.startswith("assign-"):
 				self.getInstructionDependencies(thisOperation, op1)
 			
 			dTreeByNode[node] = thisOperation
-			self.lastOccurence[thisOperation.name] = thisOperation
+			self.lastOccurence[nodeToPseudoCode(op1)] = thisOperation
 			
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)
@@ -471,12 +554,12 @@ class BPPostProcessorFile:
 			if funcName in self.processor.classes: #or funcName == "Actor":
 				node.tagName = "new"
 				getElementByTagName(node, "function").tagName = "type"
-			#elif funcName:
-			#	thisOperation = DTree("Call.Procedure: " + funcName, node)
-			#	self.getInstructionDependencies(thisOperation, node)
-			#	dTreeByNode[node] = thisOperation
-			#	if self.currentDTree:
-			#		self.currentDTree.addTree(thisOperation)
+			elif funcName and tagName(node.parentNode) == "code":
+				thisOperation = DTree("Procedure: " + nodeToPseudoCode(node), node)
+				self.getInstructionDependencies(thisOperation, node)
+				dTreeByNode[node] = thisOperation
+				if self.currentDTree:
+					self.currentDTree.addTree(thisOperation)
 			
 			# TODO: Is funcName appropriate?
 			#funcTree = self.dTree #DTree(funcName, node)
@@ -486,7 +569,7 @@ class BPPostProcessorFile:
 			#	self.dTree.addTree(funcTree)
 		elif node.tagName == "return":
 			# Data dependency
-			thisOperation = DTree("return value", node)
+			thisOperation = DTree(nodeToPseudoCode(node), node)
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)

@@ -27,6 +27,12 @@
 from xml.dom.minidom import *
 
 ####################################################################
+# Global
+####################################################################
+
+binaryOperatorTagToSymbol = dict()
+
+####################################################################
 # Functions
 ####################################################################
 
@@ -48,6 +54,12 @@ def getElementByTagName(node, name):
 	for child in node.childNodes:
 		if child.nodeType != Node.TEXT_NODE and child.tagName == name:
 			return child
+
+def getFuncNameNode(node):
+	if getElementByTagName(node, "function"):
+		return getElementByTagName(node, "function").childNodes[0]
+	else:
+		return getElementByTagName(node, "operator").childNodes[0]
 
 def tagName(node):
 	if node is None:

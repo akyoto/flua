@@ -64,6 +64,13 @@ if __name__ == '__main__':
 		
 		postProcessTime = time.time() - start
 		
+		# Parallelizer
+		start = time.time()
+		
+		automaticallyParallelize()
+		
+		autoParallelizerTime = time.time() - start
+		
 		# Generate
 		start = time.time()
 		
@@ -85,6 +92,7 @@ if __name__ == '__main__':
 		print("")
 		print("CompileTime:      " + str(int(compileTime * 1000)).rjust(8) + " ms")
 		print("PostProcessTime:  " + str(int(postProcessTime * 1000)).rjust(8) + " ms")
+		print("ParallelizerTime: " + str(int(autoParallelizerTime * 1000)).rjust(8) + " ms")
 		print("GenerateTime:     " + str(int(generateTime * 1000)).rjust(8) + " ms")
 		print("BuildTime:        " + str(int(buildTime * 1000)).rjust(8) + " ms")
 		print("-----------------------------")
@@ -100,7 +108,8 @@ if __name__ == '__main__':
 		#for bpPostFile in bp.compiledFiles.values():
 		#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
 		#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
-		filter = "main"
+		print("")
+		filter = ""
 		for tree in dTreeByFunctionName.values():
 			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
 				tree.printNodes()

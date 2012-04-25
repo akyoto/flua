@@ -194,6 +194,12 @@ class BPCCompiler:
 		operators = OperatorLevel()
 		operators.addOperator(Operator(",", "separate", Operator.BINARY))
 		self.parser.addOperatorLevel(operators)
+		
+		# Build dictionary for the post processor
+		for opLevel in self.parser.operatorLevels:
+			for op in opLevel.operators:
+				if op.type == Operator.BINARY:
+					binaryOperatorTagToSymbol[op.name] = op.text
 	
 	def compile(self, mainFile):
 		fileIn = fixPath(os.path.abspath(mainFile))
