@@ -106,6 +106,21 @@ class CPPOutputFile(ScopeController):
 		self.actorClassesHeader = ""
 		self.prototypesHeader = "\n// Prototypes\n"
 		
+		# Debugging
+		self.lastParsedNode = list()
+		
+	def getFilePath(self):
+		return self.file
+	
+	def getFileName(self):
+		return self.file[len(self.dir):]
+	
+	def getDirectory(self):
+		return self.dir
+	
+	def getLastParsedNode(self):
+		return self.lastParsedNode[-1]
+		
 	def compile(self):
 		print("Output: " + self.file)
 		
@@ -158,11 +173,15 @@ class CPPOutputFile(ScopeController):
 		lines = ""
 		for node in parent.childNodes:
 			line = self.parseExpr(node)
+			self.lastParsedNode.pop()
 			if line:
 				lines += prefix + line + postfix
 		return lines
 	
 	def parseExpr(self, node, keepUnmanagedSign = True):
+		# Set last node for debugging purposes
+		self.lastParsedNode.append(node)
+		
 		if not keepUnmanagedSign:
 			expr = self.parseExpr(node, True)
 			# Remove unmanaged sign
@@ -844,6 +863,9 @@ class CPPOutputFile(ScopeController):
 		#print(self.getTopLevelScope().variables)
 		if name in self.compiler.mainClass.classes:
 			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
+		elif name in self.compiler.mainClass.functions:
+			raise CompilerException("A function call can only return a value if you use parentheses: '" + name + "()'")
+		
 		raise CompilerException("Unknown variable: " + name)
 	
 	def variableExistsAnywhere(self, name):

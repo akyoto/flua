@@ -214,8 +214,11 @@ class BPCCompiler:
 				self.compile(file)
 		
 	def spawnFileCompiler(self, fileIn, isMainFile):
-		myFile = BPCFile(self, fileIn, isMainFile)
-		myFile.compile()
+		try:
+			myFile = BPCFile(self, fileIn, isMainFile)
+			myFile.compile()
+		except CompilerException as e:
+			raise InputCompilerException(e.getMsg(), myFile)
 		return myFile
 	
 	def writeToFS(self, dirOut):
@@ -262,6 +265,8 @@ class BPCFile(ScopeController):
 		self.header = getElementByTagName(self.root, "header")
 		self.dependencies = getElementByTagName(self.header, "dependencies")
 		self.strings = getElementByTagName(self.header, "strings")
+		self.lastLine = ""
+		self.lastLineCount = 0 
 		
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
@@ -271,6 +276,21 @@ class BPCFile(ScopeController):
 		
 	def getRoot(self):
 		return self.root
+		
+	def getFilePath(self):
+		return self.file
+	
+	def getFileName(self):
+		return self.file[len(self.dir):]
+	
+	def getDirectory(self):
+		return self.dir
+		
+	def getLastLine(self):
+		return self.lastLine
+	
+	def getLastLineCount(self):
+		return self.lastLineCount
 		
 	def compile(self):
 		print("Compiling: " + self.file)
@@ -286,7 +306,9 @@ class BPCFile(ScopeController):
 		if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
 			codeText = codeText[1:]
 		
+		self.lastLineCount = -1	# -1 because of "import bp.Core"
 		lines = ["import bp.Core"] + codeText.split('\n') + [""]
+		
 		#if "unicode" in self.file:
 		#	print(lines)
 		tabCount = 0
@@ -297,7 +319,13 @@ class BPCFile(ScopeController):
 			line = lines[lineIndex].rstrip()
 			tabCount = self.countTabs(line)
 			line = line.lstrip()
-			line = self.removeStringsAndComments(line)
+			
+			# Set last line for exception handling
+			self.lastLine = line
+			self.lastLineCount += 1
+			
+			# Remove strings, comments and check brackets
+			line = self.prepareLine(line)
 			
 			if line == "":
 				continue
@@ -322,6 +350,9 @@ class BPCFile(ScopeController):
 				self.currentNode = savedCurrentNode
 			
 			currentLine = self.processLine(line)
+			
+			# Save the connection for debugging purposes
+			nodeToOriginalLine[currentLine] = line
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -1028,13 +1059,37 @@ class BPCFile(ScopeController):
 		
 		return tabCount
 	
-	def removeStringsAndComments(self, line):
+	def prepareLine(self, line):
 		i = 0
+		roundBracketsBalance = 0 # ()
+		curlyBracketsBalance = 0 # {}
+		squareBracketsBalance = 0 # []
+		#chevronsBalance = 0 # <>
+		
 		while i < len(line):
+			# Remove comments
 			if line[i] == '#':
 				return line[:i].rstrip()
+			# Number of brackets check
+			elif line[i] == '(':
+				roundBracketsBalance += 1
+			elif line[i] == ')':
+				roundBracketsBalance -= 1
+			elif line[i] == '[':
+				squareBracketsBalance += 1
+			elif line[i] == ']':
+				squareBracketsBalance -= 1
+			elif line[i] == '{':
+				curlyBracketsBalance += 1
+			elif line[i] == '}':
+				curlyBracketsBalance -= 1
+			#elif line[i] == '<':
+			#	chevronsBalance += 1
+			#elif line[i] == '>':
+			#	chevronsBalance -= 1
 			
-			if line[i] == '"':
+			# Remove strings
+			elif line[i] == '"':
 				h = i + 1
 				while h < len(line) and line[h] != '"':
 					h += 1
@@ -1051,6 +1106,25 @@ class BPCFile(ScopeController):
 				self.stringCount += 1
 				i += len(identifier)
 			i += 1
+		
+		# ()
+		if roundBracketsBalance > 0:
+			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (roundBracketsBalance), ""][abs(roundBracketsBalance) == 1]))
+		elif roundBracketsBalance < 0:
+			raise CompilerException("You forgot to open the round bracket: '(' missing%s" % ([" %d times" % (roundBracketsBalance), ""][abs(roundBracketsBalance) == 1]))
+		
+		# []
+		if squareBracketsBalance > 0:
+			raise CompilerException("You forgot to close the square bracket: ']' missing%s" % ([" %d times" % (squareBracketsBalance), ""][abs(squareBracketsBalance) == 1]))
+		elif squareBracketsBalance < 0:
+			raise CompilerException("You forgot to open the square bracket: '[' missing%s" % ([" %d times" % (squareBracketsBalance), ""][abs(squareBracketsBalance) == 1]))
+		
+		# <>
+		#if chevronsBalance > 0:
+		#	raise CompilerException("You forgot to close the chevron: '>' missing%s" % ([" %d times" % (chevronsBalance), ""][abs(chevronsBalance) == 1]))
+		#elif chevronsBalance < 0:
+		#	raise CompilerException("You forgot to open the chevron: '<' missing%s" % ([" %d times" % (chevronsBalance), ""][abs(chevronsBalance) == 1]))
+		
 		return line
 
 ####################################################################

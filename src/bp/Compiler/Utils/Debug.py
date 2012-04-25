@@ -26,6 +26,7 @@
 ####################################################################
 
 dbgTabLevel = 0
+nodeToOriginalLine = dict()
 
 ####################################################################
 # Classes
@@ -34,19 +35,53 @@ class CompilerException(Exception):
 	
 	def __init__(self, value):
 		self.value = value
-		self.line = -1
 		
 	def getMsg(self):
 		return self.value
-		
-	def getLine(self):
-		return self.line
-		
-	def setLine(self, line):
-		self.line = line
+	
+	def setMsg(self, msg):
+		self.value = msg
 		
 	def __str__(self):
-		return repr(self.value)
+		return repr(self.getMsg())
+
+class InputCompilerException(CompilerException):
+	
+	def __init__(self, value, inpFile):
+		#super.__init__(value)
+		self.setMsg(value)
+		self.inpFile = inpFile
+		
+	def __str__(self):
+		filePath = self.inpFile.getFilePath()
+		line = self.inpFile.getLastLine()
+		lineCount = self.inpFile.getLastLineCount()
+		sep = "\n" + "-" * (80) + "\n"
+		return sep + "In " + filePath + (" [line %d]" % lineCount) + sep + line + sep + self.getMsg() + sep
+
+class OutputCompilerException(CompilerException):
+	
+	def __init__(self, value, outFile):
+		#super.__init__(value)
+		self.setMsg(value)
+		self.outFile = outFile
+		
+	def __str__(self):
+		basicSep = "-" * (80) + "\n"
+		sep = "\n" + basicSep
+		
+		filePath = self.outFile.getFilePath()
+		node = self.outFile.getLastParsedNode()
+		nodeXML = ""
+		nodeExpr = ""
+		if node:
+			while not node in nodeToOriginalLine:
+				node = node.parentNode
+			
+			nodeXML = node.toprettyxml()
+			nodeExpr = nodeToOriginalLine[node] + sep
+		
+		return sep + "In " + filePath + sep + node.toprettyxml() + basicSep + nodeExpr + self.getMsg() + sep
 
 def CompilerWarning(msg):
 	print("[Warning] " + msg)
@@ -58,7 +93,7 @@ def debug(msg):
 	pass#print("\t" * dbgTabLevel + str(msg))
 	
 def debugPP(msg):
-	print("\t" * dbgTabLevel + str(msg))
+	pass#print("\t" * dbgTabLevel + str(msg))
 	
 def debugPush():
 	global dbgTabLevel

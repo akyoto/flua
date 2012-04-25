@@ -82,7 +82,10 @@ class CPPOutputCompiler:
 		self.compiledFilesList.append(cppOut)
 		
 		# After the dependencies have been compiled, compile itself
-		cppOut.compile()
+		try:
+			cppOut.compile()
+		except CompilerException as e:
+			raise OutputCompilerException(e.getMsg(), cppOut)
 		
 		# Change string class
 		#if self.mainClass.hasClassByName("UTF8String"):
