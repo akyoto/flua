@@ -46,6 +46,7 @@ if __name__ == '__main__':
 		compileFile = "Test/Input/main.bpc"
 		outputDir = "Test/Output/"
 		buildAndExecute = 1
+		buildGraphViz = 0
 		
 		# Compile
 		start = time.time()
@@ -67,7 +68,8 @@ if __name__ == '__main__':
 		# Parallelizer
 		start = time.time()
 		
-		automaticallyParallelize()
+		automaticallyParallelize(dTreeByNode)
+		automaticallyParallelize(dTreeByFunctionName)
 		
 		autoParallelizerTime = time.time() - start
 		
@@ -109,36 +111,35 @@ if __name__ == '__main__':
 		#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
 		#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
 		print("")
-		filter = ""
+		filter = "aosdkfoai"
 		for tree in dTreeByFunctionName.values():
 			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
 				tree.printNodes()
 				print("")
 		
 		# GraphViz
-		#=======================================================================
-		# useRoot = True
-		# allGraphs = "digraph Dependencies {\n"
-		# for tree in dTreeByFunctionName.values():
-		#	if tree.name and tree.dependencies:
-		#		treeLabel = tree.name
-		#		treeID = fixID(treeLabel) + str(id(tree.instruction))
-		#		if useRoot:
-		#			allGraphs += "root -> " + treeID + ";\n"
-		#		#allGraphs += treeID + "[shape=box3d];\n"
-		#		
-		#		funcGraph = "subgraph %s {\n" % (treeID)
-		#		funcGraph += tree.getGraphVizCode()
-		#		funcGraph += "label = \"%s\";\n" % (treeLabel)
-		#		funcGraph += "}\n"
-		#		
-		#		allGraphs += funcGraph
-		# 
-		# if useRoot:
-		#	allGraphs += "root [shape=circle];\n"
-		# allGraphs += "}"
-		# print(allGraphs)
-		#=======================================================================
+		if buildGraphViz:
+			useRoot = True
+			allGraphs = "digraph Dependencies {\n"
+			for tree in dTreeByFunctionName.values():
+				if tree.name and tree.dependencies:
+					treeLabel = tree.name
+					treeID = "node" +str(id(tree.instruction))
+					if useRoot:
+						allGraphs += "root -> " + treeID + ";\n"
+					#allGraphs += treeID + "[shape=box3d];\n"
+					
+					funcGraph = "subgraph %s {\n" % (treeID)
+					funcGraph += tree.getGraphVizCode()
+					funcGraph += "label = \"%s\";\n" % (treeLabel)
+					funcGraph += "}\n"
+					
+					allGraphs += funcGraph
+			
+			if useRoot:
+				allGraphs += "root [shape=circle];\n"
+				allGraphs += "}"
+			print(allGraphs)
 		
 		# Exec
 		print("\nOutput:")

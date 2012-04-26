@@ -43,4 +43,4 @@ Circle
 	intersects circle
 		distance = distanceSq(self.center.x, self.center.y, circle.center.x, circle.center.y)
 		sumRadi = self.radius + circle.radius
-		return d < (sumRadi * sumRadi)
+		return distance < (sumRadi * sumRadi)

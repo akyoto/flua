@@ -5,18 +5,15 @@ paraFunc x, y
 	y -= 3
 	x -= 7
 	y -= 8
+	x += 9
+	y += 3
 	return x + y
 
 for i = 0 until 1
 	print "---"
 	timeA = systemTime()
 	#clockA = systemCPUClock()
-	
-	#for counter = 0 to 10
-	#	main()
-	#factorial.test()
-	a : BigInt = 20
-	print factorial(a)
+	print(paraFunc(paraFunc(20, 15), paraFunc(17, 14)))
 	
 	#clockB = systemCPUClock()
 	timeB = systemTime()

@@ -35,11 +35,11 @@ dTreeByNode = dict() # Node -> DTree
 defaultInstructionTime = 1
 operationTimes = {
 	# Operators
-	"call.unused" : 5,
+	#"call.unused" : 5,
 	"template-call" : 0,
 	"access" : 1,
 	"index.unused" : 1,
-	"call" : 5,
+	#"call" : 5,
 	"index" : 1,
 	"unmanaged" : 1,
 	"declare-type" : 0,
@@ -74,11 +74,10 @@ operationTimes = {
 	"flow-to" : 1,
 	"flow-from" : 1,
 	"separate" : 1,
-	
-	# Keywords
-	"return" : 1,
-	
-	# Extern functions
+}
+
+# Extern functions
+externOperationTimes = {
 	"bp_print" : 30,
 	"bp_println" : 30,
 	"bp_usleep" : 100,
@@ -147,6 +146,14 @@ def getInstructionTime(xmlNode):
 	elif nodeName in operationTimes:
 		tOP = operationTimes[nodeName]
 		return tOP + getInstructionTime(xmlNode.childNodes)
+	elif nodeName == "call":
+		funcNameNode = getFuncNameNode(xmlNode)
+		funcName = funcNameNode.nodeValue
+		if funcName:
+			debugPP("USING TIME OF " + funcName)
+			if funcName in externOperationTimes:
+				return externOperationTimes[funcName]
+			return dTreeByFunctionName[funcName].getTime()
 	elif xmlNode.childNodes: #isinstance(xmlNode, xml.dom.minidom.Node) and
 		return getInstructionTime(xmlNode.childNodes)
 	elif xmlNode.tagName == "parameters":
@@ -156,6 +163,21 @@ def getInstructionTime(xmlNode):
 	
 	return 0
 
+def getCalledFuncName(node):
+	funcNameNode = getFuncNameNode(node)
+	
+	caller = ""
+	if isTextNode(funcNameNode):
+		funcName = funcNameNode.nodeValue
+	else:
+		caller = nodeToPseudoCode(funcNameNode.childNodes[0].childNodes[0])
+		funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+	
+	if caller:
+		funcName = caller + "." + funcName
+	
+	return funcName
+
 def nodeToPseudoCode(node):
 	if isTextNode(node):
 		return node.nodeValue
@@ -163,17 +185,7 @@ def nodeToPseudoCode(node):
 		op1 = node.childNodes[0].childNodes[0]
 		return nodeToPseudoCode(op1)
 	elif node.tagName == "call":
-		funcNameNode = getFuncNameNode(node)
-		
-		caller = ""
-		if isTextNode(funcNameNode):
-			funcName = funcNameNode.nodeValue
-		else:
-			caller = nodeToPseudoCode(funcNameNode.childNodes[0].childNodes[0])
-			funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
-		
-		if caller:
-			funcName = caller + "." + funcName
+		funcName = getCalledFuncName(node)
 		parameters = nodeToPseudoCode(getElementByTagName(node, "parameters"))
 		return "%s(%s)" % (funcName, parameters)
 	elif node.tagName == "parameters":
@@ -181,7 +193,7 @@ def nodeToPseudoCode(node):
 		for param in node.childNodes:
 			params.append(nodeToPseudoCode(param))
 		return ", ".join(params)
-	elif node.tagName == "parameter" or node.tagName == "value":
+	elif node.tagName == "parameter" or node.tagName == "value" or node.tagName == "type":
 		return nodeToPseudoCode(node.childNodes[0])
 	elif node.tagName == "negative":
 		return "-(" + nodeToPseudoCode(node.childNodes[0]) + ")"
@@ -190,7 +202,7 @@ def nodeToPseudoCode(node):
 	elif node.tagName == "unmanaged":
 		return "~" + nodeToPseudoCode(node.childNodes[0])
 	elif node.tagName == "new":
-		return "new #TODO()"
+		return "new %s(%s)" % (nodeToPseudoCode(getElementByTagName(node, "type")), nodeToPseudoCode(getElementByTagName(node, "parameters")))
 	elif node.tagName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
@@ -214,13 +226,17 @@ def nodeToPseudoCode(node):
 	 # return cppFile.parseExpr(node)
 	 #==========================================================================
 	
-def automaticallyParallelize():
-	for node, dTree in dTreeByNode.items():
+def automaticallyParallelize(dTreeDict):
+	for dTree in dTreeDict.values():
 		if len(dTree.parents) == 0:
 			spawnPoint = dTree.getNextThreadSpawnPoint()
 			#if spawnPoint is None:
 			#	return False
-			print("PARALLEL: " + dTree.name)
+			if spawnPoint:#dTree.name.find("paraFunc") != -1:
+				print("---")
+				dTree.printNodes()
+				print("---")
+				
 
 ####################################################################
 # Classes
@@ -238,7 +254,7 @@ class DTree:
 		self.dependencies = list()
 		self.parents = list()
 		self.vars = set()
-		self.functionCalls = list()
+		#self.functionCalls = list()
 		self.costCalculationRunning = False
 		self.timeNeeded = 0
 		
@@ -247,7 +263,13 @@ class DTree:
 			if dep.hasSideEffects():
 				return True
 		
-		return False
+		return self.instructionHasSideEffects()
+		
+	def instructionHasSideEffects(self):
+		node = self.instruction
+		nodeName = node.tagName
+		if nodeName == "call":
+			funcName = getCalledFuncName(node)
 		
 	def worthParallelizing(self):
 		return self.getTime() >= minimumTimeForParallelization
@@ -256,9 +278,12 @@ class DTree:
 		if len(self.dependencies) < 2:
 			return False
 		
+		numSideEffects = 0
 		for dep in self.dependencies:
 			if dep.hasSideEffects():
-				return False
+				numSideEffects += 1
+				if numSideEffects > 1:
+					return False
 		
 		return True
 		
@@ -297,8 +322,8 @@ class DTree:
 		
 		return False
 		
-	def addFunctionCall(self, name):
-		self.functionCalls.append(name)
+	#def addFunctionCall(self, name):
+	#	self.functionCalls.append(name)
 		
 	def addTree(self, dTreeObj):
 		self.dependencies.append(dTreeObj)
@@ -333,12 +358,12 @@ class DTree:
 		myCost += depth * dependencyDepthCost
 		
 		# Function calls
-		for call in self.functionCalls:
-			if call.startswith("bp_"):
-				myCost += operationTimes[call]
-			else:
-				tree = dTreeByFunctionName[call]
-				myCost += tree.getTime()
+		#for call in self.functionCalls:
+		#	if call.startswith("bp_"):
+		#		myCost += operationTimes[call]
+		#	else:
+		#		tree = dTreeByFunctionName[call]
+		#		myCost += tree.getTime()
 		
 		self.costCalculationRunning = False
 		self.timeNeeded = myCost
@@ -354,13 +379,13 @@ class DTree:
 	def getGraphVizCode(self):
 		connections = ""
 		myLabel = self.name
-		myID = fixID(myLabel) + str(id(self.instruction))
+		myID = "node" + str(id(self.instruction))
 		depLabel = ""
 		depID = ""
 		
 		for dep in self.dependencies:
 			depLabel = dep.name
-			depID = fixID(depLabel) + str(id(dep.instruction))
+			depID = "node" + str(id(dep.instruction))
 			connections += "%s -> %s;\n" % (depID, myID)
 			graph = dep.getGraphVizCode()
 			connections += graph
@@ -373,17 +398,27 @@ class DTree:
 		return "digraph %s {%s}" % (self.name, connections)
 		
 	def printNodes(self, tabLevel = 0):
+		tab = "    "
 		if tabLevel > 0:
 			sep = "∟"
 		else:
 			sep = ""
 		
+		if self.canParallelizeSubtrees():
+			sep = "➤"
+		
 		depth = ""
 		depthCount = self.getParentsDepth()
 		if depthCount > 0:
-			depth = " -> %d" % (depthCount)
+			depth = " [Depth = %d]" % (depthCount)
 		
-		print("  " * tabLevel + sep + ("[%s] (%d)%s (%s)" % (self.name, self.getTime(), depth, str(self.functionCalls))))
+		# Remove ()
+		def fixNodeName(name):
+			if name[0] == '(' and name[-1] == ')':
+				return name[1:-1]
+			return name
+		
+		print(tab * tabLevel + sep + ("[%s] (%d)%s" % (fixNodeName(self.name), self.getTime(), depth)))
 		
 		#print("Deps: " + str(len(self.dependencies)))
 		#print("Pars: " + str(len(self.parents)))
@@ -395,7 +430,7 @@ class DTree:
 			if node.parents[0] == self:
 				node.printNodes(tabLevel + 1)
 			else:
-				print("  " * (tabLevel + 1) + sep + ("[%s]>") % node.name)
+				print(tab * (tabLevel + 1) + sep + ("* [%s] *") % fixNodeName(node.name))
 
 class BPPostProcessor:
 	
@@ -473,11 +508,26 @@ class BPPostProcessorFile:
 			return
 		elif xmlNode.tagName == "call": # Ignore function name, only parse parameters
 			funcName = getElementByTagName(xmlNode, "function").childNodes[0].nodeValue
-			if funcName:
-				tree.addFunctionCall(funcName)
+			#if funcName:
+			#	tree.addFunctionCall(funcName)
+			
+			callTree = DTree(nodeToPseudoCode(xmlNode), xmlNode)
+			if tree:
+				tree.addTree(callTree)
+			dTreeByNode[xmlNode] = callTree
 			#tree.addTree(self.dTreeByFunctionName[name])
-			self.getInstructionDependencies(tree, getElementByTagName(xmlNode, "parameters"))
+			self.getInstructionDependencies(callTree, getElementByTagName(xmlNode, "parameters"))
 			return
+		elif xmlNode.tagName == "parameter":
+			#paramTree = DTree(nodeToPseudoCode(xmlNode), xmlNode)
+			
+			#if isElemNode(xmlNode.childNodes[0]):
+			#	tree.addTree(paramTree)
+			#else:
+			#self.getInstructionDependencies(tree, xmlNode.childNodes[0])
+			pass
+			#for child in xmlNode.childNodes:
+			#	self.getInstructionDependencies(paramTree, child)
 		
 		# Childs
 		for child in xmlNode.childNodes:
@@ -529,7 +579,20 @@ class BPPostProcessorFile:
 				self.getInstructionDependencies(thisOperation, op1)
 			
 			dTreeByNode[node] = thisOperation
-			self.lastOccurence[nodeToPseudoCode(op1)] = thisOperation
+			
+			# Access
+			varToAdd = op1
+			while 1:
+				self.lastOccurence[nodeToPseudoCode(varToAdd)] = thisOperation
+				# access
+				if isElemNode(varToAdd) and varToAdd.tagName == "access":
+					accessOp1 = nodeToPseudoCode(varToAdd.childNodes[0].childNodes[0])
+					accessOp2 = nodeToPseudoCode(varToAdd.childNodes[1].childNodes[0])
+					self.lastOccurence[accessOp1] = thisOperation
+					self.lastOccurence[accessOp2] = thisOperation
+					varToAdd = varToAdd.childNodes[0].childNodes[0] # varToAdd = accessOp1
+				else:
+					break
 			
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)
@@ -557,11 +620,12 @@ class BPPostProcessorFile:
 				node.tagName = "new"
 				getElementByTagName(node, "function").tagName = "type"
 			elif funcName and tagName(node.parentNode) == "code":
-				thisOperation = DTree("Procedure: " + nodeToPseudoCode(node), node)
-				self.getInstructionDependencies(thisOperation, node)
-				dTreeByNode[node] = thisOperation
-				if self.currentDTree:
-					self.currentDTree.addTree(thisOperation)
+				#thisOperation = DTree("Procedure: " + nodeToPseudoCode(node), node)
+				#self.getInstructionDependencies(thisOperation, node)
+				#dTreeByNode[node] = thisOperation
+				#if self.currentDTree:
+				#	self.currentDTree.addTree(thisOperation)
+				self.getInstructionDependencies(self.currentDTree, node)
 			
 			# TODO: Is funcName appropriate?
 			#funcTree = self.dTree #DTree(funcName, node)
