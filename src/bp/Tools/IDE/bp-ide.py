@@ -31,43 +31,27 @@
 ####################################################################
 import sys
 from PyQt4 import QtGui, QtCore
-from inspect import __date__
+from bp.Compiler import *
 
 ####################################################################
 # Main
 ####################################################################
+class BPCodeEdit(QtGui.QTextEdit):
+	
+	def __init__(self):
+		super(BPCodeEdit, self).__init__()
+		self.setFont(QtGui.QFont("monospace", 10))
+		self.setTabStopWidth(4 * 8)
+
 class BPEditor(QtGui.QMainWindow):
 	
 	def __init__(self):
 		super(BPEditor, self).__init__()
 		self.initUI()
+		self.initCompiler()
 		
-	def initUI(self):
-		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
-		
-		self.setGeometry(0, 0, 1000, 650)
-		self.setWindowTitle("Blitzprog IDE")
-		self.setWindowIcon(QtGui.QIcon("images/bp.png"))
-		self.center()
-		
-		btn = QtGui.QPushButton("Press me!", self)
-		btn.setToolTip("Hey! <br/><b style='color: #ff0000;'>Yo</b> Test")
-		btn.move(50, 150)
-		btn.clicked.connect(self.close)
-		
-		self.statusBar().showMessage("Ready")
-		
-		self.textEdit = QtGui.QTextEdit()
-		self.textEdit.setFont(QtGui.QFont("monospace", 10))
-		self.textEdit.setTabStopWidth(4 * 8)
-		
-		hBox = QtGui.QHBoxLayout()
-		hBox.addStretch(1)
-		hBox.addWidget(self.textEdit)
-		
-		self.setCentralWidget(self.textEdit)
-		self.initMenu()
-		self.show()
+	def initCompiler(self):
+		self.bpc = BPCCompiler(modDir)
 		
 	def initMenu(self):
 		# File menu actions
@@ -132,6 +116,31 @@ class BPEditor(QtGui.QMainWindow):
 		self.toolbar.addSeparator()
 		self.toolbar.addAction(runModuleAction)
 		
+	def initUI(self):
+		self.initMenu()
+		
+		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
+		
+		self.setGeometry(0, 0, 1000, 650)
+		self.setWindowTitle("Blitzprog IDE")
+		self.setWindowIcon(QtGui.QIcon("images/bp.png"))
+		self.center()
+		
+		self.statusBar().showMessage("Ready")
+		
+		self.editPanel = QtGui.QWidget()
+		self.codeEdit = BPCodeEdit()
+		self.usedFuncsView = BPCodeEdit()
+		
+		hBox = QtGui.QHBoxLayout()
+		hBox.addWidget(self.codeEdit)
+		hBox.addWidget(self.usedFuncsView)
+		hBox.setStretchFactor(self.codeEdit, 1)
+		self.editPanel.setLayout(hBox)
+		
+		self.setCentralWidget(self.editPanel)
+		self.show()
+		
 	def center(self):
 		qr = self.frameGeometry()
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
@@ -151,7 +160,25 @@ class BPEditor(QtGui.QMainWindow):
 				filter="bp Files (*.bp)")
 		
 		if fileName:
-			self.textEdit.setText(fileName)
+			self.loadFileToEditor(fileName)
+		
+	def loadFileToEditor(self, fileName):
+		self.file = fileName
+		
+		# Read
+		#with codecs.open(self.file, "r", "utf-8") as inStream:
+		#	codeText = inStream.read()
+		
+		# TODO: Remove all BOMs
+		#if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
+		#	codeText = codeText[1:]
+		
+		# Remove whitespaces
+		#codeText = codeText.replace("\t", "")
+		
+		#self.doc = parseString(codeText.encode( "utf-8" ))
+		self.doc = parse(self.file)
+		self.codeEdit.setText(nodeToBPC(self.doc.documentElement))
 		
 	def saveFile(self):
 		pass
@@ -160,7 +187,8 @@ class BPEditor(QtGui.QMainWindow):
 		pass
 		
 	def runModule(self):
-		pass
+		bpc = BPCCompiler(modDir)
+		compiler = BPPostProcessor(bpc)
 		
 	def about(self):
 		QtGui.QMessageBox.about(self, "About blitzprog IDE",

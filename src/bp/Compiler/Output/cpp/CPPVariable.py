@@ -1,4 +1,4 @@
-from Output.cpp.datatypes import *
+from bp.Compiler.Output.cpp.datatypes import *
 
 class CPPVariable:
 	

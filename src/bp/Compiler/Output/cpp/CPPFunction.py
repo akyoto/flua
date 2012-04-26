@@ -1,5 +1,5 @@
-from Utils import *
-from Output.cpp.datatypes import *
+from bp.Compiler.Utils import *
+from bp.Compiler.Output.cpp.datatypes import *
 
 class CPPFunction:
 	

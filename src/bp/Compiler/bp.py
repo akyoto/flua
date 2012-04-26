@@ -29,9 +29,10 @@
 ####################################################################
 # Imports
 ####################################################################
-from Input import *
-from Generic import *
-from Output import *
+from bp.Compiler.Input import *
+from bp.Compiler.Generic import *
+from bp.Compiler.Output import *
+from bp.Compiler.Config import *
 
 ####################################################################
 # Main
@@ -40,13 +41,6 @@ if __name__ == '__main__':
 	try:
 		print("Starting:")
 		totalStart = time.time()
-		
-		# Configuration
-		modDir = "../../"
-		compileFile = "Test/Input/main.bpc"
-		outputDir = "Test/Output/"
-		buildAndExecute = 1
-		buildGraphViz = 0
 		
 		# Compile
 		start = time.time()

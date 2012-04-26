@@ -27,9 +27,9 @@
 ####################################################################
 # Imports
 ####################################################################
-from Output.cpp.CPPFunction import *
-from Output.cpp.CPPVariable import *
-from Output.cpp.CPPClassImplementation import *
+from bp.Compiler.Output.cpp.CPPFunction import *
+from bp.Compiler.Output.cpp.CPPVariable import *
+from bp.Compiler.Output.cpp.CPPClassImplementation import *
 
 ####################################################################
 # Classes

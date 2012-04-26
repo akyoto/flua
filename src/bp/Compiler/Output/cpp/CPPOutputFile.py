@@ -27,10 +27,10 @@
 ####################################################################
 # Imports
 ####################################################################
-from ExpressionParser import *
-from Utils import *
-from Output.cpp.datatypes import *
-from Output.cpp.CPPClass import *
+from bp.Compiler.ExpressionParser import *
+from bp.Compiler.Utils import *
+from bp.Compiler.Output.cpp.datatypes import *
+from bp.Compiler.Output.cpp.CPPClass import *
 
 ####################################################################
 # Classes

@@ -1,4 +1,4 @@
-from Output.cpp.CPPFunctionImplementation import *
+from bp.Compiler.Output.cpp.CPPFunctionImplementation import *
 
 class CPPClassImplementation:
 	

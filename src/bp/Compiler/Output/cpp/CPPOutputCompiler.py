@@ -27,8 +27,8 @@
 ####################################################################
 # Imports
 ####################################################################
-from Output.cpp.CPPOutputFile import *
-from Utils import *
+from bp.Compiler.Output.cpp.CPPOutputFile import *
+from bp.Compiler.Utils import *
 import codecs
 import subprocess
 

@@ -1,1 +1,1 @@
-from Input.bpc import *
+from bp.Compiler.Input.bpc import *

@@ -27,8 +27,8 @@
 ####################################################################
 # Imports
 ####################################################################
-from ExpressionParser import *
-from Utils import *
+from bp.Compiler.ExpressionParser import *
+from bp.Compiler.Utils import *
 import codecs
 
 ####################################################################
@@ -64,6 +64,67 @@ simpleBlocks = {
 	"operator" : [],
 	"casts" : []
 }
+
+####################################################################
+# Functions
+####################################################################
+def nodeToBPC(node):
+	if isTextNode(node):
+		return node.nodeValue
+	
+	nodeName = node.tagName
+	if nodeName == "declare-type":
+		op1 = node.childNodes[0].childNodes[0]
+		return nodeToBPC(op1)
+	elif nodeName == "call":
+		funcName = getCalledFuncName(node)
+		parameters = nodeToBPC(getElementByTagName(node, "parameters"))
+		return "%s(%s)" % (funcName, parameters)
+	elif nodeName == "parameters":
+		params = []
+		for param in node.childNodes:
+			params.append(nodeToBPC(param))
+		return ", ".join(params)
+	elif nodeName == "parameter" or nodeName == "value" or nodeName == "type":
+		return nodeToBPC(node.childNodes[0])
+	elif nodeName == "negative":
+		return "-(" + nodeToBPC(node.childNodes[0]) + ")"
+	elif nodeName == "return":
+		return "return " + nodeToBPC(node.childNodes[0])
+	elif nodeName == "unmanaged":
+		return "~" + nodeToBPC(node.childNodes[0])
+	elif nodeName == "new":
+		return "new %s(%s)" % (nodeToBPC(getElementByTagName(node, "type")), nodeToBPC(getElementByTagName(node, "parameters")))
+	elif nodeName == "module":
+		header = getElementByTagName(node, "header")
+		code = getElementByTagName(node, "code")
+		return nodeToBPC(code)
+	elif nodeName == "header":
+		return "#TODO: Header"
+	elif nodeName == "for":
+		return "#TODO: for"
+	elif nodeName == "function":
+		name = getElementByTagName(node, "name")
+		params = getElementByTagName(node, "parameters")
+		code = getElementByTagName(node, "code")
+		return nodeToBPC(code)
+	elif nodeName == "code":
+		code = "#Code: \n"
+		for child in node.childNodes:
+			code += nodeToBPC(child) + "\n"
+		return code
+	elif nodeName in binaryOperatorTagToSymbol:
+		print(nodeName)
+		print(node.toprettyxml())
+		op1 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[1].childNodes[0]
+		space = " "
+		if nodeName == "access":
+			space = ""
+		
+		return "(" + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + ")"
+	
+	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (nodeName))
 
 ####################################################################
 # Classes

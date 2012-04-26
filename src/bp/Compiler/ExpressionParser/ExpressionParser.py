@@ -26,7 +26,7 @@
 ####################################################################
 # Imports
 ####################################################################
-from Utils import *
+from bp.Compiler.Utils import *
 
 ####################################################################
 # Classes
@@ -36,11 +36,11 @@ class Operator:
 	BINARY = 2
 	TERNARY = 3
 	
-	def __init__(self, text, name, type):
+	def __init__(self, text, name, dataType):
 		self.text = text
 		self.textLen = len(text)
 		self.name = name
-		self.type = type
+		self.type = dataType
 
 class OperatorLevel:
 	

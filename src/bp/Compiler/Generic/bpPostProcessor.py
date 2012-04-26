@@ -24,7 +24,7 @@
 ####################################################################
 # Imports
 ####################################################################
-from Utils import *
+from bp.Compiler.Utils import *
 
 ####################################################################
 # Global
@@ -170,61 +170,13 @@ def getCalledFuncName(node):
 	if isTextNode(funcNameNode):
 		funcName = funcNameNode.nodeValue
 	else:
-		caller = nodeToPseudoCode(funcNameNode.childNodes[0].childNodes[0])
+		caller = nodeToBPC(funcNameNode.childNodes[0].childNodes[0])
 		funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
 	
 	if caller:
 		funcName = caller + "." + funcName
 	
 	return funcName
-
-def nodeToPseudoCode(node):
-	if isTextNode(node):
-		return node.nodeValue
-	elif node.tagName == "declare-type":
-		op1 = node.childNodes[0].childNodes[0]
-		return nodeToPseudoCode(op1)
-	elif node.tagName == "call":
-		funcName = getCalledFuncName(node)
-		parameters = nodeToPseudoCode(getElementByTagName(node, "parameters"))
-		return "%s(%s)" % (funcName, parameters)
-	elif node.tagName == "parameters":
-		params = []
-		for param in node.childNodes:
-			params.append(nodeToPseudoCode(param))
-		return ", ".join(params)
-	elif node.tagName == "parameter" or node.tagName == "value" or node.tagName == "type":
-		return nodeToPseudoCode(node.childNodes[0])
-	elif node.tagName == "negative":
-		return "-(" + nodeToPseudoCode(node.childNodes[0]) + ")"
-	elif node.tagName == "return":
-		return "return " + nodeToPseudoCode(node.childNodes[0])
-	elif node.tagName == "unmanaged":
-		return "~" + nodeToPseudoCode(node.childNodes[0])
-	elif node.tagName == "new":
-		return "new %s(%s)" % (nodeToPseudoCode(getElementByTagName(node, "type")), nodeToPseudoCode(getElementByTagName(node, "parameters")))
-	elif node.tagName in binaryOperatorTagToSymbol:
-		op1 = node.childNodes[0].childNodes[0]
-		op2 = node.childNodes[1].childNodes[0]
-		space = " "
-		if node.tagName == "access":
-			space = ""
-		
-		return "(" + nodeToPseudoCode(op1) + space + binaryOperatorTagToSymbol[node.tagName] + space + nodeToPseudoCode(op2) + ")"
-	
-	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (node.tagName))
-	
-	#==========================================================================
-	 # # Let's do some cheating and use C++ syntax as pseudo code
-	 # inpFile = postProcFile.inpFile
-	 # proc = postProcFile.processor
-	 # inpCompiler = proc.inputCompiler
-	 # 
-	 # cpp = CPPOutputCompiler(inpCompiler)
-	 # cppFile = CPPOutputFile(cpp, inpFile)
-	 # 
-	 # return cppFile.parseExpr(node)
-	 #==========================================================================
 	
 def automaticallyParallelize(dTreeDict):
 	for dTree in dTreeDict.values():
@@ -511,7 +463,7 @@ class BPPostProcessorFile:
 			#if funcName:
 			#	tree.addFunctionCall(funcName)
 			
-			callTree = DTree(nodeToPseudoCode(xmlNode), xmlNode)
+			callTree = DTree(nodeToBPC(xmlNode), xmlNode)
 			if tree:
 				tree.addTree(callTree)
 			dTreeByNode[xmlNode] = callTree
@@ -519,7 +471,7 @@ class BPPostProcessorFile:
 			self.getInstructionDependencies(callTree, getElementByTagName(xmlNode, "parameters"))
 			return
 		elif xmlNode.tagName == "parameter":
-			#paramTree = DTree(nodeToPseudoCode(xmlNode), xmlNode)
+			#paramTree = DTree(nodeToBPC(xmlNode), xmlNode)
 			
 			#if isElemNode(xmlNode.childNodes[0]):
 			#	tree.addTree(paramTree)
@@ -573,7 +525,7 @@ class BPPostProcessorFile:
 			op1 = node.childNodes[0].childNodes[0]
 			op2 = node.childNodes[1].childNodes[0]
 			
-			thisOperation = DTree(nodeToPseudoCode(node), node)
+			thisOperation = DTree(nodeToBPC(node), node)
 			self.getInstructionDependencies(thisOperation, op2)
 			if node.tagName.startswith("assign-"):
 				self.getInstructionDependencies(thisOperation, op1)
@@ -583,11 +535,11 @@ class BPPostProcessorFile:
 			# Access
 			varToAdd = op1
 			while 1:
-				self.lastOccurence[nodeToPseudoCode(varToAdd)] = thisOperation
+				self.lastOccurence[nodeToBPC(varToAdd)] = thisOperation
 				# access
 				if isElemNode(varToAdd) and varToAdd.tagName == "access":
-					accessOp1 = nodeToPseudoCode(varToAdd.childNodes[0].childNodes[0])
-					accessOp2 = nodeToPseudoCode(varToAdd.childNodes[1].childNodes[0])
+					accessOp1 = nodeToBPC(varToAdd.childNodes[0].childNodes[0])
+					accessOp2 = nodeToBPC(varToAdd.childNodes[1].childNodes[0])
 					self.lastOccurence[accessOp1] = thisOperation
 					self.lastOccurence[accessOp2] = thisOperation
 					varToAdd = varToAdd.childNodes[0].childNodes[0] # varToAdd = accessOp1
@@ -620,7 +572,7 @@ class BPPostProcessorFile:
 				node.tagName = "new"
 				getElementByTagName(node, "function").tagName = "type"
 			elif funcName and tagName(node.parentNode) == "code":
-				#thisOperation = DTree("Procedure: " + nodeToPseudoCode(node), node)
+				#thisOperation = DTree("Procedure: " + nodeToBPC(node), node)
 				#self.getInstructionDependencies(thisOperation, node)
 				#dTreeByNode[node] = thisOperation
 				#if self.currentDTree:
@@ -635,7 +587,7 @@ class BPPostProcessorFile:
 			#	self.dTree.addTree(funcTree)
 		elif node.tagName == "return":
 			# Data dependency
-			thisOperation = DTree(nodeToPseudoCode(node), node)
+			thisOperation = DTree(nodeToBPC(node), node)
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)

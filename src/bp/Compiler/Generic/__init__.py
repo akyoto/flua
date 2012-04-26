@@ -1,1 +1,1 @@
-from Generic.bpPostProcessor import *
+from bp.Compiler.Generic.bpPostProcessor import *
