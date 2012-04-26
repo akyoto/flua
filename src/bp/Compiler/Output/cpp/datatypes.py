@@ -42,42 +42,36 @@ dataTypeDefinitions = {
 	"Int" : "int_fast32_t",
 	"Int32" : "int32_t",
 	"Int64" : "int64_t",
+	"UInt32" : "uint32_t",
+	"UInt64" : "uint64_t",
 	"Size" : "size_t",
 	"Float" : "float",
 	"Float32" : "float",
 	"Float64" : "double",
-	"CString" : "ConstChar *"
+	"CString" : "ConstChar *",
+	"BigInt" : "mpz_class"
 }
 
 dataTypeWeights = {
+	"void" : 0,	# Added because of recursive functions
 	"Bool" : 1,
 	"Byte" : 2,
 	"ConstChar" : 3,
 	"Short" : 4,
 	"Int" : 5,
 	"Int32" : 6,
+	"UInt32" : 6,
 	"Int64" : 7,
+	"UInt64" : 7,
 	"Size" : 8,
-	"Float" : 9,
-	"Float32" : 10,
-	"Float64" : 11,
-	"CString" : 12
+	"BigInt" : 9,
+	"Float" : 10,
+	"Float32" : 11,
+	"Float64" : 12,
+	"CString" : 13,
 }
 
-nonPointerClasses = {
-	"Bool" : 1,
-	"Byte" : 2,
-	"ConstChar" : 3,
-	"Short" : 4,
-	"Int" : 5,
-	"Int32" : 6,
-	"Int64" : 7,
-	"Size" : 8,
-	"Float" : 9,
-	"Float32" : 10,
-	"Float64" : 11,
-	"CString" : 12
-}
+nonPointerClasses = dataTypeWeights
 
 ####################################################################
 # Functions
@@ -117,7 +111,7 @@ def getHeavierOperator(operatorType1, operatorType2):
 	weight1 = dataTypeWeights[operatorType1]
 	weight2 = dataTypeWeights[operatorType2]
 	
-	if weight1 > weight2:
+	if weight1 >= weight2:
 		return operatorType1
 	else:
 		return operatorType2
@@ -163,83 +157,86 @@ def adjustDataType(type, adjustOuterAsWell = True):
 			type = standardClassPrefix + removeUnmanaged(type)
 	return type.replace("<", "< ").replace(">", " >").replace("  ", " ")
 
-def adjustDataType2(type, adjustOuterAsWell = True, templateParamsMap = {}):
-	if type == "void" or type in nonPointerClasses:
-		return type
-	
-	if type in templateParamsMap:
-		return templateParamsMap[type]
-	
-	# Adjust template params
-	pos = type.find('<')
-	postFixCount = 0
-	typeName = ""
-	className = ""
-	standardClassPrefix = "BP"
-	actorPrefix = "ActorWrapper"
-	
-	classPrefix = pointerType + "<" + standardClassPrefix
-	classPostfix = ">"
-	
-	# Actors
-	type = replaceActorGenerics(type, actorPrefix)
-	
-	if adjustOuterAsWell:
-		if pos != -1:
-			className = type[:pos]
-		else:
-			className = type
-		
-		classNameClean = removeUnmanaged(className)
-		if (not classNameClean in nonPointerClasses): #and (not classNameClean in templateParams):
-			# Unmanaged
-			if className.startswith("~"):
-				if classNameClean == "MemPointer":
-					innerType = type[pos+1:-1]
-					innerClass = extractClassName(innerType)
-					#debugStop()
-					if innerClass in nonPointerClasses: #or innerClass in templateParams:
-						type = innerType + "*"
-						postFixCount += 1
-						pos = 0
-					else:
-						type = classPrefix + innerType + classPostfix + "*"
-						postFixCount += len(classPostfix) + 1
-						pos += len(classPrefix)
-				else:
-					type = standardClassPrefix + type[1:]
-			else:
-				pos += len(classPrefix)
-				postFixCount += len(classPostfix)
-				type = classPrefix + type + classPostfix
-	else:
-		type = standardClassPrefix + type
-	
-	while 1:
-		pos = type.find('<', pos)
-		if pos == -1:
-			break
-		postFixCount += 1
-		typeNames = type[pos+1:-postFixCount]
-		
-		# TODO: This contains a bug...remove it! T< Point<A, B>, C >
-		# TODO: This splitting absolutely does not work...replace it!
-		for typeName in splitParams(typeNames):
-			typeName = typeName.strip()
-			className = extractClassName(typeName)
-			
-			if className in nonPointerClasses: #or className in templateParams:
-				pos += 1
-			else:
-				type = type[:pos+1] + classPrefix + type[pos+1:-postFixCount] + classPostfix + type[-postFixCount:]
-				
-				# Because of the postfix pointer sign
-				postFixCount += 1
-				
-				# Because of the prefixes
-				pos += len(classPrefix) + len(classPostfix) + 1
-	
-	return type.replace("<", "< ").replace(">", " >")
+# Old version
+#===============================================================================
+# def adjustDataType2(type, adjustOuterAsWell = True, templateParamsMap = {}):
+#	if type == "void" or type in nonPointerClasses:
+#		return type
+#	
+#	if type in templateParamsMap:
+#		return templateParamsMap[type]
+#	
+#	# Adjust template params
+#	pos = type.find('<')
+#	postFixCount = 0
+#	typeName = ""
+#	className = ""
+#	standardClassPrefix = "BP"
+#	actorPrefix = "ActorWrapper"
+#	
+#	classPrefix = pointerType + "<" + standardClassPrefix
+#	classPostfix = ">"
+#	
+#	# Actors
+#	type = replaceActorGenerics(type, actorPrefix)
+#	
+#	if adjustOuterAsWell:
+#		if pos != -1:
+#			className = type[:pos]
+#		else:
+#			className = type
+#		
+#		classNameClean = removeUnmanaged(className)
+#		if (not classNameClean in nonPointerClasses): #and (not classNameClean in templateParams):
+#			# Unmanaged
+#			if className.startswith("~"):
+#				if classNameClean == "MemPointer":
+#					innerType = type[pos+1:-1]
+#					innerClass = extractClassName(innerType)
+#					#debugStop()
+#					if innerClass in nonPointerClasses: #or innerClass in templateParams:
+#						type = innerType + "*"
+#						postFixCount += 1
+#						pos = 0
+#					else:
+#						type = classPrefix + innerType + classPostfix + "*"
+#						postFixCount += len(classPostfix) + 1
+#						pos += len(classPrefix)
+#				else:
+#					type = standardClassPrefix + type[1:]
+#			else:
+#				pos += len(classPrefix)
+#				postFixCount += len(classPostfix)
+#				type = classPrefix + type + classPostfix
+#	else:
+#		type = standardClassPrefix + type
+#	
+#	while 1:
+#		pos = type.find('<', pos)
+#		if pos == -1:
+#			break
+#		postFixCount += 1
+#		typeNames = type[pos+1:-postFixCount]
+#		
+#		# TODO: This contains a bug...remove it! T< Point<A, B>, C >
+#		# TODO: This splitting absolutely does not work...replace it!
+#		for typeName in splitParams(typeNames):
+#			typeName = typeName.strip()
+#			className = extractClassName(typeName)
+#			
+#			if className in nonPointerClasses: #or className in templateParams:
+#				pos += 1
+#			else:
+#				type = type[:pos+1] + classPrefix + type[pos+1:-postFixCount] + classPostfix + type[-postFixCount:]
+#				
+#				# Because of the postfix pointer sign
+#				postFixCount += 1
+#				
+#				# Because of the prefixes
+#				pos += len(classPrefix) + len(classPostfix) + 1
+#	
+#	return type.replace("<", "< ").replace(">", " >")
+#===============================================================================
 
 #print(adjustDataType("Float"))
 #print(adjustDataType2("Float"))

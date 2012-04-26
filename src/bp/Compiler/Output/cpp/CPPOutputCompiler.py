@@ -131,6 +131,7 @@ class CPPOutputCompiler:
 			# Basic data types
 			outStream.write("#include <cstdint>\n")
 			outStream.write("#include <cstdlib>\n")
+			outStream.write("#include <gmp/gmpxx.h>\n")
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
 			outStream.write("typedef %s %s;\n" % ("CString", "String"))
@@ -190,6 +191,8 @@ class CPPOutputCompiler:
 			"-o%s" % (exe),
 			exe + ".o",
 			"-L" + self.libsDir,
+			"-lgmpxx",
+			"-lgmp",
 			#"-ltheron",
 			#"-lboost_thread",
 			#"-lpthread"

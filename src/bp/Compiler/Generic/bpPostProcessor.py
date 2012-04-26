@@ -183,6 +183,8 @@ def nodeToPseudoCode(node):
 		return ", ".join(params)
 	elif node.tagName == "parameter" or node.tagName == "value":
 		return nodeToPseudoCode(node.childNodes[0])
+	elif node.tagName == "negative":
+		return "-(" + nodeToPseudoCode(node.childNodes[0]) + ")"
 	elif node.tagName == "return":
 		return "return " + nodeToPseudoCode(node.childNodes[0])
 	elif node.tagName == "unmanaged":

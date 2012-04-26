@@ -8,15 +8,20 @@ paraFunc x, y
 	return x + y
 
 for i = 0 until 1
+	print "---"
 	timeA = systemTime()
 	#clockA = systemCPUClock()
 	
 	#for counter = 0 to 10
 	#	main()
-	print paraFunc(1, 2)
+	#factorial.test()
+	a : BigInt = 20
+	print factorial(a)
 	
 	#clockB = systemCPUClock()
 	timeB = systemTime()
 	
+	print "---"
 	print timeB - timeA
+	print "ms"
 	#print (clockB - clockA) / 10000 - 30

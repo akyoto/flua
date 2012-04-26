@@ -13,6 +13,11 @@ extern
 	bp_systemCPUClock : Int64
 	bp_swap
 
+#const INT32_MAX : Int32 = 2147483647
+#const INT32_MIN : Int32 = -2147483648
+#const INT64_MAX : Int64 = 9223372036854775807
+#const INT64_MIN : Int64 = -9223372036854775808
+
 print stri
 	bp_println stri
 

@@ -60,6 +60,12 @@ factorial n
 		n >= 0
 	ensure
 		result > 0
+	maybe
+		result : BigInt
+	test
+		assert factorial(0) == 1
+		assert factorial(10) == 3628800
+		assert factorial(20) == 2432902008176640000
 	
 	if n == 0
 		return 1

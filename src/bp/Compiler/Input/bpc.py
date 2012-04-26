@@ -263,6 +263,10 @@ class BPCFile(ScopeController):
 		self.inSetter = 0
 		self.inCasts = 0
 		self.inOperators = 0
+		self.inRequire = 0
+		self.inEnsure = 0
+		self.inMaybe = 0
+		self.inTest = 0
 		self.inCompilerFlags = 0
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
@@ -387,23 +391,32 @@ class BPCFile(ScopeController):
 		atTab = prevTabCount
 		while atTab > tabCount:
 			if countIns:
-				if self.currentNode.tagName == "switch":
+				nodeName = self.currentNode.tagName
+				if nodeName == "switch":
 					self.inSwitch -= 1
-				elif self.currentNode.tagName == "class":
+				elif nodeName == "class":
 					self.inClass -= 1
-				elif self.currentNode.tagName == "extern":
+				elif nodeName == "extern":
 					self.inExtern -= 1
-				elif self.currentNode.tagName == "template":
+				elif nodeName == "template":
 					self.inTemplate -= 1
-				elif self.currentNode.tagName == "get":
+				elif nodeName == "get":
 					self.inGetter -= 1
-				elif self.currentNode.tagName == "set":
+				elif nodeName == "set":
 					self.inSetter -= 1
-				elif self.currentNode.tagName == "casts":
+				elif nodeName == "casts":
 					self.inCasts = 0
-				elif self.currentNode.tagName == "operators":
+				elif nodeName == "operators":
 					self.inOperators -= 1
-				elif self.currentNode.tagName == "compiler-flags":
+				elif nodeName == "require":
+					self.inRequire -= 1
+				elif nodeName == "ensure":
+					self.inEnsure -= 1
+				elif nodeName == "maybe":
+					self.inMaybe -= 1
+				elif nodeName == "test":
+					self.inTest -= 1
+				elif nodeName == "compiler-flags":
 					self.inCompilerFlags -= 1
 			
 			self.currentNode = self.currentNode.parentNode
@@ -472,6 +485,14 @@ class BPCFile(ScopeController):
 			return self.handleCasts(line)
 		elif startsWith(line, "operator"):
 			return self.handleOperatorBlock(line)
+		elif startsWith(line, "require"):
+			return self.handleRequire(line)
+		elif startsWith(line, "ensure"):
+			return self.handleEnsure(line)
+		elif startsWith(line, "maybe"):
+			return self.handleMaybe(line)
+		elif startsWith(line, "test"):
+			return self.handleTest(line)
 		elif startsWith(line, "target"):
 			return self.handleTarget(line)
 		elif startsWith(line, "compilerflags"):
@@ -716,6 +737,46 @@ class BPCFile(ScopeController):
 			self.raiseBlockException("private", line)
 		
 		node = self.doc.createElement("private")
+		self.nextNode = node
+		return node
+		
+	def handleRequire(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("require", line)
+		
+		node = self.doc.createElement("require")
+		self.inRequire += 1
+		
+		self.nextNode = node
+		return node
+	
+	def handleEnsure(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("ensure", line)
+		
+		node = self.doc.createElement("ensure")
+		self.inEnsure += 1
+		
+		self.nextNode = node
+		return node
+	
+	def handleMaybe(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("maybe", line)
+		
+		node = self.doc.createElement("maybe")
+		self.inMaybe += 1
+		
+		self.nextNode = node
+		return node
+	
+	def handleTest(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("test", line)
+		
+		node = self.doc.createElement("test")
+		self.inTest += 1
+		
 		self.nextNode = node
 		return node
 		

@@ -275,6 +275,12 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "template":
 			return ""
+		elif tagName == "require":
+			return ""
+		elif tagName == "ensure":
+			return ""
+		elif tagName == "test":
+			return ""
 		elif tagName == "target":
 			return self.handleTarget(node)
 		elif tagName == "return":
@@ -984,8 +990,8 @@ class CPPOutputFile(ScopeController):
 				if self.inFunction:
 					# Recursive functions: Try to guess
 					if self.currentFunction and getElementByTagName(node, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFunction.returnTypes:
-							return self.currentFunction.returnTypes[0]
+						if self.currentFunctionImpl.returnTypes:
+							return self.currentFunctionImpl.getReturnType()
 						else:
 							raise CompilerException("Unknown data type for recursive call: " + self.currentFunction.getName())
 				
@@ -1051,22 +1057,32 @@ class CPPOutputFile(ScopeController):
 				return "~" + expr
 			elif node.tagName == "negative":
 				return self.getExprDataTypeClean(node.childNodes[0].childNodes[0])
-			elif len(node.childNodes) == 2:
+			elif len(node.childNodes) == 2: # Any binary operation
 				op1 = node.childNodes[0].childNodes[0]
 				op2 = node.childNodes[1].childNodes[0]
+				#op1Type = self.getExprDataType(op1)
+				#op2Type = self.getExprDataType(op2)
 				
+				# Recursive functions: Try to guess
 				if self.inFunction and self.currentFunction:
-					# Recursive functions: Try to guess
+					# Is the second operator the recursive call?
 					if tagName(op2) == "call" and getElementByTagName(op2, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFunction.returnTypes:
-							return self.currentFunction.returnTypes[0]
-						else:
-							return self.getExprDataType(op1)
+						op1Type = self.getExprDataType(op1)
+						self.currentFunctionImpl.returnTypes.append(op1Type)
+						return getHeavierOperator(op1Type, self.currentFunctionImpl.getReturnType())
+						#if self.currentFunctionImpl.returnTypes:
+						#	return self.currentFunctionImpl.getReturnType()
+						#else:
+						#	return op1Type
+					# Is the first operator the recursive call?
 					elif tagName(op1) == "call" and getElementByTagName(op1, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFunction.returnTypes:
-							return self.currentFunction.returnTypes[0]
-						else:
-							return self.getExprDataType(op2)
+						op2Type = self.getExprDataType(op2)
+						self.currentFunctionImpl.returnTypes.append(op2Type)
+						return getHeavierOperator(op2Type, self.currentFunctionImpl.getReturnType())
+						#if self.currentFunctionImpl.returnTypes:
+						#	return self.currentFunctionImpl.getReturnType()
+						#else:
+						#	return self.getExprDataType(op2)
 				
 				return self.getCombinationResult(node.tagName, self.getExprDataType(op1), self.getExprDataType(op2))
 			
@@ -1124,9 +1140,15 @@ class CPPOutputFile(ScopeController):
 		return varDefs + "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
 	
 	def handleReturn(self, node):
-		expr = self.parseExpr(node.childNodes[0], False)
+		# THIS STEP MUST BE EXECUTED BEFORE expr = ... IS CALLED!
+		# Recursive functions first need their data type value
+		# THEN parseExpr -> implementFunction can be called
 		retType = self.getExprDataType(node.childNodes[0])
 		self.currentFunctionImpl.returnTypes.append(retType)
+		
+		# STEP 2
+		expr = self.parseExpr(node.childNodes[0], False)
+		
 		#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 		return "return " + expr
 	
