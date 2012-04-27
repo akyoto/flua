@@ -65,28 +65,105 @@ simpleBlocks = {
 	"casts" : []
 }
 
+# Elements that simply wrap value nodes
+wrapperElements = [
+	"name",
+	"iterator",
+	"from",
+	"to",
+	"until",
+	"type",
+	"parameter",
+	"value"
+]
+
+xmlToBPCBlock = {
+	"operators" : "operator",
+	"template" : "template",
+	"set" : "set",
+	"get" : "get",
+}
+
 ####################################################################
 # Functions
 ####################################################################
-def nodeToBPC(node):
+def nodeToBPC(node, tabLevel = 0):
 	if isTextNode(node):
-		return node.nodeValue
+		text = node.nodeValue
+		if text.isspace():
+			return ""
+		if text.startswith("bp_string_"):
+			stringContent = ""
+			if node.parentNode:
+				node = node.parentNode
+				try:
+					while node.tagName != "module":
+						node = node.parentNode
+					
+					header = getElementByTagName(node, "header")
+					strings = getElementByTagName(header, "strings")
+					for child in strings.childNodes:
+						if isElemNode(child) and child.tagName == "string" and child.getAttribute("id") == text:
+							# TODO: Handle spaces and tabs for strings!
+							return '"%s"' % child.childNodes[0].nodeValue.strip()
+				except:
+					raise CompilerException("Can't find string value of '%s'" % (text))
+			return '""'
+		return text
 	
 	nodeName = node.tagName
+	# Type declaration
 	if nodeName == "declare-type":
 		op1 = node.childNodes[0].childNodes[0]
-		return nodeToBPC(op1)
+		op2 = node.childNodes[1].childNodes[0]
+		return nodeToBPC(op1) + " : " + nodeToBPC(op2)
+	# Call
 	elif nodeName == "call":
 		funcName = getCalledFuncName(node)
 		parameters = nodeToBPC(getElementByTagName(node, "parameters"))
-		return "%s(%s)" % (funcName, parameters)
+		
+		if node.parentNode.tagName == "code":
+			return "%s %s" % (funcName, parameters)
+		else:
+			return "%s(%s)" % (funcName, parameters)
+	# Parameters
 	elif nodeName == "parameters":
 		params = []
 		for param in node.childNodes:
-			params.append(nodeToBPC(param))
+			paramCode = nodeToBPC(param)
+			if len(paramCode) >= 1 and paramCode[0] == '(' and paramCode[-1] == ')':
+				paramCode = paramCode[1:-1]
+			params.append(paramCode)
 		return ", ".join(params)
-	elif nodeName == "parameter" or nodeName == "value" or nodeName == "type":
-		return nodeToBPC(node.childNodes[0])
+	# Code in general
+	elif nodeName == "code" or nodeName == "extern":
+		if nodeName == "extern":
+			tabLevel += 1
+		
+		code = ""
+		for child in node.childNodes:
+			instruction = nodeToBPC(child, tabLevel)
+			if instruction:
+				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
+					instruction = instruction[1:-1]
+				code += "\t" * tabLevel + instruction + "\n"
+		
+		code += "\t" * (tabLevel - 1)
+		if nodeName == "extern":
+			return "extern\n" + code
+		else:
+			return code
+	# Function definition
+	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter":
+		name = getElementByTagName(node, "name")
+		params = getElementByTagName(node, "parameters")
+		code = getElementByTagName(node, "code")
+		paramsCode = ""
+		if params:
+			paramsCode = nodeToBPC(params)
+			if paramsCode:
+				paramsCode = " " + paramsCode
+		return nodeToBPC(name) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1)
 	elif nodeName == "negative":
 		return "-(" + nodeToBPC(node.childNodes[0]) + ")"
 	elif nodeName == "return":
@@ -98,33 +175,104 @@ def nodeToBPC(node):
 	elif nodeName == "module":
 		header = getElementByTagName(node, "header")
 		code = getElementByTagName(node, "code")
-		return nodeToBPC(code)
+		return nodeToBPC(header) + nodeToBPC(code)
 	elif nodeName == "header":
-		return "#TODO: Header"
-	elif nodeName == "for":
-		return "#TODO: for"
-	elif nodeName == "function":
-		name = getElementByTagName(node, "name")
-		params = getElementByTagName(node, "parameters")
-		code = getElementByTagName(node, "code")
-		return nodeToBPC(code)
-	elif nodeName == "code":
-		code = "#Code: \n"
+		depNode = getElementByTagName(node, "dependencies")
+		return nodeToBPC(depNode)
+	elif nodeName == "dependencies":
+		deps = ""
 		for child in node.childNodes:
-			code += nodeToBPC(child) + "\n"
-		return code
+			if isElemNode(child) and child.tagName == "import":
+				deps += nodeToBPC(child)
+					
+		if deps:
+			return deps + "\n"
+		else:
+			return ""
+	elif nodeName == "import":
+		importMod = node.childNodes[0].nodeValue.strip()
+		
+		# Imported by default
+		if importMod == "bp.Core":
+			return ""
+		
+		return "import " + importMod + "\n"
+	elif nodeName == "for":
+		iterator = nodeToBPC(getElementByTagName(node, "iterator"))
+		start = nodeToBPC(getElementByTagName(node, "from"))
+		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1)
+		
+		toUntil = ""
+		toNode = getElementByTagName(node, "to")
+		untilNode = getElementByTagName(node, "until")
+		if toNode:
+			toUntil = "to"
+			end = nodeToBPC(toNode)
+		elif untilNode:
+			toUntil = "until"
+			end = nodeToBPC(untilNode)
+		else:
+			raise CompilerException("Missing <to> or <until> node")
+		
+		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
+	elif nodeName in wrapperElements:
+		return nodeToBPC(node.childNodes[0])
+	elif nodeName == "target":
+		return "target %s\n%s" % (nodeToBPC(getElementByTagName(node, "name")), nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1))
+	elif nodeName == "include":
+		return "include %s" % (node.childNodes[0].nodeValue)
+	elif nodeName == "extern-function":
+		nameNode = getElementByTagName(node, "name")
+		typeNode = getElementByTagName(node, "type")
+		typeName = ""
+		
+		if typeNode:
+			typeName = nodeToBPC(typeNode)
+			typeName = " : " + typeName
+		
+		return nodeToBPC(nameNode) + typeName
+	elif nodeName == "class":
+		nameNode = getElementByTagName(node, "name")
+		codeNode = getElementByTagName(node, "code")
+		return nodeToBPC(nameNode) + "\n" + nodeToBPC(codeNode, tabLevel + 1)
+	elif nodeName == "noop":
+		return "..."
+	elif nodeName in xmlToBPCBlock:
+		blockCode = ""
+		for child in node.childNodes:
+			if isElemNode(child):
+				blockCode += "\t" * (tabLevel + 1) + nodeToBPC(child, tabLevel + 1) + "\n"
+		blockCode += "\t" * tabLevel
+		return xmlToBPCBlock[nodeName] + "\n" + blockCode
 	elif nodeName in binaryOperatorTagToSymbol:
-		print(nodeName)
-		print(node.toprettyxml())
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		space = " "
+		prefix = "("
+		postfix = ")"
 		if nodeName == "access":
 			space = ""
+			prefix = ""
+			postfix = ""
 		
-		return "(" + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + ")"
+		return prefix + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + postfix
 	
 	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (nodeName))
+
+def getCalledFuncName(node):
+	funcNameNode = getFuncNameNode(node)
+	
+	caller = ""
+	if isTextNode(funcNameNode):
+		funcName = funcNameNode.nodeValue
+	else:
+		caller = nodeToBPC(funcNameNode.childNodes[0].childNodes[0])
+		funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+	
+	if caller:
+		funcName = caller + "." + funcName
+	
+	return funcName
 
 ####################################################################
 # Classes

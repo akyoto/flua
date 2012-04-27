@@ -1,0 +1,1 @@
+from bp.Tools.IDE.Syntax.BPCSyntax import *

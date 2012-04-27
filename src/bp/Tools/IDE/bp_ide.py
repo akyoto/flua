@@ -34,12 +34,22 @@ from PyQt4 import QtGui, QtCore
 from bp.Compiler import *
 
 ####################################################################
-# Main
+# Globals
+####################################################################
+
+####################################################################
+# Syntax modules
+####################################################################
+from bp.Tools.IDE.Syntax import *
+
+####################################################################
+# Code
 ####################################################################
 class BPCodeEdit(QtGui.QTextEdit):
 	
 	def __init__(self):
 		super(BPCodeEdit, self).__init__()
+		self.highlighter = BPCHighlighter(self.document())
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
 
@@ -60,34 +70,34 @@ class BPEditor(QtGui.QMainWindow):
 		action.setStatusTip("Create new file")
 		action.triggered.connect(self.newFile)
 		
-		openAction = action = QtGui.QAction(QtGui.QIcon("images/open.svg"), "&Open", self)  
+		openAction = action = QtGui.QAction(QtGui.QIcon("images/open.svg"), "&Open", self)
 		action.setShortcut("Ctrl+O")
 		action.setStatusTip("Open new file")
 		action.triggered.connect(self.openFile)
 		
-		saveAction = action = QtGui.QAction(QtGui.QIcon("images/save.svg"), "&Save", self)  
+		saveAction = action = QtGui.QAction(QtGui.QIcon("images/save.svg"), "&Save", self)
 		action.setShortcut("Ctrl+S")
 		action.setStatusTip("Save file")
 		action.triggered.connect(self.saveFile)
 		
-		saveAsAction = action = QtGui.QAction(QtGui.QIcon("images/save-as.svg"), "Save &As", self)  
+		saveAsAction = action = QtGui.QAction(QtGui.QIcon("images/save-as.svg"), "Save &As", self)
 		action.setShortcut("Ctrl+Shift+S")
 		action.setStatusTip("Save as another file")
 		action.triggered.connect(self.saveAsFile)
 		
-		exitAction = action = QtGui.QAction(QtGui.QIcon("images/exit.svg"), "&Exit", self)        
+		exitAction = action = QtGui.QAction(QtGui.QIcon("images/exit.svg"), "&Exit", self)		
 		action.setShortcut("Ctrl+Q")
 		action.setStatusTip("Exit application")
 		action.triggered.connect(self.close)
 		
 		# Module menu actions
-		runModuleAction = action = QtGui.QAction(QtGui.QIcon("images/run.svg"), "&Run", self)  
+		runModuleAction = action = QtGui.QAction(QtGui.QIcon("images/run.svg"), "&Run", self)
 		action.setShortcut("Ctrl+R")
 		action.setStatusTip("Run")
 		action.triggered.connect(self.runModule)
 		
 		# Help menu actions
-		aboutAction = action = QtGui.QAction(QtGui.QIcon("images/about.svg"), "&About", self)  
+		aboutAction = action = QtGui.QAction(QtGui.QIcon("images/about.svg"), "&About", self)
 		action.triggered.connect(self.about)
 		
 		# Menu bar
@@ -166,19 +176,28 @@ class BPEditor(QtGui.QMainWindow):
 		self.file = fileName
 		
 		# Read
-		#with codecs.open(self.file, "r", "utf-8") as inStream:
-		#	codeText = inStream.read()
+		with codecs.open(self.file, "r", "utf-8") as inStream:
+			codeText = inStream.read()
 		
 		# TODO: Remove all BOMs
-		#if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
-		#	codeText = codeText[1:]
+		if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
+			codeText = codeText[1:]
 		
 		# Remove whitespaces
-		#codeText = codeText.replace("\t", "")
+		# TODO: Ignore bp_strings!
+		headerEnd = codeText.find("</header>")
+		pos = codeText.find("\t", headerEnd)
+		while pos != -1:
+			codeText = codeText.replace("\t", "")
+			pos = codeText.find("\t", headerEnd)
+			
+		pos = codeText.find("\n", headerEnd)
+		while pos != -1:
+			codeText = codeText.replace("\n", "")
+			pos = codeText.find("\n", headerEnd)
 		
-		#self.doc = parseString(codeText.encode( "utf-8" ))
-		self.doc = parse(self.file)
-		self.codeEdit.setText(nodeToBPC(self.doc.documentElement))
+		self.doc = parseString(codeText.encode( "utf-8" ))
+		self.codeEdit.setText(nodeToBPC(self.doc.documentElement).strip())
 		
 	def saveFile(self):
 		pass

@@ -105,9 +105,9 @@ if __name__ == '__main__':
 		#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
 		#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
 		print("")
-		filter = "aosdkfoai"
+		filterByName = "aosdkfoai"
 		for tree in dTreeByFunctionName.values():
-			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filter or tree.name in filter):
+			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filterByName or tree.name in filterByName):
 				tree.printNodes()
 				print("")
 		

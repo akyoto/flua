@@ -162,21 +162,6 @@ def getInstructionTime(xmlNode):
 		raise CompilerException(nodeName)
 	
 	return 0
-
-def getCalledFuncName(node):
-	funcNameNode = getFuncNameNode(node)
-	
-	caller = ""
-	if isTextNode(funcNameNode):
-		funcName = funcNameNode.nodeValue
-	else:
-		caller = nodeToBPC(funcNameNode.childNodes[0].childNodes[0])
-		funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
-	
-	if caller:
-		funcName = caller + "." + funcName
-	
-	return funcName
 	
 def automaticallyParallelize(dTreeDict):
 	for dTree in dTreeDict.values():

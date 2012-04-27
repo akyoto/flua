@@ -29,8 +29,7 @@ Circle
 		diameter
 			return self.radius * 2
 		
-		# TODO: english
-		umfang
+		perimeter
 			return 2 * π * self.radius
 		
 	contains point
