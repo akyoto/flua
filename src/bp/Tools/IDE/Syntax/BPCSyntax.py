@@ -43,7 +43,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 		'for', 'from', 'to', 'until', 'if', 'import', 'in',
 		'switch', 'case', 'target', 'compilerflags', 'get', 'set', 'operator', 'extern', 'include',
 		'template', 'not', 'or',
-		'return', 'try', 'while',
+		'return', 'try', 'catch', 'while',
 		'null', 'true', 'false',
 	]
 	
@@ -135,9 +135,9 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 		self.setCurrentBlockState(0)
 
 		# Do multi-line strings
-		in_multiline = self.match_multiline(text, *self.tri_single)
-		if not in_multiline:
-			in_multiline = self.match_multiline(text, *self.tri_double)
+		#in_multiline = self.match_multiline(text, *self.tri_single)
+		#if not in_multiline:
+		#	in_multiline = self.match_multiline(text, *self.tri_double)
 
 
 	def match_multiline(self, text, delimiter, in_state, style):

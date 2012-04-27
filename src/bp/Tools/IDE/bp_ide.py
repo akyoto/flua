@@ -52,6 +52,7 @@ class BPCodeEdit(QtGui.QTextEdit):
 		self.highlighter = BPCHighlighter(self.document())
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
+		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
 
 class BPEditor(QtGui.QMainWindow):
 	
@@ -158,7 +159,7 @@ class BPEditor(QtGui.QMainWindow):
 		self.move(qr.topLeft())
 		
 	def newFile(self):
-		self.textEdit.clear()
+		self.codeEdit.clear()
 		
 	def openFile(self, path):
 		fileName = path
@@ -166,7 +167,7 @@ class BPEditor(QtGui.QMainWindow):
 			fileName = QtGui.QFileDialog.getOpenFileName(
 				parent=self,
 				caption="Open File",
-				directory="",
+				directory=modDir,
 				filter="bp Files (*.bp)")
 		
 		if fileName:
@@ -197,7 +198,27 @@ class BPEditor(QtGui.QMainWindow):
 			pos = codeText.find("\n", headerEnd)
 		
 		self.doc = parseString(codeText.encode( "utf-8" ))
-		self.codeEdit.setText(nodeToBPC(self.doc.documentElement).strip())
+		code = nodeToBPC(self.doc.documentElement).strip()
+		
+		# Remove two empty lines
+		offset = 0
+		lastLineEmpty = False
+		lines = code.split("\n")
+		for index in range(0, len(lines)):
+			i = index + offset
+			if i < len(lines):
+				line = lines[i]
+				if line.strip() == "":
+					if lastLineEmpty:
+						lines = lines[:i-1] + lines[i:]
+						offset -= 1
+					lastLineEmpty = True
+				else:
+					lastLineEmpty = False
+			else:
+				break
+		
+		self.codeEdit.setText("\n".join(lines))
 		
 	def saveFile(self):
 		pass

@@ -66,7 +66,7 @@ simpleBlocks = {
 }
 
 # Elements that simply wrap value nodes
-wrapperElements = [
+wrapperSingleElement = [
 	"name",
 	"iterator",
 	"from",
@@ -74,7 +74,17 @@ wrapperElements = [
 	"until",
 	"type",
 	"parameter",
-	"value"
+	"value",
+	"condition",
+	"variable"
+]
+
+wrapperMultipleElements = [
+	"code",
+	"extern",
+	"if-block",
+	"try-block",
+	"switch"
 ]
 
 xmlToBPCBlock = {
@@ -82,12 +92,37 @@ xmlToBPCBlock = {
 	"template" : "template",
 	"set" : "set",
 	"get" : "get",
+	"else" : "else",
+	"try" : "try",
+	"private" : "private"
+	#"static" : "static"
+}
+
+xmlToBPCExprBlock = {
+	"target" : ["target", "name", "code"],
+	"if" : ["if", "condition", "code"],
+	"else-if" : ["elif", "condition", "code"],
+	"case" : ["case", "values", "code"],
+	"while" : ["while", "condition", "code"],
+	"catch" : ["catch", "variable", "code"]
+}
+
+xmlToBPCSingleLineExpr = {
+	"return" : "return",
+	"include" : "include",
+	"const" : "const",
+	"break" : "break",
+	"continue" : "continue",
+	"throw" : "throw"
 }
 
 ####################################################################
 # Functions
 ####################################################################
 def nodeToBPC(node, tabLevel = 0):
+	if node is None:
+		return ""
+	
 	if isTextNode(node):
 		text = node.nodeValue
 		if text.isspace():
@@ -127,7 +162,7 @@ def nodeToBPC(node, tabLevel = 0):
 		else:
 			return "%s(%s)" % (funcName, parameters)
 	# Parameters
-	elif nodeName == "parameters":
+	elif nodeName == "parameters" or nodeName == "values":
 		params = []
 		for param in node.childNodes:
 			paramCode = nodeToBPC(param)
@@ -136,21 +171,31 @@ def nodeToBPC(node, tabLevel = 0):
 			params.append(paramCode)
 		return ", ".join(params)
 	# Code in general
-	elif nodeName == "code" or nodeName == "extern":
-		if nodeName == "extern":
+	elif nodeName in wrapperMultipleElements:
+		if nodeName == "extern" or nodeName == "switch":
 			tabLevel += 1
 		
 		code = ""
+		tabs = ""
+		if nodeName == "code" or nodeName == "extern" or nodeName == "switch":
+			tabs = "\t" * tabLevel
+		
 		for child in node.childNodes:
 			instruction = nodeToBPC(child, tabLevel)
 			if instruction:
+				newline = "\n"
 				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
 					instruction = instruction[1:-1]
-				code += "\t" * tabLevel + instruction + "\n"
+				#if child.tagName == "if":
+				#	newline = ""
+				code += tabs + instruction + newline
 		
 		code += "\t" * (tabLevel - 1)
 		if nodeName == "extern":
 			return "extern\n" + code
+		elif nodeName == "switch":
+			switchExpr = nodeToBPC(getElementByTagName(node, "value"))
+			return "switch %s\n%s" % (switchExpr, code)
 		else:
 			return code
 	# Function definition
@@ -166,8 +211,6 @@ def nodeToBPC(node, tabLevel = 0):
 		return nodeToBPC(name) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1)
 	elif nodeName == "negative":
 		return "-(" + nodeToBPC(node.childNodes[0]) + ")"
-	elif nodeName == "return":
-		return "return " + nodeToBPC(node.childNodes[0])
 	elif nodeName == "unmanaged":
 		return "~" + nodeToBPC(node.childNodes[0])
 	elif nodeName == "new":
@@ -215,12 +258,11 @@ def nodeToBPC(node, tabLevel = 0):
 			raise CompilerException("Missing <to> or <until> node")
 		
 		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
-	elif nodeName in wrapperElements:
-		return nodeToBPC(node.childNodes[0])
-	elif nodeName == "target":
-		return "target %s\n%s" % (nodeToBPC(getElementByTagName(node, "name")), nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1))
-	elif nodeName == "include":
-		return "include %s" % (node.childNodes[0].nodeValue)
+	elif nodeName in wrapperSingleElement:
+		if node.childNodes:
+			return nodeToBPC(node.childNodes[0])
+		else:
+			return ""
 	elif nodeName == "extern-function":
 		nameNode = getElementByTagName(node, "name")
 		typeNode = getElementByTagName(node, "type")
@@ -237,11 +279,24 @@ def nodeToBPC(node, tabLevel = 0):
 		return nodeToBPC(nameNode) + "\n" + nodeToBPC(codeNode, tabLevel + 1)
 	elif nodeName == "noop":
 		return "..."
+	elif nodeName in xmlToBPCSingleLineExpr:
+		keyword = xmlToBPCSingleLineExpr[nodeName]
+		
+		if node.childNodes:
+			return "%s %s" % (keyword, nodeToBPC(node.childNodes[0]))
+		else:
+			return keyword
+	elif nodeName in xmlToBPCExprBlock:
+		exprBlock = xmlToBPCExprBlock[nodeName]
+		return "%s %s\n%s" % (exprBlock[0], nodeToBPC(getElementByTagName(node, exprBlock[1])), nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1))
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""
+		tabs = ""
+		if nodeName != "else":
+			tabs = "\t" * (tabLevel + 1)
 		for child in node.childNodes:
 			if isElemNode(child):
-				blockCode += "\t" * (tabLevel + 1) + nodeToBPC(child, tabLevel + 1) + "\n"
+				blockCode += tabs + nodeToBPC(child, tabLevel + 1) + "\n"
 		blockCode += "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode
 	elif nodeName in binaryOperatorTagToSymbol:
@@ -250,10 +305,10 @@ def nodeToBPC(node, tabLevel = 0):
 		space = " "
 		prefix = "("
 		postfix = ")"
-		if nodeName == "access":
-			space = ""
-			prefix = ""
-			postfix = ""
+		#if nodeName == "access":
+		#	space = ""
+		#	prefix = ""
+		#	postfix = ""
 		
 		return prefix + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + postfix
 	
