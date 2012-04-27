@@ -36,6 +36,8 @@ import codecs
 ####################################################################
 # XML tags which can follow another tag
 
+# Used by BPC -> XML compiler
+
 # 2 levels
 blocks = {
 	"if-block" : ["else-if", "else"],
@@ -65,6 +67,8 @@ simpleBlocks = {
 	"casts" : []
 }
 
+# Used by XML -> BPC compiler
+
 # Elements that simply wrap value nodes
 wrapperSingleElement = [
 	"name",
@@ -83,8 +87,7 @@ wrapperMultipleElements = [
 	"code",
 	"extern",
 	"if-block",
-	"try-block",
-	"switch"
+	"try-block"
 ]
 
 xmlToBPCBlock = {
@@ -93,7 +96,6 @@ xmlToBPCBlock = {
 	"set" : "set",
 	"get" : "get",
 	"else" : "else",
-	"try" : "try",
 	"private" : "private"
 	#"static" : "static"
 }
@@ -102,9 +104,11 @@ xmlToBPCExprBlock = {
 	"target" : ["target", "name", "code"],
 	"if" : ["if", "condition", "code"],
 	"else-if" : ["elif", "condition", "code"],
-	"case" : ["case", "values", "code"],
+	"try" : ["try", "", "code"],
+	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
-	"catch" : ["catch", "variable", "code"]
+	"catch" : ["catch", "variable", "code"],
+	"switch" : ["switch", "value", "case"]
 }
 
 xmlToBPCSingleLineExpr = {
@@ -115,6 +119,11 @@ xmlToBPCSingleLineExpr = {
 	"continue" : "continue",
 	"throw" : "throw"
 }
+
+elementsNoNewline = [
+	"if", "else-if", "else",
+	"try", "catch"
+]
 
 ####################################################################
 # Functions
@@ -172,12 +181,12 @@ def nodeToBPC(node, tabLevel = 0):
 		return ", ".join(params)
 	# Code in general
 	elif nodeName in wrapperMultipleElements:
-		if nodeName == "extern" or nodeName == "switch":
+		if nodeName == "extern":
 			tabLevel += 1
 		
 		code = ""
 		tabs = ""
-		if nodeName == "code" or nodeName == "extern" or nodeName == "switch":
+		if nodeName == "code" or nodeName == "extern" :
 			tabs = "\t" * tabLevel
 		
 		for child in node.childNodes:
@@ -186,16 +195,16 @@ def nodeToBPC(node, tabLevel = 0):
 				newline = "\n"
 				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
 					instruction = instruction[1:-1]
-				#if child.tagName == "if":
-				#	newline = ""
+				if child.tagName in elementsNoNewline:
+					newline = ""
 				code += tabs + instruction + newline
 		
 		code += "\t" * (tabLevel - 1)
 		if nodeName == "extern":
 			return "extern\n" + code
-		elif nodeName == "switch":
-			switchExpr = nodeToBPC(getElementByTagName(node, "value"))
-			return "switch %s\n%s" % (switchExpr, code)
+		#elif nodeName == "switch":
+		#	switchExpr = nodeToBPC(getElementByTagName(node, "value"))
+		#	return "switch %s\n%s" % (switchExpr, code)
 		else:
 			return code
 	# Function definition
@@ -288,7 +297,24 @@ def nodeToBPC(node, tabLevel = 0):
 			return keyword
 	elif nodeName in xmlToBPCExprBlock:
 		exprBlock = xmlToBPCExprBlock[nodeName]
-		return "%s %s\n%s" % (exprBlock[0], nodeToBPC(getElementByTagName(node, exprBlock[1])), nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1))
+		exprNode = getElementByTagName(node, exprBlock[1])
+		expr = ""
+		space = ""
+		if exprNode:
+			expr = nodeToBPC(exprNode)
+		name = exprBlock[0]
+		if name and expr:
+			space = " "
+		
+		if nodeName != "switch":
+			code = nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1)
+		else:
+			code = "\t" * (tabLevel + 1)
+			childNodeName = exprBlock[2]
+			for child in node.childNodes:
+				if isElemNode(child) and child.tagName == childNodeName:
+					code += nodeToBPC(child, tabLevel + 1)
+		return "%s%s%s\n%s" % (name, space, expr, code)
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""
 		tabs = ""
