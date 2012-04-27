@@ -53,7 +53,43 @@ class BPCodeEdit(QtGui.QTextEdit):
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
 		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
-
+		self.converter = None
+		self.lines = []
+		
+	def setXML(self, xmlCode):
+		self.doc = parseString(xmlCode.encode( "utf-8" ))
+		self.root = self.doc.documentElement
+		codeNode = getElementByTagName(self.root, "code")
+		
+		self.converter = LineToNodeConverter()
+		bpcCode = nodeToBPC(codeNode, 0, self.converter)
+		self.lines = bpcCode.split("\n")
+		
+		# Remove two empty lines
+		if 0:
+			offset = 0
+			lastLineEmpty = False
+			for index in range(0, len(self.lines)):
+				i = index + offset
+				if i < len(self.lines):
+					line = self.lines[i]
+					if line.strip() == "":
+						if lastLineEmpty:
+							self.removeLineNumber(i)
+							offset -= 1
+						lastLineEmpty = True
+					else:
+						lastLineEmpty = False
+				else:
+					break
+		
+		self.setText("\n".join(self.lines))
+		
+	def removeLineNumber(self, index):
+		# TODO: Fix index by +1 -1
+		self.lines = self.lines[:index-1] + self.lines[index:]
+		self.converter.lineToNode = self.converter.lineToNode[:index-1] + self.converter.lineToNode[index:]
+		
 class BPEditor(QtGui.QMainWindow):
 	
 	def __init__(self):
@@ -91,6 +127,17 @@ class BPEditor(QtGui.QMainWindow):
 		action.setStatusTip("Exit application")
 		action.triggered.connect(self.close)
 		
+		# Edit
+		undoAction = action = QtGui.QAction(QtGui.QIcon("images/undo.svg"), "&Undo", self)
+		action.setShortcut("Ctrl+Z")
+		action.setStatusTip("Undo last action")
+		action.triggered.connect(self.undoLastAction)
+		
+		redoAction = action = QtGui.QAction(QtGui.QIcon("images/redo.svg"), "&Redo", self)
+		action.setShortcut("Ctrl+Y")
+		action.setStatusTip("Redo last action")
+		action.triggered.connect(self.redoLastAction)
+		
 		# Module menu actions
 		runModuleAction = action = QtGui.QAction(QtGui.QIcon("images/run.svg"), "&Run", self)
 		action.setShortcut("Ctrl+R")
@@ -112,11 +159,25 @@ class BPEditor(QtGui.QMainWindow):
 		fileMenu.addSeparator()
 		fileMenu.addAction(exitAction)
 		
+		editMenu = menuBar.addMenu("&Edit")
+		editMenu.addAction(undoAction)
+		editMenu.addAction(redoAction)
+		
 		moduleMenu = menuBar.addMenu("&Module")
 		moduleMenu.addAction(runModuleAction)
 		
 		helpMenu = menuBar.addMenu("&Help")
 		helpMenu.addAction(aboutAction)
+		
+		# Syntax switcher
+		syntaxSwitcher = QtGui.QComboBox()
+		syntaxSwitcher.addItem("BPC Syntax")
+		syntaxSwitcher.addItem("C++/Java Syntax")
+		syntaxSwitcher.addItem("Python Syntax")
+		syntaxSwitcher.addItem("Ruby Syntax")
+		
+		spacerWidget = QtGui.QWidget()
+		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
 		
 		# Tool bar
 		self.toolbar = self.addToolBar("Exit")
@@ -126,6 +187,10 @@ class BPEditor(QtGui.QMainWindow):
 		self.toolbar.addAction(saveAction)
 		self.toolbar.addSeparator()
 		self.toolbar.addAction(runModuleAction)
+		self.toolbar.addSeparator()
+		self.toolbar.addWidget(spacerWidget)
+		self.toolbar.addWidget(syntaxSwitcher)
+		self.toolbar.addSeparator()
 		
 	def initUI(self):
 		self.initMenu()
@@ -141,22 +206,57 @@ class BPEditor(QtGui.QMainWindow):
 		
 		self.editPanel = QtGui.QWidget()
 		self.codeEdit = BPCodeEdit()
-		self.usedFuncsView = BPCodeEdit()
+		self.codeEdit.cursorPositionChanged.connect(self.loadContext)
+		self.contextView = BPCodeEdit()
+		self.contextView.setReadOnly(1)
 		
 		hBox = QtGui.QHBoxLayout()
 		hBox.addWidget(self.codeEdit)
-		hBox.addWidget(self.usedFuncsView)
+		hBox.addWidget(self.contextView)
 		hBox.setStretchFactor(self.codeEdit, 1)
 		self.editPanel.setLayout(hBox)
 		
 		self.setCentralWidget(self.editPanel)
 		self.show()
 		
-	def center(self):
-		qr = self.frameGeometry()
-		cp = QtGui.QDesktopWidget().availableGeometry().center()
-		qr.moveCenter(cp)
-		self.move(qr.topLeft())
+	def loadContext(self):
+		try:
+			cursor = self.codeEdit.textCursor()
+			lineNumber = cursor.blockNumber()
+			self.statusBar().showMessage("Line %d" % (lineNumber + 1))
+			
+			# Check that line
+			xmlCode = self.codeEdit.converter.getNode(lineNumber).toprettyxml()
+			self.contextView.setText(xmlCode)
+			#line = cursor.block().text()
+		except:
+			self.contextView.setText("")
+		
+	def loadFileToEditor(self, fileName):
+		self.file = fileName
+		
+		# Read
+		with codecs.open(self.file, "r", "utf-8") as inStream:
+			xmlCode = inStream.read()
+		
+		# TODO: Remove all BOMs
+		if len(xmlCode) and xmlCode[0] == '\ufeff': #codecs.BOM_UTF8:
+			xmlCode = xmlCode[1:]
+		
+		# Remove whitespaces
+		# TODO: Ignore bp_strings!
+		headerEnd = xmlCode.find("</header>")
+		pos = xmlCode.find("\t", headerEnd)
+		while pos != -1:
+			xmlCode = xmlCode.replace("\t", "")
+			pos = xmlCode.find("\t", headerEnd)
+			
+		pos = xmlCode.find("\n", headerEnd)
+		while pos != -1:
+			xmlCode = xmlCode.replace("\n", "")
+			pos = xmlCode.find("\n", headerEnd)
+		
+		self.codeEdit.setXML(xmlCode)
 		
 	def newFile(self):
 		self.codeEdit.clear()
@@ -173,53 +273,6 @@ class BPEditor(QtGui.QMainWindow):
 		if fileName:
 			self.loadFileToEditor(fileName)
 		
-	def loadFileToEditor(self, fileName):
-		self.file = fileName
-		
-		# Read
-		with codecs.open(self.file, "r", "utf-8") as inStream:
-			codeText = inStream.read()
-		
-		# TODO: Remove all BOMs
-		if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
-			codeText = codeText[1:]
-		
-		# Remove whitespaces
-		# TODO: Ignore bp_strings!
-		headerEnd = codeText.find("</header>")
-		pos = codeText.find("\t", headerEnd)
-		while pos != -1:
-			codeText = codeText.replace("\t", "")
-			pos = codeText.find("\t", headerEnd)
-			
-		pos = codeText.find("\n", headerEnd)
-		while pos != -1:
-			codeText = codeText.replace("\n", "")
-			pos = codeText.find("\n", headerEnd)
-		
-		self.doc = parseString(codeText.encode( "utf-8" ))
-		code = nodeToBPC(self.doc.documentElement).strip()
-		
-		# Remove two empty lines
-		offset = 0
-		lastLineEmpty = False
-		lines = code.split("\n")
-		for index in range(0, len(lines)):
-			i = index + offset
-			if i < len(lines):
-				line = lines[i]
-				if line.strip() == "":
-					if lastLineEmpty:
-						lines = lines[:i-1] + lines[i:]
-						offset -= 1
-					lastLineEmpty = True
-				else:
-					lastLineEmpty = False
-			else:
-				break
-		
-		self.codeEdit.setText("\n".join(lines))
-		
 	def saveFile(self):
 		pass
 	
@@ -227,8 +280,13 @@ class BPEditor(QtGui.QMainWindow):
 		pass
 		
 	def runModule(self):
-		bpc = BPCCompiler(modDir)
-		compiler = BPPostProcessor(bpc)
+		compiler = BPPostProcessor(self.bpc)
+		
+	def undoLastAction(self):
+		self.codeEdit.undo()
+		
+	def redoLastAction(self):
+		self.codeEdit.redo()
 		
 	def about(self):
 		QtGui.QMessageBox.about(self, "About blitzprog IDE",
@@ -246,6 +304,12 @@ class BPEditor(QtGui.QMainWindow):
 								by Eduard Urbach
 							</p>
 							""")
+		
+	def center(self):
+		qr = self.frameGeometry()
+		cp = QtGui.QDesktopWidget().availableGeometry().center()
+		qr.moveCenter(cp)
+		self.move(qr.topLeft())
 		
 	def closeEvent(self, event):
 		event.accept()

@@ -122,13 +122,49 @@ xmlToBPCSingleLineExpr = {
 
 elementsNoNewline = [
 	"if", "else-if", "else",
-	"try", "catch"
+	"try", "catch", "case"
 ]
 
 ####################################################################
 # Functions
 ####################################################################
-def nodeToBPC(node, tabLevel = 0):
+class LineToNodeConverter:
+	
+	def __init__(self):
+		self.lineToNode = []
+		
+	def add(self, node):
+		self.lineToNode.append(node)
+		
+	def getNode(self, index):
+		return self.lineToNode[index]
+
+def nodeToBPCSaved(node, tabLevel, conv):
+	nodeName = node.tagName
+	
+	# First step
+	isInvalidNode = (nodeName == "if-block" or nodeName == "try-block")
+	isInvalidNodeToCheckNewlines = (nodeName in elementsNoNewline)
+	if conv:
+		oldLen = len(conv.lineToNode)
+		if not isInvalidNode:
+			conv.add(node)
+	
+	# Second step
+	codeAdded = nodeToBPC(node, tabLevel, conv)
+	if conv and not isInvalidNodeToCheckNewlines:
+		newLen = len(conv.lineToNode)
+		codeLinesAdded = len(codeAdded.split("\n"))#codeAdded.count("\n") + 1
+		nodeLinesAdded = newLen - oldLen
+		print(oldLen, newLen, "|", codeLinesAdded, "-", nodeLinesAdded, "=", codeLinesAdded - nodeLinesAdded, nodeName)
+		
+		if nodeLinesAdded < codeLinesAdded:
+			diff = codeLinesAdded - nodeLinesAdded
+			for i in range(0, diff):
+				conv.add(None)
+	return codeAdded
+
+def nodeToBPC(node, tabLevel = 0, conv = None):
 	if node is None:
 		return ""
 	
@@ -190,13 +226,19 @@ def nodeToBPC(node, tabLevel = 0):
 			tabs = "\t" * tabLevel
 		
 		for child in node.childNodes:
-			instruction = nodeToBPC(child, tabLevel)
+			# Save nodes in array
+			if conv:
+				instruction = nodeToBPCSaved(child, tabLevel, conv)
+			else:
+				instruction = nodeToBPC(child, tabLevel)
+			
 			if instruction:
 				newline = "\n"
 				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
 					instruction = instruction[1:-1]
 				if child.tagName in elementsNoNewline:
 					newline = ""
+				
 				code += tabs + instruction + newline
 		
 		code += "\t" * (tabLevel - 1)
@@ -217,7 +259,7 @@ def nodeToBPC(node, tabLevel = 0):
 			paramsCode = nodeToBPC(params)
 			if paramsCode:
 				paramsCode = " " + paramsCode
-		return nodeToBPC(name) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1)
+		return nodeToBPC(name) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
 	elif nodeName == "negative":
 		return "-(" + nodeToBPC(node.childNodes[0]) + ")"
 	elif nodeName == "unmanaged":
@@ -252,7 +294,7 @@ def nodeToBPC(node, tabLevel = 0):
 	elif nodeName == "for":
 		iterator = nodeToBPC(getElementByTagName(node, "iterator"))
 		start = nodeToBPC(getElementByTagName(node, "from"))
-		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1)
+		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
 		
 		toUntil = ""
 		toNode = getElementByTagName(node, "to")
@@ -307,13 +349,13 @@ def nodeToBPC(node, tabLevel = 0):
 			space = " "
 		
 		if nodeName != "switch":
-			code = nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1)
+			code = nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1, conv)
 		else:
 			code = "\t" * (tabLevel + 1)
 			childNodeName = exprBlock[2]
 			for child in node.childNodes:
 				if isElemNode(child) and child.tagName == childNodeName:
-					code += nodeToBPC(child, tabLevel + 1)
+					code += nodeToBPCSaved(child, tabLevel + 1, conv)
 		return "%s%s%s\n%s" % (name, space, expr, code)
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""
@@ -322,8 +364,8 @@ def nodeToBPC(node, tabLevel = 0):
 			tabs = "\t" * (tabLevel + 1)
 		for child in node.childNodes:
 			if isElemNode(child):
-				blockCode += tabs + nodeToBPC(child, tabLevel + 1) + "\n"
-		blockCode += "\t" * tabLevel
+				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
+		blockCode = blockCode[:-1] + "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
@@ -331,10 +373,10 @@ def nodeToBPC(node, tabLevel = 0):
 		space = " "
 		prefix = "("
 		postfix = ")"
-		#if nodeName == "access":
-		#	space = ""
-		#	prefix = ""
-		#	postfix = ""
+		if nodeName == "access":
+			space = ""
+			#prefix = ""
+			#postfix = ""
 		
 		return prefix + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + postfix
 	
