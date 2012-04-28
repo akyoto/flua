@@ -37,107 +37,116 @@ from bp.Compiler.Config import *
 ####################################################################
 # Main
 ####################################################################
+def bpMain(compileFile, outputDir = None):
+	compileFile = fixPath(os.path.abspath(compileFile))
+	outputDir = fixPath(os.path.abspath(outputDir) + "/")
+	
+	print("Main file: " + compileFile)
+	print("Output dir: " + outputDir)
+	print("Starting:")
+	totalStart = time.time()
+	
+	# Compile
+	start = time.time()
+	
+	bpcCompilerInstance = BPCCompiler(getModuleDir())
+	bpcCompilerInstance.compile(compileFile)
+	
+	compileTime = time.time() - start
+	
+	# Post-processing
+	start = time.time()
+	
+	bpp = BPPostProcessor(bpc)
+	bpp.processExistingInputFile(bpc.getCompiledFiles()[0])
+	bpcCompilerInstance.writeToFS(outputDir + "xml/")
+	
+	postProcessTime = time.time() - start
+	
+	# Parallelizer
+	start = time.time()
+	
+	automaticallyParallelize(dTreeByNode)
+	automaticallyParallelize(dTreeByFunctionName)
+	
+	autoParallelizerTime = time.time() - start
+	
+	# Generate
+	start = time.time()
+	
+	cpp = CPPOutputCompiler(bpc)
+	cpp.compile(bpc.getCompiledFiles()[0])
+	cpp.writeToFS(outputDir)
+	
+	generateTime = time.time() - start
+	
+	# Build
+	start = time.time()
+	
+	if buildAndExecute:
+		exe = cpp.build()
+	
+	buildTime = time.time() - start
+	totalTime = time.time() - totalStart
+	
+	print("")
+	print("CompileTime:      " + str(int(compileTime * 1000)).rjust(8) + " ms")
+	print("PostProcessTime:  " + str(int(postProcessTime * 1000)).rjust(8) + " ms")
+	print("ParallelizerTime: " + str(int(autoParallelizerTime * 1000)).rjust(8) + " ms")
+	print("GenerateTime:     " + str(int(generateTime * 1000)).rjust(8) + " ms")
+	print("BuildTime:        " + str(int(buildTime * 1000)).rjust(8) + " ms")
+	print("-----------------------------")
+	print("TotalTime:        " + str(int(totalTime * 1000)).rjust(8) + " ms")
+	
+	# OPs
+	#for opLevel in bpc.parser.operatorLevels:
+	#	for op in opLevel.operators:
+	#		print(op.name)
+	
+	# Debug data dependencies
+	#debugPP("")
+	#for bpPostFile in bp.compiledFiles.values():
+	#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
+	#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
+	print("")
+	filterByName = "aosdkfoai"
+	for tree in dTreeByFunctionName.values():
+		if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filterByName or tree.name in filterByName):
+			tree.printNodes()
+			print("")
+	
+	# GraphViz
+	if buildGraphViz:
+		useRoot = True
+		allGraphs = "digraph Dependencies {\n"
+		for tree in dTreeByFunctionName.values():
+			if tree.name and tree.dependencies:
+				treeLabel = tree.name
+				treeID = "node" +str(id(tree.instruction))
+				if useRoot:
+					allGraphs += "root -> " + treeID + ";\n"
+				#allGraphs += treeID + "[shape=box3d];\n"
+				
+				funcGraph = "subgraph %s {\n" % (treeID)
+				funcGraph += tree.getGraphVizCode()
+				funcGraph += "label = \"%s\";\n" % (treeLabel)
+				funcGraph += "}\n"
+				
+				allGraphs += funcGraph
+		
+		if useRoot:
+			allGraphs += "root [shape=circle];\n"
+			allGraphs += "}"
+		print(allGraphs)
+	
+	# Exec
+	print("\nOutput:")
+	if buildAndExecute:
+		cpp.execute(exe)
+
+# Main
 if __name__ == '__main__':
 	try:
-		print("Starting:")
-		totalStart = time.time()
-		
-		# Compile
-		start = time.time()
-		
-		bpc = BPCCompiler(modDir)
-		bpc.compile(compileFile)
-		bpc.writeToFS(outputDir + "xml/")
-		
-		compileTime = time.time() - start
-		
-		# Post-processing
-		start = time.time()
-		
-		bp = BPPostProcessor(bpc)
-		bp.process(bpc.getCompiledFiles()[0])
-		
-		postProcessTime = time.time() - start
-		
-		# Parallelizer
-		start = time.time()
-		
-		automaticallyParallelize(dTreeByNode)
-		automaticallyParallelize(dTreeByFunctionName)
-		
-		autoParallelizerTime = time.time() - start
-		
-		# Generate
-		start = time.time()
-		
-		cpp = CPPOutputCompiler(bpc)
-		cpp.compile(bpc.getCompiledFiles()[0])
-		cpp.writeToFS(outputDir)
-		
-		generateTime = time.time() - start
-		
-		# Build
-		start = time.time()
-		
-		if buildAndExecute:
-			exe = cpp.build()
-		
-		buildTime = time.time() - start
-		totalTime = time.time() - totalStart
-		
-		print("")
-		print("CompileTime:      " + str(int(compileTime * 1000)).rjust(8) + " ms")
-		print("PostProcessTime:  " + str(int(postProcessTime * 1000)).rjust(8) + " ms")
-		print("ParallelizerTime: " + str(int(autoParallelizerTime * 1000)).rjust(8) + " ms")
-		print("GenerateTime:     " + str(int(generateTime * 1000)).rjust(8) + " ms")
-		print("BuildTime:        " + str(int(buildTime * 1000)).rjust(8) + " ms")
-		print("-----------------------------")
-		print("TotalTime:        " + str(int(totalTime * 1000)).rjust(8) + " ms")
-		
-		# OPs
-		#for opLevel in bpc.parser.operatorLevels:
-		#	for op in opLevel.operators:
-		#		print(op.name)
-		
-		# Debug data dependencies
-		#debugPP("")
-		#for bpPostFile in bp.compiledFiles.values():
-		#	if bpPostFile.inpFile.file.endswith("/main.bpc"):
-		#		debugPP("Dependencies of " + bpPostFile.inpFile.file + ":")
-		print("")
-		filterByName = "aosdkfoai"
-		for tree in dTreeByFunctionName.values():
-			if len(tree.dependencies) > 0 and len(tree.parents) == 0 and tree.name.find(".") == -1 and (not filterByName or tree.name in filterByName):
-				tree.printNodes()
-				print("")
-		
-		# GraphViz
-		if buildGraphViz:
-			useRoot = True
-			allGraphs = "digraph Dependencies {\n"
-			for tree in dTreeByFunctionName.values():
-				if tree.name and tree.dependencies:
-					treeLabel = tree.name
-					treeID = "node" +str(id(tree.instruction))
-					if useRoot:
-						allGraphs += "root -> " + treeID + ";\n"
-					#allGraphs += treeID + "[shape=box3d];\n"
-					
-					funcGraph = "subgraph %s {\n" % (treeID)
-					funcGraph += tree.getGraphVizCode()
-					funcGraph += "label = \"%s\";\n" % (treeLabel)
-					funcGraph += "}\n"
-					
-					allGraphs += funcGraph
-			
-			if useRoot:
-				allGraphs += "root [shape=circle];\n"
-				allGraphs += "}"
-			print(allGraphs)
-		
-		# Exec
-		print("\nOutput:")
-		if buildAndExecute:
-			cpp.execute(exe)
+		bpMain("Test/Input/main.bpc", "Test/Output/")
 	except:
 		printTraceback()

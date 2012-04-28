@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>
+				bp.Core
+			</import>
+			<import>
+				Point
+			</import>
+			<import>
+				Circle
+			</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

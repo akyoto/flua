@@ -30,7 +30,8 @@
 # Imports
 ####################################################################
 import sys
-from PyQt4 import QtGui, QtCore
+
+from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
 
 ####################################################################
@@ -47,8 +48,8 @@ from bp.Tools.IDE.Syntax import *
 ####################################################################
 class BPCodeEdit(QtGui.QTextEdit):
 	
-	def __init__(self):
-		super(BPCodeEdit, self).__init__()
+	def __init__(self, parent = None):
+		super(BPCodeEdit, self).__init__(parent)
 		self.highlighter = BPCHighlighter(self.document())
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
@@ -62,7 +63,7 @@ class BPCodeEdit(QtGui.QTextEdit):
 		codeNode = getElementByTagName(self.root, "code")
 		
 		self.converter = LineToNodeConverter()
-		bpcCode = nodeToBPC(codeNode, 0, self.converter)
+		bpcCode = nodeToBPC(self.root, 0, self.converter)
 		self.lines = bpcCode.split("\n")
 		
 		# Remove two empty lines
@@ -90,85 +91,26 @@ class BPCodeEdit(QtGui.QTextEdit):
 		self.lines = self.lines[:index-1] + self.lines[index:]
 		self.converter.lineToNode = self.converter.lineToNode[:index-1] + self.converter.lineToNode[index:]
 		
+class XMLCodeEdit(QtGui.QTextEdit):
+	
+	def __init__(self, parent = None):
+		super(XMLCodeEdit, self).__init__(parent)
+		self.setFont(QtGui.QFont("monospace", 10))
+		self.setTabStopWidth(4 * 8)
+		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
+		
 class BPEditor(QtGui.QMainWindow):
 	
 	def __init__(self):
 		super(BPEditor, self).__init__()
+		
 		self.initUI()
 		self.initCompiler()
 		
 	def initCompiler(self):
-		self.bpc = BPCCompiler(modDir)
+		self.bpc = BPCCompiler(getModuleDir())
 		
-	def initMenu(self):
-		# File menu actions
-		newAction = action = QtGui.QAction(QtGui.QIcon("images/new.svg"), "&New", self)
-		action.setShortcut("Ctrl+N")
-		action.setStatusTip("Create new file")
-		action.triggered.connect(self.newFile)
-		
-		openAction = action = QtGui.QAction(QtGui.QIcon("images/open.svg"), "&Open", self)
-		action.setShortcut("Ctrl+O")
-		action.setStatusTip("Open new file")
-		action.triggered.connect(self.openFile)
-		
-		saveAction = action = QtGui.QAction(QtGui.QIcon("images/save.svg"), "&Save", self)
-		action.setShortcut("Ctrl+S")
-		action.setStatusTip("Save file")
-		action.triggered.connect(self.saveFile)
-		
-		saveAsAction = action = QtGui.QAction(QtGui.QIcon("images/save-as.svg"), "Save &As", self)
-		action.setShortcut("Ctrl+Shift+S")
-		action.setStatusTip("Save as another file")
-		action.triggered.connect(self.saveAsFile)
-		
-		exitAction = action = QtGui.QAction(QtGui.QIcon("images/exit.svg"), "&Exit", self)		
-		action.setShortcut("Ctrl+Q")
-		action.setStatusTip("Exit application")
-		action.triggered.connect(self.close)
-		
-		# Edit
-		undoAction = action = QtGui.QAction(QtGui.QIcon("images/undo.svg"), "&Undo", self)
-		action.setShortcut("Ctrl+Z")
-		action.setStatusTip("Undo last action")
-		action.triggered.connect(self.undoLastAction)
-		
-		redoAction = action = QtGui.QAction(QtGui.QIcon("images/redo.svg"), "&Redo", self)
-		action.setShortcut("Ctrl+Y")
-		action.setStatusTip("Redo last action")
-		action.triggered.connect(self.redoLastAction)
-		
-		# Module menu actions
-		runModuleAction = action = QtGui.QAction(QtGui.QIcon("images/run.svg"), "&Run", self)
-		action.setShortcut("Ctrl+R")
-		action.setStatusTip("Run")
-		action.triggered.connect(self.runModule)
-		
-		# Help menu actions
-		aboutAction = action = QtGui.QAction(QtGui.QIcon("images/about.svg"), "&About", self)
-		action.triggered.connect(self.about)
-		
-		# Menu bar
-		menuBar = self.menuBar()
-		fileMenu = menuBar.addMenu("&File")
-		fileMenu.addAction(newAction)
-		fileMenu.addAction(openAction)
-		fileMenu.addSeparator()
-		fileMenu.addAction(saveAction)
-		fileMenu.addAction(saveAsAction)
-		fileMenu.addSeparator()
-		fileMenu.addAction(exitAction)
-		
-		editMenu = menuBar.addMenu("&Edit")
-		editMenu.addAction(undoAction)
-		editMenu.addAction(redoAction)
-		
-		moduleMenu = menuBar.addMenu("&Module")
-		moduleMenu.addAction(runModuleAction)
-		
-		helpMenu = menuBar.addMenu("&Help")
-		helpMenu.addAction(aboutAction)
-		
+	def initToolBar(self):
 		# Syntax switcher
 		syntaxSwitcher = QtGui.QComboBox()
 		syntaxSwitcher.addItem("BPC Syntax")
@@ -180,23 +122,19 @@ class BPEditor(QtGui.QMainWindow):
 		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
 		
 		# Tool bar
-		self.toolbar = self.addToolBar("Exit")
-		self.toolbar.addAction(newAction)
-		self.toolbar.addAction(openAction)
-		self.toolbar.addSeparator()
-		self.toolbar.addAction(saveAction)
-		self.toolbar.addSeparator()
-		self.toolbar.addAction(runModuleAction)
-		self.toolbar.addSeparator()
-		self.toolbar.addWidget(spacerWidget)
-		self.toolbar.addWidget(syntaxSwitcher)
-		self.toolbar.addSeparator()
+		self.toolBar.addSeparator()
+		self.toolBar.addWidget(spacerWidget)
+		self.toolBar.addWidget(syntaxSwitcher)
+		self.toolBar.addSeparator()
 		
 	def initUI(self):
-		self.initMenu()
+		uic.loadUi("blitzprog-ide.ui", self)
+		self.initToolBar()
 		
+		# Font
 		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
 		
+		# Window
 		self.setGeometry(0, 0, 1000, 650)
 		self.setWindowTitle("Blitzprog IDE")
 		self.setWindowIcon(QtGui.QIcon("images/bp.png"))
@@ -204,62 +142,112 @@ class BPEditor(QtGui.QMainWindow):
 		
 		self.statusBar().showMessage("Ready")
 		
-		self.editPanel = QtGui.QWidget()
+		#self.editPanel = QtGui.QWidget()
 		self.codeEdit = BPCodeEdit()
 		self.codeEdit.cursorPositionChanged.connect(self.loadContext)
+		
 		self.contextView = BPCodeEdit()
 		self.contextView.setReadOnly(1)
 		
-		hBox = QtGui.QHBoxLayout()
-		hBox.addWidget(self.codeEdit)
-		hBox.addWidget(self.contextView)
-		hBox.setStretchFactor(self.codeEdit, 1)
-		self.editPanel.setLayout(hBox)
+		self.xmlView = XMLCodeEdit()
+		self.xmlView.setReadOnly(1)
 		
-		self.setCentralWidget(self.editPanel)
+		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
+		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+		
+		#contextViewDock.setAllowedAreas(QtGui.QMainWindow.dock | QtGui.BottomToolBarArea)
+		
+		#hBox = QtGui.QHBoxLayout()
+		#hBox.addWidget(self.codeEdit)
+		#hBox.addWidget(contextViewDock)
+		#hBox.setStretchFactor(self.codeEdit, 0.1)
+		#self.editPanel.setLayout(hBox)
+		
+		self.initActions()
+		self.setCentralWidget(self.codeEdit)
 		self.show()
 		
+	def initActions(self):
+		# File
+		self.actionNew.triggered.connect(self.newFile)
+		self.actionOpen.triggered.connect(self.openFile)
+		self.actionSave.triggered.connect(self.saveFile)
+		self.actionSaveAs.triggered.connect(self.saveAsFile)
+		self.actionExit.triggered.connect(self.close)
+		
+		# Edit
+		self.actionUndo.triggered.connect(self.undoLastAction)
+		self.actionRedo.triggered.connect(self.redoLastAction)
+		
+		# Module
+		self.actionRun.triggered.connect(self.runModule)
+		
+		# View
+		self.actionViewDependencies.toggled.connect(self.dependenciesViewDock.setVisible)
+		self.actionViewXML.toggled.connect(self.xmlViewDock.setVisible)
+		self.dependenciesViewDock.visibilityChanged.connect(self.actionViewDependencies.setChecked)
+		self.xmlViewDock.visibilityChanged.connect(self.actionViewXML.setChecked)
+		
+		# Help
+		self.actionAbout.triggered.connect(self.about)
+		
+	def createDockWidget(self, name, widget, area):
+		newDock = QtGui.QDockWidget(name, self)
+		newDock.setWidget(widget)
+		self.addDockWidget(area, newDock)
+		return newDock
+		
+	def showDependencies(self, node):
+		#self.processor.processXML(node)
+		dTree = None
+		if node in dTreeByNode:
+			dTree = dTreeByNode[node]
+		#if node in dTreeByFunctionName:
+		#	dTree = dTreeByFunctionName[node]
+		
+		if dTree:
+			self.contextView.setText(dTree.getDependencyPreview())
+			self.xmlView.setText(node.toprettyxml())
+		
 	def loadContext(self):
+		selectedNode = None
+		
 		try:
 			cursor = self.codeEdit.textCursor()
 			lineNumber = cursor.blockNumber()
 			self.statusBar().showMessage("Line %d" % (lineNumber + 1))
-			
-			# Check that line
-			xmlCode = self.codeEdit.converter.getNode(lineNumber).toprettyxml()
-			self.contextView.setText(xmlCode)
+			selectedNode = self.codeEdit.converter.getNode(lineNumber)
 			#line = cursor.block().text()
 		except:
 			self.contextView.setText("")
+		
+		# Check that line
+		if selectedNode:
+			self.showDependencies(selectedNode)
 		
 	def loadFileToEditor(self, fileName):
 		self.file = fileName
 		
 		# Read
-		with codecs.open(self.file, "r", "utf-8") as inStream:
-			xmlCode = inStream.read()
+		self.startBenchmark("LoadXMLFile")
+		xmlCode = loadXMLFile(self.file)
+		self.endBenchmark()
 		
-		# TODO: Remove all BOMs
-		if len(xmlCode) and xmlCode[0] == '\ufeff': #codecs.BOM_UTF8:
-			xmlCode = xmlCode[1:]
-		
-		# Remove whitespaces
-		# TODO: Ignore bp_strings!
-		headerEnd = xmlCode.find("</header>")
-		pos = xmlCode.find("\t", headerEnd)
-		while pos != -1:
-			xmlCode = xmlCode.replace("\t", "")
-			pos = xmlCode.find("\t", headerEnd)
-			
-		pos = xmlCode.find("\n", headerEnd)
-		while pos != -1:
-			xmlCode = xmlCode.replace("\n", "")
-			pos = xmlCode.find("\n", headerEnd)
-		
+		# Let's rock!
+		self.startBenchmark("CodeEdit")
+		self.contextView.clear()
 		self.codeEdit.setXML(xmlCode)
+		self.endBenchmark()
+		
+		self.startBenchmark("BPPostProcessor")
+		self.processor = BPPostProcessor()
+		self.processor.process(self.codeEdit.root, self.file)
+		self.endBenchmark()
 		
 	def newFile(self):
 		self.codeEdit.clear()
+		self.contextView.clear()
+		self.xmlView.clear()
 		
 	def openFile(self, path):
 		fileName = path
@@ -267,7 +255,7 @@ class BPEditor(QtGui.QMainWindow):
 			fileName = QtGui.QFileDialog.getOpenFileName(
 				parent=self,
 				caption="Open File",
-				directory=modDir,
+				directory=getModuleDir(),
 				filter="bp Files (*.bp)")
 		
 		if fileName:
@@ -280,7 +268,7 @@ class BPEditor(QtGui.QMainWindow):
 		pass
 		
 	def runModule(self):
-		compiler = BPPostProcessor(self.bpc)
+		pass
 		
 	def undoLastAction(self):
 		self.codeEdit.undo()
@@ -311,6 +299,15 @@ class BPEditor(QtGui.QMainWindow):
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
 		
+	def startBenchmark(self, name = ""):
+		self.benchmarkName = name
+		self.benchmarkTimerStart = time.time()
+		
+	def endBenchmark(self):
+		self.benchmarkTimerEnd = time.time()
+		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
+		print((self.benchmarkName + ":").ljust(30) + str(int(buildTime * 1000)).rjust(8) + " ms")
+		
 	def closeEvent(self, event):
 		event.accept()
 		return
@@ -327,6 +324,7 @@ class BPEditor(QtGui.QMainWindow):
 			event.ignore()
 
 def main():
+	#bpMain("../../Compiler/Test/Input/main.bpc", "../../Compiler/Test/Output/")
 	app = QtGui.QApplication(sys.argv)
 	editor = BPEditor()
 	sys.exit(app.exec_())

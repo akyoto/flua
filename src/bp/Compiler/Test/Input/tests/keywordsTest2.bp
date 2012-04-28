@@ -1,0 +1,27 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>
+				bp.Core
+			</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">
+				#import working
+			</string>
+		</strings>
+	</header>
+	<code>
+		<call>
+			<function>
+				print
+			</function>
+			<parameters>
+				<parameter>
+					bp_string_0
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

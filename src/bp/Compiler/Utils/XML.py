@@ -25,6 +25,7 @@
 # Imports
 ####################################################################
 from xml.dom.minidom import *
+import codecs
 
 ####################################################################
 # Global
@@ -68,3 +69,26 @@ def tagName(node):
 		return node.nodeValue
 	else:
 		return node.tagName
+
+def loadXMLFile(fileName):
+	with codecs.open(fileName, "r", "utf-8") as inStream:
+		xmlCode = inStream.read()
+	
+	# TODO: Remove all BOMs
+	if len(xmlCode) and xmlCode[0] == '\ufeff': #codecs.BOM_UTF8:
+		xmlCode = xmlCode[1:]
+	
+	# Remove whitespaces
+	# TODO: Ignore bp_strings!
+	headerEnd = xmlCode.find("</header>")
+	pos = xmlCode.find("\t", headerEnd)
+	while pos != -1:
+		xmlCode = xmlCode.replace("\t", "")
+		pos = xmlCode.find("\t", headerEnd)
+		
+	pos = xmlCode.find("\n", headerEnd)
+	while pos != -1:
+		xmlCode = xmlCode.replace("\n", "")
+		pos = xmlCode.find("\n", headerEnd)
+	
+	return xmlCode

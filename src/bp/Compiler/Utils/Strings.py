@@ -31,7 +31,11 @@ import os
 ####################################################################
 
 def fixPath(stri):
-	return stri.replace("\\", "/")
+	newPath = stri.replace("\\", "/")
+	if newPath.endswith("/"):
+		return newPath
+	else:
+		return newPath + "/"
 
 def fixID(stri):
 	return stri.replace(".", "_").replace(" ", "__")
@@ -65,6 +69,9 @@ def stripExt(stri):
 
 def stripAll(path):
 	return stripExt(os.path.basename(path))
+
+def extractDir(path):
+	return os.path.dirname(path)
 
 def getNextWhitespacePos(stri, fromIndex):
 	striLen = len(stri)

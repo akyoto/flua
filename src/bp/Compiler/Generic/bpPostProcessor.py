@@ -25,6 +25,7 @@
 # Imports
 ####################################################################
 from bp.Compiler.Utils import *
+from bp.Compiler.Input import *
 
 ####################################################################
 # Global
@@ -334,7 +335,7 @@ class DTree:
 		connections = self.getGraphVizCode()
 		return "digraph %s {%s}" % (self.name, connections)
 		
-	def printNodes(self, tabLevel = 0):
+	def getDependencyPreview(self, tabLevel = 0, includeTime = False, includeDepthCount = False):
 		tab = "    "
 		if tabLevel > 0:
 			sep = "∟"
@@ -345,9 +346,10 @@ class DTree:
 			sep = "➤"
 		
 		depth = ""
-		depthCount = self.getParentsDepth()
-		if depthCount > 0:
-			depth = " [Depth = %d]" % (depthCount)
+		if includeDepthCount:
+			depthCount = self.getParentsDepth()
+			if depthCount > 0:
+				depth = " [Depth = %d]" % (depthCount)
 		
 		# Remove ()
 		def fixNodeName(name):
@@ -355,7 +357,11 @@ class DTree:
 				return name[1:-1]
 			return name
 		
-		print(tab * tabLevel + sep + ("[%s] (%d)%s" % (fixNodeName(self.name), self.getTime(), depth)))
+		instTime = ""
+		if includeTime:
+			instTime = "(" + str(self.getTime()) + ")"
+		
+		myInst = tab * tabLevel + sep + ("[%s] %s%s" % (fixNodeName(self.name), instTime, depth)) + "\n"
 		
 		#print("Deps: " + str(len(self.dependencies)))
 		#print("Pars: " + str(len(self.parents)))
@@ -363,49 +369,97 @@ class DTree:
 		#print("Func: " + str(len(self.functionCalls)))
 		#print("")
 		
+		depInst = ""
 		for node in self.dependencies:
 			if node.parents[0] == self:
-				node.printNodes(tabLevel + 1)
+				depInst += node.getDependencyPreview(tabLevel + 1)
 			else:
-				print(tab * (tabLevel + 1) + sep + ("* [%s] *") % fixNodeName(node.name))
+				depInst += tab * (tabLevel + 1) + sep + ("* [%s] *") % fixNodeName(node.name) + "\n"
+		
+		return myInst + depInst
+		
+	def printNodes(self, tabLevel = 0):
+		print(self.getDependencyPreview(tabLevel))
 
 class BPPostProcessor:
 	
-	def __init__(self, compiler):
-		self.inputCompiler = compiler
-		self.inputFiles = compiler.getCompiledFiles()
+	def __init__(self, compiler = None):
+		if compiler:
+			self.inputCompiler = compiler
+			self.inputFiles = compiler.getCompiledFiles()
+			self.compiledInputFiles = dict()
+		
 		self.compiledFiles = dict()
 		self.classes = {}
+		self.mainFilePath = ""
 	
-	def process(self, inpFile):
-		bpOut = BPPostProcessorFile(self, inpFile)
-		self.compiledFiles[inpFile] = bpOut
+	def processExistingInputFile(self, inpFile):
+		bpOut = BPPostProcessorFile(self, inpFile.root, inpFile.file)
+		self.compiledInputFiles[inpFile] = bpOut
 		
 		for imp in inpFile.importedFiles:
 			inFile = self.inputCompiler.getFileInstanceByPath(imp)
-			if (not inFile in self.compiledFiles):
-				self.process(inFile)
+			if (not inFile in self.compiledInputFiles):
+				self.processExistingInputFile(inFile)
 		
 		bpOut.process()
+		
+	def processFile(self, filePath):
+		xmlCode = loadXMLFile(filePath)
+		root = parseString(xmlCode).documentElement
+		self.process(root, filePath)
+		
+	def process(self, root, filePath = ""):
+		bpOut = BPPostProcessorFile(self, root)
+		
+		if filePath:
+			if not self.compiledFiles:
+				self.mainFilePath = filePath
+			self.compiledFiles[filePath] = bpOut
+		
+		# Get a list of imported files
+		importedFiles = []
+		header = getElementByTagName(root, "header")
+		dependencies = getElementByTagName(header, "dependencies")
+		for child in dependencies.childNodes:
+			if isElemNode(child) and child.tagName == "import":
+				importedModule = child.childNodes[0].nodeValue.strip()
+				modulePath = getModulePath(importedModule, extractDir(filePath), extractDir(self.mainFilePath), ".bp")
+				if modulePath:
+					importedFiles.append(modulePath)
+				else:
+					print(importedModule, filePath, extractDir(filePath))
+					raise CompilerException("import: Expecting a module path")
+		#print(importedFiles)
+		
+		for importedFile in importedFiles:
+			if (not importedFile in self.compiledFiles):
+				self.processFile(importedFile)
+		
+		bpOut.processXML()
 
 class BPPostProcessorFile:
 	
-	def __init__(self, processor, inpFile):
+	def __init__(self, processor, root, filePath = ""):
 		self.processor = processor
-		self.inpFile = inpFile
+		self.root = root
 		self.lastOccurenceStack = list()
 		self.lastOccurence = dict() # String -> DTree
 		self.currentDTree = None
 		self.currentClassName = ""
+		self.filePath = filePath
 		
 	def process(self):
-		print("Processing: " + self.inpFile.file)
+		print("Processing: " + self.filePath)
 		
-		self.findDefinitions(getElementByTagName(self.inpFile.root, "code"))
-		self.processNode(getElementByTagName(self.inpFile.root, "code"))
+		self.processXML()
 		
-		if not self.inpFile.file.endswith("Core.bpc"):
-			pass#print(self.inpFile.doc.toprettyxml())
+		#if not self.filePath.endswith("Core.bpc"):
+		#	pass#print(self.inpFile.doc.toprettyxml())
+		
+	def processXML(self):
+		self.findDefinitions(getElementByTagName(self.root, "code"))
+		self.processNode(getElementByTagName(self.root, "code"))
 		
 	def findDefinitions(self, node):
 		for child in node.childNodes:
