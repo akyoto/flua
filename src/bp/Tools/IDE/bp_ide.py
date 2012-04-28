@@ -106,6 +106,7 @@ class BPEditor(QtGui.QMainWindow):
 		
 		self.initUI()
 		self.initCompiler()
+		self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
 		
 	def initCompiler(self):
 		self.bpc = BPCCompiler(getModuleDir())
@@ -142,7 +143,6 @@ class BPEditor(QtGui.QMainWindow):
 		
 		self.statusBar().showMessage("Ready")
 		
-		#self.editPanel = QtGui.QWidget()
 		self.codeEdit = BPCodeEdit()
 		self.codeEdit.cursorPositionChanged.connect(self.loadContext)
 		
@@ -154,14 +154,6 @@ class BPEditor(QtGui.QMainWindow):
 		
 		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-		
-		#contextViewDock.setAllowedAreas(QtGui.QMainWindow.dock | QtGui.BottomToolBarArea)
-		
-		#hBox = QtGui.QHBoxLayout()
-		#hBox.addWidget(self.codeEdit)
-		#hBox.addWidget(contextViewDock)
-		#hBox.setStretchFactor(self.codeEdit, 0.1)
-		#self.editPanel.setLayout(hBox)
 		
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
@@ -198,16 +190,19 @@ class BPEditor(QtGui.QMainWindow):
 		return newDock
 		
 	def showDependencies(self, node):
-		#self.processor.processXML(node)
 		dTree = None
 		if node in dTreeByNode:
 			dTree = dTreeByNode[node]
-		#if node in dTreeByFunctionName:
-		#	dTree = dTreeByFunctionName[node]
 		
 		if dTree:
 			self.contextView.setText(dTree.getDependencyPreview())
+		else:
+			self.contextView.clear()
+			
+		if node:
 			self.xmlView.setText(node.toprettyxml())
+		else:
+			self.xmlView.clear()
 		
 	def loadContext(self):
 		selectedNode = None
@@ -222,8 +217,7 @@ class BPEditor(QtGui.QMainWindow):
 			self.contextView.setText("")
 		
 		# Check that line
-		if selectedNode:
-			self.showDependencies(selectedNode)
+		self.showDependencies(selectedNode)
 		
 	def loadFileToEditor(self, fileName):
 		self.file = fileName

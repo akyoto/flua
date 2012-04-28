@@ -6,6 +6,12 @@
 				bp.Core
 			</import>
 			<import>
+				bp.Math
+			</import>
+			<import>
+				bp.Math.Geometry
+			</import>
+			<import>
 				tests.all
 			</import>
 		</dependencies>

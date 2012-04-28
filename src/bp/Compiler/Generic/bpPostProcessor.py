@@ -630,3 +630,4 @@ class BPPostProcessorFile:
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)
+			dTreeByNode[node] = thisOperation

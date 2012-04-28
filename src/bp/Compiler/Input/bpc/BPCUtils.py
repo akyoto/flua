@@ -88,7 +88,7 @@ xmlToBPCSingleLineExpr = {
 
 elementsNoNewline = [
 	"if", "else-if", "else",
-	"try", "catch", "case"
+	"try", "catch", "case", "import"
 ]
 
 ####################################################################
@@ -116,8 +116,13 @@ def nodeToBPCSaved(node, tabLevel, conv):
 	nodeName = node.tagName
 	
 	# First step
-	isInvalidNode = (nodeName == "if-block" or nodeName == "try-block") #or (nodeName == "import" and node.childNodes[0].nodeValue == "bp.Core")
-	isInvalidNodeToCheckNewlines = (nodeName in elementsNoNewline)
+	isInvalidNode = False
+	isInvalidNodeToCheckNewlines = False
+	if (nodeName == "if-block" or nodeName == "try-block"):
+		isInvalidNode = True
+	if (nodeName in elementsNoNewline):
+		isInvalidNodeToCheckNewlines = True
+	
 	if conv:
 		oldLen = len(conv.lineToNode)
 		if not isInvalidNode:
@@ -135,12 +140,15 @@ def nodeToBPCSaved(node, tabLevel, conv):
 		newLen = len(conv.lineToNode)
 		codeLinesAdded = len(codeAdded.split("\n"))#codeAdded.count("\n") + 1
 		nodeLinesAdded = newLen - oldLen
-		#print(oldLen, newLen, "|", codeLinesAdded, "-", nodeLinesAdded, "=", codeLinesAdded - nodeLinesAdded, nodeName)
+		#print(oldLen, newLen, "|", codeLinesAdded, "-", nodeLinesAdded, "=", codeLinesAdded - nodeLinesAdded, nodeName, isInvalidNode, isInvalidNodeToCheckNewlines, codeAdded)
 		
 		if nodeLinesAdded < codeLinesAdded:
 			diff = codeLinesAdded - nodeLinesAdded
 			for i in range(0, diff):
 				conv.add(None)
+	#else:
+	#	print("isInvalidNodeToCheckNewlines")
+	
 	return codeAdded
 
 def nodeToBPC(node, tabLevel = 0, conv = None):
@@ -175,11 +183,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	if nodeName == "declare-type":
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
-		return nodeToBPC(op1) + " : " + nodeToBPC(op2)
+		return nodeToBPC(op1, 0, conv) + " : " + nodeToBPC(op2, 0, conv)
 	# Call
 	elif nodeName == "call":
 		funcName = getCalledFuncName(node)
-		parameters = nodeToBPC(getElementByTagName(node, "parameters"))
+		parameters = nodeToBPC(getElementByTagName(node, "parameters"), 0, conv)
 		
 		if node.parentNode.tagName == "code":
 			return "%s %s" % (funcName, parameters)
@@ -189,7 +197,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "parameters" or nodeName == "values":
 		params = []
 		for param in node.childNodes:
-			paramCode = nodeToBPC(param)
+			paramCode = nodeToBPC(param, 0, conv)
 			if len(paramCode) >= 1 and paramCode[0] == '(' and paramCode[-1] == ')':
 				paramCode = paramCode[1:-1]
 			params.append(paramCode)
@@ -206,10 +214,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		for child in node.childNodes:
 			# Save nodes in array
-			if conv:
+			
+			if conv is not None:
 				instruction = nodeToBPCSaved(child, tabLevel, conv)
 			else:
-				instruction = nodeToBPC(child, tabLevel)
+				instruction = nodeToBPC(child, tabLevel, conv)
 			
 			if instruction:
 				newline = "\n"
@@ -235,16 +244,16 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		code = getElementByTagName(node, "code")
 		paramsCode = ""
 		if params:
-			paramsCode = nodeToBPC(params)
+			paramsCode = nodeToBPC(params, 0, conv)
 			if paramsCode:
 				paramsCode = " " + paramsCode
-		return nodeToBPC(name) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
+		return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
 	elif nodeName == "negative":
-		return "-(" + nodeToBPC(node.childNodes[0]) + ")"
+		return "-(" + nodeToBPC(node.childNodes[0], 0, conv) + ")"
 	elif nodeName == "unmanaged":
-		return "~" + nodeToBPC(node.childNodes[0])
+		return "~" + nodeToBPC(node.childNodes[0], 0, conv)
 	elif nodeName == "new":
-		return "new %s(%s)" % (nodeToBPC(getElementByTagName(node, "type")), nodeToBPC(getElementByTagName(node, "parameters")))
+		return "new %s(%s)" % (nodeToBPC(getElementByTagName(node, "type"), 0, conv), nodeToBPC(getElementByTagName(node, "parameters"), 0, conv))
 	elif nodeName == "module":
 		header = getElementByTagName(node, "header")
 		code = getElementByTagName(node, "code")
@@ -256,9 +265,13 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		deps = ""
 		for child in node.childNodes:
 			if isElemNode(child) and child.tagName == "import":
-				deps += nodeToBPCSaved(child, 0, conv)
+				importCode = nodeToBPCSaved(child, 0, conv)
+				if importCode:
+					deps += importCode + "\n"
 					
 		if deps:
+			if conv:
+				conv.add(None)
 			return deps + "\n"
 		else:
 			return ""
@@ -269,10 +282,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if importMod == "bp.Core":
 			return ""
 		
-		return "import " + importMod + "\n"
+		return "import " + importMod
 	elif nodeName == "for":
-		iterator = nodeToBPC(getElementByTagName(node, "iterator"))
-		start = nodeToBPC(getElementByTagName(node, "from"))
+		iterator = nodeToBPC(getElementByTagName(node, "iterator"), 0, conv)
+		start = nodeToBPC(getElementByTagName(node, "from"), 0, conv)
 		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
 		
 		toUntil = ""
@@ -280,17 +293,17 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		untilNode = getElementByTagName(node, "until")
 		if toNode:
 			toUntil = "to"
-			end = nodeToBPC(toNode)
+			end = nodeToBPC(toNode, 0, conv)
 		elif untilNode:
 			toUntil = "until"
-			end = nodeToBPC(untilNode)
+			end = nodeToBPC(untilNode, 0, conv)
 		else:
 			raise CompilerException("Missing <to> or <until> node")
 		
 		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
 	elif nodeName in wrapperSingleElement:
 		if node.childNodes:
-			return nodeToBPC(node.childNodes[0])
+			return nodeToBPC(node.childNodes[0], 0, conv)
 		else:
 			return ""
 	elif nodeName == "extern-function":
@@ -299,21 +312,21 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		typeName = ""
 		
 		if typeNode:
-			typeName = nodeToBPC(typeNode)
+			typeName = nodeToBPC(typeNode, 0, conv)
 			typeName = " : " + typeName
 		
-		return nodeToBPC(nameNode) + typeName
+		return nodeToBPC(nameNode, 0, conv) + typeName
 	elif nodeName == "class":
 		nameNode = getElementByTagName(node, "name")
 		codeNode = getElementByTagName(node, "code")
-		return nodeToBPC(nameNode) + "\n" + nodeToBPC(codeNode, tabLevel + 1)
+		return nodeToBPC(nameNode, 0, conv) + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv)
 	elif nodeName == "noop":
 		return "..."
 	elif nodeName in xmlToBPCSingleLineExpr:
 		keyword = xmlToBPCSingleLineExpr[nodeName]
 		
 		if node.childNodes:
-			return "%s %s" % (keyword, nodeToBPC(node.childNodes[0]))
+			return "%s %s" % (keyword, nodeToBPC(node.childNodes[0], 0, conv))
 		else:
 			return keyword
 	elif nodeName in xmlToBPCExprBlock:
@@ -322,7 +335,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		expr = ""
 		space = ""
 		if exprNode:
-			expr = nodeToBPC(exprNode)
+			expr = nodeToBPC(exprNode, 0, conv)
 		name = exprBlock[0]
 		if name and expr:
 			space = " "
@@ -357,7 +370,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			#prefix = ""
 			#postfix = ""
 		
-		return prefix + nodeToBPC(op1) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2) + postfix
+		return prefix + nodeToBPC(op1, 0, conv) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2, 0, conv) + postfix
 	
 	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (nodeName))
 
