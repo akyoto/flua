@@ -1,0 +1,41 @@
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+indent_mode=2
+detect_indent_width=false
+
+[project]
+name=bp
+base_path=/home/eduard/Projects/bp/
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=0
+long_line_column=72
+
+[files]
+current_page=0
+FILE_NAME_0=2697;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FTools%2FIDE%2Fbp_ide.py;0;4
+FILE_NAME_1=2372;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2Fbp.py;0;4
+FILE_NAME_2=4486;Conf;0;16;1;1;0;%2Fhome%2Feduard%2F.config%2Fgeany%2Ffiledefs%2Ffiletypes.common;0;4
+
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[VTE]
+last_dir=/home/eduard/Projects/bp
+
+[build-menu]
+EX_00_LB=_Execute
+EX_00_CM=python3.2 "bp_ide.py"
+EX_00_WD=
+EX_01_LB=
+EX_01_CM=python3.2 "%f"
+EX_01_WD=

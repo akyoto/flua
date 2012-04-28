@@ -30,79 +30,18 @@
 # Imports
 ####################################################################
 import sys
-
+import os
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
-
-####################################################################
-# Globals
-####################################################################
-
-####################################################################
-# Syntax modules
-####################################################################
-from bp.Tools.IDE.Syntax import *
+from bp.Tools.IDE.Editor import *
 
 ####################################################################
 # Code
 ####################################################################
-class BPCodeEdit(QtGui.QTextEdit):
-	
-	def __init__(self, parent = None):
-		super(BPCodeEdit, self).__init__(parent)
-		self.highlighter = BPCHighlighter(self.document())
-		self.setFont(QtGui.QFont("monospace", 10))
-		self.setTabStopWidth(4 * 8)
-		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
-		self.converter = None
-		self.lines = []
-		
-	def setXML(self, xmlCode):
-		self.doc = parseString(xmlCode.encode( "utf-8" ))
-		self.root = self.doc.documentElement
-		codeNode = getElementByTagName(self.root, "code")
-		
-		self.converter = LineToNodeConverter()
-		bpcCode = nodeToBPC(self.root, 0, self.converter)
-		self.lines = bpcCode.split("\n")
-		
-		# Remove two empty lines
-		if 0:
-			offset = 0
-			lastLineEmpty = False
-			for index in range(0, len(self.lines)):
-				i = index + offset
-				if i < len(self.lines):
-					line = self.lines[i]
-					if line.strip() == "":
-						if lastLineEmpty:
-							self.removeLineNumber(i)
-							offset -= 1
-						lastLineEmpty = True
-					else:
-						lastLineEmpty = False
-				else:
-					break
-		
-		self.setText("\n".join(self.lines))
-		
-	def removeLineNumber(self, index):
-		# TODO: Fix index by +1 -1
-		self.lines = self.lines[:index-1] + self.lines[index:]
-		self.converter.lineToNode = self.converter.lineToNode[:index-1] + self.converter.lineToNode[index:]
-		
-class XMLCodeEdit(QtGui.QTextEdit):
-	
-	def __init__(self, parent = None):
-		super(XMLCodeEdit, self).__init__(parent)
-		self.setFont(QtGui.QFont("monospace", 10))
-		self.setTabStopWidth(4 * 8)
-		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
-		
-class BPEditor(QtGui.QMainWindow):
+class BPMainWindow(QtGui.QMainWindow):
 	
 	def __init__(self):
-		super(BPEditor, self).__init__()
+		super(BPMainWindow, self).__init__()
 		
 		print("Module directory: " + getModuleDir())
 		print("---")
@@ -330,9 +269,12 @@ class BPEditor(QtGui.QMainWindow):
 			event.ignore()
 
 def main():
-	#bpMain("../../Compiler/Test/Input/main.bpc", "../../Compiler/Test/Output/")
+	# Only allow one instance
+	os.open("tmp/lock", os.O_CREAT|os.O_EXCL)
+	
+	# Create the application
 	app = QtGui.QApplication(sys.argv)
-	editor = BPEditor()
+	editor = BPMainWindow()
 	sys.exit(app.exec_())
 
 if __name__ == '__main__':
