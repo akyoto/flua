@@ -27,6 +27,11 @@ class CPPFunction:
 		return self.node.tagName == "operator"
 		
 	def getName(self):
+		if self.node.parentNode.tagName == "set":
+			return "set" + capitalize(self.name)
+		elif self.node.parentNode.tagName == "get":
+			return "get" + capitalize(self.name)
+		
 		return self.name
 		
 	def getParamNames(self):

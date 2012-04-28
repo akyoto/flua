@@ -1231,7 +1231,7 @@ class CPPOutputFile(ScopeController):
 		#print(node.toprettyxml())
 		importedModulePath = node.childNodes[0].nodeValue.strip()
 		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
-		print("MODULE: " + importedModule)
+		#print("MODULE: " + importedModule)
 		return "#include <" + stripExt(importedModule) + "-out.hpp>\n"
 	
 	def handleCompilerFlag(self, node):
@@ -1313,10 +1313,10 @@ class CPPOutputFile(ScopeController):
 			#print(node.toprettyxml())
 			name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		
-		if self.inGetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + capitalize(name)
-		elif self.inSetter:
-			getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + capitalize(name)
+		#if self.inGetter:
+		#	getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + capitalize(name)
+		#elif self.inSetter:
+		#	getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + capitalize(name)
 		
 		# Index operator
 		name = correctOperators(name)

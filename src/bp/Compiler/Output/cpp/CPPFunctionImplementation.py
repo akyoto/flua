@@ -13,7 +13,7 @@ class CPPFunctionImplementation:
 			if byDef:
 				self.paramTypes[i] = self.classImpl.translateTemplateName(byDef)
 		
-		self.name = self.func.name + self.buildPostfix()
+		self.name = self.func.getName() + self.buildPostfix()
 		self.code = ""
 		self.returnTypes = []
 		self.func.implementations[self.name] = self
@@ -45,7 +45,7 @@ class CPPFunctionImplementation:
 		return self.name
 	
 	def getFuncName(self):
-		return self.func.name
+		return self.func.getName()
 		
 	def getParamString(self):
 		stri = ""

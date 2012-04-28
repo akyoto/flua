@@ -60,15 +60,15 @@ class CPPClass:
 		self.classes[classObj.name] = classObj
 		
 	def addFunction(self, func):
-		debug("'%s' added function '%s'" % (self.name, func.name))
+		debug("'%s' added function '%s'" % (self.name, func.getName()))
 		func.classObj = self
-		if not func.name in self.functions:
-			self.functions[func.name] = []
+		if not func.getName() in self.functions:
+			self.functions[func.getName()] = []
 		else:
-			for iterFunc in self.functions[func.name]:
+			for iterFunc in self.functions[func.getName()]:
 				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
-					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.name, func.paramTypesByDefinition))
-		self.functions[func.name].append(func)
+					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
+		self.functions[func.getName()].append(func)
 		
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s'" % (self.name, name))

@@ -139,9 +139,9 @@ class BPEditor(QtGui.QMainWindow):
 		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
 		
 		# Window
+		#self.setWindowTitle("Blitzprog IDE")
+		#self.setWindowIcon(QtGui.QIcon("images/bp.png"))
 		self.setGeometry(0, 0, 1000, 650)
-		self.setWindowTitle("Blitzprog IDE")
-		self.setWindowIcon(QtGui.QIcon("images/bp.png"))
 		self.center()
 		
 		self.statusBar().showMessage("Ready")
