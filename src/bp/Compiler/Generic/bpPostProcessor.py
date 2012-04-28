@@ -390,6 +390,7 @@ class BPPostProcessor:
 			self.compiledInputFiles = dict()
 		
 		self.compiledFiles = dict()
+		self.compiledFilesList = list()
 		self.classes = {}
 		self.mainFilePath = ""
 	
@@ -404,35 +405,36 @@ class BPPostProcessor:
 		
 		bpOut.process()
 		
+	def getCompiledFiles(self):
+		return self.compiledFiles
+	
+	def getCompiledFilesList(self):
+		return self.compiledFilesList
+	
+	def getProjectDir(self):
+		return extractDir(self.mainFilePath)
+		
+	def getFileInstanceByPath(self, filePath):
+		return self.compiledFiles[filePath]
+		
 	def processFile(self, filePath):
 		xmlCode = loadXMLFile(filePath)
 		root = parseString(xmlCode).documentElement
 		self.process(root, filePath)
 		
 	def process(self, root, filePath = ""):
-		bpOut = BPPostProcessorFile(self, root)
+		bpOut = BPPostProcessorFile(self, root, filePath)
 		
 		if filePath:
 			if not self.compiledFiles:
 				self.mainFilePath = filePath
 			self.compiledFiles[filePath] = bpOut
+			self.compiledFilesList.append(bpOut)
 		
 		# Get a list of imported files
-		importedFiles = []
-		header = getElementByTagName(root, "header")
-		dependencies = getElementByTagName(header, "dependencies")
-		for child in dependencies.childNodes:
-			if isElemNode(child) and child.tagName == "import":
-				importedModule = child.childNodes[0].nodeValue.strip()
-				modulePath = getModulePath(importedModule, extractDir(filePath), extractDir(self.mainFilePath), ".bp")
-				if modulePath:
-					importedFiles.append(modulePath)
-				else:
-					print(importedModule, filePath, extractDir(filePath))
-					raise CompilerException("import: Expecting a module path")
-		#print(importedFiles)
+		bpOut.updateImportedFiles()
 		
-		for importedFile in importedFiles:
+		for importedFile in bpOut.getImportedFiles():
 			if (not importedFile in self.compiledFiles):
 				self.processFile(importedFile)
 		
@@ -448,6 +450,30 @@ class BPPostProcessorFile:
 		self.currentDTree = None
 		self.currentClassName = ""
 		self.filePath = filePath
+		self.importedFiles = None
+		
+	def updateImportedFiles(self):
+		self.importedFiles = []
+		header = getElementByTagName(self.root, "header")
+		dependencies = getElementByTagName(header, "dependencies")
+		for child in dependencies.childNodes:
+			if isElemNode(child) and child.tagName == "import":
+				importedModule = child.childNodes[0].nodeValue.strip()
+				modulePath = getModulePath(importedModule, extractDir(self.filePath), self.processor.getProjectDir(), ".bp")
+				if modulePath:
+					self.importedFiles.append(modulePath)
+				else:
+					print(importedModule, "|", self.filePath, "|", extractDir(self.filePath))
+					raise CompilerException("import: Expecting a module path")
+		
+	def getFilePath(self):
+		return self.filePath
+	
+	def getRoot(self):
+		return self.root
+		
+	def getImportedFiles(self):
+		return self.importedFiles
 		
 	def process(self):
 		print("Processing: " + self.filePath)

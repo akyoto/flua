@@ -29,6 +29,7 @@
 ####################################################################
 from bp.Compiler.ExpressionParser import *
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 from bp.Compiler.Output.cpp.datatypes import *
 from bp.Compiler.Output.cpp.CPPClass import *
 
@@ -37,16 +38,16 @@ from bp.Compiler.Output.cpp.CPPClass import *
 ####################################################################
 class CPPOutputFile(ScopeController):
 	
-	def __init__(self, compiler, inpFile):
+	def __init__(self, compiler, file, root):
 		self.currentTabLevel = 0
 		
 		ScopeController.__init__(self)
 		
 		self.compiler = compiler
-		self.file = inpFile.file
-		self.root = inpFile.getRoot()
-		self.isMainFile = inpFile.isMainFile
-		self.dir = inpFile.dir
+		self.file = file
+		self.root = root
+		self.isMainFile = (len(self.compiler.compiledFiles) == 0)
+		self.dir = extractDir(file)
 		self.codeNode = getElementByTagName(self.root, "code")
 		self.headerNode = getElementByTagName(self.root, "header")
 		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
@@ -145,7 +146,8 @@ class CPPOutputFile(ScopeController):
 		self.header += "// Includes\n"
 		self.header += "#include <bp_decls.hpp>\n"
 		for node in self.dependencies.childNodes:
-			self.header += self.handleImport(node)
+			if isElemNode(node) and node.tagName == "import":
+				self.header += self.handleImport(node)
 		
 		# Strings
 		for node in self.strings.childNodes:
@@ -329,7 +331,7 @@ class CPPOutputFile(ScopeController):
 			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
 		
 		# Check operators
-		for opLevel in self.compiler.inputCompiler.parser.operatorLevels:
+		for opLevel in self.compiler.parser.operatorLevels:
 			for op in opLevel.operators:
 				if tagName == op.name:
 					if op.type == Operator.BINARY:
@@ -1226,47 +1228,11 @@ class CPPOutputFile(ScopeController):
 			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 	
 	def handleImport(self, node):
-		importedModulePath = node.childNodes[0].nodeValue.replace(".", "/")
-		
-		# Local
-		importedFile = self.dir + importedModulePath + ".bpc"
-		
-		importedInFolder = self.dir + importedModulePath
-		importedInFolder += "/" + stripAll(importedInFolder) + ".bpc"
-		
-		# Project
-		pImportedFile = self.compiler.projectDir + importedModulePath + ".bpc"
-		
-		pImportedInFolder = self.compiler.projectDir + importedModulePath
-		pImportedInFolder += "/" + stripAll(pImportedInFolder) + ".bpc"
-		
-		# Global
-		gImportedFile = self.compiler.modDir + importedModulePath + ".bpc"
-		
-		gImportedInFolder = self.compiler.modDir + importedModulePath
-		gImportedInFolder += "/" + stripAll(pImportedInFolder) + ".bpc"
-		
-		modPath = ""
-		
-		if os.path.isfile(importedFile):
-			modPath = importedFile
-		elif os.path.isfile(importedInFolder):
-			modPath = importedInFolder
-		elif os.path.isfile(pImportedFile):
-			modPath = pImportedFile
-		elif os.path.isfile(pImportedInFolder):
-			modPath = pImportedInFolder
-		elif os.path.isfile(gImportedFile):
-			modPath = gImportedFile
-		elif os.path.isfile(gImportedInFolder):
-			modPath = gImportedInFolder
-		
-		if modPath.startswith(self.compiler.projectDir):
-			modPath = modPath[len(self.compiler.projectDir):]
-		elif modPath.startswith(self.compiler.modDir):
-			modPath = modPath[len(self.compiler.modDir):]
-		
-		return "#include <" + stripExt(modPath) + "-out.hpp>\n"
+		#print(node.toprettyxml())
+		importedModulePath = node.childNodes[0].nodeValue.strip()
+		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
+		print("MODULE: " + importedModule)
+		return "#include <" + stripExt(importedModule) + "-out.hpp>\n"
 	
 	def handleCompilerFlag(self, node):
 		self.compiler.customCompilerFlags.insert(0, node.childNodes[0].nodeValue)

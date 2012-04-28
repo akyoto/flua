@@ -75,7 +75,8 @@ def bpMain(compileFile, outputDir = None):
 	start = time.time()
 	
 	cpp = CPPOutputCompiler(bpc)
-	cpp.compile(bpc.getCompiledFiles()[0])
+	inpFile = bpc.getCompiledFiles()[0]
+	cpp.compile(inpFile.file, inpFile.getRoot())
 	cpp.writeToFS(outputDir)
 	
 	generateTime = time.time() - start

@@ -74,7 +74,7 @@ class OutputCompilerException(CompilerException):
 		node = self.outFile.getLastParsedNode()
 		nodeXML = ""
 		nodeExpr = ""
-		if node:
+		if node and nodeToOriginalLine:
 			while not node in nodeToOriginalLine:
 				node = node.parentNode
 			

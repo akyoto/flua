@@ -71,7 +71,11 @@ def stripAll(path):
 	return stripExt(os.path.basename(path))
 
 def extractDir(path):
-	return os.path.dirname(path)
+	newPath = os.path.dirname(path)
+	if newPath.endswith("/"):
+		return newPath
+	else:
+		return newPath + "/"
 
 def getNextWhitespacePos(stri, fromIndex):
 	striLen = len(stri)

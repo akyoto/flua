@@ -5,7 +5,7 @@ buildAndExecute = 1
 buildGraphViz = 0
 
 def getModuleDir():
-	return "../../../"#"../../"
+	return extractDir(os.path.abspath("../../"))
 
 def getModulePath(importedModule, fileDir, projectDir, extension = ".bp"):
 	# ########################### #

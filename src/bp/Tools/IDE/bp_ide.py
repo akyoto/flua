@@ -104,12 +104,15 @@ class BPEditor(QtGui.QMainWindow):
 	def __init__(self):
 		super(BPEditor, self).__init__()
 		
+		print("Module directory: " + getModuleDir())
+		print("---")
 		self.initUI()
 		self.initCompiler()
 		self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
 		
 	def initCompiler(self):
 		self.bpc = BPCCompiler(getModuleDir())
+		self.processor = None
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -262,7 +265,16 @@ class BPEditor(QtGui.QMainWindow):
 		pass
 		
 	def runModule(self):
-		pass
+		outputTarget = "C++"
+		
+		if outputTarget == "C++":
+			#print(self.processor.getCompiledFilesList())
+			cpp = CPPOutputCompiler(self.processor)
+			cpp.compile(self.processor.getCompiledFilesList()[0])
+			cpp.writeToFS()
+			exe = cpp.build()
+			cpp.execute(exe)
+			#cpp.compile(self.file, self.codeEdit.root)
 		
 	def undoLastAction(self):
 		self.codeEdit.undo()

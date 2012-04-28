@@ -29,6 +29,7 @@
 ####################################################################
 from bp.Compiler.Output.cpp.CPPOutputFile import *
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 import codecs
 import subprocess
 
@@ -37,15 +38,20 @@ import subprocess
 ####################################################################
 class CPPOutputCompiler:
 	
-	def __init__(self, inpCompiler):
-		self.inputCompiler = inpCompiler
-		self.inputFiles = inpCompiler.getCompiledFiles()
+	def __init__(self, inpCompiler = None):
+		
+		if inpCompiler:
+			self.inputCompiler = inpCompiler
+			self.inputFiles = inpCompiler.getCompiledFiles()
+			self.projectDir = self.inputCompiler.getProjectDir()
+		else:
+			self.projectDir = ""
+		
 		self.compiledFiles = dict()
 		self.compiledFilesList = []
-		self.projectDir = self.inputCompiler.projectDir
-		self.modDir = inpCompiler.modDir
-		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../")) + "/"
-		self.libsDir = fixPath(os.path.abspath(inpCompiler.modDir + "../libs/cpp/"))
+		self.modDir = getModuleDir()
+		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../"))
+		self.libsDir = fixPath(os.path.abspath(self.modDir + "../libs/cpp/"))
 		self.stringCounter = 0
 		self.fileCounter = 0
 		self.forVarCounter = 0
@@ -61,18 +67,28 @@ class CPPOutputCompiler:
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
+		# Expression parser
+		self.initExprParser()
+		
+	def initExprParser(self):
+		self.parser = getBPCExpressionParser()
+		
+	def getProjectDir(self):
+		return self.projectDir
+		
 	def compile(self, inpFile):
-		cppOut = CPPOutputFile(self, inpFile)
+		cppOut = CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 		
 		if len(self.compiledFiles) == 0:
 			self.mainFile = cppOut
+			self.projectDir = extractDir(self.mainFile.getFilePath())
 		
 		# This needs to be executed BEFORE the imported files have been compiled
 		# It'll prevent a file from being processed twice
 		self.compiledFiles[inpFile] = cppOut
 		
-		# Import files
-		for imp in inpFile.importedFiles:
+		# Compile imported files first
+		for imp in inpFile.getImportedFiles():
 			inFile = self.inputCompiler.getFileInstanceByPath(imp)
 			if (not inFile in self.compiledFiles):
 				self.compile(inFile)
@@ -91,9 +107,9 @@ class CPPOutputCompiler:
 		#if self.mainClass.hasClassByName("UTF8String"):
 		#	self.stringDataType = "~UTF8String"
 	
-	def writeToFS(self, dirOut):
-		dirOut = fixPath(os.path.abspath(dirOut)) + "/"
-		self.outputDir = dirOut
+	def writeToFS(self):
+		#dirOut = fixPath(os.path.abspath(dirOut))
+		#self.outputDir = dirOut
 		cppFiles = self.compiledFiles.values()
 		
 		# Implement all casts
@@ -102,7 +118,8 @@ class CPPOutputCompiler:
 		
 		# Write to files
 		for cppFile in cppFiles:
-			fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
+			#fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
+			fileOut = stripExt(cppFile.file) + "-out.hpp"
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
@@ -116,7 +133,8 @@ class CPPOutputCompiler:
 			if cppFile.isMainFile:
 				hppFile = os.path.basename(fileOut)
 				
-				fileOut = dirOut + stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
+				#fileOut = stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
+				fileOut = stripExt(cppFile.file) + "-out.cpp"
 				self.mainCppFile = fileOut
 				
 				# Write main file
@@ -124,7 +142,8 @@ class CPPOutputCompiler:
 					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + self.getFileExecList() + "\treturn 0;\n}\n")
 		
 		# Decls file
-		fileOut = dirOut + "bp_decls.hpp"
+		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))
+		fileOut = self.outputDir + "bp_decls.hpp"
 		with open(fileOut, "w") as outStream:
 			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
 			
