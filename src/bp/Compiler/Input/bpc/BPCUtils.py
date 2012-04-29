@@ -363,14 +363,27 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		space = " "
-		prefix = "("
-		postfix = ")"
+		prefix = ""
+		postfix = ""
 		if nodeName == "access":
 			space = ""
-			#prefix = ""
-			#postfix = ""
+			
+		# Find operation "above" the current one
+		if node.parentNode.tagName == "value":
+			operationAbove = node.parentNode.parentNode.tagName
+		else:
+			operationAbove = node.parentNode.tagName
 		
-		return prefix + nodeToBPC(op1, 0, conv) + space + binaryOperatorTagToSymbol[nodeName] + space + nodeToBPC(op2, 0, conv) + postfix
+		# Does it have higher or equal priority compared to the current one? If so, use brackets
+		if hasHigherOrEqualPriority(operationAbove, nodeName):
+			prefix = "("
+			postfix = ")"
+		
+		opSymbol = binaryOperatorTagToSymbol[nodeName]
+		if opSymbol in translateLogicalOperatorSign:
+			opSymbol = translateLogicalOperatorSign[opSymbol]
+		
+		return prefix + nodeToBPC(op1, 0, conv) + space + opSymbol + space + nodeToBPC(op2, 0, conv) + postfix
 	
 	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (nodeName))
 

@@ -41,7 +41,7 @@ from bp.Tools.IDE.Editor import *
 class BPMainWindow(QtGui.QMainWindow):
 	
 	def __init__(self):
-		super(BPMainWindow, self).__init__()
+		super().__init__()
 		
 		print("Module directory: " + getModuleDir())
 		print("---")
@@ -86,9 +86,9 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.statusBar().showMessage("Ready")
 		
 		self.codeEdit = BPCodeEdit()
-		self.codeEdit.cursorPositionChanged.connect(self.loadContext)
+		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
-		self.contextView = BPCodeEdit()
+		self.contextView = XMLCodeEdit()
 		self.contextView.setReadOnly(1)
 		
 		self.xmlView = XMLCodeEdit()
@@ -125,11 +125,18 @@ class BPMainWindow(QtGui.QMainWindow):
 		# Help
 		self.actionAbout.triggered.connect(self.about)
 		
-	def createDockWidget(self, name, widget, area):
-		newDock = QtGui.QDockWidget(name, self)
-		newDock.setWidget(widget)
-		self.addDockWidget(area, newDock)
-		return newDock
+	def onCursorPosChange(self):
+		selectedNode = None
+		
+		#try:
+		lineIndex = self.codeEdit.getLineIndex()
+		self.statusBar().showMessage("Line %d" % (lineIndex + 1))
+		selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+		#except:
+		#	self.contextView.setPlainText("")
+		
+		# Check that line
+		self.showDependencies(selectedNode)
 		
 	def showDependencies(self, node):
 		dTree = None
@@ -137,45 +144,30 @@ class BPMainWindow(QtGui.QMainWindow):
 			dTree = dTreeByNode[node]
 		
 		if dTree:
-			self.contextView.setText(dTree.getDependencyPreview())
+			self.contextView.setPlainText(dTree.getDependencyPreview())
 		else:
 			self.contextView.clear()
 			
 		if node:
-			self.xmlView.setText(node.toprettyxml())
+			self.xmlView.setPlainText(node.toprettyxml())
 		else:
 			self.xmlView.clear()
-		
-	def loadContext(self):
-		selectedNode = None
-		
-		try:
-			cursor = self.codeEdit.textCursor()
-			lineNumber = cursor.blockNumber()
-			self.statusBar().showMessage("Line %d" % (lineNumber + 1))
-			selectedNode = self.codeEdit.converter.getNode(lineNumber)
-			#line = cursor.block().text()
-		except:
-			self.contextView.setText("")
-		
-		# Check that line
-		self.showDependencies(selectedNode)
 		
 	def loadFileToEditor(self, fileName):
 		self.file = fileName
 		
 		# Read
-		self.startBenchmark("LoadXMLFile")
+		self.startBenchmark("LoadXMLFile (physically read file)")
 		xmlCode = loadXMLFile(self.file)
 		self.endBenchmark()
 		
 		# Let's rock!
-		self.startBenchmark("CodeEdit")
+		self.startBenchmark("CodeEdit (interpret file)")
 		self.contextView.clear()
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
-		self.startBenchmark("BPPostProcessor")
+		self.startBenchmark("BPPostProcessor (generate DTrees)")
 		self.processor = BPPostProcessor()
 		self.processor.process(self.codeEdit.root, self.file)
 		self.endBenchmark()
@@ -238,6 +230,12 @@ class BPMainWindow(QtGui.QMainWindow):
 							</p>
 							""")
 		
+	def createDockWidget(self, name, widget, area):
+		newDock = QtGui.QDockWidget(name, self)
+		newDock.setWidget(widget)
+		self.addDockWidget(area, newDock)
+		return newDock
+		
 	def center(self):
 		qr = self.frameGeometry()
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
@@ -251,7 +249,7 @@ class BPMainWindow(QtGui.QMainWindow):
 	def endBenchmark(self):
 		self.benchmarkTimerEnd = time.time()
 		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
-		print((self.benchmarkName + ":").ljust(30) + str(int(buildTime * 1000)).rjust(8) + " ms")
+		print((self.benchmarkName + ":").ljust(40) + str(int(buildTime * 1000)).rjust(8) + " ms")
 		
 	def closeEvent(self, event):
 		event.accept()
@@ -269,9 +267,6 @@ class BPMainWindow(QtGui.QMainWindow):
 			event.ignore()
 
 def main():
-	# Only allow one instance
-	os.open("tmp/lock", os.O_CREAT|os.O_EXCL)
-	
 	# Create the application
 	app = QtGui.QApplication(sys.argv)
 	editor = BPMainWindow()
@@ -282,5 +277,7 @@ if __name__ == '__main__':
 		main()
 	except SystemExit:
 		pass
+	#except OSError:
+	#	print("An instance of Blitzprog IDE is already running")
 	except:
 		printTraceback()
