@@ -153,12 +153,15 @@ class BPMainWindow(QtGui.QMainWindow):
 		else:
 			self.xmlView.clear()
 		
+	def getFilePath(self):
+		return self.codeEdit.getFilePath()
+		
 	def loadFileToEditor(self, fileName):
-		self.file = fileName
+		self.codeEdit.setFilePath(fileName)
 		
 		# Read
 		self.startBenchmark("LoadXMLFile (physically read file)")
-		xmlCode = loadXMLFile(self.file)
+		xmlCode = loadXMLFile(self.getFilePath())
 		self.endBenchmark()
 		
 		# Let's rock!
@@ -169,7 +172,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		self.startBenchmark("BPPostProcessor (generate DTrees)")
 		self.processor = BPPostProcessor()
-		self.processor.process(self.codeEdit.root, self.file)
+		self.processor.process(self.codeEdit.root, self.getFilePath())
 		self.endBenchmark()
 		
 	def newFile(self):

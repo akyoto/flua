@@ -4,10 +4,41 @@ from bp.Compiler import *
 
 class BPLineInformation(QtGui.QTextBlockUserData):
 	
-	def __init__(self, xmlNode):
+	def __init__(self, xmlNode, edited = False):
 		super().__init__()
 		self.node = xmlNode
-		self.edited = False
+		self.edited = edited
+
+class BPCodeUpdater(QtCore.QThread):
+	
+	def __init__(self, codeEdit):
+		super().__init__(codeEdit)
+		self.codeEdit = codeEdit
+		self.setDocument(codeEdit.qdoc)
+		self.bpc = BPCCompiler(getModuleDir())
+		
+	def setDocument(self, doc):
+		self.qdoc = doc
+		
+	def run(self):
+		codeText = self.qdoc.toPlainText()
+		try:
+			bpcFile = self.bpc.spawnFileCompiler(self.codeEdit.getFilePath(), True, codeText)
+		except InputCompilerException as e:
+			print("Error in line %d: %s" % (e.getLineNumber(), e.getLine()))
+		#block = self.qdoc.begin()
+		#end = self.qdoc.end()
+		#while block != end:
+			#userData = block.userData()
+			#if not userData or userData.edited:
+				#text = block.text()
+				#if text:
+					#newNode = self.bpc.processLine(text)
+					#if newNode:
+						#print(text)
+						#print(newNode.toprettyxml())
+			
+			#block = block.next()
 
 class BPCodeEdit(QtGui.QPlainTextEdit):
 	
@@ -22,6 +53,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.converter = None
 		self.lines = []
+		self.updater = None
+		self.filePath = ""
+		
+	def setFilePath(self, filePath):
+		self.filePath = filePath
+		
+	def getFilePath(self):
+		return self.filePath
 		
 	def onTextChange(self, position, charsRemoved, charsAdded):
 		blockStart = self.qdoc.findBlock(position)
@@ -31,8 +70,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 			block = self.qdoc.findBlockByNumber(i)
 			lineInfo = block.userData()
 			if lineInfo:
-				lineInfo.edited = True
-		#print(blockStart.blockNumber(), "|", blockEnd.blockNumber(), "|", position, charsAdded, charsRemoved)
+				block.setUserData(BPLineInformation(lineInfo.node, True))
+		
+		# Run bpc -> xml updater
+		if self.updater and not self.updater.isRunning():
+			self.updater.setDocument(self.qdoc)
+			self.updater.start(QtCore.QThread.LowestPriority)
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -76,9 +119,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 					#break
 		
 		self.setPlainText("\n".join(self.lines))
+		
+		# Set user data
 		for i in range(0, len(self.lines) - 1):
 			userData = BPLineInformation(self.converter.lineToNode[i])
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
+			
+		# Create the updater
+		self.updater = BPCodeUpdater(self)
 		
 	def removeLineNumber(self, index):
 		# TODO: Fix index by +1 -1

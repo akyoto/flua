@@ -52,10 +52,16 @@ class InputCompilerException(CompilerException):
 		self.setMsg(value)
 		self.inpFile = inpFile
 		
+	def getLine(self):
+		return self.inpFile.getLastLine()
+		
+	def getLineNumber(self):
+		return self.inpFile.getLastLineCount()
+		
 	def __str__(self):
 		filePath = self.inpFile.getFilePath()
-		line = self.inpFile.getLastLine()
-		lineCount = self.inpFile.getLastLineCount()
+		line = self.getLine()
+		lineCount = self.getLineNumber()
 		sep = "\n" + "-" * (80) + "\n"
 		return sep + "In " + filePath + (" [line %d]" % lineCount) + sep + line + sep + self.getMsg() + sep
 
