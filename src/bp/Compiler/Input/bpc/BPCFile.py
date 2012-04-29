@@ -131,8 +131,9 @@ class BPCFile(ScopeController):
 		return self.lastLineCount
 		
 	def compile(self, codeText = ""):
-		print("Compiling: " + self.file)
+		#print("Compiling: " + self.file)
 		
+		currentLine = None
 		self.currentNode = getElementByTagName(self.root, "code")
 		self.lastNode = None
 		
@@ -169,13 +170,13 @@ class BPCFile(ScopeController):
 			if line == "":
 				continue
 			
-			# pi
+			# TODO: Enable all unicode characters
 			line = line.replace("π", "pi")
 			
 			self.nextLineIndented = False
 			if lineIndex < len(lines) - 1:
 				tabCountNextLine = self.countTabs(lines[lineIndex + 1])
-				if tabCountNextLine == tabCount + 1 and lines[lineIndex + 1].strip() != "":
+				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
 			
 			# Remove whitespaces
@@ -262,8 +263,10 @@ class BPCFile(ScopeController):
 				else:
 					self.currentNode = self.currentNode.parentNode
 			elif self.currentNode.tagName in simpleBlocks:
+				if len(self.currentNode.childNodes) == 0:
+					raise CompilerException("A '%s' block needs at least one operation (e.g. '...')" % (nodeName))
 				tagsAllowed = simpleBlocks[self.currentNode.tagName]
-				if atTab != tabCount + 1 or isTextNode(currentLine) or not currentLine.tagName in tagsAllowed:
+				if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode
 			atTab -= 1
 		
@@ -347,6 +350,7 @@ class BPCFile(ScopeController):
 			line = self.addBrackets(line)
 			line = self.addGenerics(line)
 			node = self.parseExpr(line)
+			
 			return node
 	
 	def addGenerics(self, line):
@@ -392,11 +396,24 @@ class BPCFile(ScopeController):
 			elif (not isVarChar(char)) and char != '.' and bracketCounter == 0:
 				break
 		
+		identifier = line[:i]
+		if char == '.':
+			if identifier:
+				raise CompilerException("You need to specify a function or property of '%s'" % (identifier))
+			else:
+				raise CompilerException("Invalid instruction: '%s'" % line)
+		
+		rightOperand = line[i+1:]
+		if isDefinitelyOperatorSign(char):
+			if (not identifier or not rightOperand):
+				print(line, "|", identifier, "|", rightOperand)
+				raise CompilerException("Invalid instruction: '%s'" % line)
+		
 		if i < len(line) - 1:
-			nextChar = line[i+1]
+			nextChar = rightOperand[0]
 			
 			if char.isspace() and (isVarChar(nextChar) or nextChar == '('):
-				line = "%s(%s)" % (line[:i], line[i+1:])
+				line = "%s(%s)" % (line[:i], rightOperand)
 		elif line[-1] != ')':
 			line += "()"
 		
@@ -519,24 +536,40 @@ class BPCFile(ScopeController):
 		
 		node = self.doc.createElement("for")
 		
+		line += " "
 		pos = line.find(" to ")
 		posUntil = line.find(" until ")
 		if pos == -1 and posUntil == -1:
-			node.tagName = "foreach"
-			# TODO: Foreach
-			return None
+			pos = line.find(" in ")
+			if pos == -1:
+				raise CompilerException("Missing iterator definition in 'for' expression")
+			else:
+				node.tagName = "foreach"
+				# TODO: Foreach
+				#return None
+				raise CompilerException("'for' as 'foreach' not implemented yet")
 		else:
-			toUsed = 1
+			toUsed = True
 			if pos == -1:
 				pos = posUntil
-				toUsed = 0
+				toUsed = False
 			
-			initExpr = self.parseExpr(line[len("for")+1:pos])
+			initCode = line[len("for")+1:pos]
+			if initCode.find('=') == -1:
+				# TODO: Allow nameless iterators
+				raise CompilerException("Missing iterator assignment: %s" % (initCode))
+			initExpr = self.parseExpr(initCode)
+			
+			#if not toParam:
+			#	keyword = ["until", "to"][toUsed]
+			#	raise CompilerException("Missing expression after '%s'" % (keyword))
 			
 			if toUsed:
-				toExpr = self.parseExpr(line[pos+len(" to "):])
+				toParam = line[pos+len(" to "):]
+				toExpr = self.parseExpr(toParam)
 			else:
-				toExpr = self.parseExpr(line[pos+len(" until "):])
+				toParam = line[pos+len(" until "):]
+				toExpr = self.parseExpr(toParam)
 			
 			iterNode = self.doc.createElement("iterator")
 			iterNode.appendChild(initExpr.childNodes[0].childNodes[0])
@@ -749,7 +782,7 @@ class BPCFile(ScopeController):
 				funcName = line
 			
 			if (not self.inOperators) and (not self.inCasts):
-				raise CompilerException("Invalid function name '" + funcName + "'")
+				raise CompilerException("Invalid function name '" + funcName + "' for function definition")
 		
 		#print(" belongs to " + self.currentNode.tagName)
 		nameNode = self.doc.createElement("name")
@@ -771,13 +804,14 @@ class BPCFile(ScopeController):
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
 		expr = self.addGenerics(line[len(funcName)+1:])
-		params = self.parseExpr(expr)
+		if expr:
+			params = self.parseExpr(expr)
+			paramsNode = self.parser.getParametersNode(params)
+			node.appendChild(paramsNode)
 		
-		paramsNode = self.parser.getParametersNode(params)
 		codeNode = self.doc.createElement("code")
 		
 		node.appendChild(nameNode)
-		node.appendChild(paramsNode)
 		node.appendChild(codeNode)
 		
 		#self.inFunction = True
@@ -828,9 +862,11 @@ class BPCFile(ScopeController):
 		exceptionType = self.doc.createElement("variable")
 		code = self.doc.createElement("code")
 		
-		varNode = self.parseExpr(line[len("catch")+1:])
-		if nodeIsValid(varNode):
-			exceptionType.appendChild(varNode)
+		varExpr = line[len("catch")+1:]
+		if varExpr:
+			varNode = self.parseExpr(varExpr)
+			if nodeIsValid(varNode):
+				exceptionType.appendChild(varNode)
 		
 		node.appendChild(exceptionType)
 		node.appendChild(code)
@@ -949,9 +985,20 @@ class BPCFile(ScopeController):
 			
 			# Remove strings
 			elif line[i] == '"':
+				lineLen = len(line)
+				
 				h = i + 1
-				while h < len(line) and line[h] != '"':
+				while h < lineLen and line[h] != '"':
 					h += 1
+					
+				if h == lineLen:
+					raise CompilerException("You forgot to close the string: '\"' missing")
+				
+				if h + 1 < lineLen and mustNotBeNextToExpr(line[h + 1]):
+					raise CompilerException("Operator missing: %s ↓ %s" % (line[i:h+1].strip(), line[h+1:].strip()))
+				if i > 1 and mustNotBeNextToExpr(line[i - 1]):
+					raise CompilerException("Operator missing: %s ↓ %s" % (line[:i].strip(), line[i:h+1].strip()))
+				
 				# TODO: Add string to string list
 				identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
 				
@@ -963,20 +1010,20 @@ class BPCFile(ScopeController):
 				
 				line = line[:i] + identifier + line[h+1:]
 				self.stringCount += 1
-				i += len(identifier)
+				i += len(identifier) - 1
 			i += 1
 		
 		# ()
 		if roundBracketsBalance > 0:
-			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (roundBracketsBalance), ""][abs(roundBracketsBalance) == 1]))
+			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
 		elif roundBracketsBalance < 0:
-			raise CompilerException("You forgot to open the round bracket: '(' missing%s" % ([" %d times" % (roundBracketsBalance), ""][abs(roundBracketsBalance) == 1]))
+			raise CompilerException("You forgot to open the round bracket: '(' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
 		
 		# []
 		if squareBracketsBalance > 0:
-			raise CompilerException("You forgot to close the square bracket: ']' missing%s" % ([" %d times" % (squareBracketsBalance), ""][abs(squareBracketsBalance) == 1]))
+			raise CompilerException("You forgot to close the square bracket: ']' missing%s" % ([" %d times" % (abs(squareBracketsBalance)), ""][abs(squareBracketsBalance) == 1]))
 		elif squareBracketsBalance < 0:
-			raise CompilerException("You forgot to open the square bracket: '[' missing%s" % ([" %d times" % (squareBracketsBalance), ""][abs(squareBracketsBalance) == 1]))
+			raise CompilerException("You forgot to open the square bracket: '[' missing%s" % ([" %d times" % (abs(squareBracketsBalance)), ""][abs(squareBracketsBalance) == 1]))
 		
 		# <>
 		#if chevronsBalance > 0:

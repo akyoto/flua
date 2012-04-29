@@ -4,35 +4,6 @@
 from PyQt4 import QtGui, QtCore
 from bp.Tools.IDE import *
 
-def format(color, style=''):
-	"""Return a QTextCharFormat with the given attributes.
-	"""
-	_color = QtGui.QColor()
-	_color.setNamedColor(color)
-
-	_format = QtGui.QTextCharFormat()
-	_format.setForeground(_color)
-	if 'bold' in style:
-		_format.setFontWeight(QtGui.QFont.Bold)
-	if 'italic' in style:
-		_format.setFontItalic(True)
-
-	return _format
-
-# Syntax styles that can be shared by all languages
-STYLES = {
-	'keyword': format('blue'),
-	'operator': format('red'),
-	'brace': format('darkGray'),
-	'output-target': format('#666666'),
-	'include-file': format('#666666'),
-	'string': format('#009000'),
-	'string2': format('darkMagenta'),
-	'comment': format('darkGray', 'italic'),
-	'self': format('black', 'italic'),
-	'numbers': format('brown'),
-}
-
 class BPCHighlighter(QtGui.QSyntaxHighlighter):
 	"""Syntax highlighter for the Python language.
 	"""
@@ -69,7 +40,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 		'\{', '\}', '\(', '\)', '\[', '\]', '\<', '\>',
 	]
 	
-	def __init__(self, document):
+	def __init__(self, document, STYLES):
 		QtGui.QSyntaxHighlighter.__init__(self, document)
 
 		# Multi-line strings (expression, flag, style)
@@ -115,7 +86,11 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 			(r'\b[+-]?0[xX][0-9A-Fa-f]+[lL]?\b', 0, STYLES['numbers']),
 			(r'\b[+-]?[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\b', 0, STYLES['numbers']),
 		]
-
+		
+		# Own functions
+		#self.ownFunctionRule = QtCore.QRegExp(r'\b([a-zA-Z0-9_]*)\b\s*\(.*\)')
+		#self.ownFunctionStyle = STYLES['own-function']
+		
 		# Build a QRegExp for each pattern
 		self.rules = [(QtCore.QRegExp(pat), index, fmt)
 			for (pat, index, fmt) in rules]
@@ -125,23 +100,34 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 		"""Apply syntax highlighting to the given block of text.
 		"""
 		# Do other syntax formatting
-		for expression, nth, format in self.rules:
+		for expression, nth, style in self.rules:
 			index = expression.indexIn(text, 0)
 			
 			while index >= 0:
 				# We actually want the index of the nth match
 				index = expression.pos(nth)
 				length = len(expression.cap(nth))
-				self.setFormat(index, length, format)
+				self.setFormat(index, length, style)
 				index = expression.indexIn(text, index + length)
-
+		
+		# Own functions
+		#expression = self.ownFunctionRule
+		#nth = 1
+		#style = self.ownFunctionStyle
+		#index = expression.indexIn(text, 0)
+		#while index >= 0:
+		#	# We actually want the index of the nth match
+		#	index = expression.pos(nth)
+		#	length = len(expression.cap(nth))
+		#	self.setFormat(index, length, style)
+		#	index = expression.indexIn(text, index + length)
+		
 		self.setCurrentBlockState(0)
 
 		# Do multi-line strings
 		#in_multiline = self.match_multiline(text, *self.tri_single)
 		#if not in_multiline:
 		#	in_multiline = self.match_multiline(text, *self.tri_double)
-
 
 	def match_multiline(self, text, delimiter, in_state, style):
 		"""Do highlighting of multi-line strings. ``delimiter`` should be a

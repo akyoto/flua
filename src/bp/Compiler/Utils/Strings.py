@@ -140,3 +140,13 @@ def buildPostfix(paramTypes):
 	for dataType in paramTypes:
 		postfix += "__" + dataType.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
 	return postfix
+
+# These functions do NOT rely on each other
+def isNotOperatorSign(char):
+	return char.isalnum() or char.isspace() or char in "_(){}"
+
+def isDefinitelyOperatorSign(char):
+	return char in '+-*/=%&|:!\\~,'
+
+def mustNotBeNextToExpr(char):
+	return char.isalnum() or char in "_(){}"

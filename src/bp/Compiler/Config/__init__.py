@@ -58,3 +58,4 @@ def getModulePath(importedModule, fileDir, projectDir, extension = ".bp"):
 		return os.path.abspath(gImportedInFolder)
 	
 	return ""
+	#raise CompilerException("Module not found: '%s'" % importedModule)

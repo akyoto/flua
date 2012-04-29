@@ -87,6 +87,15 @@ class ExpressionParser:
 	def buildCleanExpr(self, expr):
 		self.recursionLevel += 1
 		
+		#expr = expr.replace(" ", "")
+		# Identifier + Space + Identifier = Invalid instruction
+		exprLen = len(expr)
+		for i in range(exprLen):
+			if expr[i] == ' ':
+				# TODO: Handle '([{' and ')]}' correctly
+				if i + 1 < exprLen and i >= 1 and isVarChar(expr[i - 1]) and isVarChar(expr[i + 1]): #and expr[i + 1:i + 11] != "bp_string_":
+					raise CompilerException("Operator missing: %s" % (expr[:i].strip() + " ↓ " + expr[i+1:].strip()))
+				
 		expr = expr.replace(" ", "")
 		exprLen = len(expr)
 		i = 0
@@ -162,6 +171,26 @@ class ExpressionParser:
 									end += 1
 								
 								operandRight = expr[lastOccurence + op.textLen:end]
+								
+								# Perform "no digits at the start of an identifier" check for the left operator
+								if operandLeft:
+									operandLeftStartsWithDigit = operandLeft[0].isdigit()
+									if operandLeftStartsWithDigit:
+										for c in operandLeft:
+											if not c.isdigit() and isVarChar(c):
+												raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandLeft))
+										
+								# Perform "no digits at the start of an identifier" check for the right operator
+								if operandRight:
+									operandRightStartsWithDigit = operandRight[0].isdigit()
+									if operandRightStartsWithDigit:
+										for c in operandRight:
+											if not c.isdigit() and isVarChar(c):
+												raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandRight))
+								
+								#if op.text != "(":
+								#	if (operandRight and operandRight[0].isdigit() and not operandRight.isdigit()):
+								#		raise CompilerException("ERZA RIGHT %s %s %s" % (operandLeft, op.text, operandRight))
 								
 #								if op.text == "&&":
 #									print(">> " + operandLeft + " AND " + operandRight)
@@ -384,6 +413,10 @@ class ExpressionParser:
 		
 	def buildXMLTree(self, expr):
 		#print(" * buildXMLTree: " + expr)
+		if not expr:
+			raise CompilerException("Expression missing")
+		if isDefinitelyOperatorSign(expr[0]):
+			raise CompilerException("Invalid expression: '%s'" % expr)
 		
 		node = self.doc.createElement("expr")
 		

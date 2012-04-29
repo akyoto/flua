@@ -36,8 +36,44 @@ from bp.Compiler import *
 from bp.Tools.IDE.Editor import *
 
 ####################################################################
+# Functions
+####################################################################
+def format(color, style=''):
+	"""Return a QTextCharFormat with the given attributes.
+	"""
+	_color = QtGui.QColor()
+	_color.setNamedColor(color)
+	
+	_format = QtGui.QTextCharFormat()
+	_format.setForeground(_color)
+	if 'bold' in style:
+		_format.setFontWeight(QtGui.QFont.Bold)
+	if 'italic' in style:
+		_format.setFontItalic(True)
+	
+	return _format
+
+####################################################################
 # Code
 ####################################################################
+class BPMessageView(QtGui.QListWidget):
+	
+	def __init__(self, parent):
+		super().__init__(parent)
+		self.bpMainWidget = parent
+		self.setWordWrap(True)
+		self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
+		self.itemClicked.connect(self.goToLineOfItem)
+		
+	def goToLineOfItem(self, item):
+		lineNum = int(item.statusTip())
+		self.bpMainWidget.goToLineEnd(lineNum)
+		
+	def addLineBasedMessage(self, lineNumber, msg):
+		newItem = QtGui.QListWidgetItem(self.icon, msg)
+		newItem.setStatusTip(str(lineNumber))
+		self.addItem(newItem)
+
 class BPMainWindow(QtGui.QMainWindow):
 	
 	def __init__(self):
@@ -45,9 +81,29 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		print("Module directory: " + getModuleDir())
 		print("---")
+		self.initTheme()
 		self.initUI()
 		self.initCompiler()
 		self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
+		
+	def initTheme(self):
+		defaultTheme = {
+			'default': format("#272727"),
+			'keyword': format('blue'),
+			'operator': format('red'),
+			'brace': format('darkGray'),
+			'output-target': format('#666666'),
+			'include-file': format('#666666'),
+			'string': format('#009000'),
+			'string2': format('darkMagenta'),
+			'comment': format('darkGray', 'italic'),
+			'self': format('black', 'italic'),
+			'numbers': format('brown'),
+			'own-function': format('#272727', 'bold'),
+			'current-line' : None#QtGui.QColor("#fefefe")
+		}
+		
+		self.currentTheme = defaultTheme
 		
 	def initCompiler(self):
 		self.bpc = BPCCompiler(getModuleDir())
@@ -76,6 +132,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		# Font
 		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
+		self.statusBar().setFont(QtGui.QFont("SansSerif", 7))
 		
 		# Window
 		#self.setWindowTitle("Blitzprog IDE")
@@ -85,21 +142,30 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		self.statusBar().showMessage("Ready")
 		
-		self.codeEdit = BPCodeEdit()
+		self.codeEdit = BPCodeEdit(self)
 		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
-		self.contextView = XMLCodeEdit()
+		self.contextView = XMLCodeEdit(self)
 		self.contextView.setReadOnly(1)
 		
-		self.xmlView = XMLCodeEdit()
+		self.xmlView = XMLCodeEdit(self)
 		self.xmlView.setReadOnly(1)
 		
+		self.msgView = BPMessageView(self)
+		
 		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
+		self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+		
+		self.dependenciesViewDock.hide()
+		self.xmlViewDock.hide()
 		
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
 		self.show()
+		
+	def getCurrentTheme(self):
+		return self.currentTheme
 		
 	def initActions(self):
 		# File
@@ -116,14 +182,13 @@ class BPMainWindow(QtGui.QMainWindow):
 		# Module
 		self.actionRun.triggered.connect(self.runModule)
 		
-		# View
-		self.actionViewDependencies.toggled.connect(self.dependenciesViewDock.setVisible)
-		self.actionViewXML.toggled.connect(self.xmlViewDock.setVisible)
-		self.dependenciesViewDock.visibilityChanged.connect(self.actionViewDependencies.setChecked)
-		self.xmlViewDock.visibilityChanged.connect(self.actionViewXML.setChecked)
-		
 		# Help
 		self.actionAbout.triggered.connect(self.about)
+		
+	def goToLineEnd(self, lineNum):
+		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
+		self.codeEdit.goToLineEnd(lineNum)
+		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
 		
 	def onCursorPosChange(self):
 		selectedNode = None
@@ -137,6 +202,9 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		# Check that line
 		self.showDependencies(selectedNode)
+		
+		# Clear all highlights
+		self.codeEdit.clearHighlights()
 		
 	def showDependencies(self, node):
 		dTree = None
@@ -237,6 +305,13 @@ class BPMainWindow(QtGui.QMainWindow):
 		newDock = QtGui.QDockWidget(name, self)
 		newDock.setWidget(widget)
 		self.addDockWidget(area, newDock)
+		
+		newAction = QtGui.QAction(name, self)
+		newAction.setCheckable(True)
+		newAction.toggled.connect(newDock.setVisible)
+		newDock.visibilityChanged.connect(newAction.setChecked)
+		self.menuView.addAction(newAction)
+		
 		return newDock
 		
 	def center(self):

@@ -18,13 +18,17 @@ long_line_behaviour=0
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=7659;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FTools%2FIDE%2Fbp_ide.py;0;4
-FILE_NAME_1=11315;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FInput%2Fbpc%2FBPCUtils.py;0;4
-FILE_NAME_2=2720;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FUtils%2FExpressionParser.py;0;4
-FILE_NAME_3=2372;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2Fbp.py;0;4
-FILE_NAME_4=1614;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FExpressionParser%2FExpressionParser.py;0;4
-FILE_NAME_5=2909;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FUtils%2FXML.py;0;4
+current_page=3
+FILE_NAME_0=1581;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FTools%2FIDE%2Fbp_ide.py;0;4
+FILE_NAME_1=645;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FTools%2FIDE%2FEditor%2FBPCodeEdit.py;0;4
+FILE_NAME_2=3286;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FInput%2Fbpc%2FBPCCompiler.py;0;4
+FILE_NAME_3=5275;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FInput%2Fbpc%2FBPCFile.py;0;4
+FILE_NAME_4=2822;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FInput%2Fbpc%2FBPCUtils.py;0;4
+FILE_NAME_5=201;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FTools%2FIDE%2FSyntax%2FBPCSyntax.py;0;4
+FILE_NAME_6=2372;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2Fbp.py;0;4
+FILE_NAME_7=13671;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FExpressionParser%2FExpressionParser.py;0;4
+FILE_NAME_8=2909;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FUtils%2FXML.py;0;4
+FILE_NAME_9=1791;Python;0;16;1;1;0;%2Fhome%2Feduard%2FProjects%2Fbp%2Fsrc%2Fbp%2FCompiler%2FUtils%2FDebug.py;0;4
 
 [file_prefs]
 final_new_line=true

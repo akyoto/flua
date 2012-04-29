@@ -43,7 +43,7 @@ class CompilerException(Exception):
 		self.value = msg
 		
 	def __str__(self):
-		return repr(self.getMsg())
+		return self.getMsg()
 
 class InputCompilerException(CompilerException):
 	
