@@ -149,4 +149,4 @@ def isDefinitelyOperatorSign(char):
 	return char in '+-*/=%&|:!\\~,'
 
 def mustNotBeNextToExpr(char):
-	return char.isalnum() or char in "_(){}"
+	return char.isalnum() or char == '_'

@@ -104,7 +104,9 @@ class BPCFile(ScopeController):
 		self.dependencies = getElementByTagName(self.header, "dependencies")
 		self.strings = getElementByTagName(self.header, "strings")
 		self.lastLine = ""
-		self.lastLineCount = 0 
+		self.lastLineCount = 0
+		self.nodeToOriginalLine = dict()
+		self.nodes = list()
 		
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
@@ -168,6 +170,7 @@ class BPCFile(ScopeController):
 			line = self.prepareLine(line)
 			
 			if line == "":
+				self.nodes.append(None)
 				continue
 			
 			# TODO: Enable all unicode characters
@@ -192,7 +195,8 @@ class BPCFile(ScopeController):
 			currentLine = self.processLine(line)
 			
 			# Save the connection for debugging purposes
-			nodeToOriginalLine[currentLine] = line
+			self.nodeToOriginalLine[currentLine] = self.lastLine
+			self.nodes.append(currentLine)
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -406,7 +410,7 @@ class BPCFile(ScopeController):
 		rightOperand = line[i+1:]
 		if isDefinitelyOperatorSign(char):
 			if (not identifier or not rightOperand):
-				print(line, "|", identifier, "|", rightOperand)
+				#print(line, "|", identifier, "|", rightOperand)
 				raise CompilerException("Invalid instruction: '%s'" % line)
 		
 		if i < len(line) - 1:

@@ -17,6 +17,8 @@ class BPCodeUpdater(QtCore.QThread):
 		self.bpMainWidget = codeEdit.bpMainWidget
 		self.setDocument(codeEdit.qdoc)
 		self.bpc = BPCCompiler(getModuleDir())
+		self.bpcFile = None
+		self.finished.connect(self.codeEdit.compilerFinished)
 		
 	def setDocument(self, doc):
 		self.qdoc = doc
@@ -27,8 +29,9 @@ class BPCodeUpdater(QtCore.QThread):
 		#self.codeEdit.clearHighlights()
 		
 		try:
+			# TODO: Remove unsafe benchmark
 			self.bpMainWidget.startBenchmark("BPCCompiler")
-			bpcFile = self.bpc.spawnFileCompiler(self.codeEdit.getFilePath(), True, codeText)
+			self.bpcFile = self.bpc.spawnFileCompiler(self.codeEdit.getFilePath(), True, codeText)
 			self.bpMainWidget.endBenchmark()
 		except InputCompilerException as e:
 			lineNumber = e.getLineNumber()
@@ -78,8 +81,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		#self.setCurrentCharFormat(self.bpMainWidget.currentTheme["default"])
 		#self.textChanged.connect(self.onTextChange)
+		self.doc = None
+		self.root = None
 		self.qdoc.contentsChange.connect(self.onTextChange)
-		self.converter = None
 		self.lines = []
 		self.updater = None
 		self.filePath = ""
@@ -100,6 +104,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 	def getFilePath(self):
 		return self.filePath
 		
+	def setLineNode(self, index, newNode):
+		block = self.qdoc.findBlockByNumber(index)
+		lineInfo = block.userData()
+		if lineInfo:
+			block.setUserData(BPLineInformation(newNode, False))
+	
 	def setLineEdited(self, index, edited):
 		block = self.qdoc.findBlockByNumber(index)
 		lineInfo = block.userData()
@@ -133,13 +143,36 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 		return None
 		
-	def setXML(self, xmlCode):
-		self.doc = parseString(xmlCode.encode( "utf-8" ))
-		self.root = self.doc.documentElement
+	def compilerFinished(self):
+		bpcFile = self.updater.bpcFile
+		self.updater.bpcFile = None
+		
+		if bpcFile:
+			self.bpMainWidget.startBenchmark("UpdateRootSafely")
+			self.updateRootSafely(bpcFile)
+			self.bpMainWidget.endBenchmark()
+			
+			self.bpMainWidget.updateLineInfo(True)
+		
+	def updateRootSafely(self, bpcFile):
+		lineIndex = -1 # -1 because of bp.Core
+		for node in bpcFile.nodes:
+			if node:
+				#print(("[%d]" % (lineIndex)) + bpcFile.nodeToOriginalLine[node])
+				self.setLineNode(lineIndex, node)
+			else:
+				self.setLineNode(lineIndex, None)
+			lineIndex += 1
+		
+		self.root = bpcFile.root
+		
+	def setRoot(self, newRoot):
+		self.root = newRoot
+		#header = getElementByTagName(self.root, "header")
 		codeNode = getElementByTagName(self.root, "code")
 		
-		self.converter = LineToNodeConverter()
-		bpcCode = nodeToBPC(self.root, 0, self.converter).strip()
+		converter = LineToNodeConverter()
+		bpcCode = nodeToBPC(self.root, 0, converter).strip()
 		self.lines = bpcCode.split("\n")
 		
 		# Remove two empty lines
@@ -164,11 +197,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 		# Set user data
 		for i in range(0, len(self.lines) - 1):
-			userData = BPLineInformation(self.converter.lineToNode[i])
+			userData = BPLineInformation(converter.lineToNode[i])
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
 			
 		# Create the updater
 		self.updater = BPCodeUpdater(self)
+		
+	def setXML(self, xmlCode):
+		self.doc = parseString(xmlCode.encode( "utf-8" ))
+		self.setRoot(self.doc.documentElement)
 		
 	def goToLine(self, lineNum):
 		cursor = self.textCursor()
@@ -179,11 +216,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		cursor = self.textCursor()
 		cursor.setPosition(self.qdoc.findBlockByLineNumber(lineNum).position() - 1)
 		self.setTextCursor(cursor)
-		
-	def removeLineNumber(self, index):
-		# TODO: Fix index by +1 -1
-		self.lines = self.lines[:index-1] + self.lines[index:]
-		self.converter.lineToNode = self.converter.lineToNode[:index-1] + self.converter.lineToNode[index:]
 	
 	# LineNumberArea functions
 	

@@ -26,7 +26,6 @@
 ####################################################################
 
 dbgTabLevel = 0
-nodeToOriginalLine = dict()
 
 ####################################################################
 # Classes
@@ -80,6 +79,7 @@ class OutputCompilerException(CompilerException):
 		node = self.outFile.getLastParsedNode()
 		nodeXML = ""
 		nodeExpr = ""
+		nodeToOriginalLine = self.outFile.nodeToOriginalLine
 		if node and nodeToOriginalLine:
 			while not node in nodeToOriginalLine:
 				node = node.parentNode

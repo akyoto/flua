@@ -81,6 +81,9 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		print("Module directory: " + getModuleDir())
 		print("---")
+		
+		self.lastBlockPos = 0
+		
 		self.initTheme()
 		self.initUI()
 		self.initCompiler()
@@ -158,7 +161,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		
 		self.dependenciesViewDock.hide()
-		self.xmlViewDock.hide()
+		#self.xmlViewDock.hide()
 		
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
@@ -191,20 +194,27 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
 		
 	def onCursorPosChange(self):
-		selectedNode = None
+		#block = self.codeEdit.cursor().position()
+		self.updateLineInfo()
 		
-		#try:
-		lineIndex = self.codeEdit.getLineIndex()
-		self.statusBar().showMessage("Line %d" % (lineIndex + 1))
-		selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
-		#except:
-		#	self.contextView.setPlainText("")
-		
-		# Check that line
-		self.showDependencies(selectedNode)
-		
-		# Clear all highlights
-		self.codeEdit.clearHighlights()
+	def updateLineInfo(self, force = False):
+		newBlockPos = self.codeEdit.getLineNumber()
+		if newBlockPos != self.lastBlockPos or force:
+			self.lastBlockPos = newBlockPos
+			selectedNode = None
+			
+			#try:
+			lineIndex = self.codeEdit.getLineIndex()
+			self.statusBar().showMessage("Line %d" % (lineIndex + 1))
+			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+			#except:
+			#	self.contextView.setPlainText("")
+			
+			# Check that line
+			self.showDependencies(selectedNode)
+			
+			# Clear all highlights
+			self.codeEdit.clearHighlights()
 		
 	def showDependencies(self, node):
 		dTree = None
