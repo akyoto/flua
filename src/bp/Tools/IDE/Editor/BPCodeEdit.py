@@ -2,21 +2,6 @@ from PyQt4 import QtGui, QtCore, uic
 from bp.Tools.IDE.Syntax.BPCSyntax import *
 from bp.Compiler import *
 
-class Benchmarkable:
-	def __init__(self):
-		self.benchmarkName = ""
-		self.benchmarkTimerStart = 0
-		self.benchmarkTimerEnd = 0
-	
-	def startBenchmark(self, name = ""):
-		self.benchmarkName = name
-		self.benchmarkTimerStart = time.time()
-		
-	def endBenchmark(self):
-		self.benchmarkTimerEnd = time.time()
-		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
-		print((self.benchmarkName + ":").ljust(40) + str(int(buildTime * 1000)).rjust(8) + " ms")
-
 class BPLineInformation(QtGui.QTextBlockUserData):
 	
 	def __init__(self, xmlNode = None, edited = False):
@@ -39,7 +24,10 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.qdoc = doc
 		
 	def run(self):
-		codeText = self.qdoc.toPlainText()
+		if self.codeEdit.futureText:
+			codeText = self.codeEdit.futureText
+		else:
+			codeText = self.qdoc.toPlainText()
 		#self.bpIDE.msgView.clear()
 		#self.codeEdit.clearHighlights()
 		
@@ -76,7 +64,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		super().__init__(bpIDE)
 		self.bpIDE = bpIDE
 		self.qdoc = self.document()
-		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE.getCurrentTheme())
+		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
@@ -93,6 +81,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.doc = None
 		self.root = None
 		self.filePath = ""
+		self.futureText = ""
 		self.lines = []
 		self.bpcFile = None
 		self.disableUpdatesFlag = False
@@ -124,8 +113,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.filePath = filePath
 		if self.bpcFile:
 			self.bpcFile.setFilePath(self.filePath)
-		if self.bpIDE.processor:
-			self.bpIDE.processor.setMainFile(self.filePath)
 		
 	def getFilePath(self):
 		return self.filePath
@@ -154,7 +141,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 	def runUpdater(self):
 		self.bpIDE.msgView.clear()
 		self.updater.setDocument(self.qdoc)
-		self.updater.start(QtCore.QThread.LowestPriority)
+		self.updater.start(QtCore.QThread.NormalPriority)
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -218,9 +205,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
 		
 		# Set new text
-		self.disableUpdatesFlag = True
-		self.setPlainText("\n".join(self.lines))
-		self.disableUpdatesFlag = False
+		#self.disableUpdatesFlag = True
+		#self.setPlainText("")
+		#self.disableUpdatesFlag = False
+		
+		self.futureText = "\n".join(self.lines)
 		self.runUpdater()
 		
 	def setXML(self, xmlCode):

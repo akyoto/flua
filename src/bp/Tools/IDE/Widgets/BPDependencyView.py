@@ -16,6 +16,9 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 		return self.bpIDE.processor
 		
 	def updateView(self):
+		if self.isHidden() and not self.bpIDE.intelliEnabled:
+			return
+		
 		processor = self.getProcessor()
 		
 		dTree = None

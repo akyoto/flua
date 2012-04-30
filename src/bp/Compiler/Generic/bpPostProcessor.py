@@ -440,11 +440,15 @@ class BPPostProcessor:
 		# Get a list of imported files
 		bpOut.updateImportedFiles()
 		
+		# Process imported files
 		for importedFile in bpOut.getImportedFiles():
 			if (not importedFile in self.compiledFiles):
 				self.processFile(importedFile)
 		
+		# Process the actual file
 		bpOut.processXML()
+		
+		return bpOut
 
 class BPPostProcessorFile:
 	

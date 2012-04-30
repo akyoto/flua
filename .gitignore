@@ -1,1 +1,5 @@
 bp.geany
+*.pyc
+*-out.hpp
+test.png
+__pycache__

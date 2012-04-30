@@ -146,7 +146,7 @@ def isNotOperatorSign(char):
 	return char.isalnum() or char.isspace() or char in "_(){}"
 
 def isDefinitelyOperatorSign(char):
-	return char in '+-*/=%&|:!\\~,'
+	return char in '+-*/=%&|:!\\~'
 
 def mustNotBeNextToExpr(char):
 	return char.isalnum() or char == '_'

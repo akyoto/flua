@@ -51,10 +51,12 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	def run(self):
 		self.startBenchmark("BP  PostProcessor (generate DTrees)")
 		self.processor.resetDTreeByNode()
-		self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
+		self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 		self.endBenchmark()
 
 class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
+	
+	# INIT START
 	
 	def __init__(self):
 		super().__init__()
@@ -68,48 +70,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initTheme()
 		self.initUI()
 		self.initCompiler()
+		self.setFilePath("./tmp/tmp.bp")
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
-		
-	def initTheme(self):
-		defaultTheme = {
-			'default': format("#272727"),
-			'keyword': format('blue'),
-			'operator': format('red'),
-			'brace': format('darkGray'),
-			'output-target': format('#666666'),
-			'include-file': format('#666666'),
-			'string': format('#009000'),
-			'string2': format('darkMagenta'),
-			'comment': format('darkGray', 'italic'),
-			'self': format('black', 'italic'),
-			'numbers': format('brown'),
-			'own-function': format('#272727', 'bold'),
-			'current-line' : None#QtGui.QColor("#fefefe")
-		}
-		
-		self.currentTheme = defaultTheme
-		
-	def initCompiler(self):
-		self.postProcessorThread = None
-		self.bpc = BPCCompiler(getModuleDir())
-		self.processor = BPPostProcessor()
-		
-	def initToolBar(self):
-		# Syntax switcher
-		syntaxSwitcher = QtGui.QComboBox()
-		syntaxSwitcher.addItem("BPC Syntax")
-		syntaxSwitcher.addItem("C++/Java Syntax")
-		syntaxSwitcher.addItem("Python Syntax")
-		syntaxSwitcher.addItem("Ruby Syntax")
-		
-		spacerWidget = QtGui.QWidget()
-		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
-		
-		# Tool bar
-		self.syntaxSwitcherBar.addSeparator()
-		self.syntaxSwitcherBar.addWidget(spacerWidget)
-		self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
-		self.syntaxSwitcherBar.addSeparator()
 		
 	def initUI(self):
 		uic.loadUi("blitzprog-ide.ui", self)
@@ -127,13 +89,26 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.statusBar().showMessage("Ready")
 		
+		self.initDocks()
+		
+		self.codeEdit = BPCodeEdit(self)
+		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
+		
+		self.initActions()
+		self.setCentralWidget(self.codeEdit)
+		
+		#self.statusBar().hide()
+		self.toolBar.hide()
+		self.syntaxSwitcherBar.hide()
+		self.show()
+		
+	def initDocks(self):
 		# Message view
 		self.msgView = BPMessageView(self)
 		
 		# XML view
 		self.xmlView = XMLCodeEdit(self)
 		self.xmlView.setReadOnly(1)
-		self.xmlView.hide()
 		
 		# Dependency view
 		self.dependencyView = BPDependencyView(self)
@@ -151,20 +126,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.intelliView.vBox.addStretch(1)
 			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
 		else:
-			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.BottomDockWidgetArea)
+			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 			self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-		
-		self.codeEdit = BPCodeEdit(self)
-		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
-		
-		self.initActions()
-		self.setCentralWidget(self.codeEdit)
-		
-		self.statusBar().hide()
-		self.toolBar.hide()
-		self.syntaxSwitcherBar.hide()
-		self.show()
+			
+		self.dependenciesViewDock.hide()
+		self.xmlViewDock.hide()
 		
 	def initActions(self):
 		# File
@@ -184,6 +151,51 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Help
 		self.actionAbout.triggered.connect(self.about)
 		
+	def initTheme(self):
+		defaultTheme = {
+			'default': format("#272727"),
+			'keyword': format('blue'),
+			'operator': format('red'),
+			'brace': format('darkGray'),
+			'comma': format('#555555'),
+			'output-target': format('#666666'),
+			'include-file': format('#666666'),
+			'string': format('#009000'),
+			'string2': format('darkMagenta'),
+			'comment': format('darkGray', 'italic'),
+			'self': format('black', 'italic'),
+			'numbers': format('brown'),
+			'own-function': format('#373737', 'bold'),
+			'current-line' : None#QtGui.QColor("#fefefe")
+		}
+		
+		self.currentTheme = defaultTheme
+		
+	def initCompiler(self):
+		self.postProcessorThread = None
+		self.bpc = BPCCompiler(getModuleDir())
+		self.processor = BPPostProcessor()
+		self.processorOutFile = None
+		
+	def initToolBar(self):
+		# Syntax switcher
+		syntaxSwitcher = QtGui.QComboBox()
+		syntaxSwitcher.addItem("BPC Syntax")
+		syntaxSwitcher.addItem("C++/Java Syntax")
+		syntaxSwitcher.addItem("Python Syntax")
+		syntaxSwitcher.addItem("Ruby Syntax")
+		
+		spacerWidget = QtGui.QWidget()
+		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+		
+		# Tool bar
+		self.syntaxSwitcherBar.addSeparator()
+		self.syntaxSwitcherBar.addWidget(spacerWidget)
+		self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
+		self.syntaxSwitcherBar.addSeparator()
+		
+	# INIT END
+		
 	def updateLineInfo(self, force = False, updateDependencyView = True):
 		newBlockPos = self.codeEdit.getLineNumber()
 		if force or newBlockPos != self.lastBlockPos:
@@ -201,7 +213,39 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.codeEdit.clearHighlights()
 		
 	def postProcessorFinished(self):
+		# After we parsed the functions, set the text and highlight
+		if self.codeEdit.futureText:
+			self.codeEdit.setPlainText(self.codeEdit.futureText)
+			self.codeEdit.futureText = ""
+		
 		self.dependencyView.updateView()
+		
+	def runModule(self):
+		outputTarget = "C++"
+		
+		if outputTarget == "C++":
+			#print(self.processor.getCompiledFilesList())
+			
+			self.msgView.clear()
+			try:
+				self.startBenchmark("C++ Compiler")
+				
+				cpp = CPPOutputCompiler(self.processor)
+				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
+				cpp.compile(bpPostPFile)
+				cpp.writeToFS()
+				exe = cpp.build()
+				
+				self.endBenchmark()
+				
+				cpp.execute(exe)
+			except OutputCompilerException as e:
+				#lineNumber = e.getLineNumber()
+				node = e.getLastParsedNode()
+				errorMessage = e.getMsg()
+				self.msgView.addLineBasedMessage(1, errorMessage)
+			
+			#cpp.compile(self.file, self.codeEdit.root)
 		
 	def showDependencies(self, node, updateDependencyView = True):
 		self.dependencyView.setNode(node)
@@ -213,11 +257,17 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		else:
 			self.xmlView.clear()
 		
+	def setFilePath(self, path):
+		self.filePath = os.path.abspath(path)
+		if self.processor:
+			self.processor.setMainFile(self.filePath)
+		self.codeEdit.setFilePath(self.filePath)
+		
 	def getFilePath(self):
 		return self.codeEdit.getFilePath()
 		
 	def loadFileToEditor(self, fileName):
-		self.codeEdit.setFilePath(fileName)
+		self.setFilePath(fileName)
 		
 		# Read
 		self.startBenchmark("LoadXMLFile (physically read file)")
@@ -259,15 +309,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def saveFile(self):
 		filePath = self.codeEdit.getFilePath()
-		if not filePath:
-			filePath = QtGui.QFileDialog.getSaveFileName(
-				parent=self,
-				caption="Save File",
-				directory=getModuleDir(),
-				filter="bp Files (*.bp)")
-		
-		if filePath:
-			self.codeEdit.save(filePath)
+		if self.isTmpPath(filePath):
+			self.saveAsFile()
 	
 	def saveAsFile(self):
 		filePath = QtGui.QFileDialog.getSaveFileName(
@@ -279,31 +322,11 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		if filePath:
 			self.codeEdit.save(filePath)
 		
-	def runModule(self):
-		outputTarget = "C++"
+	def isTmpPath(self, path):
+		if not path:
+			return True
 		
-		if outputTarget == "C++":
-			#print(self.processor.getCompiledFilesList())
-			
-			self.msgView.clear()
-			try:
-				self.startBenchmark("C++ Compiler")
-				
-				cpp = CPPOutputCompiler(self.processor)
-				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-				cpp.compile(bpPostPFile)
-				cpp.writeToFS()
-				exe = cpp.build()
-				cpp.execute(exe)
-				
-				self.endBenchmark()
-			except OutputCompilerException as e:
-				#lineNumber = e.getLineNumber()
-				node = e.getLastParsedNode()
-				errorMessage = e.getMsg()
-				self.msgView.addLineBasedMessage(1, errorMessage)
-			
-			#cpp.compile(self.file, self.codeEdit.root)
+		return extractDir(path) == fixPath(os.path.abspath("./tmp/") + "/")
 		
 	def goToLineEnd(self, lineNum):
 		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
