@@ -178,10 +178,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 			self.updateRootSafely()
 			#self.bpMainWidget.endBenchmark()
 			
-			self.bpMainWidget.updateLineInfo(True)
-			
+			self.bpMainWidget.updateLineInfo(force=True, updateView=False)
 			self.bpMainWidget.runPostProcessor()
-			self.bpMainWidget.contextView.updateView()
 		
 		self.disableUpdatesFlag = False
 		

@@ -56,6 +56,21 @@ def format(color, style=''):
 ####################################################################
 # Code
 ####################################################################
+class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
+	
+	def __init__(self, bpMainWidget):
+		super().__init__(bpMainWidget)
+		self.bpMainWidget = bpMainWidget
+		self.finished.connect(self.bpMainWidget.postProcessorFinished)
+		self.processor = None
+		
+	def run(self):
+		self.startBenchmark("BP  PostProcessor (generate DTrees)")
+		self.processor = BPPostProcessor()
+		self.processor.process(self.bpMainWidget.codeEdit.root, self.bpMainWidget.getFilePath())
+		self.endBenchmark()
+		self.bpMainWidget.processor = self.processor
+
 class BPMessageView(QtGui.QListWidget):
 	
 	def __init__(self, parent):
@@ -84,7 +99,6 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 
 	def setNode(self, newNode):
 		self.node = newNode
-		self.updateView()
 		
 	def getProcessor(self):
 		return self.bpMainWidget.processor
@@ -141,8 +155,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.currentTheme = defaultTheme
 		
 	def initCompiler(self):
-		self.bpc = BPCCompiler(getModuleDir())
 		self.processor = None
+		self.postProcessorThread = None
+		self.bpc = BPCCompiler(getModuleDir())
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -177,8 +192,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.statusBar().showMessage("Ready")
 		
-		self.contextView = BPDependencyView(self)
-		self.contextView.setReadOnly(1)
+		self.dependencyView = BPDependencyView(self)
+		self.dependencyView.setReadOnly(1)
 		
 		self.xmlView = XMLCodeEdit(self)
 		self.xmlView.setReadOnly(1)
@@ -186,7 +201,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.msgView = BPMessageView(self)
 		
 		self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
-		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
+		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		
 		#self.dependenciesViewDock.hide()
@@ -199,9 +214,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
 		self.show()
-		
-	def getCurrentTheme(self):
-		return self.currentTheme
 		
 	def initActions(self):
 		# File
@@ -221,15 +233,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Help
 		self.actionAbout.triggered.connect(self.about)
 		
-	def goToLineEnd(self, lineNum):
-		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
-		self.codeEdit.goToLineEnd(lineNum)
-		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
-		
-	def onCursorPosChange(self):
-		self.updateLineInfo()
-		
-	def updateLineInfo(self, force = False):
+	def updateLineInfo(self, force = False, updateView = True):
 		newBlockPos = self.codeEdit.getLineNumber()
 		if force or newBlockPos != self.lastBlockPos:
 			self.lastBlockPos = newBlockPos
@@ -240,16 +244,18 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line
-			self.showDependencies(selectedNode)
+			self.showDependencies(selectedNode, updateView)
 			
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
 		
-	def showDependencies(self, node):
-		#else:
-		#	self.contextView.clear()
+	def postProcessorFinished(self):
+		self.dependencyView.updateView()
 		
-		self.contextView.setNode(node)
+	def showDependencies(self, node, updateView = True):
+		self.dependencyView.setNode(node)
+		if updateView:
+			self.dependencyView.updateView()
 		
 		if node:
 			self.xmlView.setPlainText(node.toprettyxml())
@@ -269,7 +275,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		# Let's rock!
 		self.startBenchmark("CodeEdit (interpret file)")
-		self.contextView.clear()
+		self.dependencyView.clear()
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
@@ -277,14 +283,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.lastBlockPos = -1
 		
 	def runPostProcessor(self):
-		self.startBenchmark("BP PostProcessor (generate DTrees)")
-		self.processor = BPPostProcessor()
-		self.processor.process(self.codeEdit.root, self.getFilePath())
-		self.endBenchmark()
+		self.postProcessorThread = BPPostProcessorThread(self)
+		self.postProcessorThread.start()
 		
 	def newFile(self):
 		self.codeEdit.clear()
-		self.contextView.clear()
+		self.dependencyView.clear()
 		self.msgView.clear()
 		self.xmlView.clear()
 		#print(self.codeEdit.)
@@ -347,6 +351,17 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				self.msgView.addLineBasedMessage(1, errorMessage)
 			
 			#cpp.compile(self.file, self.codeEdit.root)
+		
+	def goToLineEnd(self, lineNum):
+		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
+		self.codeEdit.goToLineEnd(lineNum)
+		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
+		
+	def getCurrentTheme(self):
+		return self.currentTheme
+		
+	def onCursorPosChange(self):
+		self.updateLineInfo()
 		
 	def undoLastAction(self):
 		self.codeEdit.undo()
