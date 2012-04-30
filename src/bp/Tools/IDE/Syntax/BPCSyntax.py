@@ -15,6 +15,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 		'switch', 'case', 'target', 'compilerflags', 'get', 'set', 'operator', 'extern', 'include',
 		'template', 'not', 'or',
 		'return', 'try', 'catch', 'while',
+		'target', 'include',
 		'null', 'true', 'false',
 	]
 	
@@ -73,8 +74,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter):
 			(r"'[^'\\]*(\\.[^'\\]*)*'", 0, STYLES['string']),
 
 			# 'target' followed by an identifier
-			(r'\btarget\b\s*(\w\++)', 1, STYLES['output-target']),
-			(r'\binclude\b\s*(.*)', 1, STYLES['include-file']),
+			#(r'\btarget\b\s*(\w\++)', 1, STYLES['output-target']),
+			#(r'\binclude\b\s*(.*)', 1, STYLES['include-file']),
 			# 'class' followed by an identifier
 			#(r'\bclass\b\s*(\w+)', 1, STYLES['defclass']),
 

@@ -29,7 +29,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 	def __init__(self, codeEdit):
 		super().__init__(codeEdit)
 		self.codeEdit = codeEdit
-		self.bpMainWidget = codeEdit.bpMainWidget
+		self.bpIDE = codeEdit.bpIDE
 		self.setDocument(codeEdit.qdoc)
 		self.bpc = BPCCompiler(getModuleDir())
 		self.bpcFile = None
@@ -40,7 +40,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		
 	def run(self):
 		codeText = self.qdoc.toPlainText()
-		#self.bpMainWidget.msgView.clear()
+		#self.bpIDE.msgView.clear()
 		#self.codeEdit.clearHighlights()
 		
 		try:
@@ -52,7 +52,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		except InputCompilerException as e:
 			lineNumber = e.getLineNumber()
 			errorMessage = e.getMsg()
-			self.bpMainWidget.msgView.addLineBasedMessage(lineNumber, errorMessage)
+			self.bpIDE.msgView.addLineBasedMessage(lineNumber, errorMessage)
 			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
 			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
 		
@@ -72,15 +72,15 @@ class LineNumberArea(QtGui.QWidget):
 
 class BPCodeEdit(QtGui.QPlainTextEdit):
 	
-	def __init__(self, bpMainWidget = None):
-		super().__init__(bpMainWidget)
-		self.bpMainWidget = bpMainWidget
+	def __init__(self, bpIDE = None):
+		super().__init__(bpIDE)
+		self.bpIDE = bpIDE
 		self.qdoc = self.document()
-		self.highlighter = BPCHighlighter(self.qdoc, self.bpMainWidget.getCurrentTheme())
+		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE.getCurrentTheme())
 		self.setFont(QtGui.QFont("monospace", 10))
 		self.setTabStopWidth(4 * 8)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		self.setCurrentCharFormat(self.bpMainWidget.currentTheme["default"])
+		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
 		self.clear()
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)
@@ -104,7 +104,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.setExtraSelections([])
 	
 	def getCurrentTheme(self):
-		return self.bpMainWidget.getCurrentTheme()
+		return self.bpIDE.getCurrentTheme()
 	
 	def save(self, newPath = ""):
 		oldPath = self.getFilePath()
@@ -115,13 +115,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 					newPath = stripExt(newPath) + ".bp"
 				self.setFilePath(newPath)
 			
-			self.bpcFile.writeToFS()
+			if self.bpcFile:
+				self.bpcFile.writeToFS()
 		except:
 			self.setFilePath(oldPath)
 	
 	def setFilePath(self, filePath):
 		self.filePath = filePath
-		self.bpcFile.setFilePath(self.filePath)
+		if self.bpcFile:
+			self.bpcFile.setFilePath(self.filePath)
+		if self.bpIDE.processor:
+			self.bpIDE.processor.setMainFile(self.filePath)
 		
 	def getFilePath(self):
 		return self.filePath
@@ -148,7 +152,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 			self.runUpdater()
 		
 	def runUpdater(self):
-		self.bpMainWidget.msgView.clear()
+		self.bpIDE.msgView.clear()
 		self.updater.setDocument(self.qdoc)
 		self.updater.start(QtCore.QThread.LowestPriority)
 		
@@ -174,12 +178,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.disableUpdatesFlag = True
 		
 		if self.bpcFile:
-			#self.bpMainWidget.startBenchmark("UpdateRootSafely")
+			#self.bpIDE.startBenchmark("UpdateRootSafely")
 			self.updateRootSafely()
-			#self.bpMainWidget.endBenchmark()
+			#self.bpIDE.endBenchmark()
 			
-			self.bpMainWidget.updateLineInfo(force=True, updateView=False)
-			self.bpMainWidget.runPostProcessor()
+			self.bpIDE.updateLineInfo(force=True, updateDependencyView=False)
+			self.bpIDE.runPostProcessor()
+		
+		self.bpIDE.msgView.updateView()
 		
 		self.disableUpdatesFlag = False
 		

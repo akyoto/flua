@@ -256,7 +256,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "unmanaged":
 		return "~" + nodeToBPC(node.childNodes[0], 0, conv)
 	elif nodeName == "new":
-		return "new %s(%s)" % (nodeToBPC(getElementByTagName(node, "type"), 0, conv), nodeToBPC(getElementByTagName(node, "parameters"), 0, conv))
+		return "%s(%s)" % (nodeToBPC(getElementByTagName(node, "type"), 0, conv), nodeToBPC(getElementByTagName(node, "parameters"), 0, conv))
 	elif nodeName == "module":
 		header = getElementByTagName(node, "header")
 		code = getElementByTagName(node, "code")

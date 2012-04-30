@@ -915,6 +915,10 @@ class BPCFile(ScopeController):
 		if conditionText == "":
 			raise CompilerException("You need to specify an if condition")
 		
+		# Don't be so serious!
+		if conditionText.endswith(":"):
+			raise CompilerException("This ain't Python, my friend (colon is not needed)")
+		
 		if not self.nextLineIndented:
 			self.raiseBlockException("if", line)
 		

@@ -33,92 +33,26 @@ import sys
 import os
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
+from bp.Tools.IDE.Utils import *
 from bp.Tools.IDE.Editor import *
-
-####################################################################
-# Functions
-####################################################################
-def format(color, style=''):
-	"""Return a QTextCharFormat with the given attributes.
-	"""
-	_color = QtGui.QColor()
-	_color.setNamedColor(color)
-	
-	_format = QtGui.QTextCharFormat()
-	_format.setForeground(_color)
-	if 'bold' in style:
-		_format.setFontWeight(QtGui.QFont.Bold)
-	if 'italic' in style:
-		_format.setFontItalic(True)
-	
-	return _format
+from bp.Tools.IDE.Widgets import *
 
 ####################################################################
 # Code
 ####################################################################
 class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	
-	def __init__(self, bpMainWidget):
-		super().__init__(bpMainWidget)
-		self.bpMainWidget = bpMainWidget
-		self.finished.connect(self.bpMainWidget.postProcessorFinished)
-		self.processor = None
+	def __init__(self, bpIDE):
+		super().__init__(bpIDE)
+		self.bpIDE = bpIDE
+		self.processor = bpIDE.processor
+		self.finished.connect(self.bpIDE.postProcessorFinished)
 		
 	def run(self):
 		self.startBenchmark("BP  PostProcessor (generate DTrees)")
-		self.processor = BPPostProcessor()
-		self.processor.process(self.bpMainWidget.codeEdit.root, self.bpMainWidget.getFilePath())
+		self.processor.resetDTreeByNode()
+		self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 		self.endBenchmark()
-		self.bpMainWidget.processor = self.processor
-
-class BPMessageView(QtGui.QListWidget):
-	
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.bpMainWidget = parent
-		self.setWordWrap(True)
-		self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
-		self.itemClicked.connect(self.goToLineOfItem)
-		
-	def goToLineOfItem(self, item):
-		lineNum = int(item.statusTip())
-		self.bpMainWidget.goToLineEnd(lineNum)
-		
-	def addLineBasedMessage(self, lineNumber, msg):
-		newItem = QtGui.QListWidgetItem(self.icon, msg)
-		newItem.setStatusTip(str(lineNumber))
-		self.addItem(newItem)
-
-class BPDependencyView(QtGui.QPlainTextEdit):
-	
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.bpMainWidget = parent
-		self.node = None
-		self.setFont(QtGui.QFont("monospace", 10))
-
-	def setNode(self, newNode):
-		self.node = newNode
-		
-	def getProcessor(self):
-		return self.bpMainWidget.processor
-		
-	def updateView(self):
-		processor = self.getProcessor()
-		
-		dTree = None
-		if processor and self.node in processor.dTreeByNode:
-			dTree = processor.dTreeByNode[self.node]
-		elif self.node:
-			if processor:
-				self.setPlainText("No dependency information (%d DTrees available)" % (len(processor.dTreeByNode)))
-			else:
-				self.setPlainText("No dependency information available")
-		else:
-			self.setPlainText("No node information")
-		
-		if dTree:
-			self.setPlainText(dTree.getDependencyPreview())
 
 class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	
@@ -129,6 +63,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		print("---")
 		
 		self.lastBlockPos = -1
+		self.intelliEnabled = False
 		
 		self.initTheme()
 		self.initUI()
@@ -155,9 +90,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.currentTheme = defaultTheme
 		
 	def initCompiler(self):
-		self.processor = None
 		self.postProcessorThread = None
 		self.bpc = BPCCompiler(getModuleDir())
+		self.processor = BPPostProcessor()
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -192,27 +127,43 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.statusBar().showMessage("Ready")
 		
+		# Message view
+		self.msgView = BPMessageView(self)
+		
+		# XML view
+		self.xmlView = XMLCodeEdit(self)
+		self.xmlView.setReadOnly(1)
+		self.xmlView.hide()
+		
+		# Dependency view
 		self.dependencyView = BPDependencyView(self)
 		self.dependencyView.setReadOnly(1)
 		
-		self.xmlView = XMLCodeEdit(self)
-		self.xmlView.setReadOnly(1)
-		
-		self.msgView = BPMessageView(self)
-		
-		self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
-		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
-		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-		
-		#self.dependenciesViewDock.hide()
-		#self.xmlViewDock.hide()
-		#self.tabifyDockWidget(self.xmlViewDock, self.dependenciesViewDock)
+		# IntelliView enabled?
+		if self.intelliEnabled:
+			# IntelliView
+			self.intelliView = BPIntelliView(self)
+			
+			# IntelliView Dock
+			self.intelliView.addIntelligentWidget(self.msgView)
+			self.intelliView.addIntelligentWidget(self.dependencyView)
+			#self.intelliView.addIntelligentWidget(self.xmlView)
+			self.intelliView.vBox.addStretch(1)
+			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
+		else:
+			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.BottomDockWidgetArea)
+			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
+			self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		
 		self.codeEdit = BPCodeEdit(self)
 		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
+		
+		self.statusBar().hide()
+		self.toolBar.hide()
+		self.syntaxSwitcherBar.hide()
 		self.show()
 		
 	def initActions(self):
@@ -233,7 +184,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Help
 		self.actionAbout.triggered.connect(self.about)
 		
-	def updateLineInfo(self, force = False, updateView = True):
+	def updateLineInfo(self, force = False, updateDependencyView = True):
 		newBlockPos = self.codeEdit.getLineNumber()
 		if force or newBlockPos != self.lastBlockPos:
 			self.lastBlockPos = newBlockPos
@@ -244,7 +195,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line
-			self.showDependencies(selectedNode, updateView)
+			self.showDependencies(selectedNode, updateDependencyView)
 			
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
@@ -252,9 +203,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	def postProcessorFinished(self):
 		self.dependencyView.updateView()
 		
-	def showDependencies(self, node, updateView = True):
+	def showDependencies(self, node, updateDependencyView = True):
 		self.dependencyView.setNode(node)
-		if updateView:
+		if updateDependencyView:
 			self.dependencyView.updateView()
 		
 		if node:
@@ -283,6 +234,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.lastBlockPos = -1
 		
 	def runPostProcessor(self):
+		# TODO: Less cpu usage
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.postProcessorThread.start()
 		
@@ -388,17 +340,20 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def createDockWidget(self, name, widget, area):
 		newDock = QtGui.QDockWidget(name, self)
-		newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
+		#newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
 		newDock.setWidget(widget)
 		self.addDockWidget(area, newDock)
 		
-		newAction = QtGui.QAction(name, self)
-		newAction.setCheckable(True)
-		newAction.toggled.connect(newDock.setVisible)
-		newDock.visibilityChanged.connect(newAction.setChecked)
-		self.menuView.addAction(newAction)
+		self.connectVisibilityToViewMenu(name, newDock)
 		
 		return newDock
+		
+	def connectVisibilityToViewMenu(self, name, widget):
+		newAction = QtGui.QAction(name, self)
+		newAction.setCheckable(True)
+		newAction.toggled.connect(widget.setVisible)
+		widget.visibilityChanged.connect(newAction.setChecked)
+		self.menuView.addAction(newAction)
 		
 	def center(self):
 		qr = self.frameGeometry()

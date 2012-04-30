@@ -392,7 +392,13 @@ class BPPostProcessor:
 		self.classes = {}
 		self.mainFilePath = ""
 		self.dTreeByFunctionName = dict() # String -> DTree
+		self.resetDTreeByNode()
+	
+	def resetDTreeByNode(self):
 		self.dTreeByNode = dict() # Node -> DTree
+	
+	def setMainFile(self, path):
+		self.mainFilePath = path
 	
 	def processExistingInputFile(self, inpFile):
 		bpOut = BPPostProcessorFile(self, inpFile.root, inpFile.file)
@@ -463,7 +469,7 @@ class BPPostProcessorFile:
 				if modulePath:
 					self.importedFiles.append(modulePath)
 				else:
-					print(importedModule, "|", self.filePath, "|", extractDir(self.filePath))
+					print(importedModule, "|", self.filePath, "|", extractDir(self.filePath), "|", self.processor.getProjectDir())
 					raise CompilerException("import: Expecting a module path")
 		
 	def getFilePath(self):
