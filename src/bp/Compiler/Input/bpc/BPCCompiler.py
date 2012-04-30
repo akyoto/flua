@@ -83,22 +83,12 @@ class BPCCompiler:
 			raise InputCompilerException(str(e), myFile)
 		return myFile
 	
+	# TODO: Remove dirOut
 	def writeToFS(self, dirOut):
 		dirOut = os.path.abspath(dirOut) + "/"
 		
 		for bpcFile in self.compiledFiles.values():
-			#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
-			#fileOut = dirOut + stripAll(bpcFile.file) + ".bp"
-			fileOut = stripExt(bpcFile.file) + ".bp"
-			print("Writing XML to " + fileOut)
-			
-			# Directory structure
-			concreteDirOut = os.path.dirname(fileOut)
-			if not os.path.isdir(concreteDirOut):
-				os.makedirs(concreteDirOut)
-			
-			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
-				outStream.write(bpcFile.root.toprettyxml())
+			bpcFile.writeToFS()
 
 ####################################################################
 # Main

@@ -114,6 +114,20 @@ class BPCFile(ScopeController):
 		# parseExpr
 		self.parseExpr = self.parser.buildXMLTree
 		
+	def writeToFS(self):
+		#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
+		#fileOut = dirOut + stripAll(bpcFile.file) + ".bp"
+		fileOut = stripExt(self.file) + ".bp"
+		#print("Writing XML to " + fileOut)
+		
+		# Directory structure
+		#concreteDirOut = os.path.dirname(fileOut)
+		#if not os.path.isdir(concreteDirOut):
+		#	os.makedirs(concreteDirOut)
+		
+		with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
+			outStream.write(self.root.toprettyxml())
+		
 	def getRoot(self):
 		return self.root
 		
@@ -132,7 +146,10 @@ class BPCFile(ScopeController):
 	def getLastLineCount(self):
 		return self.lastLineCount
 		
-	def compile(self, codeText = ""):
+	def setFilePath(self, path):
+		self.file = path
+		
+	def compile(self, codeText = None):
 		#print("Compiling: " + self.file)
 		
 		currentLine = None
@@ -140,7 +157,7 @@ class BPCFile(ScopeController):
 		self.lastNode = None
 		
 		# Read
-		if not codeText:
+		if codeText is None:
 			with codecs.open(self.file, "r", "utf-8") as inStream:
 				codeText = inStream.read()
 			
@@ -886,9 +903,6 @@ class BPCFile(ScopeController):
 		raise CompilerException("It is required to have an indented %s block after '%s'" % (keyword, line))
 		
 	def handleIf(self, line):
-		if not self.nextLineIndented:
-			self.raiseBlockException("if", line)
-		
 		node = self.doc.createElement("if-block")
 		
 		ifNode = self.doc.createElement("if")
@@ -896,8 +910,13 @@ class BPCFile(ScopeController):
 		code = self.doc.createElement("code")
 		
 		conditionText = line[len("if")+1:]
+		
+		# Error check
 		if conditionText == "":
 			raise CompilerException("You need to specify an if condition")
+		
+		if not self.nextLineIndented:
+			self.raiseBlockException("if", line)
 		
 		condition.appendChild(self.parseExpr(conditionText))
 		

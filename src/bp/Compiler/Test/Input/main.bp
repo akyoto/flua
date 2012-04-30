@@ -17,21 +17,24 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">
-				---
+				Hello World
 			</string>
 			<string id="bp_string_1">
 				---
 			</string>
 			<string id="bp_string_2">
+				---
+			</string>
+			<string id="bp_string_3">
 				ms
 			</string>
 		</strings>
 	</header>
 	<code>
-		<function>
-			<name>
-				paraFunc
-			</name>
+		<call>
+			<function>
+				print
+			</function>
 			<parameters>
 				<parameter>
 					x
@@ -40,6 +43,29 @@
 					y
 				</parameter>
 			</parameters>
+		</call>
+		<call>
+			<function>
+				print
+			</function>
+			<parameters>
+				<parameter>
+					bp_string_0
+				</parameter>
+			</parameters>
+		</call>
+		<function>
+			<parameters>
+				<parameter>
+					x
+				</parameter>
+				<parameter>
+					y
+				</parameter>
+			</parameters>
+			<name>
+				paraFunc
+			</name>
 			<code>
 				<assign-subtract>
 					<value>
@@ -118,7 +144,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_0
+							bp_string_1
 						</parameter>
 					</parameters>
 				</call>
@@ -200,7 +226,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_1
+							bp_string_2
 						</parameter>
 					</parameters>
 				</call>
@@ -227,7 +253,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_2
+							bp_string_3
 						</parameter>
 					</parameters>
 				</call>

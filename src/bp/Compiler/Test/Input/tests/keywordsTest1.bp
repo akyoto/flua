@@ -514,7 +514,6 @@
 					<name>
 						init
 					</name>
-					<parameters/>
 					<code>
 						<call>
 							<function>
@@ -539,7 +538,6 @@
 					<name>
 						init
 					</name>
-					<parameters/>
 					<code>
 						<noop/>
 					</code>
@@ -549,13 +547,11 @@
 						<name>
 							privateFunc
 						</name>
-						<parameters/>
 						<code>
 							<function>
 								<name>
 									static
 								</name>
-								<parameters/>
 								<code>
 									<assign>
 										<value>
@@ -601,14 +597,14 @@
 			</value>
 		</assign>
 		<function>
-			<name>
-				halfOf
-			</name>
 			<parameters>
 				<parameter>
 					a
 				</parameter>
 			</parameters>
+			<name>
+				halfOf
+			</name>
 			<code>
 				<return>
 					<divide>

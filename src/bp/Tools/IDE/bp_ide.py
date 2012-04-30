@@ -74,7 +74,7 @@ class BPMessageView(QtGui.QListWidget):
 		newItem.setStatusTip(str(lineNumber))
 		self.addItem(newItem)
 
-class BPMainWindow(QtGui.QMainWindow):
+class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	
 	def __init__(self):
 		super().__init__()
@@ -87,7 +87,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.initTheme()
 		self.initUI()
 		self.initCompiler()
-		self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
+		#self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
 		
 	def initTheme(self):
 		defaultTheme = {
@@ -145,9 +145,6 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		self.statusBar().showMessage("Ready")
 		
-		self.codeEdit = BPCodeEdit(self)
-		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
-		
 		self.contextView = XMLCodeEdit(self)
 		self.contextView.setReadOnly(1)
 		
@@ -162,6 +159,9 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 		self.dependenciesViewDock.hide()
 		#self.xmlViewDock.hide()
+		
+		self.codeEdit = BPCodeEdit(self)
+		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
@@ -194,7 +194,6 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
 		
 	def onCursorPosChange(self):
-		#block = self.codeEdit.cursor().position()
 		self.updateLineInfo()
 		
 	def updateLineInfo(self, force = False):
@@ -203,12 +202,9 @@ class BPMainWindow(QtGui.QMainWindow):
 			self.lastBlockPos = newBlockPos
 			selectedNode = None
 			
-			#try:
 			lineIndex = self.codeEdit.getLineIndex()
 			self.statusBar().showMessage("Line %d" % (lineIndex + 1))
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
-			#except:
-			#	self.contextView.setPlainText("")
 			
 			# Check that line
 			self.showDependencies(selectedNode)
@@ -261,7 +257,9 @@ class BPMainWindow(QtGui.QMainWindow):
 	def newFile(self):
 		self.codeEdit.clear()
 		self.contextView.clear()
+		self.msgView.clear()
 		self.xmlView.clear()
+		#print(self.codeEdit.)
 		
 	def openFile(self, path):
 		fileName = path
@@ -276,10 +274,26 @@ class BPMainWindow(QtGui.QMainWindow):
 			self.loadFileToEditor(fileName)
 		
 	def saveFile(self):
-		pass
+		filePath = self.codeEdit.getFilePath()
+		if not filePath:
+			filePath = QtGui.QFileDialog.getSaveFileName(
+				parent=self,
+				caption="Save File",
+				directory=getModuleDir(),
+				filter="bp Files (*.bp)")
+		
+		if filePath:
+			self.codeEdit.save(filePath)
 	
 	def saveAsFile(self):
-		pass
+		filePath = QtGui.QFileDialog.getSaveFileName(
+				parent=self,
+				caption="Save File",
+				directory=getModuleDir(),
+				filter="bp Files (*.bp)")
+		
+		if filePath:
+			self.codeEdit.save(filePath)
 		
 	def runModule(self):
 		outputTarget = "C++"
@@ -334,15 +348,6 @@ class BPMainWindow(QtGui.QMainWindow):
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
-		
-	def startBenchmark(self, name = ""):
-		self.benchmarkName = name
-		self.benchmarkTimerStart = time.time()
-		
-	def endBenchmark(self):
-		self.benchmarkTimerEnd = time.time()
-		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
-		print((self.benchmarkName + ":").ljust(40) + str(int(buildTime * 1000)).rjust(8) + " ms")
 		
 	def closeEvent(self, event):
 		event.accept()

@@ -190,7 +190,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		parameters = nodeToBPC(getElementByTagName(node, "parameters"), 0, conv)
 		
 		if node.parentNode.tagName == "code":
-			return "%s %s" % (funcName, parameters)
+			if parameters:
+				return "%s %s" % (funcName, parameters)
+			else:
+				return "%s" % (funcName)
 		else:
 			return "%s(%s)" % (funcName, parameters)
 	# Parameters
