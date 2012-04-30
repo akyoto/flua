@@ -46,7 +46,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("BPCCompiler")
+			self.startBenchmark("BPC Parser")
 			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
 			self.endBenchmark()
 		except InputCompilerException as e:
@@ -111,6 +111,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 		try:
 			if newPath:
+				if not newPath.endswith(".bp"):
+					newPath = stripExt(newPath) + ".bp"
 				self.setFilePath(newPath)
 			
 			self.bpcFile.writeToFS()
@@ -172,11 +174,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.disableUpdatesFlag = True
 		
 		if self.bpcFile:
-			self.bpMainWidget.startBenchmark("UpdateRootSafely")
+			#self.bpMainWidget.startBenchmark("UpdateRootSafely")
 			self.updateRootSafely()
-			self.bpMainWidget.endBenchmark()
+			#self.bpMainWidget.endBenchmark()
 			
 			self.bpMainWidget.updateLineInfo(True)
+			
+			self.bpMainWidget.runPostProcessor()
+			self.bpMainWidget.contextView.updateView()
 		
 		self.disableUpdatesFlag = False
 		

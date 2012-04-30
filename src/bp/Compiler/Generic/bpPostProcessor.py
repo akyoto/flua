@@ -31,8 +31,6 @@ from bp.Compiler.Input import *
 # Global
 ####################################################################
 # (time for 100000000 operations) / 10 - 30
-dTreeByFunctionName = dict() # String -> DTree
-dTreeByNode = dict() # Node -> DTree
 defaultInstructionTime = 1
 operationTimes = {
 	# Operators
@@ -154,7 +152,7 @@ def getInstructionTime(xmlNode):
 			debugPP("USING TIME OF " + funcName)
 			if funcName in externOperationTimes:
 				return externOperationTimes[funcName]
-			return dTreeByFunctionName[funcName].getTime()
+			return self.processor.dTreeByFunctionName[funcName].getTime()
 	elif xmlNode.childNodes: #isinstance(xmlNode, xml.dom.minidom.Node) and
 		return getInstructionTime(xmlNode.childNodes)
 	elif xmlNode.tagName == "parameters":
@@ -300,7 +298,7 @@ class DTree:
 		#	if call.startswith("bp_"):
 		#		myCost += operationTimes[call]
 		#	else:
-		#		tree = dTreeByFunctionName[call]
+		#		tree = self.processor.dTreeByFunctionName[call]
 		#		myCost += tree.getTime()
 		
 		self.costCalculationRunning = False
@@ -393,6 +391,8 @@ class BPPostProcessor:
 		self.compiledFilesList = list()
 		self.classes = {}
 		self.mainFilePath = ""
+		self.dTreeByFunctionName = dict() # String -> DTree
+		self.dTreeByNode = dict() # Node -> DTree
 	
 	def processExistingInputFile(self, inpFile):
 		bpOut = BPPostProcessorFile(self, inpFile.root, inpFile.file)
@@ -531,8 +531,8 @@ class BPPostProcessorFile:
 			callTree = DTree(nodeToBPC(xmlNode), xmlNode)
 			if tree:
 				tree.addTree(callTree)
-			dTreeByNode[xmlNode] = callTree
-			#tree.addTree(self.dTreeByFunctionName[name])
+			self.processor.dTreeByNode[xmlNode] = callTree
+			#tree.addTree(self.self.processor.dTreeByFunctionName[name])
 			self.getInstructionDependencies(callTree, getElementByTagName(xmlNode, "parameters"))
 			return
 		elif xmlNode.tagName == "parameter":
@@ -565,7 +565,7 @@ class BPPostProcessorFile:
 					debugPP("Function definition: " + funcName)
 					if funcName:
 						self.currentDTree = DTree(funcName, node)
-						dTreeByFunctionName[funcName] = self.currentDTree
+						self.processor.dTreeByFunctionName[funcName] = self.currentDTree
 						hasSetCurrentTree = True
 			elif node.tagName == "class":
 				self.currentClassName = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -595,7 +595,7 @@ class BPPostProcessorFile:
 			if node.tagName.startswith("assign-"):
 				self.getInstructionDependencies(thisOperation, op1)
 			
-			dTreeByNode[node] = thisOperation
+			self.processor.dTreeByNode[node] = thisOperation
 			
 			# Access
 			varToAdd = op1
@@ -639,7 +639,7 @@ class BPPostProcessorFile:
 			elif funcName and tagName(node.parentNode) == "code":
 				#thisOperation = DTree("Procedure: " + nodeToBPC(node), node)
 				#self.getInstructionDependencies(thisOperation, node)
-				#dTreeByNode[node] = thisOperation
+				#self.processor.dTreeByNode[node] = thisOperation
 				#if self.currentDTree:
 				#	self.currentDTree.addTree(thisOperation)
 				self.getInstructionDependencies(self.currentDTree, node)
@@ -656,4 +656,4 @@ class BPPostProcessorFile:
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)
-			dTreeByNode[node] = thisOperation
+			self.processor.dTreeByNode[node] = thisOperation

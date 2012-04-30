@@ -74,6 +74,38 @@ class BPMessageView(QtGui.QListWidget):
 		newItem.setStatusTip(str(lineNumber))
 		self.addItem(newItem)
 
+class BPDependencyView(QtGui.QPlainTextEdit):
+	
+	def __init__(self, parent):
+		super().__init__(parent)
+		self.bpMainWidget = parent
+		self.node = None
+		self.setFont(QtGui.QFont("monospace", 10))
+
+	def setNode(self, newNode):
+		self.node = newNode
+		self.updateView()
+		
+	def getProcessor(self):
+		return self.bpMainWidget.processor
+		
+	def updateView(self):
+		processor = self.getProcessor()
+		
+		dTree = None
+		if processor and self.node in processor.dTreeByNode:
+			dTree = processor.dTreeByNode[self.node]
+		elif self.node:
+			if processor:
+				self.setPlainText("No dependency information (%d DTrees available)" % (len(processor.dTreeByNode)))
+			else:
+				self.setPlainText("No dependency information available")
+		else:
+			self.setPlainText("No node information")
+		
+		if dTree:
+			self.setPlainText(dTree.getDependencyPreview())
+
 class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	
 	def __init__(self):
@@ -124,10 +156,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
 		
 		# Tool bar
-		self.toolBar.addSeparator()
-		self.toolBar.addWidget(spacerWidget)
-		self.toolBar.addWidget(syntaxSwitcher)
-		self.toolBar.addSeparator()
+		self.syntaxSwitcherBar.addSeparator()
+		self.syntaxSwitcherBar.addWidget(spacerWidget)
+		self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
+		self.syntaxSwitcherBar.addSeparator()
 		
 	def initUI(self):
 		uic.loadUi("blitzprog-ide.ui", self)
@@ -145,7 +177,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.statusBar().showMessage("Ready")
 		
-		self.contextView = XMLCodeEdit(self)
+		self.contextView = BPDependencyView(self)
 		self.contextView.setReadOnly(1)
 		
 		self.xmlView = XMLCodeEdit(self)
@@ -153,12 +185,13 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.msgView = BPMessageView(self)
 		
-		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
 		self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
+		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.contextView, QtCore.Qt.RightDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		
-		self.dependenciesViewDock.hide()
+		#self.dependenciesViewDock.hide()
 		#self.xmlViewDock.hide()
+		#self.tabifyDockWidget(self.xmlViewDock, self.dependenciesViewDock)
 		
 		self.codeEdit = BPCodeEdit(self)
 		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
@@ -213,17 +246,11 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.codeEdit.clearHighlights()
 		
 	def showDependencies(self, node):
-		dTree = None
-		if node in dTreeByNode:
-			dTree = dTreeByNode[node]
-		#elif node:
-		#	print("Node not registered")
+		#else:
+		#	self.contextView.clear()
 		
-		if dTree:
-			self.contextView.setPlainText(dTree.getDependencyPreview())
-		else:
-			self.contextView.clear()
-			
+		self.contextView.setNode(node)
+		
 		if node:
 			self.xmlView.setPlainText(node.toprettyxml())
 		else:
@@ -246,13 +273,14 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
-		self.startBenchmark("BPPostProcessor (generate DTrees)")
+		# Enable dependency view for first line
+		self.lastBlockPos = -1
+		
+	def runPostProcessor(self):
+		self.startBenchmark("BP PostProcessor (generate DTrees)")
 		self.processor = BPPostProcessor()
 		self.processor.process(self.codeEdit.root, self.getFilePath())
 		self.endBenchmark()
-		
-		# Enable dependency view for first line
-		self.lastBlockPos = -1
 		
 	def newFile(self):
 		self.codeEdit.clear()
@@ -300,11 +328,24 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		if outputTarget == "C++":
 			#print(self.processor.getCompiledFilesList())
-			cpp = CPPOutputCompiler(self.processor)
-			cpp.compile(self.processor.getCompiledFilesList()[0])
-			cpp.writeToFS()
-			exe = cpp.build()
-			cpp.execute(exe)
+			
+			self.msgView.clear()
+			try:
+				self.startBenchmark("C++ Compiler")
+				
+				cpp = CPPOutputCompiler(self.processor)
+				cpp.compile(self.processor.getCompiledFilesList()[0])
+				cpp.writeToFS()
+				exe = cpp.build()
+				cpp.execute(exe)
+				
+				self.endBenchmark()
+			except OutputCompilerException as e:
+				#lineNumber = e.getLineNumber()
+				node = e.getLastParsedNode()
+				errorMessage = e.getMsg()
+				self.msgView.addLineBasedMessage(1, errorMessage)
+			
 			#cpp.compile(self.file, self.codeEdit.root)
 		
 	def undoLastAction(self):
@@ -332,6 +373,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def createDockWidget(self, name, widget, area):
 		newDock = QtGui.QDockWidget(name, self)
+		newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
 		newDock.setWidget(widget)
 		self.addDockWidget(area, newDock)
 		

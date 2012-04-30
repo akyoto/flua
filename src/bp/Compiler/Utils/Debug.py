@@ -71,6 +71,9 @@ class OutputCompilerException(CompilerException):
 		self.setMsg(value)
 		self.outFile = outFile
 		
+	def getLastParsedNode(self):
+		return self.outFile.getLastParsedNode()
+		
 	def __str__(self):
 		basicSep = "-" * (80) + "\n"
 		sep = "\n" + basicSep
