@@ -433,7 +433,7 @@ class BPPostProcessor:
 		
 		if filePath:
 			if not self.compiledFiles:
-				self.mainFilePath = filePath
+				self.setMainFile(filePath)
 			self.compiledFiles[filePath] = bpOut
 			self.compiledFilesList.append(bpOut)
 		

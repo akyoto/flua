@@ -666,6 +666,9 @@ class CPPOutputFile(ScopeController):
 		return self.getClass(className).requestImplementation(initTypes, splitParams(templateValues))
 		
 	def getParameterList(self, pNode):
+		if pNode is None:
+			return [], [], []
+		
 		pList = []
 		pTypes = []
 		pDefault = []
@@ -713,6 +716,9 @@ class CPPOutputFile(ScopeController):
 		return pList, pTypes, pDefault
 		
 	def getParameterDefinitions(self, pNode, types):
+		if pNode is None:
+			return "", ""
+		
 		pList = ""
 		funcStartCode = ""
 		counter = 0

@@ -290,7 +290,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				self.startBenchmark("C++ Compiler")
 				
 				cpp = CPPOutputCompiler(self.processor)
-				cpp.compile(self.processor.getCompiledFilesList()[0])
+				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
+				cpp.compile(bpPostPFile)
 				cpp.writeToFS()
 				exe = cpp.build()
 				cpp.execute(exe)
