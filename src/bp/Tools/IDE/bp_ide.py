@@ -82,7 +82,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
-		self.lastBlockPos = 0
+		self.lastBlockPos = -1
 		
 		self.initTheme()
 		self.initUI()
@@ -199,7 +199,7 @@ class BPMainWindow(QtGui.QMainWindow):
 		
 	def updateLineInfo(self, force = False):
 		newBlockPos = self.codeEdit.getLineNumber()
-		if newBlockPos != self.lastBlockPos or force:
+		if force or newBlockPos != self.lastBlockPos:
 			self.lastBlockPos = newBlockPos
 			selectedNode = None
 			
@@ -220,6 +220,8 @@ class BPMainWindow(QtGui.QMainWindow):
 		dTree = None
 		if node in dTreeByNode:
 			dTree = dTreeByNode[node]
+		#elif node:
+		#	print("Node not registered")
 		
 		if dTree:
 			self.contextView.setPlainText(dTree.getDependencyPreview())
@@ -252,6 +254,9 @@ class BPMainWindow(QtGui.QMainWindow):
 		self.processor = BPPostProcessor()
 		self.processor.process(self.codeEdit.root, self.getFilePath())
 		self.endBenchmark()
+		
+		# Enable dependency view for first line
+		self.lastBlockPos = -1
 		
 	def newFile(self):
 		self.codeEdit.clear()

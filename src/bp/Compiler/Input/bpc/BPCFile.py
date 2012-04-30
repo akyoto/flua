@@ -195,8 +195,8 @@ class BPCFile(ScopeController):
 			currentLine = self.processLine(line)
 			
 			# Save the connection for debugging purposes
-			self.nodeToOriginalLine[currentLine] = self.lastLine
-			self.nodes.append(currentLine)
+			#if self.nodes and (currentLine == None or self.nodes[-1] != currentLine):
+			self.registerNode(currentLine)
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -356,6 +356,11 @@ class BPCFile(ScopeController):
 			node = self.parseExpr(line)
 			
 			return node
+	
+	def registerNode(self, node):
+		if len(self.nodes) <= self.lastLineCount:
+			self.nodes.append(node)
+			self.nodeToOriginalLine[node] = self.lastLine
 	
 	def addGenerics(self, line):
 		bracketCounter = 0
@@ -948,6 +953,9 @@ class BPCFile(ScopeController):
 		element = self.doc.createElement("import")
 		element.appendChild(self.doc.createTextNode(importedModule))
 		self.dependencies.appendChild(element)
+		
+		# Manually register this
+		self.registerNode(element)
 		
 		return None
 	

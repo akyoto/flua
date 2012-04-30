@@ -106,9 +106,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 	def setLineNode(self, index, newNode):
 		block = self.qdoc.findBlockByNumber(index)
-		lineInfo = block.userData()
-		if lineInfo:
-			block.setUserData(BPLineInformation(newNode, False))
+		block.setUserData(BPLineInformation(newNode, False))
 	
 	def setLineEdited(self, index, edited):
 		block = self.qdoc.findBlockByNumber(index)
@@ -126,7 +124,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		# Run bpc -> xml updater
 		if self.updater and not self.updater.isRunning():
 			self.bpMainWidget.msgView.clear()
-			self.updater.setDocument(self.qdoc)
+			self.updater.setDocument(self.document())
 			self.updater.start(QtCore.QThread.LowestPriority)
 		
 	def getLineIndex(self):
@@ -137,6 +135,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 	def getNodeByLineIndex(self, lineIndex):
 		lineInfo = self.qdoc.findBlockByNumber(lineIndex).userData()
+		
 		if lineInfo:
 			if lineInfo.edited == False:
 				return lineInfo.node
@@ -157,11 +156,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 	def updateRootSafely(self, bpcFile):
 		lineIndex = -1 # -1 because of bp.Core
 		for node in bpcFile.nodes:
-			if node:
-				#print(("[%d]" % (lineIndex)) + bpcFile.nodeToOriginalLine[node])
+			print("[%d] %s" % (lineIndex, node))
+			if lineIndex >= 0:
+				#if node:
+					#print(("[%d]" % (lineIndex)) + bpcFile.nodeToOriginalLine[node])
 				self.setLineNode(lineIndex, node)
-			else:
-				self.setLineNode(lineIndex, None)
+				#else:
+				#	self.setLineNode(lineIndex, None)
 			lineIndex += 1
 		
 		self.root = bpcFile.root
@@ -196,7 +197,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.setPlainText("\n".join(self.lines))
 		
 		# Set user data
-		for i in range(0, len(self.lines) - 1):
+		for i in range(len(self.lines)):
 			userData = BPLineInformation(converter.lineToNode[i])
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
 			
