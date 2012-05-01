@@ -516,8 +516,8 @@ class BPPostProcessorFile:
 				if modulePath:
 					self.importedFiles.append(modulePath)
 				else:
-					print(importedModule, "|", self.filePath, "|", extractDir(self.filePath), "|", self.processor.getProjectDir())
-					raise CompilerException("import: Expecting a module path")
+					#print(importedModule, "|", self.filePath, "|", extractDir(self.filePath), "|", self.processor.getProjectDir())
+					raise CompilerException("Module not found: %s" % importedModule)
 		
 	def getFilePath(self):
 		return self.filePath

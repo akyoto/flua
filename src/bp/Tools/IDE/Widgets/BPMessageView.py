@@ -6,14 +6,20 @@ class BPMessageView(QtGui.QListWidget):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.setWordWrap(True)
-		self.setContentsMargins(0, 0, 0, 0)
+		#self.setContentsMargins(0, 0, 0, 0)
 		#self.setMaximumHeight(0)
 		self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
 		self.itemClicked.connect(self.goToLineOfItem)
 		
 	def goToLineOfItem(self, item):
 		lineNum = int(item.statusTip())
-		self.bpIDE.goToLineEnd(lineNum)
+		if lineNum != -1:
+			self.bpIDE.goToLineEnd(lineNum)
+		
+	def addMessage(self, msg):
+		newItem = QtGui.QListWidgetItem(self.icon, msg)
+		newItem.setStatusTip(str(-1))
+		self.addItem(newItem)
 		
 	def addLineBasedMessage(self, lineNumber, msg):
 		newItem = QtGui.QListWidgetItem(self.icon, msg)

@@ -98,7 +98,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def rehighlightFunctionUsage(self):
 		# TODO: Only highlight blocks where the function is used
-		self.startBenchmark("Rehighlight")
+		self.startBenchmark("CDE Rehighlight")
 		self.highlighter.rehighlight()
 		self.endBenchmark()
 	

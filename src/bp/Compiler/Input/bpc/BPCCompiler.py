@@ -37,10 +37,11 @@ from bp.Compiler.Input.bpc.BPCFile import *
 ####################################################################
 class BPCCompiler:
 	
-	def __init__(self, modDir):
+	def __init__(self, modDir, importExtension = ".bpc"):
 		self.compiledFiles = dict()
 		self.compiledFilesList = []
 		self.projectDir = ""
+		self.importExtension = importExtension
 		self.modDir = fixPath(os.path.abspath(modDir)) + "/"
 		self.initExprParser()
 	

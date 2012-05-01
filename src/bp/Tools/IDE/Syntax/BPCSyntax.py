@@ -21,6 +21,9 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'return', 'try', 'throw', 'catch', 'while', 
 		'target', 'include', 'private',
 		'null', 'true', 'false',
+		
+		# TODO: Remove
+		'require', 'ensure', 'maybe', 'test'
 	}
 	
 	# BPC operators

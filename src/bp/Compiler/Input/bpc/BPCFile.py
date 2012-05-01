@@ -964,7 +964,7 @@ class BPCFile(ScopeController):
 			raise CompilerException("import can not be used as a block (yet)")
 		
 		importedModule = line[len("import"):].strip()
-		modulePath = getModulePath(importedModule, self.dir, self.compiler.projectDir, ".bpc")
+		modulePath = getModulePath(importedModule, self.dir, self.compiler.projectDir, self.compiler.importExtension)
 		
 		if modulePath:
 			self.importedFiles.append(modulePath)

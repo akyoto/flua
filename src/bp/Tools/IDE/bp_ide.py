@@ -49,10 +49,14 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.finished.connect(self.bpIDE.postProcessorFinished)
 		
 	def run(self):
-		self.startBenchmark("BP  PostProcessor (generate DTrees)")
-		self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
-		self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
-		self.endBenchmark()
+		try:
+			self.startBenchmark("BP  PostProcessor (generate DTrees)")
+			self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
+			self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
+			self.endBenchmark()
+		except CompilerException as e:
+			errorMessage = e.getMsg()
+			self.bpIDE.msgView.addMessage(errorMessage)
 
 class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	
@@ -115,6 +119,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView = BPDependencyView(self)
 		self.dependencyView.setReadOnly(1)
 		
+		# File view
+		self.fileView = BPFileBrowser(self, getModuleDir())
+		
+		# Module view
+		self.moduleView = BPModuleBrowser(self, getModuleDir())
+		
 		# IntelliView enabled?
 		if self.intelliEnabled:
 			# IntelliView
@@ -127,12 +137,15 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.intelliView.vBox.addStretch(1)
 			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
 		else:
+			self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.RightDockWidgetArea)
 			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
-			self.xmlViewDock = self.createDockWidget("XML View", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
 		self.dependenciesViewDock.hide()
 		self.xmlViewDock.hide()
+		self.fileViewDock.hide()
 		
 	def initActions(self):
 		# File
@@ -177,7 +190,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def initCompiler(self):
 		self.postProcessorThread = None
-		self.bpc = BPCCompiler(getModuleDir())
+		self.bpc = BPCCompiler(getModuleDir(), ".bp")
 		self.processor = BPPostProcessor()
 		self.processorOutFile = None
 		
@@ -207,7 +220,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			selectedNode = None
 			
 			lineIndex = self.codeEdit.getLineIndex()
-			self.statusBar().showMessage("Line %d" % (lineIndex + 1))
+			self.statusBar().showMessage("Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line
