@@ -4,9 +4,10 @@ from bp.Compiler import *
 
 class BPLineInformation(QtGui.QTextBlockUserData):
 	
-	def __init__(self, xmlNode = None, edited = False):
+	def __init__(self, xmlNode = None, edited = False, previousNode = None):
 		super().__init__()
 		self.node = xmlNode
+		self.oldNode = previousNode
 		self.edited = edited
 
 class BPCodeUpdater(QtCore.QThread, Benchmarkable):
@@ -58,7 +59,7 @@ class LineNumberArea(QtGui.QWidget):
 	def paintEvent(self, event):
 		self.codeEdit.lineNumberAreaPaintEvent(event)
 
-class BPCodeEdit(QtGui.QPlainTextEdit):
+class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def __init__(self, bpIDE = None):
 		super().__init__(bpIDE)
@@ -95,6 +96,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 	def getCurrentTheme(self):
 		return self.bpIDE.getCurrentTheme()
 	
+	def rehighlightFunctionUsage(self):
+		# TODO: Only highlight blocks where the function is used
+		self.startBenchmark("Rehighlight")
+		self.highlighter.rehighlight()
+		self.endBenchmark()
+	
 	def save(self, newPath = ""):
 		oldPath = self.getFilePath()
 		
@@ -119,13 +126,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		
 	def setLineNode(self, index, newNode):
 		block = self.qdoc.findBlockByNumber(index)
-		block.setUserData(BPLineInformation(newNode, False))
+		
+		oldNode = None
+		oldData = block.userData()
+		if oldData:
+			oldNode = oldData.node
+		
+		block.setUserData(BPLineInformation(newNode, False, oldNode))
 	
 	def setLineEdited(self, index, edited):
 		block = self.qdoc.findBlockByNumber(index)
 		lineInfo = block.userData()
 		if lineInfo:
-			block.setUserData(BPLineInformation(lineInfo.node, True))
+			block.setUserData(BPLineInformation(lineInfo.node, True, lineInfo.oldNode))
 		
 	def onTextChange(self, position, charsRemoved, charsAdded):
 		blockStart = self.qdoc.findBlock(position)
@@ -153,8 +166,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		lineInfo = self.qdoc.findBlockByNumber(lineIndex).userData()
 		
 		if lineInfo:
-			if lineInfo.edited == False:
-				return lineInfo.node
+			#if lineInfo.edited == False:
+			return lineInfo.node
+		
+		return None
+		
+	def getOldNodeByLineIndex(self, lineIndex):
+		lineInfo = self.qdoc.findBlockByNumber(lineIndex).userData()
+		
+		if lineInfo:
+			#if lineInfo.edited == False:
+			return lineInfo.oldNode
 		
 		return None
 		
@@ -175,6 +197,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit):
 		self.bpIDE.msgView.updateView()
 		
 		self.disableUpdatesFlag = False
+		
+	def getCurrentLine(self):
+		lineIndex = self.getLineIndex()
+		return self.qdoc.findBlockByNumber(lineIndex).text()
 		
 	def updateRootSafely(self):
 		lineIndex = -1 # -1 because of bp.Core

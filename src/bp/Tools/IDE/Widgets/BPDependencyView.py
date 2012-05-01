@@ -22,8 +22,10 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 		processor = self.getProcessor()
 		
 		dTree = None
-		if processor and self.node in processor.dTreeByNode:
-			dTree = processor.dTreeByNode[self.node]
+		
+		# TODO: Optimize to search in current file only
+		if processor:
+			dTree = processor.getDTreeByNode(self.node)
 		#elif self.node:
 		#	if processor:
 		#		self.clear()#No dependency information (%d DTrees available)" % (len(processor.dTreeByNode)))

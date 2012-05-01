@@ -62,8 +62,14 @@ xmlToBPCBlock = {
 	"set" : "set",
 	"get" : "get",
 	"else" : "else",
-	"private" : "private"
+	"private" : "private",
 	#"static" : "static"
+	
+	# TODO: Metadata
+	"require" : "require",
+	"ensure" : "ensure",
+	"maybe" : "maybe",
+	"test" : "test"
 }
 
 xmlToBPCExprBlock = {

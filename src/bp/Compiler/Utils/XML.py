@@ -66,7 +66,7 @@ def tagName(node):
 	if node is None:
 		return ""
 	elif(isTextNode(node)):
-		return node.nodeValue
+		return ""#node.nodeValue
 	else:
 		return node.tagName
 

@@ -50,7 +50,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		
 	def run(self):
 		self.startBenchmark("BP  PostProcessor (generate DTrees)")
-		self.processor.resetDTreeByNode()
+		self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
 		self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 		self.endBenchmark()
 
@@ -65,6 +65,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		print("---")
 		
 		self.lastBlockPos = -1
+		self.lastFunctionCount = 0
 		self.intelliEnabled = False
 		
 		self.initTheme()
@@ -166,6 +167,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			'self': format('black', 'italic'),
 			'numbers': format('brown'),
 			'own-function': format('#373737', 'bold'),
+			'local-module-import': format('#770077', 'bold'),
+			'project-module-import': format('#378737', 'bold'),
+			'global-module-import': format('#373737', 'bold'),
 			'current-line' : None#QtGui.QColor("#fefefe")
 		}
 		
@@ -213,12 +217,41 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.codeEdit.clearHighlights()
 		
 	def postProcessorFinished(self):
-		# After we parsed the functions, set the text and highlight
+		# After we parsed the functions, set the text and highlight the file
 		if self.codeEdit.futureText:
 			self.codeEdit.setPlainText(self.codeEdit.futureText)
 			self.codeEdit.futureText = ""
 		
 		self.dependencyView.updateView()
+		
+		# If the number of functions changed, rehighlight
+		if self.processor.getFunctionCount() != self.lastFunctionCount:
+			self.codeEdit.rehighlightFunctionUsage()
+			self.lastFunctionCount = self.processor.getFunctionCount()
+		
+		# If the function name changed, rehighlight
+		lineIndex = self.codeEdit.getLineIndex()
+		selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+		if tagName(selectedNode) == "function":
+			selectedOldNode = self.codeEdit.getOldNodeByLineIndex(lineIndex)
+			if tagName(selectedOldNode) == "function":
+				nameNew = getElementByTagName(selectedNode, "name")
+				nameOld = getElementByTagName(selectedOldNode, "name")
+				
+				if nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
+					self.codeEdit.rehighlightFunctionUsage()
+		#lineIndex = self.codeEdit.getLineIndex()
+		#selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+		#previousLineNode = self.codeEdit.getNodeByLineIndex(lineIndex - 1)
+		#previousLineOldNode = self.codeEdit.getOldNodeByLineIndex(lineIndex - 1)
+		
+		#currentLine = self.codeEdit.getCurrentLine()
+		#currentTag = tagName(selectedNode)
+		#previousLineTag = tagName(previousLineNode)
+		#previousLineOldTag = tagName(previousLineOldNode)
+		
+		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
+		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
 		
 	def runModule(self):
 		outputTarget = "C++"
@@ -262,6 +295,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		if self.processor:
 			self.processor.setMainFile(self.filePath)
 		self.codeEdit.setFilePath(self.filePath)
+		
+	def getProjectPath(self):
+		# TODO: Project path
+		return self.codeEdit.getFilePath()
 		
 	def getFilePath(self):
 		return self.codeEdit.getFilePath()

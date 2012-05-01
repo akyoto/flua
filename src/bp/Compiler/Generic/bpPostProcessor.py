@@ -152,7 +152,11 @@ def getInstructionTime(xmlNode):
 			debugPP("USING TIME OF " + funcName)
 			if funcName in externOperationTimes:
 				return externOperationTimes[funcName]
-			return self.processor.dTreeByFunctionName[funcName].getTime()
+				
+			# TODO: Add params
+			funcNamePolymorphized = funcName	
+			
+			return self.processor.getDTreeByPolyFuncName(funcNamePolymorphized).getTime()
 	elif xmlNode.childNodes: #isinstance(xmlNode, xml.dom.minidom.Node) and
 		return getInstructionTime(xmlNode.childNodes)
 	elif xmlNode.tagName == "parameters":
@@ -391,11 +395,35 @@ class BPPostProcessor:
 		self.compiledFilesList = list()
 		self.classes = {}
 		self.mainFilePath = ""
-		self.dTreeByFunctionName = dict() # String -> DTree
-		self.resetDTreeByNode()
+		self.funcCount = 0
 	
-	def resetDTreeByNode(self):
-		self.dTreeByNode = dict() # Node -> DTree
+	def getFunctionCount(self):
+		return self.funcCount
+	
+	def resetDTreesForFile(self, filePath):
+		if not filePath in self.compiledFiles:
+			return#raise CompilerException("%s has not been processed yet" % filePath)
+		
+		ppFile = self.compiledFiles[filePath]
+		ppFile.resetDTreeByNode()
+		ppFile.resetDTreesByFunctionName()
+	
+	def getDTreeByPolyFunctionName(self, polyFuncName):
+		# TODO: Polymorphism
+		return self.getFirstDTreeByFunctionName(polyFuncName)
+	
+	def getFirstDTreeByFunctionName(self, funcName):
+		for ppFile in self.compiledFilesList:
+			if funcName in ppFile.dTreesByFunctionName:
+				# Return "first" item
+				return next(iter(ppFile.dTreesByFunctionName[funcName].values()))
+		return None
+	
+	def getDTreeByNode(self, node):
+		for ppFile in self.compiledFilesList:
+			if node in ppFile.dTreeByNode:
+				return ppFile.dTreeByNode[node]
+		return None
 	
 	def setMainFile(self, path):
 		self.mainFilePath = path
@@ -461,6 +489,21 @@ class BPPostProcessorFile:
 		self.currentClassName = ""
 		self.filePath = filePath
 		self.importedFiles = None
+		self.funcCount = 0
+		self.resetDTreesByFunctionName()
+		self.resetDTreeByNode()
+	
+	def resetDTreesByFunctionName(self):
+		self.processor.funcCount -= self.funcCount
+		self.funcCount = 0
+		self.dTreesByFunctionName = dict() # String -> DTree
+	
+	def resetDTreeByNode(self):
+		self.dTreeByNode = dict() # Node -> DTree
+		
+	def addFunctionDTree(self, funcName, funcNamePolymorphized, dTree):
+		self.dTreesByFunctionName[funcName][funcNamePolymorphized] = dTree
+		self.funcCount += 1
 		
 	def updateImportedFiles(self):
 		self.importedFiles = []
@@ -496,6 +539,7 @@ class BPPostProcessorFile:
 	def processXML(self):
 		self.findDefinitions(getElementByTagName(self.root, "code"))
 		self.processNode(getElementByTagName(self.root, "code"))
+		self.processor.funcCount += self.funcCount
 		
 	def findDefinitions(self, node):
 		for child in node.childNodes:
@@ -512,6 +556,8 @@ class BPPostProcessorFile:
 	def getInstructionDependencies(self, tree, xmlNode):
 		if isTextNode(xmlNode):
 			name = xmlNode.nodeValue
+			if not name:
+				return
 			if isBPStringIdentifier(name):
 				return
 			if isNumeric(name):
@@ -541,7 +587,7 @@ class BPPostProcessorFile:
 			callTree = DTree(nodeToBPC(xmlNode), xmlNode)
 			if tree:
 				tree.addTree(callTree)
-			self.processor.dTreeByNode[xmlNode] = callTree
+			self.dTreeByNode[xmlNode] = callTree
 			#tree.addTree(self.self.processor.dTreeByFunctionName[name])
 			self.getInstructionDependencies(callTree, getElementByTagName(xmlNode, "parameters"))
 			return
@@ -575,7 +621,13 @@ class BPPostProcessorFile:
 					debugPP("Function definition: " + funcName)
 					if funcName:
 						self.currentDTree = DTree(funcName, node)
-						self.processor.dTreeByFunctionName[funcName] = self.currentDTree
+						
+						# TODO: Add params to name
+						funcNamePolymorphized = funcName
+						
+						if not funcName in self.dTreesByFunctionName:
+							self.dTreesByFunctionName[funcName] = dict()
+						self.addFunctionDTree(funcName, funcNamePolymorphized, self.currentDTree)
 						hasSetCurrentTree = True
 			elif node.tagName == "class":
 				self.currentClassName = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -605,7 +657,7 @@ class BPPostProcessorFile:
 			if node.tagName.startswith("assign-"):
 				self.getInstructionDependencies(thisOperation, op1)
 			
-			self.processor.dTreeByNode[node] = thisOperation
+			self.dTreeByNode[node] = thisOperation
 			
 			# Access
 			varToAdd = op1
@@ -666,4 +718,4 @@ class BPPostProcessorFile:
 			self.getInstructionDependencies(thisOperation, node)
 			if self.currentDTree:
 				self.currentDTree.addTree(thisOperation)
-			self.processor.dTreeByNode[node] = thisOperation
+			self.dTreeByNode[node] = thisOperation

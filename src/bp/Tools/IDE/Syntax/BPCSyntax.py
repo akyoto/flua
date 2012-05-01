@@ -6,6 +6,7 @@
 from PyQt4 import QtGui, QtCore
 from bp.Tools.IDE import *
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 
 class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the BPC language.
@@ -55,17 +56,6 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		if not text:
 			return
 		
-		# Do other syntax formatting
-		#self.startBenchmark("Syntax Highlight")
-		#for expression, nth, style in self.rules:
-			#index = expression.indexIn(text, 0)
-			
-			#while index >= 0:
-				## We actually want the index of the nth match
-				#index = expression.pos(nth)
-				#length = len(expression.cap(nth))
-				#self.setFormat(index, length, style)
-				#index = expression.indexIn(text, index + length)
 		style = self.style
 		
 		i = 0
@@ -73,17 +63,35 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		textLen = len(text)
 		while i < textLen:
 			char = text[i]
-			if char.isalpha():
+			if char.isalpha() or char == '_':
 				h = i + 1
-				while h < textLen and text[h].isalnum():
+				while h < textLen and (text[h].isalnum() or text[h] == '_'):
 					h += 1
 				expr = text[i:h]
 				
 				if expr in BPCHighlighter.keywords:
 					self.setFormat(i, h - i, style['keyword'])
-				elif expr in self.bpIDE.processor.dTreeByFunctionName:
+					if expr == "target":
+						j = h + 1
+						while j < textLen and not text[j].isspace():
+							j += 1
+						self.setFormat(h, j - h, style['output-target'])
+						h = j
+					elif expr == "import":
+						j = h + 1
+						while j < textLen and not text[j].isspace():
+							j += 1
+						importedModule = text[h+1:j]
+						importType = getModuleImportType(importedModule, extractDir(self.bpIDE.getFilePath()), self.bpIDE.getProjectPath())
+						if importType == 1 or importType == 2:
+							self.setFormat(h, j - h, style['local-module-import'])
+						elif importType == 3 or importType == 4:
+							self.setFormat(h, j - h, style['project-module-import'])
+						elif importType == 5 or importType == 6:
+							self.setFormat(h, j - h, style['global-module-import'])
+						h = j
+				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['own-function'])
-				
 				i = h - 1
 			elif char.isdigit():
 				h = i + 1

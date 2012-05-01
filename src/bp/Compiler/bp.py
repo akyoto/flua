@@ -66,8 +66,8 @@ def bpMain(compileFile, outputDir = None):
 	# Parallelizer
 	start = time.time()
 	
-	automaticallyParallelize(dTreeByNode)
-	automaticallyParallelize(dTreeByFunctionName)
+	#automaticallyParallelize(dTreeByNode)
+	#automaticallyParallelize(dTreeByFunctionName)
 	
 	autoParallelizerTime = time.time() - start
 	
