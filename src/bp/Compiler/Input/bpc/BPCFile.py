@@ -372,7 +372,27 @@ class BPCFile(ScopeController):
 			line = self.addGenerics(line)
 			node = self.parseExpr(line)
 			
+			self.checkObjectCreation(node)
+			
 			return node
+	
+	def checkObjectCreation(self, node):
+		if tagName(node) == "call":
+			funcNode = getElementByTagName(node, "function")
+			funcNameNode = funcNode.childNodes[0]
+			
+			# Template call
+			if not isTextNode(funcNameNode):
+				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+				if funcName and funcName[0].isupper():
+					node.tagName = "new"
+					funcNode.tagName = "type"
+			elif funcNameNode.nodeValue and funcNameNode.nodeValue[0].isupper():
+				node.tagName = "new"
+				funcNode.tagName = "type"
+		
+		for child in node.childNodes:
+			self.checkObjectCreation(child)
 	
 	def registerNode(self, node):
 		if len(self.nodes) <= self.lastLineCount:

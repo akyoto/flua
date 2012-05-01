@@ -692,13 +692,13 @@ class BPPostProcessorFile:
 			funcName = ""
 			if isTextNode(funcNameNode):
 				funcName = funcNameNode.nodeValue
-			elif funcNameNode.tagName == "template-call":
-				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+			#elif funcNameNode.tagName == "template-call":
+			#	funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
 			
-			if funcName in self.processor.classes: #or funcName == "Actor":
-				node.tagName = "new"
-				getElementByTagName(node, "function").tagName = "type"
-			elif funcName and tagName(node.parentNode) == "code":
+			#if funcName in self.processor.classes: #or funcName == "Actor":
+			#	node.tagName = "new"
+			#	getElementByTagName(node, "function").tagName = "type"
+			if funcName and tagName(node.parentNode) == "code":
 				#thisOperation = DTree("Procedure: " + nodeToBPC(node), node)
 				#self.getInstructionDependencies(thisOperation, node)
 				#self.processor.dTreeByNode[node] = thisOperation
