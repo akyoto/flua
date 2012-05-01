@@ -249,7 +249,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return code
 	# Function definition
 	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
-		name = getElementByTagName(node, "name")
+		if nodeName == "cast-definition":
+			name = getElementByTagName(node, "to")
+		else:
+			name = getElementByTagName(node, "name")
 		params = getElementByTagName(node, "parameters")
 		code = getElementByTagName(node, "code")
 		paramsCode = ""
@@ -375,23 +378,31 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		space = " "
 		prefix = ""
 		postfix = ""
-		if nodeName == "access":
-			space = ""
-			
+		
+		if nodeName == "template-call":
+			return nodeToBPC(op1, 0, conv) + "<" + nodeToBPC(op2, 0, conv) + ">"
+		elif nodeName == "index":
+			return nodeToBPC(op1, 0, conv) + "[" + nodeToBPC(op2, 0, conv) + "]"
+		
 		# Find operation "above" the current one
 		if node.parentNode.tagName == "value":
 			operationAbove = node.parentNode.parentNode.tagName
 		else:
 			operationAbove = node.parentNode.tagName
 		
+		if nodeName == "access":
+			space = ""
+			prefix = ""
+			postfix = ""
 		# Does it have higher or equal priority compared to the current one? If so, use brackets
-		if hasHigherOrEqualPriority(operationAbove, nodeName):
+		elif hasHigherOrEqualPriority(operationAbove, nodeName):
 			prefix = "("
 			postfix = ")"
 		
 		opSymbol = binaryOperatorTagToSymbol[nodeName]
 		if opSymbol in translateLogicalOperatorSign:
 			opSymbol = translateLogicalOperatorSign[opSymbol]
+			
 		
 		return prefix + nodeToBPC(op1, 0, conv) + space + opSymbol + space + nodeToBPC(op2, 0, conv) + postfix
 	

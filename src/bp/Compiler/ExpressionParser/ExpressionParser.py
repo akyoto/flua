@@ -177,16 +177,24 @@ class ExpressionParser:
 									operandLeftStartsWithDigit = operandLeft[0].isdigit()
 									if operandLeftStartsWithDigit:
 										for c in operandLeft:
-											if not c.isdigit() and isVarChar(c):
-												raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandLeft))
-										
+											if not c.isdigit():
+												if isVarChar(c):
+													if operandLeft[0] != '0' or operandLeft[1] != 'x':
+														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandLeft))
+												else:
+													break
+								
 								# Perform "no digits at the start of an identifier" check for the right operator
 								if operandRight:
 									operandRightStartsWithDigit = operandRight[0].isdigit()
 									if operandRightStartsWithDigit:
 										for c in operandRight:
-											if not c.isdigit() and isVarChar(c):
-												raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandRight))
+											if not c.isdigit():
+												if isVarChar(c):
+													if operandRight[0] != '0' or operandRight[1] != 'x':
+														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandRight))
+												else:
+													break
 								
 								#if op.text != "(":
 								#	if (operandRight and operandRight[0].isdigit() and not operandRight.isdigit()):
@@ -415,7 +423,7 @@ class ExpressionParser:
 		#print(" * buildXMLTree: " + expr)
 		if not expr:
 			raise CompilerException("Expression missing")
-		if isDefinitelyOperatorSign(expr[0]):
+		if expr[0] != '~' and isDefinitelyOperatorSign(expr[0]):
 			raise CompilerException("Invalid expression: '%s'" % expr)
 		
 		node = self.doc.createElement("expr")

@@ -34,6 +34,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDirLen = len(self.modDir)
 		self.model = BPModuleViewModel()
 		self.setExpandsOnDoubleClick(False)
+		self.setAnimated(True)
 		
 		self.doubleClicked.connect(self.onItemClick)
 		self.setHeaderHidden(True)

@@ -178,7 +178,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			'string2': format('darkMagenta'),
 			'comment': format('darkGray', 'italic'),
 			'self': format('black', 'italic'),
-			'numbers': format('brown'),
+			'number': format('brown'),
+			'hex-number': format('brown'),
 			'own-function': format('#373737', 'bold'),
 			'local-module-import': format('#770077', 'bold'),
 			'project-module-import': format('#378737', 'bold'),
@@ -380,8 +381,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def goToLineEnd(self, lineNum):
 		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
-		self.codeEdit.goToLineEnd(lineNum)
-		self.codeEdit.highlightLine(lineNum - 1, QtGui.QColor("#ffddcc"))
+		self.codeEdit.goToLineEnd(max(lineNum, 0))
+		self.codeEdit.highlightLine(max(lineNum - 1, 0), QtGui.QColor("#ffddcc"))
 		
 	def getCurrentTheme(self):
 		return self.currentTheme

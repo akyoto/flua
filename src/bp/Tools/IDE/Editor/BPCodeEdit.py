@@ -247,12 +247,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 	def goToLine(self, lineNum):
 		cursor = self.textCursor()
-		cursor.setPosition(self.qdoc.findBlockByLineNumber(lineNum - 1).position())
+		cursor.setPosition(self.qdoc.findBlockByLineNumber(max(lineNum - 1, 0)).position())
 		self.setTextCursor(cursor)
 		
 	def goToLineEnd(self, lineNum):
 		cursor = self.textCursor()
-		cursor.setPosition(self.qdoc.findBlockByLineNumber(lineNum).position() - 1)
+		block = self.qdoc.findBlockByLineNumber(lineNum - 1)
+		cursor.setPosition(block.position() + len(block.text()))
 		self.setTextCursor(cursor)
 	
 	# LineNumberArea functions

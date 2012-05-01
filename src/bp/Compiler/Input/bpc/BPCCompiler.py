@@ -80,7 +80,7 @@ class BPCCompiler:
 		try:
 			myFile = BPCFile(self, fileIn, isMainFile)
 			myFile.compile(codeText)
-		except Exception as e:
+		except CompilerException as e:
 			raise InputCompilerException(str(e), myFile)
 		return myFile
 	

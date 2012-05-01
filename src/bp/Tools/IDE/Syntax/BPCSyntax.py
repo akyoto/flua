@@ -101,7 +101,12 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				while h < textLen and text[h].isdigit():
 					h += 1
 				if (i == 0 or not text[i - 1].isalpha()) and not text[h].isalpha():
-					self.setFormat(i, h - i, style['numbers'])
+					self.setFormat(i, h - i, style['number'])
+				elif text[i] == '0' and text[h] == 'x':
+					h += 1
+					while h < textLen and (text[h].isdigit() or text[h] in "ABCDEFabcdef"):
+						h += 1
+					self.setFormat(i, h - i, style['hex-number'])
 				#else:
 				#	
 				i = h - 1
