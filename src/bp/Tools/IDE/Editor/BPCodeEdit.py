@@ -193,6 +193,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			self.bpIDE.updateLineInfo(force=True, updateDependencyView=False)
 			self.bpIDE.runPostProcessor()
+		elif self.futureText:
+			self.setPlainText(self.futureText)
+			self.futureText = ""
 		
 		self.bpIDE.msgView.updateView()
 		

@@ -1,5 +1,6 @@
 from PyQt4 import QtGui, QtCore
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 import os
 import sys
 
@@ -13,6 +14,7 @@ class BPModuleItem(QtGui.QStandardItem):
 	def __init__(self, name):
 		super().__init__(name)
 		self.path = ""
+		self.realPath = ""
 		self.name = name
 		self.subModules = dict()
 		self.setEditable(False)
@@ -20,6 +22,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		
 	def setModPath(self, path):
 		self.path = path
+		self.realPath = getModulePath(self.path)
 
 class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	
@@ -30,6 +33,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDir = modDir
 		self.modDirLen = len(self.modDir)
 		self.model = BPModuleViewModel()
+		self.setExpandsOnDoubleClick(False)
 		
 		self.doubleClicked.connect(self.onItemClick)
 		self.setHeaderHidden(True)
@@ -41,8 +45,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 					lastDir = fixPath(root).split("/")[-2]
 					modName = file[:-3]
 					if modName == lastDir:
-						continue
-						#mod = fixPath(root[self.modDirLen:]).replace("/", ".")[:-1]
+						mod = fixPath(root[self.modDirLen:]).replace("/", ".")[:-1]
 					else:
 						mod = fixPath(root[self.modDirLen:]).replace("/", ".") + modName
 					mod = fixPath(root[self.modDirLen:]).replace("/", ".") + file[:-3]
@@ -62,7 +65,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	def onItemClick(self, item):
 		modItem = item.data(QtCore.Qt.UserRole + 1)
-		print(modItem.path)
+		realPath = modItem.realPath
+		if realPath:
+			self.bpIDE.openFile(realPath)
+		else:
+			self.setExpanded(item, 1 - self.isExpanded(item))
 		
 	def buildTree(self):
 		for namespace, mod in self.modules.subModules.items():
@@ -76,6 +83,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		for namespace, subMod in mod.subModules.items():
 			self.buildTreeRec(subMod, mod, mod.path)
+		
+		parentItem = parent.data()
+		if parentItem and parentItem.name == mod.name:
+			return
 		parent.appendRow(mod)
 		
 	def updateView(self):

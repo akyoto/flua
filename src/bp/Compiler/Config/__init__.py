@@ -46,7 +46,7 @@ def getModuleImportType(importedModule, fileDir, projectDir, extension = ".bp"):
 		
 	return 0
 
-def getModulePath(importedModule, fileDir, projectDir, extension = ".bp"):
+def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
 	# ########################### #
 	# Priority for module search: #
 	# ########################### # ############# #

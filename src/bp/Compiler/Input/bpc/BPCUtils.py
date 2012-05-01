@@ -61,6 +61,7 @@ xmlToBPCBlock = {
 	"template" : "template",
 	"set" : "set",
 	"get" : "get",
+	"casts" : "to",
 	"else" : "else",
 	"private" : "private",
 	#"static" : "static"
@@ -247,7 +248,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			return code
 	# Function definition
-	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter":
+	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
 		name = getElementByTagName(node, "name")
 		params = getElementByTagName(node, "parameters")
 		code = getElementByTagName(node, "code")
