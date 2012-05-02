@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore, uic
 from bp.Tools.IDE.Syntax.BPCSyntax import *
 from bp.Compiler import *
+#import yappi
 
 class BPLineInformation(QtGui.QTextBlockUserData):
 	
@@ -25,6 +26,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.qdoc = doc
 		
 	def run(self):
+		#yappi.start()
 		if self.codeEdit.futureText:
 			codeText = self.codeEdit.futureText
 		else:
@@ -44,6 +46,9 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			self.bpIDE.msgView.addLineBasedMessage(lineNumber, errorMessage)
 			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
 			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
+		#yappi.stop()
+		#yappi.print_stats()
+		#yappi.clear_stats()
 		
 		return
 
@@ -87,7 +92,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpcFile = None
 		self.disableUpdatesFlag = False
 		self.updater = BPCodeUpdater(self)
-		self.runUpdater()
+		#self.runUpdater()
 		super().clear()
 	
 	def clearHighlights(self):
@@ -124,15 +129,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def getFilePath(self):
 		return self.filePath
 		
-	def setLineNode(self, index, newNode):
-		block = self.qdoc.findBlockByNumber(index)
-		
-		oldNode = None
-		oldData = block.userData()
-		if oldData:
-			oldNode = oldData.node
-		
-		block.setUserData(BPLineInformation(newNode, False, oldNode))
+	#def setLineNode(self, index, newNode):
+	#	block = self.qdoc.findBlockByNumber(index)
+	#	
+	#	oldNode = None
+	#	oldData = block.userData()
+	#	if oldData:
+	#		oldNode = oldData.node
+	#	
+	#	block.setUserData(BPLineInformation(newNode, False, oldNode))
 	
 	def setLineEdited(self, index, edited):
 		block = self.qdoc.findBlockByNumber(index)
@@ -155,6 +160,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE.msgView.clear()
 		self.updater.setDocument(self.qdoc)
 		self.updater.start(QtCore.QThread.NormalPriority)
+		#self.updater.run()
+		#self.compilerFinished()
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -210,7 +217,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		for node in self.bpcFile.nodes:
 			#print("[%d] %s" % (lineIndex, node))
 			if lineIndex >= 0:
-				self.setLineNode(lineIndex, node)
+				block = self.qdoc.findBlockByNumber(lineIndex)
+				
+				oldNode = None
+				oldData = block.userData()
+				if oldData:
+					oldNode = oldData.node
+					#oldData.oldNode = oldData.node
+					#oldData.node = node
+				#else:
+				block.setUserData(BPLineInformation(node, False, oldNode))
+				#self.setLineNode(lineIndex, node)
 			lineIndex += 1
 		
 		self.root = self.bpcFile.root

@@ -39,11 +39,13 @@ from bp.Compiler.Config import *
 ####################################################################
 def bpMain(compileFile, outputDir = None):
 	compileFile = fixPath(os.path.abspath(compileFile))
-	outputDir = fixPath(os.path.abspath(outputDir) + "/")
+	outputDir = fixPath(os.path.abspath(outputDir))
 	
 	print("Main file: " + compileFile)
 	print("Output dir: " + outputDir)
 	print("Starting:")
+	buildAndExecute = 0
+	
 	totalStart = time.time()
 	
 	# Compile

@@ -510,7 +510,7 @@ class BPPostProcessorFile:
 		header = getElementByTagName(self.root, "header")
 		dependencies = getElementByTagName(header, "dependencies")
 		for child in dependencies.childNodes:
-			if isElemNode(child) and child.tagName == "import":
+			if child.nodeType != Node.TEXT_NODE and child.tagName == "import":
 				importedModule = child.childNodes[0].nodeValue.strip()
 				modulePath = getModulePath(importedModule, extractDir(self.filePath), self.processor.getProjectDir(), ".bp")
 				if modulePath:

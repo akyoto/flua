@@ -70,7 +70,7 @@ simpleBlocks = {
 ####################################################################
 # Classes
 ####################################################################
-class BPCFile(ScopeController):
+class BPCFile(ScopeController, Benchmarkable):
 	
 	def __init__(self, compiler, fileIn, isMainFile):
 		ScopeController.__init__(self)
@@ -113,6 +113,38 @@ class BPCFile(ScopeController):
 		
 		# parseExpr
 		self.parseExpr = self.parser.buildXMLTree
+		self.keywordToHandler = {
+			"break" : self.handleBreak,
+			"to" : self.handleCasts,
+			"catch" : self.handleCatch,
+			"compilerflags" : self.handleCompilerFlags,
+			"const" : self.handleConst,
+			"continue" : self.handleContinue,
+			"elif" : self.handleElif,
+			"else" : self.handleElse,
+			"ensure" : self.handleEnsure,
+			"extern" : self.handleExtern,
+			"for" : self.handleFor,
+			"get" : self.handleGet,
+			"if" : self.handleIf,
+			"import" : self.handleImport,
+			"in" : self.handleIn,
+			"include" : self.handleInclude,
+			"maybe" : self.handleMaybe,
+			"..." : self.handleNOOP,
+			"operator" : self.handleOperatorBlock,
+			"private" : self.handlePrivate,
+			"require" : self.handleRequire,
+			"return" : self.handleReturn,
+			"set" : self.handleSet,
+			"switch" : self.handleSwitch,
+			"target" : self.handleTarget,
+			"template" : self.handleTemplate,
+			"test" : self.handleTest,
+			"throw" : self.handleThrow,
+			"try" : self.handleTry,
+			"while" : self.handleWhile,
+		}
 		
 	def writeToFS(self):
 		#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
@@ -209,6 +241,7 @@ class BPCFile(ScopeController):
 				self.tabBack(currentLine, prevTabCount, tabCount, True)
 				self.currentNode = savedCurrentNode
 			
+			
 			currentLine = self.processLine(line)
 			
 			# Save the connection for debugging purposes
@@ -228,9 +261,9 @@ class BPCFile(ScopeController):
 			self.savedNextNode = self.nextNode
 			
 			if currentLine:
-				if not isTextNode(currentLine) and currentLine.tagName == "assign":
+				if currentLine.nodeType != Node.TEXT_NODE and currentLine.tagName == "assign":
 					variableNode = currentLine.childNodes[0].childNodes[0]
-					if isTextNode(variableNode):
+					if variableNode.nodeType == Node.TEXT_NODE:
 						variable = variableNode.nodeValue
 						if not variable in self.getCurrentScope().variables:
 							self.getCurrentScope().variables[variable] = currentLine
@@ -292,66 +325,16 @@ class BPCFile(ScopeController):
 			atTab -= 1
 		
 	def processLine(self, line):
-		if startsWith(line, "import"):
-			return self.handleImport(line)
-		elif startsWith(line, "while"):
-			return self.handleWhile(line)
-		elif startsWith(line, "for"):
-			return self.handleFor(line)
-		elif startsWith(line, "try"):
-			return self.handleTry(line)
-		elif startsWith(line, "catch"):
-			return self.handleCatch(line)
-		elif startsWith(line, "if"):
-			return self.handleIf(line)
-		elif startsWith(line, "elif"):
-			return self.handleElif(line)
-		elif startsWith(line, "else"):
-			return self.handleElse(line)
-		elif startsWith(line, "throw"):
-			return self.handleThrow(line)
-		elif startsWith(line, "return"):
-			return self.handleReturn(line)
-		elif startsWith(line, "const"):
-			return self.handleConst(line)
-		elif startsWith(line, "break"):
-			return self.handleBreak(line)
-		elif startsWith(line, "continue"):
-			return self.handleContinue(line)
-		elif startsWith(line, "private"):
-			return self.handlePrivate(line)
-		elif startsWith(line, "in"):
-			return self.handleIn(line)
-		elif startsWith(line, "switch"):
-			return self.handleSwitch(line)
-		elif startsWith(line, "extern"):
-			return self.handleExtern(line)
-		elif startsWith(line, "include"):
-			return self.handleInclude(line)
-		elif startsWith(line, "template"):
-			return self.handleTemplate(line)
-		elif startsWith(line, "get"):
-			return self.handleGet(line)
-		elif startsWith(line, "set"):
-			return self.handleSet(line)
-		elif startsWith(line, "to"):
-			return self.handleCasts(line)
-		elif startsWith(line, "operator"):
-			return self.handleOperatorBlock(line)
-		elif startsWith(line, "require"):
-			return self.handleRequire(line)
-		elif startsWith(line, "ensure"):
-			return self.handleEnsure(line)
-		elif startsWith(line, "maybe"):
-			return self.handleMaybe(line)
-		elif startsWith(line, "test"):
-			return self.handleTest(line)
-		elif startsWith(line, "target"):
-			return self.handleTarget(line)
-		elif startsWith(line, "compilerflags"):
-			return self.handleCompilerFlags(line)
-		elif line == "...":
-			return self.handleNOOP(line)
+		i = 0
+		for c in line:	
+			if c.isspace():
+				break
+			i += 1
+		
+		keyword = line[:i]
+		
+		if keyword in self.keywordToHandler:
+			return self.keywordToHandler[keyword](line)
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)

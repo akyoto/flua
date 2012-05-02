@@ -177,7 +177,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					header = getElementByTagName(node, "header")
 					strings = getElementByTagName(header, "strings")
 					for child in strings.childNodes:
-						if isElemNode(child) and child.tagName == "string" and child.getAttribute("id") == text:
+						if child.nodeType != Node.TEXT_NODE and child.tagName == "string" and child.getAttribute("id") == text:
 							# TODO: Handle spaces and tabs for strings!
 							return '"%s"' % child.childNodes[0].nodeValue.strip()
 				except:
@@ -277,7 +277,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "dependencies":
 		deps = ""
 		for child in node.childNodes:
-			if isElemNode(child) and child.tagName == "import":
+			if child.nodeType != Node.TEXT_NODE and child.tagName == "import":
 				importCode = nodeToBPCSaved(child, 0, conv)
 				if importCode:
 					deps += importCode + "\n"
@@ -359,7 +359,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			code = "\t" * (tabLevel + 1)
 			childNodeName = exprBlock[2]
 			for child in node.childNodes:
-				if isElemNode(child) and child.tagName == childNodeName:
+				if child.nodeType != Node.TEXT_NODE and child.tagName == childNodeName:
 					code += nodeToBPCSaved(child, tabLevel + 1, conv)
 		return "%s%s%s\n%s" % (name, space, expr, code)
 	elif nodeName in xmlToBPCBlock:
@@ -368,7 +368,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if nodeName != "else":
 			tabs = "\t" * (tabLevel + 1)
 		for child in node.childNodes:
-			if isElemNode(child):
+			if child.nodeType != Node.TEXT_NODE:
 				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
 		blockCode = blockCode[:-1] + "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode

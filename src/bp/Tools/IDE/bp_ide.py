@@ -69,7 +69,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		print("---")
 		
 		self.lastBlockPos = -1
-		self.lastFunctionCount = 0
+		self.lastFunctionCount = -1
 		self.intelliEnabled = False
 		
 		self.initTheme()
@@ -239,7 +239,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
-		if self.processor.getFunctionCount() != self.lastFunctionCount:
+		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
 			self.codeEdit.rehighlightFunctionUsage()
 			self.lastFunctionCount = self.processor.getFunctionCount()
 		
@@ -318,6 +318,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		return self.codeEdit.getFilePath()
 		
 	def loadFileToEditor(self, fileName):
+		self.lastFunctionCount = -1
 		self.setFilePath(fileName)
 		
 		# Read
@@ -334,10 +335,38 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Enable dependency view for first line
 		self.lastBlockPos = -1
 		
+	def loadBPCFileToEditor(self, fileName):
+		self.setFilePath(fileName)
+		
+		# Read
+		self.startBenchmark("LoadBPCFile (physically read file)")
+		with codecs.open(fileName, "r", "utf-8") as inStream:
+			codeText = inStream.read()
+		
+		# TODO: Remove all BOMs
+		if len(codeText) and codeText[0] == '\ufeff': #codecs.BOM_UTF8:
+			codeText = codeText[1:]
+		self.endBenchmark()
+		
+		# Let's rock!
+		self.codeEdit.disableUpdatesFlag = True
+		self.codeEdit.setPlainText(codeText)
+		self.codeEdit.disableUpdatesFlag = False
+		self.codeEdit.runUpdater()
+		#self.startBenchmark("CodeEdit (interpret file)")
+		#self.dependencyView.clear()
+		#self.codeEdit.setXML(xmlCode)
+		#self.endBenchmark()
+		
+		# Enable dependency view for first line
+		self.lastBlockPos = -1
+		
 	def runPostProcessor(self):
 		# TODO: Less cpu usage
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.postProcessorThread.start()
+		#self.postProcessorThread.run()
+		#self.postProcessorFinished()
 		
 	def newFile(self):
 		self.codeEdit.clear()
@@ -353,15 +382,19 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				parent=self,
 				caption="Open File",
 				directory=getModuleDir(),
-				filter="bp Files (*.bp)")
+				filter="bp Files (*.bp);;bpc Files (*.bpc)")
 		
-		if fileName:
+		if fileName.endswith(".bp"):
 			self.loadFileToEditor(fileName)
+		elif fileName.endswith(".bpc"):
+			self.loadBPCFileToEditor(fileName)
 		
 	def saveFile(self):
-		filePath = self.codeEdit.getFilePath()
-		if self.isTmpPath(filePath):
+		filePath = self.getFilePath()
+		if self.isTmpPath(filePath) or filePath.endswith(".bpc"):
 			self.saveAsFile()
+		else:
+			self.codeEdit.save(filePath)
 	
 	def saveAsFile(self):
 		filePath = QtGui.QFileDialog.getSaveFileName(
@@ -372,6 +405,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		if filePath:
 			self.codeEdit.save(filePath)
+		
+	def isTmpFile(self):
+		return self.isTmpPath(self.getFilePath())
 		
 	def isTmpPath(self, path):
 		if not path:
@@ -459,7 +495,10 @@ def main():
 
 if __name__ == '__main__':
 	try:
+		#import cProfile
+		#cProfile.run("main()", "bp.prof")
 		main()
+		#bpMain("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bpc", "/home/eduard/Projects/bp/src/bp/Compiler/Test/Output/")
 	except SystemExit:
 		pass
 	#except OSError:

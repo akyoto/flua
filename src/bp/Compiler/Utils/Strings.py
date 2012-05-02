@@ -56,7 +56,7 @@ def isNumeric(stri):
 	else:
 		return False
 
-def startsWith(stri = str, prefix = str):
+def startsWith(stri, prefix):
 	stri = stri.lower()
 	prefix = prefix.lower()
 	return stri.startswith(prefix) and (len(prefix) == len(stri) or stri[len(prefix)].isspace())

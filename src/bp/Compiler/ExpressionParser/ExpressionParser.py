@@ -54,7 +54,7 @@ class ExpressionParser:
 	
 	def __init__(self):
 		self.operatorLevels = []
-		self.recursionLevel = 0
+		#self.recursionLevel = 0
 		self.doc = parseString("<expr></expr>")
 		
 	def compileError(self, error):
@@ -81,11 +81,11 @@ class ExpressionParser:
 					return True
 		return False
 		
-	def getDebugPrefix(self):
-		return "   " * self.recursionLevel
+	#def getDebugPrefix(self):
+	#	return "   " * self.recursionLevel
 		
 	def buildCleanExpr(self, expr):
-		self.recursionLevel += 1
+		#self.recursionLevel += 1
 		
 		#expr = expr.replace(" ", "")
 		# Identifier + Space + Identifier = Invalid instruction
@@ -95,7 +95,7 @@ class ExpressionParser:
 				# TODO: Handle '([{' and ')]}' correctly
 				if i + 1 < exprLen and i >= 1 and isVarChar(expr[i - 1]) and isVarChar(expr[i + 1]): #and expr[i + 1:i + 11] != "bp_string_":
 					raise CompilerException("Operator missing: %s" % (expr[:i].strip() + " ↓ " + expr[i+1:].strip()))
-				
+		
 		expr = expr.replace(" ", "")
 		exprLen = len(expr)
 		i = 0
@@ -106,6 +106,7 @@ class ExpressionParser:
 		operators = None
 		operandLeft = ""
 		operandRight = ""
+		char = ''
 		
 		#print(self.getDebugPrefix() + " * buildCleanExpr: " + expr)
 		
@@ -129,13 +130,13 @@ class ExpressionParser:
 							if op.type == Operator.BINARY:
 								# Left operand
 								start = lastOccurence - 1
-								
+
 								while start >= 0 and (isVarChar(expr[start]) or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
 									if expr[start] == ')' or expr[start] == ']':
 										bracketCounter = 1
 									else:
 										bracketCounter = 0
-									
+
 									# Move to last part of the bracket
 									while bracketCounter > 0 and start > 0:
 										start -= 1
@@ -144,17 +145,17 @@ class ExpressionParser:
 										elif expr[start] == '(' or expr[start] == '[':
 											bracketCounter -= 1
 									start -= 1
-								
+
 								operandLeft = expr[start+1:lastOccurence]
-								
+
 								# Right operand
 								end = lastOccurence + op.textLen
-								
+
 								if op.text == '[' or op.text == '(' or (expr[end] == '(' and end == lastOccurence + op.textLen) or (expr[end] == '[' and end == lastOccurence + op.textLen):
 									bracketCounter = 1
 								else:
 									bracketCounter = 0
-								
+
 								while end < exprLen and (bracketCounter > 0 or isVarChar(expr[end]) or (end == lastOccurence + op.textLen and (expr[end] == '(' or expr[end] == '['))):
 									# Move to last part of the bracket
 									while bracketCounter > 0 and end < exprLen:
@@ -169,7 +170,7 @@ class ExpressionParser:
 												end -= 2
 										end += 1
 									end += 1
-								
+
 								operandRight = expr[lastOccurence + op.textLen:end]
 								
 								# Perform "no digits at the start of an identifier" check for the left operator
@@ -236,8 +237,8 @@ class ExpressionParser:
 										expr = "%s(%s%s%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, op.text, operandRight, expr[lastOccurence + op.textLen + len(operandRight):])
 									exprLen = len(expr)
 									#print(self.getDebugPrefix() + "    * Expression changed: " + expr)
-								else:
-									pass
+								#else:
+								#	pass
 									#print(self.getDebugPrefix() + "    * Expression change denied for operator: [" + op.text + "]")
 								
 							elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):
@@ -291,11 +292,11 @@ class ExpressionParser:
 				else:
 					i += 1
 		
-		self.recursionLevel -= 1
+		#self.recursionLevel -= 1
 		return expr
 		
 	def buildOperation(self, expr):
-		self.recursionLevel += 1
+		#self.recursionLevel += 1
 		
 		# Debug info
 		#print(self.getDebugPrefix() + " * buildOperation.dirty: " + expr)
@@ -337,7 +338,7 @@ class ExpressionParser:
 			i += 1
 		
 		if i == len(expr):
-			self.recursionLevel -= 1
+			#self.recursionLevel -= 1
 			return self.doc.createTextNode(expr)
 		
 		leftOperand = expr[:i]
@@ -415,7 +416,7 @@ class ExpressionParser:
 		if len(rightOperand) == 0:
 			raise CompilerException("Operator [" + operator + "] expects a second operator")
 		
-		self.recursionLevel -= 1
+		#self.recursionLevel -= 1
 		
 		return node
 		
@@ -426,7 +427,7 @@ class ExpressionParser:
 		if expr[0] != '~' and isDefinitelyOperatorSign(expr[0]):
 			raise CompilerException("Invalid expression: '%s'" % expr)
 		
-		node = self.doc.createElement("expr")
+		#node = self.doc.createElement("expr")
 		
 		# TODO: Remove double whitespaces
 		
@@ -448,8 +449,8 @@ class ExpressionParser:
 		opNode = self.buildOperation(expr)
 		self.adjustXMLTree(opNode)
 		
-		node.appendChild(opNode)
-		return node.firstChild
+		#node.appendChild(opNode)
+		return opNode#node.firstChild
 	
 	def adjustXMLTree(self, node):
 		# Adjust node

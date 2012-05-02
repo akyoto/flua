@@ -36,7 +36,6 @@
 					<name>
 						init
 					</name>
-					<parameters/>
 					<code>
 						<assign>
 							<value>
@@ -52,8 +51,8 @@
 							<value>
 								<unmanaged>
 									<value>
-										<call>
-											<function>
+										<new>
+											<type>
 												<template-call>
 													<value>
 														MemPointer
@@ -62,13 +61,13 @@
 														TDataType
 													</value>
 												</template-call>
-											</function>
+											</type>
 											<parameters>
 												<parameter>
 													arrayMinSize
 												</parameter>
 											</parameters>
-										</call>
+										</new>
 									</value>
 								</unmanaged>
 							</value>
@@ -127,14 +126,14 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						add
-					</name>
 					<parameters>
 						<parameter>
 							element
 						</parameter>
 					</parameters>
+					<name>
+						add
+					</name>
 					<code>
 						<assign>
 							<value>
@@ -242,14 +241,14 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						reserve
-					</name>
 					<parameters>
 						<parameter>
 							newSize
 						</parameter>
 					</parameters>
+					<name>
+						reserve
+					</name>
 					<code>
 						<assign>
 							<value>
@@ -278,8 +277,8 @@
 							<value>
 								<unmanaged>
 									<value>
-										<call>
-											<function>
+										<new>
+											<type>
 												<template-call>
 													<value>
 														MemPointer
@@ -288,13 +287,13 @@
 														TDataType
 													</value>
 												</template-call>
-											</function>
+											</type>
 											<parameters>
 												<parameter>
 													newSize
 												</parameter>
 											</parameters>
-										</call>
+										</new>
 									</value>
 								</unmanaged>
 							</value>
@@ -407,7 +406,6 @@
 					<name>
 						removeLast
 					</name>
-					<parameters/>
 					<code>
 						<if-block>
 							<if>
@@ -460,7 +458,6 @@
 					<name>
 						reverse
 					</name>
-					<parameters/>
 					<code>
 						<assign>
 							<value>
@@ -567,14 +564,14 @@
 				</function>
 				<operators>
 					<operator>
-						<name>
-							[]
-						</name>
 						<parameters>
 							<parameter>
 								index
 							</parameter>
 						</parameters>
+						<name>
+							[]
+						</name>
 						<code>
 							<return>
 								<index>
@@ -601,7 +598,6 @@
 						<name>
 							start
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -619,7 +615,6 @@
 						<name>
 							end
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -637,7 +632,6 @@
 						<name>
 							endOfStorage
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -655,7 +649,6 @@
 						<name>
 							length
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<subtract>
@@ -686,14 +679,14 @@
 				</get>
 				<set>
 					<setter>
-						<name>
-							length
-						</name>
 						<parameters>
 							<parameter>
 								newLength
 							</parameter>
 						</parameters>
+						<name>
+							length
+						</name>
 						<code>
 							<assign>
 								<value>
