@@ -27,14 +27,9 @@
 # along with blitzprog.  If not, see <http://www.gnu.org/licenses/>.
 
 ####################################################################
-# Python Path
-####################################################################
-import sys
-sys.path.append("../../../")
-
-####################################################################
 # Imports
 ####################################################################
+import sys
 import os
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
