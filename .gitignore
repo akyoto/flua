@@ -4,3 +4,4 @@ bp.geany
 test.png
 __pycache__
 src/bp/Tools/IDE/tmp/*
+src/bp/Tools/IDE/miscellaneous/*

@@ -127,6 +127,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Module view
 		self.moduleView = BPModuleBrowser(self, getModuleDir())
 		
+		# Scribble - I absolutely love this feature in Geany!
+		# It's always the little things that are awesome :)
+		self.scribble = BPScribbleWidget(self, "miscellaneous/scribble.txt")
+		
 		# IntelliView enabled?
 		if self.intelliEnabled:
 			# IntelliView
@@ -139,14 +143,16 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.intelliView.vBox.addStretch(1)
 			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
 		else:
-			self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.RightDockWidgetArea)
+			self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.LeftDockWidgetArea)
 			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
+			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.RightDockWidgetArea)
 			
 		self.dependenciesViewDock.hide()
 		#self.xmlViewDock.hide()
+		self.scribbleDock.hide()
 		self.fileViewDock.hide()
 		
 	def initActions(self):
@@ -160,6 +166,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Edit
 		self.actionUndo.triggered.connect(self.undoLastAction)
 		self.actionRedo.triggered.connect(self.redoLastAction)
+		self.actionCopy.triggered.connect(self.codeEdit.copy)
+		self.actionCut.triggered.connect(self.codeEdit.cut)
+		self.actionPaste.triggered.connect(self.codeEdit.paste)
 		
 		# Module
 		self.actionRun.triggered.connect(self.runModule)
@@ -513,6 +522,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.move(qr.topLeft())
 		
 	def closeEvent(self, event):
+		self.scribble.saveScribble()
 		event.accept()
 		return
 		

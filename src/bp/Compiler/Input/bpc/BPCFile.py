@@ -249,7 +249,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.tabBack(currentLine, prevTabCount, tabCount, True)
 				self.currentNode = savedCurrentNode
 			
-			print(self.lastLineCount, self.maxLineIndex, line, self.inClass, self.inFunction)
+			#print(self.lastLineCount, self.maxLineIndex, line, self.inClass, self.inFunction)
 			
 			# Don't process last NOOP
 			if self.lastLineCount == self.maxLineIndex:

@@ -31,11 +31,13 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 		#		self.clear()#No dependency information (%d DTrees available)" % (len(processor.dTreeByNode)))
 		#	else:
 		#		self.clear()#No dependency information available")
-		else:
-			self.clear()#No node information")
+		#else:
+		#	self.clear()#No node information")
 		
 		if dTree:
 			self.setPlainText(dTree.getDependencyPreview())
+		else:
+			self.clear()
 			
 		# Toggle visibility
 		if self.bpIDE.intelliEnabled:
