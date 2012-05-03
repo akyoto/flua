@@ -166,7 +166,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		text = node.nodeValue
 		if text.isspace():
 			return ""
-		if text.startswith("bp_string_"):
+		elif text.startswith("bp_string_"):
 			stringContent = ""
 			if node.parentNode:
 				node = node.parentNode
@@ -370,7 +370,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		for child in node.childNodes:
 			if child.nodeType != Node.TEXT_NODE:
 				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
-		blockCode = blockCode[:-1] + "\t" * tabLevel
+		blockCode = blockCode[:-1] #+ "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
