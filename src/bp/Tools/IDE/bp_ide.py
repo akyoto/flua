@@ -208,7 +208,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			'comma': format('#777777'),
 			'output-target': format('#888888'),
 			'include-file': format('#888888'),
-			'string': format('#00a000'),
+			'string': format('#00c000'),
 			'string2': format('darkMagenta'),
 			'comment': format('darkGray', 'italic'),
 			'self': format('black', 'italic'),
@@ -423,6 +423,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.tmpCount += 1
 		self.setFilePath("./tmp/tmp%d.bp" % (self.tmpCount))
 		self.codeEdit.runUpdater()
+		self.codeEdit.setFocus()
 		
 	def openFile(self, path):
 		fileName = path
@@ -437,6 +438,11 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.loadFileToEditor(fileName)
 		elif fileName.endswith(".bpc"):
 			self.loadBPCFileToEditor(fileName)
+		else:
+			return
+			
+		# Add to recent files list
+		#self.recentFiles
 		
 	def saveFile(self):
 		filePath = self.getFilePath()

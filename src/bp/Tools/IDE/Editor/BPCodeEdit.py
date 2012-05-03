@@ -83,18 +83,78 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
-		self.setStyleSheet("background-color: %s" % bpIDE.currentTheme["default-background"]);
+		
+		bgStyle = bpIDE.currentTheme["default-background"]
+		if bgStyle != "#ffffff":
+			self.setStyleSheet("background-color: %s" % bgStyle);
 		
 		#p = self.palette()
 		#p.setColor(QtGui.QPalette.Base, QtCore.Qt.red)
 		#p.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
 		#self.setPalette(p)
+		#self.setTextColor(QtCore.QColor.white)
+		
+		self.autoIndentKeywords = {
+			"if",
+			"elif",
+			"else",
+			"try",
+			"catch",
+			"while",
+			"for",
+			"in",
+			"switch",
+			"case",
+			"target",
+			"extern",
+			"compilerflags",
+			"template",
+			"get",
+			"set",
+			"private",
+			"operator",
+			"to"
+		}
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.lineNumberArea = None
 		
 		if 0:
 			self.initLineNumberArea()
+	
+	def keyPressEvent(self, event):
+		if event.key() == QtCore.Qt.Key_Return:
+			cursor = self.textCursor()
+			pos = cursor.position()
+			block = self.qdoc.findBlock(pos)
+			line = block.text()
+			tabLevel = countTabs(line)
+			
+			# Retrive the keyword from the line
+			pureLine = line[tabLevel:]
+			keyword = ""
+			i = 0
+			for c in pureLine:
+				if c.isspace():
+					keyword = pureLine[:i]
+				i += 1
+			
+			# Whole line
+			if not keyword:
+				keyword = pureLine
+			
+			# Indent it?
+			if keyword in self.autoIndentKeywords:
+				tabLevel += 1
+			
+			# Add the text
+			cursor.beginEditBlock()
+			cursor.insertText("\n" + "\t" * tabLevel)
+			cursor.endEditBlock()
+			
+			event.accept()
+		else:
+			super().keyPressEvent(event)
 	
 	def clear(self):
 		self.doc = None

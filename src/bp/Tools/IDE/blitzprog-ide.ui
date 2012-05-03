@@ -87,7 +87,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
@@ -110,7 +110,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/document-new.svg</normaloff>images/tango/actions/document-new.svg</iconset>
+     <normaloff>images/icons/actions/document-new.png</normaloff>images/icons/actions/document-new.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -125,7 +125,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/system-log-out.svg</normaloff>images/tango/actions/system-log-out.svg</iconset>
+     <normaloff>images/icons/actions/system-log-out.png</normaloff>images/icons/actions/system-log-out.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -140,7 +140,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/document-open.svg</normaloff>images/tango/actions/document-open.svg</iconset>
+     <normaloff>images/icons/actions/document-open.png</normaloff>images/icons/actions/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -152,7 +152,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/apps/help-browser.svg</normaloff>images/tango/apps/help-browser.svg</iconset>
+     <normaloff>images/icons/apps/help-browser.png</normaloff>images/icons/apps/help-browser.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -161,7 +161,7 @@
   <action name="actionRun">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/media-playback-start.svg</normaloff>images/tango/actions/media-playback-start.svg</iconset>
+     <normaloff>images/icons/actions/media-playback-start.png</normaloff>images/icons/actions/media-playback-start.png</iconset>
    </property>
    <property name="text">
     <string>Run</string>
@@ -173,7 +173,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/document-save.svg</normaloff>images/tango/actions/document-save.svg</iconset>
+     <normaloff>images/icons/actions/document-save.png</normaloff>images/icons/actions/document-save.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -185,7 +185,7 @@
   <action name="actionSaveAs">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/document-save-as.svg</normaloff>images/tango/actions/document-save-as.svg</iconset>
+     <normaloff>images/icons/actions/document-save-as.png</normaloff>images/icons/actions/document-save-as.png</iconset>
    </property>
    <property name="text">
     <string>Save as</string>
@@ -197,7 +197,7 @@
   <action name="actionUndo">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/edit-undo.svg</normaloff>images/tango/actions/edit-undo.svg</iconset>
+     <normaloff>images/icons/actions/edit-undo.png</normaloff>images/icons/actions/edit-undo.png</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -209,7 +209,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/edit-redo.svg</normaloff>images/tango/actions/edit-redo.svg</iconset>
+     <normaloff>images/icons/actions/edit-redo.png</normaloff>images/icons/actions/edit-redo.png</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -249,7 +249,7 @@
   <action name="actionProperties">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/categories/applications-system.svg</normaloff>images/tango/categories/applications-system.svg</iconset>
+     <normaloff>images/icons/categories/applications-system.png</normaloff>images/icons/categories/applications-system.png</iconset>
    </property>
    <property name="text">
     <string>Properties</string>
@@ -258,7 +258,7 @@
   <action name="actionCopy">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/edit-copy.svg</normaloff>images/tango/actions/edit-copy.svg</iconset>
+     <normaloff>images/icons/actions/edit-copy.png</normaloff>images/icons/actions/edit-copy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -270,7 +270,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/edit-paste.svg</normaloff>images/tango/actions/edit-paste.svg</iconset>
+     <normaloff>images/icons/actions/edit-paste.png</normaloff>images/icons/actions/edit-paste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -282,7 +282,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/actions/edit-cut.svg</normaloff>images/tango/actions/edit-cut.svg</iconset>
+     <normaloff>images/icons/actions/edit-cut.png</normaloff>images/icons/actions/edit-cut.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -294,7 +294,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset>
-     <normaloff>images/tango/categories/preferences-system.svg</normaloff>images/tango/categories/preferences-system.svg</iconset>
+     <normaloff>images/icons/categories/preferences-system.png</normaloff>images/icons/categories/preferences-system.png</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>

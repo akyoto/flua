@@ -9,7 +9,7 @@ class BPMessageView(QtGui.QListWidget):
 		#self.setContentsMargins(0, 0, 0, 0)
 		#self.setMaximumHeight(0)
 		#self.setScrollBarPolicy(QtGui.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-		self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
+		self.icon = QtGui.QIcon("images/icons/status/dialog-warning.png")
 		self.itemClicked.connect(self.goToLineOfItem)
 		
 	def goToLineOfItem(self, item):

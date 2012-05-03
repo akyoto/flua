@@ -16,6 +16,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.path = ""
 		self.realPath = ""
 		self.name = name
+		self.icon = QtGui.QIcon("images/tango/mimetypes/package-x-generic.png")
 		self.subModules = dict()
 		self.setEditable(False)
 		self.setData(self, QtCore.Qt.UserRole + 1)

@@ -212,7 +212,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		# Go through every line -> build the structure
 		for lineIndex in range(0, len(lines)):
 			line = lines[lineIndex].rstrip()
-			tabCount = self.countTabs(line)
+			tabCount = countTabs(line)
 			line = line.lstrip()
 			
 			# Set last line for exception handling
@@ -228,14 +228,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			if not line:
 				if currentLine and currentLine.tagName == "function":
 					codeNode = getElementByTagName(currentLine, "code")
-					if len(codeNode.childNodes) == 0 and self.countTabs(lines[lineIndex + 1]) <= tabCount:
+					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1]) <= tabCount:
 						raise CompilerException("If you need an empty function use '...' in the code block")
 				self.nodes.append(None)
 				continue
 			
 			self.nextLineIndented = False
 			if lineIndex < len(lines) - 1:
-				tabCountNextLine = self.countTabs(lines[lineIndex + 1])
+				tabCountNextLine = countTabs(lines[lineIndex + 1])
 				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
 			
@@ -1000,13 +1000,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return None
 	
-	def countTabs(self, line):
-		tabCount = 0
-		while tabCount < len(line) and line[tabCount] == '\t':
-			tabCount += 1
-		
-		return tabCount
-	
 	def prepareLine(self, line):
 		i = 0
 		roundBracketsBalance = 0 # ()
@@ -1016,7 +1009,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		self.keyword = ""
 		
-		while i < len(line):
+		lineLen = len(line)
+		while i < lineLen:
 			# Remove comments
 			if line[i] == '#':
 				return line[:i].rstrip()
@@ -1042,8 +1036,6 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			# Remove strings
 			elif line[i] == '"':
-				lineLen = len(line)
-				
 				h = i + 1
 				while h < lineLen and line[h] != '"':
 					h += 1

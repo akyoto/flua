@@ -43,6 +43,14 @@ def fixID(stri):
 def isVarChar(char):
 	return char.isalnum() or char == '_'
 
+def countTabs(line):
+	tabCount = 0
+	lineLen = len(line)
+	while tabCount < lineLen and line[tabCount] == '\t':
+		tabCount += 1
+	
+	return tabCount
+
 def isBPStringIdentifier(stri):
 	return stri.startswith("bp_string_")
 
