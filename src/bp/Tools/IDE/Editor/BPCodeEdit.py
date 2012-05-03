@@ -127,8 +127,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cursor = self.textCursor()
 			pos = cursor.position()
 			block = self.qdoc.findBlock(pos)
+			lineInfo = block.userData()
 			line = block.text()
 			tabLevel = countTabs(line)
+			
+			nodeName = ""
+			if lineInfo:
+				node = lineInfo.node
+				if node and node.nodeType != Node.TEXT_NODE:
+					nodeName = node.tagName
 			
 			# Retrive the keyword from the line
 			pureLine = line[tabLevel:]
@@ -140,11 +147,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				i += 1
 			
 			# Whole line
+			wasFullLine = False
 			if not keyword:
 				keyword = pureLine
+				wasFullLine = True
 			
 			# Indent it?
 			if keyword in self.autoIndentKeywords:
+				tabLevel += 1
+			elif nodeName == "function" or nodeName == "class" or nodeName == "new":
+				tabLevel += 1
+			elif nodeName == "call" and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword):
 				tabLevel += 1
 			
 			# Add the text
