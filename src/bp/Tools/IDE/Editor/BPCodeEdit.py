@@ -72,20 +72,36 @@ class LineNumberArea(QtGui.QWidget):
 class BPCAutoCompleterModel(QtGui.QStringListModel):
 	
 	def __init__(self, parent = None):
-		super().__init__(list(BPCHighlighter.keywords), parent)
+		self.shortCuts = {
+			"saac" : "SimplyAwesomeAutoComplete"
+		}
+		
+		self.autoCompletes = list(BPCHighlighter.keywords) + list(self.shortCuts)
+		
+		super().__init__(self.autoCompletes, parent)
 		self.icon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
 			return self.icon
+		
+		# TODO: Auto completion for shortcuts
+		if role == QtCore.Qt.DisplayRole:
+			shortCut = super().data(index, role)
+			if shortCut in self.shortCuts:
+				fullCompletion = self.shortCuts[shortCut]
+				return fullCompletion
+			else:
+				return shortCut
+		
 		return super().data(index, role)
 
 class BPCAutoCompleter(QtGui.QCompleter):
 	
 	def __init__(self, parent = None):
-		self.model = BPCAutoCompleterModel()
-		QtGui.QCompleter.__init__(self, self.model, parent)
+		self.bpcModel = BPCAutoCompleterModel()
+		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
@@ -153,16 +169,26 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		completer.setWidget(self)
 		completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
-		completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+		completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		self.completer = completer
 		self.connect(self.completer, QtCore.SIGNAL("activated(const QString&)"), self.insertCompletion)
 	
 	def insertCompletion(self, completion):
 		tc = self.textCursor()
-		extra = (len(completion) - len(self.completer.completionPrefix()))
-		tc.movePosition(QtGui.QTextCursor.Left)
-		tc.movePosition(QtGui.QTextCursor.EndOfWord)
-		tc.insertText(completion[len(completion) - extra:])
+		
+		if completion in self.completer.bpcModel.shortCuts:
+			print("yay")
+			tc.movePosition(QtGui.QTextCursor.Left)
+			tc.movePosition(QtGui.QTextCursor.StartOfWord)
+			tc.select(QtGui.QTextCursor.WordUnderCursor)
+			tc.removeSelectedText()
+			tc.insertText(self.completer.bpcModel.shortCuts[completion])
+		else:
+			extra = (len(completion) - len(self.completer.completionPrefix()))
+			tc.movePosition(QtGui.QTextCursor.Left)
+			tc.movePosition(QtGui.QTextCursor.EndOfWord)
+			tc.insertText(completion[len(completion) - extra:])
+			
 		self.setTextCursor(tc)
 	
 	def textUnderCursor(self):

@@ -20,6 +20,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.subModules = dict()
 		self.setEditable(False)
 		self.setData(self, QtCore.Qt.UserRole + 1)
+		#self.setData(self.icon, QtCore.Qt.DecorationRole)
 		
 	def setModPath(self, path):
 		self.path = path
