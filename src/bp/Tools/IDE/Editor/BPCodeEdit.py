@@ -69,6 +69,24 @@ class LineNumberArea(QtGui.QWidget):
 	def paintEvent(self, event):
 		self.codeEdit.lineNumberAreaPaintEvent(event)
 
+class BPCAutoCompleterModel(QtGui.QStringListModel):
+	
+	def __init__(self, parent = None):
+		super().__init__(list(BPCHighlighter.keywords), parent)
+		self.icon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
+		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
+		
+	def data(self, index, role):
+		if role == QtCore.Qt.DecorationRole:
+			return self.icon
+		return super().data(index, role)
+
+class BPCAutoCompleter(QtGui.QCompleter):
+	
+	def __init__(self, parent = None):
+		self.model = BPCAutoCompleterModel()
+		QtGui.QCompleter.__init__(self, self.model, parent)
+
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def __init__(self, bpIDE = None):
@@ -119,11 +137,91 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.lineNumberArea = None
 		
+		self.completer = None
+		completer = BPCAutoCompleter()
+		self.setCompleter(completer)
+		#self.completer.setWidget(self)
+		
 		if 0:
 			self.initLineNumberArea()
 	
+	def setCompleter(self, completer):
+		if self.completer:
+			self.disconnect(self.completer, 0, self, 0)
+		if not completer:
+			return
+		
+		completer.setWidget(self)
+		completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
+		completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+		self.completer = completer
+		self.connect(self.completer, QtCore.SIGNAL("activated(const QString&)"), self.insertCompletion)
+	
+	def insertCompletion(self, completion):
+		tc = self.textCursor()
+		extra = (len(completion) - len(self.completer.completionPrefix()))
+		tc.movePosition(QtGui.QTextCursor.Left)
+		tc.movePosition(QtGui.QTextCursor.EndOfWord)
+		tc.insertText(completion[len(completion) - extra:])
+		self.setTextCursor(tc)
+	
+	def textUnderCursor(self):
+		tc = self.textCursor()
+		tc.select(QtGui.QTextCursor.WordUnderCursor)
+		return tc.selectedText()
+
+	def focusInEvent(self, event):
+		if self.completer:
+			self.completer.setWidget(self)
+		QtGui.QPlainTextEdit.focusInEvent(self, event)
+	
 	def keyPressEvent(self, event):
-		if event.key() == QtCore.Qt.Key_Return:
+		# Auto Complete
+		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
+		if isShortcut:
+			self.completer.popup().show()
+		
+		# Auto Complete
+		if self.completer and self.completer.popup().isVisible():
+			if event.key() in (
+					QtCore.Qt.Key_Enter,
+					QtCore.Qt.Key_Return,
+					QtCore.Qt.Key_Escape,
+					QtCore.Qt.Key_Tab,
+					QtCore.Qt.Key_Backtab):
+				event.ignore()
+				return
+			
+			## has ctrl-E been pressed??
+			if (not self.completer or not isShortcut):
+				super().keyPressEvent(event)
+
+			## ctrl or shift key on it's own??
+			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
+			if ctrlOrShift and not event.text():
+				# ctrl or shift key on it's own
+				return
+			
+			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
+
+			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
+
+			completionPrefix = self.textUnderCursor()
+
+			if (not isShortcut and (hasModifier or not event.text() or len(completionPrefix) < 3 or event.text()[-1] in eow)):
+				self.completer.popup().hide()
+				return
+
+			if (completionPrefix != self.completer.completionPrefix()):
+				self.completer.setCompletionPrefix(completionPrefix)
+				popup = self.completer.popup()
+				popup.setCurrentIndex(self.completer.completionModel().index(0,0))
+
+			cr = self.cursorRect()
+			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
+			self.completer.complete(cr) ## popup it up!
+		# Auto Indent
+		elif event.key() == QtCore.Qt.Key_Return:
 			cursor = self.textCursor()
 			pos = cursor.position()
 			block = self.qdoc.findBlock(pos)
@@ -173,6 +271,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cursor.endEditBlock()
 			
 			event.accept()
+		# TODO: Binary and ?
+		#elif event.key() == QtCore.Qt.Key_Space and event.modifiers() == QtCore.Qt.ControlModifier:
+		#	print("Yo!")
 		else:
 			super().keyPressEvent(event)
 	

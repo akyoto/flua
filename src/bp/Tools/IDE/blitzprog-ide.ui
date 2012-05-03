@@ -300,6 +300,14 @@
     <string>Preferences</string>
    </property>
   </action>
+  <action name="actionAutoComplete">
+   <property name="text">
+    <string>Auto Complete</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Space</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
