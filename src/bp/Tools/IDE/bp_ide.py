@@ -50,7 +50,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		
 	def run(self):
 		try:
-			self.startBenchmark("BP  PostProcessor (%s)" % stripDir(self.bpIDE.getFilePath()))
+			self.startBenchmark("[%s] PostProcessor" % stripDir(self.bpIDE.getFilePath()))
 			self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
 			self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 			self.endBenchmark()
@@ -68,6 +68,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
+		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
 		self.intelliEnabled = False
@@ -77,7 +78,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initTheme()
 		self.initUI()
 		self.initCompiler()
-		self.setFilePath("./tmp/tmp.bp")
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
 		
 	def initUI(self):
@@ -146,7 +146,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
 		self.dependenciesViewDock.hide()
-		self.xmlViewDock.hide()
+		#self.xmlViewDock.hide()
 		self.fileViewDock.hide()
 		
 	def initActions(self):
@@ -168,8 +168,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.actionAbout.triggered.connect(self.about)
 		
 	def initTheme(self):
-		defaultTheme = {
+		lightTheme = {
 			'default': format("#272727"),
+			'default-background': "#ffffff",
 			'keyword': format('blue'),
 			'operator': format('red'),
 			'brace': format('darkGray'),
@@ -189,7 +190,29 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			'current-line' : None#QtGui.QColor("#fefefe")
 		}
 		
-		self.currentTheme = defaultTheme
+		darkTheme = {
+			'default': format("#eeeeee"),
+			'default-background': "#272727",
+			'keyword': format('orange'),
+			'operator': format('#ff2010'),
+			'brace': format('darkGray'),
+			'comma': format('#777777'),
+			'output-target': format('#888888'),
+			'include-file': format('#888888'),
+			'string': format('#00a000'),
+			'string2': format('darkMagenta'),
+			'comment': format('darkGray', 'italic'),
+			'self': format('black', 'italic'),
+			'number': format('#00cccc'),
+			'hex-number': format('brown'),
+			'own-function': format('#ff8000', 'bold'),
+			'local-module-import': format('#77ee77', 'bold'),
+			'project-module-import': format('#dddddd', 'bold'),
+			'global-module-import': format('#22dd22', 'bold'),
+			'current-line' : None#QtGui.QColor("#fefefe")
+		}
+		
+		self.currentTheme = lightTheme
 		
 	def initCompiler(self):
 		self.postProcessorThread = None
@@ -197,7 +220,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.processor = BPPostProcessor()
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
-		self.codeEdit.clear()
+		self.newFile()
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -236,9 +259,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def postProcessorFinished(self):
 		# After we parsed the functions, set the text and highlight the file
-		if self.codeEdit.futureText:
-			self.codeEdit.setPlainText(self.codeEdit.futureText)
-			self.codeEdit.disableUpdateFlag = False
+		if self.codeEdit.disableUpdatesFlag:
+			self.codeEdit.disableUpdatesFlag = False
+			self.codeEdit.rehighlightFunctionUsage()
 		
 		self.dependencyView.updateView()
 		
@@ -277,6 +300,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		if outputTarget == "C++":
 			#print(self.processor.getCompiledFilesList())
+			self.codeEdit.save()
 			
 			self.msgView.clear()
 			try:
@@ -295,7 +319,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				#lineNumber = e.getLineNumber()
 				node = e.getLastParsedNode()
 				errorMessage = e.getMsg()
-				self.msgView.addLineBasedMessage(1, errorMessage)
+				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
+			except:
+				printTraceback()
 			
 			#cpp.compile(self.file, self.codeEdit.root)
 		
@@ -327,6 +353,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.setFilePath(fileName)
 		
 		# Read
+		print(" - %s - " % (fileName))
 		self.startBenchmark("LoadXMLFile (physically read file)")
 		xmlCode = loadXMLFile(self.getFilePath())
 		self.endBenchmark()
@@ -383,7 +410,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView.clear()
 		self.msgView.clear()
 		self.xmlView.clear()
-		#print(self.codeEdit.)
+		
+		self.tmpCount += 1
+		self.setFilePath("./tmp/tmp%d.bp" % (self.tmpCount))
+		self.codeEdit.runUpdater()
 		
 	def openFile(self, path):
 		fileName = path

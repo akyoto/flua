@@ -3,3 +3,4 @@ bp.geany
 *-out.hpp
 test.png
 __pycache__
+src/bp/Tools/IDE/tmp/*

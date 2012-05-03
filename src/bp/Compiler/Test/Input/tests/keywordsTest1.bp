@@ -2,109 +2,47 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				keywordsTest2
-			</import>
+			<import>bp.Core</import>
+			<import>keywordsTest2</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				#if working
-			</string>
-			<string id="bp_string_1">
-				#elif NOT working
-			</string>
-			<string id="bp_string_2">
-				#elif working
-			</string>
-			<string id="bp_string_3">
-				#elif NOT working
-			</string>
-			<string id="bp_string_4">
-				#else NOT working
-			</string>
-			<string id="bp_string_5">
-				#else working
-			</string>
-			<string id="bp_string_6">
-				#switch NOT working
-			</string>
-			<string id="bp_string_7">
-				#switch working
-			</string>
-			<string id="bp_string_8">
-				#switch NOT working
-			</string>
-			<string id="bp_string_9">
-				#for working
-			</string>
-			<string id="bp_string_10">
-				#for NOT working
-			</string>
-			<string id="bp_string_11">
-				#while working
-			</string>
-			<string id="bp_string_12">
-				#while NOT working
-			</string>
-			<string id="bp_string_13">
-				#try working
-			</string>
-			<string id="bp_string_14">
-				#catch working
-			</string>
-			<string id="bp_string_15">
-				#static working
-			</string>
-			<string id="bp_string_16">
-				#private working
-			</string>
-			<string id="bp_string_17">
-				#return working
-			</string>
-			<string id="bp_string_18">
-				#const working
-			</string>
-			<string id="bp_string_19">
-				#break working
-			</string>
-			<string id="bp_string_20">
-				#break NOT working
-			</string>
-			<string id="bp_string_21">
-				#continue working
-			</string>
-			<string id="bp_string_22">
-				#continue NOT working
-			</string>
-			<string id="bp_string_23">
-				Simple exception
-			</string>
-			<string id="bp_string_24">
-				#throw NOT working
-			</string>
-			<string id="bp_string_25">
-				#throw working
-			</string>
+			<string id="bp_string_0">#if working</string>
+			<string id="bp_string_1">#elif NOT working</string>
+			<string id="bp_string_2">#elif working</string>
+			<string id="bp_string_3">#elif NOT working</string>
+			<string id="bp_string_4">#else NOT working</string>
+			<string id="bp_string_5">#else working</string>
+			<string id="bp_string_6">#switch NOT working</string>
+			<string id="bp_string_7">#switch working</string>
+			<string id="bp_string_8">#switch NOT working</string>
+			<string id="bp_string_9">#for working</string>
+			<string id="bp_string_10">#for NOT working</string>
+			<string id="bp_string_11">#while working</string>
+			<string id="bp_string_12">#while NOT working</string>
+			<string id="bp_string_13">#try working</string>
+			<string id="bp_string_14">#catch working</string>
+			<string id="bp_string_15">#static working</string>
+			<string id="bp_string_16">#private working</string>
+			<string id="bp_string_17">#return working</string>
+			<string id="bp_string_18">#const working</string>
+			<string id="bp_string_19">#break working</string>
+			<string id="bp_string_20">#break NOT working</string>
+			<string id="bp_string_21">#continue working</string>
+			<string id="bp_string_22">#continue NOT working</string>
+			<string id="bp_string_23">Simple exception</string>
+			<string id="bp_string_24">#throw NOT working</string>
+			<string id="bp_string_25">#throw working</string>
 		</strings>
 	</header>
 	<code>
 		<if-block>
 			<if>
-				<condition>
-					1
-				</condition>
+				<condition>1</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_0
-							</parameter>
+							<parameter>bp_string_0</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -112,35 +50,23 @@
 		</if-block>
 		<if-block>
 			<if>
-				<condition>
-					0
-				</condition>
+				<condition>0</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_1
-							</parameter>
+							<parameter>bp_string_1</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
 			<else-if>
-				<condition>
-					1
-				</condition>
+				<condition>1</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_2
-							</parameter>
+							<parameter>bp_string_2</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -148,13 +74,9 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_3
-							</parameter>
+							<parameter>bp_string_3</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -162,18 +84,12 @@
 		</if-block>
 		<if-block>
 			<if>
-				<condition>
-					0
-				</condition>
+				<condition>0</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_4
-							</parameter>
+							<parameter>bp_string_4</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -181,13 +97,9 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_5
-							</parameter>
+							<parameter>bp_string_5</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -196,119 +108,73 @@
 		<switch>
 			<value>
 				<add>
-					<value>
-						21
-					</value>
-					<value>
-						21
-					</value>
+					<value>21</value>
+					<value>21</value>
 				</add>
 			</value>
 			<case>
 				<values>
-					<value>
-						40
-					</value>
-					<value>
-						41
-					</value>
+					<value>40</value>
+					<value>41</value>
 				</values>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_6
-							</parameter>
+							<parameter>bp_string_6</parameter>
 						</parameters>
 					</call>
 				</code>
 			</case>
 			<case>
 				<values>
-					<value>
-						42
-					</value>
-					<value>
-						43
-					</value>
+					<value>42</value>
+					<value>43</value>
 				</values>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_7
-							</parameter>
+							<parameter>bp_string_7</parameter>
 						</parameters>
 					</call>
 				</code>
 			</case>
 			<case>
 				<values>
-					<value>
-						44
-					</value>
-					<value>
-						45
-					</value>
+					<value>44</value>
+					<value>45</value>
 				</values>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_8
-							</parameter>
+							<parameter>bp_string_8</parameter>
 						</parameters>
 					</call>
 				</code>
 			</case>
 		</switch>
 		<assign>
-			<value>
-				xTest
-			</value>
-			<value>
-				0
-			</value>
+			<value>xTest</value>
+			<value>0</value>
 		</assign>
 		<for>
-			<iterator>
-				xTest
-			</iterator>
-			<from>
-				1
-			</from>
-			<to>
-				10
-			</to>
+			<iterator>xTest</iterator>
+			<from>1</from>
+			<to>10</to>
 			<code>
 				<assign>
-					<value>
-						xTest
-					</value>
+					<value>xTest</value>
 					<value>
 						<divide>
 							<value>
 								<multiply>
-									<value>
-										xTest
-									</value>
-									<value>
-										2
-									</value>
+									<value>xTest</value>
+									<value>2</value>
 								</multiply>
 							</value>
-							<value>
-								2
-							</value>
+							<value>2</value>
 						</divide>
 					</value>
 				</assign>
@@ -318,23 +184,15 @@
 			<if>
 				<condition>
 					<equal>
-						<value>
-							xTest
-						</value>
-						<value>
-							11
-						</value>
+						<value>xTest</value>
+						<value>11</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_9
-							</parameter>
+							<parameter>bp_string_9</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -342,45 +200,29 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_10
-							</parameter>
+							<parameter>bp_string_10</parameter>
 						</parameters>
 					</call>
 				</code>
 			</else>
 		</if-block>
 		<assign>
-			<value>
-				cTest
-			</value>
-			<value>
-				0
-			</value>
+			<value>cTest</value>
+			<value>0</value>
 		</assign>
 		<while>
 			<condition>
 				<less>
-					<value>
-						cTest
-					</value>
-					<value>
-						10
-					</value>
+					<value>cTest</value>
+					<value>10</value>
 				</less>
 			</condition>
 			<code>
 				<assign-add>
-					<value>
-						cTest
-					</value>
-					<value>
-						2
-					</value>
+					<value>cTest</value>
+					<value>2</value>
 				</assign-add>
 			</code>
 		</while>
@@ -388,23 +230,15 @@
 			<if>
 				<condition>
 					<greater-or-equal>
-						<value>
-							cTest
-						</value>
-						<value>
-							10
-						</value>
+						<value>cTest</value>
+						<value>10</value>
 					</greater-or-equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_11
-							</parameter>
+							<parameter>bp_string_11</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -412,13 +246,9 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_12
-							</parameter>
+							<parameter>bp_string_12</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -428,17 +258,11 @@
 			<try>
 				<code>
 					<assign>
-						<value>
-							a
-						</value>
+						<value>a</value>
 						<value>
 							<divide>
-								<value>
-									1
-								</value>
-								<value>
-									0
-								</value>
+								<value>1</value>
+								<value>0</value>
 							</divide>
 						</value>
 					</assign>
@@ -448,13 +272,9 @@
 				<variable/>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_13
-							</parameter>
+							<parameter>bp_string_13</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -464,17 +284,11 @@
 			<try>
 				<code>
 					<assign>
-						<value>
-							a
-						</value>
+						<value>a</value>
 						<value>
 							<divide>
-								<value>
-									1
-								</value>
-								<value>
-									0
-								</value>
+								<value>1</value>
+								<value>0</value>
 							</divide>
 						</value>
 					</assign>
@@ -483,46 +297,30 @@
 			<catch>
 				<variable>
 					<declare-type>
-						<value>
-							e
-						</value>
-						<value>
-							ArrayOutOfBoundsException
-						</value>
+						<value>e</value>
+						<value>ArrayOutOfBoundsException</value>
 					</declare-type>
 				</variable>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_14
-							</parameter>
+							<parameter>bp_string_14</parameter>
 						</parameters>
 					</call>
 				</code>
 			</catch>
 		</try-block>
 		<class>
-			<name>
-				StaticClass
-			</name>
+			<name>StaticClass</name>
 			<code>
 				<function>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
 						<call>
-							<function>
-								print
-							</function>
+							<function>print</function>
 							<parameters>
-								<parameter>
-									bp_string_15
-								</parameter>
+								<parameter>bp_string_15</parameter>
 							</parameters>
 						</call>
 					</code>
@@ -530,52 +328,22 @@
 			</code>
 		</class>
 		<class>
-			<name>
-				TestClass
-			</name>
+			<name>TestClass</name>
 			<code>
 				<function>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
 						<noop/>
 					</code>
 				</function>
 				<private>
 					<function>
-						<name>
-							privateFunc
-						</name>
+						<name>privateFunc</name>
 						<code>
-							<function>
-								<name>
-									static
-								</name>
-								<code>
-									<assign>
-										<value>
-											createdOnce
-										</value>
-										<value>
-											<call>
-												<function>
-													StaticClass
-												</function>
-												<parameters/>
-											</call>
-										</value>
-									</assign>
-								</code>
-							</function>
 							<call>
-								<function>
-									print
-								</function>
+								<function>print</function>
 								<parameters>
-									<parameter>
-										bp_string_16
-									</parameter>
+									<parameter>bp_string_16</parameter>
 								</parameters>
 							</call>
 						</code>
@@ -584,36 +352,24 @@
 			</code>
 		</class>
 		<assign>
+			<value>obj</value>
 			<value>
-				obj
-			</value>
-			<value>
-				<call>
-					<function>
-						TestClass
-					</function>
+				<new>
+					<type>TestClass</type>
 					<parameters/>
-				</call>
+				</new>
 			</value>
 		</assign>
 		<function>
 			<parameters>
-				<parameter>
-					a
-				</parameter>
+				<parameter>a</parameter>
 			</parameters>
-			<name>
-				halfOf
-			</name>
+			<name>halfOf</name>
 			<code>
 				<return>
 					<divide>
-						<value>
-							a
-						</value>
-						<value>
-							2
-						</value>
+						<value>a</value>
+						<value>2</value>
 					</divide>
 				</return>
 			</code>
@@ -624,30 +380,20 @@
 					<equal>
 						<value>
 							<call>
-								<function>
-									halfOf
-								</function>
+								<function>halfOf</function>
 								<parameters>
-									<parameter>
-										5
-									</parameter>
+									<parameter>5</parameter>
 								</parameters>
 							</call>
 						</value>
-						<value>
-							2.5
-						</value>
+						<value>2.5</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_17
-							</parameter>
+							<parameter>bp_string_17</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -655,57 +401,37 @@
 		</if-block>
 		<const>
 			<assign>
-				<value>
-					myConst
-				</value>
-				<value>
-					13.0
-				</value>
+				<value>myConst</value>
+				<value>13.0</value>
 			</assign>
 		</const>
 		<if-block>
 			<if>
 				<condition>
 					<equal>
-						<value>
-							myConst
-						</value>
-						<value>
-							13.0
-						</value>
+						<value>myConst</value>
+						<value>13.0</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_18
-							</parameter>
+							<parameter>bp_string_18</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
 		</if-block>
 		<assign>
-			<value>
-				y
-			</value>
-			<value>
-				0
-			</value>
+			<value>y</value>
+			<value>0</value>
 		</assign>
 		<while>
 			<condition>
 				<less>
-					<value>
-						y
-					</value>
-					<value>
-						20
-					</value>
+					<value>y</value>
+					<value>20</value>
 				</less>
 			</condition>
 			<code>
@@ -713,12 +439,8 @@
 					<if>
 						<condition>
 							<greater>
-								<value>
-									y
-								</value>
-								<value>
-									10
-								</value>
+								<value>y</value>
+								<value>10</value>
 							</greater>
 						</condition>
 						<code>
@@ -727,12 +449,8 @@
 					</if>
 				</if-block>
 				<assign-add>
-					<value>
-						y
-					</value>
-					<value>
-						1
-					</value>
+					<value>y</value>
+					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
@@ -740,23 +458,15 @@
 			<if>
 				<condition>
 					<less>
-						<value>
-							y
-						</value>
-						<value>
-							20
-						</value>
+						<value>y</value>
+						<value>20</value>
 					</less>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_19
-							</parameter>
+							<parameter>bp_string_19</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -764,53 +474,33 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_20
-							</parameter>
+							<parameter>bp_string_20</parameter>
 						</parameters>
 					</call>
 				</code>
 			</else>
 		</if-block>
 		<assign>
-			<value>
-				x
-			</value>
-			<value>
-				0
-			</value>
+			<value>x</value>
+			<value>0</value>
 		</assign>
 		<assign>
-			<value>
-				y
-			</value>
-			<value>
-				0
-			</value>
+			<value>y</value>
+			<value>0</value>
 		</assign>
 		<while>
 			<condition>
 				<less>
-					<value>
-						x
-					</value>
-					<value>
-						100
-					</value>
+					<value>x</value>
+					<value>100</value>
 				</less>
 			</condition>
 			<code>
 				<assign-add>
-					<value>
-						x
-					</value>
-					<value>
-						1
-					</value>
+					<value>x</value>
+					<value>1</value>
 				</assign-add>
 				<if-block>
 					<if>
@@ -818,17 +508,11 @@
 							<not-equal>
 								<value>
 									<modulo>
-										<value>
-											x
-										</value>
-										<value>
-											2
-										</value>
+										<value>x</value>
+										<value>2</value>
 									</modulo>
 								</value>
-								<value>
-									0
-								</value>
+								<value>0</value>
 							</not-equal>
 						</condition>
 						<code>
@@ -837,12 +521,8 @@
 					</if>
 				</if-block>
 				<assign-add>
-					<value>
-						y
-					</value>
-					<value>
-						1
-					</value>
+					<value>y</value>
+					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
@@ -852,35 +532,23 @@
 					<and>
 						<value>
 							<equal>
-								<value>
-									x
-								</value>
-								<value>
-									100
-								</value>
+								<value>x</value>
+								<value>100</value>
 							</equal>
 						</value>
 						<value>
 							<equal>
-								<value>
-									y
-								</value>
-								<value>
-									50
-								</value>
+								<value>y</value>
+								<value>50</value>
 							</equal>
 						</value>
 					</and>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_21
-							</parameter>
+							<parameter>bp_string_21</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -888,13 +556,9 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_22
-							</parameter>
+							<parameter>bp_string_22</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -903,34 +567,22 @@
 		<try-block>
 			<try>
 				<code>
-					<throw>
-						bp_string_23
-					</throw>
+					<throw>bp_string_23</throw>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_24
-							</parameter>
+							<parameter>bp_string_24</parameter>
 						</parameters>
 					</call>
 				</code>
 			</try>
 			<catch>
-				<variable>
-					e
-				</variable>
+				<variable>e</variable>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_25
-							</parameter>
+							<parameter>bp_string_25</parameter>
 						</parameters>
 					</call>
 				</code>

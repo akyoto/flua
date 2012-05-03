@@ -73,7 +73,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			self.setExpanded(item, 1 - self.isExpanded(item))
 		
 	def buildTree(self):
-		for namespace, mod in self.modules.subModules.items():
+		for namespace, mod in sorted(self.modules.subModules.items()):
 			self.buildTreeRec(mod, self.model.invisibleRootItem(), "")
 		
 	def buildTreeRec(self, mod, parent, parentPath):
@@ -82,7 +82,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		else:
 			mod.setModPath(mod.name)
 		
-		for namespace, subMod in mod.subModules.items():
+		for namespace, subMod in sorted(mod.subModules.items()):
 			self.buildTreeRec(subMod, mod, mod.path)
 		
 		parentItem = parent.data()

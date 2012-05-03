@@ -67,6 +67,8 @@ class CPPOutputCompiler:
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
+		self.gmpEnabled = False
+		
 		# Expression parser
 		self.initExprParser()
 		
@@ -150,7 +152,8 @@ class CPPOutputCompiler:
 			# Basic data types
 			outStream.write("#include <cstdint>\n")
 			outStream.write("#include <cstdlib>\n")
-			outStream.write("#include <gmp/gmpxx.h>\n")
+			if self.gmpEnabled:
+				outStream.write("#include <gmp/gmpxx.h>\n")
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
 			outStream.write("typedef %s %s;\n" % ("CString", "String"))
@@ -204,18 +207,23 @@ class CPPOutputCompiler:
 			"-mtune=native",
 		]
 		
+		additionalLibs = []
+		if self.gmpEnabled:
+			additionalLibs += [
+				"-lgmpxx",
+				"-lgmp",
+			]
+		
 		# Linker
 		linkCmd = [
 			compilerName,
 			"-o%s" % (exe),
 			exe + ".o",
 			"-L" + self.libsDir,
-			"-lgmpxx",
-			"-lgmp",
 			#"-ltheron",
 			#"-lboost_thread",
 			#"-lpthread"
-		] + self.customCompilerFlags
+		] + additionalLibs + self.customCompilerFlags
 		
 		try:
 			print("\nStarting compiler:")

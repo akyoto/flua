@@ -37,18 +37,22 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("BPC Parser - " + stripDir(filePath))
+			self.startBenchmark("[%s] Parser" % stripDir(filePath))
 			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
-			self.endBenchmark()
+			if self.bpcFile.inFunction != 0:
+				print("inFunction: " +  str(self.bpcFile.inFunction))
 		except InputCompilerException as e:
 			lineNumber = e.getLineNumber()
 			errorMessage = e.getMsg()
-			self.bpIDE.msgView.addLineBasedMessage(lineNumber, errorMessage)
+			errorFilePath = e.getFilePath()
+			self.bpIDE.msgView.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
 			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
 			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
-		#yappi.stop()
-		#yappi.print_stats()
-		#yappi.clear_stats()
+		finally:
+			#yappi.stop()
+			#yappi.print_stats()
+			self.endBenchmark()
+			#yappi.clear_stats()
 		
 		return
 
@@ -75,9 +79,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setFont(QtGui.QFont("monospace", 10))
-		self.setTabStopWidth(4 * 8)
+		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
+		self.setStyleSheet("background-color: %s" % bpIDE.currentTheme["default-background"]);
+		
+		#p = self.palette()
+		#p.setColor(QtGui.QPalette.Base, QtCore.Qt.red)
+		#p.setColor(QtGui.QPalette.Text, QtCore.Qt.white)
+		#self.setPalette(p)
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.lineNumberArea = None
@@ -92,10 +102,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.futureText = ""
 		self.lines = []
 		self.bpcFile = None
-		self.disableUpdatesFlag = False
+		
+		self.disableUpdatesFlag = True
 		self.updater = BPCodeUpdater(self)
-		self.runUpdater()
 		super().clear()
+		self.disableUpdatesFlag = False
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])
@@ -155,6 +166,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.setLineEdited(i, True)
 		
 		# Run bpc -> xml updater
+		#print(self.disableUpdatesFlag)
 		if self.updater and not self.disableUpdatesFlag and not self.updater.isRunning():
 			self.runUpdater()
 		
@@ -257,11 +269,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
 		
 		# Set new text
-		#self.disableUpdatesFlag = True
-		#self.setPlainText("")
-		#self.disableUpdatesFlag = False
+		self.disableUpdatesFlag = True
+		self.setPlainText("\n".join(self.lines))
 		
-		self.futureText = "\n".join(self.lines)
+		#self.futureText = 
 		self.runUpdater()
 		
 	def setXML(self, xmlCode):

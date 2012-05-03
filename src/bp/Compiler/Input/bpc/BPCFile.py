@@ -59,6 +59,7 @@ simpleBlocks = {
 	"template" : [],
 	"get" : [],
 	"set" : [],
+	"private" : [],
 	"cast-definition" : [],
 	"getter" : [],
 	"setter" : [],
@@ -106,6 +107,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.strings = getElementByTagName(self.header, "strings")
 		self.lastLine = ""
 		self.lastLineCount = 0
+		self.maxLineIndex = -1
 		self.nodeToOriginalLine = dict()
 		self.nodes = list()
 		
@@ -200,6 +202,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		self.lastLineCount = -1	# -1 because of "import bp.Core"
 		lines = ["import bp.Core"] + codeText.split('\n') + ["..."]
+		self.maxLineIndex = len(lines) - 1
 		
 		#if "unicode" in self.file:
 		#	print(lines)
@@ -219,12 +222,16 @@ class BPCFile(ScopeController, Benchmarkable):
 			# Remove strings, comments and check brackets
 			line = self.prepareLine(line)
 			
-			if line == "":
-				self.nodes.append(None)
-				continue
-			
 			# TODO: Enable all unicode characters
 			line = line.replace("π", "pi")
+			
+			if not line:
+				if currentLine and currentLine.tagName == "function":
+					codeNode = getElementByTagName(currentLine, "code")
+					if len(codeNode.childNodes) == 0 and self.countTabs(lines[lineIndex + 1]) <= tabCount:
+						raise CompilerException("If you need an empty function use '...' in the code block")
+				self.nodes.append(None)
+				continue
 			
 			self.nextLineIndented = False
 			if lineIndex < len(lines) - 1:
@@ -242,6 +249,11 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.tabBack(currentLine, prevTabCount, tabCount, True)
 				self.currentNode = savedCurrentNode
 			
+			print(self.lastLineCount, self.maxLineIndex, line, self.inClass, self.inFunction)
+			
+			# Don't process last NOOP
+			if self.lastLineCount == self.maxLineIndex:
+				break
 			
 			currentLine = self.processLine(line)
 			
@@ -279,8 +291,12 @@ class BPCFile(ScopeController, Benchmarkable):
 				nodeName = self.currentNode.tagName
 				if nodeName == "switch":
 					self.inSwitch -= 1
-				elif nodeName == "class":
-					self.inClass -= 1
+				elif nodeName == "code":
+					parentNodeName = self.currentNode.parentNode.tagName
+					if parentNodeName == "class":
+						self.inClass -= 1
+					elif parentNodeName == "function":
+						self.inFunction -= 1
 				elif nodeName == "extern":
 					self.inExtern -= 1
 				elif nodeName == "template":
@@ -303,8 +319,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inTest -= 1
 				elif nodeName == "compiler-flags":
 					self.inCompilerFlags -= 1
-				elif nodeName == "code" and self.currentNode.parentNode.tagName == "function":
-					self.inFunction -= 1
+			
 			self.currentNode = self.currentNode.parentNode
 			
 			if countIns:
@@ -319,10 +334,6 @@ class BPCFile(ScopeController, Benchmarkable):
 				else:
 					self.currentNode = self.currentNode.parentNode
 			elif self.currentNode.tagName in simpleBlocks:
-				# TODO: This exception doesn't really work...
-				if len(self.currentNode.childNodes) == 0:
-					raise CompilerException("A '%s' block needs at least one operation (e.g. '...')" % (nodeName))
-				
 				tagsAllowed = simpleBlocks[self.currentNode.tagName]
 				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode
@@ -330,16 +341,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			atTab -= 1
 		
 	def processLine(self, line):
-		i = 0
-		for c in line:	
-			if c.isspace():
-				break
-			i += 1
-		
-		keyword = line[:i]
-		
-		if keyword in self.keywordToHandler:
-			return self.keywordToHandler[keyword](line)
+		if self.keyword in self.keywordToHandler:
+			return self.keywordToHandler[self.keyword](line)
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
@@ -973,7 +976,10 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleImport(self, line):
 		if self.nextLineIndented:
-			raise CompilerException("import can not be used as a block (yet)")
+			if self.lastLineCount > 0:
+				raise CompilerException("import can not be used as a block (yet)")
+			else:
+				raise CompilerException("Indentation at the beginning of the file is not allowed")
 		
 		importedModule = line[len("import"):].strip()
 		modulePath = getModulePath(importedModule, self.dir, self.compiler.projectDir, self.compiler.importExtension)
@@ -1008,6 +1014,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		squareBracketsBalance = 0 # []
 		#chevronsBalance = 0 # <>
 		
+		self.keyword = ""
+		
 		while i < len(line):
 			# Remove comments
 			if line[i] == '#':
@@ -1025,6 +1033,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				curlyBracketsBalance += 1
 			elif line[i] == '}':
 				curlyBracketsBalance -= 1
+			elif line[i] == ' ' and not self.keyword:
+				self.keyword = line[:i]
 			#elif line[i] == '<':
 			#	chevronsBalance += 1
 			#elif line[i] == '>':
@@ -1059,6 +1069,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.stringCount += 1
 				i += len(identifier) - 1
 			i += 1
+		
+		if not self.keyword:
+			self.keyword = line
 		
 		# ()
 		if roundBracketsBalance > 0:

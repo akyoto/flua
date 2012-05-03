@@ -57,6 +57,9 @@ class InputCompilerException(CompilerException):
 	def getLineNumber(self):
 		return self.inpFile.getLastLineCount()
 		
+	def getFilePath(self):
+		return self.inpFile.getFilePath()
+		
 	def __str__(self):
 		filePath = self.inpFile.getFilePath()
 		line = self.getLine()
@@ -72,13 +75,20 @@ class PostProcessorException(CompilerException):
 		
 	def __str__(self):
 		return self.filePath + ":\n" + self.getMsg()
-
+ 
 class OutputCompilerException(CompilerException):
 	
 	def __init__(self, value, outFile):
 		#super.__init__(value)
 		self.setMsg(value)
 		self.outFile = outFile
+		
+	def getFilePath(self):
+		return self.outFile.getFilePath()
+		
+	def getLineNumber(self):
+		# TODO: Implement getLineNumber
+		return 1
 		
 	def getLastParsedNode(self):
 		return self.outFile.getLastParsedNode()

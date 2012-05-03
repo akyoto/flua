@@ -13,7 +13,12 @@ class BPMessageView(QtGui.QListWidget):
 		self.itemClicked.connect(self.goToLineOfItem)
 		
 	def goToLineOfItem(self, item):
-		lineNum = int(item.statusTip())
+		errorFilePath = item.data(QtCore.Qt.UserRole + 1)
+		lineNum = int(item.data(QtCore.Qt.UserRole + 2))
+		
+		if errorFilePath != self.bpIDE.getFilePath():
+			self.bpIDE.openFile(errorFilePath)
+		
 		if lineNum != -1:
 			self.bpIDE.goToLineEnd(lineNum)
 		
@@ -22,9 +27,14 @@ class BPMessageView(QtGui.QListWidget):
 		newItem.setStatusTip(str(-1))
 		self.addItem(newItem)
 		
-	def addLineBasedMessage(self, lineNumber, msg):
+	def addLineBasedMessage(self, errorFilePath, lineNumber, msg):
 		newItem = QtGui.QListWidgetItem(self.icon, msg)
-		newItem.setStatusTip(str(lineNumber))
+		
+		newItem.setData(QtCore.Qt.UserRole + 1, errorFilePath)
+		newItem.setData(QtCore.Qt.UserRole + 2, lineNumber)
+		
+		info = "<strong>%s</strong><br/>Line [%d]: %s" % (errorFilePath, lineNumber, msg)
+		newItem.setToolTip(info)
 		#self.setSizeHint(QtCore.QSize(0, 10))
 		self.addItem(newItem)
 		
