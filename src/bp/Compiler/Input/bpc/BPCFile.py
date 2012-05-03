@@ -87,6 +87,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inCase = 0
 		self.inExtern = 0
 		self.inTemplate = 0
+		self.inFunction = 0
 		self.inGetter = 0
 		self.inSetter = 0
 		self.inCasts = 0
@@ -198,7 +199,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				codeText = codeText[1:]
 		
 		self.lastLineCount = -1	# -1 because of "import bp.Core"
-		lines = ["import bp.Core"] + codeText.split('\n') + [""]
+		lines = ["import bp.Core"] + codeText.split('\n') + ["..."]
 		
 		#if "unicode" in self.file:
 		#	print(lines)
@@ -271,9 +272,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
 		
-	def tabBack(self, currentLine, prevTabCount, tabCount, countIns):
+	def tabBack(self, currentLine, prevTabCount, currentTabCount, countIns):
 		atTab = prevTabCount
-		while atTab > tabCount:
+		while atTab > currentTabCount:
 			if countIns:
 				nodeName = self.currentNode.tagName
 				if nodeName == "switch":
@@ -302,7 +303,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inTest -= 1
 				elif nodeName == "compiler-flags":
 					self.inCompilerFlags -= 1
-			
+				elif nodeName == "code" and self.currentNode.parentNode.tagName == "function":
+					self.inFunction -= 1
 			self.currentNode = self.currentNode.parentNode
 			
 			if countIns:
@@ -312,16 +314,19 @@ class BPCFile(ScopeController, Benchmarkable):
 			# XML elements with "code" tags need special treatment
 			if self.currentNode.parentNode.tagName in blocks:
 				tagsAllowed = blocks[self.currentNode.parentNode.tagName]
-				if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
+				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode.parentNode
 				else:
 					self.currentNode = self.currentNode.parentNode
 			elif self.currentNode.tagName in simpleBlocks:
+				# TODO: This exception doesn't really work...
 				if len(self.currentNode.childNodes) == 0:
 					raise CompilerException("A '%s' block needs at least one operation (e.g. '...')" % (nodeName))
+				
 				tagsAllowed = simpleBlocks[self.currentNode.tagName]
-				if atTab != tabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
+				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode
+			
 			atTab -= 1
 		
 	def processLine(self, line):
@@ -350,6 +355,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if self.inExtern and not self.inClass:
 				return self.handleExternLine(line)
+			
+			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inCasts):
+				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
 			
 			line = self.addBrackets(line)
 			line = self.addGenerics(line)
@@ -827,6 +835,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			nameNode.tagName = "to"
 			nameNode.appendChild(self.parseExpr(self.addGenerics(funcName)))
 		else:
+			self.inFunction += 1
 			node = self.doc.createElement("function")
 		
 		if not self.inCasts:

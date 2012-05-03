@@ -69,6 +69,9 @@ def stripExt(stri):
 
 def stripAll(path):
 	return stripExt(os.path.basename(path))
+	
+def stripDir(path):
+	return os.path.basename(path)
 
 def extractDir(path):
 	newPath = os.path.dirname(path)

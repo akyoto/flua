@@ -50,7 +50,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		
 	def run(self):
 		try:
-			self.startBenchmark("BP  PostProcessor (generate DTrees)")
+			self.startBenchmark("BP  PostProcessor (%s)" % stripDir(self.bpIDE.getFilePath()))
 			self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
 			self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 			self.endBenchmark()
@@ -71,6 +71,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
 		self.intelliEnabled = False
+		
+		self.threaded = True
 		
 		self.initTheme()
 		self.initUI()
@@ -194,6 +196,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.bpc = BPCCompiler(getModuleDir(), ".bp")
 		self.processor = BPPostProcessor()
 		self.processorOutFile = None
+		self.postProcessorThread = BPPostProcessorThread(self)
+		self.codeEdit.clear()
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -234,14 +238,16 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# After we parsed the functions, set the text and highlight the file
 		if self.codeEdit.futureText:
 			self.codeEdit.setPlainText(self.codeEdit.futureText)
-			self.codeEdit.futureText = ""
+			self.codeEdit.disableUpdateFlag = False
 		
 		self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
+		print("LFCOUNT: " + str(self.lastFunctionCount))
 		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
 			self.codeEdit.rehighlightFunctionUsage()
-			self.lastFunctionCount = self.processor.getFunctionCount()
+		
+		self.lastFunctionCount = self.processor.getFunctionCount()
 		
 		# If the function name changed, rehighlight
 		lineIndex = self.codeEdit.getLineIndex()
@@ -326,9 +332,11 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		xmlCode = loadXMLFile(self.getFilePath())
 		self.endBenchmark()
 		
+		# TODO: Clear all views
+		self.dependencyView.clear()
+		
 		# Let's rock!
 		self.startBenchmark("CodeEdit (interpret file)")
-		self.dependencyView.clear()
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
@@ -353,6 +361,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.codeEdit.setPlainText(codeText)
 		self.codeEdit.disableUpdatesFlag = False
 		self.codeEdit.runUpdater()
+		
 		#self.startBenchmark("CodeEdit (interpret file)")
 		#self.dependencyView.clear()
 		#self.codeEdit.setXML(xmlCode)
@@ -363,10 +372,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def runPostProcessor(self):
 		# TODO: Less cpu usage
-		self.postProcessorThread = BPPostProcessorThread(self)
-		self.postProcessorThread.start()
-		#self.postProcessorThread.run()
-		#self.postProcessorFinished()
+		if self.threaded:
+			if not self.postProcessorThread.isRunning():
+				self.postProcessorThread.start()
+		else:
+			self.postProcessorThread.run()
+			self.postProcessorFinished()
 		
 	def newFile(self):
 		self.codeEdit.clear()

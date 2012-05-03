@@ -39,7 +39,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.doubleClicked.connect(self.onItemClick)
 		self.setHeaderHidden(True)
 		
-		self.startBenchmark("Module directory")
+		self.startBenchmark("Load module directory")
 		for root, subFolders, files in os.walk(modDir):
 			for file in files:
 				if file.endswith(".bp"):

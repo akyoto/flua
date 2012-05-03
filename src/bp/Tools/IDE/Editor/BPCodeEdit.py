@@ -37,7 +37,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("BPC Parser")
+			self.startBenchmark("BPC Parser - " + stripDir(filePath))
 			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
 			self.endBenchmark()
 		except InputCompilerException as e:
@@ -68,6 +68,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def __init__(self, bpIDE = None):
 		super().__init__(bpIDE)
+		
+		self.threaded = True
+		
 		self.bpIDE = bpIDE
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
@@ -75,7 +78,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTabStopWidth(4 * 8)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
-		self.clear()
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.lineNumberArea = None
@@ -92,7 +94,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpcFile = None
 		self.disableUpdatesFlag = False
 		self.updater = BPCodeUpdater(self)
-		#self.runUpdater()
+		self.runUpdater()
 		super().clear()
 	
 	def clearHighlights(self):
@@ -158,10 +160,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 	def runUpdater(self):
 		self.bpIDE.msgView.clear()
+		
 		self.updater.setDocument(self.qdoc)
-		self.updater.start(QtCore.QThread.NormalPriority)
-		#self.updater.run()
-		#self.compilerFinished()
+		
+		if self.threaded:
+			self.updater.start(QtCore.QThread.NormalPriority)
+		else:
+			self.updater.run()
+			self.compilerFinished()
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -191,7 +197,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpcFile = self.updater.bpcFile
 		self.updater.bpcFile = None
 		
-		self.disableUpdatesFlag = True
+		#self.disableUpdatesFlag = True
 		
 		if self.bpcFile:
 			#self.bpIDE.startBenchmark("UpdateRootSafely")
@@ -206,7 +212,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.bpIDE.msgView.updateView()
 		
-		self.disableUpdatesFlag = False
+		#self.disableUpdatesFlag = False
 		
 	def getCurrentLine(self):
 		lineIndex = self.getLineIndex()
@@ -259,6 +265,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.runUpdater()
 		
 	def setXML(self, xmlCode):
+		self.disableUpdatesFlag = True
+		
 		self.doc = parseString(xmlCode.encode("utf-8"))
 		self.setRoot(self.doc.documentElement)
 		
