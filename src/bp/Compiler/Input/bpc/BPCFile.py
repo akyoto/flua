@@ -1009,8 +1009,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		self.keyword = ""
 		
-		lineLen = len(line)
-		while i < lineLen:
+		# DO NOT CACHE len(line)!
+		while i < len(line):
 			# Remove comments
 			if line[i] == '#':
 				return line[:i].rstrip()
@@ -1036,6 +1036,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			# Remove strings
 			elif line[i] == '"':
+				lineLen = len(line)
+				
 				h = i + 1
 				while h < lineLen and line[h] != '"':
 					h += 1

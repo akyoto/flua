@@ -142,8 +142,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			keyword = ""
 			i = 0
 			for c in pureLine:
-				if c.isspace():
+				if not c.isalnum() and not c == '_':
 					keyword = pureLine[:i]
+					break
 				i += 1
 			
 			# Whole line
@@ -152,13 +153,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				keyword = pureLine
 				wasFullLine = True
 			
-			# Indent it?
-			if keyword in self.autoIndentKeywords:
-				tabLevel += 1
-			elif nodeName == "function" or nodeName == "class" or nodeName == "new":
-				tabLevel += 1
-			elif nodeName == "call" and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword):
-				tabLevel += 1
+			if keyword:
+				# Indent it?
+				if keyword in self.autoIndentKeywords:
+					tabLevel += 1
+				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
+					tabLevel += 1
+				elif (wasFullLine or nodeName == "call") and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword) and tabLevel <= 1:
+					# TODO: Check whether parameters hold variable names only
+					# If the parameters have numbers then this won't be a function definition
+					tabLevel += 1
+				# TODO: All methods
+				elif keyword == "init" and tabLevel == 1:
+					tabLevel += 1
 			
 			# Add the text
 			cursor.beginEditBlock()
