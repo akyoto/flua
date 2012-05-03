@@ -2,129 +2,83 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				Generics are working!
-			</string>
-			<string id="bp_string_1">
-				Generics are truly working!
-			</string>
-			<string id="bp_string_2">
-				Generics are perfectly working!
-			</string>
+			<string id="bp_string_0">Generics are working!</string>
+			<string id="bp_string_1">Generics are truly working!</string>
+			<string id="bp_string_2">Generics are perfectly working!</string>
 		</strings>
 	</header>
 	<code>
 		<assign>
+			<value>sample</value>
 			<value>
-				sample
-			</value>
-			<value>
-				<call>
-					<function>
+				<new>
+					<type>
 						<template-call>
-							<value>
-								ElementHolder
-							</value>
-							<value>
-								Int
-							</value>
+							<value>ElementHolder</value>
+							<value>Int</value>
 						</template-call>
-					</function>
+					</type>
 					<parameters/>
-				</call>
+				</new>
 			</value>
 		</assign>
 		<assign>
 			<value>
 				<access>
-					<value>
-						sample
-					</value>
-					<value>
-						value
-					</value>
+					<value>sample</value>
+					<value>value</value>
 				</access>
 			</value>
-			<value>
-				5
-			</value>
+			<value>5</value>
 		</assign>
 		<assign>
+			<value>wrapper</value>
 			<value>
-				wrapper
-			</value>
-			<value>
-				<call>
-					<function>
+				<new>
+					<type>
 						<template-call>
-							<value>
-								ElementHolder
-							</value>
+							<value>ElementHolder</value>
 							<value>
 								<template-call>
-									<value>
-										ElementHolder
-									</value>
-									<value>
-										Int
-									</value>
+									<value>ElementHolder</value>
+									<value>Int</value>
 								</template-call>
 							</value>
 						</template-call>
-					</function>
+					</type>
 					<parameters/>
-				</call>
+				</new>
 			</value>
 		</assign>
 		<assign>
 			<value>
 				<access>
-					<value>
-						wrapper
-					</value>
-					<value>
-						value
-					</value>
+					<value>wrapper</value>
+					<value>value</value>
 				</access>
 			</value>
-			<value>
-				sample
-			</value>
+			<value>sample</value>
 		</assign>
 		<assign>
-			<value>
-				inst
-			</value>
+			<value>inst</value>
 			<value>
 				<access>
-					<value>
-						wrapper
-					</value>
-					<value>
-						value
-					</value>
+					<value>wrapper</value>
+					<value>value</value>
 				</access>
 			</value>
 		</assign>
 		<assign>
 			<value>
 				<access>
-					<value>
-						sample
-					</value>
-					<value>
-						value
-					</value>
+					<value>sample</value>
+					<value>value</value>
 				</access>
 			</value>
-			<value>
-				7
-			</value>
+			<value>7</value>
 		</assign>
 		<if-block>
 			<if>
@@ -132,28 +86,18 @@
 					<equal>
 						<value>
 							<access>
-								<value>
-									inst
-								</value>
-								<value>
-									value
-								</value>
+								<value>inst</value>
+								<value>value</value>
 							</access>
 						</value>
-						<value>
-							7
-						</value>
+						<value>7</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_0
-							</parameter>
+							<parameter>bp_string_0</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -165,28 +109,18 @@
 					<equal>
 						<value>
 							<access>
-								<value>
-									wrapper
-								</value>
-								<value>
-									value
-								</value>
+								<value>wrapper</value>
+								<value>value</value>
 							</access>
 						</value>
-						<value>
-							sample
-						</value>
+						<value>sample</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_1
-							</parameter>
+							<parameter>bp_string_1</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -196,91 +130,57 @@
 			<if>
 				<condition>
 					<equal>
-						<value>
-							wrapper
-						</value>
-						<value>
-							wrapper
-						</value>
+						<value>wrapper</value>
+						<value>wrapper</value>
 					</equal>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_2
-							</parameter>
+							<parameter>bp_string_2</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
 		</if-block>
 		<class>
-			<name>
-				ElementHolder
-			</name>
+			<name>ElementHolder</name>
 			<code>
 				<template>
-					<parameter>
-						TDataType
-					</parameter>
+					<parameter>TDataType</parameter>
 				</template>
 				<function>
-					<name>
-						init
-					</name>
-					<parameters/>
+					<name>init</name>
 					<code>
 						<declare-type>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										value
-									</value>
+									<value>self</value>
+									<value>value</value>
 								</access>
 							</value>
-							<value>
-								TDataType
-							</value>
+							<value>TDataType</value>
 						</declare-type>
 					</code>
 				</function>
 				<get>
 					<getter>
-						<name>
-							value
-						</name>
-						<parameters/>
+						<name>value</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											a
-										</value>
+										<value>self</value>
+										<value>a</value>
 									</access>
 								</value>
-								<value>
-									5
-								</value>
+								<value>5</value>
 							</assign>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										value
-									</value>
+									<value>self</value>
+									<value>value</value>
 								</access>
 							</return>
 						</code>
@@ -288,34 +188,25 @@
 				</get>
 				<set>
 					<setter>
-						<name>
-							value
-						</name>
 						<parameters>
-							<parameter>
-								element
-							</parameter>
+							<parameter>element</parameter>
 						</parameters>
+						<name>value</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											value
-										</value>
+										<value>self</value>
+										<value>value</value>
 									</access>
 								</value>
-								<value>
-									element
-								</value>
+								<value>element</value>
 							</assign>
 						</code>
 					</setter>
 				</set>
 			</code>
 		</class>
+		<noop/>
 	</code>
 </module>

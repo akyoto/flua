@@ -54,7 +54,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 			self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
 			self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
 			self.endBenchmark()
-		except CompilerException as e:
+		except PostProcessorException as e:
 			errorMessage = e.getMsg()
 			self.bpIDE.msgView.addMessage(errorMessage)
 
@@ -243,7 +243,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
-		print("LFCOUNT: " + str(self.lastFunctionCount))
 		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
 			self.codeEdit.rehighlightFunctionUsage()
 		

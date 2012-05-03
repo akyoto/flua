@@ -64,6 +64,15 @@ class InputCompilerException(CompilerException):
 		sep = "\n" + "-" * (80) + "\n"
 		return sep + "In " + filePath + (" [line %d]" % lineCount) + sep + line + sep + self.getMsg() + sep
 
+class PostProcessorException(CompilerException):
+	
+	def __init__(self, value, filePath):
+		self.setMsg(value)
+		self.filePath = filePath
+		
+	def __str__(self):
+		return self.filePath + ":\n" + self.getMsg()
+
 class OutputCompilerException(CompilerException):
 	
 	def __init__(self, value, outFile):

@@ -412,7 +412,7 @@ def getCalledFuncName(node):
 	funcNameNode = getFuncNameNode(node)
 	
 	caller = ""
-	if isTextNode(funcNameNode):
+	if funcNameNode.nodeType == Node.TEXT_NODE:
 		funcName = funcNameNode.nodeValue
 	else:
 		caller = nodeToBPC(funcNameNode.childNodes[0].childNodes[0])

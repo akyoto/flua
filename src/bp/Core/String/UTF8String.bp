@@ -2,240 +2,158 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Core.String
-			</import>
-			<import>
-				bp.Collection.Array
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Core.String</import>
+			<import>bp.Collection.Array</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				\n
-			</string>
+			<string id="bp_string_0">\n</string>
 		</strings>
 	</header>
 	<code>
 		<class>
-			<name>
-				UTF8String
-			</name>
+			<name>UTF8String</name>
 			<code>
 				<function>
-					<name>
-						init
-					</name>
-					<parameters/>
+					<name>init</name>
 					<code>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										data
-									</value>
+									<value>self</value>
+									<value>data</value>
 								</access>
 							</value>
 							<value>
-								<call>
-									<function>
+								<new>
+									<type>
 										<template-call>
-											<value>
-												Array
-											</value>
-											<value>
-												Byte
-											</value>
+											<value>Array</value>
+											<value>Byte</value>
 										</template-call>
-									</function>
+									</type>
 									<parameters/>
-								</call>
+								</new>
 							</value>
 						</assign>
 					</code>
 				</function>
 				<function>
-					<name>
-						init
-					</name>
 					<parameters>
-						<parameter>
-							stri
-						</parameter>
+						<parameter>stri</parameter>
 					</parameters>
+					<name>init</name>
 					<code>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										data
-									</value>
+									<value>self</value>
+									<value>data</value>
 								</access>
 							</value>
 							<value>
-								<call>
-									<function>
+								<new>
+									<type>
 										<template-call>
-											<value>
-												Array
-											</value>
-											<value>
-												Byte
-											</value>
+											<value>Array</value>
+											<value>Byte</value>
 										</template-call>
-									</function>
+									</type>
 									<parameters/>
-								</call>
+								</new>
 							</value>
 						</assign>
 						<call>
 							<function>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										append
-									</value>
+									<value>self</value>
+									<value>append</value>
 								</access>
 							</function>
 							<parameters>
-								<parameter>
-									stri
-								</parameter>
+								<parameter>stri</parameter>
 							</parameters>
 						</call>
 					</code>
 				</function>
 				<function>
-					<name>
-						init
-					</name>
 					<parameters>
 						<parameter>
 							<declare-type>
-								<value>
-									bytes
-								</value>
+								<value>bytes</value>
 								<value>
 									<template-call>
-										<value>
-											Array
-										</value>
-										<value>
-											Byte
-										</value>
+										<value>Array</value>
+										<value>Byte</value>
 									</template-call>
 								</value>
 							</declare-type>
 						</parameter>
 					</parameters>
+					<name>init</name>
 					<code>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										data
-									</value>
+									<value>self</value>
+									<value>data</value>
 								</access>
 							</value>
 							<value>
-								<call>
-									<function>
+								<new>
+									<type>
 										<template-call>
-											<value>
-												Array
-											</value>
-											<value>
-												Byte
-											</value>
+											<value>Array</value>
+											<value>Byte</value>
 										</template-call>
-									</function>
+									</type>
 									<parameters/>
-								</call>
+								</new>
 							</value>
 						</assign>
 						<call>
 							<function>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										append
-									</value>
+									<value>self</value>
+									<value>append</value>
 								</access>
 							</function>
 							<parameters>
-								<parameter>
-									bytes
-								</parameter>
+								<parameter>bytes</parameter>
 							</parameters>
 						</call>
 					</code>
 				</function>
 				<function>
-					<name>
-						print
-					</name>
-					<parameters/>
+					<name>print</name>
 					<code>
 						<for>
-							<iterator>
-								i
-							</iterator>
-							<from>
-								0
-							</from>
+							<iterator>i</iterator>
+							<from>0</from>
 							<until>
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												data
-											</value>
+											<value>self</value>
+											<value>data</value>
 										</access>
 									</value>
-									<value>
-										length
-									</value>
+									<value>length</value>
 								</access>
 							</until>
 							<code>
 								<call>
-									<function>
-										bp_print
-									</function>
+									<function>bp_print</function>
 									<parameters>
 										<parameter>
 											<index>
 												<value>
 													<access>
-														<value>
-															self
-														</value>
-														<value>
-															data
-														</value>
+														<value>self</value>
+														<value>data</value>
 													</access>
 												</value>
-												<value>
-													i
-												</value>
+												<value>i</value>
 											</index>
 										</parameter>
 									</parameters>
@@ -243,42 +161,26 @@
 							</code>
 						</for>
 						<call>
-							<function>
-								bp_print
-							</function>
+							<function>bp_print</function>
 							<parameters>
-								<parameter>
-									bp_string_0
-								</parameter>
+								<parameter>bp_string_0</parameter>
 							</parameters>
 						</call>
 					</code>
 				</function>
 				<function>
-					<name>
-						append
-					</name>
 					<parameters>
-						<parameter>
-							stri
-						</parameter>
+						<parameter>stri</parameter>
 					</parameters>
+					<name>append</name>
 					<code>
 						<for>
-							<iterator>
-								i
-							</iterator>
-							<from>
-								0
-							</from>
+							<iterator>i</iterator>
+							<from>0</from>
 							<until>
 								<access>
-									<value>
-										stri
-									</value>
-									<value>
-										lengthInBytes
-									</value>
+									<value>stri</value>
+									<value>lengthInBytes</value>
 								</access>
 							</until>
 							<code>
@@ -287,17 +189,11 @@
 										<access>
 											<value>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														data
-													</value>
+													<value>self</value>
+													<value>data</value>
 												</access>
 											</value>
-											<value>
-												add
-											</value>
+											<value>add</value>
 										</access>
 									</function>
 									<parameters>
@@ -305,17 +201,11 @@
 											<index>
 												<value>
 													<access>
-														<value>
-															stri
-														</value>
-														<value>
-															data
-														</value>
+														<value>stri</value>
+														<value>data</value>
 													</access>
 												</value>
-												<value>
-													i
-												</value>
+												<value>i</value>
 											</index>
 										</parameter>
 									</parameters>
@@ -325,44 +215,28 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						append
-					</name>
 					<parameters>
 						<parameter>
 							<declare-type>
-								<value>
-									bytes
-								</value>
+								<value>bytes</value>
 								<value>
 									<template-call>
-										<value>
-											Array
-										</value>
-										<value>
-											Byte
-										</value>
+										<value>Array</value>
+										<value>Byte</value>
 									</template-call>
 								</value>
 							</declare-type>
 						</parameter>
 					</parameters>
+					<name>append</name>
 					<code>
 						<for>
-							<iterator>
-								i
-							</iterator>
-							<from>
-								0
-							</from>
+							<iterator>i</iterator>
+							<from>0</from>
 							<until>
 								<access>
-									<value>
-										bytes
-									</value>
-									<value>
-										length
-									</value>
+									<value>bytes</value>
+									<value>length</value>
 								</access>
 							</until>
 							<code>
@@ -371,28 +245,18 @@
 										<access>
 											<value>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														data
-													</value>
+													<value>self</value>
+													<value>data</value>
 												</access>
 											</value>
-											<value>
-												add
-											</value>
+											<value>add</value>
 										</access>
 									</function>
 									<parameters>
 										<parameter>
 											<index>
-												<value>
-													bytes
-												</value>
-												<value>
-													i
-												</value>
+												<value>bytes</value>
+												<value>i</value>
 											</index>
 										</parameter>
 									</parameters>
@@ -402,25 +266,16 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						append
-					</name>
 					<parameters>
 						<parameter>
 							<declare-type>
-								<value>
-									stri
-								</value>
+								<value>stri</value>
 								<value>
 									<unmanaged>
 										<value>
 											<template-call>
-												<value>
-													MemPointer
-												</value>
-												<value>
-													ConstChar
-												</value>
+												<value>MemPointer</value>
+												<value>ConstChar</value>
 											</template-call>
 										</value>
 									</unmanaged>
@@ -428,62 +283,41 @@
 							</declare-type>
 						</parameter>
 					</parameters>
+					<name>append</name>
 					<code>
 						<assign>
-							<value>
-								len
-							</value>
+							<value>len</value>
 							<value>
 								<call>
-									<function>
-										bp_strlen
-									</function>
+									<function>bp_strlen</function>
 									<parameters>
-										<parameter>
-											stri
-										</parameter>
+										<parameter>stri</parameter>
 									</parameters>
 								</call>
 							</value>
 						</assign>
 						<for>
-							<iterator>
-								i
-							</iterator>
-							<from>
-								0
-							</from>
-							<until>
-								len
-							</until>
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>len</until>
 							<code>
 								<call>
 									<function>
 										<access>
 											<value>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														data
-													</value>
+													<value>self</value>
+													<value>data</value>
 												</access>
 											</value>
-											<value>
-												add
-											</value>
+											<value>add</value>
 										</access>
 									</function>
 									<parameters>
 										<parameter>
 											<index>
-												<value>
-													stri
-												</value>
-												<value>
-													i
-												</value>
+												<value>stri</value>
+												<value>i</value>
 											</index>
 										</parameter>
 									</parameters>
@@ -493,27 +327,18 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						reverse
-					</name>
-					<parameters/>
+					<name>reverse</name>
 					<code>
 						<call>
 							<function>
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												data
-											</value>
+											<value>self</value>
+											<value>data</value>
 										</access>
 									</value>
-									<value>
-										reverse
-									</value>
+									<value>reverse</value>
 								</access>
 							</function>
 							<parameters/>
@@ -522,39 +347,29 @@
 				</function>
 				<operators>
 					<operator>
-						<name>
-							+
-						</name>
 						<parameters>
 							<parameter>
 								<declare-type>
-									<value>
-										stri
-									</value>
+									<value>stri</value>
 									<value>
 										<unmanaged>
-											<value>
-												UTF8String
-											</value>
+											<value>UTF8String</value>
 										</unmanaged>
 									</value>
 								</declare-type>
 							</parameter>
 						</parameters>
+						<name>+</name>
 						<code>
 							<assign>
-								<value>
-									cpy
-								</value>
+								<value>cpy</value>
 								<value>
 									<unmanaged>
 										<value>
-											<call>
-												<function>
-													UTF8String
-												</function>
+											<new>
+												<type>UTF8String</type>
 												<parameters/>
-											</call>
+											</new>
 										</value>
 									</unmanaged>
 								</value>
@@ -562,23 +377,15 @@
 							<call>
 								<function>
 									<access>
-										<value>
-											cpy
-										</value>
-										<value>
-											append
-										</value>
+										<value>cpy</value>
+										<value>append</value>
 									</access>
 								</function>
 								<parameters>
 									<parameter>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												data
-											</value>
+											<value>self</value>
+											<value>data</value>
 										</access>
 									</parameter>
 								</parameters>
@@ -586,45 +393,28 @@
 							<call>
 								<function>
 									<access>
-										<value>
-											cpy
-										</value>
-										<value>
-											append
-										</value>
+										<value>cpy</value>
+										<value>append</value>
 									</access>
 								</function>
 								<parameters>
-									<parameter>
-										stri
-									</parameter>
+									<parameter>stri</parameter>
 								</parameters>
 							</call>
-							<return>
-								cpy
-							</return>
+							<return>cpy</return>
 						</code>
 					</operator>
 					<operator>
-						<name>
-							=
-						</name>
 						<parameters>
 							<parameter>
 								<declare-type>
-									<value>
-										stri
-									</value>
+									<value>stri</value>
 									<value>
 										<unmanaged>
 											<value>
 												<template-call>
-													<value>
-														MemPointer
-													</value>
-													<value>
-														ConstChar
-													</value>
+													<value>MemPointer</value>
+													<value>ConstChar</value>
 												</template-call>
 											</value>
 										</unmanaged>
@@ -632,49 +422,36 @@
 								</declare-type>
 							</parameter>
 						</parameters>
+						<name>=</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											data
-										</value>
+										<value>self</value>
+										<value>data</value>
 									</access>
 								</value>
 								<value>
-									<call>
-										<function>
+									<new>
+										<type>
 											<template-call>
-												<value>
-													Array
-												</value>
-												<value>
-													Byte
-												</value>
+												<value>Array</value>
+												<value>Byte</value>
 											</template-call>
-										</function>
+										</type>
 										<parameters/>
-									</call>
+									</new>
 								</value>
 							</assign>
 							<call>
 								<function>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											append
-										</value>
+										<value>self</value>
+										<value>append</value>
 									</access>
 								</function>
 								<parameters>
-									<parameter>
-										stri
-									</parameter>
+									<parameter>stri</parameter>
 								</parameters>
 							</call>
 						</code>
@@ -682,128 +459,78 @@
 				</operators>
 				<get>
 					<getter>
-						<name>
-							data
-						</name>
-						<parameters/>
+						<name>data</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										data
-									</value>
+									<value>self</value>
+									<value>data</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							length
-						</name>
-						<parameters/>
+						<name>length</name>
 						<code>
 							<ensure>
 								<greater-or-equal>
-									<value>
-										result
-									</value>
-									<value>
-										0
-									</value>
+									<value>result</value>
+									<value>0</value>
 								</greater-or-equal>
 							</ensure>
 							<assign>
 								<value>
 									<declare-type>
-										<value>
-											count
-										</value>
-										<value>
-											Size
-										</value>
+										<value>count</value>
+										<value>Size</value>
 									</declare-type>
 								</value>
-								<value>
-									0
-								</value>
+								<value>0</value>
 							</assign>
 							<assign>
-								<value>
-									len
-								</value>
+								<value>len</value>
 								<value>
 									<access>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													data
-												</value>
+												<value>self</value>
+												<value>data</value>
 											</access>
 										</value>
-										<value>
-											length
-										</value>
+										<value>length</value>
 									</access>
 								</value>
 							</assign>
 							<for>
-								<iterator>
-									i
-								</iterator>
-								<from>
-									0
-								</from>
-								<until>
-									len
-								</until>
+								<iterator>i</iterator>
+								<from>0</from>
+								<until>len</until>
 								<code>
 									<assign>
-										<value>
-											lead
-										</value>
+										<value>lead</value>
 										<value>
 											<index>
 												<value>
 													<access>
-														<value>
-															self
-														</value>
-														<value>
-															data
-														</value>
+														<value>self</value>
+														<value>data</value>
 													</access>
 												</value>
-												<value>
-													i
-												</value>
+												<value>i</value>
 											</index>
 										</value>
 									</assign>
 									<assign-add>
-										<value>
-											count
-										</value>
-										<value>
-											1
-										</value>
+										<value>count</value>
+										<value>1</value>
 									</assign-add>
 									<if-block>
 										<if>
 											<condition>
 												<call>
-													<function>
-														isUTF8Lead1
-													</function>
+													<function>isUTF8Lead1</function>
 													<parameters>
-														<parameter>
-															lead
-														</parameter>
+														<parameter>lead</parameter>
 													</parameters>
 												</call>
 											</condition>
@@ -814,114 +541,75 @@
 										<else-if>
 											<condition>
 												<call>
-													<function>
-														isUTF8Lead2
-													</function>
+													<function>isUTF8Lead2</function>
 													<parameters>
-														<parameter>
-															lead
-														</parameter>
+														<parameter>lead</parameter>
 													</parameters>
 												</call>
 											</condition>
 											<code>
 												<assign-add>
-													<value>
-														i
-													</value>
-													<value>
-														1
-													</value>
+													<value>i</value>
+													<value>1</value>
 												</assign-add>
 											</code>
 										</else-if>
 										<else-if>
 											<condition>
 												<call>
-													<function>
-														isUTF8Lead3
-													</function>
+													<function>isUTF8Lead3</function>
 													<parameters>
-														<parameter>
-															lead
-														</parameter>
+														<parameter>lead</parameter>
 													</parameters>
 												</call>
 											</condition>
 											<code>
 												<assign-add>
-													<value>
-														i
-													</value>
-													<value>
-														2
-													</value>
+													<value>i</value>
+													<value>2</value>
 												</assign-add>
 											</code>
 										</else-if>
 										<else-if>
 											<condition>
 												<call>
-													<function>
-														isUTF8Lead4
-													</function>
+													<function>isUTF8Lead4</function>
 													<parameters>
-														<parameter>
-															lead
-														</parameter>
+														<parameter>lead</parameter>
 													</parameters>
 												</call>
 											</condition>
 											<code>
 												<assign-add>
-													<value>
-														i
-													</value>
-													<value>
-														3
-													</value>
+													<value>i</value>
+													<value>3</value>
 												</assign-add>
 											</code>
 										</else-if>
 									</if-block>
 								</code>
 							</for>
-							<return>
-								count
-							</return>
+							<return>count</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							lengthInBytes
-						</name>
-						<parameters/>
+						<name>lengthInBytes</name>
 						<code>
 							<ensure>
 								<greater-or-equal>
-									<value>
-										result
-									</value>
-									<value>
-										0
-									</value>
+									<value>result</value>
+									<value>0</value>
 								</greater-or-equal>
 							</ensure>
 							<return>
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												data
-											</value>
+											<value>self</value>
+											<value>data</value>
 										</access>
 									</value>
-									<value>
-										length
-									</value>
+									<value>length</value>
 								</access>
 							</return>
 						</code>
@@ -933,33 +621,22 @@
 							<unmanaged>
 								<value>
 									<template-call>
-										<value>
-											MemPointer
-										</value>
-										<value>
-											Byte
-										</value>
+										<value>MemPointer</value>
+										<value>Byte</value>
 									</template-call>
 								</value>
 							</unmanaged>
 						</to>
-						<parameters/>
 						<code>
 							<return>
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												data
-											</value>
+											<value>self</value>
+											<value>data</value>
 										</access>
 									</value>
-									<value>
-										start
-									</value>
+									<value>start</value>
 								</access>
 							</return>
 						</code>
@@ -968,149 +645,102 @@
 			</code>
 		</class>
 		<function>
-			<name>
-				isUTF8Lead1
-			</name>
 			<parameters>
-				<parameter>
-					lead
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
+			<name>isUTF8Lead1</name>
 			<code>
 				<return>
 					<less>
-						<value>
-							lead
-						</value>
-						<value>
-							0x80
-						</value>
+						<value>lead</value>
+						<value>0x80</value>
 					</less>
 				</return>
 			</code>
 		</function>
 		<function>
-			<name>
-				isUTF8Lead2
-			</name>
 			<parameters>
-				<parameter>
-					lead
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
+			<name>isUTF8Lead2</name>
 			<code>
 				<return>
 					<equal>
 						<value>
 							<shift-right>
-								<value>
-									lead
-								</value>
-								<value>
-									5
-								</value>
+								<value>lead</value>
+								<value>5</value>
 							</shift-right>
 						</value>
-						<value>
-							0x6
-						</value>
+						<value>0x6</value>
 					</equal>
 				</return>
 			</code>
 		</function>
 		<function>
-			<name>
-				isUTF8Lead3
-			</name>
 			<parameters>
-				<parameter>
-					lead
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
+			<name>isUTF8Lead3</name>
 			<code>
 				<return>
 					<equal>
 						<value>
 							<shift-right>
-								<value>
-									lead
-								</value>
-								<value>
-									4
-								</value>
+								<value>lead</value>
+								<value>4</value>
 							</shift-right>
 						</value>
-						<value>
-							0xE
-						</value>
+						<value>0xE</value>
 					</equal>
 				</return>
 			</code>
 		</function>
 		<function>
-			<name>
-				isUTF8Lead4
-			</name>
 			<parameters>
-				<parameter>
-					lead
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
+			<name>isUTF8Lead4</name>
 			<code>
 				<return>
 					<equal>
 						<value>
 							<shift-right>
-								<value>
-									lead
-								</value>
-								<value>
-									3
-								</value>
+								<value>lead</value>
+								<value>3</value>
 							</shift-right>
 						</value>
-						<value>
-							0x1E
-						</value>
+						<value>0x1E</value>
 					</equal>
 				</return>
 			</code>
 		</function>
 		<function>
-			<name>
-				print
-			</name>
 			<parameters>
 				<parameter>
 					<declare-type>
-						<value>
-							stri
-						</value>
+						<value>stri</value>
 						<value>
 							<unmanaged>
-								<value>
-									UTF8String
-								</value>
+								<value>UTF8String</value>
 							</unmanaged>
 						</value>
 					</declare-type>
 				</parameter>
 			</parameters>
+			<name>print</name>
 			<code>
 				<call>
 					<function>
 						<access>
-							<value>
-								stri
-							</value>
-							<value>
-								print
-							</value>
+							<value>stri</value>
+							<value>print</value>
 						</access>
 					</function>
 					<parameters/>
 				</call>
 			</code>
 		</function>
+		<noop/>
 	</code>
 </module>

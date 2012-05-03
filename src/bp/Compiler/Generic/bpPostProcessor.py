@@ -457,26 +457,29 @@ class BPPostProcessor:
 		self.process(root, filePath)
 		
 	def process(self, root, filePath = ""):
-		bpOut = BPPostProcessorFile(self, root, filePath)
-		
-		if filePath:
-			if not self.compiledFiles:
-				self.setMainFile(filePath)
-			self.compiledFiles[filePath] = bpOut
-			self.compiledFilesList.append(bpOut)
-		
-		# Get a list of imported files
-		bpOut.updateImportedFiles()
-		
-		# Process imported files
-		for importedFile in bpOut.getImportedFiles():
-			if (not importedFile in self.compiledFiles):
-				self.processFile(importedFile)
-		
-		# Process the actual file
-		bpOut.processXML()
-		
-		return bpOut
+		try:
+			bpOut = BPPostProcessorFile(self, root, filePath)
+			
+			if filePath:
+				if not self.compiledFiles:
+					self.setMainFile(filePath)
+				self.compiledFiles[filePath] = bpOut
+				self.compiledFilesList.append(bpOut)
+			
+			# Get a list of imported files
+			bpOut.updateImportedFiles()
+			
+			# Process imported files
+			for importedFile in bpOut.getImportedFiles():
+				if (not importedFile in self.compiledFiles):
+					self.processFile(importedFile)
+			
+			# Process the actual file
+			bpOut.processXML()
+			
+			return bpOut
+		except CompilerException as e:
+			raise PostProcessorException(str(e), filePath)
 
 class BPPostProcessorFile:
 	
