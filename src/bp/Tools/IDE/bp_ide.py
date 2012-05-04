@@ -487,6 +487,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		if filePath:
 			self.codeEdit.save(filePath)
+			
+			# If it was saved in the module directory, reload the view
 			if getModuleDir() in fixPath(filePath):
 				self.moduleView.reloadModuleDirectory()
 		

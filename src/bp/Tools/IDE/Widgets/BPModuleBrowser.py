@@ -16,9 +16,9 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.path = ""
 		self.realPath = ""
 		self.name = name
-		self.icon = QtGui.QIcon("images/tango/mimetypes/package-x-generic.png")
 		self.subModules = dict()
 		self.setEditable(False)
+		self.isModule = False
 		self.setData(self, QtCore.Qt.UserRole + 1)
 		#self.setData(self.icon, QtCore.Qt.DecorationRole)
 		
@@ -36,6 +36,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDirLen = len(self.modDir)
 		self.setExpandsOnDoubleClick(False)
 		self.setAnimated(True)
+		
+		self.brushSimpleFolder = QtGui.QBrush(QtGui.QColor("#adadad"))
+		self.brushModule = QtGui.QBrush(QtGui.QColor("#272727"))
 		
 		self.doubleClicked.connect(self.onItemClick)
 		self.setHeaderHidden(True)
@@ -90,7 +93,23 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if realPath:
 			self.bpIDE.openFile(realPath)
 		else:
-			self.setExpanded(item, 1 - self.isExpanded(item))
+			# TODO: Go down until we meet a module
+			if not self.isExpanded(item):
+				self.expandUntilModuleFound(item, modItem)
+			else:
+				self.setExpanded(item, False)
+		
+	def expandUntilModuleFound(self, fromIndex, fromItem):
+		if not fromItem.isModule:
+			childrenCount = fromItem.rowCount()
+			for i in range(childrenCount):
+				childIndex = fromIndex.child(i, 0)
+				childItem = childIndex.data(QtCore.Qt.UserRole + 1)
+				if childItem.isModule:
+					break
+				else:
+					self.expandUntilModuleFound(childIndex, childItem)
+		self.setExpanded(fromIndex, True)
 		
 	def buildTree(self):
 		for namespace, mod in sorted(self.modules.subModules.items()):
@@ -102,12 +121,22 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		else:
 			mod.setModPath(mod.name)
 		
+		mod.setForeground(self.brushSimpleFolder)
+		
 		for namespace, subMod in sorted(mod.subModules.items()):
 			self.buildTreeRec(subMod, mod, mod.path)
 		
 		parentItem = parent.data()
 		if parentItem and parentItem.name == mod.name:
+			#parent.setIcon(QtGui.QIcon("images/icons/mimetypes/package-x-generic.png"))
+			parent.isModule = True
+			parent.setForeground(self.brushModule)
 			return
+		
+		if not mod.hasChildren():
+			mod.isModule = True
+			mod.setForeground(self.brushModule)
+		
 		parent.appendRow(mod)
 		
 	def updateView(self):
