@@ -83,7 +83,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		self.setMonospaceFont(QtGui.QFont("monospace", 9))
 		self.setStandardFont(QtGui.QFont("SansSerif", 9))
-		#self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
+		self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		
 	def setMonospaceFont(self, font):
 		# Widgets with monospace font

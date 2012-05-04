@@ -256,18 +256,22 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				# Add to current code node
 				#print(instruction)
 				# Last node
-				if child != node.childNodes[-1]:
-					code += tabs + instruction + newline
-				else:
-					if instruction[-1].isspace():
-						code += tabs + instruction
-					else:
-						code += tabs + instruction + newline
+				
+				code += tabs + instruction + newline
+				
+				#if child != node.childNodes[-1]:
+				#	code += tabs + instruction + newline
+				#else:
+				#	if instruction[-1].isspace():
+				#		code += tabs + instruction + newline
+				#	else:
+				#		code += tabs + instruction + newline
 				
 				#previousTagName = child.tagName
 		
-		if node.parentNode.tagName in functionNodeNames:
-			code += "\t" * (tabLevel - 1)
+		code += "\t" * (tabLevel - 1)
+		#if node.parentNode.tagName in functionNodeNames:
+		#	code += "\t" * (tabLevel - 1)
 		
 		#code += 
 		if nodeName == "extern":
