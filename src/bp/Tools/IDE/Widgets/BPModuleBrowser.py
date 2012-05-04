@@ -43,6 +43,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		self.startBenchmark("Load module directory")
 		for root, subFolders, files in os.walk(modDir):
+			if fixPath(root) == self.bpIDE.tmpPath:
+				continue
 			for file in files:
 				if file.endswith(".bp"):
 					lastDir = fixPath(root).split("/")[-2]

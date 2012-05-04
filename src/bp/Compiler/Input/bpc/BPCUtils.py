@@ -98,6 +98,14 @@ elementsNoNewline = [
 	"try", "catch", "case", "import"
 ]
 
+functionNodeNames = {
+	"function",
+	"operator",
+	"setter",
+	"getter",
+	"cast-definition"
+}
+
 ####################################################################
 # Classes
 ####################################################################
@@ -200,7 +208,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if parameters:
 				return "%s %s" % (funcName, parameters)
 			else:
-				return "%s" % (funcName)
+				return "%s()" % (funcName)
 		else:
 			return "%s(%s)" % (funcName, parameters)
 	# Parameters
@@ -217,10 +225,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if nodeName == "extern":
 			tabLevel += 1
 		
-		code = ""
 		tabs = ""
 		if nodeName == "code" or nodeName == "extern" :
 			tabs = "\t" * tabLevel
+		
+		code = ""
+		#previousTagName = ""
 		
 		for child in node.childNodes:
 			# Save nodes in array
@@ -234,12 +244,32 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				newline = "\n"
 				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
 					instruction = instruction[1:-1]
+				
+				# No new line
 				if child.tagName in elementsNoNewline:
 					newline = ""
 				
-				code += tabs + instruction + newline
+				#prefix = ""
+				#if previousTagName and child.tagName != previousTagName and not (previousTagName.startswith("assign") and child.tagName.startswith("assign")):
+				#	prefix = tabs + "\n"
+				
+				# Add to current code node
+				#print(instruction)
+				# Last node
+				if child != node.childNodes[-1]:
+					code += tabs + instruction + newline
+				else:
+					if instruction[-1].isspace():
+						code += tabs + instruction
+					else:
+						code += tabs + instruction + newline
+				
+				#previousTagName = child.tagName
 		
-		code += "\t" * (tabLevel - 1)
+		if node.parentNode.tagName in functionNodeNames:
+			code += "\t" * (tabLevel - 1)
+		
+		#code += 
 		if nodeName == "extern":
 			return "extern\n" + code
 		#elif nodeName == "switch":

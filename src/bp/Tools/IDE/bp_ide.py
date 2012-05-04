@@ -72,20 +72,46 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
 		self.intelliEnabled = False
+		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
+		self.docks = []
 		
 		self.threaded = True
 		
 		self.initTheme()
 		self.initUI()
 		self.initCompiler()
+		
+		self.setMonospaceFont(QtGui.QFont("monospace", 9))
+		self.setStandardFont(QtGui.QFont("SansSerif", 9))
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bp")
+		
+	def setMonospaceFont(self, font):
+		# Widgets with monospace font
+		self.codeEdit.setFont(font)
+		self.xmlView.setFont(font)
+		self.dependencyView.setFont(font)
+		
+	def setStandardFont(self, font):
+		QtGui.QToolTip.setFont(font)
+		
+		# Widgets with normal font
+		self.moduleView.setFont(font)
+		self.msgView.setFont(font)
+		
+		# All docks
+		for dock in self.docks:
+			dock.setFont(font)
+		
+	def setMenuFont(self, font):
+		self.menuBar.setFont(font)
+		for menuItem in self.menuBar.children():
+			menuItem.setFont(font)
 		
 	def initUI(self):
 		uic.loadUi("blitzprog-ide.ui", self)
 		self.initToolBar()
 		
-		# Font
-		QtGui.QToolTip.setFont(QtGui.QFont("SansSerif", 10))
+		# StatusBar
 		self.statusBar().setFont(QtGui.QFont("SansSerif", 7))
 		
 		# Window
@@ -371,7 +397,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView.clear()
 		
 		# Let's rock!
-		self.startBenchmark("CodeEdit (interpret file)")
+		self.startBenchmark("NodeToBPC (XML to BPC)")
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
@@ -468,7 +494,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		if not path:
 			return True
 		
-		return extractDir(path) == fixPath(os.path.abspath("./tmp/") + "/")
+		return extractDir(path) == self.tmpPath
 		
 	def goToLineEnd(self, lineNum):
 		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
@@ -511,6 +537,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.addDockWidget(area, newDock)
 		
 		self.connectVisibilityToViewMenu(name, newDock)
+		self.docks.append(newDock)
 		
 		return newDock
 		

@@ -8,7 +8,7 @@ class BPScribbleWidget(QtGui.QPlainTextEdit):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		self.setFont(QtGui.QFont("monospace", 10))
+		self.setFont(QtGui.QFont("monospace", 9))
 		self.filePath = filePath
 		self.loadScribble()
 		

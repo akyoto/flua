@@ -7,7 +7,6 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 		self.bpIDE = parent
 		self.node = None
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		self.setFont(QtGui.QFont("monospace", 10))
 
 	def setNode(self, newNode):
 		self.node = newNode

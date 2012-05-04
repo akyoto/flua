@@ -113,8 +113,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE = bpIDE
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
-		self.setFont(QtGui.QFont("monospace", 10))
-		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
 		
@@ -161,6 +159,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if 0:
 			self.initLineNumberArea()
 	
+	def setFont(self, font):
+		super().setFont(font)
+		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
+	
 	def setCompleter(self, completer):
 		if self.completer:
 			self.disconnect(self.completer, 0, self, 0)
@@ -177,7 +179,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		tc = self.textCursor()
 		
 		if completion in self.completer.bpcModel.shortCuts:
-			print("yay")
 			tc.movePosition(QtGui.QTextCursor.Left)
 			tc.movePosition(QtGui.QTextCursor.StartOfWord)
 			tc.select(QtGui.QTextCursor.WordUnderCursor)
