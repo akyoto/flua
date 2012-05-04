@@ -103,6 +103,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		# Status bar
 		self.lineNumberLabel = QtGui.QLabel()
 		self.moduleInfoLabel = QtGui.QLabel()
+		self.evalInfoLabel = QtGui.QLabel()
 		self.lineNumberLabel.setMinimumWidth(100)
 		self.progressBar = QtGui.QProgressBar(self.statusBar)
 		self.progressBar.setTextVisible(False)
@@ -115,8 +116,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		#self.statusBar.addPermanentWidget(spacer1)
 		self.statusBar.addWidget(self.lineNumberLabel)
-		#self.statusBar.addSeparator()
 		self.statusBar.addWidget(self.moduleInfoLabel)
+		self.statusBar.addWidget(self.evalInfoLabel)
 		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		#self.statusBar.setLayout(hBoxLayout)
 		
@@ -285,8 +286,19 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			funcCount = 0
 			if self.processorOutFile:
 				funcCount = self.processorOutFile.funcCount
-			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded" % (funcCount, self.processor.funcCount))
+			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
+			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded" % (funcCount, self.processor.funcCount))
+			
+			#expr = self.codeEdit.getCurrentLine()
+			#if expr:
+			#	try:
+			#		evalExpr = eval(expr)
+			#		if evalExpr:
+			#			self.evalInfoLabel.setText("%s => %s" % (expr, evalExpr))
+			#	except:
+			#		self.evalInfoLabel.setText("")
+			
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line

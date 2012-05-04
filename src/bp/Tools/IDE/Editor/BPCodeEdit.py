@@ -281,6 +281,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			line = block.text()
 			tabLevel = countTabs(line)
 			
+			isAtEndOfLine = (block.position() + len(line) == pos)
+			
 			nodeName = ""
 			if lineInfo:
 				node = lineInfo.node
@@ -303,7 +305,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				keyword = pureLine
 				wasFullLine = True
 			
-			if keyword:
+			if keyword and isAtEndOfLine:
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1
