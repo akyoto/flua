@@ -98,13 +98,13 @@ elementsNoNewline = [
 	"try", "catch", "case", "import"
 ]
 
-functionNodeNames = {
-	"function",
-	"operator",
-	"setter",
-	"getter",
-	"cast-definition"
-}
+#functionNodeNames = {
+#	"function",
+#	"operator",
+#	"setter",
+#	"getter",
+#	"cast-definition"
+#}
 
 ####################################################################
 # Classes
@@ -226,11 +226,13 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			tabLevel += 1
 		
 		tabs = ""
-		if nodeName == "code" or nodeName == "extern" :
+		if nodeName == "code" or nodeName == "extern":
 			tabs = "\t" * tabLevel
 		
-		code = ""
-		#previousTagName = ""
+		previousLineType1 = 0
+		previousLineType2 = 0
+		
+		codeParts = []
 		
 		for child in node.childNodes:
 			# Save nodes in array
@@ -249,29 +251,44 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				if child.tagName in elementsNoNewline:
 					newline = ""
 				
-				#prefix = ""
-				#if previousTagName and child.tagName != previousTagName and not (previousTagName.startswith("assign") and child.tagName.startswith("assign")):
+				# Add new line after a different type of block
+				if child.tagName.startswith("assign"):
+					currentLineType = 1
+				elif child.tagName == "call":
+					currentLineType = 2
+				else:
+					currentLineType = 3
+				
+				prefix = ""
+				# TODO: Calculate prefix
+				#if previousLineType1 and previousLineType2 and currentLineType != previousLineType1 and previousLineType1 == previousLineType2:
+				#if previousLineType1 and currentLineType != previousLineType1:
 				#	prefix = tabs + "\n"
 				
 				# Add to current code node
 				#print(instruction)
 				# Last node
 				
-				code += tabs + instruction + newline
+				#code += tabs + instruction + newline
+				codeParts.append(prefix)
+				codeParts.append(tabs)
 				
-				#if child != node.childNodes[-1]:
-				#	code += tabs + instruction + newline
-				#else:
-				#	if instruction[-1].isspace():
-				#		code += tabs + instruction + newline
-				#	else:
-				#		code += tabs + instruction + newline
+				if child != node.childNodes[-1]:
+					codeParts.append(instruction)
+				else:
+					if instruction[-1].isspace():
+						codeParts.append(instruction.rstrip())
+					else:
+						codeParts.append(instruction)
 				
-				#previousTagName = child.tagName
+				if newline:
+					codeParts.append(newline)
+				
+				previousLineType2 = previousLineType1
+				previousLineType1 = currentLineType
 		
-		code += "\t" * (tabLevel - 1)
-		#if node.parentNode.tagName in functionNodeNames:
-		#	code += "\t" * (tabLevel - 1)
+		codeParts.append("\t" * (tabLevel - 1))
+		code = ''.join(codeParts)
 		
 		#code += 
 		if nodeName == "extern":
