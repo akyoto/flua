@@ -480,10 +480,15 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	def openFile(self, path):
 		fileName = path
 		if not fileName:
+			if self.isTmpFile():
+				openInDirectory = getModuleDir()
+			else:
+				openInDirectory = extractDir(self.getFilePath())
+			
 			fileName = QtGui.QFileDialog.getOpenFileName(
 				parent=self,
 				caption="Open File",
-				directory=getModuleDir(),
+				directory=openInDirectory,
 				filter="bp Files (*.bp);;bpc Files (*.bpc)")
 		
 		if fileName.endswith(".bp"):
@@ -504,10 +509,15 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.codeEdit.save(filePath)
 	
 	def saveAsFile(self):
+		if self.isTmpFile():
+			saveInDirectory = getModuleDir()
+		else:
+			saveInDirectory = extractDir(self.getFilePath())
+		
 		filePath = QtGui.QFileDialog.getSaveFileName(
 				parent=self,
 				caption="Save File",
-				directory=getModuleDir(),
+				directory=saveInDirectory,
 				filter="bp Files (*.bp)")
 		
 		if filePath:

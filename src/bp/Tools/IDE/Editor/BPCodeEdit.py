@@ -14,6 +14,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.bpcFile = None
 		self.finished.connect(self.codeEdit.compilerFinished)
 		self.finished.connect(self.bpIDE.moduleView.updateView)
+		self.finished.connect(self.bpIDE.msgView.updateView)
 		
 	def setDocument(self, doc):
 		self.qdoc = doc
@@ -213,6 +214,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		importedMods = []
 		lines = self.toPlainText().split("\n")
 		for line in lines:
+			line = line.strip()
 			if line.startswith("import") and len(line) >= 8 and line[6].isspace():
 				mod = line[7:].strip()
 				if mod:
@@ -440,8 +442,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		elif self.futureText:
 			self.setPlainText(self.futureText)
 			self.futureText = ""
-		
-		self.bpIDE.msgView.updateView()
 		
 		#self.disableUpdatesFlag = False
 		

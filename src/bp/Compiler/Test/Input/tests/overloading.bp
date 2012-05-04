@@ -2,24 +2,41 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
+			<import>
+				bp.Core
+			</import>
+			<import>
+				bp.Math.Geometry
+			</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Function overloading NOT working!</string>
-			<string id="bp_string_1">Function overloading working!</string>
+			<string id="bp_string_0">
+				Function overloading NOT working!
+			</string>
+			<string id="bp_string_1">
+				Function overloading working!
+			</string>
 		</strings>
 	</header>
 	<code>
 		<function>
 			<parameters>
-				<parameter>x</parameter>
+				<parameter>
+					x
+				</parameter>
 			</parameters>
-			<name>testFunc</name>
+			<name>
+				testFunc
+			</name>
 			<code>
 				<call>
-					<function>print</function>
+					<function>
+						print
+					</function>
 					<parameters>
-						<parameter>bp_string_0</parameter>
+						<parameter>
+							bp_string_0
+						</parameter>
 					</parameters>
 				</call>
 			</code>
@@ -28,37 +45,59 @@
 			<parameters>
 				<parameter>
 					<declare-type>
-						<value>x</value>
-						<value>Point</value>
+						<value>
+							x
+						</value>
+						<value>
+							Point
+						</value>
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>testFunc</name>
+			<name>
+				testFunc
+			</name>
 			<code>
 				<call>
-					<function>print</function>
+					<function>
+						print
+					</function>
 					<parameters>
-						<parameter>bp_string_1</parameter>
+						<parameter>
+							bp_string_1
+						</parameter>
 					</parameters>
 				</call>
 			</code>
 		</function>
 		<assign>
-			<value>testA</value>
+			<value>
+				testA
+			</value>
 			<value>
 				<new>
-					<type>Point</type>
+					<type>
+						Point
+					</type>
 					<parameters>
-						<parameter>3.0</parameter>
-						<parameter>4.0</parameter>
+						<parameter>
+							3.0
+						</parameter>
+						<parameter>
+							4.0
+						</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
 		<call>
-			<function>testFunc</function>
+			<function>
+				testFunc
+			</function>
 			<parameters>
-				<parameter>testA</parameter>
+				<parameter>
+					testA
+				</parameter>
 			</parameters>
 		</call>
 	</code>

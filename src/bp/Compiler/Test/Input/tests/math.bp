@@ -2,81 +2,129 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
-			<import>bp.Math.Geometry</import>
+			<import>
+				bp.Core
+			</import>
+			<import>
+				bp.Math.Geometry
+			</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Geometry module working!</string>
-			<string id="bp_string_1">Geometry module NOT working!</string>
+			<string id="bp_string_0">
+				Geometry module working!
+			</string>
+			<string id="bp_string_1">
+				Geometry module NOT working!
+			</string>
 		</strings>
 	</header>
 	<code>
 		<assign>
-			<value>circleA</value>
+			<value>
+				circleA
+			</value>
 			<value>
 				<new>
-					<type>Circle</type>
+					<type>
+						Circle
+					</type>
 					<parameters>
 						<parameter>
 							<new>
-								<type>Point</type>
+								<type>
+									Point
+								</type>
 								<parameters>
-									<parameter>3.0</parameter>
-									<parameter>4.0</parameter>
+									<parameter>
+										3.0
+									</parameter>
+									<parameter>
+										4.0
+									</parameter>
 								</parameters>
 							</new>
 						</parameter>
-						<parameter>10.0</parameter>
+						<parameter>
+							10.0
+						</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
 		<assign>
-			<value>circleB</value>
+			<value>
+				circleB
+			</value>
 			<value>
 				<new>
-					<type>Circle</type>
+					<type>
+						Circle
+					</type>
 					<parameters>
 						<parameter>
 							<new>
-								<type>Point</type>
+								<type>
+									Point
+								</type>
 								<parameters>
-									<parameter>5.0</parameter>
-									<parameter>6.0</parameter>
+									<parameter>
+										5.0
+									</parameter>
+									<parameter>
+										6.0
+									</parameter>
 								</parameters>
 							</new>
 						</parameter>
-						<parameter>10.0</parameter>
+						<parameter>
+							10.0
+						</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
 		<assign>
-			<value>pointA</value>
+			<value>
+				pointA
+			</value>
 			<value>
 				<new>
-					<type>Point</type>
+					<type>
+						Point
+					</type>
 					<parameters>
-						<parameter>4.0</parameter>
-						<parameter>5.0</parameter>
+						<parameter>
+							4.0
+						</parameter>
+						<parameter>
+							5.0
+						</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
 		<assign>
-			<value>pointB</value>
+			<value>
+				pointB
+			</value>
 			<value>
 				<new>
-					<type>Point</type>
+					<type>
+						Point
+					</type>
 					<parameters>
 						<parameter>
 							<negative>
-								<value>1.0</value>
+								<value>
+									1.0
+								</value>
 							</negative>
 						</parameter>
 						<parameter>
 							<negative>
-								<value>1.0</value>
+								<value>
+									1.0
+								</value>
 							</negative>
 						</parameter>
 					</parameters>
@@ -93,12 +141,18 @@
 									<call>
 										<function>
 											<access>
-												<value>circleA</value>
-												<value>contains</value>
+												<value>
+													circleA
+												</value>
+												<value>
+													contains
+												</value>
 											</access>
 										</function>
 										<parameters>
-											<parameter>pointA</parameter>
+											<parameter>
+												pointA
+											</parameter>
 										</parameters>
 									</call>
 								</value>
@@ -106,12 +160,18 @@
 									<call>
 										<function>
 											<access>
-												<value>circleA</value>
-												<value>contains</value>
+												<value>
+													circleA
+												</value>
+												<value>
+													contains
+												</value>
 											</access>
 										</function>
 										<parameters>
-											<parameter>pointB</parameter>
+											<parameter>
+												pointB
+											</parameter>
 										</parameters>
 									</call>
 								</value>
@@ -123,25 +183,37 @@
 									<call>
 										<function>
 											<access>
-												<value>pointA</value>
-												<value>distanceTo</value>
+												<value>
+													pointA
+												</value>
+												<value>
+													distanceTo
+												</value>
 											</access>
 										</function>
 										<parameters>
-											<parameter>pointB</parameter>
+											<parameter>
+												pointB
+											</parameter>
 										</parameters>
 									</call>
 								</value>
-								<value>8.0</value>
+								<value>
+									8.0
+								</value>
 							</less>
 						</value>
 					</and>
 				</condition>
 				<code>
 					<call>
-						<function>print</function>
+						<function>
+							print
+						</function>
 						<parameters>
-							<parameter>bp_string_0</parameter>
+							<parameter>
+								bp_string_0
+							</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -149,9 +221,13 @@
 			<else>
 				<code>
 					<call>
-						<function>print</function>
+						<function>
+							print
+						</function>
 						<parameters>
-							<parameter>bp_string_1</parameter>
+							<parameter>
+								bp_string_1
+							</parameter>
 						</parameters>
 					</call>
 				</code>

@@ -39,9 +39,6 @@
 					</parameter>
 				</template>
 				<function>
-					<name>
-						init
-					</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -78,20 +75,23 @@
 							</declare-type>
 						</parameter>
 					</parameters>
+					<name>
+						init
+					</name>
 					<code>
 						<noop/>
 					</code>
 				</function>
 				<set>
 					<setter>
-						<name>
-							center
-						</name>
 						<parameters>
 							<parameter>
 								nPoint
 							</parameter>
 						</parameters>
+						<name>
+							center
+						</name>
 						<code>
 							<assign>
 								<value>
@@ -111,14 +111,14 @@
 						</code>
 					</setter>
 					<setter>
-						<name>
-							radius
-						</name>
 						<parameters>
 							<parameter>
 								nRadius
 							</parameter>
 						</parameters>
+						<name>
+							radius
+						</name>
 						<code>
 							<assign>
 								<value>
@@ -138,14 +138,14 @@
 						</code>
 					</setter>
 					<setter>
-						<name>
-							diameter
-						</name>
 						<parameters>
 							<parameter>
 								nDiameter
 							</parameter>
 						</parameters>
+						<name>
+							diameter
+						</name>
 						<code>
 							<assign>
 								<value>
@@ -177,7 +177,6 @@
 						<name>
 							center
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -195,7 +194,6 @@
 						<name>
 							radius
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -213,7 +211,6 @@
 						<name>
 							diameter
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<multiply>
@@ -238,7 +235,6 @@
 						<name>
 							perimeter
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<multiply>
@@ -268,14 +264,14 @@
 					</getter>
 				</get>
 				<function>
-					<name>
-						contains
-					</name>
 					<parameters>
 						<parameter>
 							point
 						</parameter>
 					</parameters>
+					<name>
+						contains
+					</name>
 					<code>
 						<return>
 							<less-or-equal>
@@ -371,14 +367,14 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						intersects
-					</name>
 					<parameters>
 						<parameter>
 							circle
 						</parameter>
 					</parameters>
+					<name>
+						intersects
+					</name>
 					<code>
 						<assign>
 							<value>

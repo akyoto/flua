@@ -43,7 +43,6 @@ wrapperSingleElement = [
 	"to",
 	"until",
 	"type",
-	"parameter",
 	"value",
 	"condition",
 	"variable"
@@ -365,6 +364,18 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			raise CompilerException("Missing <to> or <until> node")
 		
 		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
+	elif nodeName == "parameter":
+		if node.childNodes:
+			if len(node.childNodes) == 1:
+				return nodeToBPC(node.childNodes[0], 0, conv)
+			else:
+				# Default value
+				nameNode = getElementByTagName(node, "name")
+				valueNode = getElementByTagName(node, "default-value")
+				return nodeToBPC(nameNode.childNodes[0], 0, conv) + " = " + nodeToBPC(valueNode.childNodes[0], 0, conv)
+		else:
+			return ""
+	# Wraps a single element
 	elif nodeName in wrapperSingleElement:
 		if node.childNodes:
 			return nodeToBPC(node.childNodes[0], 0, conv)
@@ -386,6 +397,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		return nodeToBPC(nameNode, 0, conv) + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv)
 	elif nodeName == "noop":
 		return "..."
+	# Single line
 	elif nodeName in xmlToBPCSingleLineExpr:
 		keyword = xmlToBPCSingleLineExpr[nodeName]
 		
@@ -393,6 +405,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return "%s %s" % (keyword, nodeToBPC(node.childNodes[0], 0, conv))
 		else:
 			return keyword
+	# Blocks with an expression at the beginning
 	elif nodeName in xmlToBPCExprBlock:
 		exprBlock = xmlToBPCExprBlock[nodeName]
 		exprNode = getElementByTagName(node, exprBlock[1])
@@ -413,6 +426,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				if child.nodeType != Node.TEXT_NODE and child.tagName == childNodeName:
 					code += nodeToBPCSaved(child, tabLevel + 1, conv)
 		return "%s%s%s\n%s" % (name, space, expr, code)
+	# Blocks
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""
 		tabs = ""
@@ -423,6 +437,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
 		blockCode = blockCode[:-1] #+ "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode
+	# Binary operations
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]

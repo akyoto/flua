@@ -989,7 +989,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif importedModule == "":
 			raise CompilerException("You need to specify which module you want to import")
 		else:
-			print(self.dir)
 			#print()
 			raise CompilerException("Module not found: " + importedModule)
 		

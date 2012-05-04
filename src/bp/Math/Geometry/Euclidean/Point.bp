@@ -40,9 +40,6 @@
 					</parameter>
 				</template>
 				<function>
-					<name>
-						init
-					</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -79,14 +76,14 @@
 							</declare-type>
 						</parameter>
 					</parameters>
+					<name>
+						init
+					</name>
 					<code>
 						<noop/>
 					</code>
 				</function>
 				<function>
-					<name>
-						move
-					</name>
 					<parameters>
 						<parameter>
 							offX
@@ -95,6 +92,9 @@
 							offY
 						</parameter>
 					</parameters>
+					<name>
+						move
+					</name>
 					<code>
 						<assign-add>
 							<value>
@@ -133,7 +133,6 @@
 						<name>
 							x
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -151,7 +150,6 @@
 						<name>
 							y
 						</name>
-						<parameters/>
 						<code>
 							<return>
 								<access>
@@ -168,14 +166,14 @@
 				</get>
 				<set>
 					<setter>
-						<name>
-							x
-						</name>
 						<parameters>
 							<parameter>
 								value
 							</parameter>
 						</parameters>
+						<name>
+							x
+						</name>
 						<code>
 							<assign>
 								<value>
@@ -195,14 +193,14 @@
 						</code>
 					</setter>
 					<setter>
-						<name>
-							y
-						</name>
 						<parameters>
 							<parameter>
 								value
 							</parameter>
 						</parameters>
+						<name>
+							y
+						</name>
 						<code>
 							<assign>
 								<value>
@@ -223,14 +221,14 @@
 					</setter>
 				</set>
 				<function>
-					<name>
-						distanceTo
-					</name>
 					<parameters>
 						<parameter>
 							point
 						</parameter>
 					</parameters>
+					<name>
+						distanceTo
+					</name>
 					<code>
 						<return>
 							<call>
@@ -286,9 +284,6 @@
 			</code>
 		</class>
 		<function>
-			<name>
-				print
-			</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -301,6 +296,9 @@
 					</declare-type>
 				</parameter>
 			</parameters>
+			<name>
+				print
+			</name>
 			<code>
 				<call>
 					<function>
