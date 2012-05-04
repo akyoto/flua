@@ -36,6 +36,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDirLen = len(self.modDir)
 		self.setExpandsOnDoubleClick(False)
 		self.setAnimated(True)
+		self.oldImportedMods = []
+		self.oldImportedModsLen = 0
 		
 		self.brushSimpleFolder = QtGui.QBrush(QtGui.QColor("#adadad"))
 		self.brushModule = QtGui.QBrush(QtGui.QColor("#272727"))
@@ -139,5 +141,97 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		parent.appendRow(mod)
 		
+	def forEachModItemDo(self, parent, func):
+		for child in parent.subModules.values():
+			self.forEachModItemDo(child, func)
+		func(parent)
+		
+	def resetHighlight(self, modItem):
+		modItem.setFont(self.bpIDE.standardFont)
+		
+		if modItem.isModule:
+			modItem.setForeground(self.brushModule)
+		else:
+			modItem.setForeground(self.brushSimpleFolder)
+		
+	# Clear all highlights
+	def resetAllHighlights(self):
+		self.forEachModItemDo(self.modules, self.resetHighlight)
+		
 	def updateView(self):
-		pass
+		# Show imports
+		importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()
+		
+		# Compare it with the old import list and if it's different -> highlight
+		index = 0
+		for modName in importedMods:
+			if index < self.oldImportedModsLen and modName != self.oldImportedMods[index]:
+				modItem = self.getModuleItemByName(self.oldImportedMods[index])
+				if modItem:
+					self.resetHighlight(modItem)
+			
+			if index >= self.oldImportedModsLen or modName != self.oldImportedMods[index]:
+				self.highlightModule(modName)
+			index += 1
+		self.oldImportedMods = importedMods
+		self.oldImportedModsLen = len(importedMods)
+		
+		#if not self.bpIDE.codeEdit.root:
+		#	return
+		#
+		#header = getElementByTagName(self.bpIDE.codeEdit.root, "header")
+		#if not header:
+		#	return
+		#
+		#deps = getElementByTagName(header, "dependencies")
+		#if not deps:
+		#	return
+		
+		# Look at <dependencies> and highlight them
+		#for child in deps.childNodes:
+		#	modName = child.childNodes[0].nodeValue.strip()
+		#	self.highlightModule(modName)
+	
+	def highlightModule(self, modName):
+		importType = self.bpIDE.getModuleImportType(modName)
+		
+		# Local import
+		if importType == 1 or importType == 2:
+			style = self.bpIDE.currentTheme['local-module-import']
+		elif importType == 3 or importType == 4:
+			style = self.bpIDE.currentTheme['project-module-import']
+		else:#if importType == 5 or importType == 6:
+			style = self.bpIDE.currentTheme['global-module-import']
+		
+		# Local + project import
+		if importType >=1 and importType <= 4:
+			filePath = stripExt(self.bpIDE.getModulePath(modName))
+			modPath = filePath[len(getModuleDir()):].replace("/", ".")
+			parts = modPath.split(".")
+			if len(parts) > 1 and parts[-1] == parts[-2]:
+				modPath = ".".join(parts[:-1])
+		# Global module import
+		else:
+			modPath = modName
+		
+		item = self.getModuleItemByName(modPath, expand = True)
+		item.setFont(style.font())
+		item.setForeground(style.foreground())
+		
+	def getModuleItemByName(self, modName, expand = False):
+		parts = modName.split(".")
+		currentModule = self.modules
+		lastPart = len(parts)
+		currentPart = 0
+		while currentPart < lastPart:
+			subMod = parts[currentPart]
+			if subMod in currentModule.subModules:
+				currentModule = currentModule.subModules[subMod]
+			else:
+				break
+			
+			if expand and currentPart != lastPart - 1:
+				self.setExpanded(currentModule.index(), True)
+			currentPart += 1
+		
+		return currentModule

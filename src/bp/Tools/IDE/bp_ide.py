@@ -74,6 +74,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.intelliEnabled = False
 		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		self.docks = []
+		self.monospaceFont = QtGui.QFont("monospace", 9)
+		self.standardFont = QtGui.QFont("SansSerif", 9)
 		
 		self.threaded = True
 		
@@ -81,31 +83,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initUI()
 		self.initCompiler()
 		
-		self.setMonospaceFont(QtGui.QFont("monospace", 9))
-		self.setStandardFont(QtGui.QFont("SansSerif", 9))
-		self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
-		
-	def setMonospaceFont(self, font):
-		# Widgets with monospace font
-		self.codeEdit.setFont(font)
-		self.xmlView.setFont(font)
-		self.dependencyView.setFont(font)
-		
-	def setStandardFont(self, font):
-		QtGui.QToolTip.setFont(font)
-		
-		# Widgets with normal font
-		self.moduleView.setFont(font)
-		self.msgView.setFont(font)
-		
-		# All docks
-		for dock in self.docks:
-			dock.setFont(font)
-		
-	def setMenuFont(self, font):
-		self.menuBar.setFont(font)
-		for menuItem in self.menuBar.children():
-			menuItem.setFont(font)
+		self.applyMonospaceFont(self.monospaceFont)
+		self.applyStandardFont(self.standardFont)
+		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		
 	def initUI(self):
 		uic.loadUi("blitzprog-ide.ui", self)
@@ -219,7 +199,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			'number': format('brown'),
 			'hex-number': format('brown'),
 			'own-function': format('#373737', 'bold'),
-			'local-module-import': format('#770077', 'bold'),
+			'local-module-import': format('#661166', 'bold'),
 			'project-module-import': format('#378737', 'bold'),
 			'global-module-import': format('#373737', 'bold'),
 			'current-line' : None#QtGui.QColor("#fefefe")
@@ -291,6 +271,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
+		
+	def getModulePath(self, importedModule):
+		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
+	
+	def getModuleImportType(self, importedModule):
+		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 		
 	def postProcessorFinished(self):
 		# After we parsed the functions, set the text and highlight the file
@@ -384,7 +370,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		return self.codeEdit.getFilePath()
 		
 	def loadFileToEditor(self, fileName):
-		self.lastFunctionCount = -1
+		self.beforeSwitchingFile()
+		
 		self.setFilePath(fileName)
 		
 		# Read
@@ -398,14 +385,30 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.dependencyView.clear()
 		
 		# Let's rock!
-		self.startBenchmark("NodeToBPC (XML to BPC)")
+		self.startBenchmark("[%s] NodeToBPC" % stripDir(fileName))
 		self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
-		# Enable dependency view for first line
+		self.afterSwitchingFile()
+		
+	# If you need to do something BEFORE a new file gets loaded, this is the right place
+	def beforeSwitchingFile(self):
+		# Reset function count
+		self.lastFunctionCount = -1
+		
+		# Clear all module highlights
+		self.moduleView.resetAllHighlights()
+		
+		# Enable dependency view from the very beginning
 		self.lastBlockPos = -1
 		
+	# If you need to do something AFTER a new file gets loaded, this is the right place
+	def afterSwitchingFile(self):
+		pass
+		
 	def loadBPCFileToEditor(self, fileName):
+		self.beforeSwitchingFile()
+		
 		self.setFilePath(fileName)
 		
 		# Read
@@ -430,7 +433,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		#self.endBenchmark()
 		
 		# Enable dependency view for first line
-		self.lastBlockPos = -1
+		self.afterSwitchingFile()
 		
 	def runPostProcessor(self):
 		# TODO: Less cpu usage
@@ -441,6 +444,28 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.postProcessorThread.run()
 			self.postProcessorFinished()
 		
+	def applyMonospaceFont(self, font):
+		# Widgets with monospace font
+		self.codeEdit.setFont(font)
+		self.xmlView.setFont(font)
+		self.dependencyView.setFont(font)
+		
+	def applyStandardFont(self, font):
+		QtGui.QToolTip.setFont(font)
+		
+		# Widgets with normal font
+		self.moduleView.setFont(font)
+		self.msgView.setFont(font)
+		
+		# All docks
+		for dock in self.docks:
+			dock.setFont(font)
+		
+	def applyMenuFont(self, font):
+		self.menuBar.setFont(font)
+		for menuItem in self.menuBar.children():
+			menuItem.setFont(font)
+	
 	def newFile(self):
 		self.codeEdit.clear()
 		self.dependencyView.clear()

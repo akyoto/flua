@@ -12,7 +12,7 @@
 				bp.Math.Geometry
 			</import>
 			<import>
-				tests.all
+				tests
 			</import>
 		</dependencies>
 		<strings>

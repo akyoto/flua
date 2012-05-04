@@ -1,0 +1,33 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>
+				bp.Core
+			</import>
+			<import>
+				keywordsTest1
+			</import>
+			<import>
+				math
+			</import>
+			<import>
+				generics
+			</import>
+			<import>
+				memory
+			</import>
+			<import>
+				array
+			</import>
+			<import>
+				overloading
+			</import>
+			<import>
+				unicode
+			</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

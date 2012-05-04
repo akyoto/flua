@@ -25,14 +25,14 @@
 					<value>
 						<new>
 							<type>
-								<access>
+								<template-call>
 									<value>
 										MemPointer
 									</value>
 									<value>
 										Int
 									</value>
-								</access>
+								</template-call>
 							</type>
 							<parameters>
 								<parameter>

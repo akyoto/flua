@@ -85,7 +85,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						while j < textLen and not text[j].isspace():
 							j += 1
 						importedModule = text[h+1:j]
-						importType = getModuleImportType(importedModule, extractDir(self.bpIDE.getFilePath()), self.bpIDE.getProjectPath())
+						importType = self.bpIDE.getModuleImportType(importedModule)
 						if importType == 1 or importType == 2:
 							self.setFormat(h, j - h, style['local-module-import'])
 						elif importType == 3 or importType == 4:

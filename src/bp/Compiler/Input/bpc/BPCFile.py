@@ -226,7 +226,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			line = line.replace("π", "pi")
 			
 			if not line:
-				if currentLine and currentLine.tagName == "function":
+				if currentLine and isElemNode(currentLine) and currentLine.tagName == "function":
 					codeNode = getElementByTagName(currentLine, "code")
 					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1]) <= tabCount:
 						raise CompilerException("If you need an empty function use '...' in the code block")
@@ -989,6 +989,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif importedModule == "":
 			raise CompilerException("You need to specify which module you want to import")
 		else:
+			print(self.dir)
+			#print()
 			raise CompilerException("Module not found: " + importedModule)
 		
 		element = self.doc.createElement("import")

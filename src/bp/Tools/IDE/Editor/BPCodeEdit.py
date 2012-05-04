@@ -10,9 +10,10 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.codeEdit = codeEdit
 		self.bpIDE = codeEdit.bpIDE
 		self.setDocument(codeEdit.qdoc)
-		self.bpc = BPCCompiler(getModuleDir())
+		self.bpc = self.bpIDE.bpc#BPCCompiler(getModuleDir())
 		self.bpcFile = None
 		self.finished.connect(self.codeEdit.compilerFinished)
+		self.finished.connect(self.bpIDE.moduleView.updateView)
 		
 	def setDocument(self, doc):
 		self.qdoc = doc
@@ -38,6 +39,10 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			errorMessage = e.getMsg()
 			errorFilePath = e.getFilePath()
 			self.bpIDE.msgView.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
+			
+			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
+			self.codeEdit.disableUpdatesFlag = False
+			
 			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
 			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
 		finally:
@@ -149,6 +154,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if 0:
 			self.initLineNumberArea()
 	
+	def clear(self):
+		self.doc = None
+		self.root = None
+		self.filePath = ""
+		self.futureText = ""
+		self.lines = []
+		self.bpcFile = None
+		
+		self.disableUpdatesFlag = True
+		self.updater = BPCodeUpdater(self)
+		super().clear()
+		self.disableUpdatesFlag = False
+	
 	def setFont(self, font):
 		super().setFont(font)
 		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
@@ -190,6 +208,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if self.completer:
 			self.completer.setWidget(self)
 		QtGui.QPlainTextEdit.focusInEvent(self, event)
+	
+	def getImportedModulesByCode(self):
+		importedMods = []
+		lines = self.toPlainText().split("\n")
+		for line in lines:
+			if line.startswith("import") and len(line) >= 8 and line[6].isspace():
+				mod = line[7:].strip()
+				if mod:
+					importedMods.append(mod)
+		return importedMods
 	
 	def keyPressEvent(self, event):
 		# Auto Complete
@@ -298,19 +326,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	print("Yo!")
 		else:
 			super().keyPressEvent(event)
-	
-	def clear(self):
-		self.doc = None
-		self.root = None
-		self.filePath = ""
-		self.futureText = ""
-		self.lines = []
-		self.bpcFile = None
-		
-		self.disableUpdatesFlag = True
-		self.updater = BPCodeUpdater(self)
-		super().clear()
-		self.disableUpdatesFlag = False
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])
