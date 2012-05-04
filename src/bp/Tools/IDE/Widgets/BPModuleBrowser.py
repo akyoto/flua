@@ -158,6 +158,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def resetAllHighlights(self):
 		self.forEachModItemDo(self.modules, self.resetHighlight)
 		
+		# Reset to enable rehighlighting on a file reload
+		self.oldImportedMods = []
+		self.oldImportedModsLen = 0
+		
 	def updateView(self):
 		# Show imports
 		importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()

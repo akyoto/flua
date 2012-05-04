@@ -20,9 +20,6 @@
 			</code>
 		</target>
 		<function>
-			<name>
-				copyMem
-			</name>
 			<parameters>
 				<parameter>
 					source
@@ -34,6 +31,9 @@
 					size
 				</parameter>
 			</parameters>
+			<name>
+				copyMem
+			</name>
 			<code>
 				<call>
 					<function>
@@ -70,14 +70,14 @@
 						</parameter>
 					</template>
 					<function>
-						<name>
-							init
-						</name>
 						<parameters>
 							<parameter>
 								size
 							</parameter>
 						</parameters>
+						<name>
+							init
+						</name>
 						<code>
 							<noop/>
 						</code>
@@ -86,21 +86,20 @@
 						<name>
 							free
 						</name>
-						<parameters/>
 						<code>
 							<noop/>
 						</code>
 					</function>
 					<operators>
 						<operator>
-							<name>
-								[]
-							</name>
 							<parameters>
 								<parameter>
 									index
 								</parameter>
 							</parameters>
+							<name>
+								[]
+							</name>
 							<code>
 								<declare-type>
 									<value>
@@ -118,14 +117,14 @@
 					</operators>
 					<set>
 						<setter>
-							<name>
-								data
-							</name>
 							<parameters>
 								<parameter>
 									nValue
 								</parameter>
 							</parameters>
+							<name>
+								data
+							</name>
 							<code>
 								<noop/>
 							</code>
@@ -136,7 +135,6 @@
 							<name>
 								data
 							</name>
-							<parameters/>
 							<code>
 								<declare-type>
 									<value>

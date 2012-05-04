@@ -92,7 +92,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initToolBar()
 		
 		# StatusBar
-		self.statusBar().setFont(QtGui.QFont("SansSerif", 7))
+		self.statusBar.setFont(QtGui.QFont("SansSerif", 7))
 		
 		# Window
 		#self.setWindowTitle("Blitzprog IDE")
@@ -100,7 +100,25 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.setGeometry(0, 0, 1000, 650)
 		self.center()
 		
-		self.statusBar().showMessage("Ready")
+		# Status bar
+		self.lineNumberLabel = QtGui.QLabel()
+		self.moduleInfoLabel = QtGui.QLabel()
+		self.lineNumberLabel.setMinimumWidth(100)
+		self.progressBar = QtGui.QProgressBar(self.statusBar)
+		self.progressBar.setTextVisible(False)
+		self.progressBar.hide()
+		#spacer1 = QtGui.QWidget(self.statusBar)
+		#spacer1.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		
+		#spacer2 = QtGui.QWidget(self.statusBar)
+		#spacer2.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		
+		#self.statusBar.addPermanentWidget(spacer1)
+		self.statusBar.addWidget(self.lineNumberLabel)
+		#self.statusBar.addSeparator()
+		self.statusBar.addWidget(self.moduleInfoLabel)
+		self.statusBar.addPermanentWidget(self.progressBar, 0)
+		#self.statusBar.setLayout(hBoxLayout)
 		
 		self.initDocks()
 		
@@ -110,7 +128,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initActions()
 		self.setCentralWidget(self.codeEdit)
 		
-		#self.statusBar().hide()
+		#self.statusBar.hide()
 		self.toolBar.hide()
 		self.syntaxSwitcherBar.hide()
 		self.show()
@@ -255,7 +273,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.syntaxSwitcherBar.addSeparator()
 		
 	# INIT END
-		
+	
 	def updateLineInfo(self, force = False, updateDependencyView = True):
 		newBlockPos = self.codeEdit.getLineNumber()
 		if force or newBlockPos != self.lastBlockPos:
@@ -263,7 +281,12 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			selectedNode = None
 			
 			lineIndex = self.codeEdit.getLineIndex()
-			self.statusBar().showMessage("Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
+			
+			funcCount = 0
+			if self.processorOutFile:
+				funcCount = self.processorOutFile.funcCount
+			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded" % (funcCount, self.processor.funcCount))
+			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line
@@ -279,6 +302,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 		
 	def postProcessorFinished(self):
+		# Update line info
+		self.updateLineInfo(force=True, updateDependencyView=False)
+		
 		# After we parsed the functions, set the text and highlight the file
 		if self.codeEdit.disableUpdatesFlag:
 			self.codeEdit.disableUpdatesFlag = False

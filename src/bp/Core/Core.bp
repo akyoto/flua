@@ -75,14 +75,14 @@
 			</extern-function>
 		</extern>
 		<function>
-			<name>
-				print
-			</name>
 			<parameters>
 				<parameter>
 					stri
 				</parameter>
 			</parameters>
+			<name>
+				print
+			</name>
 			<code>
 				<call>
 					<function>
@@ -97,14 +97,14 @@
 			</code>
 		</function>
 		<function>
-			<name>
-				sleep
-			</name>
 			<parameters>
 				<parameter>
 					ms
 				</parameter>
 			</parameters>
+			<name>
+				sleep
+			</name>
 			<code>
 				<call>
 					<function>
@@ -129,7 +129,6 @@
 			<name>
 				systemTime
 			</name>
-			<parameters/>
 			<code>
 				<return>
 					<call>
@@ -145,7 +144,6 @@
 			<name>
 				systemCPUClock
 			</name>
-			<parameters/>
 			<code>
 				<return>
 					<call>
@@ -158,14 +156,14 @@
 			</code>
 		</function>
 		<function>
-			<name>
-				sizeOf
-			</name>
 			<parameters>
 				<parameter>
 					a
 				</parameter>
 			</parameters>
+			<name>
+				sizeOf
+			</name>
 			<code>
 				<return>
 					<call>

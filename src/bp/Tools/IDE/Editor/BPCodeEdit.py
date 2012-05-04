@@ -352,8 +352,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			if self.bpcFile:
 				self.bpcFile.writeToFS()
+			
+			self.bpIDE.statusBar.showMessage("Saved " + newPath + " successfully.", 1000)
 		except:
 			self.setFilePath(oldPath)
+			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 2000)
 	
 	def setFilePath(self, filePath):
 		self.filePath = filePath
@@ -437,7 +440,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.updateRootSafely()
 			#self.bpIDE.endBenchmark()
 			
-			self.bpIDE.updateLineInfo(force=True, updateDependencyView=False)
 			self.bpIDE.runPostProcessor()
 		elif self.futureText:
 			self.setPlainText(self.futureText)
