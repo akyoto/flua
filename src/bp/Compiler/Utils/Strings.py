@@ -32,10 +32,10 @@ import os
 
 def fixPath(stri):
 	newPath = stri.replace("\\", "/")
-	if newPath.endswith("/"):
-		return newPath
-	else:
+	if os.path.isdir(newPath) and not newPath.endswith("/"):
 		return newPath + "/"
+	
+	return newPath
 
 def fixID(stri):
 	return stri.replace(".", "_").replace(" ", "__")

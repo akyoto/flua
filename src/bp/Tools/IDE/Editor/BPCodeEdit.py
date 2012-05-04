@@ -3,14 +3,6 @@ from bp.Tools.IDE.Syntax.BPCSyntax import *
 from bp.Compiler import *
 #import yappi
 
-class BPLineInformation(QtGui.QTextBlockUserData):
-	
-	def __init__(self, xmlNode = None, edited = False, previousNode = None):
-		super().__init__()
-		self.node = xmlNode
-		self.oldNode = previousNode
-		self.edited = edited
-
 class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 	
 	def __init__(self, codeEdit):
@@ -37,7 +29,6 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
-			print("-" * 80)
 			self.startBenchmark("[%s] Parser" % stripDir(filePath))
 			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
 			if self.bpcFile.inFunction != 0:
@@ -57,30 +48,27 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		
 		return
 
-class LineNumberArea(QtGui.QWidget):
-	
-	def __init__(self, codeEdit):
-		super().__init__(codeEdit)
-		self.codeEdit = codeEdit
-		
-	def sizeHint(self):
-		return QtCore.QSize(self.codeEdit.getLineNumberAreaWidth(), 0)
-		
-	def paintEvent(self, event):
-		self.codeEdit.lineNumberAreaPaintEvent(event)
-
+# Auto Completion
 class BPCAutoCompleterModel(QtGui.QStringListModel):
 	
 	def __init__(self, parent = None):
 		self.shortCuts = {
 			"saac" : "SimplyAwesomeAutoComplete"
 		}
+		self.shortCutList = list(self.shortCuts)
 		
-		self.autoCompletes = list(BPCHighlighter.keywords) + list(self.shortCuts)
+		self.keywordList = None
 		
-		super().__init__(self.autoCompletes, parent)
+		super().__init__([], parent)
 		self.icon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
+		
+	def setKeywordList(self, keywordList):
+		self.keywordList = keywordList
+		self.updateStringList()
+		
+	def updateStringList(self):
+		self.setStringList(self.keywordList + self.shortCutList)
 		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
@@ -103,6 +91,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 
+# Code Edit
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def __init__(self, bpIDE = None):
@@ -153,6 +142,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.completer = None
 		completer = BPCAutoCompleter()
+		completer.bpcModel.setKeywordList(list(BPCHighlighter.keywords))
 		self.setCompleter(completer)
 		#self.completer.setWidget(self)
 		
@@ -179,14 +169,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		tc = self.textCursor()
 		
 		if completion in self.completer.bpcModel.shortCuts:
-			tc.movePosition(QtGui.QTextCursor.Left)
+			#tc.movePosition(QtGui.QTextCursor.Left)
 			tc.movePosition(QtGui.QTextCursor.StartOfWord)
 			tc.select(QtGui.QTextCursor.WordUnderCursor)
 			tc.removeSelectedText()
 			tc.insertText(self.completer.bpcModel.shortCuts[completion])
 		else:
 			extra = (len(completion) - len(self.completer.completionPrefix()))
-			tc.movePosition(QtGui.QTextCursor.Left)
 			tc.movePosition(QtGui.QTextCursor.EndOfWord)
 			tc.insertText(completion[len(completion) - extra:])
 			
@@ -205,11 +194,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def keyPressEvent(self, event):
 		# Auto Complete
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
-		if isShortcut:
-			self.completer.popup().show()
 		
 		# Auto Complete
-		if self.completer and self.completer.popup().isVisible():
+		if self.completer and (isShortcut or self.completer.popup().isVisible()):
 			if event.key() in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
@@ -230,23 +217,31 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				return
 			
 			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
-
+			
 			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
-
+			
 			completionPrefix = self.textUnderCursor()
-
+			
 			if (not isShortcut and (hasModifier or not event.text() or len(completionPrefix) < 3 or event.text()[-1] in eow)):
 				self.completer.popup().hide()
 				return
-
+			
 			if (completionPrefix != self.completer.completionPrefix()):
 				self.completer.setCompletionPrefix(completionPrefix)
 				popup = self.completer.popup()
-				popup.setCurrentIndex(self.completer.completionModel().index(0,0))
-
+				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
+			
+			# Insert directly if it's just 1 possibility
+			if self.completer.completionCount() == 1:
+				self.insertCompletion(self.completer.currentCompletion())
+				return
+			
 			cr = self.cursorRect()
 			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
 			self.completer.complete(cr) ## popup it up!
+			
+			#if isShortcut:
+			#	self.completer.popup().show()
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:
 			cursor = self.textCursor()
@@ -580,3 +575,25 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			top = bottom
 			bottom = top + int(self.blockBoundingRect(block).height())
 			blockNumber += 1
+
+# Information stored per line
+class BPLineInformation(QtGui.QTextBlockUserData):
+	
+	def __init__(self, xmlNode = None, edited = False, previousNode = None):
+		super().__init__()
+		self.node = xmlNode
+		self.oldNode = previousNode
+		self.edited = edited
+
+# Useless line numbers
+class LineNumberArea(QtGui.QWidget):
+	
+	def __init__(self, codeEdit):
+		super().__init__(codeEdit)
+		self.codeEdit = codeEdit
+		
+	def sizeHint(self):
+		return QtCore.QSize(self.codeEdit.getLineNumberAreaWidth(), 0)
+		
+	def paintEvent(self, event):
+		self.codeEdit.lineNumberAreaPaintEvent(event)

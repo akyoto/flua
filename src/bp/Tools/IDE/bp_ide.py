@@ -388,10 +388,11 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.setFilePath(fileName)
 		
 		# Read
-		print(" - %s - " % (fileName))
-		self.startBenchmark("LoadXMLFile (physically read file)")
+		print("-" * 80)
+		print("File: %s " % (fileName.rjust(80 - 7)))
+		#self.startBenchmark("LoadXMLFile (physically read file)")
 		xmlCode = loadXMLFile(self.getFilePath())
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# TODO: Clear all views
 		self.dependencyView.clear()
@@ -486,6 +487,8 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 		if filePath:
 			self.codeEdit.save(filePath)
+			if getModuleDir() in fixPath(filePath):
+				self.moduleView.reloadModuleDirectory()
 		
 	def isTmpFile(self):
 		return self.isTmpPath(self.getFilePath())

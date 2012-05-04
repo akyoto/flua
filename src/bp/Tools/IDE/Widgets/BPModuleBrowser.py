@@ -6,7 +6,7 @@ import sys
 
 class BPModuleViewModel(QtGui.QStandardItemModel):
 	
-	def __init__(self):
+	def __init__(self, parent = None):
 		super().__init__()
 
 class BPModuleItem(QtGui.QStandardItem):
@@ -31,29 +31,44 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def __init__(self, parent, modDir):
 		super().__init__(parent)
 		self.bpIDE = parent
-		self.modules = BPModuleItem("root")	# The actual module "list"
+		self.bpcModel = None
 		self.modDir = modDir
 		self.modDirLen = len(self.modDir)
-		self.model = BPModuleViewModel()
 		self.setExpandsOnDoubleClick(False)
 		self.setAnimated(True)
 		
 		self.doubleClicked.connect(self.onItemClick)
 		self.setHeaderHidden(True)
 		
+		self.bpcModel = BPModuleViewModel()
+		self.setModel(self.bpcModel)
+		
+		self.reloadModuleDirectory()
+		#self.reloadModuleDirectory()
+		#self.reloadModuleDirectory()
+		
+		self.expandToDepth(0)
+		
+	def reloadModuleDirectory(self):
+		if self.bpcModel:
+			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
+		
+		self.modules = BPModuleItem("root")
+		
 		self.startBenchmark("Load module directory")
-		for root, subFolders, files in os.walk(modDir):
+		for root, subFolders, files in os.walk(self.modDir):
 			if fixPath(root) == self.bpIDE.tmpPath:
 				continue
+			
 			for file in files:
 				if file.endswith(".bp"):
 					lastDir = fixPath(root).split("/")[-2]
 					modName = file[:-3]
 					if modName == lastDir:
-						mod = fixPath(root[self.modDirLen:]).replace("/", ".")[:-1]
+						mod = extractDir(root[self.modDirLen:]).replace("/", ".")[:-1]
 					else:
-						mod = fixPath(root[self.modDirLen:]).replace("/", ".") + modName
-					mod = fixPath(root[self.modDirLen:]).replace("/", ".") + file[:-3]
+						mod = extractDir(root[self.modDirLen:]).replace("/", ".") + modName
+					mod = fixPath(root[self.modDirLen:]).replace("/", ".") + "." + file[:-3]
 					
 					parts = mod.split(".")
 					
@@ -63,10 +78,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 							modulesRoot.subModules[part] = BPModuleItem(part)
 						modulesRoot = modulesRoot.subModules[part]
 		self.endBenchmark()
-		
+		#print(self.modules.subModules["bp"].subModules)
+		#if self.bpcModel and self.bpcModel.hasChildren():
+		#	self.bpcModel.removeRows(1, self.bpcModel.rowCount())
+		#self.setModel(None)
 		self.buildTree()
-		self.setModel(self.model)
-		self.expandToDepth(0)
 		
 	def onItemClick(self, item):
 		modItem = item.data(QtCore.Qt.UserRole + 1)
@@ -78,7 +94,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	def buildTree(self):
 		for namespace, mod in sorted(self.modules.subModules.items()):
-			self.buildTreeRec(mod, self.model.invisibleRootItem(), "")
+			self.buildTreeRec(mod, self.bpcModel.invisibleRootItem(), "")
 		
 	def buildTreeRec(self, mod, parent, parentPath):
 		if parentPath:

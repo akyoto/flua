@@ -2,28 +2,42 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
-			<import>bp.Core.Memory</import>
+			<import>
+				bp.Core
+			</import>
+			<import>
+				bp.Core.Memory
+			</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">MemPointer working!</string>
+			<string id="bp_string_0">
+				MemPointer working!
+			</string>
 		</strings>
 	</header>
 	<code>
 		<assign>
-			<value>ptrA</value>
+			<value>
+				ptrA
+			</value>
 			<value>
 				<unmanaged>
 					<value>
 						<new>
 							<type>
 								<access>
-									<value>MemPointer</value>
-									<value>Int</value>
+									<value>
+										MemPointer
+									</value>
+									<value>
+										Int
+									</value>
 								</access>
 							</type>
 							<parameters>
-								<parameter>4096</parameter>
+								<parameter>
+									4096
+								</parameter>
 							</parameters>
 						</new>
 					</value>
@@ -31,46 +45,78 @@
 			</value>
 		</assign>
 		<assign>
-			<value>ptrB</value>
-			<value>ptrA</value>
+			<value>
+				ptrB
+			</value>
+			<value>
+				ptrA
+			</value>
 		</assign>
 		<assign>
 			<value>
 				<access>
-					<value>ptrA</value>
-					<value>data</value>
+					<value>
+						ptrA
+					</value>
+					<value>
+						data
+					</value>
 				</access>
 			</value>
-			<value>5</value>
+			<value>
+				5
+			</value>
 		</assign>
 		<assign-add>
-			<value>ptrB</value>
-			<value>1</value>
+			<value>
+				ptrB
+			</value>
+			<value>
+				1
+			</value>
 		</assign-add>
 		<assign>
 			<value>
 				<access>
-					<value>ptrB</value>
-					<value>data</value>
+					<value>
+						ptrB
+					</value>
+					<value>
+						data
+					</value>
 				</access>
 			</value>
-			<value>7</value>
+			<value>
+				7
+			</value>
 		</assign>
 		<assign-subtract>
-			<value>ptrB</value>
-			<value>1</value>
+			<value>
+				ptrB
+			</value>
+			<value>
+				1
+			</value>
 		</assign-subtract>
 		<assign>
-			<value>ptrB</value>
+			<value>
+				ptrB
+			</value>
 			<value>
 				<subtract>
 					<value>
 						<add>
-							<value>ptrB</value>
-							<value>1</value>
+							<value>
+								ptrB
+							</value>
+							<value>
+								1
+							</value>
 						</add>
 					</value>
-					<value>1</value>
+					<value>
+						1
+					</value>
 				</subtract>
 			</value>
 		</assign>
@@ -80,22 +126,34 @@
 					<and>
 						<value>
 							<equal>
-								<value>ptrA</value>
-								<value>ptrB</value>
+								<value>
+									ptrA
+								</value>
+								<value>
+									ptrB
+								</value>
 							</equal>
 						</value>
 						<value>
 							<equal>
 								<value>
 									<access>
-										<value>ptrA</value>
-										<value>data</value>
+										<value>
+											ptrA
+										</value>
+										<value>
+											data
+										</value>
 									</access>
 								</value>
 								<value>
 									<access>
-										<value>ptrB</value>
-										<value>data</value>
+										<value>
+											ptrB
+										</value>
+										<value>
+											data
+										</value>
 									</access>
 								</value>
 							</equal>
@@ -104,14 +162,17 @@
 				</condition>
 				<code>
 					<call>
-						<function>print</function>
+						<function>
+							print
+						</function>
 						<parameters>
-							<parameter>bp_string_0</parameter>
+							<parameter>
+								bp_string_0
+							</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
 		</if-block>
-		<noop/>
 	</code>
 </module>
