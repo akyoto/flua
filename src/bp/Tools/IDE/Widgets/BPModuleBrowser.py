@@ -147,7 +147,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		func(parent)
 		
 	def resetHighlight(self, modItem):
-		modItem.setFont(self.bpIDE.standardFont)
+		modItem.setFont(self.bpIDE.config.standardFont)
 		
 		if modItem.isModule:
 			modItem.setForeground(self.brushModule)
@@ -201,11 +201,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		# Local import
 		if importType == 1 or importType == 2:
-			style = self.bpIDE.currentTheme['local-module-import']
+			style = self.bpIDE.getCurrentTheme()['local-module-import']
 		elif importType == 3 or importType == 4:
-			style = self.bpIDE.currentTheme['project-module-import']
+			style = self.bpIDE.getCurrentTheme()['project-module-import']
 		else:#if importType == 5 or importType == 6:
-			style = self.bpIDE.currentTheme['global-module-import']
+			style = self.bpIDE.getCurrentTheme()['global-module-import']
 		
 		# Local + project import
 		if importType >=1 and importType <= 4:

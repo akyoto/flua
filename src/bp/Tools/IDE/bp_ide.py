@@ -31,6 +31,7 @@
 ####################################################################
 import sys
 import os
+import configparser
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
 from bp.Tools.IDE.Utils import *
@@ -58,6 +59,90 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 			errorMessage = e.getMsg()
 			self.bpIDE.msgView.addMessage(errorMessage)
 
+class BPConfiguration:
+	
+	def __init__(self, bpIDE, fileName):
+		self.bpIDE = bpIDE
+		self.fileName = fileName
+		self.parser = configparser.SafeConfigParser()
+		
+		self.loadSettings()
+		
+	def loadSettings(self):
+		with codecs.open(self.fileName, "r", "utf-8") as inStream:
+			self.parser.readfp(inStream)
+		
+		self.editorFontFamily = self.parser.get("Editor", "FontFamily")
+		self.editorFontSize = self.parser.getint("Editor", "FontSize")
+		self.tabWidth = self.parser.getint("Editor", "TabWidth")
+		
+		self.themeName = self.parser.get("Editor.Theme", "Theme")
+		self.theme = self.bpIDE.themes[self.themeName]
+		
+		self.ideFontFamily = self.parser.get("IDE", "FontFamily")
+		self.ideFontSize = self.parser.getint("IDE", "FontSize")
+		
+		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
+		self.standardFont = QtGui.QFont(self.ideFontFamily, self.ideFontSize)
+		
+	def applySettings(self):
+		self.applyMonospaceFont(self.monospaceFont)
+		self.applyStandardFont(self.standardFont)
+		#self.applyTheme(self.themeName)
+		
+	def applyEditorFontFamily(self, font):
+		self.editorFontFamily = font.family()
+		self.monospaceFont.setFamily(self.editorFontFamily)
+		self.applyMonospaceFont(self.monospaceFont)
+		
+	def applyEditorFontSize(self, value):
+		self.editorFontSize = value
+		self.monospaceFont.setPointSize(self.editorFontSize)
+		self.applyMonospaceFont(self.monospaceFont)
+		
+	def applyMonospaceFont(self, font):
+		# Widgets with monospace font
+		self.bpIDE.codeEdit.setFont(font)
+		self.bpIDE.xmlView.setFont(font)
+		self.bpIDE.dependencyView.setFont(font)
+		
+	def applyStandardFont(self, font):
+		QtGui.QToolTip.setFont(font)
+		
+		# Widgets with normal font
+		self.bpIDE.moduleView.setFont(font)
+		self.bpIDE.msgView.setFont(font)
+		
+		# All docks
+		for dock in self.bpIDE.docks:
+			dock.setFont(font)
+		
+	def applyTabWidth(self, value):
+		self.tabWidth = value
+		for codeEdit in self.bpIDE.codeEdits.values():
+			codeEdit.setTabWidth(value)
+		
+	def applyTheme(self, theme):
+		self.themeName = self.themeWidget.currentText()
+		self.theme = self.bpIDE.themes[self.themeName]
+		
+		for codeEdit in self.bpIDE.codeEdits.values():
+			codeEdit.highlighter.rehighlight()
+		
+	def initPreferencesWidget(self, uiFileName, widget):
+		if uiFileName == "editor":
+			widget.fontFamily.setCurrentFont(self.monospaceFont)
+			widget.fontSize.setValue(self.editorFontSize)
+			widget.tabWidth.setValue(self.tabWidth)
+			
+			#widget.fontFamily.connect()
+			widget.fontFamily.currentFontChanged.connect(self.applyEditorFontFamily)
+			widget.fontSize.valueChanged.connect(self.applyEditorFontSize)
+			widget.tabWidth.valueChanged.connect(self.applyTabWidth)
+		elif uiFileName == "editor.theme":
+			self.themeWidget = widget.themeName
+			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
+
 class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	
 	# INIT START
@@ -74,22 +159,84 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.intelliEnabled = False
 		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		self.docks = []
-		self.monospaceFont = QtGui.QFont("monospace", 9)
-		self.standardFont = QtGui.QFont("SansSerif", 9)
+		self.uiCache = dict()
+		self.themePreview = None
 		
 		self.threaded = True
 		
+		self.startBenchmark("Init Theme")
 		self.initTheme()
-		self.initUI()
-		self.initCompiler()
+		self.endBenchmark()
 		
-		self.applyMonospaceFont(self.monospaceFont)
-		self.applyStandardFont(self.standardFont)
+		self.startBenchmark("Load Configuration")
+		self.loadConfig()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init UI")
+		self.initUI()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Docks")
+		self.initDocks()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Toolbar")
+		self.initToolBar()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Compiler")
+		self.initCompiler()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Preferences")
+		self.initPreferences()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Actions")
+		self.initActions()
+		self.endBenchmark()
+		
+		self.config.applySettings()
+		self.show()
+		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		
+	def loadConfig(self):
+		if os.path.isfile("settings.ini"):
+			self.config = BPConfiguration(self, "settings.ini")
+		else:
+			self.config = BPConfiguration(self, "default-settings.ini")
+		#self.config.applySettings()
+		
+	def onSettingsItemChange(self, current, previous):
+		name = current.toolTip(0)
+		uiFileName = name.replace(" - ", ".").lower()
+		
+		if uiFileName in self.uiCache:
+			widget = self.uiCache[uiFileName]
+		else:
+			self.uiCache[uiFileName] = widget = uic.loadUi("ui/preferences/%s.ui" % uiFileName)
+			self.config.initPreferencesWidget(uiFileName, widget)
+		
+		if previous:
+			previousFileName = previous.toolTip(0).replace(" - ", ".").lower()
+			self.uiCache[previousFileName].hide()
+			self.preferences.currentBox.layout().removeWidget(self.uiCache[previousFileName])
+		
+		self.preferences.currentBox.setTitle(name)
+		
+		self.preferences.currentBox.layout()
+		self.preferences.currentBox.layout().addWidget(widget)
+		
+		widget.show()
+		
+	def initPreferences(self):
+		self.preferences = uic.loadUi("ui/preferences.ui")
+		self.preferences.settings.expandToDepth(0)
+		self.preferences.settings.currentItemChanged.connect(self.onSettingsItemChange)
+		
 	def initUI(self):
-		uic.loadUi("blitzprog-ide.ui", self)
-		self.initToolBar()
+		uic.loadUi("ui/blitzprog-ide.ui", self)
 		
 		# StatusBar
 		self.statusBar.setFont(QtGui.QFont("SansSerif", 7))
@@ -121,18 +268,14 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		#self.statusBar.setLayout(hBoxLayout)
 		
-		self.initDocks()
-		
 		self.codeEdit = BPCodeEdit(self)
 		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
-		self.initActions()
 		self.setCentralWidget(self.codeEdit)
 		
 		#self.statusBar.hide()
 		self.toolBar.hide()
 		self.syntaxSwitcherBar.hide()
-		self.show()
 		
 	def initDocks(self):
 		# Message view
@@ -194,6 +337,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.actionCopy.triggered.connect(self.codeEdit.copy)
 		self.actionCut.triggered.connect(self.codeEdit.cut)
 		self.actionPaste.triggered.connect(self.codeEdit.paste)
+		self.actionPreferences.triggered.connect(self.preferences.show)
 		
 		# Module
 		self.actionRun.triggered.connect(self.runModule)
@@ -202,51 +346,51 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.actionAbout.triggered.connect(self.about)
 		
 	def initTheme(self):
-		lightTheme = {
-			'default': format("#272727"),
-			'default-background': "#ffffff",
-			'keyword': format('blue'),
-			'operator': format('red'),
-			'brace': format('darkGray'),
-			'comma': format('#555555'),
-			'output-target': format('#666666'),
-			'include-file': format('#666666'),
-			'string': format('#009000'),
-			'string2': format('darkMagenta'),
-			'comment': format('darkGray', 'italic'),
-			'self': format('black', 'italic'),
-			'number': format('brown'),
-			'hex-number': format('brown'),
-			'own-function': format('#373737', 'bold'),
-			'local-module-import': format('#661166', 'bold'),
-			'project-module-import': format('#378737', 'bold'),
-			'global-module-import': format('#373737', 'bold'),
-			'current-line' : None#QtGui.QColor("#fefefe")
+		self.themes = {
+			"Default": {
+				'default': format("#272727"),
+				'default-background': "#ffffff",
+				'keyword': format('blue'),
+				'operator': format('red'),
+				'brace': format('darkGray'),
+				'comma': format('#555555'),
+				'output-target': format('#666666'),
+				'include-file': format('#666666'),
+				'string': format('#009000'),
+				'string2': format('darkMagenta'),
+				'comment': format('darkGray', 'italic'),
+				'self': format('black', 'italic'),
+				'number': format('brown'),
+				'hex-number': format('brown'),
+				'own-function': format('#373737', 'bold'),
+				'local-module-import': format('#661166', 'bold'),
+				'project-module-import': format('#378737', 'bold'),
+				'global-module-import': format('#373737', 'bold'),
+				'current-line' : None#QtGui.QColor("#fefefe")
+			},
+			
+			"Orange": {
+				'default': format("#eeeeee"),
+				'default-background': "#272727",
+				'keyword': format('orange'),
+				'operator': format('#ff2010'),
+				'brace': format('darkGray'),
+				'comma': format('#777777'),
+				'output-target': format('#888888'),
+				'include-file': format('#888888'),
+				'string': format('#00c000'),
+				'string2': format('darkMagenta'),
+				'comment': format('darkGray', 'italic'),
+				'self': format('black', 'italic'),
+				'number': format('#00cccc'),
+				'hex-number': format('brown'),
+				'own-function': format('#ff8000', 'bold'),
+				'local-module-import': format('#77ee77', 'bold'),
+				'project-module-import': format('#dddddd', 'bold'),
+				'global-module-import': format('#22dd22', 'bold'),
+				'current-line' : None#QtGui.QColor("#fefefe")
+			},
 		}
-		
-		darkTheme = {
-			'default': format("#eeeeee"),
-			'default-background': "#272727",
-			'keyword': format('orange'),
-			'operator': format('#ff2010'),
-			'brace': format('darkGray'),
-			'comma': format('#777777'),
-			'output-target': format('#888888'),
-			'include-file': format('#888888'),
-			'string': format('#00c000'),
-			'string2': format('darkMagenta'),
-			'comment': format('darkGray', 'italic'),
-			'self': format('black', 'italic'),
-			'number': format('#00cccc'),
-			'hex-number': format('brown'),
-			'own-function': format('#ff8000', 'bold'),
-			'local-module-import': format('#77ee77', 'bold'),
-			'project-module-import': format('#dddddd', 'bold'),
-			'global-module-import': format('#22dd22', 'bold'),
-			'current-line' : None#QtGui.QColor("#fefefe")
-		}
-		
-		self.currentTheme = lightTheme
 		
 	def initCompiler(self):
 		self.postProcessorThread = None
@@ -255,6 +399,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.newFile()
+		
+		self.codeEdits = {
+			self.getFilePath() : self.codeEdit
+		}
 		
 	def initToolBar(self):
 		# Syntax switcher
@@ -482,23 +630,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			self.postProcessorThread.run()
 			self.postProcessorFinished()
 		
-	def applyMonospaceFont(self, font):
-		# Widgets with monospace font
-		self.codeEdit.setFont(font)
-		self.xmlView.setFont(font)
-		self.dependencyView.setFont(font)
-		
-	def applyStandardFont(self, font):
-		QtGui.QToolTip.setFont(font)
-		
-		# Widgets with normal font
-		self.moduleView.setFont(font)
-		self.msgView.setFont(font)
-		
-		# All docks
-		for dock in self.docks:
-			dock.setFont(font)
-		
 	def applyMenuFont(self, font):
 		self.menuBar.setFont(font)
 		for menuItem in self.menuBar.children():
@@ -580,7 +711,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.codeEdit.highlightLine(max(lineNum - 1, 0), QtGui.QColor("#ffddcc"))
 		
 	def getCurrentTheme(self):
-		return self.currentTheme
+		return self.config.theme
 		
 	def onCursorPosChange(self):
 		self.updateLineInfo()

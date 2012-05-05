@@ -100,8 +100,8 @@ class BPCAutoCompleter(QtGui.QCompleter):
 # Code Edit
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
-	def __init__(self, bpIDE = None):
-		super().__init__(bpIDE)
+	def __init__(self, bpIDE = None, parent = None):
+		super().__init__(parent)
 		
 		self.threaded = True
 		
@@ -109,11 +109,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		self.setCurrentCharFormat(self.bpIDE.currentTheme["default"])
+		self.setCurrentCharFormat(self.bpIDE.getCurrentTheme()["default"])
+		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		
-		bgStyle = bpIDE.currentTheme["default-background"]
-		if bgStyle != "#ffffff":
-			self.setStyleSheet("background-color: %s" % bgStyle);
+		#bgStyle = bpIDE.currentTheme["default-background"]
+		#if bgStyle != "#ffffff":
+		#	self.setStyleSheet("background-color: %s" % bgStyle);
 		
 		#p = self.palette()
 		#p.setColor(QtGui.QPalette.Base, QtCore.Qt.red)
@@ -170,7 +171,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def setFont(self, font):
 		super().setFont(font)
-		self.setTabStopWidth(4 * self.fontMetrics().maxWidth())
+		self.setTabWidth(self.bpIDE.config.tabWidth)
+	
+	def setTabWidth(self, value):
+		self.setTabStopWidth(value * self.fontMetrics().maxWidth())
 	
 	def setCompleter(self, completer):
 		if self.completer:
