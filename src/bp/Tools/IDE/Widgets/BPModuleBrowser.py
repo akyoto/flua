@@ -167,16 +167,36 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()
 		
 		# Compare it with the old import list and if it's different -> highlight
-		index = 0
+		#index = 0
+		#for modName in importedMods:
+		#	if index < self.oldImportedModsLen and modName != self.oldImportedMods[index]:
+		#		modItem = self.getModuleItemByName(self.oldImportedMods[index])
+		#		if modItem:
+		#			self.resetHighlight(modItem)
+		#	
+		#	if index >= self.oldImportedModsLen or modName != self.oldImportedMods[index]:
+		#		self.highlightModule(modName)
+		#	index += 1
+		
+		# Old modules got deleted -> reset highlight
+		#for rest in range(index, self.oldImportedModsLen):
+		#	modItem = self.getModuleItemByName(self.oldImportedMods[rest])
+		#	if modItem:
+		#		print("RESET FOR %s" % modItem.name)
+		#		self.resetHighlight(modItem)
+		
+		# TODO: Fix the old commented, but better implementation
+		#print("OLD: " + str(self.oldImportedMods))
+		for modName in self.oldImportedMods:
+			modItem = self.getModuleItemByName(modName)
+			if modItem:
+				#print("RESET FOR " + modName + "/" + modItem.name)
+				self.resetHighlight(modItem)
+		
+		#print("NEW: " + str(importedMods))
 		for modName in importedMods:
-			if index < self.oldImportedModsLen and modName != self.oldImportedMods[index]:
-				modItem = self.getModuleItemByName(self.oldImportedMods[index])
-				if modItem:
-					self.resetHighlight(modItem)
-			
-			if index >= self.oldImportedModsLen or modName != self.oldImportedMods[index]:
-				self.highlightModule(modName)
-			index += 1
+			self.highlightModule(modName)
+		
 		self.oldImportedMods = importedMods
 		self.oldImportedModsLen = len(importedMods)
 		
@@ -219,16 +239,21 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			modPath = modName
 		
 		item = self.getModuleItemByName(modPath, expand = True)
-		item.setFont(style.font())
-		item.setForeground(style.foreground())
+		if item:
+			item.setFont(style.font())
+			item.setForeground(style.foreground())
 		
 	def getModuleItemByName(self, modName, expand = False):
-		parts = modName.split(".")
+		parts = self.bpIDE.localToGlobalImport(modName).split(".")
+		if len(parts) >= 2 and parts[-1] == parts[-2]:
+			parts = parts[:-1]
+		
 		currentModule = self.modules
 		lastPart = len(parts)
 		currentPart = 0
 		while currentPart < lastPart:
 			subMod = parts[currentPart]
+			
 			if subMod in currentModule.subModules:
 				currentModule = currentModule.subModules[subMod]
 			else:
@@ -237,5 +262,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if expand and currentPart != lastPart - 1:
 				self.setExpanded(currentModule.index(), True)
 			currentPart += 1
+		
+		if currentModule == self.modules:
+			return None
 		
 		return currentModule

@@ -458,6 +458,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 	
+	def localToGlobalImport(self, importedModule):
+		return stripExt(self.getModulePath(importedModule)[len(getModuleDir()):]).replace("/", ".")
+	
 	def getModuleImportType(self, importedModule):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 		
