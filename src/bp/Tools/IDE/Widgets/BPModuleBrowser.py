@@ -244,7 +244,12 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			item.setForeground(style.foreground())
 		
 	def getModuleItemByName(self, modName, expand = False):
-		parts = self.bpIDE.localToGlobalImport(modName).split(".")
+		importType = self.bpIDE.getModuleImportType(modName)
+		if importType == 1 or importType == 2:
+			parts = self.bpIDE.localToGlobalImport(modName).split(".")
+		else:
+			parts = modName.split(".")
+		
 		if len(parts) >= 2 and parts[-1] == parts[-2]:
 			parts = parts[:-1]
 		

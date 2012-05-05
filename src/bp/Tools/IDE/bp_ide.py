@@ -160,7 +160,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		self.docks = []
 		self.uiCache = dict()
-		self.themePreview = None
 		
 		self.threaded = True
 		
