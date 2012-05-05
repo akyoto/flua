@@ -111,19 +111,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		
-		# Background
-		bgColor = currentTheme["default-background"]
-		self.setBackgroundVisible(True)
-		self.setBackgroundRole(QtGui.QPalette.Text)
-		if 0:
-			p = self.palette()
-			p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.Base, bgColor)
-			p.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base, bgColor)
-			self.setPalette(p)
-		
-		self.setCurrentCharFormat(currentTheme["default"])
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
 		#bgStyle = bpIDE.currentTheme["default-background"]
 		#if bgStyle != "#ffffff":
@@ -181,6 +170,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.updater = BPCodeUpdater(self)
 		super().clear()
 		self.disableUpdatesFlag = False
+	
+	#def setBackgroundColor(self, bgColor):
+	#	p = self.palette()
+	#	p.setColor(QtGui.QPalette.Base, bgColor)
+	#	p.setColor(QtGui.QPalette.Window, bgColor)
+	#	self.setPalette(p)
+	#	self.setBackgroundVisible(True)
 	
 	def setFont(self, font):
 		super().setFont(font)
@@ -322,13 +318,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				keyword = pureLine
 				wasFullLine = True
 			
-			if keyword and isAtEndOfLine and self.bpIDE.getErrorCount() == 0:
+			if keyword and isAtEndOfLine:
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1
 				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
 					tabLevel += 1
-				elif (wasFullLine or nodeName == "call") and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword) and tabLevel <= 1:
+				elif (wasFullLine or nodeName == "call") and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword) and tabLevel <= 1 and self.bpIDE.getErrorCount() == 0:
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
 					tabLevel += 1
@@ -542,7 +538,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.cursorPositionChanged.connect(self.highlightCurrentLine)
 		
 		self.updateLineNumberAreaWidth(0)
-		self.highlightLine()
+		#self.highlightLine()
 	
 	def highlightLine(self, lineIndex = 0, lineColor = None):
 		if not lineColor:

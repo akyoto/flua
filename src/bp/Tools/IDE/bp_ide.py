@@ -88,7 +88,32 @@ class BPConfiguration:
 	def applySettings(self):
 		self.applyMonospaceFont(self.monospaceFont)
 		self.applyStandardFont(self.standardFont)
-		#self.applyTheme(self.themeName)
+		self.applyTheme(self.themeName)
+		
+	def applyTheme(self, themeName):
+		if isinstance(themeName, str):
+			self.themeName = themeName
+			self.theme = self.bpIDE.themes[self.themeName]
+		else:
+			self.themeName = self.themeWidget.currentText()
+			self.theme = self.bpIDE.themes[self.themeName]
+		
+		#codeEdit.setBackgroundColor(self.theme['default-background'])
+		QtGui.QApplication.instance().setStyleSheet("QPlainTextEdit { background-color: %s; }" % (self.theme['default-background']))
+		
+		for codeEdit in self.bpIDE.codeEdits.values():
+			# Set current format
+			defaultFormat = self.theme["default"]
+			codeEdit.setCurrentCharFormat(defaultFormat)
+			
+			# Update the current view's format: YES WE NEED TO DO THIS!
+			cursor = codeEdit.textCursor()
+			cursor.select(QtGui.QTextCursor.Document)
+			cursor.setCharFormat(defaultFormat)
+			
+			#codeEdit.setTextCursor(cursor)
+			
+			codeEdit.highlighter.rehighlight()
 		
 	def applyEditorFontFamily(self, font):
 		self.editorFontFamily = font.family()
@@ -121,13 +146,6 @@ class BPConfiguration:
 		self.tabWidth = value
 		for codeEdit in self.bpIDE.codeEdits.values():
 			codeEdit.setTabWidth(value)
-		
-	def applyTheme(self, theme):
-		self.themeName = self.themeWidget.currentText()
-		self.theme = self.bpIDE.themes[self.themeName]
-		
-		for codeEdit in self.bpIDE.codeEdits.values():
-			codeEdit.highlighter.rehighlight()
 		
 	def initPreferencesWidget(self, uiFileName, widget):
 		if uiFileName == "editor":
@@ -195,8 +213,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.initActions()
 		self.endBenchmark()
 		
-		self.config.applySettings()
+		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
 		self.show()
+		self.config.applySettings()
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		
@@ -348,7 +367,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.themes = {
 			"Default": {
 				'default': format("#272727"),
-				'default-background': QtGui.QColor("#ff8800"),
+				'default-background': "#ffffff",
 				'keyword': format('blue'),
 				'operator': format('red'),
 				'brace': format('darkGray'),
@@ -358,10 +377,10 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				'string': format('#009000'),
 				'string2': format('darkMagenta'),
 				'comment': format('darkGray', 'italic'),
-				'self': format('black', 'italic'),
+				'self': format('#373737', 'italic'),
 				'number': format('brown'),
 				'hex-number': format('brown'),
-				'own-function': format('#373737', 'bold'),
+				'own-function': format('#171717', 'bold'),
 				'local-module-import': format('#661166', 'bold'),
 				'project-module-import': format('#378737', 'bold'),
 				'global-module-import': format('#373737', 'bold'),
@@ -370,7 +389,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			
 			"Orange": {
 				'default': format("#eeeeee"),
-				'default-background': QtGui.QColor("#272727"),
+				'default-background': "#272727",
 				'keyword': format('orange'),
 				'operator': format('#ff2010'),
 				'brace': format('darkGray'),
@@ -379,15 +398,15 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				'include-file': format('#888888'),
 				'string': format('#00c000'),
 				'string2': format('darkMagenta'),
-				'comment': format('darkGray', 'italic'),
-				'self': format('black', 'italic'),
+				'comment': format('lightGray', 'italic'),
+				'self': format('#eeeeee', 'italic'),
 				'number': format('#00cccc'),
 				'hex-number': format('brown'),
 				'own-function': format('#ff8000', 'bold'),
 				'local-module-import': format('#77ee77', 'bold'),
 				'project-module-import': format('#dddddd', 'bold'),
 				'global-module-import': format('#22dd22', 'bold'),
-				'current-line' : None#QtGui.QColor("#fefefe")
+				'current-line' : QtGui.QColor("#474747")
 			},
 		}
 		
@@ -436,6 +455,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded" % (funcCount, self.processor.funcCount))
+			#self.codeEdit.highlightLine(lineIndex)
 			
 			#expr = self.codeEdit.getCurrentLine()
 			#if expr:

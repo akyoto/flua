@@ -51,6 +51,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	def __init__(self, document, bpIDE):
 		QtGui.QSyntaxHighlighter.__init__(self, document)
 		self.bpIDE = bpIDE
+		#self.updateCharFormatFlag = False
 
 	def highlightBlock(self, text):
 		"""Apply syntax highlighting to the given block of text.
@@ -63,6 +64,10 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		i = 0
 		text += " "
 		textLen = len(text)
+		
+		#if self.updateCharFormatFlag:
+		#	self.setFormat(0, textLen, style['default'])
+		
 		while i < textLen:
 			char = text[i]
 			if char.isalpha() or char == '_':
@@ -92,6 +97,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						elif importType == 5 or importType == 6:
 							self.setFormat(h, j - h, style['global-module-import'])
 						h = j
+				elif expr == "self":
+					self.setFormat(i, h - i, style['self'])
 				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['own-function'])
 				i = h - 1
@@ -132,4 +139,4 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 			i += 1
 		#self.endBenchmark()
 		
-		self.setCurrentBlockState(0)
+		#self.setCurrentBlockState(0)
