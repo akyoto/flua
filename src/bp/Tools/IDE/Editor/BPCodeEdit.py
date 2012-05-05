@@ -106,10 +106,23 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.threaded = True
 		
 		self.bpIDE = bpIDE
+		currentTheme = self.bpIDE.getCurrentTheme()
+		
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-		self.setCurrentCharFormat(self.bpIDE.getCurrentTheme()["default"])
+		
+		# Background
+		bgColor = currentTheme["default-background"]
+		self.setBackgroundVisible(True)
+		self.setBackgroundRole(QtGui.QPalette.Text)
+		if 0:
+			p = self.palette()
+			p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.Base, bgColor)
+			p.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base, bgColor)
+			self.setPalette(p)
+		
+		self.setCurrentCharFormat(currentTheme["default"])
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		
 		#bgStyle = bpIDE.currentTheme["default-background"]
@@ -309,7 +322,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				keyword = pureLine
 				wasFullLine = True
 			
-			if keyword and isAtEndOfLine:
+			if keyword and isAtEndOfLine and self.bpIDE.getErrorCount() == 0:
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1
@@ -322,7 +335,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				# TODO: All methods
 				elif keyword == "init" and tabLevel == 1:
 					tabLevel += 1
-			
+					
 			# Add the text
 			cursor.beginEditBlock()
 			cursor.insertText("\n" + "\t" * tabLevel)

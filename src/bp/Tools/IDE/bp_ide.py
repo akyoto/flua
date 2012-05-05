@@ -348,7 +348,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.themes = {
 			"Default": {
 				'default': format("#272727"),
-				'default-background': "#ffffff",
+				'default-background': QtGui.QColor("#ff8800"),
 				'keyword': format('blue'),
 				'operator': format('red'),
 				'brace': format('darkGray'),
@@ -370,7 +370,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 			
 			"Orange": {
 				'default': format("#eeeeee"),
-				'default-background': "#272727",
+				'default-background': QtGui.QColor("#272727"),
 				'keyword': format('orange'),
 				'operator': format('#ff2010'),
 				'brace': format('darkGray'),
@@ -556,6 +556,9 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def getFilePath(self):
 		return self.codeEdit.getFilePath()
+		
+	def getErrorCount(self):
+		return self.msgView.count()
 		
 	def loadFileToEditor(self, fileName):
 		self.beforeSwitchingFile()

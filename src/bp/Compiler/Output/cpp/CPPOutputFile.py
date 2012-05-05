@@ -231,6 +231,7 @@ class CPPOutputFile(ScopeController):
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
+		# TODO: Why has 'add' its own section? Implemented this for other operators or remove?
 		elif tagName == "add":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -289,6 +290,8 @@ class CPPOutputFile(ScopeController):
 			return self.handleReturn(node)
 		elif tagName == "for":
 			return self.handleFor(node)
+		elif tagName == "flow-to":
+			return self.handleFlowTo(node)
 		elif tagName == "include":
 			fileName = node.childNodes[0].nodeValue
 			self.compiler.includes.append((self.dir + fileName)[len(self.compiler.modDir):]) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
@@ -1159,6 +1162,16 @@ class CPPOutputFile(ScopeController):
 		
 		#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 		return "return " + expr
+	
+	def handleFlowTo(self, node):
+		op1 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[0].childNodes[0]
+		
+		op1Expr = self.parseExpr(op1)
+		op2Expr = self.parseExpr(op2)
+		
+		# TODO: Implement data flow
+		return op1Expr
 	
 	def handleTypeDeclaration(self, node):
 		self.inTypeDeclaration += 1
