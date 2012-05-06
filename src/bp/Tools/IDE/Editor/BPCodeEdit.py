@@ -1,58 +1,8 @@
 from PyQt4 import QtGui, QtCore, uic
 from bp.Tools.IDE.Syntax.BPCSyntax import *
+from bp.Tools.IDE.Threads import *
 from bp.Compiler import *
 #import yappi
-
-class BPCodeUpdater(QtCore.QThread, Benchmarkable):
-	
-	def __init__(self, codeEdit):
-		super().__init__(codeEdit)
-		self.codeEdit = codeEdit
-		self.bpIDE = codeEdit.bpIDE
-		self.setDocument(codeEdit.qdoc)
-		self.bpc = self.bpIDE.bpc#BPCCompiler(getModuleDir())
-		self.bpcFile = None
-		self.finished.connect(self.codeEdit.compilerFinished)
-		self.finished.connect(self.bpIDE.moduleView.updateView)
-		self.finished.connect(self.bpIDE.msgView.updateView)
-		
-	def setDocument(self, doc):
-		self.qdoc = doc
-		
-	def run(self):
-		#yappi.start()
-		if self.codeEdit.futureText:
-			codeText = self.codeEdit.futureText
-		else:
-			codeText = self.qdoc.toPlainText()
-		#self.bpIDE.msgView.clear()
-		#self.codeEdit.clearHighlights()
-		
-		try:
-			# TODO: Remove unsafe benchmark
-			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("[%s] Parser" % stripDir(filePath))
-			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
-			if self.bpcFile.inFunction != 0:
-				print("inFunction: " +  str(self.bpcFile.inFunction))
-		except InputCompilerException as e:
-			lineNumber = e.getLineNumber()
-			errorMessage = e.getMsg()
-			errorFilePath = e.getFilePath()
-			self.bpIDE.msgView.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
-			
-			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
-			self.codeEdit.disableUpdatesFlag = False
-			
-			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
-			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
-		finally:
-			#yappi.stop()
-			#yappi.print_stats()
-			self.endBenchmark()
-			#yappi.clear_stats()
-		
-		return
 
 # Auto Completion
 class BPCAutoCompleterModel(QtGui.QStringListModel):
@@ -66,7 +16,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.keywordList = None
 		
 		super().__init__([], parent)
-		self.icon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
+		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
 	def setKeywordList(self, keywordList):
@@ -78,7 +28,11 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
-			return self.icon
+			text = super().data(index, QtCore.Qt.DisplayRole)
+			if text in self.keywordList:
+				return self.keywordIcon
+			elif text in self.shortCutList:
+				return self.keywordIcon
 		
 		# TODO: Auto completion for shortcuts
 		if role == QtCore.Qt.DisplayRole:
@@ -112,6 +66,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		self.setFont(self.bpIDE.config.monospaceFont)
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
 		#bgStyle = bpIDE.currentTheme["default-background"]
@@ -275,9 +230,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			# Insert directly if it's just 1 possibility
-			if self.completer.completionCount() == 1:
-				self.insertCompletion(self.completer.currentCompletion())
-				return
+			enableACInstant = False
+			if enableACInstant:
+				if self.completer.completionCount() == 1:
+					self.insertCompletion(self.completer.currentCompletion())
+					return
 			
 			cr = self.cursorRect()
 			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
@@ -324,7 +281,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					tabLevel += 1
 				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
 					tabLevel += 1
-				elif (wasFullLine or nodeName == "call") and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword) and tabLevel <= 1 and self.bpIDE.getErrorCount() == 0:
+				elif ((wasFullLine or nodeName == "call")
+						and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+						and tabLevel <= 1
+						and self.bpIDE.getErrorCount() == 0
+						and line[-1] != ')'):
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
 					tabLevel += 1

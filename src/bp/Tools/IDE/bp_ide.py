@@ -31,139 +31,48 @@
 ####################################################################
 import sys
 import os
-import configparser
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
-from bp.Tools.IDE.Utils import *
-from bp.Tools.IDE.Editor import *
-from bp.Tools.IDE.Widgets import *
+from bp.Tools.IDE.Startup import *
 
 ####################################################################
 # Code
 ####################################################################
-class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
+class BPWorkspace(QtGui.QTabWidget):
 	
 	def __init__(self, bpIDE):
-		super().__init__(bpIDE)
+		parent = bpIDE.workspacesContainer
+		super().__init__(parent)
+		
 		self.bpIDE = bpIDE
-		self.processor = bpIDE.processor
-		self.finished.connect(self.bpIDE.postProcessorFinished)
+		self.setDocumentMode(True)
+		self.setTabsClosable(True)
+		self.setMovable(True)
+		self.hide()
 		
-	def run(self):
-		try:
-			self.startBenchmark("[%s] PostProcessor" % stripDir(self.bpIDE.getFilePath()))
-			self.processor.resetDTreesForFile(self.bpIDE.getFilePath())
-			self.bpIDE.processorOutFile = self.processor.process(self.bpIDE.codeEdit.root, self.bpIDE.getFilePath())
-			self.endBenchmark()
-		except PostProcessorException as e:
-			errorMessage = e.getMsg()
-			self.bpIDE.msgView.addMessage(errorMessage)
+		self.currentChanged.connect(self.changeCodeEdit)
+		parent.layout().addWidget(self)
+		
+	def getCodeEditList(self):
+		ceList = []
+		tabCount = self.count()
+		for i in range(tabCount):
+			ceList.append(self.widget(i))
+		return ceList
+		
+	def changeCodeEdit(self, index):
+		if index != -1:
+			self.bpIDE.codeEdit = self.widget(index)
+		
+	def activateWorkspace(self):
+		#self.tabWidget.show()
+		self.show()
+		
+	def deactivateWorkspace(self):
+		#self.tabWidget.show()
+		self.hide()
 
-class BPConfiguration:
-	
-	def __init__(self, bpIDE, fileName):
-		self.bpIDE = bpIDE
-		self.fileName = fileName
-		self.parser = configparser.SafeConfigParser()
-		
-		self.loadSettings()
-		
-	def loadSettings(self):
-		with codecs.open(self.fileName, "r", "utf-8") as inStream:
-			self.parser.readfp(inStream)
-		
-		self.editorFontFamily = self.parser.get("Editor", "FontFamily")
-		self.editorFontSize = self.parser.getint("Editor", "FontSize")
-		self.tabWidth = self.parser.getint("Editor", "TabWidth")
-		
-		self.themeName = self.parser.get("Editor.Theme", "Theme")
-		self.theme = self.bpIDE.themes[self.themeName]
-		
-		self.ideFontFamily = self.parser.get("IDE", "FontFamily")
-		self.ideFontSize = self.parser.getint("IDE", "FontSize")
-		
-		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
-		self.standardFont = QtGui.QFont(self.ideFontFamily, self.ideFontSize)
-		
-	def applySettings(self):
-		self.applyMonospaceFont(self.monospaceFont)
-		self.applyStandardFont(self.standardFont)
-		self.applyTheme(self.themeName)
-		
-	def applyTheme(self, themeName):
-		if isinstance(themeName, str):
-			self.themeName = themeName
-			self.theme = self.bpIDE.themes[self.themeName]
-		else:
-			self.themeName = self.themeWidget.currentText()
-			self.theme = self.bpIDE.themes[self.themeName]
-		
-		#codeEdit.setBackgroundColor(self.theme['default-background'])
-		QtGui.QApplication.instance().setStyleSheet("QPlainTextEdit { background-color: %s; }" % (self.theme['default-background']))
-		
-		for codeEdit in self.bpIDE.codeEdits.values():
-			# Set current format
-			defaultFormat = self.theme["default"]
-			codeEdit.setCurrentCharFormat(defaultFormat)
-			
-			# Update the current view's format: YES WE NEED TO DO THIS!
-			cursor = codeEdit.textCursor()
-			cursor.select(QtGui.QTextCursor.Document)
-			cursor.setCharFormat(defaultFormat)
-			
-			#codeEdit.setTextCursor(cursor)
-			
-			codeEdit.highlighter.rehighlight()
-		
-	def applyEditorFontFamily(self, font):
-		self.editorFontFamily = font.family()
-		self.monospaceFont.setFamily(self.editorFontFamily)
-		self.applyMonospaceFont(self.monospaceFont)
-		
-	def applyEditorFontSize(self, value):
-		self.editorFontSize = value
-		self.monospaceFont.setPointSize(self.editorFontSize)
-		self.applyMonospaceFont(self.monospaceFont)
-		
-	def applyMonospaceFont(self, font):
-		# Widgets with monospace font
-		self.bpIDE.codeEdit.setFont(font)
-		self.bpIDE.xmlView.setFont(font)
-		self.bpIDE.dependencyView.setFont(font)
-		
-	def applyStandardFont(self, font):
-		QtGui.QToolTip.setFont(font)
-		
-		# Widgets with normal font
-		self.bpIDE.moduleView.setFont(font)
-		self.bpIDE.msgView.setFont(font)
-		
-		# All docks
-		for dock in self.bpIDE.docks:
-			dock.setFont(font)
-		
-	def applyTabWidth(self, value):
-		self.tabWidth = value
-		for codeEdit in self.bpIDE.codeEdits.values():
-			codeEdit.setTabWidth(value)
-		
-	def initPreferencesWidget(self, uiFileName, widget):
-		if uiFileName == "editor":
-			widget.fontFamily.setCurrentFont(self.monospaceFont)
-			widget.fontSize.setValue(self.editorFontSize)
-			widget.tabWidth.setValue(self.tabWidth)
-			
-			#widget.fontFamily.connect()
-			widget.fontFamily.currentFontChanged.connect(self.applyEditorFontFamily)
-			widget.fontSize.valueChanged.connect(self.applyEditorFontSize)
-			widget.tabWidth.valueChanged.connect(self.applyTabWidth)
-		elif uiFileName == "editor.theme":
-			self.themeWidget = widget.themeName
-			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
-
-class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
-	
-	# INIT START
+class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def __init__(self):
 		super().__init__()
@@ -179,45 +88,39 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.docks = []
 		self.uiCache = dict()
 		
+		# Workspaces
+		self.currentWorkspace = None
+		self.workspacesContainer = QtGui.QWidget(self)
+		self.workspacesContainer.setContentsMargins(0, 0, 0, 0)
+		hBox = QtGui.QHBoxLayout()
+		hBox.setContentsMargins(0, 0, 0, 0)
+		self.workspacesContainer.setLayout(hBox)
+		
+		self.workspaces = [
+			BPWorkspace(self),
+			BPWorkspace(self),
+			BPWorkspace(self),
+			BPWorkspace(self),
+		]
+		
 		self.threaded = True
 		
-		self.startBenchmark("Init Theme")
-		self.initTheme()
-		self.endBenchmark()
-		
-		self.startBenchmark("Load Configuration")
-		self.loadConfig()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init UI")
-		self.initUI()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init Docks")
-		self.initDocks()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init Toolbar")
-		self.initToolBar()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init Compiler")
-		self.initCompiler()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init Preferences")
-		self.initPreferences()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init Actions")
-		self.initActions()
-		self.endBenchmark()
+		self.setCurrentWorkspace(0)
+		self.initAll()
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
+		self.setCentralWidget(self.workspacesContainer)
 		self.show()
 		self.config.applySettings()
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
+		
+	def setCurrentWorkspace(self, index):
+		if self.currentWorkspace is not None:
+			self.currentWorkspace.deactivateWorkspace()
+		
+		self.currentWorkspace = self.workspaces[index]
+		self.currentWorkspace.activateWorkspace()
 		
 	def loadConfig(self):
 		if os.path.isfile("settings.ini"):
@@ -247,199 +150,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.preferences.currentBox.layout().addWidget(widget)
 		
 		widget.show()
-		
-	def initPreferences(self):
-		self.preferences = uic.loadUi("ui/preferences.ui")
-		self.preferences.settings.expandToDepth(0)
-		self.preferences.settings.currentItemChanged.connect(self.onSettingsItemChange)
-		
-	def initUI(self):
-		uic.loadUi("ui/blitzprog-ide.ui", self)
-		
-		# StatusBar
-		self.statusBar.setFont(QtGui.QFont("SansSerif", 7))
-		
-		# Window
-		#self.setWindowTitle("Blitzprog IDE")
-		#self.setWindowIcon(QtGui.QIcon("images/bp.png"))
-		self.setGeometry(0, 0, 1000, 650)
-		self.center()
-		
-		# Status bar
-		self.lineNumberLabel = QtGui.QLabel()
-		self.moduleInfoLabel = QtGui.QLabel()
-		self.evalInfoLabel = QtGui.QLabel()
-		self.lineNumberLabel.setMinimumWidth(100)
-		self.progressBar = QtGui.QProgressBar(self.statusBar)
-		self.progressBar.setTextVisible(False)
-		self.progressBar.hide()
-		#spacer1 = QtGui.QWidget(self.statusBar)
-		#spacer1.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
-		
-		#spacer2 = QtGui.QWidget(self.statusBar)
-		#spacer2.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
-		
-		#self.statusBar.addPermanentWidget(spacer1)
-		self.statusBar.addWidget(self.lineNumberLabel)
-		self.statusBar.addWidget(self.moduleInfoLabel)
-		self.statusBar.addWidget(self.evalInfoLabel)
-		self.statusBar.addPermanentWidget(self.progressBar, 0)
-		#self.statusBar.setLayout(hBoxLayout)
-		
-		self.codeEdit = BPCodeEdit(self)
-		self.codeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
-		
-		self.setCentralWidget(self.codeEdit)
-		
-		#self.statusBar.hide()
-		self.toolBar.hide()
-		self.syntaxSwitcherBar.hide()
-		
-	def initDocks(self):
-		# Message view
-		self.msgView = BPMessageView(self)
-		
-		# XML view
-		self.xmlView = XMLCodeEdit(self)
-		self.xmlView.setReadOnly(1)
-		
-		# Dependency view
-		self.dependencyView = BPDependencyView(self)
-		self.dependencyView.setReadOnly(1)
-		
-		# File view
-		self.fileView = BPFileBrowser(self, getModuleDir())
-		
-		# Module view
-		self.moduleView = BPModuleBrowser(self, getModuleDir())
-		
-		# Scribble - I absolutely love this feature in Geany!
-		# It's always the little things that are awesome :)
-		self.scribble = BPScribbleWidget(self, "miscellaneous/scribble.txt")
-		
-		# IntelliView enabled?
-		if self.intelliEnabled:
-			# IntelliView
-			self.intelliView = BPIntelliView(self)
-			
-			# IntelliView Dock
-			self.intelliView.addIntelligentWidget(self.msgView)
-			self.intelliView.addIntelligentWidget(self.dependencyView)
-			#self.intelliView.addIntelligentWidget(self.xmlView)
-			self.intelliView.vBox.addStretch(1)
-			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
-		else:
-			self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.LeftDockWidgetArea)
-			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.RightDockWidgetArea)
-			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
-			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
-			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.RightDockWidgetArea)
-			
-		self.dependenciesViewDock.hide()
-		#self.xmlViewDock.hide()
-		self.scribbleDock.hide()
-		self.fileViewDock.hide()
-		
-	def initActions(self):
-		# File
-		self.actionNew.triggered.connect(self.newFile)
-		self.actionOpen.triggered.connect(self.openFile)
-		self.actionSave.triggered.connect(self.saveFile)
-		self.actionSaveAs.triggered.connect(self.saveAsFile)
-		self.actionExit.triggered.connect(self.close)
-		
-		# Edit
-		self.actionUndo.triggered.connect(self.undoLastAction)
-		self.actionRedo.triggered.connect(self.redoLastAction)
-		self.actionCopy.triggered.connect(self.codeEdit.copy)
-		self.actionCut.triggered.connect(self.codeEdit.cut)
-		self.actionPaste.triggered.connect(self.codeEdit.paste)
-		self.actionPreferences.triggered.connect(self.preferences.show)
-		
-		# Module
-		self.actionRun.triggered.connect(self.runModule)
-		
-		# Help
-		self.actionAbout.triggered.connect(self.about)
-		
-	def initTheme(self):
-		self.themes = {
-			"Default": {
-				'default': format("#272727"),
-				'default-background': "#ffffff",
-				'keyword': format('blue'),
-				'operator': format('red'),
-				'brace': format('darkGray'),
-				'comma': format('#555555'),
-				'output-target': format('#666666'),
-				'include-file': format('#666666'),
-				'string': format('#009000'),
-				'string2': format('darkMagenta'),
-				'comment': format('darkGray', 'italic'),
-				'self': format('#373737', 'italic'),
-				'number': format('brown'),
-				'hex-number': format('brown'),
-				'own-function': format('#171717', 'bold'),
-				'local-module-import': format('#661166', 'bold'),
-				'project-module-import': format('#378737', 'bold'),
-				'global-module-import': format('#373737', 'bold'),
-				'current-line' : None#QtGui.QColor("#fefefe")
-			},
-			
-			"Orange": {
-				'default': format("#eeeeee"),
-				'default-background': "#272727",
-				'keyword': format('orange'),
-				'operator': format('#ff2010'),
-				'brace': format('darkGray'),
-				'comma': format('#777777'),
-				'output-target': format('#888888'),
-				'include-file': format('#888888'),
-				'string': format('#00c000'),
-				'string2': format('darkMagenta'),
-				'comment': format('lightGray', 'italic'),
-				'self': format('#eeeeee', 'italic'),
-				'number': format('#00cccc'),
-				'hex-number': format('brown'),
-				'own-function': format('#ff8000', 'bold'),
-				'local-module-import': format('#77ee77', 'bold'),
-				'project-module-import': format('#dddddd', 'bold'),
-				'global-module-import': format('#22dd22', 'bold'),
-				'current-line' : QtGui.QColor("#474747")
-			},
-		}
-		
-	def initCompiler(self):
-		self.postProcessorThread = None
-		self.bpc = BPCCompiler(getModuleDir(), ".bp")
-		self.processor = BPPostProcessor()
-		self.processorOutFile = None
-		self.postProcessorThread = BPPostProcessorThread(self)
-		self.newFile()
-		
-		self.codeEdits = {
-			self.getFilePath() : self.codeEdit
-		}
-		
-	def initToolBar(self):
-		# Syntax switcher
-		syntaxSwitcher = QtGui.QComboBox()
-		syntaxSwitcher.addItem("BPC Syntax")
-		syntaxSwitcher.addItem("C++/Java Syntax")
-		syntaxSwitcher.addItem("Python Syntax")
-		syntaxSwitcher.addItem("Ruby Syntax")
-		
-		spacerWidget = QtGui.QWidget()
-		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
-		
-		# Tool bar
-		self.syntaxSwitcherBar.addSeparator()
-		self.syntaxSwitcherBar.addWidget(spacerWidget)
-		self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
-		self.syntaxSwitcherBar.addSeparator()
-		
-	# INIT END
 	
 	def updateLineInfo(self, force = False, updateDependencyView = True):
 		newBlockPos = self.codeEdit.getLineNumber()
@@ -454,7 +164,7 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 				funcCount = self.processorOutFile.funcCount
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
-			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded" % (funcCount, self.processor.funcCount))
+			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded. " % (funcCount, self.processor.funcCount))
 			#self.codeEdit.highlightLine(lineIndex)
 			
 			#expr = self.codeEdit.getCurrentLine()
@@ -659,67 +369,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		self.menuBar.setFont(font)
 		for menuItem in self.menuBar.children():
 			menuItem.setFont(font)
-	
-	def newFile(self):
-		self.codeEdit.clear()
-		self.dependencyView.clear()
-		self.msgView.clear()
-		self.xmlView.clear()
-		
-		self.tmpCount += 1
-		self.setFilePath("./tmp/tmp%d.bp" % (self.tmpCount))
-		self.codeEdit.runUpdater()
-		self.codeEdit.setFocus()
-		
-	def openFile(self, path):
-		fileName = path
-		if not fileName:
-			if self.isTmpFile():
-				openInDirectory = getModuleDir()
-			else:
-				openInDirectory = extractDir(self.getFilePath())
-			
-			fileName = QtGui.QFileDialog.getOpenFileName(
-				parent=self,
-				caption="Open File",
-				directory=openInDirectory,
-				filter="bp Files (*.bp);;bpc Files (*.bpc)")
-		
-		if fileName.endswith(".bp"):
-			self.loadFileToEditor(fileName)
-		elif fileName.endswith(".bpc"):
-			self.loadBPCFileToEditor(fileName)
-		else:
-			return
-			
-		# Add to recent files list
-		#self.recentFiles
-		
-	def saveFile(self):
-		filePath = self.getFilePath()
-		if self.isTmpPath(filePath) or filePath.endswith(".bpc"):
-			self.saveAsFile()
-		else:
-			self.codeEdit.save(filePath)
-	
-	def saveAsFile(self):
-		if self.isTmpFile():
-			saveInDirectory = getModuleDir()
-		else:
-			saveInDirectory = extractDir(self.getFilePath())
-		
-		filePath = QtGui.QFileDialog.getSaveFileName(
-				parent=self,
-				caption="Save File",
-				directory=saveInDirectory,
-				filter="bp Files (*.bp)")
-		
-		if filePath:
-			self.codeEdit.save(filePath)
-			
-			# If it was saved in the module directory, reload the view
-			if getModuleDir() in fixPath(filePath):
-				self.moduleView.reloadModuleDirectory()
 		
 	def isTmpFile(self):
 		return self.isTmpPath(self.getFilePath())
@@ -740,29 +389,6 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		
 	def onCursorPosChange(self):
 		self.updateLineInfo()
-		
-	def undoLastAction(self):
-		self.codeEdit.undo()
-		
-	def redoLastAction(self):
-		self.codeEdit.redo()
-		
-	def about(self):
-		QtGui.QMessageBox.about(self, "About blitzprog IDE",
-							"""
-							<p>
-								<h2>Blitzprog IDE</h2>
-								A development environment for the blitzprog programming language.<br/>
-								<br/>
-								Official website:<br/>
-								<a href="http://blitzprog.org/">http://blitzprog.org/</a><br/>
-								<br/>
-								GitHub project:<br/>
-								<a href="https://github.com/blitzprog/bp">https://github.com/blitzprog/bp</a><br/>
-								<br/>
-								by Eduard Urbach
-							</p>
-							""")
 		
 	def createDockWidget(self, name, widget, area):
 		newDock = QtGui.QDockWidget(name, self)
@@ -787,28 +413,15 @@ class BPMainWindow(QtGui.QMainWindow, Benchmarkable):
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
-		
-	def closeEvent(self, event):
-		self.scribble.saveScribble()
-		event.accept()
-		return
-		
-		reply = QtGui.QMessageBox.question(self,
-				"Message",
-				"Are you sure you want to quit?",
-				QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
-				QtGui.QMessageBox.No)
-		
-		if reply == QtGui.QMessageBox.Yes:
-			event.accept()
-		else:
-			event.ignore()
 
 def main():
 	# Create the application
 	app = QtGui.QApplication(sys.argv)
 	editor = BPMainWindow()
-	sys.exit(app.exec_())
+	exitCode = app.exec_()
+	
+	print("--- EOP: %d ---" % exitCode)
+	sys.exit(exitCode)
 
 if __name__ == '__main__':
 	try:

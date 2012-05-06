@@ -1,6 +1,6 @@
 from PyQt4 import QtGui, QtCore
 
-def format(color, style=''):
+def cf(color, style=''):
 	"""Return a QTextCharFormat with the given attributes.
 	"""
 	_color = QtGui.QColor()
