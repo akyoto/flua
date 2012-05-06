@@ -51,7 +51,12 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.hide()
 		
 		self.currentChanged.connect(self.changeCodeEdit)
+		self.tabCloseRequested.connect(self.closeCodeEdit)
 		parent.layout().addWidget(self)
+		
+	def addAndSelectTab(self, widget, name):
+		index = self.addTab(widget, name)
+		self.setCurrentIndex(index)
 		
 	def getCodeEditList(self):
 		ceList = []
@@ -61,15 +66,37 @@ class BPWorkspace(QtGui.QTabWidget):
 		return ceList
 		
 	def changeCodeEdit(self, index):
+		#print("CODE EDIT TO %d" % index)
 		if index != -1:
 			self.bpIDE.codeEdit = self.widget(index)
+			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
+			self.bpIDE.updateLineInfo()
+			
+			if self.currentIndex() != index:
+				self.setCurrentIndex(index)
+			
+	def getCodeEditByPath(self, path):
+		for i in range(self.count()):
+			ce = self.widget(i)
+			if ce.getFilePath() == path:
+				return i, ce
+		
+		return -1, None
+		
+	def closeCodeEdit(self, index):
+		if self.widget(index) == self.bpIDE.codeEdit:
+			self.bpIDE.codeEdit = None
+		
+		self.removeTab(index)
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()
+		self.changeCodeEdit(self.currentIndex())#bpIDE.codeEdit = self.currentWidget()
 		self.show()
 		
 	def deactivateWorkspace(self):
 		#self.tabWidget.show()
+		self.bpIDE.codeEdit = None
 		self.hide()
 
 class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
@@ -102,6 +129,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			BPWorkspace(self),
 			BPWorkspace(self),
 		]
+		
+		# Completer
+		self.completer = BPCAutoCompleter(self)
+		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
+		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
+		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywords))
 		
 		self.threaded = True
 		
@@ -275,10 +308,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.xmlView.clear()
 		
 	def setFilePath(self, path):
-		self.filePath = os.path.abspath(path)
+		filePath = os.path.abspath(path)
 		if self.processor:
-			self.processor.setMainFile(self.filePath)
-		self.codeEdit.setFilePath(self.filePath)
+			self.processor.setMainFile(filePath)
+		self.codeEdit.setFilePath(filePath)
 		
 	def getProjectPath(self):
 		# TODO: Project path

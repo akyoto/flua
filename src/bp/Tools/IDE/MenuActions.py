@@ -2,24 +2,25 @@ from bp.Tools.IDE.Startup import *
 
 class MenuActions:
 	
-	def newFile(self):
+	def newFile(self, fileName = ""):
 		self.tmpCount += 1
 		
 		# TODO:
-		tmpFileName = "./tmp/New file %d.bp" % (self.tmpCount)
+		if not fileName:
+			fileName = "./tmp/New file %d.bp" % (self.tmpCount)
 		newCodeEdit = BPCodeEdit(self)
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
-		self.currentWorkspace.addTab(newCodeEdit, stripAll(tmpFileName))
-		self.codeEdit = newCodeEdit
+		
+		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
+		
+		self.setFilePath(fileName)
+		newCodeEdit.runUpdater()
+		newCodeEdit.setFocus()
 		
 		self.dependencyView.clear()
 		self.msgView.clear()
 		self.xmlView.clear()
-		
-		self.setFilePath(tmpFileName)
-		self.codeEdit.runUpdater()
-		self.codeEdit.setFocus()
 		
 	def openFile(self, path):
 		fileName = path
@@ -35,12 +36,28 @@ class MenuActions:
 				directory=openInDirectory,
 				filter="bp Files (*.bp);;bpc Files (*.bpc)")
 		
-		if fileName.endswith(".bp"):
-			self.loadFileToEditor(fileName)
-		elif fileName.endswith(".bpc"):
-			self.loadBPCFileToEditor(fileName)
-		else:
-			return
+		if fileName:
+			# File already opened in workspace?
+			index = 0
+			ce = None
+			
+			ceInWorkspaces = None
+			for workspace in self.workspaces:
+				index, ce = workspace.getCodeEditByPath(fileName)
+				if index != -1:
+					break
+			
+			if index == -1:
+				self.newFile(fileName)
+				
+				if fileName.endswith(".bp"):
+					self.loadFileToEditor(fileName)
+				elif fileName.endswith(".bpc"):
+					self.loadBPCFileToEditor(fileName)
+			elif ce != self.currentWorkspace:
+				self.currentWorkspace.addAndSelectTab(ce, stripAll(fileName))
+			elif ce == self.currentWorkspace:
+				self.currentWorkspace.changeCodeEdit(index)
 			
 		# Add to recent files list
 		#self.recentFiles

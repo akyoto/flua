@@ -105,9 +105,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.lineNumberArea = None
 		
 		self.completer = None
-		completer = BPCAutoCompleter()
-		completer.bpcModel.setKeywordList(list(BPCHighlighter.keywords))
-		self.setCompleter(completer)
 		#self.completer.setWidget(self)
 		
 		if 0:
@@ -141,16 +138,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTabStopWidth(value * self.fontMetrics().maxWidth())
 	
 	def setCompleter(self, completer):
+		signal = QtCore.SIGNAL("activated(const QString&)")
+		
 		if self.completer:
-			self.disconnect(self.completer, 0, self, 0)
+			self.disconnect(self.completer, signal, self.insertCompletion)
+		
 		if not completer:
 			return
 		
 		completer.setWidget(self)
-		completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
-		completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		self.completer = completer
-		self.connect(self.completer, QtCore.SIGNAL("activated(const QString&)"), self.insertCompletion)
+		self.connect(self.completer, signal, self.insertCompletion)
 	
 	def insertCompletion(self, completion):
 		tc = self.textCursor()
@@ -194,7 +192,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
 		
 		# Auto Complete
-		if self.completer and (isShortcut or self.completer.popup().isVisible()):
+		if self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible()):
 			if event.key() in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
