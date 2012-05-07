@@ -186,15 +186,21 @@ class CPPOutputCompiler:
 		
 		compilerName = "g++"
 		
+		compilerPath = getGCCCompilerPath()
+		currentPath = os.path.abspath("./")
+		
+		if os.name == "nt":
+			os.chdir(compilerPath)
+		
 		# Compiler
 		ccCmd = [
-			getGCCCompilerPath() + compilerName,
+			compilerName,
 			"-c",
-			self.mainCppFile,
-			"-o%s" % (exe + ".o"),
-			"-I" + self.outputDir,
-			"-I" + self.modDir,
-			"-I" + self.bpRoot + "include/cpp/",
+			fixPath(self.mainCppFile),
+			"-o%s" % fixPath(exe + ".o"),
+			"-I" + fixPath(self.outputDir),
+			"-I" + fixPath(self.modDir),
+			"-I" + fixPath(self.bpRoot + "include/cpp/"),
 			#"-L" + self.libsDir,
 			"-std=c++0x",
 			"-pipe",
@@ -216,10 +222,10 @@ class CPPOutputCompiler:
 		
 		# Linker
 		linkCmd = [
-			getGCCCompilerPath() + compilerName,
-			"-o%s" % (exe),
-			exe + ".o",
-			"-L" + self.libsDir,
+			compilerName,
+			"-o%s" % fixPath(exe),
+			fixPath(exe + ".o"),
+			"-L" + fixPath(self.libsDir),
 			"-static-libgcc",
 			"-static-libstdc++",
 			#"-ltheron",
@@ -241,6 +247,9 @@ class CPPOutputCompiler:
 			procLink.wait()
 		except OSError:
 			print("Couldn't start " + compilerName)
+		finally:
+			if os.name == "nt":
+				os.chdir(currentPath)
 		
 		return exe
 	
