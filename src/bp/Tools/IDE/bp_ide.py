@@ -40,11 +40,12 @@ from bp.Tools.IDE.Startup import *
 ####################################################################
 class BPWorkspace(QtGui.QTabWidget):
 	
-	def __init__(self, bpIDE):
+	def __init__(self, bpIDE, wsID):
 		parent = bpIDE.workspacesContainer
 		super().__init__(parent)
 		
 		self.bpIDE = bpIDE
+		self.wsID = wsID
 		self.setDocumentMode(True)
 		self.setTabsClosable(True)
 		self.setMovable(True)
@@ -57,6 +58,16 @@ class BPWorkspace(QtGui.QTabWidget):
 	def addAndSelectTab(self, widget, name):
 		index = self.addTab(widget, name)
 		self.setCurrentIndex(index)
+		self.bpIDE.workspacesView.updateCurrentWorkspace()
+		
+	def getWorkspaceID(self):
+		return self.wsID
+		
+	def getTabNameList(self):
+		tabNames = []
+		for i in range(self.count()):
+			tabNames.append(self.tabText(i))
+		return tabNames
 		
 	def getCodeEditList(self):
 		ceList = []
@@ -70,10 +81,11 @@ class BPWorkspace(QtGui.QTabWidget):
 		if index != -1:
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
-			self.bpIDE.updateLineInfo()
 			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)
+		
+		self.bpIDE.updateLineInfo()
 			
 	def getCodeEditByPath(self, path):
 		for i in range(self.count()):
@@ -88,6 +100,7 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.codeEdit = None
 		
 		self.removeTab(index)
+		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()
@@ -124,10 +137,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.workspacesContainer.setLayout(hBox)
 		
 		self.workspaces = [
-			BPWorkspace(self),
-			BPWorkspace(self),
-			BPWorkspace(self),
-			BPWorkspace(self),
+			BPWorkspace(self, 0),
+			BPWorkspace(self, 1),
+			BPWorkspace(self, 2),
+			BPWorkspace(self, 3),
 		]
 		
 		# Completer
@@ -138,7 +151,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.threaded = True
 		
-		self.setCurrentWorkspace(0)
 		self.initAll()
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
@@ -185,6 +197,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		widget.show()
 	
 	def updateLineInfo(self, force = False, updateDependencyView = True):
+		if self.codeEdit is None:
+			self.lineNumberLabel.setText("")
+			self.moduleInfoLabel.setText("")
+			return
+		
 		newBlockPos = self.codeEdit.getLineNumber()
 		if force or newBlockPos != self.lastBlockPos:
 			self.lastBlockPos = newBlockPos

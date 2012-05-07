@@ -38,6 +38,8 @@
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
+    <addaction name="actionClose"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuModule">
@@ -167,7 +169,7 @@
     <string>Run</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string>F5</string>
    </property>
   </action>
   <action name="actionSave">
@@ -249,7 +251,7 @@
   <action name="actionProperties">
    <property name="icon">
     <iconset>
-     <normaloff>../images/icons/categories/applications-system.png</normaloff>../images/icons/categories/applications-system.png</iconset>
+     <normaloff>../images/icons/actions/document-properties.png</normaloff>../images/icons/actions/document-properties.png</iconset>
    </property>
    <property name="text">
     <string>Properties</string>
@@ -304,6 +306,26 @@
    </property>
   </action>
   <action name="actionAutoComplete">
+   <property name="text">
+    <string>Auto Complete</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Space</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/window-close.png</normaloff>../images/icons/actions/window-close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionAutoComplete_2">
    <property name="text">
     <string>Auto Complete</string>
    </property>

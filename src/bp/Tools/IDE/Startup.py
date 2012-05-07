@@ -7,16 +7,18 @@ from bp.Tools.IDE.MenuActions import *
 class Startup:
 	
 	def initAll(self):
+		self.startBenchmark("Init UI")
+		self.initUI()
+		self.endBenchmark()
+		
+		self.setCurrentWorkspace(0)
+		
 		self.startBenchmark("Init Theme")
 		self.initTheme()
 		self.endBenchmark()
 		
 		self.startBenchmark("Load Configuration")
 		self.loadConfig()
-		self.endBenchmark()
-		
-		self.startBenchmark("Init UI")
-		self.initUI()
 		self.endBenchmark()
 		
 		self.startBenchmark("Init Toolbar")
