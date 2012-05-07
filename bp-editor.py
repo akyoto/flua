@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 import sys
 import os
-sys.path.append("./src/")
+
+if os.name == "nt":
+        appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
+        pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
+        print(sys.version)
+        print(appendPath)
+        print(pyqtPath)
+        sys.path.append(pyqtPath)
+else:
+        appendPath = (os.path.abspath("src/") + "/")
+
+sys.path.append(appendPath)
 
 try:
 	import PyQt4

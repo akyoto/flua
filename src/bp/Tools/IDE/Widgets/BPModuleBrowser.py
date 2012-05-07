@@ -67,13 +67,13 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			
 			for file in files:
 				if file.endswith(".bp"):
-					lastDir = fixPath(root).split("/")[-2]
+					lastDir = fixPath(root).split(OS_SLASH)[-2]
 					modName = file[:-3]
 					if modName == lastDir:
-						mod = extractDir(root[self.modDirLen:]).replace("/", ".")[:-1]
+						mod = extractDir(root[self.modDirLen:]).replace(OS_SLASH, ".")[:-1]
 					else:
-						mod = extractDir(root[self.modDirLen:]).replace("/", ".") + modName
-					mod = fixPath(root[self.modDirLen:]).replace("/", ".") + "." + file[:-3]
+						mod = extractDir(root[self.modDirLen:]).replace(OS_SLASH, ".") + modName
+					mod = fixPath(root[self.modDirLen:]).replace(OS_SLASH, ".") + "." + file[:-3]
 					
 					parts = mod.split(".")
 					
@@ -230,7 +230,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		# Local + project import
 		if importType >=1 and importType <= 4:
 			filePath = stripExt(self.bpIDE.getModulePath(modName))
-			modPath = filePath[len(getModuleDir()):].replace("/", ".")
+			modPath = filePath[len(getModuleDir()):].replace(OS_SLASH, ".")
 			parts = modPath.split(".")
 			if len(parts) > 1 and parts[-1] == parts[-2]:
 				modPath = ".".join(parts[:-1])
@@ -246,13 +246,15 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def getModuleItemByName(self, modName, expand = False):
 		importType = self.bpIDE.getModuleImportType(modName)
 		if importType == 1 or importType == 2:
-			parts = self.bpIDE.localToGlobalImport(modName).split(".")
+			localToGlobal = self.bpIDE.localToGlobalImport(modName)
+			parts = localToGlobal.split(".")
 		else:
 			parts = modName.split(".")
 		
 		if len(parts) >= 2 and parts[-1] == parts[-2]:
 			parts = parts[:-1]
 		
+		print(parts)
 		currentModule = self.modules
 		lastPart = len(parts)
 		currentPart = 0

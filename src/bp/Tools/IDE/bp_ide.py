@@ -251,7 +251,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 	
 	def localToGlobalImport(self, importedModule):
-		return stripExt(self.getModulePath(importedModule)[len(getModuleDir()):]).replace("/", ".").replace(" ", "_")
+		return fixPath(stripExt(self.getModulePath(importedModule)[len(getModuleDir()):])).replace("/", ".").replace(" ", "_")
 	
 	def splitModulePath(self, importedModule):
 		parts = importedModule.split(".")

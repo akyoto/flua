@@ -135,7 +135,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTabWidth(self.bpIDE.config.tabWidth)
 	
 	def setTabWidth(self, value):
-		self.setTabStopWidth(value * self.fontMetrics().maxWidth())
+		if os.name == "nt":
+			self.setTabStopWidth(value * self.fontMetrics().width("9"))
+		else:
+			self.setTabStopWidth(value * self.fontMetrics().maxWidth())
 	
 	def setCompleter(self, completer):
 		signal = QtCore.SIGNAL("activated(const QString&)")

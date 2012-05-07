@@ -1,5 +1,6 @@
 import configparser
 import codecs
+import os
 from PyQt4 import QtGui, QtCore, uic
 
 class BPConfiguration:
@@ -15,15 +16,22 @@ class BPConfiguration:
 		with codecs.open(self.fileName, "r", "utf-8") as inStream:
 			self.parser.readfp(inStream)
 		
-		self.editorFontFamily = self.parser.get("Editor", "FontFamily")
-		self.editorFontSize = self.parser.getint("Editor", "FontSize")
-		self.tabWidth = self.parser.getint("Editor", "TabWidth")
+		if os.name == "nt":
+			ideConfig = "IDE:Windows"
+			editorConfig = "Editor:Windows"
+		else:
+			ideConfig = "IDE"
+			editorConfig = "Editor"
+		
+		self.editorFontFamily = self.parser.get(editorConfig, "FontFamily")
+		self.editorFontSize = self.parser.getint(editorConfig, "FontSize")
+		self.tabWidth = self.parser.getint(editorConfig, "TabWidth")
 		
 		self.themeName = self.parser.get("Editor.Theme", "Theme")
 		self.theme = self.bpIDE.themes[self.themeName]
 		
-		self.ideFontFamily = self.parser.get("IDE", "FontFamily")
-		self.ideFontSize = self.parser.getint("IDE", "FontSize")
+		self.ideFontFamily = self.parser.get(ideConfig, "FontFamily")
+		self.ideFontSize = self.parser.getint(ideConfig, "FontSize")
 		
 		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
 		self.standardFont = QtGui.QFont(self.ideFontFamily, self.ideFontSize)
@@ -92,14 +100,15 @@ class BPConfiguration:
 			dock.setFont(font)
 		
 	def applyTabWidth(self, value):
-		self.tabWidth = value
-		for codeEdit in self.bpIDE.codeEdits.values():
-			codeEdit.setTabWidth(value)
+		self.tabWidth = valued
+		for workspace in self.bpIDE.workspaces:
+			for codeEdit in workspace.getCodeEditList():
+				codeEdit.setTabWidth(value)
 		
 	def initPreferencesWidget(self, uiFileName, widget):
 		if uiFileName == "preferences/editor":
 			widget.fontFamily.setCurrentFont(self.monospaceFont)
-			widget.fontSize.setValue(self.editorFontSize)
+			widget.fontSize.setValue(self.ideFontSize)
 			widget.tabWidth.setValue(self.tabWidth)
 			
 			#widget.fontFamily.connect()

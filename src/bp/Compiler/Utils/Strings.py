@@ -30,10 +30,17 @@ import os
 # Functions
 ####################################################################
 
+#if os.name == "nt":
+#        OS_SLASH = "\\"
+#        OS_WRONG_SLASH = "/"
+#else:
+OS_SLASH = "/"
+OS_WRONG_SLASH = "\\"
+
 def fixPath(stri):
-	newPath = stri.replace("\\", "/")
-	if os.path.isdir(newPath) and not newPath.endswith("/"):
-		return newPath + "/"
+	newPath = stri.replace(OS_WRONG_SLASH, OS_SLASH)
+	if os.path.isdir(newPath) and not newPath.endswith(OS_SLASH):
+		return newPath + OS_SLASH
 	
 	return newPath
 
@@ -73,20 +80,16 @@ def stripExt(stri):
 	pos = stri.rfind(".")
 	if pos != -1:
 		return stri[:pos]
-	return stri
+	return fixPath(stri)
 
 def stripAll(path):
-	return stripExt(os.path.basename(path))
+	return fixPath(stripExt(os.path.basename(path)))
 	
 def stripDir(path):
-	return os.path.basename(path)
+	return fixPath(os.path.basename(path))
 
 def extractDir(path):
-	newPath = os.path.dirname(path)
-	if newPath.endswith("/"):
-		return newPath
-	else:
-		return newPath + "/"
+	return fixPath(os.path.dirname(path))
 
 def getNextWhitespacePos(stri, fromIndex):
 	striLen = len(stri)

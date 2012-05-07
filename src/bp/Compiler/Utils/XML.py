@@ -78,6 +78,8 @@ def loadXMLFile(fileName):
 	if len(xmlCode) and xmlCode[0] == '\ufeff': #codecs.BOM_UTF8:
 		xmlCode = xmlCode[1:]
 	
+	xmlCode = xmlCode.replace("\r", "")
+	
 	# Remove whitespaces
 	# TODO: Ignore bp_strings!
 	headerEnd = xmlCode.find("</header>")
