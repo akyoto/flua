@@ -7,6 +7,12 @@ buildGraphViz = 0
 def getModuleDir():
 	return extractDir(os.path.abspath("../../"))
 
+def getGCCCompilerPath():
+	if os.name == "nt":
+		return fixPath(os.path.abspath("../../../../../mingw/bin/"))
+	else:
+		return ""
+	
 def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
 	# ########################### #
 	# Priority for module search: #
@@ -37,10 +43,11 @@ def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".b
 	gImportedFile = getModuleDir() + importedModulePath + extension
 	
 	gImportedInFolder = getModuleDir() + importedModulePath
-	gImportedInFolder += OS_SLASH + stripAll(pImportedInFolder) + extension
+	# TODO: pImportedInFolder?!
+	gImportedInFolder += OS_SLASH + stripAll(gImportedInFolder) + extension
 	
 	# Debug
-	#print(importedFile, importedInFolder, pImportedFile, pImportedInFolder, gImportedFile, gImportedInFolder)
+	#print(importedFile, "\n", importedInFolder, "\n", pImportedFile, "\n", pImportedInFolder, "\n", gImportedFile, "\n", gImportedInFolder, "\n")
 	
 	# TODO: Implement global variant
 	
@@ -82,7 +89,8 @@ def getModuleImportType(importedModule, fileDir, projectDir, extension = ".bp"):
 	gImportedFile = getModuleDir() + importedModulePath + extension
 	
 	gImportedInFolder = getModuleDir() + importedModulePath
-	gImportedInFolder += OS_SLASH + stripAll(pImportedInFolder) + extension
+	# TODO: pImportedInFolder?!
+	gImportedInFolder += OS_SLASH + stripAll(gImportedInFolder) + extension
 	
 	if os.path.isfile(importedFile):
 		return 1

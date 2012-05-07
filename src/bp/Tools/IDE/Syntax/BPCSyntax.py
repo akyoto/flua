@@ -64,7 +64,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		i = 0
 		text += " "
 		textLen = len(text)
-		
+		#print("HIGHLIGHTING >%s< OF LENGTH %d" % (text, textLen))
 		#if self.updateCharFormatFlag:
 		#	self.setFormat(0, textLen, style['default'])
 		
@@ -120,7 +120,18 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				h = i + 1
 				while h < textLen and text[h] != '"':
 					h += 1
-				self.setFormat(i, h - i + 1, style['string'])
+				
+				# TODO: WHY IS THIS CALL SO BUGGY ON WINDOWS?!
+				if h < textLen - 1 and text[h] == '"':
+					self.setFormat(i, h - i + 1, style['string'])
+				
+				#print(i, h - i, style['string'])
+				#if h < textLen - 1:
+				#	if text[h] == '"':
+				#		self.setFormat(i, h - i + 1, style['string'])
+				#	else:
+				#		self.setFormat(i, h - i, style['string'])
+				#else:
 				i = h
 			elif char == '#':
 				self.setFormat(i, textLen - i, style['comment'])

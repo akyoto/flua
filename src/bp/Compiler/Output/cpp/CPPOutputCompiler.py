@@ -188,7 +188,7 @@ class CPPOutputCompiler:
 		
 		# Compiler
 		ccCmd = [
-			compilerName,
+			getGCCCompilerPath() + compilerName,
 			"-c",
 			self.mainCppFile,
 			"-o%s" % (exe + ".o"),
@@ -216,7 +216,7 @@ class CPPOutputCompiler:
 		
 		# Linker
 		linkCmd = [
-			compilerName,
+			getGCCCompilerPath() + compilerName,
 			"-o%s" % (exe),
 			exe + ".o",
 			"-L" + self.libsDir,

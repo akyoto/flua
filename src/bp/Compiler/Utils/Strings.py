@@ -43,6 +43,9 @@ def fixPath(stri):
 		return newPath + OS_SLASH
 	
 	return newPath
+	
+def fixPathNoEndSlash(stri):
+	return stri.replace(OS_WRONG_SLASH, OS_SLASH)
 
 def fixID(stri):
 	return stri.replace(".", "_").replace(" ", "__")
@@ -80,16 +83,20 @@ def stripExt(stri):
 	pos = stri.rfind(".")
 	if pos != -1:
 		return stri[:pos]
-	return fixPath(stri)
+	return fixPathNoEndSlash(stri)
 
 def stripAll(path):
-	return fixPath(stripExt(os.path.basename(path)))
+	return stripExt(os.path.basename(path))
 	
 def stripDir(path):
-	return fixPath(os.path.basename(path))
+	return fixPathNoEndSlash(os.path.basename(path))
 
 def extractDir(path):
+	#if os.name == "nt":
 	return fixPath(os.path.dirname(path))
+	#else:
+	#	return fixPath(os.path.dirname(path))
+	
 
 def getNextWhitespacePos(stri, fromIndex):
 	striLen = len(stri)
