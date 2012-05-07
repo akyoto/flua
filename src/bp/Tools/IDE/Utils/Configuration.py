@@ -72,7 +72,10 @@ class BPConfiguration:
 		
 	def applyMonospaceFont(self, font):
 		# Widgets with monospace font
-		self.bpIDE.codeEdit.setFont(font)
+		for workspace in self.bpIDE.workspaces:
+			for codeEdit in workspace.getCodeEditList():
+				codeEdit.setFont(font)
+		
 		self.bpIDE.xmlView.setFont(font)
 		self.bpIDE.dependencyView.setFont(font)
 		
@@ -94,7 +97,7 @@ class BPConfiguration:
 			codeEdit.setTabWidth(value)
 		
 	def initPreferencesWidget(self, uiFileName, widget):
-		if uiFileName == "editor":
+		if uiFileName == "preferences/editor":
 			widget.fontFamily.setCurrentFont(self.monospaceFont)
 			widget.fontSize.setValue(self.editorFontSize)
 			widget.tabWidth.setValue(self.tabWidth)
@@ -103,6 +106,6 @@ class BPConfiguration:
 			widget.fontFamily.currentFontChanged.connect(self.applyEditorFontFamily)
 			widget.fontSize.valueChanged.connect(self.applyEditorFontSize)
 			widget.tabWidth.valueChanged.connect(self.applyTabWidth)
-		elif uiFileName == "editor.theme":
+		elif uiFileName == "preferences/editor.theme":
 			self.themeWidget = widget.themeName
 			self.themeWidget.currentIndexChanged.connect(self.applyTheme)

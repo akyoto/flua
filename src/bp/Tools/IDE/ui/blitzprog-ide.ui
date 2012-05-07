@@ -54,6 +54,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -256,6 +257,9 @@
    <property name="text">
     <string>Properties</string>
    </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
   </action>
   <action name="actionCopy">
    <property name="icon">
@@ -331,6 +335,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Space</string>
+   </property>
+  </action>
+  <action name="actionThanksTo">
+   <property name="text">
+    <string>Thanks to...</string>
    </property>
   </action>
  </widget>

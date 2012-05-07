@@ -105,6 +105,9 @@ class BPWorkspace(QtGui.QTabWidget):
 	def closeCurrentCodeEdit(self):
 		self.closeCodeEdit(self.currentIndex())
 		
+	def updateCurrentCodeEditName(self):
+		pass
+		
 	def activateWorkspace(self):
 		#self.tabWidget.show()
 		self.changeCodeEdit(self.currentIndex())#bpIDE.codeEdit = self.currentWidget()
@@ -180,18 +183,22 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.config = BPConfiguration(self, "default-settings.ini")
 		#self.config.applySettings()
 		
+	def getUIFromCache(self, uiFileName):
+		if not uiFileName in self.uiCache:
+			self.uiCache[uiFileName] = uic.loadUi("ui/%s.ui" % uiFileName)
+			return self.uiCache[uiFileName], False
+		return self.uiCache[uiFileName], True
+		
 	def onSettingsItemChange(self, current, previous):
 		name = current.toolTip(0)
-		uiFileName = name.replace(" - ", ".").lower()
+		uiFileName = "preferences/" + name.replace(" - ", ".").lower()
 		
-		if uiFileName in self.uiCache:
-			widget = self.uiCache[uiFileName]
-		else:
-			self.uiCache[uiFileName] = widget = uic.loadUi("ui/preferences/%s.ui" % uiFileName)
+		widget, existed = self.getUIFromCache(uiFileName)
+		if not existed:
 			self.config.initPreferencesWidget(uiFileName, widget)
 		
 		if previous:
-			previousFileName = previous.toolTip(0).replace(" - ", ".").lower()
+			previousFileName = "preferences/" + previous.toolTip(0).replace(" - ", ".").lower()
 			self.uiCache[previousFileName].hide()
 			self.preferences.currentBox.layout().removeWidget(self.uiCache[previousFileName])
 		
@@ -244,7 +251,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 	
 	def localToGlobalImport(self, importedModule):
-		return stripExt(self.getModulePath(importedModule)[len(getModuleDir()):]).replace("/", ".")
+		return stripExt(self.getModulePath(importedModule)[len(getModuleDir()):]).replace("/", ".").replace(" ", "_")
+	
+	def splitModulePath(self, importedModule):
+		parts = importedModule.split(".")
+		if len(parts) >= 2 and parts[-1] == parts[-2]:
+			parts = parts[:-1]
+		return parts
 	
 	def getModuleImportType(self, importedModule):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
@@ -289,36 +302,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
 		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
-		
-	def runModule(self):
-		outputTarget = "C++"
-		
-		if outputTarget == "C++":
-			#print(self.processor.getCompiledFilesList())
-			self.codeEdit.save()
-			
-			self.msgView.clear()
-			try:
-				self.startBenchmark("C++ Compiler")
-				
-				cpp = CPPOutputCompiler(self.processor)
-				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-				cpp.compile(bpPostPFile)
-				cpp.writeToFS()
-				exe = cpp.build()
-				
-				self.endBenchmark()
-				
-				cpp.execute(exe)
-			except OutputCompilerException as e:
-				#lineNumber = e.getLineNumber()
-				node = e.getLastParsedNode()
-				errorMessage = e.getMsg()
-				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
-			except:
-				printTraceback()
-			
-			#cpp.compile(self.file, self.codeEdit.root)
 		
 	def showDependencies(self, node, updateDependencyView = True):
 		self.dependencyView.setNode(node)
@@ -416,7 +399,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# TODO: Less cpu usage
 		if self.threaded:
 			if not self.postProcessorThread.isRunning():
-				self.postProcessorThread.start()
+				self.postProcessorThread.startWith(self.codeEdit)
 		else:
 			self.postProcessorThread.run()
 			self.postProcessorFinished()

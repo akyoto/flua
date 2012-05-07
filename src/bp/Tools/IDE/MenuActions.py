@@ -63,6 +63,9 @@ class MenuActions:
 		#self.recentFiles
 		
 	def saveFile(self):
+		if self.codeEdit is None:
+			return
+		
 		filePath = self.getFilePath()
 		if self.isTmpPath(filePath) or filePath.endswith(".bpc"):
 			self.saveAsFile()
@@ -70,6 +73,9 @@ class MenuActions:
 			self.codeEdit.save(filePath)
 	
 	def saveAsFile(self):
+		if self.codeEdit is None:
+			return
+		
 		if self.isTmpFile():
 			saveInDirectory = getModuleDir()
 		else:
@@ -83,16 +89,85 @@ class MenuActions:
 		
 		if filePath:
 			self.codeEdit.save(filePath)
+			self.currentWorkspace.updateCurrentCodeEditName()
 			
 			# If it was saved in the module directory, reload the view
 			if getModuleDir() in fixPath(filePath):
 				self.moduleView.reloadModuleDirectory()
+	
+	def runModule(self):
+		if self.codeEdit is None:
+			return
+		
+		outputTarget = "C++"
+		
+		if outputTarget == "C++":
+			#print(self.processor.getCompiledFilesList())
+			self.codeEdit.save()
+			
+			self.msgView.clear()
+			try:
+				self.startBenchmark("C++ Compiler")
 				
+				cpp = CPPOutputCompiler(self.processor)
+				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
+				cpp.compile(bpPostPFile)
+				cpp.writeToFS()
+				exe = cpp.build()
+				
+				self.endBenchmark()
+				
+				cpp.execute(exe)
+			except OutputCompilerException as e:
+				#lineNumber = e.getLineNumber()
+				node = e.getLastParsedNode()
+				errorMessage = e.getMsg()
+				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
+			except:
+				printTraceback()
+			
+			#cpp.compile(self.file, self.codeEdit.root)
+	
+	def showModuleProperties(self):
+		widget, existed = self.getUIFromCache("module-properties")
+		
+		if self.codeEdit is None:
+			return
+		
+		modulePath = self.localToGlobalImport(stripAll(self.getFilePath()))
+		if modulePath:
+			parts = self.splitModulePath(modulePath)
+			widget.modName.setText(".".join(parts))
+			widget.companyName.setText(parts[0])
+			widget.projectName.setText(parts[1])
+		else:
+			widget.modName.setText("Your module is stored outside of the global repository. Please change this.")
+			widget.companyName.setText("No company associated. Please create a directory in the global repository.")
+		widget.show()
+	
 	def undoLastAction(self):
 		self.codeEdit.undo()
 		
 	def redoLastAction(self):
 		self.codeEdit.redo()
+		
+	def thanksTo(self):
+		msgBox = QtGui.QMessageBox.about(self, "Thanks to...",
+							"""
+							<p>
+								<h2>Thanks to the developers of:</h2>
+								<ul style='font-size: 12pt;'>
+									<li style='margin-bottom: 4px'>Qt</li>
+									<li style='margin-bottom: 4px'>Python</li>
+									<li style='margin-bottom: 4px'>PyQt</li>
+									<li style='margin-bottom: 4px'>Git</li>
+									<li style='margin-bottom: 4px'>Linux</li>
+									<li style='margin-bottom: 4px'>github.com</li>
+								</ul>
+								<br/><br/>
+								Without these projects the development of blitzprog would not have been possible.
+							</p>
+							""")
 		
 	def about(self):
 		QtGui.QMessageBox.about(self, "About blitzprog IDE",

@@ -134,7 +134,8 @@ class Startup:
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
-			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.RightDockWidgetArea)
+			
+			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
 		self.dependenciesViewDock.hide()
 		#self.xmlViewDock.hide()
@@ -160,8 +161,10 @@ class Startup:
 		
 		# Module
 		self.actionRun.triggered.connect(self.runModule)
+		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Help
+		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		
 	def initTheme(self):
