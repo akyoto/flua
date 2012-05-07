@@ -102,6 +102,9 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.removeTab(index)
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
+	def closeCurrentCodeEdit(self):
+		self.closeCodeEdit(self.currentIndex())
+		
 	def activateWorkspace(self):
 		#self.tabWidget.show()
 		self.changeCodeEdit(self.currentIndex())#bpIDE.codeEdit = self.currentWidget()
@@ -166,6 +169,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.currentWorkspace = self.workspaces[index]
 		self.currentWorkspace.activateWorkspace()
+		
+	def closeCurrentTab(self):
+		self.currentWorkspace.closeCurrentCodeEdit()
 		
 	def loadConfig(self):
 		if os.path.isfile("settings.ini"):

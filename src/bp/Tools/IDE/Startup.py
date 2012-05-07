@@ -147,6 +147,7 @@ class Startup:
 		self.actionOpen.triggered.connect(self.openFile)
 		self.actionSave.triggered.connect(self.saveFile)
 		self.actionSaveAs.triggered.connect(self.saveAsFile)
+		self.actionClose.triggered.connect(self.closeCurrentTab)
 		self.actionExit.triggered.connect(self.close)
 		
 		# Edit
