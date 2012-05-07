@@ -254,7 +254,6 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if len(parts) >= 2 and parts[-1] == parts[-2]:
 			parts = parts[:-1]
 		
-		print(parts)
 		currentModule = self.modules
 		lastPart = len(parts)
 		currentPart = 0

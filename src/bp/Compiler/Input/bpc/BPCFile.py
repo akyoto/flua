@@ -329,13 +329,13 @@ class BPCFile(ScopeController, Benchmarkable):
 			# XML elements with "code" tags need special treatment
 			if self.currentNode.parentNode.tagName in blocks:
 				tagsAllowed = blocks[self.currentNode.parentNode.tagName]
-				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
+				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode.parentNode
 				else:
 					self.currentNode = self.currentNode.parentNode
 			elif self.currentNode.tagName in simpleBlocks:
 				tagsAllowed = simpleBlocks[self.currentNode.tagName]
-				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine.tagName in tagsAllowed):
+				if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
 					self.currentNode = self.currentNode.parentNode
 			
 			atTab -= 1
