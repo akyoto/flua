@@ -199,6 +199,8 @@ class CPPOutputCompiler:
 			"-std=c++0x",
 			"-pipe",
 			"-Wall",
+			"-static-libgcc",
+			"-static-libstdc++",
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
