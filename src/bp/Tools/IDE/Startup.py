@@ -17,10 +17,6 @@ class Startup:
 		self.initTheme()
 		self.endBenchmark()
 		
-		self.startBenchmark("Load Configuration")
-		self.loadConfig()
-		self.endBenchmark()
-		
 		self.startBenchmark("Init Toolbar")
 		self.initToolBar()
 		self.endBenchmark()
@@ -142,6 +138,9 @@ class Startup:
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
 		
+		# Needed for workspaces
+		self.viewsInitialized = True
+		
 	def initActions(self):
 		# File
 		self.actionNew.triggered.connect(self.newFile)
@@ -213,6 +212,8 @@ class Startup:
 				'current-line' : QtGui.QColor("#474747")
 			},
 		}
+		
+		self.config.theme = self.themes[self.config.themeName]
 		
 	def initCompiler(self):
 		self.postProcessorThread = None

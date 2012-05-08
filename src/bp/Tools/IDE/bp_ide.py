@@ -1,4 +1,4 @@
-####################################################################
+﻿####################################################################
 # Header
 ####################################################################
 # blitzprog IDE
@@ -46,9 +46,15 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 		self.bpIDE = bpIDE
 		self.wsID = wsID
-		self.setDocumentMode(True)
+		
+		if bpIDE.config.documentModeEnabled:
+			self.setDocumentMode(True)
+		else:
+			self.setDocumentMode(False)
+		
 		self.setTabsClosable(True)
 		self.setMovable(True)
+		#self.setTabShape(QtGui.QTabWidget.Triangular)
 		self.hide()
 		
 		self.currentChanged.connect(self.changeCodeEdit)
@@ -85,7 +91,17 @@ class BPWorkspace(QtGui.QTabWidget):
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)
 		
+		if self.bpIDE.viewsInitialized:
+			self.bpIDE.dependencyView.clear()
+			self.bpIDE.msgView.clear()
+			self.bpIDE.xmlView.clear()
+		
 		self.bpIDE.updateLineInfo()
+		
+		if self.count():
+			self.show()
+		else:
+			self.hide()
 			
 	def getCodeEditByPath(self, path):
 		for i in range(self.count()):
@@ -111,7 +127,6 @@ class BPWorkspace(QtGui.QTabWidget):
 	def activateWorkspace(self):
 		#self.tabWidget.show()
 		self.changeCodeEdit(self.currentIndex())#bpIDE.codeEdit = self.currentWidget()
-		self.show()
 		
 	def deactivateWorkspace(self):
 		#self.tabWidget.show()
@@ -130,9 +145,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
 		self.intelliEnabled = False
+		self.viewsInitialized = False
 		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		self.docks = []
 		self.uiCache = dict()
+		self.config = None
+		
+		# Load config
+		self.startBenchmark("Load Configuration")
+		self.loadConfig()
+		self.endBenchmark()
 		
 		# Workspaces
 		self.currentWorkspace = None
@@ -403,11 +425,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		else:
 			self.postProcessorThread.run()
 			self.postProcessorFinished()
-		
-	def applyMenuFont(self, font):
-		self.menuBar.setFont(font)
-		for menuItem in self.menuBar.children():
-			menuItem.setFont(font)
 		
 	def isTmpFile(self):
 		return self.isTmpPath(self.getFilePath())

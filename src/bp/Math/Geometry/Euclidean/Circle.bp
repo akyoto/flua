@@ -2,40 +2,24 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Math
-			</import>
-			<import>
-				Point
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
+			<import>Point</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
 		<class>
-			<name>
-				Circle
-			</name>
+			<name>Circle</name>
 			<code>
 				<template>
 					<parameter>
-						<name>
-							Tcenter
-						</name>
-						<default-value>
-							Point
-						</default-value>
+						<name>Tcenter</name>
+						<default-value>Point</default-value>
 					</parameter>
 					<parameter>
-						<name>
-							Tradius
-						</name>
-						<default-value>
-							Float
-						</default-value>
+						<name>Tradius</name>
+						<default-value>Float</default-value>
 					</parameter>
 				</template>
 				<function>
@@ -44,40 +28,26 @@
 							<declare-type>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											center
-										</value>
+										<value>self</value>
+										<value>center</value>
 									</access>
 								</value>
-								<value>
-									Tcenter
-								</value>
+								<value>Tcenter</value>
 							</declare-type>
 						</parameter>
 						<parameter>
 							<declare-type>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											radius
-										</value>
+										<value>self</value>
+										<value>radius</value>
 									</access>
 								</value>
-								<value>
-									Tradius
-								</value>
+								<value>Tradius</value>
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
 						<noop/>
 					</code>
@@ -85,87 +55,55 @@
 				<set>
 					<setter>
 						<parameters>
-							<parameter>
-								nPoint
-							</parameter>
+							<parameter>nPoint</parameter>
 						</parameters>
-						<name>
-							center
-						</name>
+						<name>center</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											center
-										</value>
+										<value>self</value>
+										<value>center</value>
 									</access>
 								</value>
-								<value>
-									nPoint
-								</value>
+								<value>nPoint</value>
 							</assign>
 						</code>
 					</setter>
 					<setter>
 						<parameters>
-							<parameter>
-								nRadius
-							</parameter>
+							<parameter>nRadius</parameter>
 						</parameters>
-						<name>
-							radius
-						</name>
+						<name>radius</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											radius
-										</value>
+										<value>self</value>
+										<value>radius</value>
 									</access>
 								</value>
-								<value>
-									nRadius
-								</value>
+								<value>nRadius</value>
 							</assign>
 						</code>
 					</setter>
 					<setter>
 						<parameters>
-							<parameter>
-								nDiameter
-							</parameter>
+							<parameter>nDiameter</parameter>
 						</parameters>
-						<name>
-							diameter
-						</name>
+						<name>diameter</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											radius
-										</value>
+										<value>self</value>
+										<value>radius</value>
 									</access>
 								</value>
 								<value>
 									<divide>
-										<value>
-											nDiameter
-										</value>
-										<value>
-											2
-										</value>
+										<value>nDiameter</value>
+										<value>2</value>
 									</divide>
 								</value>
 							</assign>
@@ -174,88 +112,58 @@
 				</set>
 				<get>
 					<getter>
-						<name>
-							center
-						</name>
+						<name>center</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										center
-									</value>
+									<value>self</value>
+									<value>center</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							radius
-						</name>
+						<name>radius</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										radius
-									</value>
+									<value>self</value>
+									<value>radius</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							diameter
-						</name>
+						<name>diameter</name>
 						<code>
 							<return>
 								<multiply>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												radius
-											</value>
+											<value>self</value>
+											<value>radius</value>
 										</access>
 									</value>
-									<value>
-										2
-									</value>
+									<value>2</value>
 								</multiply>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							perimeter
-						</name>
+						<name>perimeter</name>
 						<code>
 							<return>
 								<multiply>
 									<value>
 										<multiply>
-											<value>
-												2
-											</value>
-											<value>
-												pi
-											</value>
+											<value>2</value>
+											<value>pi</value>
 										</multiply>
 									</value>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												radius
-											</value>
+											<value>self</value>
+											<value>radius</value>
 										</access>
 									</value>
 								</multiply>
@@ -265,74 +173,48 @@
 				</get>
 				<function>
 					<parameters>
-						<parameter>
-							point
-						</parameter>
+						<parameter>point</parameter>
 					</parameters>
-					<name>
-						contains
-					</name>
+					<name>contains</name>
 					<code>
 						<return>
 							<less-or-equal>
 								<value>
 									<call>
-										<function>
-											distanceSq
-										</function>
+										<function>distanceSq</function>
 										<parameters>
 											<parameter>
 												<access>
 													<value>
 														<access>
-															<value>
-																self
-															</value>
-															<value>
-																center
-															</value>
+															<value>self</value>
+															<value>center</value>
 														</access>
 													</value>
-													<value>
-														x
-													</value>
+													<value>x</value>
 												</access>
 											</parameter>
 											<parameter>
 												<access>
 													<value>
 														<access>
-															<value>
-																self
-															</value>
-															<value>
-																center
-															</value>
+															<value>self</value>
+															<value>center</value>
 														</access>
 													</value>
-													<value>
-														y
-													</value>
+													<value>y</value>
 												</access>
 											</parameter>
 											<parameter>
 												<access>
-													<value>
-														point
-													</value>
-													<value>
-														x
-													</value>
+													<value>point</value>
+													<value>x</value>
 												</access>
 											</parameter>
 											<parameter>
 												<access>
-													<value>
-														point
-													</value>
-													<value>
-														y
-													</value>
+													<value>point</value>
+													<value>y</value>
 												</access>
 											</parameter>
 										</parameters>
@@ -342,22 +224,14 @@
 									<multiply>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													radius
-												</value>
+												<value>self</value>
+												<value>radius</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													radius
-												</value>
+												<value>self</value>
+												<value>radius</value>
 											</access>
 										</value>
 									</multiply>
@@ -368,90 +242,58 @@
 				</function>
 				<function>
 					<parameters>
-						<parameter>
-							circle
-						</parameter>
+						<parameter>circle</parameter>
 					</parameters>
-					<name>
-						intersects
-					</name>
+					<name>intersects</name>
 					<code>
 						<assign>
-							<value>
-								distance
-							</value>
+							<value>distance</value>
 							<value>
 								<call>
-									<function>
-										distanceSq
-									</function>
+									<function>distanceSq</function>
 									<parameters>
 										<parameter>
 											<access>
 												<value>
 													<access>
-														<value>
-															self
-														</value>
-														<value>
-															center
-														</value>
+														<value>self</value>
+														<value>center</value>
 													</access>
 												</value>
-												<value>
-													x
-												</value>
+												<value>x</value>
 											</access>
 										</parameter>
 										<parameter>
 											<access>
 												<value>
 													<access>
-														<value>
-															self
-														</value>
-														<value>
-															center
-														</value>
+														<value>self</value>
+														<value>center</value>
 													</access>
 												</value>
-												<value>
-													y
-												</value>
+												<value>y</value>
 											</access>
 										</parameter>
 										<parameter>
 											<access>
 												<value>
 													<access>
-														<value>
-															circle
-														</value>
-														<value>
-															center
-														</value>
+														<value>circle</value>
+														<value>center</value>
 													</access>
 												</value>
-												<value>
-													x
-												</value>
+												<value>x</value>
 											</access>
 										</parameter>
 										<parameter>
 											<access>
 												<value>
 													<access>
-														<value>
-															circle
-														</value>
-														<value>
-															center
-														</value>
+														<value>circle</value>
+														<value>center</value>
 													</access>
 												</value>
-												<value>
-													y
-												</value>
+												<value>y</value>
 											</access>
 										</parameter>
 									</parameters>
@@ -459,29 +301,19 @@
 							</value>
 						</assign>
 						<assign>
-							<value>
-								sumRadi
-							</value>
+							<value>sumRadi</value>
 							<value>
 								<add>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												radius
-											</value>
+											<value>self</value>
+											<value>radius</value>
 										</access>
 									</value>
 									<value>
 										<access>
-											<value>
-												circle
-											</value>
-											<value>
-												radius
-											</value>
+											<value>circle</value>
+											<value>radius</value>
 										</access>
 									</value>
 								</add>
@@ -489,17 +321,11 @@
 						</assign>
 						<return>
 							<less>
-								<value>
-									distance
-								</value>
+								<value>distance</value>
 								<value>
 									<multiply>
-										<value>
-											sumRadi
-										</value>
-										<value>
-											sumRadi
-										</value>
+										<value>sumRadi</value>
+										<value>sumRadi</value>
 									</multiply>
 								</value>
 							</less>

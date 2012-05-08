@@ -18,10 +18,6 @@ class MenuActions:
 		newCodeEdit.runUpdater()
 		newCodeEdit.setFocus()
 		
-		self.dependencyView.clear()
-		self.msgView.clear()
-		self.xmlView.clear()
-		
 	def openFile(self, path):
 		fileName = path
 		if not fileName:

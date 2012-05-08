@@ -26,9 +26,9 @@ class BPConfiguration:
 		self.editorFontFamily = self.parser.get(editorConfig, "FontFamily")
 		self.editorFontSize = self.parser.getint(editorConfig, "FontSize")
 		self.tabWidth = self.parser.getint(editorConfig, "TabWidth")
+		self.documentModeEnabled = self.parser.getboolean(editorConfig, "DocumentMode")
 		
 		self.themeName = self.parser.get("Editor.Theme", "Theme")
-		self.theme = self.bpIDE.themes[self.themeName]
 		
 		self.ideFontFamily = self.parser.get(ideConfig, "FontFamily")
 		self.ideFontSize = self.parser.getint(ideConfig, "FontSize")
@@ -41,6 +41,9 @@ class BPConfiguration:
 		self.applyStandardFont(self.standardFont)
 		self.applyTheme(self.themeName)
 		
+		if os.name == "nt":
+			self.applyMenuFont(self.standardFont)
+		
 	def applyTheme(self, themeName):
 		if isinstance(themeName, str):
 			self.themeName = themeName
@@ -50,7 +53,9 @@ class BPConfiguration:
 			self.theme = self.bpIDE.themes[self.themeName]
 		
 		#codeEdit.setBackgroundColor(self.theme['default-background'])
-		QtGui.QApplication.instance().setStyleSheet("QPlainTextEdit { background-color: %s; }" % (self.theme['default-background']))
+		QtGui.QApplication.instance().setStyleSheet("""
+			QPlainTextEdit { background-color: %s; }
+		""" % (self.theme['default-background']))
 		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:
@@ -77,6 +82,11 @@ class BPConfiguration:
 		self.editorFontSize = value
 		self.monospaceFont.setPointSize(self.editorFontSize)
 		self.applyMonospaceFont(self.monospaceFont)
+		
+	def applyMenuFont(self, font):
+		self.bpIDE.menuBar.setFont(font)
+		for menuItem in self.bpIDE.menuBar.children():
+			menuItem.setFont(font)
 		
 	def applyMonospaceFont(self, font):
 		# Widgets with monospace font

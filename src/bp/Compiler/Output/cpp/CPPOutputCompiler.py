@@ -203,14 +203,14 @@ class CPPOutputCompiler:
 			"-I" + fixPath(self.bpRoot + "include/cpp/"),
 			#"-L" + self.libsDir,
 			"-std=c++0x",
-			"-pipe",
 			"-Wall",
+			#"-pipe",
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
 			#"-O3",
-			"-march=native",
-			"-mtune=native",
+			#"-march=native",
+			#"-mtune=native",
 		]
 		
 		additionalLibs = []

@@ -336,7 +336,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 2000)
 	
 	def setFilePath(self, filePath):
-		self.filePath = filePath
+		self.filePath = fixPath(filePath)
 		if self.bpcFile:
 			self.bpcFile.setFilePath(self.filePath)
 		

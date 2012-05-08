@@ -1,16 +1,16 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import sys
 import os
 
 if os.name == "nt":
-        appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
-        pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
-        print(sys.version)
-        print(appendPath)
-        print(pyqtPath)
-        sys.path.append(pyqtPath)
+	appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
+	pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
+	print(sys.version)
+	print(appendPath)
+	print(pyqtPath)
+	sys.path.append(pyqtPath)
 else:
-        appendPath = (os.path.abspath("src/") + "/")
+	appendPath = (os.path.abspath("src/") + "/")
 
 sys.path.append(appendPath)
 
