@@ -89,6 +89,9 @@ class Startup:
 		self.syntaxSwitcherBar.hide()
 		
 	def initDocks(self):
+		# Console
+		self.console = BPConsoleWidget(self)
+		
 		# Message view
 		self.msgView = BPMessageView(self)
 		
@@ -131,12 +134,14 @@ class Startup:
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
+			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
 		self.dependenciesViewDock.hide()
 		self.xmlViewDock.hide()
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
+		self.consoleDock.hide()
 		
 		# Needed for workspaces
 		self.viewsInitialized = True

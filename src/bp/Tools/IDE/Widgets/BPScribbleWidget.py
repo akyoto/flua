@@ -10,7 +10,7 @@ class BPScribbleWidget(QtGui.QPlainTextEdit):
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		
 		# TODO: Remove font
-		self.setFont(QtGui.QFont("monospace", 9))
+		self.setFont(self.bpIDE.config.standardFont)
 		self.filePath = filePath
 		self.loadScribble()
 		

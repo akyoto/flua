@@ -87,6 +87,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		if index != -1:
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
+			self.bpIDE.codeEdit.runUpdater()
 			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)

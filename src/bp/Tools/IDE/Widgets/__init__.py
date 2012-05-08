@@ -1,3 +1,4 @@
+from bp.Tools.IDE.Widgets.BPConsoleWidget import *
 from bp.Tools.IDE.Widgets.BPMessageView import *
 from bp.Tools.IDE.Widgets.BPDependencyView import *
 from bp.Tools.IDE.Widgets.BPFileBrowser import *

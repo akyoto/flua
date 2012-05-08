@@ -32,11 +32,12 @@ from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
 import codecs
 import subprocess
+import os
 
 ####################################################################
 # Classes
 ####################################################################
-class CPPOutputCompiler:
+class CPPOutputCompiler(Benchmarkable):
 	
 	def __init__(self, inpCompiler = None):
 		
@@ -66,6 +67,11 @@ class CPPOutputCompiler:
 		
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
+		
+		if os.name == "nt":
+			self.staticStdcppLinking = True
+		else:
+			self.staticStdcppLinking = False
 		
 		self.gmpEnabled = False
 		
@@ -220,31 +226,42 @@ class CPPOutputCompiler:
 				"-lgmp",
 			]
 		
+		if self.staticStdcppLinking:
+			staticRuntime = [
+				"-static-libgcc",
+				"-static-libstdc++",
+			]
+		else:
+			# Dynamic linking seems to be faster on Linux
+			staticRuntime = []
+		
 		# Linker
 		linkCmd = [
 			compilerName,
 			"-o%s" % fixPath(exe),
 			fixPath(exe + ".o"),
 			"-L" + fixPath(self.libsDir),
-			"-static-libgcc",
-			"-static-libstdc++",
 			#"-ltheron",
 			#"-lboost_thread",
 			#"-lpthread"
-		] + additionalLibs + self.customCompilerFlags
+		] + staticRuntime + additionalLibs + self.customCompilerFlags
 		
 		try:
+			self.startBenchmark()
 			print("\nStarting compiler:")
 			print(" \\\n ".join(ccCmd))
 			
 			procCompile = subprocess.Popen(ccCmd)
 			procCompile.wait()
+			self.endBenchmark()
 			
+			self.startBenchmark()
 			print("\nStarting linker:")
 			print("\n ".join(linkCmd))
 			
 			procLink = subprocess.Popen(linkCmd)
 			procLink.wait()
+			self.endBenchmark()
 		except OSError:
 			print("Couldn't start " + compilerName)
 		finally:

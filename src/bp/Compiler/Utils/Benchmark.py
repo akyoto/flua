@@ -13,4 +13,9 @@ class Benchmarkable:
 	def endBenchmark(self):
 		self.benchmarkTimerEnd = time.time()
 		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
-		print((self.benchmarkName + ":").ljust(69) + str(int(buildTime * 1000)).rjust(7) + " ms")
+		
+		if self.benchmarkName:
+			bName = self.benchmarkName + ":"
+		else:
+			bName = ""
+		print((bName).ljust(69) + str(int(buildTime * 1000)).rjust(7) + " ms")

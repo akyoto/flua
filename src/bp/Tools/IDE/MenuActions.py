@@ -103,7 +103,7 @@ class MenuActions:
 			
 			self.msgView.clear()
 			try:
-				self.startBenchmark("C++ Compiler")
+				self.startBenchmark("C++ Build")
 				
 				cpp = CPPOutputCompiler(self.processor)
 				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
@@ -111,8 +111,11 @@ class MenuActions:
 				cpp.writeToFS()
 				exe = cpp.build()
 				
+				print("-" * 80)
 				self.endBenchmark()
 				
+				print("Executing: %s" % exe)
+				print("-" * 80)
 				cpp.execute(exe)
 			except OutputCompilerException as e:
 				#lineNumber = e.getLineNumber()
