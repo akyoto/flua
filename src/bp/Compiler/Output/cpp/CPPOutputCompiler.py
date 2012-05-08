@@ -33,6 +33,7 @@ from bp.Compiler.Config import *
 import codecs
 import subprocess
 import os
+import sys
 
 ####################################################################
 # Classes
@@ -185,7 +186,7 @@ class CPPOutputCompiler(Benchmarkable):
 			
 			outStream.write("\n#endif\n")
 	
-	def build(self):
+	def build(self, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		exe = stripExt(self.mainCppFile)
 		if os.path.isfile(exe):
 			os.unlink(exe)
@@ -251,16 +252,16 @@ class CPPOutputCompiler(Benchmarkable):
 			print("\nStarting compiler:")
 			print(" \\\n ".join(ccCmd))
 			
-			procCompile = subprocess.Popen(ccCmd)
-			procCompile.wait()
+			startProcess(ccCmd, fhOut, fhErr)
+			
 			self.endBenchmark()
 			
 			self.startBenchmark()
 			print("\nStarting linker:")
 			print("\n ".join(linkCmd))
 			
-			procLink = subprocess.Popen(linkCmd)
-			procLink.wait()
+			startProcess(linkCmd, fhOut, fhErr)
+			
 			self.endBenchmark()
 		except OSError:
 			print("Couldn't start " + compilerName)
@@ -270,14 +271,13 @@ class CPPOutputCompiler(Benchmarkable):
 		
 		return exe
 	
-	def execute(self, exe):
+	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		cmd = [exe]
 		
 		try:
-			proc = subprocess.Popen(cmd)
-			proc.wait()
+			startProcess(cmd, fhOut, fhErr)
 		except OSError:
-			print("Build process failed")
+			print("Can't execute '%s'" % exe)
 	
 	def getFileExecList(self):
 		files = ""

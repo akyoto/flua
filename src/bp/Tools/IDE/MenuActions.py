@@ -114,9 +114,10 @@ class MenuActions:
 				print("-" * 80)
 				self.endBenchmark()
 				
+				print("No optimizations active (-O0)")
 				print("Executing: %s" % exe)
 				print("-" * 80)
-				cpp.execute(exe)
+				cpp.execute(exe, self.console.log.write, self.console.log.writeError)
 			except OutputCompilerException as e:
 				#lineNumber = e.getLineNumber()
 				node = e.getLastParsedNode()

@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -54,6 +54,8 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionDownload_updates"/>
+    <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -340,6 +342,11 @@
   <action name="actionThanksTo">
    <property name="text">
     <string>Thanks to...</string>
+   </property>
+  </action>
+  <action name="actionDownload_updates">
+   <property name="text">
+    <string>Download updates</string>
    </property>
   </action>
  </widget>

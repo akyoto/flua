@@ -184,7 +184,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
 		self.setCentralWidget(self.workspacesContainer)
-		self.show()
+		self.showMaximized()
 		self.config.applySettings()
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
@@ -476,6 +476,9 @@ def main():
 	app = QtGui.QApplication(sys.argv)
 	editor = BPMainWindow()
 	exitCode = app.exec_()
+	
+	# In order to not have a segfault
+	editor.console.detach()
 	
 	print("--- EOP: %d ---" % exitCode)
 	sys.exit(exitCode)
