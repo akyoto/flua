@@ -484,14 +484,15 @@ def main():
 	sys.exit(exitCode)
 
 if __name__ == '__main__':
-	try:
+	main()
+	#try:
 		#import cProfile
 		#cProfile.run("main()", "bp.prof")
-		main()
+	#	main()
 		#bpMain("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bpc", "/home/eduard/Projects/bp/src/bp/Compiler/Test/Output/")
-	except SystemExit:
-		pass
+	#except SystemExit:
+	#	pass
 	#except OSError:
 	#	print("An instance of Blitzprog IDE is already running")
-	except:
-		printTraceback()
+	#except:
+	#	printTraceback()

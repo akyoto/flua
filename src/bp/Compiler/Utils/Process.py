@@ -10,6 +10,7 @@ def startProcess(cmd, fhOut, fhErr):
 		line = proc.stdout.readline()
 		errLine = proc.stderr.readline()
 		exitCode = proc.poll()
+		
 		if (not line) and (not errLine) and (exitCode is not None):
 			break
 		

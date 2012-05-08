@@ -39,7 +39,7 @@ class Startup:
 		
 		# For beginners
 		if 1:#self.currentWorkspace.tabText(0) == "New file 1":
-			self.codeEdit.setPlainText('print "Hello bp!" #Press F5 to run this')
+			self.codeEdit.setPlainText('print "Hello bp!" # Press F5 to run this')
 	
 	def initPreferences(self):
 		self.preferences = uic.loadUi("ui/preferences.ui")

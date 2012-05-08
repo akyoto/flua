@@ -13,6 +13,9 @@ def getGCCCompilerPath():
 	else:
 		return "./"
 	
+def getGCCCompilerName():
+	return "g++"
+	
 def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
 	# ########################### #
 	# Priority for module search: #

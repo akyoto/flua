@@ -191,7 +191,7 @@ class CPPOutputCompiler(Benchmarkable):
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
-		compilerName = "g++"
+		compilerName = getGCCCompilerName()
 		
 		compilerPath = getGCCCompilerPath()
 		currentPath = os.path.abspath("./")

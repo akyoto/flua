@@ -1,5 +1,6 @@
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QObject, pyqtSignal
+from bp.Compiler.Config import *
 import sys
 
 class BPLogWidget(QtGui.QPlainTextEdit):
@@ -57,6 +58,23 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.compilerLog = self.widget(1)
 		self.outputLog = self.widget(2)
 		
+		# Linux / g++ info
+		gccVersionCheck = [
+			getGCCCompilerName(),
+			"--version"
+		]
+		
+		linuxCheck = [
+			"uname",
+			"-a"
+		]
+		
+		if os.name != "nt":
+			startProcess(linuxCheck, self.log.write, self.log.write)
+			self.log.write("\n")
+			startProcess(gccVersionCheck, self.log.write, self.log.write)
+		
+		# Intercept sys.stdout and sys.stderr
 		self.watch(self.log)
 		
 		#vBox.addWidget(self.log)
