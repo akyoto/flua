@@ -172,6 +172,7 @@ class Startup:
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Help
+		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		

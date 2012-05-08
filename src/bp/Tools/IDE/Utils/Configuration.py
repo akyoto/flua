@@ -1,7 +1,14 @@
 import configparser
 import codecs
 import os
+from bp.Compiler.Utils import *
 from PyQt4 import QtGui, QtCore, uic
+
+def getGitPath():
+	if os.name == "nt":
+		return fixPath(os.path.abspath("../../../../../msysgit/bin/"))
+	else:
+		return ""
 
 class BPConfiguration:
 	

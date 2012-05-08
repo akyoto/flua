@@ -128,6 +128,32 @@ class MenuActions:
 			
 			#cpp.compile(self.file, self.codeEdit.root)
 	
+	def downloadUpdates(self):
+		gitResetCmd = [
+			getGitPath() + "git",
+			"reset",
+			"--hard",
+			"HEAD"
+		]
+		
+		gitCleanCmd = [
+			getGitPath() + "git",
+			"clean",
+			"-f",
+			"-d"
+		]
+		
+		gitPullCmd = [
+			getGitPath() + "git",
+			"pull"
+		]
+		
+		#startProcess(gitResetCmd, self.log.write, self.log.writeError)
+		#startProcess(gitCleanCmd, self.log.write, self.log.writeError)
+		print("Checking for updates...")
+		print("GIT path: %s" % getGitPath())
+		startProcess(gitPullCmd, self.console.log.write, self.console.log.writeError)
+	
 	def showModuleProperties(self):
 		widget, existed = self.getUIFromCache("module-properties")
 		

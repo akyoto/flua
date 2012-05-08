@@ -54,7 +54,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionDownload_updates"/>
+    <addaction name="actionDownloadUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
@@ -344,7 +344,7 @@
     <string>Thanks to...</string>
    </property>
   </action>
-  <action name="actionDownload_updates">
+  <action name="actionDownloadUpdates">
    <property name="text">
     <string>Download updates</string>
    </property>
