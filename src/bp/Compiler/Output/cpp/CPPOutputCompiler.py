@@ -53,7 +53,16 @@ class CPPOutputCompiler(Benchmarkable):
 		self.compiledFilesList = []
 		self.modDir = getModuleDir()
 		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../"))
-		self.libsDir = fixPath(os.path.abspath(self.modDir + "../libs/cpp/"))
+		
+		# OS and architecture
+		if os.name == "nt":
+			platform = "windows"
+		else:#elif os.name == "posix":
+			platform = "linux"
+		
+		architecture = "x86"
+		
+		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s/" % (self.modDir, platform, architecture)))
 		self.stringCounter = 0
 		self.fileCounter = 0
 		self.forVarCounter = 0
@@ -217,14 +226,15 @@ class CPPOutputCompiler(Benchmarkable):
 		
 		if self.boehmGCEnabled:
 			if os.name == "posix":
-				self.customCompilerFlags += [
-					"-DGC_LINUX_THREADS",
-					"-D_REENTRANT",
-					"-DGC_OPERATOR_NEW_ARRAY",
-					"-DPARALLEL_MARK",
-					"-DGC_THREADS",
-					#"-DUSE_LIBC_PRIVATE",
-				]
+				self.customCompilerFlags.append("-DGC_LINUX_THREADS")
+			
+			self.customCompilerFlags += [
+				"-DGC_THREADS",
+				"-D_REENTRANT",
+				"-DGC_OPERATOR_NEW_ARRAY",
+				"-DPARALLEL_MARK",
+				"-DUSE_LIBC_PRIVATE",
+			]
 		
 		# Compiler
 		ccCmd = [
@@ -234,7 +244,7 @@ class CPPOutputCompiler(Benchmarkable):
 			"-o%s" % fixPath(exe + ".o"),
 			"-I" + fixPath(self.outputDir),
 			"-I" + fixPath(self.modDir),
-			"-I" + fixPath(self.bpRoot + "include/cpp/"),
+			"-I" + fixPath("%sinclude/cpp/" % (self.bpRoot))
 			#"-L" + self.libsDir,
 		] + self.customCompilerFlags + [
 			#"-pipe",
