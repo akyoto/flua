@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>241</height>
+    <width>562</width>
+    <height>273</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,44 +48,10 @@ Author</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Created:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QDateTimeEdit" name="dateCreated">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="companyName">
        <property name="whatsThis">
-        <string>The date this module has been created.</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Modified:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QDateTimeEdit" name="dateModified">
-       <property name="whatsThis">
-        <string>The last modification date.</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="projectName">
-       <property name="whatsThis">
-        <string>2nd level of the directory tree. Create a directory inside your top-level directory to create a new project.</string>
+        <string>Top level directory name. Usually a short tag for your name.</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -99,13 +65,82 @@ Author</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="companyName">
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="projectName">
        <property name="whatsThis">
-        <string>Top level directory name. Usually a short tag for your name.</string>
+        <string>2nd level of the directory tree. Create a directory inside your top-level directory to create a new project.</string>
        </property>
        <property name="readOnly">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Optimize for:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="optimizeFor">
+       <item>
+        <property name="text">
+         <string extracomment="Numerics will be Int and Float">Speed</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string extracomment="Numerics will be BigInt and BigFloat">Correctness</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="optimizeForExplanation">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QDateTimeEdit" name="dateModified">
+       <property name="whatsThis">
+        <string>The last modification date.</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDateTimeEdit" name="dateCreated">
+       <property name="whatsThis">
+        <string>The date this module has been created.</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Modified:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Created:</string>
        </property>
       </widget>
      </item>
@@ -132,8 +167,8 @@ Author</string>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>266</x>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -148,8 +183,8 @@ Author</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>334</x>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

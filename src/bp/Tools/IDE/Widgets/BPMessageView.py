@@ -38,6 +38,26 @@ class BPMessageView(QtGui.QListWidget):
 		#self.setSizeHint(QtCore.QSize(0, 10))
 		self.addItem(newItem)
 		
+	def updateViewParser(self):
+		# Last parser exception
+		ce = self.bpIDE.codeEdit
+		if ce and ce.updater and ce.updater.lastException:
+			e = ce.updater.lastException
+			ce.updater.lastException = None
+			lineNumber = e.getLineNumber()
+			errorMessage = e.getMsg()
+			errorFilePath = e.getFilePath()
+			self.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
+		
+	def updateViewPostProcessor(self):
+		# Last post processor exception
+		pp = self.bpIDE.postProcessorThread
+		if pp and pp.lastException:
+			e = pp.lastException
+			pp.lastException = None
+			errorMessage = e.getMsg()
+			self.addMessage(errorMessage)
+		
 	def updateView(self):
 		if self.bpIDE.intelliEnabled:
 			itemNum = self.count()

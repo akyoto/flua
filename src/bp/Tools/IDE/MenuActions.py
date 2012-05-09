@@ -18,6 +18,12 @@ class MenuActions:
 		newCodeEdit.runUpdater()
 		newCodeEdit.setFocus()
 		
+	def reopenLastFile(self):
+		if not self.currentWorkspace.filesClosed:
+			return
+		
+		self.openFile(self.currentWorkspace.filesClosed.pop())
+	
 	def openFile(self, path):
 		fileName = path
 		if not fileName:
@@ -36,13 +42,17 @@ class MenuActions:
 			# File already opened in workspace?
 			index = 0
 			ce = None
+			workspaceID = -1
 			
-			ceInWorkspaces = None
+			#ceInWorkspaces = None
+			
 			for workspace in self.workspaces:
+				workspaceID += 1
 				index, ce = workspace.getCodeEditByPath(fileName)
 				if index != -1:
 					break
 			
+			# Completely new file
 			if index == -1:
 				self.newFile(fileName)
 				
@@ -50,9 +60,16 @@ class MenuActions:
 					self.loadFileToEditor(fileName)
 				elif fileName.endswith(".bpc"):
 					self.loadBPCFileToEditor(fileName)
-			elif ce != self.currentWorkspace:
+			# File was opened in another workspace
+			elif self.workspaces[workspaceID] != self.currentWorkspace:
 				self.currentWorkspace.addAndSelectTab(ce, stripAll(fileName))
-			elif ce == self.currentWorkspace:
+				
+				# For some reason Qt shows the others workspace even though we have hidden it
+				# => So we need to hide it again
+				self.workspaces[workspaceID].hide()
+				
+			# File is already opened in this workspace
+			elif self.workspaces[workspaceID] == self.currentWorkspace:
 				self.currentWorkspace.changeCodeEdit(index)
 			
 		# Add to recent files list
@@ -135,19 +152,19 @@ class MenuActions:
 		if self.gitThread is None:
 			self.gitThread = BPGitThread(self)
 		
-		gitResetCmd = [
-			getGitPath() + "git",
-			"reset",
-			"--hard",
-			"HEAD"
-		]
+		#gitResetCmd = [
+		#	getGitPath() + "git",
+		#	"reset",
+		#	"--hard",
+		#	"HEAD"
+		#]
 		
-		gitCleanCmd = [
-			getGitPath() + "git",
-			"clean",
-			"-f",
-			"-d"
-		]
+		#gitCleanCmd = [
+		#	getGitPath() + "git",
+		#	"clean",
+		#	"-f",
+		#	"-d"
+		#]
 		
 		gitPullCmd = [
 			getGitPath() + "git",
@@ -158,7 +175,9 @@ class MenuActions:
 		self.gitThread.startCmd(gitPullCmd)
 	
 	def showModuleProperties(self):
-		widget, existed = self.getUIFromCache("module-properties")
+		self.moduleProperties, existed = self.getUIFromCache("module-properties")
+		if not existed:
+			self.moduleProperties.optimizeFor.currentIndexChanged.connect(self.getOptimizeExplanation)
 		
 		if self.codeEdit is None:
 			return
@@ -166,16 +185,27 @@ class MenuActions:
 		modulePath = self.localToGlobalImport(stripAll(self.getFilePath()))
 		if modulePath:
 			parts = self.splitModulePath(modulePath)
-			widget.modName.setText(".".join(parts))
-			widget.companyName.setText(parts[0])
+			self.moduleProperties.modName.setText(".".join(parts))
+			self.moduleProperties.companyName.setText(parts[0])
 			if len(parts) > 1:
-				widget.projectName.setText(parts[1])
+				self.moduleProperties.projectName.setText(parts[1])
 			else:
-				widget.projectName.setText("")
+				self.moduleProperties.projectName.setText("")
 		else:
-			widget.modName.setText("Your module is stored outside of the global repository. Please change this.")
-			widget.companyName.setText("No company associated. Please create a directory in the global repository.")
-		widget.show()
+			self.moduleProperties.modName.setText("Your module is stored outside of the global repository. Please change this.")
+			self.moduleProperties.companyName.setText("No company associated. Please create a directory in the global repository.")
+			self.moduleProperties.projectName.setText("")
+		
+		self.getOptimizeExplanation(self.moduleProperties.optimizeFor.currentIndex())
+		self.moduleProperties.show()
+	
+	def getOptimizeExplanation(self, index):
+		# 0: Numerics in this module will use Int and Float as their data type by default.
+		# 1: Numerics in this module will use BigInt and BigFloat as their data type by default.
+		if index == 0:
+			self.moduleProperties.optimizeForExplanation.setText("Numerics in this module will use Int and Float as their data type by default.")
+		else:
+			self.moduleProperties.optimizeForExplanation.setText("Numerics in this module will use BigInt and BigFloat as their data type by default.")
 	
 	def undoLastAction(self):
 		self.codeEdit.undo()

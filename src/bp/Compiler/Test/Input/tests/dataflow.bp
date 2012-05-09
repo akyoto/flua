@@ -2,79 +2,51 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
 		<class>
-			<name>
-				DataFlowTest
-			</name>
+			<name>DataFlowTest</name>
 			<code>
 				<function>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										x
-									</value>
+									<value>self</value>
+									<value>x</value>
 								</access>
 							</value>
-							<value>
-								10
-							</value>
+							<value>10</value>
 						</assign>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										y
-									</value>
+									<value>self</value>
+									<value>y</value>
 								</access>
 							</value>
-							<value>
-								20
-							</value>
+							<value>20</value>
 						</assign>
 						<flow-to>
 							<value>
 								<multiply>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												x
-											</value>
+											<value>self</value>
+											<value>x</value>
 										</access>
 									</value>
-									<value>
-										2
-									</value>
+									<value>3</value>
 								</multiply>
 							</value>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										z
-									</value>
+									<value>self</value>
+									<value>z</value>
 								</access>
 							</value>
 						</flow-to>
@@ -82,71 +54,47 @@
 				</function>
 				<get>
 					<getter>
-						<name>
-							x
-						</name>
+						<name>x</name>
 						<code>
-							<return>
-								x
-							</return>
+							<return>x</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							y
-						</name>
+						<name>y</name>
 						<code>
-							<return>
-								y
-							</return>
+							<return>y</return>
 						</code>
 					</getter>
 				</get>
 			</code>
 		</class>
 		<assign>
-			<value>
-				a
-			</value>
+			<value>a</value>
 			<value>
 				<new>
-					<type>
-						DataFlowTest
-					</type>
+					<type>DataFlowTest</type>
 					<parameters/>
 				</new>
 			</value>
 		</assign>
 		<call>
-			<function>
-				print
-			</function>
+			<function>print</function>
 			<parameters>
 				<parameter>
 					<access>
-						<value>
-							a
-						</value>
-						<value>
-							x
-						</value>
+						<value>a</value>
+						<value>x</value>
 					</access>
 				</parameter>
 			</parameters>
 		</call>
 		<call>
-			<function>
-				print
-			</function>
+			<function>print</function>
 			<parameters>
 				<parameter>
 					<access>
-						<value>
-							a
-						</value>
-						<value>
-							y
-						</value>
+						<value>a</value>
+						<value>y</value>
 					</access>
 				</parameter>
 			</parameters>

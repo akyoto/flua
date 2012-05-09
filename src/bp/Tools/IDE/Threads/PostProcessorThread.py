@@ -7,18 +7,20 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		super().__init__(bpIDE)
 		self.bpIDE = bpIDE
 		self.processor = bpIDE.processor
+		self.lastException = None
 		self.finished.connect(self.bpIDE.postProcessorFinished)
+		self.finished.connect(self.bpIDE.msgView.updateViewPostProcessor)
 		
 	def startWith(self, codeEdit):
 		self.codeEdit = codeEdit
 		self.start()
 		
 	def run(self):
+		self.lastException = None
 		try:
 			self.startBenchmark("[%s] PostProcessor" % stripDir(self.codeEdit.getFilePath()))
 			self.processor.resetDTreesForFile(self.codeEdit.getFilePath())
 			self.bpIDE.processorOutFile = self.processor.process(self.codeEdit.root, self.codeEdit.getFilePath())
 			self.endBenchmark()
 		except PostProcessorException as e:
-			errorMessage = e.getMsg()
-			self.bpIDE.msgView.addMessage(errorMessage)
+			self.lastException = e

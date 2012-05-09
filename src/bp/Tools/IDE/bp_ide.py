@@ -46,6 +46,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 		self.bpIDE = bpIDE
 		self.wsID = wsID
+		self.filesClosed = []
 		
 		if bpIDE.config.documentModeEnabled:
 			self.setDocumentMode(True)
@@ -64,6 +65,8 @@ class BPWorkspace(QtGui.QTabWidget):
 	def addAndSelectTab(self, widget, name):
 		index = self.addTab(widget, name)
 		self.setCurrentIndex(index)
+		
+		# Buttons widget in the status bar
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
 	def getWorkspaceID(self):
@@ -114,9 +117,14 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 	def closeCodeEdit(self, index):
 		if self.widget(index) == self.bpIDE.codeEdit:
+			path = self.bpIDE.codeEdit.getFilePath()
+			if path and not self.bpIDE.isTmpPath(path):
+				self.filesClosed.append(path)
 			self.bpIDE.codeEdit = None
 		
 		self.removeTab(index)
+		
+		# Buttons widget in the status bar
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
 	def closeCurrentCodeEdit(self):
@@ -134,6 +142,8 @@ class BPWorkspace(QtGui.QTabWidget):
 		#self.tabWidget.show()
 		self.bpIDE.codeEdit = None
 		self.hide()
+		#for workspace in self.bpIDE.workspaces:
+		#	workspace.hide()
 
 class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	

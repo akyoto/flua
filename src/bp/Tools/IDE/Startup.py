@@ -1,4 +1,4 @@
-from bp.Tools.IDE.Threads import *
+﻿from bp.Tools.IDE.Threads import *
 from bp.Tools.IDE.Utils import *
 from bp.Tools.IDE.Editor import *
 from bp.Tools.IDE.Widgets import *
@@ -66,7 +66,7 @@ MyClass
 		print self.message
 		
 	doSomething
-		print "Okay I'm doing something."
+		print "By the way I heard Unicode works: おはようございます。"
 
 # Creating objects:
 b = MyClass("Hey it's b here! Long time no see.")
@@ -76,7 +76,8 @@ b.doSomething()
 
 # The current version is not stable.
 # If you find a bug you can either tell me about it on IRC (#blitzprog on irc.freenode.net)
-# or wait until I setup a bug tracker.
+# or wait until I setup a bug tracker. Settings and preferences currently aren't saved and
+# in some cases aren't even used.
 # There are still lots of features missing but they'll be implemented sooner or later.
 
 # Happy alpha testing :)
@@ -199,6 +200,7 @@ b.doSomething()
 		self.actionSave.triggered.connect(self.saveFile)
 		self.actionSaveAs.triggered.connect(self.saveAsFile)
 		self.actionClose.triggered.connect(self.closeCurrentTab)
+		self.actionReopenLastFile.triggered.connect(self.reopenLastFile)
 		self.actionExit.triggered.connect(self.close)
 		
 		# Edit

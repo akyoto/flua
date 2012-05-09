@@ -10,9 +10,10 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.setDocument(codeEdit.qdoc)
 		self.bpc = self.bpIDE.bpc#BPCCompiler(getModuleDir())
 		self.bpcFile = None
+		self.lastException = None
 		self.finished.connect(self.codeEdit.compilerFinished)
 		self.finished.connect(self.bpIDE.moduleView.updateView)
-		self.finished.connect(self.bpIDE.msgView.updateView)
+		self.finished.connect(self.bpIDE.msgView.updateViewParser)
 		
 	def setDocument(self, doc):
 		self.qdoc = doc
@@ -26,6 +27,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		#self.bpIDE.msgView.clear()
 		#self.codeEdit.clearHighlights()
 		
+		self.lastException = None
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
@@ -34,10 +36,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			if self.bpcFile.inFunction != 0:
 				print("inFunction: " +  str(self.bpcFile.inFunction))
 		except InputCompilerException as e:
-			lineNumber = e.getLineNumber()
-			errorMessage = e.getMsg()
-			errorFilePath = e.getFilePath()
-			self.bpIDE.msgView.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
+			self.lastException = e
 			
 			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
 			self.codeEdit.disableUpdatesFlag = False

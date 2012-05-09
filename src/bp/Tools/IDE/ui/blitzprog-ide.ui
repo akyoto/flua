@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -39,6 +39,7 @@
     <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
+    <addaction name="actionReopenLastFile"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -347,6 +348,18 @@
   <action name="actionDownloadUpdates">
    <property name="text">
     <string>Download updates</string>
+   </property>
+  </action>
+  <action name="actionReopenLastFile">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/tab-new.png</normaloff>../images/icons/actions/tab-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reopen last file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
    </property>
   </action>
  </widget>
