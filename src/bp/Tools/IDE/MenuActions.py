@@ -203,9 +203,9 @@ class MenuActions:
 		# 0: Numerics in this module will use Int and Float as their data type by default.
 		# 1: Numerics in this module will use BigInt and BigFloat as their data type by default.
 		if index == 0:
-			self.moduleProperties.optimizeForExplanation.setText("Numerics in this module will use Int and Float as their data type by default.")
+			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use Int and Float as their data type by default.")
 		else:
-			self.moduleProperties.optimizeForExplanation.setText("Numerics in this module will use BigInt and BigFloat as their data type by default.")
+			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use BigInt and BigFloat as their data type by default.")
 	
 	def undoLastAction(self):
 		self.codeEdit.undo()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
-    <height>273</height>
+    <width>566</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,13 +103,6 @@ Author</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="optimizeForExplanation">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="10" column="1">
       <widget class="QDateTimeEdit" name="dateModified">
        <property name="whatsThis">
@@ -141,6 +134,16 @@ Author</string>
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Created:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QPlainTextEdit" name="optimizeForExplanation">
+       <property name="undoRedoEnabled">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
