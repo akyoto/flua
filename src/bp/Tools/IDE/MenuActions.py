@@ -151,7 +151,7 @@ class MenuActions:
 		
 		gitPullCmd = [
 			getGitPath() + "git",
-			"status"
+			"pull"
 		]
 		
 		print("Checking for updates...")

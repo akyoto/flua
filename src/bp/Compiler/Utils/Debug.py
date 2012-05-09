@@ -22,6 +22,11 @@
 # along with Blitzprog.  If not, see <http://www.gnu.org/licenses/>.
 
 ####################################################################
+# Imports
+####################################################################
+import sys
+
+####################################################################
 # Global
 ####################################################################
 
@@ -135,8 +140,10 @@ def debugStop():
 	import pdb
 	pdb.set_trace()
 
-def printTraceback():
+def printTraceback(realStdout = sys.stdout, realStderr = sys.stderr):
 	import traceback
+	sys.stdout = realStdout
+	sys.stderr = realStderr
 	traceback.print_exc()
 	
 def compilerWarning(msg):

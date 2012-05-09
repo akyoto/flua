@@ -123,7 +123,8 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.closeCodeEdit(self.currentIndex())
 		
 	def updateCurrentCodeEditName(self):
-		pass
+		if self.count():
+			self.setTabText(self.currentIndex(), stripAll(self.currentWidget().getFilePath()))
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()
@@ -492,10 +493,7 @@ if __name__ == '__main__':
 		#import cProfile
 		#cProfile.run("main()", "bp.prof")
 		main()
-		#bpMain("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bpc", "/home/eduard/Projects/bp/src/bp/Compiler/Test/Output/")
 	except SystemExit:
 		pass
-	except OSError:
-		print("An instance of Blitzprog IDE is already running")
 	except:
 		printTraceback()
