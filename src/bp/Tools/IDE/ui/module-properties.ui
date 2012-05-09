@@ -28,6 +28,9 @@
      </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="modName">
+       <property name="whatsThis">
+        <string>This is the path you need to import. Whitespaces are replaced by underscores.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -54,6 +57,9 @@ Author</string>
      </item>
      <item row="4" column="1">
       <widget class="QDateTimeEdit" name="dateCreated">
+       <property name="whatsThis">
+        <string>The date this module has been created.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -68,6 +74,9 @@ Author</string>
      </item>
      <item row="5" column="1">
       <widget class="QDateTimeEdit" name="dateModified">
+       <property name="whatsThis">
+        <string>The last modification date.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -75,6 +84,9 @@ Author</string>
      </item>
      <item row="3" column="1">
       <widget class="QLineEdit" name="projectName">
+       <property name="whatsThis">
+        <string>2nd level of the directory tree. Create a directory inside your top-level directory to create a new project.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -89,6 +101,9 @@ Author</string>
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="companyName">
+       <property name="whatsThis">
+        <string>Top level directory name. Usually a short tag for your name.</string>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>

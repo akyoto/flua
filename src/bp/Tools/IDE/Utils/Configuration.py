@@ -125,7 +125,7 @@ class BPConfiguration:
 	def initPreferencesWidget(self, uiFileName, widget):
 		if uiFileName == "preferences/editor":
 			widget.fontFamily.setCurrentFont(self.monospaceFont)
-			widget.fontSize.setValue(self.ideFontSize)
+			widget.fontSize.setValue(self.editorFontSize)
 			widget.tabWidth.setValue(self.tabWidth)
 			
 			#widget.fontFamily.connect()

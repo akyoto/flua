@@ -151,6 +151,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.docks = []
 		self.uiCache = dict()
 		self.config = None
+		self.gitThread = None
 		
 		# Load config
 		self.startBenchmark("Load Configuration")
@@ -198,6 +199,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def closeCurrentTab(self):
 		self.currentWorkspace.closeCurrentCodeEdit()
+		
+	def gitPullFinished(self):
+		print("Done.")
 		
 	def loadConfig(self):
 		if os.path.isfile("settings.ini"):
@@ -484,15 +488,14 @@ def main():
 	sys.exit(exitCode)
 
 if __name__ == '__main__':
-	main()
-	#try:
+	try:
 		#import cProfile
 		#cProfile.run("main()", "bp.prof")
-	#	main()
+		main()
 		#bpMain("/home/eduard/Projects/bp/src/bp/Compiler/Test/Input/main.bpc", "/home/eduard/Projects/bp/src/bp/Compiler/Test/Output/")
-	#except SystemExit:
-	#	pass
-	#except OSError:
-	#	print("An instance of Blitzprog IDE is already running")
-	#except:
-	#	printTraceback()
+	except SystemExit:
+		pass
+	except OSError:
+		print("An instance of Blitzprog IDE is already running")
+	except:
+		printTraceback()

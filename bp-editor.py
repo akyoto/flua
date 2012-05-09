@@ -5,10 +5,8 @@ import os
 if os.name == "nt":
 	appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
 	pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
-	print(sys.version)
-	print(appendPath)
-	print(pyqtPath)
 	sys.path.append(pyqtPath)
+	print(sys.version)
 else:
 	appendPath = (os.path.abspath("src/") + "/")
 

@@ -129,6 +129,12 @@ class MenuActions:
 			#cpp.compile(self.file, self.codeEdit.root)
 	
 	def downloadUpdates(self):
+		if self.gitThread and self.gitThread.isRunning():
+			return
+		
+		if self.gitThread is None:
+			self.gitThread = BPGitThread(self)
+		
 		gitResetCmd = [
 			getGitPath() + "git",
 			"reset",
@@ -145,14 +151,11 @@ class MenuActions:
 		
 		gitPullCmd = [
 			getGitPath() + "git",
-			"pull"
+			"status"
 		]
 		
-		#startProcess(gitResetCmd, self.log.write, self.log.writeError)
-		#startProcess(gitCleanCmd, self.log.write, self.log.writeError)
 		print("Checking for updates...")
-		print("GIT path: %s" % getGitPath())
-		startProcess(gitPullCmd, self.console.log.write, self.console.log.writeError)
+		self.gitThread.startCmd(gitPullCmd)
 	
 	def showModuleProperties(self):
 		widget, existed = self.getUIFromCache("module-properties")
@@ -165,7 +168,10 @@ class MenuActions:
 			parts = self.splitModulePath(modulePath)
 			widget.modName.setText(".".join(parts))
 			widget.companyName.setText(parts[0])
-			widget.projectName.setText(parts[1])
+			if len(parts) > 1:
+				widget.projectName.setText(parts[1])
+			else:
+				widget.projectName.setText("")
 		else:
 			widget.modName.setText("Your module is stored outside of the global repository. Please change this.")
 			widget.companyName.setText("No company associated. Please create a directory in the global repository.")

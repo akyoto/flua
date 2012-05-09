@@ -107,8 +107,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.completer = None
 		#self.completer.setWidget(self)
 		
-		if 0:
-			self.initLineNumberArea()
+		#self.initLineNumberArea()
 	
 	def clear(self):
 		self.doc = None
