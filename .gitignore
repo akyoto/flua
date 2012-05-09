@@ -1,6 +1,9 @@
 bp.geany
 *.pyc
 *-out.hpp
+*-out
+bp_decls.hpp
+*.o
 test.png
 __pycache__
 src/bp/Tools/IDE/tmp/*

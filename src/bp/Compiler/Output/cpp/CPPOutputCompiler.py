@@ -61,6 +61,7 @@ class CPPOutputCompiler(Benchmarkable):
 		self.mainFile = None
 		self.mainCppFile = ""
 		self.customCompilerFlags = []
+		self.customLinkerFlags = []
 		self.funcImplCache = {}
 		self.includes = []
 		self.stringDataType = "~UTF8String"
@@ -75,6 +76,7 @@ class CPPOutputCompiler(Benchmarkable):
 			self.staticStdcppLinking = False
 		
 		self.gmpEnabled = False
+		self.boehmGCEnabled = True
 		
 		# Expression parser
 		self.initExprParser()
@@ -146,9 +148,13 @@ class CPPOutputCompiler(Benchmarkable):
 				fileOut = stripExt(cppFile.file) + "-out.cpp"
 				self.mainCppFile = fileOut
 				
+				gcInit = ""
+				if self.boehmGCEnabled:
+					gcInit = "\tGC_INIT();\n"
+				
 				# Write main file
 				with open(fileOut, "w") as outStream:
-					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + self.getFileExecList() + "\treturn 0;\n}\n")
+					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + gcInit + self.getFileExecList() + "\treturn 0;\n}\n")
 		
 		# Decls file
 		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))
@@ -159,12 +165,22 @@ class CPPOutputCompiler(Benchmarkable):
 			# Basic data types
 			outStream.write("#include <cstdint>\n")
 			outStream.write("#include <cstdlib>\n")
+			
+			if self.boehmGCEnabled:
+				#outStream.write("#include <gc/gc.h>\n")
+				outStream.write("#include <gc/gc_cpp.h>\n")
+			
 			if self.gmpEnabled:
 				outStream.write("#include <gmp/gmpxx.h>\n")
+			
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
 			outStream.write("typedef %s %s;\n" % ("CString", "String"))
-			outStream.write("#define %s %s\n" % ("Ptr", "boost::shared_ptr"))
+			
+			#outStream.write("#define %s %s\n" % ("Ptr", "boost::shared_ptr"))
+			#outStream.write("#define %s %s\n" % ("BP_PTR_DECL(x)", "Ptr< x >"))
+			outStream.write("#define %s %s\n" % ("BP_PTR_DECL(x)", "x*"))
+			
 			outStream.write("\n")
 			
 			# Classes
@@ -199,6 +215,17 @@ class CPPOutputCompiler(Benchmarkable):
 		if os.name == "nt":
 			os.chdir(compilerPath)
 		
+		if self.boehmGCEnabled:
+			if os.name == "posix":
+				self.customCompilerFlags += [
+					"-DGC_LINUX_THREADS",
+					"-D_REENTRANT",
+					"-DGC_OPERATOR_NEW_ARRAY",
+					"-DPARALLEL_MARK",
+					"-DGC_THREADS",
+					#"-DUSE_LIBC_PRIVATE",
+				]
+		
 		# Compiler
 		ccCmd = [
 			compilerName,
@@ -209,8 +236,7 @@ class CPPOutputCompiler(Benchmarkable):
 			"-I" + fixPath(self.modDir),
 			"-I" + fixPath(self.bpRoot + "include/cpp/"),
 			#"-L" + self.libsDir,
-			"-std=c++0x",
-			"-Wall",
+		] + self.customCompilerFlags + [
 			#"-pipe",
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
@@ -218,13 +244,26 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-O3",
 			#"-march=native",
 			#"-mtune=native",
+			"-std=c++0x",
+			"-Wall",
 		]
 		
+		# Linker options
 		additionalLibs = []
+		
+		# Use GMP?
 		if self.gmpEnabled:
 			additionalLibs += [
 				"-lgmpxx",
 				"-lgmp",
+			]
+		
+		# Boehm GC
+		if self.boehmGCEnabled:
+			additionalLibs += [
+				"-lgccpp",
+				"-lgc",
+				"-lpthread",
 			]
 		
 		if self.staticStdcppLinking:
@@ -245,7 +284,7 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-ltheron",
 			#"-lboost_thread",
 			#"-lpthread"
-		] + staticRuntime + additionalLibs + self.customCompilerFlags
+		] + staticRuntime + additionalLibs + self.customLinkerFlags
 		
 		try:
 			self.startBenchmark()

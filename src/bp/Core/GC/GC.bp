@@ -1,0 +1,23 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>
+				bp.Core
+			</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target>
+			<name>
+				C++
+			</name>
+			<code>
+				<include>
+					GC.hpp
+				</include>
+			</code>
+		</target>
+	</code>
+</module>

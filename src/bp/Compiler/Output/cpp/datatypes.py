@@ -33,6 +33,7 @@ from bp.Compiler.Utils import *
 # Global
 ####################################################################
 pointerType = "Ptr"
+standardClassPrefix = "BP"
 
 dataTypeDefinitions = {
 	"Bool" : "bool",
@@ -134,9 +135,12 @@ def adjustDataType(type, adjustOuterAsWell = True):
 	if type == "void" or type in nonPointerClasses:
 		return type
 	
-	standardClassPrefix = "BP"
-	classPrefix = pointerType + "<" + standardClassPrefix
-	classPostfix = ">"
+	#classPrefix = pointerType + "<" + standardClassPrefix
+	#classPostfix = ">"
+	#classPrefix = "BP_PTR_DECL(" + standardClassPrefix
+	#classPostfix = ")"
+	classPrefix = standardClassPrefix
+	classPostfix = "*"
 	
 	pos = type.find('<')
 	if pos != -1:

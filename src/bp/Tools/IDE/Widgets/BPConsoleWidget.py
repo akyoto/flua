@@ -69,13 +69,13 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 			"-a"
 		]
 		
-		if os.name != "nt":
+		if os.name == "posix":
 			startProcess(linuxCheck, self.log.write, self.log.write)
 			self.log.write("\n")
 			startProcess(gccVersionCheck, self.log.write, self.log.write)
 		
 		# Intercept sys.stdout and sys.stderr
-		self.watch(self.log)
+		#self.watch(self.log)
 		
 		#vBox.addWidget(self.log)
 		

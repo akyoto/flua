@@ -110,6 +110,10 @@ class CPPOutputFile(ScopeController):
 		# Debugging
 		self.lastParsedNode = list()
 		
+		# Memory management
+		self.useGC = True
+		self.useReferenceCounting = False
+		
 	def getFilePath(self):
 		return self.file
 	
@@ -521,7 +525,13 @@ class CPPOutputFile(ScopeController):
 			return paramsString
 			#return finalTypeName + "(" + paramsString + ")"
 		else:
-			return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
+			if self.useGC:
+				# new (UseGC)
+				return "(new " + finalTypeName + "(" + paramsString + "))"
+			elif self.useReferenceCounting:
+				return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
+			else:
+				return "(new " + finalTypeName + "(" + paramsString + "))"
 		
 	def handleAssign(self, node):
 		self.inAssignment += 1
@@ -1429,7 +1439,18 @@ class CPPOutputFile(ScopeController):
 					
 					# Add code to classes header
 					finalClassName = prefix + classObj.name + templatePostfix
-					self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName) + " {\npublic:\n" + code + "};\n\n"
+					
+					# Memory management
+					if self.useGC:
+						self.classesHeader += "class %s: public gc" % (finalClassName)
+					elif self.useReferenceCounting:
+						self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName)
+					else:
+						self.classesHeader += "class %s" % (finalClassName)
+					
+					# For debugging the GC add this commented line to the string:
+					# ~%s(){std::cout << \"Destroying %s\" << std::endl;}\n
+					self.classesHeader += " {\npublic:\n" + code + "};\n\n"
 	
 	def getCode(self):
 		self.writeFunctions()
