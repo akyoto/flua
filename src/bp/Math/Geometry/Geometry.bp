@@ -2,12 +2,8 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				Euclidean
-			</import>
+			<import>bp.Core</import>
+			<import>Euclidean</import>
 		</dependencies>
 		<strings/>
 	</header>

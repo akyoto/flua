@@ -242,6 +242,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			#if isShortcut:
 			#	self.completer.popup().show()
+		elif event.key() == QtCore.Qt.Key_Tab:
+			cursor = self.textCursor()
+			pos = cursor.position()
+			block = self.qdoc.findBlock(pos)
+			prevBlock = block.previous()
+			
+			line = block.text()
+			tabLevel = countTabs(line)
+			prevLine = prevBlock.text()
+			prevTabLevel = countTabs(prevLine)
+			
+			if not prevLine or tabLevel <= prevTabLevel:
+				super().keyPressEvent(event)
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:
 			cursor = self.textCursor()
@@ -275,7 +288,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			if not keyword:
 				keyword = pureLine
 				wasFullLine = True
-			print(keyword)
+			
 			keywordStaysAfterNewline = (pos >= blockPos + len(keyword)) #isAtEndOfLine
 			
 			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function":

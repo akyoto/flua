@@ -2,242 +2,154 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				κόσμε
-			</string>
-			<string id="bp_string_1">
-				εμσόκ
-			</string>
-			<string id="bp_string_2">
-				UTF-8 output: 
-			</string>
-			<string id="bp_string_3">
-				Unicode (UTF-8) NOT working!
-			</string>
-			<string id="bp_string_4">
-				Unicode (UTF-8) perfectly working!
-			</string>
+			<string id="bp_string_0">κόσμε</string>
+			<string id="bp_string_1">εμσόκ</string>
+			<string id="bp_string_2">UTF-8 output: </string>
+			<string id="bp_string_3">Unicode (UTF-8) NOT working!</string>
+			<string id="bp_string_4">Unicode (UTF-8) perfectly working!</string>
 		</strings>
 	</header>
 	<code>
-		<assign>
-			<value>
-				utf1
-			</value>
-			<value>
-				bp_string_0
-			</value>
+		<assign depth="0">
+			<value>utf1</value>
+			<value>bp_string_0</value>
 		</assign>
-		<assign>
-			<value>
-				utf2
-			</value>
-			<value>
-				bp_string_1
-			</value>
+		<assign depth="0">
+			<value>utf2</value>
+			<value>bp_string_1</value>
 		</assign>
-		<assign>
-			<value>
-				errors
-			</value>
-			<value>
-				0
-			</value>
+		<assign depth="0">
+			<value>errors</value>
+			<value>0</value>
 		</assign>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									utf1
-								</value>
-								<value>
-									length
-								</value>
+								<value>utf1</value>
+								<value>length</value>
 							</access>
 						</value>
-						<value>
-							5
-						</value>
+						<value>5</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errors
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									utf1
-								</value>
-								<value>
-									lengthInBytes
-								</value>
+								<value>utf1</value>
+								<value>lengthInBytes</value>
 							</access>
 						</value>
-						<value>
-							11
-						</value>
+						<value>11</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errors
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									utf2
-								</value>
-								<value>
-									length
-								</value>
+								<value>utf2</value>
+								<value>length</value>
 							</access>
 						</value>
-						<value>
-							5
-						</value>
+						<value>5</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errors
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									utf2
-								</value>
-								<value>
-									lengthInBytes
-								</value>
+								<value>utf2</value>
+								<value>lengthInBytes</value>
 							</access>
 						</value>
-						<value>
-							11
-						</value>
+						<value>11</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errors
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<call>
-			<function>
-				print
-			</function>
+		<call depth="0">
+			<function>print</function>
 			<parameters>
-				<parameter>
-					bp_string_2
-				</parameter>
+				<parameter>bp_string_2</parameter>
 			</parameters>
 		</call>
-		<call>
-			<function>
-				print
-			</function>
+		<call depth="0">
+			<function>print</function>
 			<parameters>
-				<parameter>
-					utf1
-				</parameter>
+				<parameter>utf1</parameter>
 			</parameters>
 		</call>
-		<call>
-			<function>
-				print
-			</function>
+		<call depth="0">
+			<function>print</function>
 			<parameters>
-				<parameter>
-					utf2
-				</parameter>
+				<parameter>utf2</parameter>
 			</parameters>
 		</call>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<greater>
-						<value>
-							errors
-						</value>
-						<value>
-							0
-						</value>
+						<value>errors</value>
+						<value>0</value>
 					</greater>
 				</condition>
 				<code>
-					<call>
-						<function>
-							print
-						</function>
+					<call depth="1">
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_3
-							</parameter>
+							<parameter>bp_string_3</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
-			<else>
+			<else depth="0">
 				<code>
-					<call>
-						<function>
-							print
-						</function>
+					<call depth="1">
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_4
-							</parameter>
+							<parameter>bp_string_4</parameter>
 						</parameters>
 					</call>
 				</code>

@@ -2,34 +2,22 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				UTF8String
-			</import>
+			<import>bp.Core</import>
+			<import>UTF8String</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<target>
-			<name>
-				C++
-			</name>
+		<target depth="0">
+			<name>C++</name>
 			<code>
-				<include>
-					String.hpp
-				</include>
+				<include depth="1">String.hpp</include>
 			</code>
 		</target>
-		<extern>
-			<extern-function>
-				<name>
-					bp_strlen
-				</name>
-				<type>
-					Size
-				</type>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_strlen</name>
+				<type>Size</type>
 			</extern-function>
 		</extern>
 	</code>

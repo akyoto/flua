@@ -575,10 +575,87 @@ class BPPostProcessorFile:
 			
 			if name in self.lastOccurence:
 				if tree.addVar(name):
+					# Get the DTree for the last occurence of the variable name
 					varTree = self.lastOccurence[name]
-					if len(varTree.parents) == 1 and varTree.parents[0] == self.currentDTree:
-						self.currentDTree.removeTree(varTree)
-					tree.addTree(varTree)
+					debugPP(varTree.instruction)
+					
+					# Walk the tree up until we get to the same code node
+					# code
+					#	|_ x = 7
+					# 	|_ if x
+					#		|_ a = 5
+					#	|_ b = a
+					# which means 'b = a' should not depend on 'a = 5'
+					# but on 'if x'.
+					# 
+					# [b = a]
+					#	|_ [if x]
+					#		|_ [x = 7]
+					# 
+					# Note: [a = 5] disappears but this ain't a problem
+					# because it is still a subnode of [if x] and therefore
+					# is used for the parallelization process.
+					#
+					# But we need to take care that 'node' is on a higher
+					# indentation level than 'me'.
+					# 
+					# We saved this level as 'depth' in the input module.
+					#
+					# First get the nodes:
+					node = varTree.instruction
+					me = tree.instruction
+					
+					# Retrieve the depth by going up the tree
+					# until we find a node with depth information.
+					nodeTmp = node
+					while not nodeTmp.hasAttribute("depth"):
+						nodeTmp = nodeTmp.parentNode
+						
+						if nodeTmp.tagName == "module":
+							raise CompilerException("Node has no depth information: %s" % node.toxml())
+						
+					nodeDepth = nodeTmp.getAttribute("depth")
+					
+					# Do the same for 'my' node
+					myTmp = me
+					while not myTmp.hasAttribute("depth"):
+						myTmp = myTmp.parentNode
+						
+						if myTmp.tagName == "module":
+							raise CompilerException("Node has no depth information: %s" % me.toxml())
+						
+					myDepth = myTmp.getAttribute("depth")
+					
+					# Debugging
+					#print(self.filePath)
+					#if not nodeDepth:
+					#	print("node depth info missing >>" + node.toprettyxml())
+					#	
+					#if not myDepth:
+					#	print("my depth info missing >>" + me.toprettyxml())
+					
+					# If the depth of the dependency was higher...
+					if int(nodeDepth) > int(myDepth):
+						myParent = me.parentNode
+						
+						#print("Node:", node.toprettyxml())
+						#print("Me  :", tree.instruction.toprettyxml())	
+						
+						# Retrieve the parent they have in common
+						while not node.parentNode.isSameNode(myParent):
+							node = node.parentNode
+					
+					# Now we have a node, but we need a DTree
+					if not node in self.dTreeByNode:
+						raise CompilerException("DTree for %s wasn't saved" % node.toxml())
+					
+					dependsOnTree = self.dTreeByNode[node]
+					
+					# WTH ?!
+					if len(dependsOnTree.parents) == 1 and dependsOnTree.parents[0] == self.currentDTree:
+						self.currentDTree.removeTree(dependsOnTree)
+					
+					tree.addTree(dependsOnTree)
 		elif xmlNode.tagName == "access":
 			# TODO: Parse it
 			op1 = xmlNode.childNodes[0].childNodes[0]
@@ -609,6 +686,19 @@ class BPPostProcessorFile:
 			pass
 			#for child in xmlNode.childNodes:
 			#	self.getInstructionDependencies(paramTree, child)
+		elif xmlNode.hasAttribute("depth"):#xmlNode.tagName == "if-block" or xmlNode.tagName == "try-block":
+			newTree = DTree(nodeToBPC(xmlNode), xmlNode)
+			self.dTreeByNode[xmlNode] = newTree
+		elif xmlNode.tagName == "code":
+			#newTree = DTree(nodeToBPC(xmlNode), xmlNode)
+			#if tree:
+			#	tree.addTree(newTree)
+			
+			#if xmlNode.tagName in {"if-block", "try-block"}:
+			#	print("Yikes!")
+			#self.getInstructionDependencies(tree, getElementByTagName(xmlNode, "parameters"))
+			#self.dTreeByNode[xmlNode] = newTree
+			return
 		
 		# Childs
 		for child in xmlNode.childNodes:
@@ -720,10 +810,34 @@ class BPPostProcessorFile:
 			
 			#if depth == 1:
 			#	self.dTree.addTree(funcTree)
-		elif node.tagName == "return":
+		elif node.hasAttribute("depth") and not node.tagName in {
+					# Have no dependencies
+					"class",
+					"getter",
+					"setter",
+					"cast-definition",
+					"function",
+					
+					# if-block
+					"if",
+					"else-if",
+					"else",
+					
+					# try-block
+					"try",
+					"catch"
+				}:
 			# Data dependency
-			thisOperation = DTree(nodeToBPC(node), node)
+			#debugPP("Getting dependencies for %s..." % node.tagName)
+			#debugPush()
+			
+			thisOperation = DTree("%s: %s" % (node.tagName, nodeToBPC(node).replace("\n", ":").replace("\t", "")), node)
 			self.getInstructionDependencies(thisOperation, node)
+			
+			#debugPop()
+			
 			if self.currentDTree:
+				#debugPP("New child:\n\t[%s]\n\tof\n\t[%s]" % (self.currentDTree.name, thisOperation.name))
 				self.currentDTree.addTree(thisOperation)
+				
 			self.dTreeByNode[node] = thisOperation

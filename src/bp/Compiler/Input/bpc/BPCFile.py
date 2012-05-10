@@ -240,6 +240,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				tabCountNextLine = countTabs(lines[lineIndex + 1])
 				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
+				elif tabCountNextLine > tabCount + 1:
+					raise CompilerException("You only need to indent once.")
 			
 			# TODO: Enable all unicode characters
 			line = line.replace("π", "pi")
@@ -278,13 +280,18 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			self.savedNextNode = self.nextNode
 			
+			# # # # # # # # # # # # # # # # # # # # # # #
+			# [ATTENTION]    MAGICAL TOWER OF IF'S      #
+			# # # # # # # # # # # # # # # # # # # # # # #
 			if currentLine:
-				if currentLine.nodeType != Node.TEXT_NODE and currentLine.tagName == "assign":
-					variableNode = currentLine.childNodes[0].childNodes[0]
-					if variableNode.nodeType == Node.TEXT_NODE:
-						variable = variableNode.nodeValue
-						if not variable in self.getCurrentScope().variables:
-							self.getCurrentScope().variables[variable] = currentLine
+				if currentLine.nodeType != Node.TEXT_NODE:
+					currentLine.setAttribute("depth", str(tabCount))
+					if currentLine.tagName == "assign":
+						variableNode = currentLine.childNodes[0].childNodes[0]
+						if variableNode.nodeType == Node.TEXT_NODE:
+							variable = variableNode.nodeValue
+							if not variable in self.getCurrentScope().variables:
+								self.getCurrentScope().variables[variable] = currentLine
 				
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount

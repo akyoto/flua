@@ -2,278 +2,176 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				, 
-			</string>
-			<string id="bp_string_1">
-				\n
-			</string>
+			<string id="bp_string_0">, </string>
+			<string id="bp_string_1">\n</string>
 		</strings>
 	</header>
 	<code>
-		<class>
-			<name>
-				Point
-			</name>
+		<class depth="0">
+			<name>Point</name>
 			<code>
-				<template>
-					<parameter>
-						<name>
-							Tx
-						</name>
-						<default-value>
-							Float
-						</default-value>
+				<template depth="1">
+					<parameter depth="2">
+						<name>Tx</name>
+						<default-value>Float</default-value>
 					</parameter>
-					<parameter>
-						<name>
-							Ty
-						</name>
-						<default-value>
-							Float
-						</default-value>
+					<parameter depth="2">
+						<name>Ty</name>
+						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>
 							<declare-type>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											x
-										</value>
+										<value>self</value>
+										<value>x</value>
 									</access>
 								</value>
-								<value>
-									Tx
-								</value>
+								<value>Tx</value>
 							</declare-type>
 						</parameter>
 						<parameter>
 							<declare-type>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											y
-										</value>
+										<value>self</value>
+										<value>y</value>
 									</access>
 								</value>
-								<value>
-									Ty
-								</value>
+								<value>Ty</value>
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
-						<noop/>
+						<noop depth="2"/>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<parameters>
-						<parameter>
-							offX
-						</parameter>
-						<parameter>
-							offY
-						</parameter>
+						<parameter>offX</parameter>
+						<parameter>offY</parameter>
 					</parameters>
-					<name>
-						move
-					</name>
+					<name>move</name>
 					<code>
-						<assign-add>
+						<assign-add depth="2">
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										x
-									</value>
+									<value>self</value>
+									<value>x</value>
 								</access>
 							</value>
-							<value>
-								offX
-							</value>
+							<value>offX</value>
 						</assign-add>
-						<assign-add>
+						<assign-add depth="2">
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										y
-									</value>
+									<value>self</value>
+									<value>y</value>
 								</access>
 							</value>
-							<value>
-								offY
-							</value>
+							<value>offY</value>
 						</assign-add>
 					</code>
 				</function>
-				<get>
-					<getter>
-						<name>
-							x
-						</name>
+				<get depth="1">
+					<getter depth="2">
+						<name>x</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										x
-									</value>
+									<value>self</value>
+									<value>x</value>
 								</access>
 							</return>
 						</code>
 					</getter>
-					<getter>
-						<name>
-							y
-						</name>
+					<getter depth="2">
+						<name>y</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										y
-									</value>
+									<value>self</value>
+									<value>y</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 				</get>
-				<set>
-					<setter>
+				<set depth="1">
+					<setter depth="2">
 						<parameters>
-							<parameter>
-								value
-							</parameter>
+							<parameter>value</parameter>
 						</parameters>
-						<name>
-							x
-						</name>
+						<name>x</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											x
-										</value>
+										<value>self</value>
+										<value>x</value>
 									</access>
 								</value>
-								<value>
-									value
-								</value>
+								<value>value</value>
 							</assign>
 						</code>
 					</setter>
-					<setter>
+					<setter depth="2">
 						<parameters>
-							<parameter>
-								value
-							</parameter>
+							<parameter>value</parameter>
 						</parameters>
-						<name>
-							y
-						</name>
+						<name>y</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											y
-										</value>
+										<value>self</value>
+										<value>y</value>
 									</access>
 								</value>
-								<value>
-									value
-								</value>
+								<value>value</value>
 							</assign>
 						</code>
 					</setter>
 				</set>
-				<function>
+				<function depth="1">
 					<parameters>
-						<parameter>
-							point
-						</parameter>
+						<parameter>point</parameter>
 					</parameters>
-					<name>
-						distanceTo
-					</name>
+					<name>distanceTo</name>
 					<code>
-						<return>
+						<return depth="2">
 							<call>
-								<function>
-									distance
-								</function>
+								<function>distance</function>
 								<parameters>
 									<parameter>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												x
-											</value>
+											<value>self</value>
+											<value>x</value>
 										</access>
 									</parameter>
 									<parameter>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												y
-											</value>
+											<value>self</value>
+											<value>y</value>
 										</access>
 									</parameter>
 									<parameter>
 										<access>
-											<value>
-												point
-											</value>
-											<value>
-												x
-											</value>
+											<value>point</value>
+											<value>x</value>
 										</access>
 									</parameter>
 									<parameter>
 										<access>
-											<value>
-												point
-											</value>
-											<value>
-												y
-											</value>
+											<value>point</value>
+											<value>y</value>
 										</access>
 									</parameter>
 								</parameters>
@@ -283,75 +181,49 @@
 				</function>
 			</code>
 		</class>
-		<function>
+		<function depth="0">
 			<parameters>
 				<parameter>
 					<declare-type>
-						<value>
-							p
-						</value>
-						<value>
-							Point
-						</value>
+						<value>p</value>
+						<value>Point</value>
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>
-				print
-			</name>
+			<name>print</name>
 			<code>
-				<call>
-					<function>
-						bp_print
-					</function>
+				<call depth="1">
+					<function>bp_print</function>
 					<parameters>
 						<parameter>
 							<access>
-								<value>
-									p
-								</value>
-								<value>
-									x
-								</value>
+								<value>p</value>
+								<value>x</value>
 							</access>
 						</parameter>
 					</parameters>
 				</call>
-				<call>
-					<function>
-						bp_print
-					</function>
+				<call depth="1">
+					<function>bp_print</function>
 					<parameters>
-						<parameter>
-							bp_string_0
-						</parameter>
+						<parameter>bp_string_0</parameter>
 					</parameters>
 				</call>
-				<call>
-					<function>
-						bp_print
-					</function>
+				<call depth="1">
+					<function>bp_print</function>
 					<parameters>
 						<parameter>
 							<access>
-								<value>
-									p
-								</value>
-								<value>
-									y
-								</value>
+								<value>p</value>
+								<value>y</value>
 							</access>
 						</parameter>
 					</parameters>
 				</call>
-				<call>
-					<function>
-						bp_print
-					</function>
+				<call depth="1">
+					<function>bp_print</function>
 					<parameters>
-						<parameter>
-							bp_string_1
-						</parameter>
+						<parameter>bp_string_1</parameter>
 					</parameters>
 				</call>
 			</code>

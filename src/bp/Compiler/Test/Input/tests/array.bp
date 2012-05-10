@@ -2,134 +2,88 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Collection.Array
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				Array module NOT working!
-			</string>
-			<string id="bp_string_1">
-				Array module working!
-			</string>
+			<string id="bp_string_0">Array module NOT working!</string>
+			<string id="bp_string_1">Array module working!</string>
 		</strings>
 	</header>
 	<code>
-		<assign>
-			<value>
-				errorCode
-			</value>
-			<value>
-				0
-			</value>
+		<assign depth="0">
+			<value>errorCode</value>
+			<value>0</value>
 		</assign>
-		<assign>
-			<value>
-				array
-			</value>
+		<assign depth="0">
+			<value>array</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>
-								Array
-							</value>
-							<value>
-								Int
-							</value>
+							<value>Array</value>
+							<value>Int</value>
 						</template-call>
 					</type>
 					<parameters/>
 				</new>
 			</value>
 		</assign>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									array
-								</value>
-								<value>
-									length
-								</value>
+								<value>array</value>
+								<value>length</value>
 							</access>
 						</value>
-						<value>
-							0
-						</value>
+						<value>0</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errorCode
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errorCode</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<call>
+		<call depth="0">
 			<function>
 				<access>
-					<value>
-						array
-					</value>
-					<value>
-						add
-					</value>
+					<value>array</value>
+					<value>add</value>
 				</access>
 			</function>
 			<parameters>
-				<parameter>
-					5
-				</parameter>
+				<parameter>5</parameter>
 			</parameters>
 		</call>
-		<call>
+		<call depth="0">
 			<function>
 				<access>
-					<value>
-						array
-					</value>
-					<value>
-						add
-					</value>
+					<value>array</value>
+					<value>add</value>
 				</access>
 			</function>
 			<parameters>
-				<parameter>
-					8
-				</parameter>
+				<parameter>8</parameter>
 			</parameters>
 		</call>
-		<call>
+		<call depth="0">
 			<function>
 				<access>
-					<value>
-						array
-					</value>
-					<value>
-						add
-					</value>
+					<value>array</value>
+					<value>add</value>
 				</access>
 			</function>
 			<parameters>
-				<parameter>
-					13
-				</parameter>
+				<parameter>13</parameter>
 			</parameters>
 		</call>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
@@ -137,100 +91,66 @@
 							<add>
 								<value>
 									<index>
-										<value>
-											array
-										</value>
-										<value>
-											0
-										</value>
+										<value>array</value>
+										<value>0</value>
 									</index>
 								</value>
 								<value>
 									<index>
-										<value>
-											array
-										</value>
-										<value>
-											1
-										</value>
+										<value>array</value>
+										<value>1</value>
 									</index>
 								</value>
 							</add>
 						</value>
 						<value>
 							<index>
-								<value>
-									array
-								</value>
-								<value>
-									2
-								</value>
+								<value>array</value>
+								<value>2</value>
 							</index>
 						</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errorCode
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errorCode</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>
-									array
-								</value>
-								<value>
-									length
-								</value>
+								<value>array</value>
+								<value>length</value>
 							</access>
 						</value>
-						<value>
-							3
-						</value>
+						<value>3</value>
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errorCode
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errorCode</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<assign>
-			<value>
-				array2
-			</value>
+		<assign depth="0">
+			<value>array2</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>
-								Array
-							</value>
+							<value>Array</value>
 							<value>
 								<template-call>
-									<value>
-										Array
-									</value>
-									<value>
-										Int
-									</value>
+									<value>Array</value>
+									<value>Int</value>
 								</template-call>
 							</value>
 						</template-call>
@@ -239,24 +159,18 @@
 				</new>
 			</value>
 		</assign>
-		<call>
+		<call depth="0">
 			<function>
 				<access>
-					<value>
-						array2
-					</value>
-					<value>
-						add
-					</value>
+					<value>array2</value>
+					<value>add</value>
 				</access>
 			</function>
 			<parameters>
-				<parameter>
-					array
-				</parameter>
+				<parameter>array</parameter>
 			</parameters>
 		</call>
-		<if-block>
+		<if-block depth="0">
 			<if>
 				<condition>
 					<or>
@@ -266,29 +180,19 @@
 									<not-equal>
 										<value>
 											<index>
-												<value>
-													array
-												</value>
-												<value>
-													0
-												</value>
+												<value>array</value>
+												<value>0</value>
 											</index>
 										</value>
 										<value>
 											<index>
 												<value>
 													<index>
-														<value>
-															array2
-														</value>
-														<value>
-															0
-														</value>
+														<value>array2</value>
+														<value>0</value>
 													</index>
 												</value>
-												<value>
-													0
-												</value>
+												<value>0</value>
 											</index>
 										</value>
 									</not-equal>
@@ -297,29 +201,19 @@
 									<not-equal>
 										<value>
 											<index>
-												<value>
-													array
-												</value>
-												<value>
-													1
-												</value>
+												<value>array</value>
+												<value>1</value>
 											</index>
 										</value>
 										<value>
 											<index>
 												<value>
 													<index>
-														<value>
-															array2
-														</value>
-														<value>
-															0
-														</value>
+														<value>array2</value>
+														<value>0</value>
 													</index>
 												</value>
-												<value>
-													1
-												</value>
+												<value>1</value>
 											</index>
 										</value>
 									</not-equal>
@@ -330,29 +224,19 @@
 							<not-equal>
 								<value>
 									<index>
-										<value>
-											array
-										</value>
-										<value>
-											2
-										</value>
+										<value>array</value>
+										<value>2</value>
 									</index>
 								</value>
 								<value>
 									<index>
 										<value>
 											<index>
-												<value>
-													array2
-												</value>
-												<value>
-													0
-												</value>
+												<value>array2</value>
+												<value>0</value>
 											</index>
 										</value>
-										<value>
-											2
-										</value>
+										<value>2</value>
 									</index>
 								</value>
 							</not-equal>
@@ -360,45 +244,31 @@
 					</or>
 				</condition>
 				<code>
-					<assign-add>
-						<value>
-							errorCode
-						</value>
-						<value>
-							1
-						</value>
+					<assign-add depth="1">
+						<value>errorCode</value>
+						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block>
+		<if-block depth="0">
 			<if>
-				<condition>
-					errorCode
-				</condition>
+				<condition>errorCode</condition>
 				<code>
-					<call>
-						<function>
-							print
-						</function>
+					<call depth="1">
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_0
-							</parameter>
+							<parameter>bp_string_0</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
-			<else>
+			<else depth="0">
 				<code>
-					<call>
-						<function>
-							print
-						</function>
+					<call depth="1">
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_1
-							</parameter>
+							<parameter>bp_string_1</parameter>
 						</parameters>
 					</call>
 				</code>

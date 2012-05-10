@@ -8,22 +8,22 @@
 		<strings/>
 	</header>
 	<code>
-		<const>
+		<const depth="0">
 			<assign>
 				<value>arrayMinSize</value>
 				<value>1024</value>
 			</assign>
 		</const>
-		<class>
+		<class depth="0">
 			<name>Array</name>
 			<code>
-				<template>
-					<parameter>TDataType</parameter>
+				<template depth="1">
+					<parameter depth="2">TDataType</parameter>
 				</template>
-				<function>
+				<function depth="1">
 					<name>init</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -48,7 +48,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -62,7 +62,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -83,13 +83,13 @@
 						</assign>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>
@@ -103,7 +103,7 @@
 							</value>
 							<value>element</value>
 						</assign>
-						<assign-add>
+						<assign-add depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -112,7 +112,7 @@
 							</value>
 							<value>1</value>
 						</assign-add>
-						<if-block>
+						<if-block depth="2">
 							<if>
 								<condition>
 									<equal>
@@ -131,7 +131,7 @@
 									</equal>
 								</condition>
 								<code>
-									<call>
+									<call depth="3">
 										<function>
 											<access>
 												<value>self</value>
@@ -162,13 +162,13 @@
 						</if-block>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>newSize</parameter>
 					</parameters>
 					<name>reserve</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>currentSize</value>
 							<value>
 								<call>
@@ -182,7 +182,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>newMem</value>
 							<value>
 								<unmanaged>
@@ -202,7 +202,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<call>
+						<call depth="2">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -215,7 +215,7 @@
 								<parameter>currentSize</parameter>
 							</parameters>
 						</call>
-						<call>
+						<call depth="2">
 							<function>
 								<access>
 									<value>
@@ -229,7 +229,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -243,7 +243,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -252,7 +252,7 @@
 							</value>
 							<value>newMem</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>self</value>
@@ -268,10 +268,10 @@
 						</assign>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<name>removeLast</name>
 					<code>
-						<if-block>
+						<if-block depth="2">
 							<if>
 								<condition>
 									<not-equal>
@@ -290,7 +290,7 @@
 									</not-equal>
 								</condition>
 								<code>
-									<assign-subtract>
+									<assign-subtract depth="3">
 										<value>
 											<access>
 												<value>self</value>
@@ -304,10 +304,10 @@
 						</if-block>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<name>reverse</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>startRev</value>
 							<value>
 								<access>
@@ -316,7 +316,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>endRev</value>
 							<value>
 								<subtract>
@@ -330,7 +330,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<while>
+						<while depth="2">
 							<condition>
 								<greater>
 									<value>
@@ -343,7 +343,7 @@
 								</greater>
 							</condition>
 							<code>
-								<call>
+								<call depth="3">
 									<function>bp_swap</function>
 									<parameters>
 										<parameter>
@@ -360,11 +360,11 @@
 										</parameter>
 									</parameters>
 								</call>
-								<assign-add>
+								<assign-add depth="3">
 									<value>startRev</value>
 									<value>1</value>
 								</assign-add>
-								<assign-subtract>
+								<assign-subtract depth="3">
 									<value>endRev</value>
 									<value>1</value>
 								</assign-subtract>
@@ -372,14 +372,14 @@
 						</while>
 					</code>
 				</function>
-				<operators>
-					<operator>
+				<operators depth="1">
+					<operator depth="2">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<return>
+							<return depth="3">
 								<index>
 									<value>
 										<access>
@@ -393,11 +393,11 @@
 						</code>
 					</operator>
 				</operators>
-				<get>
-					<getter>
+				<get depth="1">
+					<getter depth="2">
 						<name>start</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
 									<value>self</value>
 									<value>start</value>
@@ -405,10 +405,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>end</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
 									<value>self</value>
 									<value>end</value>
@@ -416,10 +416,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>endOfStorage</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
 									<value>self</value>
 									<value>endOfStorage</value>
@@ -427,10 +427,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>length</name>
 						<code>
-							<return>
+							<return depth="3">
 								<subtract>
 									<value>
 										<access>
@@ -449,14 +449,14 @@
 						</code>
 					</getter>
 				</get>
-				<set>
-					<setter>
+				<set depth="1">
+					<setter depth="2">
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<name>length</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
 										<value>self</value>
@@ -475,7 +475,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block>
+							<if-block depth="3">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -494,7 +494,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call>
+										<call depth="4">
 											<function>
 												<access>
 													<value>self</value>

@@ -7,13 +7,13 @@
 		<strings/>
 	</header>
 	<code>
-		<target>
+		<target depth="0">
 			<name>C++</name>
 			<code>
-				<include>Memory.hpp</include>
+				<include depth="1">Memory.hpp</include>
 			</code>
 		</target>
-		<function>
+		<function depth="0">
 			<parameters>
 				<parameter>source</parameter>
 				<parameter>dest</parameter>
@@ -21,7 +21,7 @@
 			</parameters>
 			<name>copyMem</name>
 			<code>
-				<call>
+				<call depth="1">
 					<function>bp_copyMem</function>
 					<parameters>
 						<parameter>source</parameter>
@@ -31,66 +31,66 @@
 				</call>
 			</code>
 		</function>
-		<extern>
-			<extern-function>
+		<extern depth="0">
+			<extern-function depth="1">
 				<name>bp_copyMem</name>
 			</extern-function>
-			<class>
+			<class depth="1">
 				<name>MemPointer</name>
 				<code>
-					<template>
-						<parameter>TDataType</parameter>
+					<template depth="2">
+						<parameter depth="3">TDataType</parameter>
 					</template>
-					<function>
+					<function depth="2">
 						<parameters>
 							<parameter>size</parameter>
 						</parameters>
 						<name>init</name>
 						<code>
-							<noop/>
+							<noop depth="3"/>
 						</code>
 					</function>
-					<function>
+					<function depth="2">
 						<name>free</name>
 						<code>
-							<noop/>
+							<noop depth="3"/>
 						</code>
 					</function>
-					<operators>
-						<operator>
+					<operators depth="2">
+						<operator depth="3">
 							<parameters>
 								<parameter>index</parameter>
 							</parameters>
 							<name>[]</name>
 							<code>
-								<declare-type>
+								<declare-type depth="4">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return>retValue</return>
+								<return depth="4">retValue</return>
 							</code>
 						</operator>
 					</operators>
-					<set>
-						<setter>
+					<set depth="2">
+						<setter depth="3">
 							<parameters>
 								<parameter>nValue</parameter>
 							</parameters>
 							<name>data</name>
 							<code>
-								<noop/>
+								<noop depth="4"/>
 							</code>
 						</setter>
 					</set>
-					<get>
-						<getter>
+					<get depth="2">
+						<getter depth="3">
 							<name>data</name>
 							<code>
-								<declare-type>
+								<declare-type depth="4">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return>retValue</return>
+								<return depth="4">retValue</return>
 							</code>
 						</getter>
 					</get>

@@ -9,20 +9,20 @@
 		<strings/>
 	</header>
 	<code>
-		<class>
+		<class depth="0">
 			<name>Circle</name>
 			<code>
-				<template>
-					<parameter>
+				<template depth="1">
+					<parameter depth="2">
 						<name>Tcenter</name>
 						<default-value>Point</default-value>
 					</parameter>
-					<parameter>
+					<parameter depth="2">
 						<name>Tradius</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -49,17 +49,17 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop/>
+						<noop depth="2"/>
 					</code>
 				</function>
-				<set>
-					<setter>
+				<set depth="1">
+					<setter depth="2">
 						<parameters>
 							<parameter>nPoint</parameter>
 						</parameters>
 						<name>center</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
 										<value>self</value>
@@ -70,13 +70,13 @@
 							</assign>
 						</code>
 					</setter>
-					<setter>
+					<setter depth="2">
 						<parameters>
 							<parameter>nRadius</parameter>
 						</parameters>
 						<name>radius</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
 										<value>self</value>
@@ -87,13 +87,13 @@
 							</assign>
 						</code>
 					</setter>
-					<setter>
+					<setter depth="2">
 						<parameters>
 							<parameter>nDiameter</parameter>
 						</parameters>
 						<name>diameter</name>
 						<code>
-							<assign>
+							<assign depth="3">
 								<value>
 									<access>
 										<value>self</value>
@@ -110,11 +110,11 @@
 						</code>
 					</setter>
 				</set>
-				<get>
-					<getter>
+				<get depth="1">
+					<getter depth="2">
 						<name>center</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
 									<value>self</value>
 									<value>center</value>
@@ -122,10 +122,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>radius</name>
 						<code>
-							<return>
+							<return depth="3">
 								<access>
 									<value>self</value>
 									<value>radius</value>
@@ -133,10 +133,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>diameter</name>
 						<code>
-							<return>
+							<return depth="3">
 								<multiply>
 									<value>
 										<access>
@@ -149,10 +149,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>perimeter</name>
 						<code>
-							<return>
+							<return depth="3">
 								<multiply>
 									<value>
 										<multiply>
@@ -171,13 +171,13 @@
 						</code>
 					</getter>
 				</get>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
 					<name>contains</name>
 					<code>
-						<return>
+						<return depth="2">
 							<less-or-equal>
 								<value>
 									<call>
@@ -240,13 +240,13 @@
 						</return>
 					</code>
 				</function>
-				<function>
+				<function depth="1">
 					<parameters>
 						<parameter>circle</parameter>
 					</parameters>
 					<name>intersects</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>distance</value>
 							<value>
 								<call>
@@ -300,7 +300,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>sumRadi</value>
 							<value>
 								<add>
@@ -319,7 +319,7 @@
 								</add>
 							</value>
 						</assign>
-						<return>
+						<return depth="2">
 							<less>
 								<value>distance</value>
 								<value>

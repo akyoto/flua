@@ -2,178 +2,112 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				Memory
-			</import>
-			<import>
-				String
-			</import>
+			<import>bp.Core</import>
+			<import>Memory</import>
+			<import>String</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<target>
-			<name>
-				C++
-			</name>
+		<target depth="0">
+			<name>C++</name>
 			<code>
-				<include>
-					Core.hpp
-				</include>
+				<include depth="1">Core.hpp</include>
 			</code>
 		</target>
-		<extern>
-			<extern-function>
-				<name>
-					bp_print
-				</name>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_print</name>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_println
-				</name>
+			<extern-function depth="1">
+				<name>bp_println</name>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_usleep
-				</name>
-				<type>
-					Int
-				</type>
+			<extern-function depth="1">
+				<name>bp_usleep</name>
+				<type>Int</type>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_sizeOf
-				</name>
-				<type>
-					Size
-				</type>
+			<extern-function depth="1">
+				<name>bp_sizeOf</name>
+				<type>Size</type>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_systemTime
-				</name>
-				<type>
-					Int64
-				</type>
+			<extern-function depth="1">
+				<name>bp_systemTime</name>
+				<type>Int64</type>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_systemCPUClock
-				</name>
-				<type>
-					Int64
-				</type>
+			<extern-function depth="1">
+				<name>bp_systemCPUClock</name>
+				<type>Int64</type>
 			</extern-function>
-			<extern-function>
-				<name>
-					bp_swap
-				</name>
+			<extern-function depth="1">
+				<name>bp_swap</name>
 			</extern-function>
 		</extern>
-		<function>
+		<function depth="0">
 			<parameters>
-				<parameter>
-					stri
-				</parameter>
+				<parameter>stri</parameter>
 			</parameters>
-			<name>
-				print
-			</name>
+			<name>print</name>
 			<code>
-				<call>
-					<function>
-						bp_println
-					</function>
+				<call depth="1">
+					<function>bp_println</function>
 					<parameters>
-						<parameter>
-							stri
-						</parameter>
+						<parameter>stri</parameter>
 					</parameters>
 				</call>
 			</code>
 		</function>
-		<function>
+		<function depth="0">
 			<parameters>
-				<parameter>
-					ms
-				</parameter>
+				<parameter>ms</parameter>
 			</parameters>
-			<name>
-				sleep
-			</name>
+			<name>sleep</name>
 			<code>
-				<call>
-					<function>
-						bp_usleep
-					</function>
+				<call depth="1">
+					<function>bp_usleep</function>
 					<parameters>
 						<parameter>
 							<multiply>
-								<value>
-									ms
-								</value>
-								<value>
-									1000
-								</value>
+								<value>ms</value>
+								<value>1000</value>
 							</multiply>
 						</parameter>
 					</parameters>
 				</call>
 			</code>
 		</function>
-		<function>
-			<name>
-				systemTime
-			</name>
+		<function depth="0">
+			<name>systemTime</name>
 			<code>
-				<return>
+				<return depth="1">
 					<call>
-						<function>
-							bp_systemTime
-						</function>
+						<function>bp_systemTime</function>
 						<parameters/>
 					</call>
 				</return>
 			</code>
 		</function>
-		<function>
-			<name>
-				systemCPUClock
-			</name>
+		<function depth="0">
+			<name>systemCPUClock</name>
 			<code>
-				<return>
+				<return depth="1">
 					<call>
-						<function>
-							bp_systemCPUClock
-						</function>
+						<function>bp_systemCPUClock</function>
 						<parameters/>
 					</call>
 				</return>
 			</code>
 		</function>
-		<function>
+		<function depth="0">
 			<parameters>
-				<parameter>
-					a
-				</parameter>
+				<parameter>a</parameter>
 			</parameters>
-			<name>
-				sizeOf
-			</name>
+			<name>sizeOf</name>
 			<code>
-				<return>
+				<return depth="1">
 					<call>
-						<function>
-							bp_sizeOf
-						</function>
+						<function>bp_sizeOf</function>
 						<parameters>
-							<parameter>
-								a
-							</parameter>
+							<parameter>a</parameter>
 						</parameters>
 					</call>
 				</return>
