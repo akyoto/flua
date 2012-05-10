@@ -236,7 +236,8 @@ class CPPOutputCompiler(Benchmarkable):
 			"-o%s" % fixPath(exe + ".o"),
 			"-I" + fixPath(self.outputDir),
 			"-I" + fixPath(self.modDir),
-			"-I" + fixPath("%sinclude/cpp/" % (self.bpRoot))
+			"-I" + fixPath("%sinclude/cpp/" % (self.bpRoot)),
+			"-I" + fixPath("%sinclude/cpp/gmp/" % (self.bpRoot)),
 			#"-L" + self.libsDir,
 		] + self.customCompilerFlags + [
 			#"-pipe",
