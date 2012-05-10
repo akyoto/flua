@@ -81,12 +81,11 @@ class CPPOutputCompiler(Benchmarkable):
 		
 		if os.name == "nt":
 			self.staticStdcppLinking = True
-			self.gmpEnabled = False	# TODO: ...
 		else:
 			self.staticStdcppLinking = False
-			self.gmpEnabled = True
 		
 		self.boehmGCEnabled = True
+		self.gmpEnabled = True
 		
 		# Expression parser
 		self.initExprParser()
