@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -55,6 +55,8 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionIntroduction"/>
+    <addaction name="separator"/>
     <addaction name="actionDownloadUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
@@ -360,6 +362,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionIntroduction">
+   <property name="text">
+    <string>Introduction</string>
    </property>
   </action>
  </widget>

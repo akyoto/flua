@@ -37,9 +37,11 @@ class Startup:
 		self.initActions()
 		self.endBenchmark()
 		
+	def showIntroduction(self):
 		# For beginners
-		if 1:#self.currentWorkspace.tabText(0) == "New file 1":
-			self.codeEdit.setPlainText('''# Press F5 to run this
+		self.newFile()
+		self.codeEdit.disableUpdatesFlag = True
+		self.codeEdit.setPlainText('''# Press F5 to run this
 print "Hello bp!"
 
 # You are using BPC syntax at the moment.
@@ -81,6 +83,8 @@ b.doSomething()
 
 # Happy alpha testing :)
 			''')
+		self.codeEdit.disableUpdatesFlag = False
+		self.codeEdit.runUpdater()
 	
 	def initPreferences(self):
 		self.preferences = uic.loadUi("ui/preferences.ui")
@@ -214,6 +218,7 @@ b.doSomething()
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Help
+		self.actionIntroduction.triggered.connect(self.showIntroduction)
 		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)

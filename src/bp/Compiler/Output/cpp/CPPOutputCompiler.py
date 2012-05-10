@@ -171,16 +171,15 @@ class CPPOutputCompiler(Benchmarkable):
 		with open(fileOut, "w") as outStream:
 			outStream.write("#ifndef " + "bp__decls__hpp" + "\n#define " + "bp__decls__hpp" + "\n\n")
 			
-			# Basic data types
-			outStream.write("#include <cstdint>\n")
-			outStream.write("#include <cstdlib>\n")
-			
 			if self.boehmGCEnabled:
 				#outStream.write("#include <gc/gc.h>\n")
-				outStream.write("#include <gc/gc_cpp.h>\n")
+				outStream.write("#define BP_USE_BOEHM_GC\n")
 			
 			if self.gmpEnabled:
-				outStream.write("#include <gmp/gmpxx.h>\n")
+				outStream.write("#define BP_USE_GMP\n")
+			
+			# Include precompiled header
+			outStream.write("#include <precompiled/all.hpp>\n")
 			
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))

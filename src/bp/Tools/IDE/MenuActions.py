@@ -205,7 +205,7 @@ class MenuActions:
 		if index == 0:
 			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use Int and Float as their data type by default.")
 		else:
-			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use BigInt and BigFloat as their data type by default.")
+			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use BigInt and BigFloat as their data type by default (arbitrary precision).")
 	
 	def undoLastAction(self):
 		self.codeEdit.undo()
