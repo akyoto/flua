@@ -589,8 +589,10 @@ class CPPOutputFile(ScopeController):
 		else:
 			variableName = self.parseExpr(node.childNodes[0].childNodes[0])
 		
+		# Parse value
 		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
 		
+		# Parse value type
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
 		if valueType == "void":
 			raise CompilerException("'%s' which is assigned to '%s' does not return a value (void)" % (value, variableName))
@@ -603,6 +605,7 @@ class CPPOutputFile(ScopeController):
 		except:
 			variableType = ""
 		
+		# Member access?
 		if variableName.startswith("this->"):
 			memberName = variableName[len("this->"):]
 			isSelfMemberAccess = True
@@ -619,6 +622,7 @@ class CPPOutputFile(ScopeController):
 		else:
 			variableExisted = self.variableExistsAnywhere(variableName)
 		
+		# Need to register it here?
 		if not variableExisted and not declaredInline:
 			var = CPPVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			self.registerVariable(var)
@@ -641,9 +645,10 @@ class CPPOutputFile(ScopeController):
 		
 		self.inAssignment -= 1
 		
-		print(node.toprettyxml())
-		print(variableName, "|", variableType, "|", value, "|", valueType)
+		#print(node.toprettyxml())
+		#print(variableName, "|", variableType, "|", value, "|", valueType)
 		
+		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
 			return var.getPrototype() + "(" + value + ")"
 		

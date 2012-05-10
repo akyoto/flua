@@ -103,26 +103,6 @@ Author</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
-      <widget class="QDateTimeEdit" name="dateModified">
-       <property name="whatsThis">
-        <string>The last modification date.</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QDateTimeEdit" name="dateCreated">
-       <property name="whatsThis">
-        <string>The date this module has been created.</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="10" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
@@ -146,6 +126,12 @@ Author</string>
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QLineEdit" name="dateCreated"/>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLineEdit" name="dateModified"/>
      </item>
     </layout>
    </item>

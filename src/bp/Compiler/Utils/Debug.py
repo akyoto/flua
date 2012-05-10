@@ -142,8 +142,6 @@ def debugStop():
 
 def printTraceback(realStdout = sys.stdout, realStderr = sys.stderr):
 	import traceback
-	sys.stdout = realStdout
-	sys.stderr = realStderr
 	traceback.print_exc()
 	
 def compilerWarning(msg):

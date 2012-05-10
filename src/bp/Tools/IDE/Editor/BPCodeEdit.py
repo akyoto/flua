@@ -320,7 +320,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def save(self, newPath = ""):
 		oldPath = self.getFilePath()
 		
-		try:
+		if 1:
 			if newPath:
 				if not newPath.endswith(".bp"):
 					newPath = stripExt(newPath) + ".bp"
@@ -333,9 +333,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				self.bpcFile.writeToFS()
 			
 			self.bpIDE.statusBar.showMessage("Saved " + newPath + " successfully.", 1000)
-		except:
+		else:
 			self.setFilePath(oldPath)
-			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 2000)
+			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)
 	
 	def setFilePath(self, filePath):
 		self.filePath = fixPath(filePath)

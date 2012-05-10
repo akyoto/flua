@@ -82,7 +82,7 @@ class MenuActions:
 		filePath = self.getFilePath()
 		if self.isTmpPath(filePath) or filePath.endswith(".bpc"):
 			self.saveAsFile()
-		else:
+		elif self.codeEdit:
 			self.codeEdit.save(filePath)
 	
 	def saveAsFile(self):
@@ -182,7 +182,8 @@ class MenuActions:
 		if self.codeEdit is None:
 			return
 		
-		modulePath = self.localToGlobalImport(stripAll(self.getFilePath()))
+		filePath = self.getFilePath()
+		modulePath = self.localToGlobalImport(stripAll(filePath))
 		if modulePath:
 			parts = self.splitModulePath(modulePath)
 			self.moduleProperties.modName.setText(".".join(parts))
@@ -196,16 +197,26 @@ class MenuActions:
 			self.moduleProperties.companyName.setText("No company associated. Please create a directory in the global repository.")
 			self.moduleProperties.projectName.setText("")
 		
+		if os.path.isfile(filePath):
+			created = os.path.getctime(filePath)
+			modified = os.path.getmtime(filePath)
+			
+			self.moduleProperties.dateCreated.setText(time.ctime(created))
+			self.moduleProperties.dateModified.setText(time.ctime(modified))
+		else:
+			self.moduleProperties.dateCreated.setText("-")
+			self.moduleProperties.dateModified.setText("-")
+		
 		self.getOptimizeExplanation(self.moduleProperties.optimizeFor.currentIndex())
 		self.moduleProperties.show()
 	
 	def getOptimizeExplanation(self, index):
-		# 0: Numerics in this module will use Int and Float as their data type by default.
-		# 1: Numerics in this module will use BigInt and BigFloat as their data type by default.
+		# 0: Numerics in this module use Int and Float as their data type by default.
+		# 1: Numerics in this module use BigInt and BigFloat as their data type by default.
 		if index == 0:
-			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use Int and Float as their data type by default.")
+			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module use Int and Float as their data type by default.")
 		else:
-			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module will use BigInt and BigFloat as their data type by default (arbitrary precision).")
+			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module use BigInt and BigFloat as their data type by default (arbitrary precision).")
 	
 	def undoLastAction(self):
 		self.codeEdit.undo()

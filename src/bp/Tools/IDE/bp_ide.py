@@ -117,7 +117,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 	def closeCodeEdit(self, index):
 		if self.widget(index) == self.bpIDE.codeEdit and self.bpIDE.codeEdit is not None:
-			path = self.bpIDE.codeEdit.getFilePath()
+			path = self.bpIDE.getFilePath()
 			if path and not self.bpIDE.isTmpPath(path):
 				self.filesClosed.append(path)
 			self.bpIDE.codeEdit = None
@@ -362,6 +362,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return self.codeEdit.getFilePath()
 		
 	def getFilePath(self):
+		if self.codeEdit is None:
+			return ""
+		
 		return self.codeEdit.getFilePath()
 		
 	def getErrorCount(self):

@@ -222,15 +222,17 @@ class BPCFile(ScopeController, Benchmarkable):
 			# Remove strings, comments and check brackets
 			line = self.prepareLine(line)
 			
-			# TODO: Enable all unicode characters
-			line = line.replace("π", "pi")
-			
 			if not line:
+				# Function block error checking
 				if currentLine and isElemNode(currentLine) and currentLine.tagName == "function":
 					codeNode = getElementByTagName(currentLine, "code")
 					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1]) <= tabCount:
 						raise CompilerException("If you need an empty function use '...' in the code block")
-				self.nodes.append(None)
+				
+				# If we didn't add a comment, add an empty entry
+				if len(self.nodes) <= self.lastLineCount:
+					self.nodes.append(None)
+				
 				continue
 			
 			self.nextLineIndented = False
@@ -238,6 +240,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				tabCountNextLine = countTabs(lines[lineIndex + 1])
 				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
+			
+			# TODO: Enable all unicode characters
+			line = line.replace("π", "pi")
 			
 			# Remove whitespaces
 			line = line.replace("\t", " ")
@@ -1001,6 +1006,19 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return None
 	
+	def handleInlineComment(self, comment):
+		pass
+	
+	def handleComment(self, comment):
+		node = self.doc.createElement("comment")
+		node.appendChild(self.doc.createTextNode(comment))
+		
+		# Manually register this
+		self.registerNode(node)
+		self.currentNode.appendChild(node)
+		
+		return None
+	
 	def prepareLine(self, line):
 		i = 0
 		roundBracketsBalance = 0 # ()
@@ -1014,7 +1032,13 @@ class BPCFile(ScopeController, Benchmarkable):
 		while i < len(line):
 			# Remove comments
 			if line[i] == '#':
-				return line[:i].rstrip()
+				lineContent = line[:i].rstrip()
+				comment = line[i+1:]
+				if lineContent:
+					self.handleInlineComment(comment)
+				else:
+					self.handleComment(comment)
+				return lineContent
 			# Number of brackets check
 			elif line[i] == '(':
 				roundBracketsBalance += 1
