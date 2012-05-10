@@ -116,7 +116,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		return -1, None
 		
 	def closeCodeEdit(self, index):
-		if self.widget(index) == self.bpIDE.codeEdit:
+		if self.widget(index) == self.bpIDE.codeEdit and self.bpIDE.codeEdit is not None:
 			path = self.bpIDE.codeEdit.getFilePath()
 			if path and not self.bpIDE.isTmpPath(path):
 				self.filesClosed.append(path)

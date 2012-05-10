@@ -2,99 +2,60 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Math
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				BigInt working!
-			</string>
-			<string id="bp_string_1">
-				BigInt not working!
-			</string>
+			<string id="bp_string_0">BigInt working!</string>
+			<string id="bp_string_1">BigInt not working!</string>
 		</strings>
 	</header>
 	<code>
-		<declare-type>
-			<value>
-				bigA
-			</value>
-			<value>
-				BigInt
-			</value>
-		</declare-type>
 		<assign>
 			<value>
-				bigA
+				<declare-type>
+					<value>bigA</value>
+					<value>BigInt</value>
+				</declare-type>
 			</value>
-			<value>
-				20
-			</value>
+			<value>20</value>
 		</assign>
-		<declare-type>
-			<value>
-				smallB
-			</value>
-			<value>
-				Int32
-			</value>
-		</declare-type>
 		<assign>
 			<value>
-				smallB
+				<declare-type>
+					<value>smallB</value>
+					<value>Int32</value>
+				</declare-type>
 			</value>
 			<value>
 				<multiply>
-					<value>
-						bigA
-					</value>
-					<value>
-						5
-					</value>
+					<value>bigA</value>
+					<value>5</value>
 				</multiply>
 			</value>
 		</assign>
 		<assign>
-			<value>
-				smallB
-			</value>
+			<value>smallB</value>
 			<value>
 				<add>
 					<value>
 						<multiply>
-							<value>
-								bigA
-							</value>
-							<value>
-								4
-							</value>
+							<value>bigA</value>
+							<value>4</value>
 						</multiply>
 					</value>
-					<value>
-						bigA
-					</value>
+					<value>bigA</value>
 				</add>
 			</value>
 		</assign>
-		<declare-type>
-			<value>
-				resultA
-			</value>
-			<value>
-				BigInt
-			</value>
-		</declare-type>
 		<assign>
 			<value>
-				resultA
+				<declare-type>
+					<value>resultA</value>
+					<value>BigInt</value>
+				</declare-type>
 			</value>
-			<value>
-				2432902008176640000
-			</value>
+			<value>2432902008176640000</value>
 		</assign>
 		<if-block>
 			<if>
@@ -104,49 +65,33 @@
 							<equal>
 								<value>
 									<call>
-										<function>
-											factorial
-										</function>
+										<function>factorial</function>
 										<parameters>
-											<parameter>
-												bigA
-											</parameter>
+											<parameter>bigA</parameter>
 										</parameters>
 									</call>
 								</value>
-								<value>
-									resultA
-								</value>
+								<value>resultA</value>
 							</equal>
 						</value>
 						<value>
 							<equal>
 								<value>
 									<multiply>
-										<value>
-											bigA
-										</value>
-										<value>
-											5
-										</value>
+										<value>bigA</value>
+										<value>5</value>
 									</multiply>
 								</value>
-								<value>
-									smallB
-								</value>
+								<value>smallB</value>
 							</equal>
 						</value>
 					</and>
 				</condition>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_0
-							</parameter>
+							<parameter>bp_string_0</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -154,13 +99,9 @@
 			<else>
 				<code>
 					<call>
-						<function>
-							print
-						</function>
+						<function>print</function>
 						<parameters>
-							<parameter>
-								bp_string_1
-							</parameter>
+							<parameter>bp_string_1</parameter>
 						</parameters>
 					</call>
 				</code>

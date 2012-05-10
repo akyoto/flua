@@ -2,90 +2,56 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
 		<target>
-			<name>
-				C++
-			</name>
+			<name>C++</name>
 			<code>
-				<include>
-					Memory.hpp
-				</include>
+				<include>Memory.hpp</include>
 			</code>
 		</target>
 		<function>
 			<parameters>
-				<parameter>
-					source
-				</parameter>
-				<parameter>
-					dest
-				</parameter>
-				<parameter>
-					size
-				</parameter>
+				<parameter>source</parameter>
+				<parameter>dest</parameter>
+				<parameter>size</parameter>
 			</parameters>
-			<name>
-				copyMem
-			</name>
+			<name>copyMem</name>
 			<code>
 				<call>
-					<function>
-						bp_copyMem
-					</function>
+					<function>bp_copyMem</function>
 					<parameters>
-						<parameter>
-							source
-						</parameter>
-						<parameter>
-							dest
-						</parameter>
-						<parameter>
-							size
-						</parameter>
+						<parameter>source</parameter>
+						<parameter>dest</parameter>
+						<parameter>size</parameter>
 					</parameters>
 				</call>
 			</code>
 		</function>
 		<extern>
 			<extern-function>
-				<name>
-					bp_copyMem
-				</name>
+				<name>bp_copyMem</name>
 			</extern-function>
 			<class>
-				<name>
-					MemPointer
-				</name>
+				<name>MemPointer</name>
 				<code>
 					<template>
-						<parameter>
-							TDataType
-						</parameter>
+						<parameter>TDataType</parameter>
 					</template>
 					<function>
 						<parameters>
-							<parameter>
-								size
-							</parameter>
+							<parameter>size</parameter>
 						</parameters>
-						<name>
-							init
-						</name>
+						<name>init</name>
 						<code>
 							<noop/>
 						</code>
 					</function>
 					<function>
-						<name>
-							free
-						</name>
+						<name>free</name>
 						<code>
 							<noop/>
 						</code>
@@ -93,38 +59,24 @@
 					<operators>
 						<operator>
 							<parameters>
-								<parameter>
-									index
-								</parameter>
+								<parameter>index</parameter>
 							</parameters>
-							<name>
-								[]
-							</name>
+							<name>[]</name>
 							<code>
 								<declare-type>
-									<value>
-										retValue
-									</value>
-									<value>
-										TDataType
-									</value>
+									<value>retValue</value>
+									<value>TDataType</value>
 								</declare-type>
-								<return>
-									retValue
-								</return>
+								<return>retValue</return>
 							</code>
 						</operator>
 					</operators>
 					<set>
 						<setter>
 							<parameters>
-								<parameter>
-									nValue
-								</parameter>
+								<parameter>nValue</parameter>
 							</parameters>
-							<name>
-								data
-							</name>
+							<name>data</name>
 							<code>
 								<noop/>
 							</code>
@@ -132,21 +84,13 @@
 					</set>
 					<get>
 						<getter>
-							<name>
-								data
-							</name>
+							<name>data</name>
 							<code>
 								<declare-type>
-									<value>
-										retValue
-									</value>
-									<value>
-										TDataType
-									</value>
+									<value>retValue</value>
+									<value>TDataType</value>
 								</declare-type>
-								<return>
-									retValue
-								</return>
+								<return>retValue</return>
 							</code>
 						</getter>
 					</get>

@@ -8,9 +8,10 @@
 			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">---</string>
-			<string id="bp_string_1">---</string>
+			<string id="bp_string_0">-----</string>
+			<string id="bp_string_1">-----</string>
 			<string id="bp_string_2">ms</string>
+			<string id="bp_string_3">End of program.</string>
 		</strings>
 	</header>
 	<code>
@@ -39,11 +40,11 @@
 				</assign-subtract>
 				<assign-add>
 					<value>x</value>
-					<value>9</value>
+					<value>19</value>
 				</assign-add>
 				<assign-add>
 					<value>y</value>
-					<value>3</value>
+					<value>18</value>
 				</assign-add>
 				<return>
 					<add>
@@ -53,89 +54,110 @@
 				</return>
 			</code>
 		</function>
-		<for>
-			<iterator>i</iterator>
-			<from>0</from>
-			<until>1</until>
-			<code>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_0</parameter>
+			</parameters>
+		</call>
+		<assign>
+			<value>timeA</value>
+			<value>
 				<call>
-					<function>print</function>
+					<function>systemTime</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<assign>
+			<value>
+				<declare-type>
+					<value>a</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>20</value>
+		</assign>
+		<assign>
+			<value>
+				<declare-type>
+					<value>b</value>
+					<value>Int</value>
+				</declare-type>
+			</value>
+			<value>20</value>
+		</assign>
+		<assign>
+			<value>a</value>
+			<value>
+				<call>
+					<function>factorial</function>
 					<parameters>
-						<parameter>bp_string_0</parameter>
+						<parameter>a</parameter>
 					</parameters>
 				</call>
-				<assign>
-					<value>timeA</value>
-					<value>
-						<call>
-							<function>systemTime</function>
-							<parameters/>
-						</call>
-					</value>
-				</assign>
+			</value>
+		</assign>
+		<assign>
+			<value>b</value>
+			<value>
 				<call>
-					<function>print</function>
+					<function>factorial</function>
 					<parameters>
-						<parameter>
-							<call>
-								<function>paraFunc</function>
-								<parameters>
-									<parameter>
-										<call>
-											<function>paraFunc</function>
-											<parameters>
-												<parameter>20</parameter>
-												<parameter>15</parameter>
-											</parameters>
-										</call>
-									</parameter>
-									<parameter>
-										<call>
-											<function>paraFunc</function>
-											<parameters>
-												<parameter>17</parameter>
-												<parameter>18</parameter>
-											</parameters>
-										</call>
-									</parameter>
-								</parameters>
-							</call>
-						</parameter>
+						<parameter>b</parameter>
 					</parameters>
 				</call>
-				<assign>
-					<value>timeB</value>
-					<value>
-						<call>
-							<function>systemTime</function>
-							<parameters/>
-						</call>
-					</value>
-				</assign>
+			</value>
+		</assign>
+		<assign>
+			<value>timeB</value>
+			<value>
 				<call>
-					<function>print</function>
-					<parameters>
-						<parameter>bp_string_1</parameter>
-					</parameters>
+					<function>systemTime</function>
+					<parameters/>
 				</call>
-				<call>
-					<function>print</function>
-					<parameters>
-						<parameter>
-							<subtract>
-								<value>timeB</value>
-								<value>timeA</value>
-							</subtract>
-						</parameter>
-					</parameters>
-				</call>
-				<call>
-					<function>print</function>
-					<parameters>
-						<parameter>bp_string_2</parameter>
-					</parameters>
-				</call>
-			</code>
-		</for>
+			</value>
+		</assign>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+		</call>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>b</parameter>
+			</parameters>
+		</call>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_1</parameter>
+			</parameters>
+		</call>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<subtract>
+						<value>timeB</value>
+						<value>timeA</value>
+					</subtract>
+				</parameter>
+			</parameters>
+		</call>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_2</parameter>
+			</parameters>
+		</call>
+		<call>
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_3</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>

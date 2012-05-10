@@ -325,9 +325,13 @@ class CPPOutputFile(ScopeController):
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
-			name = self.handleTypeDeclaration(node)
+			
 			if node.parentNode.tagName == "code":
+				self.handleTypeDeclaration(node)
 				return ""
+			
+			name = self.handleTypeDeclaration(node, insertTypeName = True)
+			#print(name)
 			return name
 		elif node.tagName == "unmanaged":
 			return self.handleUnmanaged(node)
@@ -576,7 +580,15 @@ class CPPOutputFile(ScopeController):
 			elif op1.tagName == "index":
 				return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
 		
-		variableName = self.parseExpr(node.childNodes[0].childNodes[0])
+		# Inline type declarations
+		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
+		
+		# Inline declaration + top level scope = don't include type name
+		if declaredInline and self.getCurrentScope() == self.getTopLevelScope():
+			variableName = self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
+		else:
+			variableName = self.parseExpr(node.childNodes[0].childNodes[0])
+		
 		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
 		
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
@@ -607,7 +619,7 @@ class CPPOutputFile(ScopeController):
 		else:
 			variableExisted = self.variableExistsAnywhere(variableName)
 		
-		if not variableExisted:
+		if not variableExisted and not declaredInline:
 			var = CPPVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			self.registerVariable(var)
 			
@@ -629,8 +641,8 @@ class CPPOutputFile(ScopeController):
 		
 		self.inAssignment -= 1
 		
-		# Inline type declarations
-		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
+		print(node.toprettyxml())
+		print(variableName, "|", variableType, "|", value, "|", valueType)
 		
 		if isUnmanaged(valueType) and not variableExisted:
 			return var.getPrototype() + "(" + value + ")"
@@ -640,7 +652,7 @@ class CPPOutputFile(ScopeController):
 		elif variableExisted:
 			return variableName + " = " + value
 		elif declaredInline:
-			return variableName + " = " + value
+			return variableName + " = " + value + ";//Declared inline"
 		else:
 			return var.getPrototype() + " = " + value
 		
@@ -1214,7 +1226,7 @@ class CPPOutputFile(ScopeController):
 		# TODO: Implement data flow
 		return op1Expr
 	
-	def handleTypeDeclaration(self, node):
+	def handleTypeDeclaration(self, node, insertTypeName = True):
 		self.inTypeDeclaration += 1
 		typeName = self.currentClassImpl.translateTemplateName(self.parseExpr(node.childNodes[1], True))
 		varName = self.parseExpr(node.childNodes[0])
@@ -1236,10 +1248,11 @@ class CPPOutputFile(ScopeController):
 			#debug("Declaring '%s' as '%s'" % (varName, typeName))
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
-			#return varName
-			return adjustDataType(typeName) + " " + varName
 			
-		return varName
+			if insertTypeName:
+				return adjustDataType(typeName) + " " + varName
+			else:
+				return varName
 	
 	def handleConst(self, node):
 		self.inConst += 1
