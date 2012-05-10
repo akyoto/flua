@@ -39,7 +39,6 @@ class Startup:
 		
 		# For beginners
 		if 1:#self.currentWorkspace.tabText(0) == "New file 1":
-			self.codeEdit.disableUpdatesFlag = True
 			self.codeEdit.setPlainText('''# Press F5 to run this
 print "Hello bp!"
 
@@ -82,7 +81,6 @@ b.doSomething()
 
 # Happy alpha testing :)
 			''')
-			self.codeEdit.disableUpdatesFlag = False
 	
 	def initPreferences(self):
 		self.preferences = uic.loadUi("ui/preferences.ui")
