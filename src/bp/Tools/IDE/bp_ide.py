@@ -46,6 +46,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
+		self.developerFlag = False
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1

@@ -29,8 +29,8 @@
 	// ./configure
 	//  --enable-cxx
 	//  --enable-fat
-	#include "../gmp/gmpxx.h"
-	#include "../gmp/gmp.h"
+	#include <gmpxx.h>
+	#include <gmp.h>
 #endif
 
 #ifdef BP_USE_BOOST
