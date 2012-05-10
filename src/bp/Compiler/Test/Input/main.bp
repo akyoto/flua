@@ -2,177 +2,99 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Math
-			</import>
-			<import>
-				bp.Math.Geometry
-			</import>
-			<import>
-				tests
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
+			<import>bp.Math.Geometry</import>
+			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				---
-			</string>
-			<string id="bp_string_1">
-				---
-			</string>
-			<string id="bp_string_2">
-				ms
-			</string>
+			<string id="bp_string_0">---</string>
+			<string id="bp_string_1">---</string>
+			<string id="bp_string_2">ms</string>
 		</strings>
 	</header>
 	<code>
 		<function>
 			<parameters>
-				<parameter>
-					x
-				</parameter>
-				<parameter>
-					y
-				</parameter>
+				<parameter>x</parameter>
+				<parameter>y</parameter>
 			</parameters>
-			<name>
-				paraFunc
-			</name>
+			<name>paraFunc</name>
 			<code>
 				<assign-subtract>
-					<value>
-						x
-					</value>
-					<value>
-						5
-					</value>
+					<value>x</value>
+					<value>5</value>
 				</assign-subtract>
 				<assign-subtract>
-					<value>
-						y
-					</value>
-					<value>
-						3
-					</value>
+					<value>y</value>
+					<value>3</value>
 				</assign-subtract>
 				<assign-subtract>
-					<value>
-						x
-					</value>
-					<value>
-						7
-					</value>
+					<value>x</value>
+					<value>7</value>
 				</assign-subtract>
 				<assign-subtract>
-					<value>
-						y
-					</value>
-					<value>
-						8
-					</value>
+					<value>y</value>
+					<value>8</value>
 				</assign-subtract>
 				<assign-add>
-					<value>
-						x
-					</value>
-					<value>
-						9
-					</value>
+					<value>x</value>
+					<value>9</value>
 				</assign-add>
 				<assign-add>
-					<value>
-						y
-					</value>
-					<value>
-						3
-					</value>
+					<value>y</value>
+					<value>3</value>
 				</assign-add>
 				<return>
 					<add>
-						<value>
-							x
-						</value>
-						<value>
-							y
-						</value>
+						<value>x</value>
+						<value>y</value>
 					</add>
 				</return>
 			</code>
 		</function>
 		<for>
-			<iterator>
-				i
-			</iterator>
-			<from>
-				0
-			</from>
-			<until>
-				1
-			</until>
+			<iterator>i</iterator>
+			<from>0</from>
+			<until>1</until>
 			<code>
 				<call>
-					<function>
-						print
-					</function>
+					<function>print</function>
 					<parameters>
-						<parameter>
-							bp_string_0
-						</parameter>
+						<parameter>bp_string_0</parameter>
 					</parameters>
 				</call>
 				<assign>
-					<value>
-						timeA
-					</value>
+					<value>timeA</value>
 					<value>
 						<call>
-							<function>
-								systemTime
-							</function>
+							<function>systemTime</function>
 							<parameters/>
 						</call>
 					</value>
 				</assign>
 				<call>
-					<function>
-						print
-					</function>
+					<function>print</function>
 					<parameters>
 						<parameter>
 							<call>
-								<function>
-									paraFunc
-								</function>
+								<function>paraFunc</function>
 								<parameters>
 									<parameter>
 										<call>
-											<function>
-												paraFunc
-											</function>
+											<function>paraFunc</function>
 											<parameters>
-												<parameter>
-													20
-												</parameter>
-												<parameter>
-													15
-												</parameter>
+												<parameter>20</parameter>
+												<parameter>15</parameter>
 											</parameters>
 										</call>
 									</parameter>
 									<parameter>
 										<call>
-											<function>
-												paraFunc
-											</function>
+											<function>paraFunc</function>
 											<parameters>
-												<parameter>
-													17
-												</parameter>
-												<parameter>
-													18
-												</parameter>
+												<parameter>17</parameter>
+												<parameter>18</parameter>
 											</parameters>
 										</call>
 									</parameter>
@@ -182,53 +104,35 @@
 					</parameters>
 				</call>
 				<assign>
-					<value>
-						timeB
-					</value>
+					<value>timeB</value>
 					<value>
 						<call>
-							<function>
-								systemTime
-							</function>
+							<function>systemTime</function>
 							<parameters/>
 						</call>
 					</value>
 				</assign>
 				<call>
-					<function>
-						print
-					</function>
+					<function>print</function>
 					<parameters>
-						<parameter>
-							bp_string_1
-						</parameter>
+						<parameter>bp_string_1</parameter>
 					</parameters>
 				</call>
 				<call>
-					<function>
-						print
-					</function>
+					<function>print</function>
 					<parameters>
 						<parameter>
 							<subtract>
-								<value>
-									timeB
-								</value>
-								<value>
-									timeA
-								</value>
+								<value>timeB</value>
+								<value>timeA</value>
 							</subtract>
 						</parameter>
 					</parameters>
 				</call>
 				<call>
-					<function>
-						print
-					</function>
+					<function>print</function>
 					<parameters>
-						<parameter>
-							bp_string_2
-						</parameter>
+						<parameter>bp_string_2</parameter>
 					</parameters>
 				</call>
 			</code>

@@ -442,6 +442,11 @@ class BPPostProcessor:
 	def getCompiledFiles(self):
 		return self.compiledFiles
 	
+	def changeCompiledFilePath(self, oldPath, newPath):
+		# TODO: Can we do this faster in Python?
+		self.compiledFiles[newPath] = self.compiledFiles[oldPath]
+		self.compiledFiles[oldPath] = None
+	
 	def getCompiledFilesList(self):
 		return self.compiledFilesList
 	

@@ -325,6 +325,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				if not newPath.endswith(".bp"):
 					newPath = stripExt(newPath) + ".bp"
 				self.setFilePath(newPath)
+				
+				if oldPath != newPath and self.bpIDE.processor:
+					self.bpIDE.processor.changeCompiledFilePath(oldPath, newPath)
 			
 			if self.bpcFile:
 				self.bpcFile.writeToFS()
