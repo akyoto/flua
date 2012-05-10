@@ -15,6 +15,7 @@
 		</strings>
 	</header>
 	<code>
+		<comment> Test</comment>
 		<comment> Testing comments</comment>
 		<function>
 			<parameters>
