@@ -275,7 +275,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				keyword = pureLine
 				wasFullLine = True
 			
-			if keyword and isAtEndOfLine and not keyword[0] == '#':
+			if keyword and isAtEndOfLine and not keyword[0] == '#' and nodeName != "extern-function":
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1

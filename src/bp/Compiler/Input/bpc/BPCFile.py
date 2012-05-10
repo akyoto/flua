@@ -1011,7 +1011,7 @@ class BPCFile(ScopeController, Benchmarkable):
 	
 	def handleComment(self, comment):
 		node = self.doc.createElement("comment")
-		node.appendChild(self.doc.createTextNode(comment))
+		node.appendChild(self.doc.createTextNode(encodeCDATA(comment)))
 		
 		# Manually register this
 		self.registerNode(node)
@@ -1081,7 +1081,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				# Create XML node
 				stringNode = self.doc.createElement("string")
 				stringNode.setAttribute("id", identifier)
-				stringNode.appendChild(self.doc.createTextNode(line[i+1:h]))
+				stringNode.appendChild(self.doc.createTextNode(encodeCDATA(line[i+1:h])))
 				self.strings.appendChild(stringNode)
 				
 				line = line[:i] + identifier + line[h+1:]

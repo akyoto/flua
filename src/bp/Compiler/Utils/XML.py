@@ -41,6 +41,12 @@ binaryOperatorTagToSymbol = dict()
 def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")
 
+def encodeCDATA(data):
+	return data.replace("\t", "\\T")
+	
+def decodeCDATA(data):
+	return data.replace("\\T", "\t")
+	
 def isTextNode(node):
 	if node is None:
 		return False

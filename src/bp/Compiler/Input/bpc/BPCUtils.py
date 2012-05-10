@@ -185,8 +185,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					strings = getElementByTagName(header, "strings")
 					for child in strings.childNodes:
 						if child.nodeType != Node.TEXT_NODE and child.tagName == "string" and child.getAttribute("id") == text:
-							# TODO: Handle spaces and tabs for strings!
-							return '"%s"' % child.childNodes[0].nodeValue.strip()
+							return '"%s"' % decodeCDATA(child.childNodes[0].nodeValue)#.strip()
 				except:
 					raise CompilerException("Can't find string value of '%s'" % (text))
 			return '""'
@@ -312,7 +311,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				paramsCode = " " + paramsCode
 		return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
 	elif nodeName == "comment":
-		return "#" + node.childNodes[0].nodeValue
+		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
 		return "-(" + nodeToBPC(node.childNodes[0], 0, conv) + ")"
 	elif nodeName == "unmanaged":
