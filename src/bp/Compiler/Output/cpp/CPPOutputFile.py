@@ -209,7 +209,7 @@ class CPPOutputFile(ScopeController):
 			if node.nodeValue.startswith("bp_string_"):
 				return self.id + "_" + node.nodeValue
 			else:
-				if node.nodeValue == "self":
+				if node.nodeValue == "my":
 					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
 					opNode = node.parentNode.parentNode
 					numChildNodes = len(opNode.childNodes)
@@ -458,9 +458,9 @@ class CPPOutputFile(ScopeController):
 			
 			self.pushScope()
 			
-			if typeName: #and not self.variableExistsAnywhere("self"):
+			if typeName: #and not self.variableExistsAnywhere("my"):
 				# TODO: removeUnmanaged(typeName) ? yes/no?
-				self.registerVariable(CPPVariable("self", typeName, "", False, True, False))
+				self.registerVariable(CPPVariable("my", typeName, "", False, True, False))
 			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
 			
 			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
@@ -499,7 +499,7 @@ class CPPOutputFile(ScopeController):
 			isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 			if isMemberAccess:
 				#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.capitalize()))
-				#if isTextNode(op1) and op1.nodeValue == "self":
+				#if isTextNode(op1) and op1.nodeValue == "my":
 				#	op1xml = "this"
 				#else:
 				op1xml = op1.toxml()
@@ -835,10 +835,10 @@ class CPPOutputFile(ScopeController):
 		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
 		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
 		
-		if op2 == "self":
+		if op2 == "my":
 			op2 = "this"
 		
-		if op1 == "self":
+		if op1 == "my":
 			op1 = "this"
 		
 #		if checkPointer:
@@ -968,7 +968,7 @@ class CPPOutputFile(ScopeController):
 			#print(self.currentFunction.getName() + " -> " + varGetter)
 			#print(self.currentFunction.getName() == varGetter)
 			
-			if not (isTextNode(op1) and op1.nodeValue == "self"):
+			if not (isTextNode(op1) and op1.nodeValue == "my"):
 				# Make a virtual call
 				return True
 		
@@ -1039,7 +1039,7 @@ class CPPOutputFile(ScopeController):
 				return "~UTF8String"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
-			elif node.nodeValue == "self":
+			elif node.nodeValue == "my":
 				return self.currentClassImpl.getName()
 			else:
 				return self.getVariableTypeAnywhere(node.nodeValue)

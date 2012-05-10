@@ -741,7 +741,7 @@ class CPPOutputFile(ScopeController):
 			#print(self.currentFunction.getName() + " -> " + varGetter)
 			#print(self.currentFunction.getName() == varGetter)
 			
-			if not (isTextNode(op1) and op1.nodeValue == "self"):
+			if not (isTextNode(op1) and op1.nodeValue == "my"):
 				# Make a virtual call
 				return True
 		
@@ -971,7 +971,7 @@ class CPPOutputFile(ScopeController):
 		
 		self.callDepth += 1
 		
-		if caller == "self":
+		if caller == "my":
 			caller = "this"
 		
 		callerType = removeUnmanaged(callerType)
@@ -1108,9 +1108,9 @@ class CPPOutputFile(ScopeController):
 		tabLevel = "\t" * self.currentTabLevel
 		
 		self.pushScope()
-		self.getCurrentScope().variables["self"] = CPPVariable("self", self.getSelfType(), "", False, True)
+		self.getCurrentScope().variables["my"] = CPPVariable("my", self.getSelfType(), "", False, True)
 		#print(" - Implementing function " + name)
-		#print("self : " + self.getCurrentScope().variables["self"].type)
+		#print("self : " + self.getCurrentScope().variables["my"].type)
 		
 		# TODO: Do we need this?
 		# Add class member to scope
@@ -1364,10 +1364,10 @@ class CPPOutputFile(ScopeController):
 		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
 		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
 		
-		if op2 == "self":
+		if op2 == "my":
 			op2 = "this"
 		
-		if op1 == "self":
+		if op1 == "my":
 			op1 = "this"
 		
 		if checkPointer:

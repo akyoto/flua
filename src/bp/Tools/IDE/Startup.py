@@ -238,7 +238,7 @@ b.doSomething()
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
 				'comment': cf('darkGray', 'italic'),
-				'self': cf('#373737', 'italic'),
+				'self': cf('#676767'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'own-function': cf('#171717', 'bold'),

@@ -28,7 +28,7 @@
 							<declare-type>
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>center</value>
 									</access>
 								</value>
@@ -39,7 +39,7 @@
 							<declare-type>
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>radius</value>
 									</access>
 								</value>
@@ -62,7 +62,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>center</value>
 									</access>
 								</value>
@@ -79,7 +79,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>radius</value>
 									</access>
 								</value>
@@ -96,7 +96,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>radius</value>
 									</access>
 								</value>
@@ -116,7 +116,7 @@
 						<code>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>center</value>
 								</access>
 							</return>
@@ -127,7 +127,7 @@
 						<code>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>radius</value>
 								</access>
 							</return>
@@ -140,7 +140,7 @@
 								<multiply>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>radius</value>
 										</access>
 									</value>
@@ -162,7 +162,7 @@
 									</value>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>radius</value>
 										</access>
 									</value>
@@ -187,7 +187,7 @@
 												<access>
 													<value>
 														<access>
-															<value>self</value>
+															<value>my</value>
 															<value>center</value>
 														</access>
 													</value>
@@ -198,7 +198,7 @@
 												<access>
 													<value>
 														<access>
-															<value>self</value>
+															<value>my</value>
 															<value>center</value>
 														</access>
 													</value>
@@ -224,13 +224,13 @@
 									<multiply>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>radius</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>radius</value>
 											</access>
 										</value>
@@ -256,7 +256,7 @@
 											<access>
 												<value>
 													<access>
-														<value>self</value>
+														<value>my</value>
 														<value>center</value>
 													</access>
 												</value>
@@ -267,7 +267,7 @@
 											<access>
 												<value>
 													<access>
-														<value>self</value>
+														<value>my</value>
 														<value>center</value>
 													</access>
 												</value>
@@ -306,7 +306,7 @@
 								<add>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>radius</value>
 										</access>
 									</value>

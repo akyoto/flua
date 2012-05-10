@@ -156,7 +156,7 @@
 						<declare-type depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>value</value>
 								</access>
 							</value>
@@ -171,7 +171,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>a</value>
 									</access>
 								</value>
@@ -179,7 +179,7 @@
 							</assign>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>value</value>
 								</access>
 							</return>
@@ -196,7 +196,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>value</value>
 									</access>
 								</value>

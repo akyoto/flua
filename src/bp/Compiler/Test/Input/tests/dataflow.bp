@@ -16,7 +16,7 @@
 						<assign>
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>x</value>
 								</access>
 							</value>
@@ -25,7 +25,7 @@
 						<assign>
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>y</value>
 								</access>
 							</value>
@@ -36,7 +36,7 @@
 								<multiply>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>x</value>
 										</access>
 									</value>
@@ -45,7 +45,7 @@
 							</value>
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>z</value>
 								</access>
 							</value>

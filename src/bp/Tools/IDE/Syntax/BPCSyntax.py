@@ -97,7 +97,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						elif importType == 5 or importType == 6:
 							self.setFormat(h, j - h, style['global-module-import'])
 						h = j
-				elif expr == "self":
+				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
 				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['own-function'])

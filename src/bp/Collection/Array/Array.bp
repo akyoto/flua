@@ -26,7 +26,7 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>start</value>
 								</access>
 							</value>
@@ -51,13 +51,13 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>end</value>
 								</access>
 							</value>
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>start</value>
 								</access>
 							</value>
@@ -65,7 +65,7 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>endOfStorage</value>
 								</access>
 							</value>
@@ -73,7 +73,7 @@
 								<add>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>start</value>
 										</access>
 									</value>
@@ -94,7 +94,7 @@
 								<access>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>end</value>
 										</access>
 									</value>
@@ -106,7 +106,7 @@
 						<assign-add depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>end</value>
 								</access>
 							</value>
@@ -118,13 +118,13 @@
 									<equal>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>end</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>endOfStorage</value>
 											</access>
 										</value>
@@ -134,7 +134,7 @@
 									<call depth="3">
 										<function>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>reserve</value>
 											</access>
 										</function>
@@ -145,7 +145,7 @@
 														<call>
 															<function>
 																<access>
-																	<value>self</value>
+																	<value>my</value>
 																	<value>getLength</value>
 																</access>
 															</function>
@@ -174,7 +174,7 @@
 								<call>
 									<function>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>getLength</value>
 										</access>
 									</function>
@@ -207,7 +207,7 @@
 							<parameters>
 								<parameter>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>start</value>
 									</access>
 								</parameter>
@@ -220,7 +220,7 @@
 								<access>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>start</value>
 										</access>
 									</value>
@@ -232,7 +232,7 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>end</value>
 								</access>
 							</value>
@@ -246,7 +246,7 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>start</value>
 								</access>
 							</value>
@@ -255,7 +255,7 @@
 						<assign depth="2">
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>endOfStorage</value>
 								</access>
 							</value>
@@ -277,13 +277,13 @@
 									<not-equal>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>end</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>start</value>
 											</access>
 										</value>
@@ -293,7 +293,7 @@
 									<assign-subtract depth="3">
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>end</value>
 											</access>
 										</value>
@@ -311,7 +311,7 @@
 							<value>startRev</value>
 							<value>
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>start</value>
 								</access>
 							</value>
@@ -322,7 +322,7 @@
 								<subtract>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>end</value>
 										</access>
 									</value>
@@ -383,7 +383,7 @@
 								<index>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>start</value>
 										</access>
 									</value>
@@ -399,7 +399,7 @@
 						<code>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>start</value>
 								</access>
 							</return>
@@ -410,7 +410,7 @@
 						<code>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>end</value>
 								</access>
 							</return>
@@ -421,7 +421,7 @@
 						<code>
 							<return depth="3">
 								<access>
-									<value>self</value>
+									<value>my</value>
 									<value>endOfStorage</value>
 								</access>
 							</return>
@@ -434,13 +434,13 @@
 								<subtract>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>end</value>
 										</access>
 									</value>
 									<value>
 										<access>
-											<value>self</value>
+											<value>my</value>
 											<value>start</value>
 										</access>
 									</value>
@@ -459,7 +459,7 @@
 							<assign depth="3">
 								<value>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>end</value>
 									</access>
 								</value>
@@ -467,7 +467,7 @@
 									<add>
 										<value>
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>start</value>
 											</access>
 										</value>
@@ -481,13 +481,13 @@
 										<greater-or-equal>
 											<value>
 												<access>
-													<value>self</value>
+													<value>my</value>
 													<value>end</value>
 												</access>
 											</value>
 											<value>
 												<access>
-													<value>self</value>
+													<value>my</value>
 													<value>endOfStorage</value>
 												</access>
 											</value>
@@ -497,7 +497,7 @@
 										<call depth="4">
 											<function>
 												<access>
-													<value>self</value>
+													<value>my</value>
 													<value>reserve</value>
 												</access>
 											</function>
@@ -508,7 +508,7 @@
 															<call>
 																<function>
 																	<access>
-																		<value>self</value>
+																		<value>my</value>
 																		<value>getLength</value>
 																	</access>
 																</function>
