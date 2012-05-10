@@ -187,7 +187,7 @@ b.doSomething()
 			
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
-		self.dependenciesViewDock.hide()
+		#self.dependenciesViewDock.hide()
 		self.xmlViewDock.hide()
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()

@@ -2,50 +2,32 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
-			<import>
-				bp.Core.Memory
-			</import>
+			<import>bp.Core</import>
+			<import>bp.Core.Memory</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
 		<const>
 			<assign>
-				<value>
-					arrayMinSize
-				</value>
-				<value>
-					1024
-				</value>
+				<value>arrayMinSize</value>
+				<value>1024</value>
 			</assign>
 		</const>
 		<class>
-			<name>
-				Array
-			</name>
+			<name>Array</name>
 			<code>
 				<template>
-					<parameter>
-						TDataType
-					</parameter>
+					<parameter>TDataType</parameter>
 				</template>
 				<function>
-					<name>
-						init
-					</name>
+					<name>init</name>
 					<code>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										start
-									</value>
+									<value>self</value>
+									<value>start</value>
 								</access>
 							</value>
 							<value>
@@ -54,18 +36,12 @@
 										<new>
 											<type>
 												<template-call>
-													<value>
-														MemPointer
-													</value>
-													<value>
-														TDataType
-													</value>
+													<value>MemPointer</value>
+													<value>TDataType</value>
 												</template-call>
 											</type>
 											<parameters>
-												<parameter>
-													arrayMinSize
-												</parameter>
+												<parameter>arrayMinSize</parameter>
 											</parameters>
 										</new>
 									</value>
@@ -75,51 +51,33 @@
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										end
-									</value>
+									<value>self</value>
+									<value>end</value>
 								</access>
 							</value>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										start
-									</value>
+									<value>self</value>
+									<value>start</value>
 								</access>
 							</value>
 						</assign>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										endOfStorage
-									</value>
+									<value>self</value>
+									<value>endOfStorage</value>
 								</access>
 							</value>
 							<value>
 								<add>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												start
-											</value>
+											<value>self</value>
+											<value>start</value>
 										</access>
 									</value>
-									<value>
-										arrayMinSize
-									</value>
+									<value>arrayMinSize</value>
 								</add>
 							</value>
 						</assign>
@@ -127,50 +85,32 @@
 				</function>
 				<function>
 					<parameters>
-						<parameter>
-							element
-						</parameter>
+						<parameter>element</parameter>
 					</parameters>
-					<name>
-						add
-					</name>
+					<name>add</name>
 					<code>
 						<assign>
 							<value>
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												end
-											</value>
+											<value>self</value>
+											<value>end</value>
 										</access>
 									</value>
-									<value>
-										data
-									</value>
+									<value>data</value>
 								</access>
 							</value>
-							<value>
-								element
-							</value>
+							<value>element</value>
 						</assign>
 						<assign-add>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										end
-									</value>
+									<value>self</value>
+									<value>end</value>
 								</access>
 							</value>
-							<value>
-								1
-							</value>
+							<value>1</value>
 						</assign-add>
 						<if-block>
 							<if>
@@ -178,22 +118,14 @@
 									<equal>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													end
-												</value>
+												<value>self</value>
+												<value>end</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													endOfStorage
-												</value>
+												<value>self</value>
+												<value>endOfStorage</value>
 											</access>
 										</value>
 									</equal>
@@ -202,12 +134,8 @@
 									<call>
 										<function>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													reserve
-												</value>
+												<value>self</value>
+												<value>reserve</value>
 											</access>
 										</function>
 										<parameters>
@@ -217,20 +145,14 @@
 														<call>
 															<function>
 																<access>
-																	<value>
-																		self
-																	</value>
-																	<value>
-																		getLength
-																	</value>
+																	<value>self</value>
+																	<value>getLength</value>
 																</access>
 															</function>
 															<parameters/>
 														</call>
 													</value>
-													<value>
-														4
-													</value>
+													<value>4</value>
 												</multiply>
 											</parameter>
 										</parameters>
@@ -242,28 +164,18 @@
 				</function>
 				<function>
 					<parameters>
-						<parameter>
-							newSize
-						</parameter>
+						<parameter>newSize</parameter>
 					</parameters>
-					<name>
-						reserve
-					</name>
+					<name>reserve</name>
 					<code>
 						<assign>
-							<value>
-								currentSize
-							</value>
+							<value>currentSize</value>
 							<value>
 								<call>
 									<function>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												getLength
-											</value>
+											<value>self</value>
+											<value>getLength</value>
 										</access>
 									</function>
 									<parameters/>
@@ -271,27 +183,19 @@
 							</value>
 						</assign>
 						<assign>
-							<value>
-								newMem
-							</value>
+							<value>newMem</value>
 							<value>
 								<unmanaged>
 									<value>
 										<new>
 											<type>
 												<template-call>
-													<value>
-														MemPointer
-													</value>
-													<value>
-														TDataType
-													</value>
+													<value>MemPointer</value>
+													<value>TDataType</value>
 												</template-call>
 											</type>
 											<parameters>
-												<parameter>
-													newSize
-												</parameter>
+												<parameter>newSize</parameter>
 											</parameters>
 										</new>
 									</value>
@@ -299,26 +203,16 @@
 							</value>
 						</assign>
 						<call>
-							<function>
-								copyMem
-							</function>
+							<function>copyMem</function>
 							<parameters>
 								<parameter>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											start
-										</value>
+										<value>self</value>
+										<value>start</value>
 									</access>
 								</parameter>
-								<parameter>
-									newMem
-								</parameter>
-								<parameter>
-									currentSize
-								</parameter>
+								<parameter>newMem</parameter>
+								<parameter>currentSize</parameter>
 							</parameters>
 						</call>
 						<call>
@@ -326,17 +220,11 @@
 								<access>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												start
-											</value>
+											<value>self</value>
+											<value>start</value>
 										</access>
 									</value>
-									<value>
-										free
-									</value>
+									<value>free</value>
 								</access>
 							</function>
 							<parameters/>
@@ -344,68 +232,44 @@
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										end
-									</value>
+									<value>self</value>
+									<value>end</value>
 								</access>
 							</value>
 							<value>
 								<add>
-									<value>
-										newMem
-									</value>
-									<value>
-										currentSize
-									</value>
+									<value>newMem</value>
+									<value>currentSize</value>
 								</add>
 							</value>
 						</assign>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										start
-									</value>
+									<value>self</value>
+									<value>start</value>
 								</access>
 							</value>
-							<value>
-								newMem
-							</value>
+							<value>newMem</value>
 						</assign>
 						<assign>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										endOfStorage
-									</value>
+									<value>self</value>
+									<value>endOfStorage</value>
 								</access>
 							</value>
 							<value>
 								<add>
-									<value>
-										newMem
-									</value>
-									<value>
-										newSize
-									</value>
+									<value>newMem</value>
+									<value>newSize</value>
 								</add>
 							</value>
 						</assign>
 					</code>
 				</function>
 				<function>
-					<name>
-						removeLast
-					</name>
+					<name>removeLast</name>
 					<code>
 						<if-block>
 							<if>
@@ -413,22 +277,14 @@
 									<not-equal>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													end
-												</value>
+												<value>self</value>
+												<value>end</value>
 											</access>
 										</value>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													start
-												</value>
+												<value>self</value>
+												<value>start</value>
 											</access>
 										</value>
 									</not-equal>
@@ -437,17 +293,11 @@
 									<assign-subtract>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													end
-												</value>
+												<value>self</value>
+												<value>end</value>
 											</access>
 										</value>
-										<value>
-											1
-										</value>
+										<value>1</value>
 									</assign-subtract>
 								</code>
 							</if>
@@ -455,44 +305,28 @@
 					</code>
 				</function>
 				<function>
-					<name>
-						reverse
-					</name>
+					<name>reverse</name>
 					<code>
 						<assign>
-							<value>
-								startRev
-							</value>
+							<value>startRev</value>
 							<value>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										start
-									</value>
+									<value>self</value>
+									<value>start</value>
 								</access>
 							</value>
 						</assign>
 						<assign>
-							<value>
-								endRev
-							</value>
+							<value>endRev</value>
 							<value>
 								<subtract>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												end
-											</value>
+											<value>self</value>
+											<value>end</value>
 										</access>
 									</value>
-									<value>
-										1
-									</value>
+									<value>1</value>
 								</subtract>
 							</value>
 						</assign>
@@ -501,62 +335,38 @@
 								<greater>
 									<value>
 										<subtract>
-											<value>
-												endRev
-											</value>
-											<value>
-												startRev
-											</value>
+											<value>endRev</value>
+											<value>startRev</value>
 										</subtract>
 									</value>
-									<value>
-										0
-									</value>
+									<value>0</value>
 								</greater>
 							</condition>
 							<code>
 								<call>
-									<function>
-										bp_swap
-									</function>
+									<function>bp_swap</function>
 									<parameters>
 										<parameter>
 											<access>
-												<value>
-													startRev
-												</value>
-												<value>
-													data
-												</value>
+												<value>startRev</value>
+												<value>data</value>
 											</access>
 										</parameter>
 										<parameter>
 											<access>
-												<value>
-													endRev
-												</value>
-												<value>
-													data
-												</value>
+												<value>endRev</value>
+												<value>data</value>
 											</access>
 										</parameter>
 									</parameters>
 								</call>
 								<assign-add>
-									<value>
-										startRev
-									</value>
-									<value>
-										1
-									</value>
+									<value>startRev</value>
+									<value>1</value>
 								</assign-add>
 								<assign-subtract>
-									<value>
-										endRev
-									</value>
-									<value>
-										1
-									</value>
+									<value>endRev</value>
+									<value>1</value>
 								</assign-subtract>
 							</code>
 						</while>
@@ -565,29 +375,19 @@
 				<operators>
 					<operator>
 						<parameters>
-							<parameter>
-								index
-							</parameter>
+							<parameter>index</parameter>
 						</parameters>
-						<name>
-							[]
-						</name>
+						<name>[]</name>
 						<code>
 							<return>
 								<index>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												start
-											</value>
+											<value>self</value>
+											<value>start</value>
 										</access>
 									</value>
-									<value>
-										index
-									</value>
+									<value>index</value>
 								</index>
 							</return>
 						</code>
@@ -595,81 +395,53 @@
 				</operators>
 				<get>
 					<getter>
-						<name>
-							start
-						</name>
+						<name>start</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										start
-									</value>
+									<value>self</value>
+									<value>start</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							end
-						</name>
+						<name>end</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										end
-									</value>
+									<value>self</value>
+									<value>end</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							endOfStorage
-						</name>
+						<name>endOfStorage</name>
 						<code>
 							<return>
 								<access>
-									<value>
-										self
-									</value>
-									<value>
-										endOfStorage
-									</value>
+									<value>self</value>
+									<value>endOfStorage</value>
 								</access>
 							</return>
 						</code>
 					</getter>
 					<getter>
-						<name>
-							length
-						</name>
+						<name>length</name>
 						<code>
 							<return>
 								<subtract>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												end
-											</value>
+											<value>self</value>
+											<value>end</value>
 										</access>
 									</value>
 									<value>
 										<access>
-											<value>
-												self
-											</value>
-											<value>
-												start
-											</value>
+											<value>self</value>
+											<value>start</value>
 										</access>
 									</value>
 								</subtract>
@@ -680,40 +452,26 @@
 				<set>
 					<setter>
 						<parameters>
-							<parameter>
-								newLength
-							</parameter>
+							<parameter>newLength</parameter>
 						</parameters>
-						<name>
-							length
-						</name>
+						<name>length</name>
 						<code>
 							<assign>
 								<value>
 									<access>
-										<value>
-											self
-										</value>
-										<value>
-											end
-										</value>
+										<value>self</value>
+										<value>end</value>
 									</access>
 								</value>
 								<value>
 									<add>
 										<value>
 											<access>
-												<value>
-													self
-												</value>
-												<value>
-													start
-												</value>
+												<value>self</value>
+												<value>start</value>
 											</access>
 										</value>
-										<value>
-											newLength
-										</value>
+										<value>newLength</value>
 									</add>
 								</value>
 							</assign>
@@ -723,22 +481,14 @@
 										<greater-or-equal>
 											<value>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														end
-													</value>
+													<value>self</value>
+													<value>end</value>
 												</access>
 											</value>
 											<value>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														endOfStorage
-													</value>
+													<value>self</value>
+													<value>endOfStorage</value>
 												</access>
 											</value>
 										</greater-or-equal>
@@ -747,12 +497,8 @@
 										<call>
 											<function>
 												<access>
-													<value>
-														self
-													</value>
-													<value>
-														reserve
-													</value>
+													<value>self</value>
+													<value>reserve</value>
 												</access>
 											</function>
 											<parameters>
@@ -762,20 +508,14 @@
 															<call>
 																<function>
 																	<access>
-																		<value>
-																			self
-																		</value>
-																		<value>
-																			getLength
-																		</value>
+																		<value>self</value>
+																		<value>getLength</value>
 																	</access>
 																</function>
 																<parameters/>
 															</call>
 														</value>
-														<value>
-															4
-														</value>
+														<value>4</value>
 													</multiply>
 												</parameter>
 											</parameters>

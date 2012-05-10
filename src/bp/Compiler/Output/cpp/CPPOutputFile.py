@@ -1278,7 +1278,7 @@ class CPPOutputFile(ScopeController):
 	
 	def handleString(self, node):
 		id = self.id + "_" + node.getAttribute("id")
-		value = node.childNodes[0].nodeValue
+		value = decodeCDATA(node.childNodes[0].nodeValue)
 		line = id + " = \"" + value + "\";\n"
 		
 		# TODO: classExists(self.compiler.stringDataType)

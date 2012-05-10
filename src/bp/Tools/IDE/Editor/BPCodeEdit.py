@@ -247,11 +247,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cursor = self.textCursor()
 			pos = cursor.position()
 			block = self.qdoc.findBlock(pos)
+			blockPos = block.position()
 			lineInfo = block.userData()
 			line = block.text()
 			tabLevel = countTabs(line)
 			
-			isAtEndOfLine = (block.position() + len(line) == pos)
+			isAtEndOfLine = (blockPos + len(line) == pos)
 			
 			nodeName = ""
 			if lineInfo:
@@ -264,7 +265,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			keyword = ""
 			i = 0
 			for c in pureLine:
-				if not c.isalnum() and not c == '_':
+				if not c.isalnum() and not c == '_' or i == (pos - blockPos):
 					keyword = pureLine[:i]
 					break
 				i += 1
@@ -274,8 +275,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			if not keyword:
 				keyword = pureLine
 				wasFullLine = True
+			print(keyword)
+			keywordStaysAfterNewline = (pos >= blockPos + len(keyword)) #isAtEndOfLine
 			
-			if keyword and isAtEndOfLine and not keyword[0] == '#' and nodeName != "extern-function":
+			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function":
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1
@@ -285,6 +288,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
 						and tabLevel <= 1
 						and self.bpIDE.getErrorCount() == 0
+						and isAtEndOfLine
 						and line[-1] != ')'):
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
