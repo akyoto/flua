@@ -26,6 +26,9 @@
 			<import>
 				unicode
 			</import>
+			<import>
+				bigint
+			</import>
 		</dependencies>
 		<strings/>
 	</header>

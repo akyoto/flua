@@ -84,7 +84,7 @@ class CPPOutputCompiler(Benchmarkable):
 		else:
 			self.staticStdcppLinking = False
 		
-		self.gmpEnabled = False
+		self.gmpEnabled = True
 		self.boehmGCEnabled = True
 		
 		# Expression parser
@@ -226,14 +226,6 @@ class CPPOutputCompiler(Benchmarkable):
 		if self.boehmGCEnabled:
 			if os.name == "posix":
 				self.customCompilerFlags.append("-DGC_LINUX_THREADS")
-			
-			self.customCompilerFlags += [
-				"-DGC_THREADS",
-				"-D_REENTRANT",
-				"-DGC_OPERATOR_NEW_ARRAY",
-				"-DPARALLEL_MARK",
-				"-DUSE_LIBC_PRIVATE",
-			]
 		
 		# Compiler
 		ccCmd = [
@@ -255,6 +247,7 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-mtune=native",
 			"-std=c++0x",
 			"-Wall",
+			"-m32",
 		]
 		
 		# Linker options

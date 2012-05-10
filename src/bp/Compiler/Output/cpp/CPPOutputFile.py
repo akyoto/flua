@@ -34,6 +34,12 @@ from bp.Compiler.Output.cpp.datatypes import *
 from bp.Compiler.Output.cpp.CPPClass import *
 
 ####################################################################
+# Globals
+####################################################################
+INT32_MAX = 2147483647
+INT32_MIN = -2147483648
+
+####################################################################
 # Classes
 ####################################################################
 class CPPOutputFile(ScopeController):
@@ -124,6 +130,9 @@ class CPPOutputFile(ScopeController):
 		return self.dir
 	
 	def getLastParsedNode(self):
+		if not self.lastParsedNode:
+			return None
+		
 		return self.lastParsedNode[-1]
 		
 	def compile(self):
@@ -209,6 +218,13 @@ class CPPOutputFile(ScopeController):
 					else:
 						# TODO: Unmanaged object initiations need to return 'this'
 						return "shared_from_this()"
+				# BigInt support
+				elif node.nodeValue.isdigit():
+					num = int(node.nodeValue)
+					if num > INT32_MAX or num < INT32_MIN:
+						return "(BigInt)(\"" + str(num) + "\")"
+					else:
+						return str(num)
 				else:
 					return node.nodeValue
 		
@@ -569,6 +585,12 @@ class CPPOutputFile(ScopeController):
 		
 		memberName = variableName
 		
+		# Did we define a type?
+		try:
+			variableType = self.getVariableTypeAnywhere(variableName)
+		except:
+			variableType = ""
+		
 		if variableName.startswith("this->"):
 			memberName = variableName[len("this->"):]
 			isSelfMemberAccess = True
@@ -594,11 +616,16 @@ class CPPOutputFile(ScopeController):
 					return ""
 				else:
 					return "const %s = %s" % (var.getFullPrototype(), value)
+		
 		#else:
 		#	var = self.getVariableTypeAnywhere(variableName)
 		
 		#if not variable in self.currentClassImpl.members:
 		#	self.currentClassImpl.add
+		
+		# Int = BigInt
+		if variableType in {"Int", "Int32", "Int64"} and valueType == "BigInt":
+			value = "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
 		
 		self.inAssignment -= 1
 		
@@ -981,7 +1008,11 @@ class CPPOutputFile(ScopeController):
 	def getExprDataTypeClean(self, node):
 		if isTextNode(node):
 			if node.nodeValue.isdigit():
-				return "Int"
+				num = int(node.nodeValue)
+				if num > INT32_MAX or num < INT32_MIN:
+					return "BigInt"
+				else:
+					return "Int"
 			elif node.nodeValue.startswith("0x"):
 				return "Int"
 			elif node.nodeValue.replace(".", "").isdigit():

@@ -17,30 +17,17 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">
-				blitzprog Test File
+				---
 			</string>
 			<string id="bp_string_1">
 				---
 			</string>
 			<string id="bp_string_2">
-				---
-			</string>
-			<string id="bp_string_3">
 				ms
 			</string>
 		</strings>
 	</header>
 	<code>
-		<call>
-			<function>
-				print
-			</function>
-			<parameters>
-				<parameter>
-					bp_string_0
-				</parameter>
-			</parameters>
-		</call>
 		<function>
 			<parameters>
 				<parameter>
@@ -131,7 +118,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_1
+							bp_string_0
 						</parameter>
 					</parameters>
 				</call>
@@ -213,7 +200,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_2
+							bp_string_1
 						</parameter>
 					</parameters>
 				</call>
@@ -240,7 +227,7 @@
 					</function>
 					<parameters>
 						<parameter>
-							bp_string_3
+							bp_string_2
 						</parameter>
 					</parameters>
 				</call>

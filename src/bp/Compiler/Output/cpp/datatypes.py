@@ -50,9 +50,7 @@ dataTypeDefinitions = {
 	"Float32" : "float",
 	"Float64" : "double",
 	"CString" : "ConstChar *",
-	
-	# TODO: Include gmp
-	"BigInt" : "int64_t"#"mpz_class"
+	"BigInt" : "mpz_class",
 }
 
 dataTypeWeights = {
