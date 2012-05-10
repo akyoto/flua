@@ -63,8 +63,8 @@ a = myFunction(5, 5)
 # Classes start with an uppercase letter (will be changeable)
 # and must contain an init function as a constructor:
 MyClass
-	init self.message
-		print self.message
+	init my.message
+		print my.message
 		
 	doSomething
 		print "By the way I heard Unicode works: おはようございます。"
