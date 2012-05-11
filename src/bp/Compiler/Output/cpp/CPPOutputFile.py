@@ -153,7 +153,6 @@ class CPPOutputFile(ScopeController):
 		
 		if self.classExists("UTF8String") and self.stringClassDefined == False:
 			self.compiler.needToInitStringClass = True
-			
 		
 		# Header
 		self.header += "// Includes\n"
@@ -392,7 +391,8 @@ class CPPOutputFile(ScopeController):
 		className = extractClassName(typeName)
 		if className in nonPointerClasses:
 			raise CompilerException("'%s' has not been defined (maybe another function returns the wrong value?)" % (key))
-			
+		
+		#print(funcName, "|", className, "|", key)
 		if not funcName in self.getClass(className).functions:
 			print(className + " contains the following functions:")
 			print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
