@@ -35,6 +35,7 @@
 		</strings>
 	</header>
 	<code>
+		<comment> Comment here</comment>
 		<if-block depth="0">
 			<if>
 				<condition>1</condition>
@@ -48,6 +49,7 @@
 				</code>
 			</if>
 		</if-block>
+		<comment> Comment for this block</comment>
 		<if-block depth="0">
 			<if>
 				<condition>0</condition>
@@ -82,6 +84,7 @@
 				</code>
 			</else>
 		</if-block>
+		<comment> Comment 3rd block</comment>
 		<if-block depth="0">
 			<if>
 				<condition>0</condition>

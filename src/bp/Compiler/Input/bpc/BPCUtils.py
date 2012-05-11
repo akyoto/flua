@@ -50,7 +50,6 @@ wrapperSingleElement = [
 
 wrapperMultipleElements = [
 	"code",
-	"extern",
 	"if-block",
 	"try-block"
 ]
@@ -63,6 +62,7 @@ xmlToBPCBlock = {
 	"casts" : "to",
 	"else" : "else",
 	"private" : "private",
+	"extern" : "extern",
 	#"static" : "static"
 	
 	# TODO: Metadata
@@ -104,6 +104,27 @@ elementsNoNewline = [
 #	"getter",
 #	"cast-definition"
 #}
+
+autoNewlineBlock = {
+	"while",
+	"if-block",
+	"try-block",
+	"for",
+	"function",
+	"extern",
+	"target",
+	"switch",
+	"ensure",
+	"require",
+	"test",
+	"maybe",
+	"class",
+	"template",
+	"get",
+	"set",
+	"operators",
+	"casts",
+}
 
 ####################################################################
 # Classes
@@ -220,82 +241,57 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		return ", ".join(params)
 	# Code in general
 	elif nodeName in wrapperMultipleElements:
-		if nodeName == "extern":
-			tabLevel += 1
-		
-		tabs = ""
-		if nodeName == "code" or nodeName == "extern":
-			tabs = "\t" * tabLevel
-		
-		previousLineType1 = 0
-		previousLineType2 = 0
-		
 		codeParts = []
 		
+		tabs = "\t" * tabLevel
+		prefix = ""
+		previousLineType = 0
+		currentLineType = 1
+		
 		for child in node.childNodes:
-			# Save nodes in array
-			
 			if conv is not None:
-				instruction = nodeToBPCSaved(child, tabLevel, conv)
+				childCode = nodeToBPCSaved(child, tabLevel, conv)
 			else:
-				instruction = nodeToBPC(child, tabLevel, conv)
+				childCode = nodeToBPC(child, tabLevel, conv)
 			
-			if instruction:
-				newline = "\n"
-				if len(instruction) >= 1 and instruction[0] == '(' and instruction[-1] == ')':
-					instruction = instruction[1:-1]
-				
-				# No new line
-				if child.tagName in elementsNoNewline:
-					newline = ""
-				
-				# Add new line after a different type of block
-				if child.tagName.startswith("assign"):
-					currentLineType = 1
-				elif child.tagName == "call":
-					currentLineType = 2
-				else:
-					currentLineType = 3
-				
-				prefix = ""
-				# TODO: Calculate prefix
-				#if previousLineType1 and previousLineType2 and currentLineType != previousLineType1 and previousLineType1 == previousLineType2:
-				#if previousLineType1 and currentLineType != previousLineType1:
-				#	prefix = tabs + "\n"
-				
-				# Add to current code node
-				#print(instruction)
-				# Last node
-				
-				#code += tabs + instruction + newline
+			# Child name
+			childName = child.tagName
+			
+			# Line type
+			if childName in autoNewlineBlock:
+				currentLineType = 2
+			elif childName == "comment":
+				currentLineType = 0
+			else:
+				currentLineType = 1
+			
+			# Process line type
+			prefix = ""
+			if previousLineType:
+				if currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0):
+					prefix = tabs + "\n"
+			
+			# Set previous line type
+			previousLineType = currentLineType
+			
+			# Add code parts
+			if childName == "if-block" or childName == "try-block":
 				codeParts.append(prefix)
-				codeParts.append(tabs)
-				
-				if child != node.childNodes[-1]:
-					codeParts.append(instruction)
+				codeParts.append(childCode.rstrip())
+				#if childCode[-1] != "\n":
+				codeParts.append("\n")
+			else:
+				if nodeName != "code":
+					codeParts.append(tabs)
+					codeParts.append(childCode)
 				else:
-					if instruction[-1].isspace():
-						codeParts.append(instruction.rstrip())
-					else:
-						codeParts.append(instruction)
-				
-				if newline:
-					codeParts.append(newline)
-				
-				previousLineType2 = previousLineType1
-				previousLineType1 = currentLineType
+					codeParts.append(prefix)
+					codeParts.append(tabs)
+					codeParts.append(childCode)
+					if childCode[-1] != "\n":
+						codeParts.append("\n")
 		
-		codeParts.append("\t" * (tabLevel - 1))
-		code = ''.join(codeParts)
-		
-		#code += 
-		if nodeName == "extern":
-			return "extern\n" + code
-		#elif nodeName == "switch":
-		#	switchExpr = nodeToBPC(getElementByTagName(node, "value"))
-		#	return "switch %s\n%s" % (switchExpr, code)
-		else:
-			return code
+		return ''.join(codeParts)#.rstrip() + "\n"
 	# Function definition
 	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
 		if nodeName == "cast-definition":
@@ -395,7 +391,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "class":
 		nameNode = getElementByTagName(node, "name")
 		codeNode = getElementByTagName(node, "code")
-		return nodeToBPC(nameNode, 0, conv) + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv)
+		return nodeToBPC(nameNode, 0, conv) + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
 	elif nodeName == "noop":
 		return "..."
 	# Single line
@@ -421,11 +417,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if nodeName != "switch":
 			code = nodeToBPC(getElementByTagName(node, exprBlock[2]), tabLevel + 1, conv)
 		else:
-			code = "\t" * (tabLevel + 1)
+			tabs = "\t" * (tabLevel + 1)
+			code = ""
 			childNodeName = exprBlock[2]
 			for child in node.childNodes:
 				if child.nodeType != Node.TEXT_NODE and child.tagName == childNodeName:
-					code += nodeToBPCSaved(child, tabLevel + 1, conv)
+					code += tabs + nodeToBPCSaved(child, tabLevel + 1, conv)
 		return "%s%s%s\n%s" % (name, space, expr, code)
 	# Blocks
 	elif nodeName in xmlToBPCBlock:
@@ -436,8 +433,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		for child in node.childNodes:
 			if child.nodeType != Node.TEXT_NODE:
 				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
-		blockCode = blockCode[:-1] #+ "\t" * tabLevel
-		return xmlToBPCBlock[nodeName] + "\n" + blockCode
+		#if blockCode[-2].isspace():
+		#	blockCode = blockCode.rstrip() + "\n"
+		#else:
+		#blockCode = blockCode + "\t" * tabLevel
+		return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
 	# Binary operations
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
