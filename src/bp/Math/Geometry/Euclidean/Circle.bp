@@ -221,20 +221,17 @@
 									</call>
 								</value>
 								<value>
-									<multiply>
-										<value>
-											<access>
-												<value>my</value>
-												<value>radius</value>
-											</access>
-										</value>
-										<value>
-											<access>
-												<value>my</value>
-												<value>radius</value>
-											</access>
-										</value>
-									</multiply>
+									<call>
+										<function>sq</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>radius</value>
+												</access>
+											</parameter>
+										</parameters>
+									</call>
 								</value>
 							</less-or-equal>
 						</return>

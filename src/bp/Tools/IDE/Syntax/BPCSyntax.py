@@ -12,18 +12,54 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the BPC language.
 	"""
 	# Python keywords
-	keywords = {
-		'and', 'not', 'or', 'assert', 'break', 'class', 'continue',
-		'elif', 'else',
-		'for', 'from', 'to', 'until', 'if', 'import', 'in',
-		'switch', 'case', 'target', 'compilerflags', 'get', 'set', 'operator', 'extern', 'include',
-		'template', 'const',
-		'return', 'try', 'throw', 'catch', 'while', 
-		'target', 'include', 'private',
-		'null', 'true', 'false',
-		
-		# TODO: Remove
-		'require', 'ensure', 'maybe', 'test'
+	keywords = [{}] * 97 + [
+		{'and', 'assert'},
+		{'break'},
+		{'class', 'continue', 'const', 'case', 'catch', 'compilerflags'},
+		{},
+		{'elif', 'else', 'ensure', 'extern'},
+		{'for', 'false'},
+		{'get'},
+		{},
+		{'if', 'in', 'include', 'import'},
+		{},
+		{},
+		{},
+		{'maybe'},
+		{'not', 'null'},
+		{'or', 'operator'},
+		{'private'},
+		{},
+		{'return', 'require'},
+		{'set', 'switch'},
+		{'target', 'to', 'try', 'template', 'throw', 'true', 'test'},
+		{'until'},
+		{},
+		{'while'},
+		{},
+		{},
+		{},
+		{},
+	] + [{}] * (256 - 97 - 26)
+	
+	# Keyword list
+	keywordList = {
+		'and', 'assert',
+		'break',
+		'class', 'continue', 'const', 'case', 'catch', 'compilerflags',
+		'elif', 'else', 'ensure', 'extern',
+		'for', 'false',
+		'get',
+		'if', 'in', 'include', 'import',
+		'maybe',
+		'not', 'null',
+		'or', 'operator',
+		'private',
+		'return', 'require',
+		'set', 'switch',
+		'to', 'try', 'template', 'target', 'throw', 'true', 'test',
+		'until',
+		'while',
 	}
 	
 	# BPC operators
@@ -76,18 +112,21 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					h += 1
 				expr = text[i:h]
 				
-				if expr in BPCHighlighter.keywords:
-					self.setFormat(i, h - i, style['keyword'])
+				#print(ord(expr[0]))
+				#print(BPCHighlighter.keywords[ord(expr[0])])
+				if expr in (BPCHighlighter.keywords[ord(expr[0])]):
 					if expr == "target":
+						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
 						while j < textLen and not text[j].isspace():
 							j += 1
 						self.setFormat(h, j - h, style['output-target'])
 						h = j
 					elif expr == "import":
+						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
 						while j < textLen and not text[j].isspace():
-							j += 1
+							j += 15
 						importedModule = text[h+1:j]
 						importType = self.bpIDE.getModuleImportType(importedModule)
 						if importType == 1 or importType == 2:
@@ -97,6 +136,12 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						elif importType == 5 or importType == 6:
 							self.setFormat(h, j - h, style['global-module-import'])
 						h = j
+					elif expr == "until" or expr == "to":
+						# Possible bug, but ignorable
+						if text.lstrip()[:3] == "for":
+							self.setFormat(i, h - i, style['keyword'])
+					else:
+						self.setFormat(i, h - i, style['keyword'])
 				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
 				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):

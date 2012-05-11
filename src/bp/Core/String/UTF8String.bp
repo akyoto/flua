@@ -37,10 +37,15 @@
 						</declare-type>
 						<assign depth="2">
 							<value>
-								<access>
-									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
+								<declare-type>
+									<value>
+										<access>
+											<value>my</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>Size</value>
+								</declare-type>
 							</value>
 							<value>0</value>
 						</assign>
@@ -333,24 +338,10 @@
 					<code>
 						<assign depth="2">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>data</value>
-										</access>
-									</value>
-									<value>
-										<unmanaged>
-											<value>
-												<template-call>
-													<value>MemPointer</value>
-													<value>Byte</value>
-												</template-call>
-											</value>
-										</unmanaged>
-									</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
 							</value>
 							<value>bytes</value>
 						</assign>
@@ -370,8 +361,327 @@
 								</call>
 							</value>
 						</assign>
-						<comment>my.data = bytes</comment>
-						<comment>my.lengthInBytes = bp_strlen(bytes)</comment>
+					</code>
+				</function>
+				<comment> Init from C-String up to characterCount characters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>bytes</value>
+								<value>
+									<unmanaged>
+										<value>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</value>
+									</unmanaged>
+								</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>characterCount</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>bytes</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>characterCount</until>
+							<code>
+								<assign depth="3">
+									<value>lead</value>
+									<value>
+										<index>
+											<value>bytes</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign>
+								<if-block depth="3">
+									<if>
+										<condition>
+											<call>
+												<function>isUTF8Lead1</function>
+												<parameters>
+													<parameter>lead</parameter>
+												</parameters>
+											</call>
+										</condition>
+										<code>
+											<assign-add depth="4">
+												<value>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</value>
+												<value>1</value>
+											</assign-add>
+										</code>
+									</if>
+									<else-if depth="3">
+										<condition>
+											<call>
+												<function>isUTF8Lead2</function>
+												<parameters>
+													<parameter>lead</parameter>
+												</parameters>
+											</call>
+										</condition>
+										<code>
+											<assign-add depth="4">
+												<value>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</value>
+												<value>2</value>
+											</assign-add>
+											<assign-add depth="4">
+												<value>i</value>
+												<value>1</value>
+											</assign-add>
+										</code>
+									</else-if>
+									<else-if depth="3">
+										<condition>
+											<call>
+												<function>isUTF8Lead3</function>
+												<parameters>
+													<parameter>lead</parameter>
+												</parameters>
+											</call>
+										</condition>
+										<code>
+											<assign-add depth="4">
+												<value>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</value>
+												<value>3</value>
+											</assign-add>
+											<assign-add depth="4">
+												<value>i</value>
+												<value>2</value>
+											</assign-add>
+										</code>
+									</else-if>
+									<else-if depth="3">
+										<condition>
+											<call>
+												<function>isUTF8Lead4</function>
+												<parameters>
+													<parameter>lead</parameter>
+												</parameters>
+											</call>
+										</condition>
+										<code>
+											<assign-add depth="4">
+												<value>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</value>
+												<value>4</value>
+											</assign-add>
+											<assign-add depth="4">
+												<value>i</value>
+												<value>3</value>
+											</assign-add>
+										</code>
+									</else-if>
+								</if-block>
+							</code>
+						</for>
+					</code>
+				</function>
+				<comment> String until a certain string appears</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>until</name>
+					<code>
+						<assign depth="2">
+							<value>pos</value>
+							<value>0</value>
+						</assign>
+						<while depth="2">
+							<condition>
+								<less>
+									<value>pos</value>
+									<value>
+										<access>
+											<value>self</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+								</less>
+							</condition>
+							<code>
+								<assign depth="3">
+									<value>posChars</value>
+									<value>0</value>
+								</assign>
+								<while depth="3">
+									<condition>
+										<equal>
+											<value>
+												<index>
+													<value>
+														<access>
+															<value>my</value>
+															<value>data</value>
+														</access>
+													</value>
+													<value>i</value>
+												</index>
+											</value>
+											<value>
+												<index>
+													<value>chars</value>
+													<value>posChars</value>
+												</index>
+											</value>
+										</equal>
+									</condition>
+									<code>
+										<noop depth="4"/>
+									</code>
+								</while>
+							</code>
+						</while>
+					</code>
+				</function>
+				<function depth="1">
+					<name>untilLast</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment> Substring from the point a certain string appears</comment>
+				<function depth="1">
+					<name>from</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<name>fromLast</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment> Left x characters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>length</parameter>
+					</parameters>
+					<name>left</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment> Right x characters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>length</parameter>
+					</parameters>
+					<name>right</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment> Substring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>index</parameter>
+						<parameter>length</parameter>
+					</parameters>
+					<name>mid</name>
+					<code>
+						<return depth="2">
+							<new>
+								<type>UTF8String</type>
+								<parameters>
+									<parameter>
+										<add>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>index</value>
+										</add>
+									</parameter>
+									<parameter>length</parameter>
+								</parameters>
+							</new>
+						</return>
+					</code>
+				</function>
+				<comment> Substring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>from</parameter>
+						<parameter>to</parameter>
+					</parameters>
+					<name>substr</name>
+					<code>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>from</parameter>
+									<parameter>
+										<subtract>
+											<value>to</value>
+											<value>from</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 				</function>
 				<operators depth="1">

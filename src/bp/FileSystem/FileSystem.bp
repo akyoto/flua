@@ -1,0 +1,125 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">test.txt</string>
+		</strings>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">FileSystem.hpp</include>
+			</code>
+		</target>
+		<class depth="0">
+			<name>File</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>fd</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+						<call depth="2">
+							<function>
+								<access>
+									<value>my</value>
+									<value>open</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+				</function>
+				<function depth="1">
+					<name>close</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<name>read</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>data</parameter>
+					</parameters>
+					<name>write</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+			</code>
+		</class>
+		<comment> Usage example</comment>
+		<test depth="0">
+			<assign depth="1">
+				<value>a</value>
+				<value>
+					<new>
+						<type>FileWriteStream</type>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+						</parameters>
+					</new>
+				</value>
+			</assign>
+			<while depth="1">
+				<condition>
+					<assign>
+						<value>line</value>
+						<value>
+							<call>
+								<function>
+									<access>
+										<value>a</value>
+										<value>readLine</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</value>
+					</assign>
+				</condition>
+				<code>
+					<call depth="2">
+						<function>print</function>
+						<parameters>
+							<parameter>line</parameter>
+						</parameters>
+					</call>
+				</code>
+			</while>
+			<call depth="1">
+				<function>
+					<access>
+						<value>a</value>
+						<value>close</value>
+					</access>
+				</function>
+				<parameters/>
+			</call>
+		</test>
+	</code>
+</module>

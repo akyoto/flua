@@ -83,7 +83,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer = BPCAutoCompleter(self)
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
-		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywords))
+		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywordList))
 		
 		self.threaded = True
 		

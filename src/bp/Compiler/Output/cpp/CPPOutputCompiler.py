@@ -210,8 +210,11 @@ class CPPOutputCompiler(Benchmarkable):
 			
 			outStream.write("\n#endif\n")
 	
+	def getExePath(self):
+		return stripExt(self.mainCppFile)
+	
 	def build(self, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
-		exe = stripExt(self.mainCppFile)
+		exe = self.getExePath()
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
