@@ -15,11 +15,11 @@
 			<code>
 				<template depth="1">
 					<parameter depth="2">
-						<name>Tx</name>
+						<name>TX</name>
 						<default-value>Float</default-value>
 					</parameter>
 					<parameter depth="2">
-						<name>Ty</name>
+						<name>TY</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
@@ -33,7 +33,7 @@
 										<value>x</value>
 									</access>
 								</value>
-								<value>Tx</value>
+								<value>TX</value>
 							</declare-type>
 						</parameter>
 						<parameter>
@@ -44,7 +44,7 @@
 										<value>y</value>
 									</access>
 								</value>
-								<value>Ty</value>
+								<value>TY</value>
 							</declare-type>
 						</parameter>
 					</parameters>

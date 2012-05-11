@@ -14,11 +14,11 @@
 			<code>
 				<template depth="1">
 					<parameter depth="2">
-						<name>Tcenter</name>
+						<name>TCenter</name>
 						<default-value>Point</default-value>
 					</parameter>
 					<parameter depth="2">
-						<name>Tradius</name>
+						<name>TRadius</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
@@ -32,7 +32,7 @@
 										<value>center</value>
 									</access>
 								</value>
-								<value>Tcenter</value>
+								<value>TCenter</value>
 							</declare-type>
 						</parameter>
 						<parameter>
@@ -43,7 +43,7 @@
 										<value>radius</value>
 									</access>
 								</value>
-								<value>Tradius</value>
+								<value>TRadius</value>
 							</declare-type>
 						</parameter>
 					</parameters>

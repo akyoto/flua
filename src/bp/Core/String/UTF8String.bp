@@ -202,7 +202,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<comment> &quot;-2147483648&quot; = 11 characters</comment>
+						<comment> Maximum character count for &quot;-2147483648&quot; = 11 characters</comment>
 						<assign depth="2">
 							<value>
 								<access>
@@ -612,7 +612,7 @@
 								<new>
 									<type>UTF8String</type>
 									<parameters>
-										<parameter>num</parameter>
+										<parameter>my</parameter>
 										<parameter>stri</parameter>
 									</parameters>
 								</new>
