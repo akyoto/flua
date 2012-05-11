@@ -536,7 +536,13 @@ class CPPOutputFile(ScopeController):
 				
 				ptrType = self.currentClassImpl.translateTemplateName(ptrType)
 				ptrType = adjustDataType(ptrType, True)
-				return "new %s[%s]" % (ptrType, paramsString)
+				
+				if self.inUnmanaged:
+					return "new %s[%s]" % (ptrType, paramsString)
+				elif self.useGC:
+					return "new (UseGC) %s[%s]" % (ptrType, paramsString)
+				else:
+					raise CompilerException("To create a manageable object you need to enable the GC")
 		else:
 			typeName = self.addMissingTemplateValues(typeName)
 		
@@ -549,7 +555,7 @@ class CPPOutputFile(ScopeController):
 			#return finalTypeName + "(" + paramsString + ")"
 		else:
 			if self.useGC:
-				# new (UseGC)
+				# Classes are automatically managed by the GC
 				return "(new " + finalTypeName + "(" + paramsString + "))"
 			elif self.useReferenceCounting:
 				return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"

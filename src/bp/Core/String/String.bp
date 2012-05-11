@@ -21,6 +21,7 @@
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_insertInt</name>
+				<type>Size</type>
 			</extern-function>
 		</extern>
 	</code>

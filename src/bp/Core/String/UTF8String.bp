@@ -47,43 +47,6 @@
 						<comment>my.data[0] = 0</comment>
 					</code>
 				</function>
-				<comment> Copy from another UTF8String</comment>
-				<function depth="1">
-					<parameters>
-						<parameter>stri</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<assign depth="2">
-							<value>
-								<access>
-									<value>my</value>
-									<value>data</value>
-								</access>
-							</value>
-							<value>
-								<access>
-									<value>stri</value>
-									<value>data</value>
-								</access>
-							</value>
-						</assign>
-						<assign depth="2">
-							<value>
-								<access>
-									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
-							</value>
-							<value>
-								<access>
-									<value>stri</value>
-									<value>lengthInBytes</value>
-								</access>
-							</value>
-						</assign>
-					</code>
-				</function>
 				<comment> Init from 2 strings</comment>
 				<function depth="1">
 					<parameters>
@@ -124,26 +87,22 @@
 								</access>
 							</value>
 							<value>
-								<unmanaged>
-									<value>
-										<new>
-											<type>
-												<template-call>
-													<value>MemPointer</value>
-													<value>Byte</value>
-												</template-call>
-											</type>
-											<parameters>
-												<parameter>
-													<access>
-														<value>my</value>
-														<value>lengthInBytes</value>
-													</access>
-												</parameter>
-											</parameters>
-										</new>
-									</value>
-								</unmanaged>
+								<new>
+									<type>
+										<template-call>
+											<value>MemPointer</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>lengthInBytes</value>
+											</access>
+										</parameter>
+									</parameters>
+								</new>
 							</value>
 						</assign>
 						<for depth="2">
@@ -248,49 +207,31 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>
-										<access>
-											<value>s1</value>
-											<value>lengthInBytes</value>
-										</access>
-									</value>
-									<value>11</value>
-								</add>
-							</value>
-						</assign>
-						<assign depth="2">
-							<value>
-								<access>
-									<value>my</value>
 									<value>data</value>
 								</access>
 							</value>
 							<value>
-								<unmanaged>
-									<value>
-										<new>
-											<type>
-												<template-call>
-													<value>MemPointer</value>
-													<value>Byte</value>
-												</template-call>
-											</type>
-											<parameters>
-												<parameter>
+								<new>
+									<type>
+										<template-call>
+											<value>MemPointer</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>
+											<add>
+												<value>
 													<access>
-														<value>my</value>
+														<value>s1</value>
 														<value>lengthInBytes</value>
 													</access>
-												</parameter>
-											</parameters>
-										</new>
-									</value>
-								</unmanaged>
+												</value>
+												<value>11</value>
+											</add>
+										</parameter>
+									</parameters>
+								</new>
 							</value>
 						</assign>
 						<for depth="2">
@@ -329,24 +270,44 @@
 								</assign>
 							</code>
 						</for>
-						<call depth="2">
-							<function>bp_insertInt</function>
-							<parameters>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>data</value>
-									</access>
-								</parameter>
-								<parameter>num</parameter>
-								<parameter>
-									<access>
-										<value>s1</value>
-										<value>lengthInBytes</value>
-									</access>
-								</parameter>
-							</parameters>
-						</call>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>
+										<call>
+											<function>bp_insertInt</function>
+											<parameters>
+												<parameter>
+													<access>
+														<value>my</value>
+														<value>data</value>
+													</access>
+												</parameter>
+												<parameter>num</parameter>
+												<parameter>
+													<access>
+														<value>s1</value>
+														<value>lengthInBytes</value>
+													</access>
+												</parameter>
+											</parameters>
+										</call>
+									</value>
+								</add>
+							</value>
+						</assign>
 					</code>
 				</function>
 				<comment> Init from C-String</comment>
