@@ -48,9 +48,10 @@ class BPWorkspace(QtGui.QTabWidget):
 		return ceList
 		
 	def changeCodeEdit(self, index):
-		#print("CODE EDIT TO %d" % index)
+		#print("CODE EDIT CHANGED TO INDEX %d" % index)
 		if index != -1:
 			self.bpIDE.codeEdit = self.widget(index)
+			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
 			self.bpIDE.codeEdit.runUpdater()
 			
@@ -82,9 +83,17 @@ class BPWorkspace(QtGui.QTabWidget):
 			path = self.bpIDE.getFilePath()
 			if path and not self.bpIDE.isTmpPath(path):
 				self.filesClosed.append(path)
-			self.bpIDE.codeEdit = None
 		
 		self.removeTab(index)
+		
+		# Update codeEdit
+		#self.changeCodeEdit(self.currentIndex())
+		#self.bpIDE.codeEdit = self.widget(self.currentWidget())
+		#self.bpIDE.codeEdit.setFocus()
+		
+		# Update is not needed
+		# self.removeTab automatically fires the signal
+		# that the index has changed.
 		
 		# Buttons widget in the status bar
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
