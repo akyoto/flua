@@ -214,11 +214,16 @@ class CPPOutputCompiler(Benchmarkable):
 			
 			outStream.write("\n#endif\n")
 	
-	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+	def getExePath(self):
 		exe = stripExt(self.mainCppFile)
 		
 		if os.name == "nt":
 			exe += ".exe"
+		
+		return exe
+	
+	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+		exe = self.getExePath()
 		
 		if os.path.isfile(exe):
 			os.unlink(exe)

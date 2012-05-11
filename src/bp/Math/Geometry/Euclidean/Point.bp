@@ -5,7 +5,7 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">, </string>
+			<string id="bp_string_0">,\S</string>
 			<string id="bp_string_1">\n</string>
 		</strings>
 	</header>

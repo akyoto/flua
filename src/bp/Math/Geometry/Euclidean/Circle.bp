@@ -245,7 +245,7 @@
 					<name>intersects</name>
 					<code>
 						<assign depth="2">
-							<value>distance</value>
+							<value>dist</value>
 							<value>
 								<call>
 									<function>distanceSq</function>
@@ -319,7 +319,7 @@
 						</assign>
 						<return depth="2">
 							<less>
-								<value>distance</value>
+								<value>dist</value>
 								<value>
 									<call>
 										<function>sq</function>

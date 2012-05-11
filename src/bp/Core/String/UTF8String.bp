@@ -37,10 +37,15 @@
 						</declare-type>
 						<assign depth="2">
 							<value>
-								<access>
-									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
+								<declare-type>
+									<value>
+										<access>
+											<value>my</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>Size</value>
+								</declare-type>
 							</value>
 							<value>0</value>
 						</assign>
@@ -53,7 +58,6 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<comment>my.data[0]\S=\S0</comment>
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
@@ -219,10 +223,15 @@
 						</assign>
 					</code>
 				</function>
-				<comment>\SInit\Sfrom\Sstring\S+\Sinteger</comment>
+				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
 				<function depth="1">
 					<parameters>
-						<parameter>s1</parameter>
+						<parameter>
+							<declare-type>
+								<value>s1</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
 						<parameter>
 							<declare-type>
 								<value>num</value>
@@ -442,8 +451,220 @@
 								</call>
 							</value>
 						</assign>
+					</code>
+				</function>
+				<comment>\SInit\Sfrom\SC-String\Sup\Sto\ScharacterCount\Scharacters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>bytes</value>
+								<value>
+									<unmanaged>
+										<value>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</value>
+									</unmanaged>
+								</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>characterCount</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlen_utf8</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<comment>\STODO:\S...</comment>
 						<comment>my.data\S=\Sbytes</comment>
 						<comment>my.lengthInBytes\S=\Sbp_strlen(bytes)</comment>
+					</code>
+				</function>
+				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>until</name>
+					<code>
+						<assign depth="2">
+							<value>pos</value>
+							<value>0</value>
+						</assign>
+						<while depth="2">
+							<condition>
+								<less>
+									<value>pos</value>
+									<value>
+										<access>
+											<value>self</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+								</less>
+							</condition>
+							<code>
+								<assign depth="3">
+									<value>posChars</value>
+									<value>0</value>
+								</assign>
+								<while depth="3">
+									<condition>
+										<equal>
+											<value>
+												<index>
+													<value>
+														<access>
+															<value>my</value>
+															<value>data</value>
+														</access>
+													</value>
+													<value>i</value>
+												</index>
+											</value>
+											<value>
+												<index>
+													<value>chars</value>
+													<value>posChars</value>
+												</index>
+											</value>
+										</equal>
+									</condition>
+									<code>
+										<noop depth="4"/>
+									</code>
+								</while>
+							</code>
+						</while>
+					</code>
+				</function>
+				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
+				<function depth="1">
+					<name>untilLast</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SSubstring\Sfrom\Sthe\Spoint\Sa\Scertain\Sstring\Sappears</comment>
+				<function depth="1">
+					<name>from</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<name>fromLast</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SLeft\Sx\Scharacters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>length</parameter>
+					</parameters>
+					<name>left</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SRight\Sx\Scharacters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>length</parameter>
+					</parameters>
+					<name>right</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SSubstring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>index</parameter>
+						<parameter>length</parameter>
+					</parameters>
+					<name>mid</name>
+					<code>
+						<return depth="2">
+							<new>
+								<type>UTF8String</type>
+								<parameters>
+									<parameter>
+										<add>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>index</value>
+										</add>
+									</parameter>
+									<parameter>length</parameter>
+								</parameters>
+							</new>
+						</return>
+					</code>
+				</function>
+				<comment>\SSubstring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>from</parameter>
+						<parameter>to</parameter>
+					</parameters>
+					<name>substr</name>
+					<code>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>from</parameter>
+									<parameter>
+										<subtract>
+											<value>to</value>
+											<value>from</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 				</function>
 				<operators depth="1">
