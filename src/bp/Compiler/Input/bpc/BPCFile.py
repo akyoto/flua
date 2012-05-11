@@ -377,7 +377,10 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def processLine(self, line):
 		if self.keyword in self.keywordToHandler:
-			return self.keywordToHandler[self.keyword](line)
+			node = self.keywordToHandler[self.keyword](line)
+			if node:
+				self.checkObjectCreation(node)
+			return node
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)

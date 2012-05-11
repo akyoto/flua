@@ -19,6 +19,9 @@
 				<name>bp_strlen</name>
 				<type>Size</type>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_insertInt</name>
+			</extern-function>
 		</extern>
 	</code>
 </module>

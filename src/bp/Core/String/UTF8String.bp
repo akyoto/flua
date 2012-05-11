@@ -29,7 +29,7 @@
 									<value>
 										<template-call>
 											<value>MemPointer</value>
-											<value>ConstChar</value>
+											<value>Byte</value>
 										</template-call>
 									</value>
 								</unmanaged>
@@ -47,7 +47,7 @@
 						<comment>my.data[0] = 0</comment>
 					</code>
 				</function>
-				<comment> Copy from another string</comment>
+				<comment> Copy from another UTF8String</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>stri</parameter>
@@ -84,7 +84,272 @@
 						</assign>
 					</code>
 				</function>
-				<comment> C-Strings</comment>
+				<comment> Init from 2 strings</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>s1</parameter>
+						<parameter>s2</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>s2</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<unmanaged>
+									<value>
+										<new>
+											<type>
+												<template-call>
+													<value>MemPointer</value>
+													<value>Byte</value>
+												</template-call>
+											</type>
+											<parameters>
+												<parameter>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</parameter>
+											</parameters>
+										</new>
+									</value>
+								</unmanaged>
+							</value>
+						</assign>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>s1</value>
+									<value>lengthInBytes</value>
+								</access>
+							</until>
+							<code>
+								<assign depth="3">
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>s1</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign>
+							</code>
+						</for>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>s2</value>
+									<value>lengthInBytes</value>
+								</access>
+							</until>
+							<code>
+								<assign depth="3">
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>
+												<add>
+													<value>i</value>
+													<value>
+														<access>
+															<value>s1</value>
+															<value>lengthInBytes</value>
+														</access>
+													</value>
+												</add>
+											</value>
+										</index>
+									</value>
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>s2</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign>
+							</code>
+						</for>
+					</code>
+				</function>
+				<comment> Init from string + integer</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>s1</parameter>
+						<parameter>
+							<declare-type>
+								<value>num</value>
+								<value>Int</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<comment> &quot;-2147483648&quot; = 11 characters</comment>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>11</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<unmanaged>
+									<value>
+										<new>
+											<type>
+												<template-call>
+													<value>MemPointer</value>
+													<value>Byte</value>
+												</template-call>
+											</type>
+											<parameters>
+												<parameter>
+													<access>
+														<value>my</value>
+														<value>lengthInBytes</value>
+													</access>
+												</parameter>
+											</parameters>
+										</new>
+									</value>
+								</unmanaged>
+							</value>
+						</assign>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>s1</value>
+									<value>lengthInBytes</value>
+								</access>
+							</until>
+							<code>
+								<assign depth="3">
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>s1</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign>
+							</code>
+						</for>
+						<call depth="2">
+							<function>bp_insertInt</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>num</parameter>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+				</function>
+				<comment> Init from C-String</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -95,7 +360,7 @@
 										<value>
 											<template-call>
 												<value>MemPointer</value>
-												<value>ConstChar</value>
+												<value>Byte</value>
 											</template-call>
 										</value>
 									</unmanaged>
@@ -119,7 +384,7 @@
 											<value>
 												<template-call>
 													<value>MemPointer</value>
-													<value>ConstChar</value>
+													<value>Byte</value>
 												</template-call>
 											</value>
 										</unmanaged>
@@ -164,6 +429,52 @@
 						</call>
 					</code>
 				</function>
+				<operators depth="1">
+					<operator depth="2">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>stri</value>
+									<value>UTF8String</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>+</name>
+						<code>
+							<return depth="3">
+								<new>
+									<type>UTF8String</type>
+									<parameters>
+										<parameter>my</parameter>
+										<parameter>stri</parameter>
+									</parameters>
+								</new>
+							</return>
+						</code>
+					</operator>
+					<operator depth="2">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>num</value>
+									<value>Int</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>+</name>
+						<code>
+							<return depth="3">
+								<new>
+									<type>UTF8String</type>
+									<parameters>
+										<parameter>my</parameter>
+										<parameter>num</parameter>
+									</parameters>
+								</new>
+							</return>
+						</code>
+					</operator>
+				</operators>
 				<get depth="1">
 					<getter depth="2">
 						<name>data</name>

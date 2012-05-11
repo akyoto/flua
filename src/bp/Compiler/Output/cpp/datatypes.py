@@ -37,7 +37,7 @@ standardClassPrefix = "BP"
 
 dataTypeDefinitions = {
 	"Bool" : "bool",
-	"Byte" : "unsigned char",
+	"Byte" : "char",
 	"ConstChar" : "const char",
 	"Short" : "short",
 	"Int" : "int_fast32_t",
@@ -49,7 +49,7 @@ dataTypeDefinitions = {
 	"Float" : "float",
 	"Float32" : "float",
 	"Float64" : "double",
-	"CString" : "Byte *",
+	"CString" : "const Byte *",
 	"BigInt" : "mpz_class",
 }
 

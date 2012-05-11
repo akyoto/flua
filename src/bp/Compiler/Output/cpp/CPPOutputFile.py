@@ -149,7 +149,7 @@ class CPPOutputFile(ScopeController):
 		if self.compiler.needToInitStringClass:
 			#self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
 			self.implementFunction("UTF8String", "init", [])
-			self.implementFunction("UTF8String", "init", ["~MemPointer<ConstChar>"])
+			self.implementFunction("UTF8String", "init", ["~MemPointer<Byte>"])
 			self.compiler.needToInitStringClass = False
 		
 		if self.classExists("UTF8String") and self.stringClassDefined == False:
@@ -210,14 +210,16 @@ class CPPOutputFile(ScopeController):
 				return self.id + "_" + node.nodeValue
 			else:
 				if node.nodeValue == "my":
-					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
-					opNode = node.parentNode.parentNode
-					numChildNodes = len(opNode.childNodes)
-					if numChildNodes > 1:
+					if self.useGC:
 						return "this"
-					else:
+					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
+					#opNode = node.parentNode.parentNode
+					#numChildNodes = len(opNode.childNodes)
+					#if numChildNodes > 1:
+					#	return "this"
+					#else:
 						# TODO: Unmanaged object initiations need to return 'this'
-						return "shared_from_this()"
+					#	return "shared_from_this()"
 				# BigInt support
 				elif node.nodeValue.isdigit():
 					num = int(node.nodeValue)
@@ -1285,7 +1287,7 @@ class CPPOutputFile(ScopeController):
 		# TODO: classExists(self.compiler.stringDataType)
 		if self.stringClassDefined:
 			dataType = self.compiler.stringDataType
-			line = id + " = new BPUTF8String(\"" + value + "\");\n"
+			line = id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 		else:
 			dataType = "CString"
 			line = id + " = \"" + value + "\";\n"
