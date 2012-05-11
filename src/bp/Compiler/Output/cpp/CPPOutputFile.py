@@ -147,8 +147,9 @@ class CPPOutputFile(ScopeController):
 		
 		# Implement operator = of the string class manually to enable assignments
 		if self.compiler.needToInitStringClass:
-			self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
+			#self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
 			self.implementFunction("UTF8String", "init", [])
+			self.implementFunction("UTF8String", "init", ["~MemPointer<ConstChar>"])
 			self.compiler.needToInitStringClass = False
 		
 		if self.classExists("UTF8String") and self.stringClassDefined == False:
@@ -981,7 +982,7 @@ class CPPOutputFile(ScopeController):
 		
 		#if funcName == "distance":
 		#	debugStop()
-		
+		print(caller, callerType, funcName)
 		if not funcName.startswith("bp_"):
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)
 			#funcImpl = callerClassImpl.getFuncImplementation(funcName, paramTypes)
@@ -1036,7 +1037,7 @@ class CPPOutputFile(ScopeController):
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
 				#return "~MemPointer<ConstChar>"
-				return "~UTF8String"
+				return "UTF8String"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
 			elif node.nodeValue == "my":
@@ -1279,13 +1280,15 @@ class CPPOutputFile(ScopeController):
 	def handleString(self, node):
 		id = self.id + "_" + node.getAttribute("id")
 		value = decodeCDATA(node.childNodes[0].nodeValue)
-		line = id + " = \"" + value + "\";\n"
+		
 		
 		# TODO: classExists(self.compiler.stringDataType)
 		if self.stringClassDefined:
 			dataType = self.compiler.stringDataType
+			line = id + " = new BPUTF8String(\"" + value + "\");\n"
 		else:
 			dataType = "CString"
+			line = id + " = \"" + value + "\";\n"
 		
 		var = CPPVariable(id, dataType, value, False, False, True)
 		#self.currentClassImpl.addMember(var)

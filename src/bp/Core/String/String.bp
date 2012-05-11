@@ -1,1 +1,24 @@
-<module><header><title/><dependencies><import>bp.Core</import><import>UTF8String</import></dependencies><strings/></header><code><target depth="0"><name>C++</name><code><include depth="1">String.hpp</include></code></target><extern depth="0"><extern-function depth="1"><name>bp_strlen</name><type>Size</type></extern-function></extern></code></module>
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>UTF8String</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">String.hpp</include>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_strlen</name>
+				<type>Size</type>
+			</extern-function>
+		</extern>
+	</code>
+</module>

@@ -138,8 +138,15 @@ class MenuActions:
 			except OutputCompilerException as e:
 				#lineNumber = e.getLineNumber()
 				node = e.getLastParsedNode()
-				errorMessage = e.getMsg()
-				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
+				
+				if self.developerFlag:
+					printTraceback()
+					
+					if node:
+						print("Last parsed node:\n" + node.toxml())
+				else:
+					errorMessage = e.getMsg()
+					self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
 			except:
 				printTraceback()
 			

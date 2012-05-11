@@ -40,6 +40,10 @@ class Startup:
 	def showIntroduction(self):
 		# For beginners
 		self.newFile()
+		
+		if not self.codeEdit:
+			return
+		
 		self.codeEdit.disableUpdatesFlag = True
 		self.codeEdit.setPlainText('''# Press F5 to run this
 print "Hello bp!"
@@ -81,8 +85,7 @@ b.doSomething()
 # in some cases aren't even used.
 # There are still lots of features missing but they'll be implemented sooner or later.
 
-# Happy alpha testing :)
-			''')
+# Happy alpha testing :)''')
 		self.codeEdit.disableUpdatesFlag = False
 		self.codeEdit.runUpdater()
 	
@@ -239,8 +242,9 @@ b.doSomething()
 				'include-file': cf('#666666'),
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
-				'comment': cf('darkGray', 'italic'),
-				'self': cf('#888888'),
+				'comment': cf('#999999', 'italic'),
+				'disabled': cf('#dddddd', 'italic'),
+				'self': cf('#999999'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'own-function': cf('#171717', 'bold'),
@@ -262,6 +266,7 @@ b.doSomething()
 				'string': cf('#00c000'),
 				'string2': cf('darkMagenta'),
 				'comment': cf('lightGray', 'italic'),
+				'disabled': cf('lightGray', 'italic'),
 				'self': cf('#eeeeee', 'italic'),
 				'number': cf('#00cccc'),
 				'hex-number': cf('brown'),

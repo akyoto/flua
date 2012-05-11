@@ -73,7 +73,7 @@ class CPPOutputCompiler(Benchmarkable):
 		self.customLinkerFlags = []
 		self.funcImplCache = {}
 		self.includes = []
-		self.stringDataType = "~UTF8String"
+		self.stringDataType = "UTF8String"
 		self.needToInitStringClass = False
 		
 		self.mainClass = CPPClass("")

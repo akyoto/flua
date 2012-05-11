@@ -245,6 +245,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			#if isShortcut:
 			#	self.completer.popup().show()
+		# Disable wrong indentation
 		elif event.key() == QtCore.Qt.Key_Tab:
 			cursor = self.textCursor()
 			pos = cursor.position()
@@ -256,7 +257,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			prevLine = prevBlock.text()
 			prevTabLevel = countTabs(prevLine)
 			
-			if not prevLine or tabLevel <= prevTabLevel:
+			if not prevLine or tabLevel <= prevTabLevel or not line[:pos - block.position()].isspace():
 				super().keyPressEvent(event)
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:

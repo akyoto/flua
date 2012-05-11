@@ -108,6 +108,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.lastLine = ""
 		self.lastLineCount = 0
 		self.maxLineIndex = -1
+		self.currentLineComment = ""
 		self.nodeToOriginalLine = dict()
 		self.nodes = list()
 		
@@ -222,7 +223,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			# Remove strings, comments and check brackets
 			line = self.prepareLine(line)
 			
-			if not line:
+			if not line and not self.currentLineComment:
 				# Function block error checking
 				if currentLine and isElemNode(currentLine) and currentLine.tagName == "function":
 					codeNode = getElementByTagName(currentLine, "code")
@@ -241,6 +242,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
 					self.nextLineIndented = True
 				elif tabCountNextLine > tabCount + 1:
+					# Increase line count to have a correct line number for the error message
+					self.lastLineCount += 1
 					raise CompilerException("You only need to indent once.")
 			
 			# TODO: Enable all unicode characters
@@ -262,7 +265,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			if self.lastLineCount == self.maxLineIndex:
 				break
 			
-			currentLine = self.processLine(line)
+			# The actual compiling! Let's get it start-e-e-ed now!
+			if line:
+				currentLine = self.processLine(line)
+			else:
+				currentLine = None
 			
 			# Save the connection for debugging purposes
 			#if self.nodes and (currentLine == None or self.nodes[-1] != currentLine):
@@ -280,9 +287,25 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			self.savedNextNode = self.nextNode
 			
-			# # # # # # # # # # # # # # # # # # # # # # #
-			# [ATTENTION]    MAGICAL TOWER OF IF'S      #
-			# # # # # # # # # # # # # # # # # # # # # # #
+			# Comment-ception
+			if self.currentLineComment:
+				if line:
+					currentComment = self.handleComment(self.currentLineComment, inline = True)
+					
+					# Do NOT append it to the line number -> node converter
+					self.nodeToOriginalLine[currentComment] = self.lastLine
+				else:
+					currentComment = self.handleComment(self.currentLineComment, inline = False)
+					self.registerNode(currentComment)
+					
+				# Append to current node
+				self.currentNode.appendChild(currentComment)
+			else:
+				currentComment = None
+			
+			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+			# [ATTENTION]    WE PROUDLY PRESENT YOU: THE MAGICAL TOWER OF IF'S      #
+			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 			if currentLine:
 				if currentLine.nodeType != Node.TEXT_NODE:
 					currentLine.setAttribute("depth", str(tabCount))
@@ -1016,15 +1039,17 @@ class BPCFile(ScopeController, Benchmarkable):
 	def handleInlineComment(self, comment):
 		pass
 	
-	def handleComment(self, comment):
+	def handleComment(self, comment, inline):
 		node = self.doc.createElement("comment")
 		node.appendChild(self.doc.createTextNode(encodeCDATA(comment)))
+		if inline:
+			node.setAttribute("inline", "true")
 		
 		# Manually register this
-		self.registerNode(node)
-		self.currentNode.appendChild(node)
+		#self.registerNode(node)
+		#self.currentNode.appendChild(node)
 		
-		return None
+		return node
 	
 	def prepareLine(self, line):
 		i = 0
@@ -1033,6 +1058,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		squareBracketsBalance = 0 # []
 		#chevronsBalance = 0 # <>
 		
+		self.currentLineComment = ""
 		self.keyword = ""
 		
 		# DO NOT CACHE len(line)!
@@ -1041,10 +1067,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			if line[i] == '#':
 				lineContent = line[:i].rstrip()
 				comment = line[i+1:]
-				if lineContent:
-					self.handleInlineComment(comment)
-				else:
-					self.handleComment(comment)
+				self.currentLineComment = comment
 				return lineContent
 			# Number of brackets check
 			elif line[i] == '(':

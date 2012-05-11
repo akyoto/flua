@@ -134,7 +134,10 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#else:
 				i = h
 			elif char == '#':
-				self.setFormat(i, textLen - i, style['comment'])
+				if i < textLen - 1 and text[i + 1].isspace():
+					self.setFormat(i, textLen - i, style['comment'])
+				else:
+					self.setFormat(i, textLen - i, style['disabled'])
 				return
 			elif char == ',':
 				self.setFormat(i, 1, style['comma'])
