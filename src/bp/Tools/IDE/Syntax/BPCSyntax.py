@@ -56,7 +56,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	def highlightBlock(self, text):
 		"""Apply syntax highlighting to the given block of text.
 		"""
-		if not text or self.bpIDE.codeEdit.disableUpdatesFlag:
+		if not text or (self.bpIDE.codeEdit and self.bpIDE.codeEdit.disableUpdatesFlag):
 			return
 		
 		style = self.bpIDE.getCurrentTheme()

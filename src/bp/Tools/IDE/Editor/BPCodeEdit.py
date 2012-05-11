@@ -190,6 +190,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		return importedMods
 	
 	def keyPressEvent(self, event):
+		if self.bpIDE.codeEdit is None:
+			return
+		
 		# Auto Complete
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
 		
