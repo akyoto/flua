@@ -45,21 +45,23 @@ wrapperSingleElement = [
 	"type",
 	"value",
 	"condition",
-	"variable"
+	"variable",
 ]
 
-wrapperMultipleElements = [
-	"code",
-	"if-block",
-	"try-block"
-]
-
-xmlToBPCBlock = {
+wrapperMultipleElements = {
+	"code" : "",
+	
+	"if-block" : "",
+	"try-block" : "",
+	
 	"operators" : "operator",
-	"template" : "template",
 	"set" : "set",
 	"get" : "get",
 	"casts" : "to",
+}
+
+xmlToBPCBlock = {
+	"template" : "template",
 	"else" : "else",
 	"private" : "private",
 	"extern" : "extern",
@@ -124,6 +126,11 @@ autoNewlineBlock = {
 	"set",
 	"operators",
 	"casts",
+	
+	"getter",
+	"setter",
+	"cast-definition",
+	"operator",
 }
 
 ####################################################################
@@ -239,9 +246,16 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				paramCode = paramCode[1:-1]
 			params.append(paramCode)
 		return ", ".join(params)
+	#######################################################################
 	# Code in general
-	elif nodeName in wrapperMultipleElements:
+	#######################################################################
+	elif nodeName in wrapperMultipleElements:# or nodeName == "get" or nodeName == "set" or nodeName == "operators" or nodeName == "casts":
 		codeParts = []
+		
+		isVisibleBlock = (nodeName != "code" and nodeName != "if-block" and nodeName != "try-block")
+		
+		if isVisibleBlock:
+			tabLevel += 1
 		
 		tabs = "\t" * tabLevel
 		prefix = ""
@@ -259,7 +273,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			
 			# Line type
 			if childName in autoNewlineBlock:
-				currentLineType = 2
+				if childName in {"require", "ensure", "maybe", "test"}:
+					currentLineType = 3
+				else:
+					currentLineType = 2
 			elif childName == "comment":
 				currentLineType = 0
 			else:
@@ -268,7 +285,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			# Process line type
 			prefix = ""
 			if previousLineType:
-				if currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0):
+				if (currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0)) and currentLineType != 3:
 					prefix = tabs + "\n"
 			
 			# Set previous line type
@@ -282,6 +299,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				codeParts.append("\n")
 			else:
 				if nodeName != "code":
+					codeParts.append(prefix)
 					codeParts.append(tabs)
 					codeParts.append(childCode)
 				else:
@@ -291,7 +309,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					if childCode[-1] != "\n":
 						codeParts.append("\n")
 		
-		return ''.join(codeParts)#.rstrip() + "\n"
+		if isVisibleBlock:
+			return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
+		
+		return ''.join(codeParts)
 	# Function definition
 	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
 		if nodeName == "cast-definition":
