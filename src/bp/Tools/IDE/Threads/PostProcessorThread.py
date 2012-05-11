@@ -13,7 +13,8 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		
 	def startWith(self, codeEdit):
 		self.codeEdit = codeEdit
-		self.start()
+		if not self.codeEdit is None:
+			self.start()
 		
 	def run(self):
 		self.lastException = None

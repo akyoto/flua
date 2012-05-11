@@ -164,7 +164,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	def updateView(self):
 		# Show imports
-		importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()
+		if self.bpIDE.codeEdit is not None:
+			importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()
+		else:
+			importedMods = []
 		
 		# Compare it with the old import list and if it's different -> highlight
 		#index = 0

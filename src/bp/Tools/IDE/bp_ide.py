@@ -210,34 +210,49 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def getModuleImportType(self, importedModule):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 		
+	def runPostProcessor(self):
+		# TODO: Less cpu usage
+		if self.threaded:
+			if not self.postProcessorThread.isRunning():
+				self.postProcessorThread.startWith(self.codeEdit)
+		else:
+			self.postProcessorThread.run()
+			self.postProcessorFinished()
+		
 	def postProcessorFinished(self):
+		ppCodeEdit = self.postProcessorThread.codeEdit
+		
 		# Update line info
 		self.updateLineInfo(force=True, updateDependencyView=False)
 		
+		# Exists?
+		if ppCodeEdit is None:
+			return
+		
 		# After we parsed the functions, set the text and highlight the file
-		if self.codeEdit.disableUpdatesFlag:
-			self.codeEdit.disableUpdatesFlag = False
-			self.codeEdit.rehighlightFunctionUsage()
+		if ppCodeEdit.disableUpdatesFlag:
+			ppCodeEdit.disableUpdatesFlag = False
+			ppCodeEdit.rehighlightFunctionUsage()
 		
 		self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
 		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
-			self.codeEdit.rehighlightFunctionUsage()
+			ppCodeEdit.rehighlightFunctionUsage()
 		
 		self.lastFunctionCount = self.processor.getFunctionCount()
 		
 		# If the function name changed, rehighlight
-		lineIndex = self.codeEdit.getLineIndex()
-		selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+		lineIndex = ppCodeEdit.getLineIndex()
+		selectedNode = ppCodeEdit.getNodeByLineIndex(lineIndex)
 		if tagName(selectedNode) == "function":
-			selectedOldNode = self.codeEdit.getOldNodeByLineIndex(lineIndex)
+			selectedOldNode = ppCodeEdit.getOldNodeByLineIndex(lineIndex)
 			if tagName(selectedOldNode) == "function":
 				nameNew = getElementByTagName(selectedNode, "name")
 				nameOld = getElementByTagName(selectedOldNode, "name")
 				
 				if nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
-					self.codeEdit.rehighlightFunctionUsage()
+					ppCodeEdit.rehighlightFunctionUsage()
 		#lineIndex = self.codeEdit.getLineIndex()
 		#selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 		#previousLineNode = self.codeEdit.getNodeByLineIndex(lineIndex - 1)
@@ -268,6 +283,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.codeEdit.setFilePath(filePath)
 		
 	def getProjectPath(self):
+		if self.codeEdit is None:
+			return ""
+		
 		# TODO: Project path
 		return self.codeEdit.getFilePath()
 		
@@ -297,7 +315,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Let's rock!
 		self.startBenchmark("[%s] NodeToBPC" % stripDir(fileName))
-		self.codeEdit.setXML(xmlCode)
+		if self.codeEdit is not None:
+			self.codeEdit.setXML(xmlCode)
 		self.endBenchmark()
 		
 		self.afterSwitchingFile()
@@ -333,10 +352,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.endBenchmark()
 		
 		# Let's rock!
-		self.codeEdit.disableUpdatesFlag = True
-		self.codeEdit.setPlainText(codeText)
-		self.codeEdit.disableUpdatesFlag = False
-		self.codeEdit.runUpdater()
+		if self.codeEdit:
+			self.codeEdit.disableUpdatesFlag = True
+			self.codeEdit.setPlainText(codeText)
+			self.codeEdit.disableUpdatesFlag = False
+			self.codeEdit.runUpdater()
 		
 		#self.startBenchmark("CodeEdit (interpret file)")
 		#self.dependencyView.clear()
@@ -345,15 +365,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Enable dependency view for first line
 		self.afterSwitchingFile()
-		
-	def runPostProcessor(self):
-		# TODO: Less cpu usage
-		if self.threaded:
-			if not self.postProcessorThread.isRunning():
-				self.postProcessorThread.startWith(self.codeEdit)
-		else:
-			self.postProcessorThread.run()
-			self.postProcessorFinished()
 		
 	def isTmpFile(self):
 		return self.isTmpPath(self.getFilePath())
@@ -365,6 +376,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return extractDir(path) == self.tmpPath
 		
 	def goToLineEnd(self, lineNum):
+		if not self.codeEdit:
+			return
+		
 		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
 		self.codeEdit.goToLineEnd(max(lineNum, 0))
 		self.codeEdit.highlightLine(max(lineNum - 1, 0), QtGui.QColor("#ffddcc"))
