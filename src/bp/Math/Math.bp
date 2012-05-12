@@ -121,20 +121,6 @@
 			<parameters>
 				<parameter>num</parameter>
 			</parameters>
-			<name>sq</name>
-			<code>
-				<return depth="1">
-					<multiply>
-						<value>num</value>
-						<value>num</value>
-					</multiply>
-				</return>
-			</code>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>num</parameter>
-			</parameters>
 			<name>sqr</name>
 			<code>
 				<return depth="1">

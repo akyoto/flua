@@ -10,8 +10,11 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		#self.newMessagesSignal = pyqtSignal()
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
+		self.flushSignal = QtCore.SIGNAL("flushRequested()")
+		
 		self.connect(self, self.signal, self.onNewData)
 		self.connect(self, self.errorSignal, self.onNewError)
+		self.connect(self, self.flushSignal, self.flushRequested)
 		
 	def onNewData(self, stri):
 		# TODO: Scroll
@@ -29,8 +32,15 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.setTextCursor(cursor)
 		self.ensureCursorVisible()
 		
+	def flushRequested(self):
+		# TODO: ...
+		self.ensureCursorVisible()
+		
 	def writeError(self, stri):
 		self.emit(self.errorSignal, stri)
+		
+	def flush(self):
+		self.emit(self.flushSignal)
 		
 	def write(self, stri):
 		self.emit(self.signal, stri)

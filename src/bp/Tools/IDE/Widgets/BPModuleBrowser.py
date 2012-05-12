@@ -38,19 +38,19 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.setAnimated(True)
 		self.oldImportedMods = []
 		self.oldImportedModsLen = 0
-		self.setHeaderHidden(True)
-		self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		
 		self.brushSimpleFolder = QtGui.QBrush(QtGui.QColor("#adadad"))
 		self.brushModule = QtGui.QBrush(QtGui.QColor("#272727"))
 		
 		self.doubleClicked.connect(self.onItemClick)
-		self.customContextMenuRequested.connect(self.showContextMenu)
+		self.setHeaderHidden(True)
 		
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
 		self.reloadModuleDirectory()
+		#self.reloadModuleDirectory()
+		#self.reloadModuleDirectory()
 		
 		self.expandToDepth(0)
 		
@@ -161,9 +161,6 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		# Reset to enable rehighlighting on a file reload
 		self.oldImportedMods = []
 		self.oldImportedModsLen = 0
-		
-	def showContextMenu(self, pos):
-		print("yep!")
 		
 	def updateView(self):
 		# Show imports

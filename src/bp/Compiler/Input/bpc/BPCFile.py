@@ -83,6 +83,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.importedFiles = []
 		self.nextLineIndented = False
 		self.savedNextNode = 0
+		
 		self.inClass = 0
 		self.inSwitch = 0
 		self.inCase = 0
@@ -98,6 +99,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inMaybe = 0
 		self.inTest = 0
 		self.inCompilerFlags = 0
+		
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
 		self.doc = parseString("<module><header><title/><dependencies/><strings/></header><code></code></module>".encode( "utf-8" ))

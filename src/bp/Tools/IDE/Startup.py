@@ -4,6 +4,9 @@ from bp.Tools.IDE.Editor import *
 from bp.Tools.IDE.Widgets import *
 from bp.Tools.IDE.MenuActions import *
 
+def getIDERoot():
+	return extractDir(os.path.realpath(__file__))
+
 class Startup:
 	
 	def initAll(self):
@@ -95,7 +98,7 @@ b.doSomething()
 		self.preferences.settings.currentItemChanged.connect(self.onSettingsItemChange)
 		
 	def initUI(self):
-		uic.loadUi("ui/blitzprog-ide.ui", self)
+		uic.loadUi(getIDERoot() + "ui/blitzprog-ide.ui", self)
 		
 		# StatusBar
 		self.statusBar.setFont(QtGui.QFont("SansSerif", 8))
@@ -156,14 +159,14 @@ b.doSomething()
 		self.dependencyView.setReadOnly(1)
 		
 		# File view
-		self.fileView = BPFileBrowser(self, getModuleDir())
+		#self.fileView = BPFileBrowser(self, getModuleDir())
 		
 		# Module view
 		self.moduleView = BPModuleBrowser(self, getModuleDir())
 		
 		# Scribble - I absolutely love this feature in Geany!
 		# It's always the little things that are awesome :)
-		self.scribble = BPScribbleWidget(self, "miscellaneous/scribble.txt")
+		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
 		
 		# IntelliView enabled?
 		if self.intelliEnabled:
@@ -183,7 +186,7 @@ b.doSomething()
 			
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-			self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
+			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
 			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.BottomDockWidgetArea)
 			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
@@ -191,7 +194,7 @@ b.doSomething()
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
 		self.scribbleDock.hide()
-		self.fileViewDock.hide()
+		#self.fileViewDock.hide()
 		#self.consoleDock.hide()
 		
 		if not self.developerFlag:

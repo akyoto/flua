@@ -126,14 +126,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def loadConfig(self):
 		if os.path.isfile("settings.ini"):
-			self.config = BPConfiguration(self, "settings.ini")
+			self.config = BPConfiguration(self, getIDERoot() + "settings.ini")
 		else:
-			self.config = BPConfiguration(self, "default-settings.ini")
+			self.config = BPConfiguration(self, getIDERoot() + "default-settings.ini")
 		#self.config.applySettings()
 		
 	def getUIFromCache(self, uiFileName):
 		if not uiFileName in self.uiCache:
-			self.uiCache[uiFileName] = uic.loadUi("ui/%s.ui" % uiFileName)
+			self.uiCache[uiFileName] = uic.loadUi(getIDERoot() + "ui/%s.ui" % uiFileName)
 			return self.uiCache[uiFileName], False
 		return self.uiCache[uiFileName], True
 		

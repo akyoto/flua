@@ -50,7 +50,7 @@ class CPPOutputFile(ScopeController):
 		ScopeController.__init__(self)
 		
 		self.compiler = compiler
-		self.file = fixPath(file)
+		self.file = file
 		self.root = root
 		self.isMainFile = (len(self.compiler.compiledFiles) == 0)
 		self.dir = extractDir(file)

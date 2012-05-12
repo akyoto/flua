@@ -51,19 +51,33 @@ class CompilerException(Exception):
 
 class InputCompilerException(CompilerException):
 	
-	def __init__(self, value, inpFile):
+	def __init__(self, value, inpFile = None):
 		#super.__init__(value)
 		self.setMsg(value)
 		self.inpFile = inpFile
 		
+		if inpFile:
+			self.filePath = self.inpFile.getFilePath()
+			self.line = self.inpFile.getLastLine()
+			self.lineNumber = self.inpFile.getLastLineCount()
+		
+	def setLine(self, line):
+		self.line = line
+		
+	def setLineNumber(self, lineNumber):
+		self.lineNumber = lineNumber
+		
+	def setFilePath(self, path):
+		self.filePath = path
+		
 	def getLine(self):
-		return self.inpFile.getLastLine()
+		return self.line
 		
 	def getLineNumber(self):
-		return self.inpFile.getLastLineCount()
+		return self.lineNumber
 		
 	def getFilePath(self):
-		return self.inpFile.getFilePath()
+		return self.filePath
 		
 	def __str__(self):
 		filePath = self.inpFile.getFilePath()
