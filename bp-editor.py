@@ -33,13 +33,15 @@
 import sys
 import os
 
+scriptPath = os.path.dirname(os.path.realpath(__file__))
+
 if os.name == "nt":
 	appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
 	pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
 	sys.path.append(pyqtPath)
 	print(sys.version)
 else:
-	appendPath = (os.path.abspath("src/") + "/")
+	appendPath = (scriptPath + "/src/")
 
 ####################################################################
 # Temporarily add the module directory to PATH
@@ -59,5 +61,7 @@ except:
 # They see me runnin'. They hatin'.
 ####################################################################
 from bp.Tools.IDE.bp_ide import *
-os.chdir("./src/bp/Tools/IDE/")
-main()
+os.chdir(scriptPath + "/src/bp/Tools/IDE/")
+
+if __name__ == "__main__":
+	main()

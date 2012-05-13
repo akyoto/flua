@@ -245,7 +245,7 @@ b.doSomething()
 				'include-file': cf('#666666'),
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
-				'comment': cf('#800000', 'italic bold',),
+				'comment': cf('#107010', 'italic',),
 				'disabled': cf('#dddddd', 'italic'),
 				'self': cf('#777777'),
 				'number': cf('brown'),

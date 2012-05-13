@@ -128,6 +128,7 @@ class ExpressionParser:
 							raise CompilerException("Missing operand")
 						if isVarChar(expr[lastOccurence + op.textLen]) or expr[lastOccurence + op.textLen] == '(' or op.text == '(' or expr[lastOccurence + op.textLen] == '[' or op.text == '[':
 							if op.type == Operator.BINARY:
+								
 								# Left operand
 								start = lastOccurence - 1
 
