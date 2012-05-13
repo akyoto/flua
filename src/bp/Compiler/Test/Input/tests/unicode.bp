@@ -5,34 +5,54 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">κόσμε</string>
-			<string id="bp_string_1">εμσόκ</string>
-			<string id="bp_string_2">UTF-8\Soutput:\S</string>
-			<string id="bp_string_3">\E</string>
-			<string id="bp_string_4">Unicode\S(UTF-8)\SNOT\Sworking!</string>
-			<string id="bp_string_5">Unicode\S(UTF-8)\Sperfectly\Sworking!</string>
+			<string id="bp_string_0">あいうえお</string>
+			<string id="bp_string_1">か\Sき\Sく\Sけ\Sこ\Ska\Ski\Sku\Ske\Sko</string>
+			<string id="bp_string_2">κόσμε</string>
+			<string id="bp_string_3">εμσόκ</string>
+			<string id="bp_string_4">\S\Sあ\Tい\Tう\Tえ\Tお</string>
+			<string id="bp_string_5">K\Tか\Tき\Tく\Tけ\Tこ</string>
+			<string id="bp_string_6">S\Tさ\Tし\Tす\Tせ\Tそ</string>
+			<string id="bp_string_7">T\Tた\Tち\Tつ\Tて\Tと</string>
+			<string id="bp_string_8">N\Tな\Tに\Tぬ\Tね\Tの</string>
+			<string id="bp_string_9">H\Tは\Tひ\Tふ\Tへ\Tほ</string>
+			<string id="bp_string_10">M\Tま\Tみ\Tむ\Tめ\Tも</string>
+			<string id="bp_string_11">Y\Tや\T\Tゆ\T\Tよ</string>
+			<string id="bp_string_12">R\Tら\Tり\Tる\Tれ\Tろ</string>
+			<string id="bp_string_13">W\Tわ\Tゐ\T\Tゑ\Tを</string>
+			<string id="bp_string_14">Unicode\S(UTF-8)\SNOT\Sworking!</string>
+			<string id="bp_string_15">Unicode\S(UTF-8)\Sworking!\S(</string>
+			<string id="bp_string_16">)</string>
 		</strings>
 	</header>
 	<code>
 		<assign depth="0">
-			<value>utf1</value>
+			<value>utf8Test1</value>
 			<value>bp_string_0</value>
 		</assign>
 		<assign depth="0">
-			<value>utf2</value>
+			<value>utf8Test2</value>
 			<value>bp_string_1</value>
+		</assign>
+		<assign depth="0">
+			<value>utf8Test3</value>
+			<value>bp_string_2</value>
+		</assign>
+		<assign depth="0">
+			<value>utf8Test4</value>
+			<value>bp_string_3</value>
 		</assign>
 		<assign depth="0">
 			<value>errors</value>
 			<value>0</value>
 		</assign>
+		<comment>\SLength\Stest</comment>
 		<if-block depth="0">
 			<if>
 				<condition>
 					<not-equal>
 						<value>
 							<access>
-								<value>utf1</value>
+								<value>utf8Test1</value>
 								<value>length</value>
 							</access>
 						</value>
@@ -53,11 +73,11 @@
 					<not-equal>
 						<value>
 							<access>
-								<value>utf1</value>
-								<value>lengthInBytes</value>
+								<value>utf8Test2</value>
+								<value>length</value>
 							</access>
 						</value>
-						<value>11</value>
+						<value>24</value>
 					</not-equal>
 				</condition>
 				<code>
@@ -74,7 +94,7 @@
 					<not-equal>
 						<value>
 							<access>
-								<value>utf2</value>
+								<value>utf8Test3</value>
 								<value>length</value>
 							</access>
 						</value>
@@ -95,7 +115,70 @@
 					<not-equal>
 						<value>
 							<access>
-								<value>utf2</value>
+								<value>utf8Test4</value>
+								<value>length</value>
+							</access>
+						</value>
+						<value>5</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<access>
+								<value>utf8Test1</value>
+								<value>lengthInBytes</value>
+							</access>
+						</value>
+						<value>15</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<access>
+								<value>utf8Test2</value>
+								<value>lengthInBytes</value>
+							</access>
+						</value>
+						<value>34</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<access>
+								<value>utf8Test3</value>
 								<value>lengthInBytes</value>
 							</access>
 						</value>
@@ -107,79 +190,202 @@
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
-					<comment>print\Sutf1.data[i]</comment>
 				</code>
 			</if>
 		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<access>
+								<value>utf8Test4</value>
+								<value>lengthInBytes</value>
+							</access>
+						</value>
+						<value>11</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<comment>\SArray\Sof\SUTF-8\Sstrings</comment>
+		<assign depth="0">
+			<value>utfArray</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Array</value>
+							<value>UTF8String</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>bp_string_2</parameter>
+				<parameter>bp_string_4</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>utf1</parameter>
+				<parameter>bp_string_5</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>utf2</parameter>
-			</parameters>
-		</call>
-		<comment>for\Si\S=\S0\Suntil\Sutf1.lengthInBytes</comment>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_3</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<access>
-						<value>utf1</value>
-						<value>length</value>
-					</access>
-				</parameter>
+				<parameter>bp_string_6</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>
-					<access>
-						<value>utf2</value>
-						<value>length</value>
-					</access>
-				</parameter>
+				<parameter>bp_string_7</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>
-					<access>
-						<value>utf1</value>
-						<value>lengthInBytes</value>
-					</access>
-				</parameter>
+				<parameter>bp_string_8</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
 			<parameters>
-				<parameter>
-					<access>
-						<value>utf2</value>
-						<value>lengthInBytes</value>
-					</access>
-				</parameter>
+				<parameter>bp_string_9</parameter>
 			</parameters>
 		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_10</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_11</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_12</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>utfArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_13</parameter>
+			</parameters>
+		</call>
+		<assign depth="0">
+			<value>cumulativeLength</value>
+			<value>0</value>
+		</assign>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>0</from>
+			<until>
+				<access>
+					<value>utfArray</value>
+					<value>length</value>
+				</access>
+			</until>
+			<code>
+				<assign-add depth="1">
+					<value>cumulativeLength</value>
+					<value>
+						<access>
+							<value>
+								<index>
+									<value>utfArray</value>
+									<value>i</value>
+								</index>
+							</value>
+							<value>length</value>
+						</access>
+					</value>
+				</assign-add>
+			</code>
+		</for>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not-equal>
+						<value>cumulativeLength</value>
+						<value>107</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>errors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<comment>\SWorking?</comment>
 		<if-block depth="0">
 			<if>
 				<condition>
@@ -192,7 +398,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_4</parameter>
+							<parameter>bp_string_14</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -202,7 +408,17 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_5</parameter>
+							<parameter>
+								<add>
+									<value>
+										<add>
+											<value>bp_string_15</value>
+											<value>utf8Test1</value>
+										</add>
+									</value>
+									<value>bp_string_16</value>
+								</add>
+							</parameter>
 						</parameters>
 					</call>
 				</code>
