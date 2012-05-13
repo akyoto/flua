@@ -126,7 +126,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
 						while j < textLen and not text[j].isspace():
-							j += 15
+							j += 1
 						importedModule = text[h+1:j]
 						importType = self.bpIDE.getModuleImportType(importedModule)
 						if importType == 1 or importType == 2:

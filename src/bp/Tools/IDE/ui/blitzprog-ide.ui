@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -48,6 +48,9 @@
      <string>Module</string>
     </property>
     <addaction name="actionRun"/>
+    <addaction name="separator"/>
+    <addaction name="actionRunOptimized"/>
+    <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
     <addaction name="actionProperties"/>
    </widget>
@@ -367,6 +370,16 @@
   <action name="actionIntroduction">
    <property name="text">
     <string>Introduction</string>
+   </property>
+  </action>
+  <action name="actionRunOptimized">
+   <property name="text">
+    <string>Run optimized</string>
+   </property>
+  </action>
+  <action name="actionRunProfiler">
+   <property name="text">
+    <string>Run with profiler</string>
    </property>
   </action>
  </widget>

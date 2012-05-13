@@ -1,12 +1,14 @@
-#include <cstring>
-
-inline size_t bp_strlen(const char* ptr) {
-	return strlen(ptr);
-}
+﻿#include <cstring>
+#define _toString(x) (new BPUTF8String(const_cast<char*>(x)))
 
 template <typename T>
 inline size_t bp_insertInt(char* ptr, const T num, const size_t index) {
 	return fast_itoa_10(num, ptr + index);
+}
+
+template <typename T>
+inline size_t bp_strlen(T ptr) {
+	return strlen(ptr);
 }
 
 /**
@@ -41,5 +43,6 @@ size_t fast_itoa_10(T value, char* result) {
 		*ptr--= *ptr1;
 		*ptr1++ = tmp_char;
 	}
+	
 	return numbersAdded;
 }

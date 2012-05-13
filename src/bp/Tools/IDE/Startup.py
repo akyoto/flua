@@ -223,7 +223,9 @@ b.doSomething()
 		self.actionPreferences.triggered.connect(self.preferences.show)
 		
 		# Module
-		self.actionRun.triggered.connect(self.runModule)
+		self.actionRun.triggered.connect(self.onRunModule)
+		self.actionRunOptimized.triggered.connect(self.runModuleOptimized)
+		self.actionRunProfiler.triggered.connect(self.runProfiler)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Help
@@ -245,9 +247,9 @@ b.doSomething()
 				'include-file': cf('#666666'),
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
-				'comment': cf('#107010', 'italic',),
+				'comment': cf('#d05000', 'italic',),
 				'disabled': cf('#dddddd', 'italic'),
-				'self': cf('#777777'),
+				'self': cf('#661166'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'own-function': cf('#171717', 'bold'),

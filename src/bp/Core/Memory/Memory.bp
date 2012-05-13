@@ -1,1 +1,101 @@
-<module><header><title/><dependencies><import>bp.Core</import></dependencies><strings/></header><code><target depth="0"><name>C++</name><code><include depth="1">Memory.hpp</include></code></target><function depth="0"><parameters><parameter>source</parameter><parameter>dest</parameter><parameter>size</parameter></parameters><name>copyMem</name><code><call depth="1"><function>bp_copyMem</function><parameters><parameter>source</parameter><parameter>dest</parameter><parameter>size</parameter></parameters></call></code></function><extern depth="0"><extern-function depth="1"><name>bp_copyMem</name></extern-function><class depth="1"><name>MemPointer</name><code><template depth="2"><parameter depth="3">TDataType</parameter></template><function depth="2"><parameters><parameter>size</parameter></parameters><name>init</name><code><noop depth="3"/></code></function><function depth="2"><name>free</name><code><noop depth="3"/></code></function><operators depth="2"><operator depth="3"><parameters><parameter>index</parameter></parameters><name>[]</name><code><declare-type depth="4"><value>retValue</value><value>TDataType</value></declare-type><return depth="4">retValue</return></code></operator></operators><set depth="2"><setter depth="3"><parameters><parameter>nValue</parameter></parameters><name>data</name><code><noop depth="4"/></code></setter></set><get depth="2"><getter depth="3"><name>data</name><code><declare-type depth="4"><value>retValue</value><value>TDataType</value></declare-type><return depth="4">retValue</return></code></getter></get></code></class></extern></code></module>
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Memory.hpp</include>
+			</code>
+		</target>
+		<function depth="0">
+			<parameters>
+				<parameter>source</parameter>
+				<parameter>dest</parameter>
+				<parameter>size</parameter>
+			</parameters>
+			<name>copyMem</name>
+			<code>
+				<call depth="1">
+					<function>bp_copyMem</function>
+					<parameters>
+						<parameter>source</parameter>
+						<parameter>dest</parameter>
+						<parameter>size</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_copyMem</name>
+			</extern-function>
+			<class depth="1">
+				<name>MemPointer</name>
+				<code>
+					<template depth="2">
+						<parameter depth="3">TDataType</parameter>
+					</template>
+					<function depth="2">
+						<parameters>
+							<parameter>size</parameter>
+						</parameters>
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</function>
+					<function depth="2">
+						<name>free</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</function>
+					<operators depth="2">
+						<operator depth="3">
+							<parameters>
+								<parameter>index</parameter>
+							</parameters>
+							<name>[]</name>
+							<code>
+								<declare-type depth="4">
+									<value>retValue</value>
+									<value>TDataType</value>
+								</declare-type>
+								<return depth="4">retValue</return>
+							</code>
+						</operator>
+					</operators>
+					<set depth="2">
+						<setter depth="3">
+							<parameters>
+								<parameter>nValue</parameter>
+							</parameters>
+							<name>data</name>
+							<code>
+								<noop depth="4"/>
+							</code>
+						</setter>
+					</set>
+					<get depth="2">
+						<getter depth="3">
+							<name>data</name>
+							<code>
+								<declare-type depth="4">
+									<value>retValue</value>
+									<value>TDataType</value>
+								</declare-type>
+								<return depth="4">retValue</return>
+							</code>
+						</getter>
+					</get>
+				</code>
+			</class>
+		</extern>
+	</code>
+</module>

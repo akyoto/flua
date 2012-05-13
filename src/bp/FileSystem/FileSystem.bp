@@ -15,6 +15,27 @@
 				<include depth="1">FileSystem.hpp</include>
 			</code>
 		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_fileTime</name>
+				<type>Int64</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getCurrentDir</name>
+				<type>UTF8String</type>
+			</extern-function>
+		</extern>
+		<function depth="0">
+			<name>getCurrentDir</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCurrentDir</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
 		<class depth="0">
 			<name>File</name>
 			<code>
@@ -38,15 +59,6 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<call depth="2">
-							<function>
-								<access>
-									<value>my</value>
-									<value>open</value>
-								</access>
-							</function>
-							<parameters/>
-						</call>
 					</code>
 				</function>
 				<function depth="1">
@@ -70,6 +82,37 @@
 						<noop depth="2"/>
 					</code>
 				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>time</name>
+						<code>
+							<return depth="3">
+								<call>
+									<function>bp_fileTime</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>path</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
 			</code>
 		</class>
 		<comment> Usage example</comment>

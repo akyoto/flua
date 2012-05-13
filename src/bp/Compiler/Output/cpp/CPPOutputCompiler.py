@@ -178,6 +178,10 @@ class CPPOutputCompiler(Benchmarkable):
 			if self.gmpEnabled:
 				outStream.write("#define BP_USE_GMP\n")
 			
+			# Module import helper
+			#outStream.write("#define CPP_MODULE(x) <x.hpp>")
+			#outStream.write("#define BP_MODULE(x) <x-out.hpp>")
+			
 			# Include precompiled header
 			outStream.write("#include <precompiled/all.hpp>\n")
 			
@@ -210,8 +214,12 @@ class CPPOutputCompiler(Benchmarkable):
 			
 			outStream.write("\n#endif\n")
 	
-	def build(self, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		exe = stripExt(self.mainCppFile)
+		
+		if os.name == "nt":
+			exe += ".exe"
+		
 		if os.path.isfile(exe):
 			os.unlink(exe)
 		
@@ -238,14 +246,16 @@ class CPPOutputCompiler(Benchmarkable):
 			"-I" + fixPath("%sinclude/cpp/" % (self.bpRoot)),
 			"-I" + fixPath("%sinclude/cpp/gmp/" % (self.bpRoot)),
 			#"-L" + self.libsDir,
-		] + self.customCompilerFlags + [
+		] + self.customCompilerFlags + compilerFlags + [
 			#"-pipe",
+			
 			#"-frerun-cse-after-loop",
 			#"-frerun-loop-opt",
 			#"-ffast-math",
 			#"-O3",
 			#"-march=native",
 			#"-mtune=native",
+			
 			"-std=c++0x",
 			"-Wall",
 			"-m32",

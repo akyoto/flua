@@ -466,7 +466,16 @@ class CPPOutputFile(ScopeController):
 				self.registerVariable(CPPVariable("my", typeName, "", False, True, False))
 			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
 			
+			#  * self.currentTabLevel
+			oldTabLevel = self.currentTabLevel
+			if typeName:
+				self.currentTabLevel = 2
+			else:
+				self.currentTabLevel = 1
+			
 			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
+			
+			self.currentTabLevel = oldTabLevel - 1
 			
 			self.restoreScopes()
 			
@@ -666,7 +675,7 @@ class CPPOutputFile(ScopeController):
 		elif variableExisted:
 			return variableName + " = " + value
 		elif declaredInline:
-			return variableName + " = " + value + ";//Declared inline"
+			return variableName + " = " + value #+ ";//Declared inline"
 		else:
 			return var.getPrototype() + " = " + value
 		
@@ -1427,6 +1436,10 @@ class CPPOutputFile(ScopeController):
 		
 		if types:
 			type = types[0].childNodes[0].nodeValue
+		
+		# TODO: Remove hardcoded
+		if type == "CString":
+			type = "~MemPointer<Byte>"
 		
 		self.compiler.mainClass.addExternFunction(name, type)
 	

@@ -88,7 +88,12 @@ class CPPFunctionImplementation:
 		else:
 			funcName = self.getName()
 		
-		return "// %s\n\tinline %s %s(%s) {\n%s\t}\n" % (funcName, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code)
+		if self.classImpl.getName():
+			tabs = "\t"
+		else:
+			tabs = ""
+		
+		return "// %s\n%sinline %s %s(%s) {\n%s%s}\n" % (funcName, tabs, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
 	
 	def getConstructorCode(self):
 		# TODO: Add parameters

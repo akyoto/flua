@@ -49,7 +49,7 @@ dataTypeDefinitions = {
 	"Float" : "float",
 	"Float32" : "float",
 	"Float64" : "double",
-	"CString" : "const Byte *",
+	"CString" : "Byte *",
 	"BigInt" : "mpz_class",
 }
 

@@ -112,7 +112,25 @@ class MenuActions:
 			if getModuleDir() in fixPath(filePath):
 				self.moduleView.reloadModuleDirectory()
 	
-	def runModule(self):
+	def runModuleOptimized(self):
+		self.runModule([
+			"-O3",
+			"-march=native",
+			"-mtune=native",
+		])
+	
+	def runProfiler(self):
+		self.notImplemented()
+	
+	def notImplemented(self):
+		msg = QtGui.QMessageBox(self)
+		msg.setText("Not implemented yet")
+		msg.show()
+	
+	def onRunModule(self):
+		self.runModule([])
+	
+	def runModule(self, compilerFlags = []):
 		if self.codeEdit is None:
 			return
 		
@@ -130,7 +148,7 @@ class MenuActions:
 				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
 				cpp.compile(bpPostPFile)
 				cpp.writeToFS()
-				exe = cpp.build()
+				exe = cpp.build(compilerFlags)
 				
 				print("-" * 80)
 				self.endBenchmark()

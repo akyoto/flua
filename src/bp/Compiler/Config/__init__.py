@@ -5,7 +5,9 @@ buildAndExecute = 1
 buildGraphViz = 0
 
 def getModuleDir():
-	return extractDir(os.path.abspath("../../"))
+	scriptPath = extractDir(os.path.realpath(__file__))
+	return fixPath(os.path.abspath(scriptPath + "../../../"))
+	#return extractDir(os.path.abspath("../../"))
 
 def getGCCCompilerPath():
 	if os.name == "nt":
