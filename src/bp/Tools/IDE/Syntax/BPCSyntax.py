@@ -112,9 +112,17 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					h += 1
 				expr = text[i:h]
 				
+				# No highlighting for unicode
+				ascii = ord(char)
+				if ascii > 255:
+					i = h
+					continue
+				
 				#print(ord(expr[0]))
 				#print(BPCHighlighter.keywords[ord(expr[0])])
-				if expr in (BPCHighlighter.keywords[ord(expr[0])]):
+				
+				
+				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
