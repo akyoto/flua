@@ -1,7 +1,10 @@
 import subprocess
+import sys
 from PyQt4 import QtGui
 
 def startProcess(cmd, fhOut, fhErr):
+	#fhOut = sys.stdout.write
+	#fhErr = sys.stderr.write
 	line = ""
 	errLine = ""
 	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)

@@ -999,7 +999,7 @@ class CPPOutputFile(ScopeController):
 		
 		#if funcName == "distance":
 		#	debugStop()
-		print(caller, callerType, funcName)
+		#print(caller, callerType, funcName)
 		if not funcName.startswith("bp_"):
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)
 			#funcImpl = callerClassImpl.getFuncImplementation(funcName, paramTypes)

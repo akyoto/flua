@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Math</import>
+			<import>bp.Math.Geometry</import>
 			<import>Point</import>
 		</dependencies>
 		<strings/>
@@ -221,20 +222,17 @@
 									</call>
 								</value>
 								<value>
-									<multiply>
-										<value>
-											<access>
-												<value>my</value>
-												<value>radius</value>
-											</access>
-										</value>
-										<value>
-											<access>
-												<value>my</value>
-												<value>radius</value>
-											</access>
-										</value>
-									</multiply>
+									<call>
+										<function>sq</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>radius</value>
+												</access>
+											</parameter>
+										</parameters>
+									</call>
 								</value>
 							</less-or-equal>
 						</return>
@@ -323,10 +321,12 @@
 							<less>
 								<value>distance</value>
 								<value>
-									<multiply>
-										<value>sumRadi</value>
-										<value>sumRadi</value>
-									</multiply>
+									<call>
+										<function>sq</function>
+										<parameters>
+											<parameter>sumRadi</parameter>
+										</parameters>
+									</call>
 								</value>
 							</less>
 						</return>

@@ -1,1 +1,250 @@
-<module><header><title/><dependencies><import>bp.Core</import><import>Euclidean</import></dependencies><strings/></header><code/></module>
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Euclidean</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Geometry.hpp</include>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_sin</name>
+				<type>Float64</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_cos</name>
+				<type>Float64</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_atan2</name>
+				<type>Float64</type>
+			</extern-function>
+		</extern>
+		<comment>\SVars</comment>
+		<const depth="0">
+			<assign>
+				<value>pi</value>
+				<value>3.14159265358979323846264338327</value>
+			</assign>
+		</const>
+		<const depth="0">
+			<assign>
+				<value>DEG_TO_RAD</value>
+				<value>0.0174532925199432957692369076848861</value>
+			</assign>
+		</const>
+		<const depth="0">
+			<assign>
+				<value>RAD_TO_DEG</value>
+				<value>57.2957795130823208767981548141052</value>
+			</assign>
+		</const>
+		<comment>\SFunctions</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>deg</parameter>
+			</parameters>
+			<name>degToRad</name>
+			<code>
+				<return depth="1">
+					<multiply>
+						<value>deg</value>
+						<value>DEG_TO_RAD</value>
+					</multiply>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>rad</parameter>
+			</parameters>
+			<name>radToDeg</name>
+			<code>
+				<return depth="1">
+					<multiply>
+						<value>rad</value>
+						<value>RAD_TO_DEG</value>
+					</multiply>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>radian</parameter>
+			</parameters>
+			<name>sin</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_sin</function>
+						<parameters>
+							<parameter>radian</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>radian</parameter>
+			</parameters>
+			<name>cos</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_cos</function>
+						<parameters>
+							<parameter>radian</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+				<parameter>y</parameter>
+			</parameters>
+			<name>aTan2</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_atan2</function>
+						<parameters>
+							<parameter>y</parameter>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>degree</parameter>
+			</parameters>
+			<name>sinDegree</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_sin</function>
+						<parameters>
+							<parameter>
+								<call>
+									<function>degToRad</function>
+									<parameters>
+										<parameter>degree</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>degree</parameter>
+			</parameters>
+			<name>cosDegree</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_cos</function>
+						<parameters>
+							<parameter>
+								<call>
+									<function>radToDeg</function>
+									<parameters>
+										<parameter>degree</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>x1</parameter>
+				<parameter>y1</parameter>
+				<parameter>x2</parameter>
+				<parameter>y2</parameter>
+			</parameters>
+			<name>distanceSq</name>
+			<code>
+				<assign depth="1">
+					<value>dX</value>
+					<value>
+						<subtract>
+							<value>x2</value>
+							<value>x1</value>
+						</subtract>
+					</value>
+				</assign>
+				<assign depth="1">
+					<value>dY</value>
+					<value>
+						<subtract>
+							<value>y2</value>
+							<value>y1</value>
+						</subtract>
+					</value>
+				</assign>
+				<return depth="1">
+					<add>
+						<value>
+							<multiply>
+								<value>dX</value>
+								<value>dX</value>
+							</multiply>
+						</value>
+						<value>
+							<multiply>
+								<value>dY</value>
+								<value>dY</value>
+							</multiply>
+						</value>
+					</add>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>x1</parameter>
+				<parameter>y1</parameter>
+				<parameter>x2</parameter>
+				<parameter>y2</parameter>
+			</parameters>
+			<name>distance</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>sqr</function>
+						<parameters>
+							<parameter>
+								<call>
+									<function>distanceSq</function>
+									<parameters>
+										<parameter>x1</parameter>
+										<parameter>y1</parameter>
+										<parameter>x2</parameter>
+										<parameter>y2</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+	</code>
+</module>
