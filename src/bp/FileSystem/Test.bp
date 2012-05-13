@@ -7,7 +7,7 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">../</string>
-			<string id="bp_string_1">IDE/bp_ide.py</string>
+			<string id="bp_string_1">IDE/tmp/</string>
 		</strings>
 	</header>
 	<code>
@@ -40,21 +40,9 @@
 			</parameters>
 		</call>
 		<call depth="0">
-			<function>print</function>
+			<function>changeDir</function>
 			<parameters>
-				<parameter>
-					<access>
-						<value>
-							<new>
-								<type>File</type>
-								<parameters>
-									<parameter>bp_string_1</parameter>
-								</parameters>
-							</new>
-						</value>
-						<value>modificationTime</value>
-					</access>
-				</parameter>
+				<parameter>bp_string_1</parameter>
 			</parameters>
 		</call>
 	</code>

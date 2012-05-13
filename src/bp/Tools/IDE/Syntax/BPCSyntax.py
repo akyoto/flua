@@ -121,7 +121,6 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#print(ord(expr[0]))
 				#print(BPCHighlighter.keywords[ord(expr[0])])
 				
-				
 				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
@@ -146,7 +145,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						h = j
 					elif expr == "until" or expr == "to":
 						# Possible bug, but ignorable
-						if text.lstrip()[:3] == "for":
+						if len(text) >= 3 and text.lstrip()[:3] == "for":
 							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])

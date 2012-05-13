@@ -644,6 +644,8 @@ class BPPostProcessorFile:
 						# Retrieve the parent they have in common
 						while not node.parentNode.isSameNode(myParent):
 							node = node.parentNode
+							if not node:
+								raise CompilerException("Could not retrieve dependency information for '%s'" % nodeToBPC(xmlNode))
 					
 					# Now we have a node, but we need a DTree
 					if not node in self.dTreeByNode:

@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Math</import>
 			<import>Euclidean</import>
 		</dependencies>
 		<strings/>

@@ -16,6 +16,24 @@ time_t bp_fileModificationTime(T file) {
 	return fileInfo.st_mtime;
 }
 
+// bp_deleteFile
+inline bool bp_deleteFile(BPUTF8String* fileName) {
+	return !remove(*fileName);
+}
+
+// bp_renameFile
+inline bool bp_renameFile(BPUTF8String* oldFile, BPUTF8String* newFile) {
+	return !rename(*oldFile, *newFile); 
+}
+
+// bp_fileExists
+inline bool bp_fileExists(BPUTF8String* fileName) {
+	struct stat fileInfo;
+	if(stat(*fileName, &fileInfo))
+		return false;
+	return true;
+}
+
 // bp_changeDir
 inline bool bp_changeDir(BPUTF8String* url) {
 	return !chdir(*url);

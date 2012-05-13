@@ -24,6 +24,18 @@
 				<name>bp_getCurrentDir</name>
 				<type>UTF8String</type>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_deleteFile</name>
+				<type>Bool</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_renameFile</name>
+				<type>Bool</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_fileExists</name>
+				<type>Bool</type>
+			</extern-function>
 		</extern>
 		<function depth="0">
 			<name>getCurrentDir</name>
@@ -48,6 +60,56 @@
 						<parameter>path</parameter>
 					</parameters>
 				</call>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>deleteFile</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_deleteFile</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>from</parameter>
+				<parameter>to</parameter>
+			</parameters>
+			<name>renameFile</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_renameFile</function>
+						<parameters>
+							<parameter>from</parameter>
+							<parameter>to</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>fileExists</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_fileExists</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
 			</code>
 		</function>
 		<class depth="0">
@@ -96,6 +158,26 @@
 						<noop depth="2"/>
 					</code>
 				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>to</parameter>
+					</parameters>
+					<name>rename</name>
+					<code>
+						<call depth="2">
+							<function>renameFile</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>path</value>
+									</access>
+								</parameter>
+								<parameter>to</parameter>
+							</parameters>
+						</call>
+					</code>
+				</function>
 				<get depth="1">
 					<getter depth="2">
 						<name>creationTime</name>
@@ -109,6 +191,24 @@
 							<return depth="3">
 								<call>
 									<function>bp_fileModificationTime</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>exists</name>
+						<code>
+							<return depth="3">
+								<call>
+									<function>fileExists</function>
 									<parameters>
 										<parameter>
 											<access>
