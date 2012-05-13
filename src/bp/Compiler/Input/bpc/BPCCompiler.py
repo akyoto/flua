@@ -76,10 +76,10 @@ class BPCCompiler:
 				# TODO: Change directory
 				self.compile(file)
 		
-	def spawnFileCompiler(self, fileIn, isMainFile, codeText = "", perLineFunc = None):
+	def spawnFileCompiler(self, fileIn, isMainFile, codeText = ""):
 		try:
 			myFile = BPCFile(self, fileIn, isMainFile)
-			myFile.compile(codeText, perLineFunc)
+			myFile.compile(codeText)
 		except CompilerException as e:
 			raise InputCompilerException(str(e), myFile)
 		return myFile

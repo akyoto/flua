@@ -9,7 +9,7 @@ class MenuActions:
 		if not fileName:
 			fileName = "./tmp/New file %d.bp" % (self.tmpCount)
 		newCodeEdit = BPCodeEdit(self)
-		newCodeEdit.openingFile = True#isOpeningFile
+		newCodeEdit.openingFile = True
 		
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)

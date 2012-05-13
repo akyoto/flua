@@ -23,17 +23,8 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		#yappi.start()
 		if self.codeEdit.openingFile:
 			# No delay when opening files
-			sleepFunc = None
 			self.codeEdit.openingFile = False
-		else:
-			# While working, sleep a bit
-			#sleepTime = max(1000 / max(len(codeText), 100), 10)
-			#print("Sleeping %d ms per line" % sleepTime)
-			
-			qApp = QtGui.QApplication.instance()
-			sleepFunc = lambda: qApp.processEvents()
 		
-		#self.bpIDE.msgView.clear()
 		#self.codeEdit.clearHighlights()
 		
 		self.lastException = None
@@ -41,7 +32,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
 			self.startBenchmark("[%s] Parser" % stripDir(filePath))
-			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText, sleepFunc)
+			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
 			if self.bpcFile.inFunction != 0:
 				print("inFunction: " +  str(self.bpcFile.inFunction))
 		except InputCompilerException as e:
