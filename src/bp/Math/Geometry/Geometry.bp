@@ -28,7 +28,6 @@
 				<type>Float64</type>
 			</extern-function>
 		</extern>
-		<comment>\SVars</comment>
 		<const depth="0">
 			<assign>
 				<value>pi</value>
@@ -47,7 +46,6 @@
 				<value>57.2957795130823208767981548141052</value>
 			</assign>
 		</const>
-		<comment>\SFunctions</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>deg</parameter>

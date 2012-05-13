@@ -17,7 +17,7 @@
 		</target>
 		<extern depth="0">
 			<extern-function depth="1">
-				<name>bp_fileTime</name>
+				<name>bp_fileModificationTime</name>
 				<type>Int64</type>
 			</extern-function>
 			<extern-function depth="1">
@@ -115,7 +115,7 @@
 				</get>
 			</code>
 		</class>
-		<comment> Usage example</comment>
+		<comment>\SUsage\Sexample</comment>
 		<test depth="0">
 			<assign depth="1">
 				<value>a</value>

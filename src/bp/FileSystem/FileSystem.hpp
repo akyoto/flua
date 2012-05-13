@@ -5,7 +5,7 @@
 #include <iostream>
 
 template <typename T>
-time_t bp_fileTime(T file) {
+time_t bp_fileModificationTime(T file) {
 	struct stat fileInfo;
 	
 	if(stat(*file, &fileInfo) != 0) {
@@ -19,7 +19,7 @@ BPUTF8String* bp_getCurrentDir() {
 	char temp[PATH_MAX];
 	
 	if(getcwd(temp, PATH_MAX) != NULL) {
-		//std::cout << temp << "<-" << std::endl;
+		std::cout << temp << "<-" << std::endl;
 		return new BPUTF8String(temp);
 	}
 	

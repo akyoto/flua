@@ -29,21 +29,21 @@
 		</extern>
 		<function depth="0">
 			<parameters>
-				<parameter>num</parameter>
+				<parameter>x</parameter>
 			</parameters>
 			<name>sq</name>
 			<code>
 				<return depth="1">
 					<multiply>
-						<value>num</value>
-						<value>num</value>
+						<value>x</value>
+						<value>x</value>
 					</multiply>
 				</return>
 			</code>
 		</function>
 		<function depth="0">
 			<parameters>
-				<parameter>num</parameter>
+				<parameter>x</parameter>
 			</parameters>
 			<name>sqr</name>
 			<code>
@@ -51,7 +51,7 @@
 					<call>
 						<function>bp_sqrt</function>
 						<parameters>
-							<parameter>num</parameter>
+							<parameter>x</parameter>
 						</parameters>
 					</call>
 				</return>

@@ -249,7 +249,7 @@ b.doSomething()
 				'string2': cf('darkMagenta'),
 				'comment': cf('#d05000', 'italic',),
 				'disabled': cf('#dddddd', 'italic'),
-				'self': cf('#661166'),
+				'self': cf('#666666'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'own-function': cf('#171717', 'bold'),
