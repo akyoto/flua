@@ -443,7 +443,7 @@ class ExpressionParser:
 		#expr = expr.replace(" in ", " }= ")
 		
 		expr = " " + expr
-		expr = expr.replace(" not ", "!")
+		expr = expr.replace("not ", "!")
 		#print("buildXMLTree: " + expr)
 		
 		expr = self.buildCleanExpr(expr)

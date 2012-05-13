@@ -7,9 +7,10 @@
 		<strings>
 			<string id="bp_string_0">κόσμε</string>
 			<string id="bp_string_1">εμσόκ</string>
-			<string id="bp_string_2">UTF-8 output: </string>
-			<string id="bp_string_3">Unicode (UTF-8) NOT working!</string>
-			<string id="bp_string_4">Unicode (UTF-8) perfectly working!</string>
+			<string id="bp_string_2">UTF-8\Soutput:\S</string>
+			<string id="bp_string_3">\E</string>
+			<string id="bp_string_4">Unicode\S(UTF-8)\SNOT\Sworking!</string>
+			<string id="bp_string_5">Unicode\S(UTF-8)\Sperfectly\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -106,6 +107,7 @@
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
+					<comment>print\Sutf1.data[i]</comment>
 				</code>
 			</if>
 		</if-block>
@@ -125,6 +127,13 @@
 			<function>print</function>
 			<parameters>
 				<parameter>utf2</parameter>
+			</parameters>
+		</call>
+		<comment>for\Si\S=\S0\Suntil\Sutf1.lengthInBytes</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_3</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
@@ -183,7 +192,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_3</parameter>
+							<parameter>bp_string_4</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -193,7 +202,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_4</parameter>
+							<parameter>bp_string_5</parameter>
 						</parameters>
 					</call>
 				</code>

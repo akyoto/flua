@@ -42,10 +42,14 @@ def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")
 
 def encodeCDATA(data):
-	return data.replace("\t", "\\T")
+	if not data:
+		return "\\E"
+	return data.replace("\t", "\\T").replace(" ", "\\S")
 	
 def decodeCDATA(data):
-	return data.replace("\\T", "\t")
+	if data != "\\E":
+		return data.replace("\\T", "\t").replace("\\S", " ")
+	return ""
 	
 def isTextNode(node):
 	if node is None:

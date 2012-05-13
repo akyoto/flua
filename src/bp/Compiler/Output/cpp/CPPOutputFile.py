@@ -1053,8 +1053,12 @@ class CPPOutputFile(ScopeController):
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
-				#return "~MemPointer<ConstChar>"
-				return "UTF8String"
+				if self.stringClassDefined:
+					# All modules that import UTF8String have it defined
+					return "UTF8String"
+				else:
+					# Modules who are compiled before that have to live with CStrings
+					return "~MemPointer<ConstChar>"
 			elif node.nodeValue == "True" or node.nodeValue == "False":
 				return "Bool"
 			elif node.nodeValue == "my":

@@ -459,6 +459,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		#else:
 		#blockCode = blockCode + "\t" * tabLevel
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
+	elif nodeName == "not":
+		return "not " + nodeToBPC(node.firstChild, 0, conv)
 	# Binary operations
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]
@@ -490,7 +492,6 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		opSymbol = binaryOperatorTagToSymbol[nodeName]
 		if opSymbol in translateLogicalOperatorSign:
 			opSymbol = translateLogicalOperatorSign[opSymbol]
-			
 		
 		return prefix + nodeToBPC(op1, 0, conv) + space + opSymbol + space + nodeToBPC(op2, 0, conv) + postfix
 	

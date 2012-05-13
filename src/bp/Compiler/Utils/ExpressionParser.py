@@ -100,6 +100,16 @@ bpOperatorLevels = [
 		Operator("~=", "almost-equal", Operator.BINARY),
 	],
 	
+	# 10: Bitwise AND
+	[
+		Operator("&", "bitwise-and", Operator.BINARY),
+	],
+	
+	# 12: Bitwise OR
+	[
+		Operator("|", "bitwise-or", Operator.BINARY),
+	],
+	
 	# 13: Logical AND
 	[
 		Operator("&&", "and", Operator.BINARY),

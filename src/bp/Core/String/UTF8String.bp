@@ -9,11 +9,11 @@
 		<strings/>
 	</header>
 	<code>
-		<comment> UTF-8 encoded immutable string</comment>
+		<comment>\SUTF-8\Sencoded\Simmutable\Sstring</comment>
 		<class depth="0">
 			<name>UTF8String</name>
 			<code>
-				<comment> Default constructor</comment>
+				<comment>\SDefault\Sconstructor</comment>
 				<function depth="1">
 					<name>init</name>
 					<code>
@@ -44,10 +44,19 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<comment>my.data[0] = 0</comment>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+						<comment>my.data[0]\S=\S0</comment>
 					</code>
 				</function>
-				<comment> Init from 2 strings</comment>
+				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>s1</parameter>
@@ -187,9 +196,30 @@
 								</assign>
 							</code>
 						</for>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlen_utf8</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
 					</code>
 				</function>
-				<comment> Init from string + integer</comment>
+				<comment>\SInit\Sfrom\Sstring\S+\Sinteger</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>s1</parameter>
@@ -202,7 +232,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<comment> Maximum character count for &quot;-2147483648&quot; = 11 characters</comment>
+						<comment>\SMaximum\Scharacter\Scount\Sfor\S&quot;-2147483648&quot;\S=\S11\Scharacters</comment>
 						<assign depth="2">
 							<value>
 								<access>
@@ -308,9 +338,30 @@
 								</add>
 							</value>
 						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlen_utf8</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
 					</code>
 				</function>
-				<comment> Init from C-String</comment>
+				<comment>\SInit\Sfrom\SC-String</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -370,8 +421,29 @@
 								</call>
 							</value>
 						</assign>
-						<comment>my.data = bytes</comment>
-						<comment>my.lengthInBytes = bp_strlen(bytes)</comment>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlen_utf8</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<comment>my.data\S=\Sbytes</comment>
+						<comment>my.lengthInBytes\S=\Sbp_strlen(bytes)</comment>
 					</code>
 				</function>
 				<operators depth="1">
@@ -441,113 +513,12 @@
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<assign depth="3">
-								<value>
-									<declare-type>
-										<value>count</value>
-										<value>Size</value>
-									</declare-type>
-								</value>
-								<value>0</value>
-							</assign>
-							<assign depth="3">
-								<value>len</value>
-								<value>
-									<access>
-										<value>my</value>
-										<value>lengthInBytes</value>
-									</access>
-								</value>
-							</assign>
-							<for depth="3">
-								<iterator>i</iterator>
-								<from>0</from>
-								<until>len</until>
-								<code>
-									<assign depth="4">
-										<value>lead</value>
-										<value>
-											<index>
-												<value>
-													<access>
-														<value>my</value>
-														<value>data</value>
-													</access>
-												</value>
-												<value>i</value>
-											</index>
-										</value>
-									</assign>
-									<assign-add depth="4">
-										<value>count</value>
-										<value>1</value>
-									</assign-add>
-									<if-block depth="4">
-										<if>
-											<condition>
-												<call>
-													<function>isUTF8Lead1</function>
-													<parameters>
-														<parameter>lead</parameter>
-													</parameters>
-												</call>
-											</condition>
-											<code>
-												<continue depth="5"/>
-											</code>
-										</if>
-										<else-if depth="4">
-											<condition>
-												<call>
-													<function>isUTF8Lead2</function>
-													<parameters>
-														<parameter>lead</parameter>
-													</parameters>
-												</call>
-											</condition>
-											<code>
-												<assign-add depth="5">
-													<value>i</value>
-													<value>1</value>
-												</assign-add>
-											</code>
-										</else-if>
-										<else-if depth="4">
-											<condition>
-												<call>
-													<function>isUTF8Lead3</function>
-													<parameters>
-														<parameter>lead</parameter>
-													</parameters>
-												</call>
-											</condition>
-											<code>
-												<assign-add depth="5">
-													<value>i</value>
-													<value>2</value>
-												</assign-add>
-											</code>
-										</else-if>
-										<else-if depth="4">
-											<condition>
-												<call>
-													<function>isUTF8Lead4</function>
-													<parameters>
-														<parameter>lead</parameter>
-													</parameters>
-												</call>
-											</condition>
-											<code>
-												<assign-add depth="5">
-													<value>i</value>
-													<value>3</value>
-												</assign-add>
-											</code>
-										</else-if>
-									</if-block>
-								</code>
-							</for>
-							<return depth="3">count</return>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</return>
 						</code>
 					</getter>
 					<getter depth="2">
@@ -592,7 +563,7 @@
 				</casts>
 			</code>
 		</class>
-		<comment> Extend virtual Int class by an operator</comment>
+		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0">
 			<name>Int</name>
 			<code>
@@ -622,17 +593,12 @@
 				</operators>
 			</code>
 		</class>
-		<comment> UTF-8 lead type 1</comment>
+		<comment>\SUTF-8\Slead</comment>
 		<function depth="0">
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>lead</value>
-						<value>Byte</value>
-					</declare-type>
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
-			<name>isUTF8Lead1</name>
+			<name>isUTF8Lead</name>
 			<code>
 				<return depth="1">
 					<less>
@@ -642,15 +608,10 @@
 				</return>
 			</code>
 		</function>
-		<comment> UTF-8 lead type 2</comment>
+		<comment>\SUTF-8\Slead\Stype\S2</comment>
 		<function depth="0">
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>lead</value>
-						<value>Byte</value>
-					</declare-type>
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
 			<name>isUTF8Lead2</name>
 			<code>
@@ -667,15 +628,10 @@
 				</return>
 			</code>
 		</function>
-		<comment> UTF-8 lead type 3</comment>
+		<comment>\SUTF-8\Slead\Stype\S3</comment>
 		<function depth="0">
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>lead</value>
-						<value>Byte</value>
-					</declare-type>
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
 			<name>isUTF8Lead3</name>
 			<code>
@@ -692,15 +648,10 @@
 				</return>
 			</code>
 		</function>
-		<comment> UTF-8 lead type 4</comment>
+		<comment>\SUTF-8\Slead\Stype\S4</comment>
 		<function depth="0">
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>lead</value>
-						<value>Byte</value>
-					</declare-type>
-				</parameter>
+				<parameter>lead</parameter>
 			</parameters>
 			<name>isUTF8Lead4</name>
 			<code>
@@ -717,7 +668,7 @@
 				</return>
 			</code>
 		</function>
-		<comment> Prints a UTF-8 encoded string on the console</comment>
+		<comment>\SPrints\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>

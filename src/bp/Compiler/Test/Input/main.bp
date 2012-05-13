@@ -7,13 +7,13 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">-</string>
-			<string id="bp_string_1">---</string>
-			<string id="bp_string_2">ms</string>
-			<string id="bp_string_3"> \TEnd of program.</string>
+			<string id="bp_string_1">---\n</string>
+			<string id="bp_string_2">\Sms</string>
+			<string id="bp_string_3">\S\TEnd\Sof\Sprogram.</string>
 		</strings>
 	</header>
 	<code>
-		<comment> Testing comments</comment>
+		<comment>\STesting\Scomments</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -132,24 +132,22 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_1</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
 				<parameter>
-					<subtract>
-						<value>timeB</value>
-						<value>timeA</value>
-					</subtract>
+					<add>
+						<value>
+							<add>
+								<value>bp_string_1</value>
+								<value>
+									<subtract>
+										<value>timeB</value>
+										<value>timeA</value>
+									</subtract>
+								</value>
+							</add>
+						</value>
+						<value>bp_string_2</value>
+					</add>
 				</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_2</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
