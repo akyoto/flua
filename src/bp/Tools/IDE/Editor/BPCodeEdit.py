@@ -2,6 +2,7 @@ from PyQt4 import QtGui, QtCore, uic
 from bp.Tools.IDE.Syntax.BPCSyntax import *
 from bp.Tools.IDE.Threads import *
 from bp.Compiler import *
+import collections
 #import yappi
 
 # Auto Completion
@@ -62,6 +63,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE = bpIDE
 		currentTheme = self.bpIDE.getCurrentTheme()
 		
+		self.openingFile = False
+		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
@@ -113,13 +116,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.doc = None
 		self.root = None
 		self.filePath = ""
-		self.futureText = ""
 		self.lines = []
 		self.bpcFile = None
 		
 		self.disableUpdatesFlag = True
-		self.updater = BPCodeUpdater(self)
+		self.updater = None
 		super().clear()
+		self.updater = BPCodeUpdater(self)
 		self.disableUpdatesFlag = False
 	
 	#def setBackgroundColor(self, bgColor):
@@ -391,16 +394,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Run bpc -> xml updater
 		#print(self.disableUpdatesFlag)
-		if self.updater and not self.disableUpdatesFlag and not self.updater.isRunning():
+		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()
 		
 	def runUpdater(self):
-		self.bpIDE.msgView.clear()
+		if self.updater.isRunning():
+			self.updateQueue.append(1)
+			return
 		
+		self.updateQueue.clear()
 		self.updater.setDocument(self.qdoc)
 		
 		if self.threaded:
-			self.updater.start(QtCore.QThread.NormalPriority)
+			self.updater.start(QtCore.QThread.IdlePriority)
 		else:
 			self.updater.run()
 			self.compilerFinished()
@@ -441,10 +447,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#self.bpIDE.endBenchmark()
 			
 			self.bpIDE.runPostProcessor()
-		elif self.futureText:
-			self.setPlainText(self.futureText)
-			self.futureText = ""
 		
+		# Any work in the queue left?
+		if self.updateQueue:
+			print("There is some work left!")
+			self.runUpdater()
 		#self.disableUpdatesFlag = False
 		
 	def getCurrentLine(self):
@@ -493,13 +500,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.disableUpdatesFlag = True
 		self.setPlainText("\n".join(self.lines))
 		
-		#self.futureText = 
 		self.runUpdater()
 		
 	def setXML(self, xmlCode):
 		self.disableUpdatesFlag = True
 		
 		self.doc = parseString(xmlCode.encode("utf-8"))
+		
 		self.setRoot(self.doc.documentElement)
 		
 	def goToLine(self, lineNum):

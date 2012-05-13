@@ -19,3 +19,5 @@ class Benchmarkable:
 		else:
 			bName = ""
 		print((bName).ljust(69) + str(int(buildTime * 1000)).rjust(7) + " ms")
+		
+		return int(buildTime * 1000)

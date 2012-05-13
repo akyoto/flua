@@ -1,5 +1,5 @@
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QObject, pyqtSignal
+from PyQt4.QtCore import QObject
 from bp.Compiler.Config import *
 import sys
 
@@ -7,7 +7,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 	
 	def __init__(self, parent):
 		super().__init__(parent)
-		#self.newMessagesSignal = pyqtSignal()
+		
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
 		self.flushSignal = QtCore.SIGNAL("flushRequested()")
@@ -85,7 +85,7 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 			startProcess(gccVersionCheck, self.log.write, self.log.write)
 		
 		# Intercept sys.stdout and sys.stderr
-		self.watch(self.log)
+		#self.watch(self.log)
 		
 		#vBox.addWidget(self.log)
 		

@@ -6,6 +6,11 @@ class BPMessageView(QtGui.QListWidget):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.setWordWrap(True)
+		
+		self.lastLineNumber = -2
+		self.lastErrorMessage = ""
+		self.lastErrorFilePath = ""
+		
 		#self.setContentsMargins(0, 0, 0, 0)
 		#self.setMaximumHeight(0)
 		#self.setScrollBarPolicy(QtGui.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -41,13 +46,22 @@ class BPMessageView(QtGui.QListWidget):
 	def updateViewParser(self):
 		# Last parser exception
 		ce = self.bpIDE.codeEdit
+		
 		if ce and ce.updater and ce.updater.lastException:
 			e = ce.updater.lastException
 			ce.updater.lastException = None
 			lineNumber = e.getLineNumber()
 			errorMessage = e.getMsg()
 			errorFilePath = e.getFilePath()
-			self.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
+			
+			if lineNumber != self.lastLineNumber or errorMessage != self.lastErrorMessage or errorFilePath != self.lastErrorFilePath:
+				self.clear()
+				self.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
+				self.lastLineNumber = lineNumber
+				self.lastErrorMessage = errorMessage
+				self.lastErrorFilePath = errorFilePath
+		else:
+			self.clear()
 		
 	def updateViewPostProcessor(self):
 		# Last post processor exception

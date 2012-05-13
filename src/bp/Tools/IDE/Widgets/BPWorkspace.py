@@ -53,7 +53,8 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
-			self.bpIDE.codeEdit.runUpdater()
+			if not self.bpIDE.codeEdit.openingFile:
+				self.bpIDE.codeEdit.runUpdater()
 			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)

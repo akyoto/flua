@@ -2,13 +2,14 @@ from bp.Tools.IDE.Startup import *
 
 class MenuActions:
 	
-	def newFile(self, fileName = "", runUpdater = True):
+	def newFile(self, fileName = "", isOpeningFile = False):
 		self.tmpCount += 1
 		
 		# TODO:
 		if not fileName:
 			fileName = "./tmp/New file %d.bp" % (self.tmpCount)
 		newCodeEdit = BPCodeEdit(self)
+		newCodeEdit.openingFile = True#isOpeningFile
 		
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
@@ -17,10 +18,13 @@ class MenuActions:
 		
 		self.setFilePath(fileName)
 		
-		if runUpdater:
-			newCodeEdit.runUpdater()
+		#if runUpdater:
+		#	newCodeEdit.runUpdater()
 		
 		newCodeEdit.setFocus()
+		
+		if not isOpeningFile:
+			newCodeEdit.openingFile = False
 		
 	def reopenLastFile(self):
 		if not self.currentWorkspace.filesClosed:
@@ -58,7 +62,7 @@ class MenuActions:
 			
 			# Completely new file
 			if index == -1:
-				self.newFile(fileName, runUpdater = False)
+				self.newFile(fileName, isOpeningFile = True)
 				
 				if fileName.endswith(".bp"):
 					self.loadFileToEditor(fileName)

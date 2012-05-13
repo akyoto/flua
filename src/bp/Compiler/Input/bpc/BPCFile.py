@@ -187,7 +187,7 @@ class BPCFile(ScopeController, Benchmarkable):
 	def setFilePath(self, path):
 		self.file = path
 		
-	def compile(self, codeText = None):
+	def compile(self, codeText = None, per4LinesFunc = None):
 		#print("Compiling: " + self.file)
 		
 		currentLine = None
@@ -320,6 +320,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
+			
+			if per4LinesFunc and self.lastLineCount % 4 == 0:
+				per4LinesFunc()
 		
 	def tabBack(self, currentLine, prevTabCount, currentTabCount, countIns):
 		atTab = prevTabCount
