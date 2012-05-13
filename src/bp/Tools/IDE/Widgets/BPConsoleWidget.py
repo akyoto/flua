@@ -85,11 +85,14 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 			startProcess(gccVersionCheck, self.log.write, self.log.write)
 		
 		# Intercept sys.stdout and sys.stderr
-		#self.watch(self.log)
+		self.watch(self.log)
 		
 		#vBox.addWidget(self.log)
 		
 		#self.setLayout(vBox)
+		
+	def clearLog(self):
+		self.log.setPlainText("")
 		
 	def watch(self, newLog):
 		sys.stdout = sys.stderr = newLog

@@ -36,6 +36,20 @@
 				</return>
 			</code>
 		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>changeDir</name>
+			<code>
+				<call depth="1">
+					<function>bp_changeDir</function>
+					<parameters>
+						<parameter>path</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
 		<class depth="0">
 			<name>File</name>
 			<code>
@@ -84,11 +98,17 @@
 				</function>
 				<get depth="1">
 					<getter depth="2">
-						<name>time</name>
+						<name>creationTime</name>
+						<code>
+							<return depth="3">0</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>modificationTime</name>
 						<code>
 							<return depth="3">
 								<call>
-									<function>bp_fileTime</function>
+									<function>bp_fileModificationTime</function>
 									<parameters>
 										<parameter>
 											<access>

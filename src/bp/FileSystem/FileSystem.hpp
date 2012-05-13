@@ -4,6 +4,7 @@
 #include <bp/Core/String/UTF8String-out.hpp>
 #include <iostream>
 
+// bp_fileModificationTime
 template <typename T>
 time_t bp_fileModificationTime(T file) {
 	struct stat fileInfo;
@@ -15,11 +16,16 @@ time_t bp_fileModificationTime(T file) {
 	return fileInfo.st_mtime;
 }
 
-BPUTF8String* bp_getCurrentDir() {
-	char temp[PATH_MAX];
+// bp_changeDir
+inline bool bp_changeDir(BPUTF8String* url) {
+	return !chdir(*url);
+}
+
+// bp_getCurrentDir
+inline BPUTF8String* bp_getCurrentDir() {
+	char *temp  = new (UseGC) char[PATH_MAX];
 	
 	if(getcwd(temp, PATH_MAX) != NULL) {
-		std::cout << temp << "<-" << std::endl;
 		return new BPUTF8String(temp);
 	}
 	

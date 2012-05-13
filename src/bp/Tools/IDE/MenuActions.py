@@ -112,23 +112,18 @@ class MenuActions:
 			if getModuleDir() in fixPath(filePath):
 				self.moduleView.reloadModuleDirectory()
 	
+	def runProfiler(self):
+		self.notImplemented()
+	
+	def onRunModule(self):
+		self.runModule([])
+	
 	def runModuleOptimized(self):
 		self.runModule([
 			"-O3",
 			"-march=native",
 			"-mtune=native",
 		])
-	
-	def runProfiler(self):
-		self.notImplemented()
-	
-	def notImplemented(self):
-		msg = QtGui.QMessageBox(self)
-		msg.setText("Not implemented yet")
-		msg.show()
-	
-	def onRunModule(self):
-		self.runModule([])
 	
 	def runModule(self, compilerFlags = []):
 		if self.codeEdit is None:
@@ -140,6 +135,7 @@ class MenuActions:
 			#print(self.processor.getCompiledFilesList())
 			self.codeEdit.save()
 			
+			self.console.clearLog()
 			self.msgView.clear()
 			try:
 				self.startBenchmark("C++ Build")
@@ -306,3 +302,8 @@ class MenuActions:
 			event.accept()
 		else:
 			event.ignore()
+			
+	def notImplemented(self):
+		msg = QtGui.QMessageBox(self)
+		msg.setText("Not implemented yet")
+		msg.show()
