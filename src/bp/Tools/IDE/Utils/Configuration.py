@@ -63,6 +63,9 @@ class BPConfiguration:
 			self.applyMenuFont(self.standardFont)
 		
 	def applyTheme(self, themeName):
+		if not themeName in self.bpIDE.themes:
+			return
+		
 		if isinstance(themeName, str):
 			self.themeName = themeName
 			self.theme = self.bpIDE.themes[self.themeName]
@@ -70,10 +73,15 @@ class BPConfiguration:
 			self.themeName = self.themeWidget.currentText()
 			self.theme = self.bpIDE.themes[self.themeName]
 		
+		self.dialogStyleSheet = """
+			QWidget {
+				font-family: Ubuntu, Verdana; font-size: 12px;
+			}
+		"""
+		
 		#codeEdit.setBackgroundColor(self.theme['default-background'])
 		QtGui.QApplication.instance().setStyleSheet("""
 			QPlainTextEdit { background-color: %s; }
-			
 		""" % (self.theme['default-background']))
 		
 # QTabWidget::tab-bar {

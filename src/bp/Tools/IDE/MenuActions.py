@@ -209,6 +209,7 @@ class MenuActions:
 		self.moduleProperties, existed = self.getUIFromCache("module-properties")
 		if not existed:
 			self.moduleProperties.optimizeFor.currentIndexChanged.connect(self.getOptimizeExplanation)
+			self.moduleProperties.setStyleSheet(self.config.dialogStyleSheet)
 		
 		if self.codeEdit is None:
 			return
@@ -244,16 +245,35 @@ class MenuActions:
 	def getOptimizeExplanation(self, index):
 		# 0: Numerics in this module use Int and Float as their data type by default.
 		# 1: Numerics in this module use BigInt and BigFloat as their data type by default.
+		# 2: Custom
 		if index == 0:
-			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module use Int and Float as their data type by default.")
+			self.moduleProperties.optimizeForExplanation.setPlainText("""
+Numerics in this module use Int and Float as their data type by default.
+				
+Array boundaries will not be checked and will not throw an exception.
+""".strip())
+		elif index == 1:
+			self.moduleProperties.optimizeForExplanation.setPlainText("""
+Numerics in this module use BigInt and BigFloat as their data type by default (arbitrary precision).
+				
+Array boundaries will be checked and throw an exception when needed.
+""".strip())
 		else:
-			self.moduleProperties.optimizeForExplanation.setPlainText("Numerics in this module use BigInt and BigFloat as their data type by default (arbitrary precision).")
+			self.moduleProperties.optimizeForExplanation.setPlainText("""
+This feature is currently in development.
+""".strip())
+	
+	def showPreferences(self):
+		self.preferences.setStyleSheet(self.config.dialogStyleSheet)
+		self.preferences.show()
 	
 	def undoLastAction(self):
-		self.codeEdit.undo()
+		if self.codeEdit:
+			self.codeEdit.undo()
 		
 	def redoLastAction(self):
-		self.codeEdit.redo()
+		if self.codeEdit:
+			self.codeEdit.redo()
 		
 	def thanksTo(self):
 		msgBox = QtGui.QMessageBox.about(self, "Thanks to...",

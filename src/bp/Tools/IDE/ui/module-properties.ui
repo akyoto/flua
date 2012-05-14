@@ -94,6 +94,11 @@ Author</string>
          <string extracomment="Numerics will be BigInt and BigFloat">Correctness</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Custom</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="7" column="0">

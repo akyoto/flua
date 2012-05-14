@@ -217,7 +217,7 @@ b.doSomething()
 		self.actionCopy.triggered.connect(self.codeEdit.copy)
 		self.actionCut.triggered.connect(self.codeEdit.cut)
 		self.actionPaste.triggered.connect(self.codeEdit.paste)
-		self.actionPreferences.triggered.connect(self.preferences.show)
+		self.actionPreferences.triggered.connect(self.showPreferences)
 		
 		# Module
 		self.actionRun.triggered.connect(self.onRunModule)
@@ -249,7 +249,7 @@ b.doSomething()
 				'include-file': cf('#666666'),
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
-				'comment': cf('#888888', 'italic',),
+				'comment': cf('#df4000'),
 				'disabled': cf('#dddddd', 'italic'),
 				'self': cf('#666666'),
 				'number': cf('brown'),
