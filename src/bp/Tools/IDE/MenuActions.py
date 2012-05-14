@@ -189,6 +189,46 @@ class MenuActions:
 				printTraceback()
 			
 			#cpp.compile(self.file, self.codeEdit.root)
+			
+	def showChangeLog(self):
+		if self.gitThread and self.gitThread.isRunning():
+			return
+		
+		if self.gitThread is None:
+			self.gitThread = BPGitThread(self)
+		
+		gitLogCmd = [
+			getGitPath() + "git",
+			"log",
+			"--no-color",
+			"--date=relative",
+			"--format=%ar, %an: %s"
+			#"--oneline",
+			#"-n 20",
+			#"--shortstat"
+		]
+		
+		self.changeLogDialog, existed = self.getUIFromCache("changelog")
+		
+		if not existed:
+			self.changeLog = BPLogWidget(self.changeLogDialog)
+			self.changeLog.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+			self.changeLog.setReadOnly(True)
+			self.changeLog.setStyleSheet(self.config.dialogStyleSheet)
+			self.changeLogDialog.changeLogContainer.layout().addWidget(self.changeLog)
+		
+		self.changeLog.clear()
+		
+		print("Retrieving changelog...")
+		self.gitThread.startCmd(gitLogCmd, self.changeLog)
+		#self.gitThread.wait()
+		
+		#cursor = self.changeLog.textCursor()
+		#cursor.movePosition(QtGui.QTextCursor.Start)
+		#self.changeLog.setTextCursor(cursor)
+		#self.changeLog.ensureCursorVisible()
+		
+		self.changeLogDialog.show()
 	
 	def downloadUpdates(self):
 		if self.gitThread and self.gitThread.isRunning():

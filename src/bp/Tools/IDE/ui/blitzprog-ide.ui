@@ -60,6 +60,7 @@
     </property>
     <addaction name="actionIntroduction"/>
     <addaction name="separator"/>
+    <addaction name="actionChangeLog"/>
     <addaction name="actionDownloadUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
@@ -395,6 +396,11 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="actionChangeLog">
+   <property name="text">
+    <string>Changelog</string>
    </property>
   </action>
  </widget>

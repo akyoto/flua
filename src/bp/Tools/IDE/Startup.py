@@ -231,6 +231,7 @@ b.doSomething()
 		# Help
 		self.actionIntroduction.triggered.connect(self.showIntroduction)
 		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
+		self.actionChangeLog.triggered.connect(self.showChangeLog)
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		
