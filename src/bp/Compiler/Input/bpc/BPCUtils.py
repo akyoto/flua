@@ -76,6 +76,7 @@ xmlToBPCBlock = {
 
 xmlToBPCExprBlock = {
 	"target" : ["target", "name", "code"],
+	"namespace" : ["namespace", "name", "code"],
 	"if" : ["if", "condition", "code"],
 	"else-if" : ["elif", "condition", "code"],
 	"try" : ["try", "", "code"],

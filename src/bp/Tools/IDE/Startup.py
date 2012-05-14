@@ -266,9 +266,9 @@ b.doSomething()
 				'class-operator': cf('#008000', useBold),
 				'class-cast-definition': cf('#500050', useBold),
 				'class-name': cf('#000030'),
-				'local-module-import': cf('#661166', useBold),
+				'local-module-import': cf('#aa1111', useBold),
 				'project-module-import': cf('#378737', useBold),
-				'global-module-import': cf('#373737', useBold),
+				'global-module-import': cf('#aa11aa', useBold),
 				'current-line' : None#QtGui.QColor("#fefefe")
 			},
 		}

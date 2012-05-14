@@ -250,18 +250,24 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#	self.completer.popup().show()
 		# Disable wrong indentation
 		elif event.key() == QtCore.Qt.Key_Tab:
-			cursor = self.textCursor()
-			pos = cursor.position()
-			block = self.qdoc.findBlock(pos)
-			prevBlock = block.previous()
-			
-			line = block.text()
-			tabLevel = countTabs(line)
-			prevLine = prevBlock.text()
-			prevTabLevel = countTabs(prevLine)
-			
-			if not prevLine or tabLevel <= prevTabLevel or not line[:pos - block.position()].isspace():
-				super().keyPressEvent(event)
+			if self.textCursor().hasSelection():
+				if event.modifiers() == QtCore.Qt.ShiftModifier:
+					self.unIndentSelection()
+				else:
+					self.indentSelection()
+			else:
+				cursor = self.textCursor()
+				pos = cursor.position()
+				block = self.qdoc.findBlock(pos)
+				prevBlock = block.previous()
+				
+				line = block.text()
+				tabLevel = countTabs(line)
+				prevLine = prevBlock.text()
+				prevTabLevel = countTabs(prevLine)
+				
+				if not prevLine or tabLevel <= prevTabLevel or not line[:pos - block.position()].isspace():
+					super().keyPressEvent(event)
 		
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:
@@ -336,6 +342,41 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	print("Yo!")
 		else:
 			super().keyPressEvent(event)
+	
+	def indentSelection(self):
+		tab = "\t"
+		tabLen = 1
+		
+		cursor = self.textCursor()
+		cursor.beginEditBlock()
+		
+		# Previous selection
+		selStart = cursor.selectionStart()
+		selEnd = cursor.selectionEnd()
+		cursor.setPosition(selEnd, QtGui.QTextCursor.MoveAnchor)
+		blockEnd = cursor.blockNumber()
+		
+		# First block
+		cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
+		cursor.insertText(tab)
+		selEnd += tabLen
+		
+		# All selected blocks
+		while cursor.blockNumber() < blockEnd:
+			cursor.movePosition(QtGui.QTextCursor.NextBlock, QtGui.QTextCursor.MoveAnchor)
+			cursor.movePosition(QtGui.QTextCursor.StartOfBlock, QtGui.QTextCursor.MoveAnchor)
+			cursor.insertText(tab)
+			selEnd += tabLen
+		
+		# Restore old selection
+		cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
+		cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
+		
+		cursor.endEditBlock()
+		self.setTextCursor(cursor)
+	
+	def unIndentSelection(self):
+		print("unindent")
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])

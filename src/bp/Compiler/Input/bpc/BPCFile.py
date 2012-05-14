@@ -203,6 +203,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"in" : self.handleIn,
 			"include" : self.handleInclude,
 			"maybe" : self.handleMaybe,
+			"namespace" : self.handleNamespace,
 			"..." : self.handleNOOP,
 			"operator" : self.handleOperatorBlock,
 			"private" : self.handlePrivate,
@@ -603,6 +604,21 @@ class BPCFile(ScopeController, Benchmarkable):
 		expr = self.doc.createElement("expression")
 		code = self.doc.createElement("code")
 		expr.appendChild(self.parseExpr(line[len("in")+1:]))
+		
+		node.appendChild(expr)
+		node.appendChild(code)
+		
+		self.nextNode = code
+		return node
+		
+	def handleNamespace(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("namespace", line)
+		
+		node = self.doc.createElement("namespace")
+		expr = self.doc.createElement("name")
+		code = self.doc.createElement("code")
+		expr.appendChild(self.parseExpr(line[len("namespace")+1:]))
 		
 		node.appendChild(expr)
 		node.appendChild(code)

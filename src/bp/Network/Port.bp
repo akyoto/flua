@@ -2,108 +2,64 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<assign>
-			<value>
-				Echo
-			</value>
-			<value>
-				7
-			</value>
-		</assign>
-		<assign>
-			<value>
-				FTPData
-			</value>
-			<value>
-				20
-			</value>
-		</assign>
-		<assign>
-			<value>
-				FTP
-			</value>
-			<value>
-				21
-			</value>
-		</assign>
-		<assign>
-			<value>
-				SSH
-			</value>
-			<value>
-				22
-			</value>
-		</assign>
-		<assign>
-			<value>
-				Telnet
-			</value>
-			<value>
-				23
-			</value>
-		</assign>
-		<assign>
-			<value>
-				SMTP
-			</value>
-			<value>
-				25
-			</value>
-		</assign>
-		<assign>
-			<value>
-				ESMTP
-			</value>
-			<value>
-				25
-			</value>
-		</assign>
-		<assign>
-			<value>
-				Nameserver
-			</value>
-			<value>
-				42
-			</value>
-		</assign>
-		<assign>
-			<value>
-				Whois
-			</value>
-			<value>
-				43
-			</value>
-		</assign>
-		<assign>
-			<value>
-				HTTP
-			</value>
-			<value>
-				80
-			</value>
-		</assign>
-		<assign>
-			<value>
-				HTTPS
-			</value>
-			<value>
-				443
-			</value>
-		</assign>
-		<assign>
-			<value>
-				MySQL
-			</value>
-			<value>
-				3306
-			</value>
-		</assign>
+		<comment>\SUsage:\SPort.FTP</comment>
+		<namespace depth="0">
+			<name>Port</name>
+			<code>
+				<assign depth="1">
+					<value>Echo</value>
+					<value>7</value>
+				</assign>
+				<assign depth="1">
+					<value>FTPData</value>
+					<value>20</value>
+				</assign>
+				<assign depth="1">
+					<value>FTP</value>
+					<value>21</value>
+				</assign>
+				<assign depth="1">
+					<value>SSH</value>
+					<value>22</value>
+				</assign>
+				<assign depth="1">
+					<value>Telnet</value>
+					<value>23</value>
+				</assign>
+				<assign depth="1">
+					<value>SMTP</value>
+					<value>25</value>
+				</assign>
+				<assign depth="1">
+					<value>ESMTP</value>
+					<value>25</value>
+				</assign>
+				<assign depth="1">
+					<value>Nameserver</value>
+					<value>42</value>
+				</assign>
+				<assign depth="1">
+					<value>Whois</value>
+					<value>43</value>
+				</assign>
+				<assign depth="1">
+					<value>HTTP</value>
+					<value>80</value>
+				</assign>
+				<assign depth="1">
+					<value>HTTPS</value>
+					<value>443</value>
+				</assign>
+				<assign depth="1">
+					<value>MySQL</value>
+					<value>3306</value>
+				</assign>
+			</code>
+		</namespace>
 	</code>
 </module>

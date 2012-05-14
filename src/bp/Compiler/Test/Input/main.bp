@@ -6,11 +6,9 @@
 			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">yo\Slet's\Sgo!</string>
-			<string id="bp_string_1">-</string>
-			<string id="bp_string_2">---\n</string>
-			<string id="bp_string_3">\Sms</string>
-			<string id="bp_string_4">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
+			<string id="bp_string_0">---\n</string>
+			<string id="bp_string_1">\Sms</string>
+			<string id="bp_string_2">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
 		</strings>
 	</header>
 	<code>
@@ -54,18 +52,6 @@
 				</return>
 			</code>
 		</function>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_1</parameter>
-			</parameters>
-		</call>
 		<assign depth="0">
 			<value>timeA</value>
 			<value>
@@ -143,7 +129,7 @@
 					<add>
 						<value>
 							<add>
-								<value>bp_string_2</value>
+								<value>bp_string_0</value>
 								<value>
 									<subtract>
 										<value>timeB</value>
@@ -152,7 +138,7 @@
 								</value>
 							</add>
 						</value>
-						<value>bp_string_3</value>
+						<value>bp_string_1</value>
 					</add>
 				</parameter>
 			</parameters>
@@ -160,7 +146,7 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_4</parameter>
+				<parameter>bp_string_2</parameter>
 			</parameters>
 		</call>
 	</code>
