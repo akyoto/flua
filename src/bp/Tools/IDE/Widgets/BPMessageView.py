@@ -7,15 +7,18 @@ class BPMessageView(QtGui.QListWidget):
 		self.bpIDE = parent
 		self.setWordWrap(True)
 		
-		self.lastLineNumber = -2
-		self.lastErrorMessage = ""
-		self.lastErrorFilePath = ""
+		self.resetLastException()
 		
 		#self.setContentsMargins(0, 0, 0, 0)
 		#self.setMaximumHeight(0)
 		#self.setScrollBarPolicy(QtGui.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 		self.icon = QtGui.QIcon("images/icons/status/dialog-warning.png")
 		self.itemClicked.connect(self.goToLineOfItem)
+		
+	def resetLastException(self):
+		self.lastLineNumber = -2
+		self.lastErrorMessage = ""
+		self.lastErrorFilePath = ""
 		
 	def goToLineOfItem(self, item):
 		errorFilePath = item.data(QtCore.Qt.UserRole + 1)
@@ -61,9 +64,7 @@ class BPMessageView(QtGui.QListWidget):
 				self.lastErrorMessage = errorMessage
 				self.lastErrorFilePath = errorFilePath
 		else:
-			self.lastLineNumber = -2
-			self.lastErrorMessage = ""
-			self.lastErrorFilePath = ""
+			self.resetLastException()
 			self.clear()
 		
 	def updateViewPostProcessor(self):

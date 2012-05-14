@@ -18,13 +18,11 @@ class MenuActions:
 		
 		self.setFilePath(fileName)
 		
-		#if runUpdater:
-		#	newCodeEdit.runUpdater()
-		
 		newCodeEdit.setFocus()
 		
 		if not isOpeningFile:
 			newCodeEdit.openingFile = False
+			newCodeEdit.runUpdater()
 		
 	def reopenLastFile(self):
 		if not self.currentWorkspace.filesClosed:

@@ -107,12 +107,19 @@ elementsNoNewline = [
 #	"cast-definition"
 #}
 
+functionNodeTagNames = {
+	"function",
+	"getter",
+	"setter",
+	"cast-definition",
+	"operator",
+}
+
 autoNewlineBlock = {
 	"while",
 	"if-block",
 	"try-block",
 	"for",
-	"function",
 	"extern",
 	"target",
 	"switch",
@@ -127,6 +134,7 @@ autoNewlineBlock = {
 	"operators",
 	"casts",
 	
+	"function",
 	"getter",
 	"setter",
 	"cast-definition",

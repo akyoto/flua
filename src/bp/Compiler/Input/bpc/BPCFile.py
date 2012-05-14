@@ -886,6 +886,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		expr = self.addGenerics(line[len(funcName)+1:])
 		if expr:
+			if isDefinitelyOperatorSign(expr[0]):
+				raise CompilerException("Parameter name missing: '%s'" % expr)
 			params = self.parseExpr(expr)
 			paramsNode = self.parser.getParametersNode(params)
 			node.appendChild(paramsNode)

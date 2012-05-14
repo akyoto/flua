@@ -551,6 +551,14 @@
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
 				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
 					<name>untilLast</name>
 					<code>
 						<noop depth="2"/>
@@ -558,12 +566,28 @@
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Sa\Scertain\Sstring\Sappears</comment>
 				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
 					<name>from</name>
 					<code>
 						<noop depth="2"/>
 					</code>
 				</function>
 				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
 					<name>fromLast</name>
 					<code>
 						<noop depth="2"/>

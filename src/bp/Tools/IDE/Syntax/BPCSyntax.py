@@ -7,6 +7,7 @@ from PyQt4 import QtGui, QtCore
 from bp.Tools.IDE import *
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
+from bp.Compiler.Input.bpc import *
 
 class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the BPC language.
@@ -100,6 +101,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		i = 0
 		text += " "
 		textLen = len(text)
+		userData = self.currentBlockUserData()
+		
 		#print("HIGHLIGHTING >%s< OF LENGTH %d" % (text, textLen))
 		#if self.updateCharFormatFlag:
 		#	self.setFormat(0, textLen, style['default'])
@@ -151,8 +154,10 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						self.setFormat(i, h - i, style['keyword'])
 				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
-				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
+				
+				if self.bpIDE.processor.getFirstDTreeByFunctionName(expr) or (userData and userData.node and userData.node.tagName in functionNodeTagNames and i == countTabs(text)):
 					self.setFormat(i, h - i, style['own-function'])
+				
 				i = h - 1
 			elif char.isdigit():
 				h = i + 1

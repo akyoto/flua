@@ -262,6 +262,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			if not prevLine or tabLevel <= prevTabLevel or not line[:pos - block.position()].isspace():
 				super().keyPressEvent(event)
+		
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:
 			cursor = self.textCursor()
@@ -307,9 +308,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				elif ((wasFullLine or nodeName == "call")
 						and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
 						and tabLevel <= 1
-						and self.bpIDE.getErrorCount() == 0
+						#and self.bpIDE.getErrorCount() == 0
 						and isAtEndOfLine
-						and line[-1] != ')'):
+						and line[-1] != ')'
+						and (node and node.parentNode.parentNode.tagName != "function")):
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
 					tabLevel += 1
