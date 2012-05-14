@@ -164,6 +164,10 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])
+				elif expr.startswith("bp_"):
+					self.setFormat(i, h - i, style['extern-function'])	
+					i = h
+					continue
 				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
 					i = h

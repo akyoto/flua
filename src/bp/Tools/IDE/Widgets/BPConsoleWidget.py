@@ -36,13 +36,13 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		# TODO: ...
 		self.ensureCursorVisible()
 		
-	def writeError(self, stri):
-		self.emit(self.errorSignal, stri)
-		
 	def flush(self):
 		self.emit(self.flushSignal)
 		
 	def write(self, stri):
+		self.emit(self.signal, stri)
+		
+	def writeError(self, stri):
 		self.emit(self.signal, stri)
 
 class BPConsoleWidget(QtGui.QStackedWidget):

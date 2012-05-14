@@ -50,9 +50,10 @@ def startProcess(cmd, fhOut, fhErr):
 				break
 		
 		exitCode = proc.poll()
-			
+		QtGui.QApplication.instance().processEvents()
+		
 		if (not combinedLinesStdoutCount) and (not combinedLinesStderrCount) and (exitCode is not None):
-			break
+			return exitCode
 		
 		if combinedLinesStdout:
 			fhOut(''.join(combinedLinesStdout))

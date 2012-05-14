@@ -252,7 +252,7 @@
 				</return>
 			</code>
 		</function>
-		<comment>\SUsage\Sexample</comment>
+		<comment>\SUsage\Sexample\S(not\Sworking\Syet)</comment>
 		<test depth="0">
 			<assign depth="1">
 				<value>a</value>

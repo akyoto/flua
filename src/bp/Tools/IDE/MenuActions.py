@@ -147,17 +147,31 @@ class MenuActions:
 				self.startBenchmark("C++ Build")
 				
 				cpp = CPPOutputCompiler(self.processor)
+				
+				#exePath = cpp.getExePath().replace("/", "\\")
+				#if exePath and os.path.isfile(exePath):
+				#	print("Removing %s" % exePath)
+				#	os.remove(exePath)
+				
 				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
 				cpp.compile(bpPostPFile)
 				cpp.writeToFS()
-				exe = cpp.build(compilerFlags)
+				
+				exitCode = cpp.build(compilerFlags)
 				
 				print("-" * 80)
 				self.endBenchmark()
 				
+				if exitCode != 0:
+					print("C++ compiler error (see other console window, exit code %d)" % exitCode)
+					return
+				
+				exe = cpp.getExePath()
+				
 				print("No optimizations active (-O0)")
 				print("Executing: %s" % exe)
 				print("-" * 80)
+				
 				cpp.execute(exe, self.console.log.write, self.console.log.writeError)
 			except OutputCompilerException as e:
 				#lineNumber = e.getLineNumber()
@@ -274,6 +288,12 @@ This feature is currently in development.
 	def redoLastAction(self):
 		if self.codeEdit:
 			self.codeEdit.redo()
+		
+	def toggleFullScreen(self):
+		if self.isFullScreen():
+			self.showNormal()
+		else:
+			self.showFullScreen()
 		
 	def thanksTo(self):
 		msgBox = QtGui.QMessageBox.about(self, "Thanks to...",

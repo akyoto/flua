@@ -83,10 +83,17 @@
      <string>View</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuWindows">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionToggleFullscreen"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
    <addaction name="menuView"/>
+   <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -380,6 +387,14 @@
   <action name="actionRunProfiler">
    <property name="text">
     <string>Run with profiler</string>
+   </property>
+  </action>
+  <action name="actionToggleFullscreen">
+   <property name="text">
+    <string>Toggle fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>

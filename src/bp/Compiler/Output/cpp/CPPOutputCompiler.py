@@ -225,9 +225,6 @@ class CPPOutputCompiler(Benchmarkable):
 	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		exe = self.getExePath()
 		
-		if os.path.isfile(exe):
-			os.unlink(exe)
-		
 		compilerName = getGCCCompilerName()
 		
 		compilerPath = getGCCCompilerPath()
@@ -309,24 +306,30 @@ class CPPOutputCompiler(Benchmarkable):
 			print("\nStarting compiler:")
 			print(" \\\n ".join(ccCmd))
 			
-			startProcess(ccCmd, fhOut, fhErr)
-			
+			exitCode = startProcess(ccCmd, fhOut, fhErr)
 			self.endBenchmark()
+			
+			if exitCode:
+				fhOut("C++ compiler exception")
+				return exitCode
 			
 			self.startBenchmark()
 			print("\nStarting linker:")
 			print("\n ".join(linkCmd))
 			
 			startProcess(linkCmd, fhOut, fhErr)
-			
 			self.endBenchmark()
+			
+			if exitCode:
+				return exitCode
+			
 		except OSError:
 			print("Couldn't start " + compilerName)
 		finally:
 			if os.name == "nt":
 				os.chdir(currentPath)
 		
-		return exe
+		return 0
 	
 	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		cmd = [exe]

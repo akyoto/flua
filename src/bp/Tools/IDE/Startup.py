@@ -225,6 +225,9 @@ b.doSomething()
 		self.actionRunProfiler.triggered.connect(self.runProfiler)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
+		# Window
+		self.actionToggleFullscreen.triggered.connect(self.toggleFullScreen)
+		
 		# Help
 		self.actionIntroduction.triggered.connect(self.showIntroduction)
 		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
@@ -255,6 +258,7 @@ b.doSomething()
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'function': cf('#171717', useBold),
+				'extern-function': cf('#0B62A5', useBold),
 				'class-function': cf('#008000', useBold),
 				'class-getter': cf('#003060', useBold),
 				'class-setter': cf('#003060', useBold),

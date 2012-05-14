@@ -6,36 +6,38 @@
 			<import>keywordsTest2</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">#if working</string>
-			<string id="bp_string_1">#elif NOT working</string>
-			<string id="bp_string_2">#elif working</string>
-			<string id="bp_string_3">#elif NOT working</string>
-			<string id="bp_string_4">#else NOT working</string>
-			<string id="bp_string_5">#else working</string>
-			<string id="bp_string_6">#switch NOT working</string>
-			<string id="bp_string_7">#switch working</string>
-			<string id="bp_string_8">#switch NOT working</string>
-			<string id="bp_string_9">#for working</string>
-			<string id="bp_string_10">#for NOT working</string>
-			<string id="bp_string_11">#while working</string>
-			<string id="bp_string_12">#while NOT working</string>
-			<string id="bp_string_13">#try working</string>
-			<string id="bp_string_14">#catch working</string>
-			<string id="bp_string_15">#static working</string>
-			<string id="bp_string_16">#private working</string>
-			<string id="bp_string_17">#return working</string>
-			<string id="bp_string_18">#const working</string>
-			<string id="bp_string_19">#break working</string>
-			<string id="bp_string_20">#break NOT working</string>
-			<string id="bp_string_21">#continue working</string>
-			<string id="bp_string_22">#continue NOT working</string>
-			<string id="bp_string_23">Simple exception</string>
-			<string id="bp_string_24">#throw NOT working</string>
-			<string id="bp_string_25">#throw working</string>
+			<string id="bp_string_0">#if\Sworking</string>
+			<string id="bp_string_1">#elif\SNOT\Sworking</string>
+			<string id="bp_string_2">#elif\Sworking</string>
+			<string id="bp_string_3">#elif\SNOT\Sworking</string>
+			<string id="bp_string_4">#else\SNOT\Sworking</string>
+			<string id="bp_string_5">#else\Sworking</string>
+			<string id="bp_string_6">#switch\SNOT\Sworking</string>
+			<string id="bp_string_7">#switch\Sworking</string>
+			<string id="bp_string_8">#switch\SNOT\Sworking</string>
+			<string id="bp_string_9">#for\Sworking</string>
+			<string id="bp_string_10">#for\SNOT\Sworking</string>
+			<string id="bp_string_11">#while\Sworking</string>
+			<string id="bp_string_12">#while\SNOT\Sworking</string>
+			<string id="bp_string_13">#try\Sworking</string>
+			<string id="bp_string_14">#try\SNOT\Sworking</string>
+			<string id="bp_string_15">#catch\Sworking</string>
+			<string id="bp_string_16">#catch\SNOT\Sworking</string>
+			<string id="bp_string_17">Simple\Sexception</string>
+			<string id="bp_string_18">#throw\Sworking</string>
+			<string id="bp_string_19">#throw\SNOT\Sworking</string>
+			<string id="bp_string_20">#static\Sworking</string>
+			<string id="bp_string_21">#private\Sworking</string>
+			<string id="bp_string_22">#return\Sworking</string>
+			<string id="bp_string_23">#const\Sworking</string>
+			<string id="bp_string_24">#break\Sworking</string>
+			<string id="bp_string_25">#break\SNOT\Sworking</string>
+			<string id="bp_string_26">#continue\Sworking</string>
+			<string id="bp_string_27">#continue\SNOT\Sworking</string>
 		</strings>
 	</header>
 	<code>
-		<comment> Comment here</comment>
+		<comment>\SComment\Shere</comment>
 		<if-block depth="0">
 			<if>
 				<condition>1</condition>
@@ -49,7 +51,7 @@
 				</code>
 			</if>
 		</if-block>
-		<comment> Comment for this block</comment>
+		<comment>\SComment\Sfor\Sthis\Sblock</comment>
 		<if-block depth="0">
 			<if>
 				<condition>0</condition>
@@ -84,7 +86,7 @@
 				</code>
 			</else>
 		</if-block>
-		<comment> Comment 3rd block</comment>
+		<comment>\SComment\S3rd\Sblock</comment>
 		<if-block depth="0">
 			<if>
 				<condition>0</condition>
@@ -257,6 +259,10 @@
 				</code>
 			</else>
 		</if-block>
+		<assign depth="0">
+			<value>worked</value>
+			<value>0</value>
+		</assign>
 		<try-block depth="0">
 			<try>
 				<code>
@@ -274,6 +280,17 @@
 			<catch depth="0">
 				<variable/>
 				<code>
+					<assign depth="1">
+						<value>worked</value>
+						<value>1</value>
+					</assign>
+				</code>
+			</catch>
+		</try-block>
+		<if-block depth="0">
+			<if>
+				<condition>worked</condition>
+				<code>
 					<call depth="1">
 						<function>print</function>
 						<parameters>
@@ -281,8 +298,22 @@
 						</parameters>
 					</call>
 				</code>
-			</catch>
-		</try-block>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_14</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+		<assign depth="0">
+			<value>worked</value>
+			<value>0</value>
+		</assign>
 		<try-block depth="0">
 			<try>
 				<code>
@@ -305,15 +336,79 @@
 					</declare-type>
 				</variable>
 				<code>
-					<call depth="1">
-						<function>print</function>
-						<parameters>
-							<parameter>bp_string_14</parameter>
-						</parameters>
-					</call>
+					<assign depth="1">
+						<value>worked</value>
+						<value>1</value>
+					</assign>
 				</code>
 			</catch>
 		</try-block>
+		<if-block depth="0">
+			<if>
+				<condition>worked</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_15</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_16</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+		<assign depth="0">
+			<value>worked</value>
+			<value>0</value>
+		</assign>
+		<try-block depth="0">
+			<try>
+				<code>
+					<throw depth="1">bp_string_17</throw>
+				</code>
+			</try>
+			<catch depth="0">
+				<variable>e</variable>
+				<code>
+					<assign depth="1">
+						<value>worked</value>
+						<value>1</value>
+					</assign>
+				</code>
+			</catch>
+		</try-block>
+		<if-block depth="0">
+			<if>
+				<condition>worked</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_18</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_19</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
 		<class depth="0">
 			<name>StaticClass</name>
 			<code>
@@ -323,7 +418,7 @@
 						<call depth="2">
 							<function>print</function>
 							<parameters>
-								<parameter>bp_string_15</parameter>
+								<parameter>bp_string_20</parameter>
 							</parameters>
 						</call>
 					</code>
@@ -346,7 +441,7 @@
 							<call depth="3">
 								<function>print</function>
 								<parameters>
-									<parameter>bp_string_16</parameter>
+									<parameter>bp_string_21</parameter>
 								</parameters>
 							</call>
 						</code>
@@ -396,7 +491,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_17</parameter>
+							<parameter>bp_string_22</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -420,7 +515,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_18</parameter>
+							<parameter>bp_string_23</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -469,7 +564,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_19</parameter>
+							<parameter>bp_string_24</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -479,7 +574,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_20</parameter>
+							<parameter>bp_string_25</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -551,7 +646,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_21</parameter>
+							<parameter>bp_string_26</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -561,35 +656,11 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_22</parameter>
+							<parameter>bp_string_27</parameter>
 						</parameters>
 					</call>
 				</code>
 			</else>
 		</if-block>
-		<try-block depth="0">
-			<try>
-				<code>
-					<throw depth="1">bp_string_23</throw>
-					<call depth="1">
-						<function>print</function>
-						<parameters>
-							<parameter>bp_string_24</parameter>
-						</parameters>
-					</call>
-				</code>
-			</try>
-			<catch depth="0">
-				<variable>e</variable>
-				<code>
-					<call depth="1">
-						<function>print</function>
-						<parameters>
-							<parameter>bp_string_25</parameter>
-						</parameters>
-					</call>
-				</code>
-			</catch>
-		</try-block>
 	</code>
 </module>
