@@ -52,7 +52,7 @@ class BPMessageView(QtGui.QListWidget):
 		
 		if ce and ce.updater and ce.updater.lastException:
 			e = ce.updater.lastException
-			ce.updater.lastException = None
+			#ce.updater.lastException = None
 			lineNumber = e.getLineNumber()
 			errorMessage = e.getMsg()
 			errorFilePath = e.getFilePath()

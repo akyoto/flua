@@ -27,14 +27,16 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		
 		#self.codeEdit.clearHighlights()
 		
-		self.lastException = None
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
 			self.startBenchmark("[%s] Parser" % stripDir(filePath))
 			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
-			if self.bpcFile.inFunction != 0:
-				print("inFunction: " +  str(self.bpcFile.inFunction))
+			
+			#if self.bpcFile.inFunction != 0:
+			#	print("inFunction: " +  str(self.bpcFile.inFunction))
+				
+			self.lastException = None
 		except InputCompilerException as e:
 			self.lastException = e
 			

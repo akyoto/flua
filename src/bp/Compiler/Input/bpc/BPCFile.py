@@ -68,6 +68,72 @@ simpleBlocks = {
 	"casts" : []
 }
 
+def addGenerics(line):
+	bracketCounter = 0
+	char = ''
+	startGeneric = -1
+	#oldLine = line
+	
+	for i in range(len(line)):
+		char = line[i]
+		
+		if char == '<':
+			bracketCounter += 1
+			if bracketCounter == 1:
+				startGeneric = i
+		elif char == '>':
+			bracketCounter -= 1
+			
+			# End of template parameter
+			if bracketCounter == 0:
+				templateParam = addGenerics(line[startGeneric+1:i])
+				line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
+				
+		elif bracketCounter > 0 and char != '~' and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
+			break
+	
+#		if oldLine != line:
+#			print("Start: " + oldLine)
+#			print("End: " + line)
+	return line
+	
+def addBrackets(line):
+	bracketCounter = 0
+	char = ''
+	
+	for i in range(len(line)):
+		char = line[i]
+		
+		if char == '(' or char == '[':
+			bracketCounter += 1
+		elif char == ')' or char == ']':
+			bracketCounter -= 1
+		elif (not isVarChar(char)) and char != '.' and bracketCounter == 0:
+			break
+	
+	identifier = line[:i]
+	if char == '.':
+		if identifier:
+			raise CompilerException("You need to specify a function or property of '%s'" % (identifier))
+		else:
+			raise CompilerException("Invalid instruction: '%s'" % line)
+	
+	rightOperand = line[i+1:]
+	if isDefinitelyOperatorSign(char):
+		if (not identifier or not rightOperand):
+			#print(line, "|", identifier, "|", rightOperand)
+			raise CompilerException("Invalid instruction: '%s'" % line)
+	
+	if i < len(line) - 1:
+		nextChar = rightOperand[0]
+		
+		if char.isspace() and (isVarChar(nextChar) or nextChar == '('):
+			line = "%s(%s)" % (line[:i], rightOperand)
+	elif line[-1] != ')':
+		line += "()"
+	
+	return line
+
 ####################################################################
 # Classes
 ####################################################################
@@ -402,8 +468,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inCasts):
 				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
 			
-			line = self.addBrackets(line)
-			line = self.addGenerics(line)
+			line = addBrackets(line)
+			line = addGenerics(line)
 			node = self.parseExpr(line)
 			
 			self.checkObjectCreation(node)
@@ -432,72 +498,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		if len(self.nodes) <= self.lastLineCount:
 			self.nodes.append(node)
 			self.nodeToOriginalLine[node] = self.lastLine
-	
-	def addGenerics(self, line):
-		bracketCounter = 0
-		char = ''
-		startGeneric = -1
-		#oldLine = line
-		
-		for i in range(len(line)):
-			char = line[i]
-			
-			if char == '<':
-				bracketCounter += 1
-				if bracketCounter == 1:
-					startGeneric = i
-			elif char == '>':
-				bracketCounter -= 1
-				
-				# End of template parameter
-				if bracketCounter == 0:
-					templateParam = self.addGenerics(line[startGeneric+1:i])
-					line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
-					
-			elif bracketCounter > 0 and char != '~' and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
-				break
-		
-#		if oldLine != line:
-#			print("Start: " + oldLine)
-#			print("End: " + line)
-		return line
-		
-	def addBrackets(self, line):
-		bracketCounter = 0
-		char = ''
-		
-		for i in range(len(line)):
-			char = line[i]
-			
-			if char == '(' or char == '[':
-				bracketCounter += 1
-			elif char == ')' or char == ']':
-				bracketCounter -= 1
-			elif (not isVarChar(char)) and char != '.' and bracketCounter == 0:
-				break
-		
-		identifier = line[:i]
-		if char == '.':
-			if identifier:
-				raise CompilerException("You need to specify a function or property of '%s'" % (identifier))
-			else:
-				raise CompilerException("Invalid instruction: '%s'" % line)
-		
-		rightOperand = line[i+1:]
-		if isDefinitelyOperatorSign(char):
-			if (not identifier or not rightOperand):
-				#print(line, "|", identifier, "|", rightOperand)
-				raise CompilerException("Invalid instruction: '%s'" % line)
-		
-		if i < len(line) - 1:
-			nextChar = rightOperand[0]
-			
-			if char.isspace() and (isVarChar(nextChar) or nextChar == '('):
-				line = "%s(%s)" % (line[:i], rightOperand)
-		elif line[-1] != ')':
-			line += "()"
-		
-		return line
 		
 	def handleCase(self, line):
 		if not self.nextLineIndented:
@@ -876,7 +876,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif self.inCasts:
 			node = self.doc.createElement("cast-definition")
 			nameNode.tagName = "to"
-			nameNode.appendChild(self.parseExpr(self.addGenerics(funcName)))
+			nameNode.appendChild(self.parseExpr(addGenerics(funcName)))
 		else:
 			self.inFunction += 1
 			node = self.doc.createElement("function")
@@ -884,7 +884,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.inCasts:
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
-		expr = self.addGenerics(line[len(funcName)+1:])
+		expr = addGenerics(line[len(funcName)+1:])
 		if expr:
 			if isDefinitelyOperatorSign(expr[0]):
 				raise CompilerException("Parameter name missing: '%s'" % expr)

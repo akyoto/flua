@@ -305,19 +305,25 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					tabLevel += 1
 				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
 					tabLevel += 1
-				elif ((wasFullLine or nodeName == "call")
-						and not self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+				elif keyword == "init" and tabLevel == 1:
+					tabLevel += 1
+				else:
+					isTopLevelFuncDefinition = (node is not None and node.parentNode.parentNode.tagName == "module")
+					isClassFunction = (self.updater is not None) and (self.updater.lastException is not None)
+										#and self.updater.lastException.getMsg().find("may not contain top-level") != -1
+					topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+					if (
+						(wasFullLine or addBrackets(pureLine)[-1] == ')')
 						and tabLevel <= 1
 						#and self.bpIDE.getErrorCount() == 0
 						and isAtEndOfLine
-						and line[-1] != ')'
-						and (node and node.parentNode.parentNode.tagName != "function")):
+						and line and line[-1] != ')'
+						and (isTopLevelFuncDefinition or isClassFunction)
+						and (not topLevelFuncExists) or (isClassFunction)
+						):
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
-					tabLevel += 1
-				# TODO: All methods
-				elif keyword == "init" and tabLevel == 1:
-					tabLevel += 1
+						tabLevel += 1
 					
 			# Add the text
 			cursor.beginEditBlock()

@@ -37,81 +37,6 @@
 				<type>Bool</type>
 			</extern-function>
 		</extern>
-		<function depth="0">
-			<name>getCurrentDir</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_getCurrentDir</function>
-						<parameters/>
-					</call>
-				</return>
-			</code>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>path</parameter>
-			</parameters>
-			<name>changeDir</name>
-			<code>
-				<call depth="1">
-					<function>bp_changeDir</function>
-					<parameters>
-						<parameter>path</parameter>
-					</parameters>
-				</call>
-			</code>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>path</parameter>
-			</parameters>
-			<name>deleteFile</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_deleteFile</function>
-						<parameters>
-							<parameter>path</parameter>
-						</parameters>
-					</call>
-				</return>
-			</code>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>from</parameter>
-				<parameter>to</parameter>
-			</parameters>
-			<name>renameFile</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_renameFile</function>
-						<parameters>
-							<parameter>from</parameter>
-							<parameter>to</parameter>
-						</parameters>
-					</call>
-				</return>
-			</code>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>path</parameter>
-			</parameters>
-			<name>fileExists</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_fileExists</function>
-						<parameters>
-							<parameter>path</parameter>
-						</parameters>
-					</call>
-				</return>
-			</code>
-		</function>
 		<class depth="0">
 			<name>File</name>
 			<code>
@@ -252,6 +177,81 @@
 				</get>
 			</code>
 		</class>
+		<function depth="0">
+			<name>getCurrentDir</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCurrentDir</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>changeDir</name>
+			<code>
+				<call depth="1">
+					<function>bp_changeDir</function>
+					<parameters>
+						<parameter>path</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>deleteFile</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_deleteFile</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>from</parameter>
+				<parameter>to</parameter>
+			</parameters>
+			<name>renameFile</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_renameFile</function>
+						<parameters>
+							<parameter>from</parameter>
+							<parameter>to</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>fileExists</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_fileExists</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0">
 			<assign depth="1">

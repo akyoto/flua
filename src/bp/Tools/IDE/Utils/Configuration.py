@@ -73,7 +73,26 @@ class BPConfiguration:
 		#codeEdit.setBackgroundColor(self.theme['default-background'])
 		QtGui.QApplication.instance().setStyleSheet("""
 			QPlainTextEdit { background-color: %s; }
+			
 		""" % (self.theme['default-background']))
+		
+# QTabWidget::tab-bar {
+
+ # }
+
+ # QTabBar::tab {
+  # background: #000000;
+  # color: #ffffff;
+  # padding: 7px;
+  # padding-top: 4px;
+  # padding-bottom: 4px;
+  # border-top-right-radius: 7px 14px;
+  # border-top-left-radius: 7px 14px;
+ # }
+
+ # QTabBar::tab:selected {
+  # background: #888888;
+ # }
 		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:
