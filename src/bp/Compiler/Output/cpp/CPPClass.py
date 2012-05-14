@@ -30,18 +30,15 @@
 from bp.Compiler.Output.cpp.CPPFunction import *
 from bp.Compiler.Output.cpp.CPPVariable import *
 from bp.Compiler.Output.cpp.CPPClassImplementation import *
+from bp.Compiler.Output.cpp.CPPNamespace import *
 
 ####################################################################
 # Classes
 ####################################################################
-class CPPClass:
+class CPPClass(CPPNamespace):
 	
 	def __init__(self, name):
-		self.name = name
-		self.classes = {}
-		self.functions = {}
-		self.externFunctions = {}
-		self.implementations = {}
+		super().__init__(name)
 		self.templateNames = []
 		self.templateDefaultValues = []
 		self.parent = None
@@ -73,9 +70,6 @@ class CPPClass:
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s'" % (self.name, name))
 		self.externFunctions[name] = type
-	
-	def hasClassByName(self, name):
-		return name in self.classes
 	
 	def setTemplateNames(self, names, defaultValues):
 		debug("'%s' set the template names %s" % (self.name, names))

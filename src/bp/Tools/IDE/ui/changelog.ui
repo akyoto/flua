@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
+    <width>612</width>
     <height>550</height>
    </rect>
   </property>
@@ -17,6 +17,19 @@
    <item>
     <widget class="QWidget" name="changeLogContainer" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>&lt;strong&gt;bp is Open Source&lt;/strong&gt;, licensed under GPL v3. That means if you modify the source code you need to publish your changes.</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <layout class="QVBoxLayout" name="vLayout"/>
       </item>

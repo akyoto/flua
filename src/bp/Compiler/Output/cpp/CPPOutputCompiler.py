@@ -121,7 +121,7 @@ class CPPOutputCompiler(Benchmarkable):
 		try:
 			cppOut.compile()
 		except CompilerException as e:
-			raise OutputCompilerException(e.getMsg(), cppOut)
+			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		
 		# Change string class
 		#if self.mainClass.hasClassByName("UTF8String"):

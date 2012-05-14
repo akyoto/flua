@@ -281,7 +281,7 @@ b.doSomething()
 	def initCompiler(self):
 		self.postProcessorThread = None
 		self.bpc = BPCCompiler(getModuleDir(), ".bp")
-		self.processor = BPPostProcessor()
+		self.processor = BPPostProcessor(self.bpc)
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.newFile()

@@ -433,9 +433,12 @@ class BPPostProcessor:
 		self.compiledInputFiles[inpFile] = bpOut
 		
 		for imp in inpFile.importedFiles:
-			inFile = self.inputCompiler.getFileInstanceByPath(imp)
-			if (not inFile in self.compiledInputFiles):
-				self.processExistingInputFile(inFile)
+			try:
+				inFile = self.inputCompiler.getFileInstanceByPath(imp)
+				if (not inFile in self.compiledInputFiles):
+					self.processExistingInputFile(inFile)
+			except:
+				self.processFile(imp)
 		
 		bpOut.process()
 		

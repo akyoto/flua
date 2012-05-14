@@ -83,7 +83,7 @@ xmlToBPCExprBlock = {
 	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
 	"catch" : ["catch", "variable", "code"],
-	"switch" : ["switch", "value", "case"]
+	"switch" : ["switch", "value", "case"],
 }
 
 xmlToBPCSingleLineExpr = {
@@ -134,6 +134,7 @@ autoNewlineBlock = {
 	"set",
 	"operators",
 	"casts",
+	"namespace",
 	
 	"function",
 	"getter",

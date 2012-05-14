@@ -154,7 +154,10 @@ class MenuActions:
 				#	os.remove(exePath)
 				
 				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-				cpp.compile(bpPostPFile)
+				try:
+					cpp.compile(bpPostPFile)
+				except OutputCompilerException as e:
+					self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 				cpp.writeToFS()
 				
 				exitCode = cpp.build(compilerFlags)

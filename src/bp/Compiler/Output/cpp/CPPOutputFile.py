@@ -99,6 +99,7 @@ class CPPOutputFile(ScopeController):
 		self.inOperator = 0
 		self.inTypeDeclaration = 0
 		self.inFunction = 0
+		self.namespaceStack = []
 		
 		# Codes
 		self.header = "#ifndef " + self.id + "\n#define " + self.id + "\n\n"
@@ -119,6 +120,13 @@ class CPPOutputFile(ScopeController):
 		# Memory management
 		self.useGC = True
 		self.useReferenceCounting = False
+		
+	def getNamespacePrefix(self):
+		namespacePrefix = '_'.join(self.namespaceStack)
+		if namespacePrefix:
+			return namespacePrefix + "_"
+		else:
+			return ""
 		
 	def getFilePath(self):
 		return self.file
@@ -229,6 +237,8 @@ class CPPOutputFile(ScopeController):
 						return str(num)
 				else:
 					return node.nodeValue
+				#else:
+				#	return node.nodeValue
 		
 		tagName = node.tagName
 		
@@ -306,6 +316,8 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "test":
 			return ""
+		elif tagName == "namespace":
+			return self.handleNamespace(node)
 		elif tagName == "target":
 			return self.handleTarget(node)
 		elif tagName == "return":
@@ -499,6 +511,9 @@ class CPPOutputFile(ScopeController):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		
+		if op1.nodeType == Node.TEXT_NODE and op1.nodeValue in self.currentClass.namespaces:
+			return op1.nodeValue + "_" + self.parseExpr(op2)
+		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)
 		
@@ -602,10 +617,11 @@ class CPPOutputFile(ScopeController):
 		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
 		
 		# Inline declaration + top level scope = don't include type name
+		variableName = self.getNamespacePrefix()
 		if declaredInline and self.getCurrentScope() == self.getTopLevelScope():
-			variableName = self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
+			variableName += self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
 		else:
-			variableName = self.parseExpr(node.childNodes[0].childNodes[0])
+			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
 		
 		# Parse value
 		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
@@ -680,6 +696,25 @@ class CPPOutputFile(ScopeController):
 			return var.getPrototype() + " = " + value
 		
 		return variableName + " = " + value
+		
+	def handleNamespace(self, node):
+		name = getElementByTagName(node, "name").firstChild.nodeValue
+		
+		print("Namespace %s" % name)
+		
+		self.namespaceStack.append(name)
+		if not name in self.currentClass.namespaces:
+			print("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
+			self.currentClass.namespaces[name] = CPPNamespace(name)
+		else:
+			print("Namespace '%s' already exists!" % name)
+		
+		codeNode = getElementByTagName(node, "code")
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
+		
+		self.namespaceStack.pop()
+		
+		return code
 		
 	def handleCall(self, node):
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
@@ -931,7 +966,7 @@ class CPPOutputFile(ScopeController):
 		if scope:
 			return scope
 		
-		raise CompilerException("Unknown variable: " + name)
+		raise CompilerException("Unknown variable: %s" % name)
 	
 	def getVariableTypeAnywhere(self, name):
 		var = self.getVariable(name)
@@ -1088,12 +1123,18 @@ class CPPOutputFile(ScopeController):
 				
 				return self.getCallDataType(node)
 			elif node.tagName == "access":
-				callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
+				caller = node.childNodes[0].childNodes[0]
+				
+				if caller.nodeType == Node.TEXT_NODE and caller.nodeValue in self.currentClass.namespaces:
+					#callerType = "bp_Namespace"
+					#callerClassName = "bp_Namespace"
+					varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
+					return self.getVariableTypeAnywhere(varName)
+				
+				callerType = self.getExprDataType(caller)
 				callerClassName = extractClassName(callerType)
 				memberName = node.childNodes[1].childNodes[0].nodeValue
-				
 				callerClass = self.getClass(callerClassName)
-				
 #				templateParams = self.getTemplateParams(removeUnmanaged(callerType), callerClassName, callerClass)
 #				print("getExprDataTypeClean:")
 #				print("Member: %s" % (memberName))
@@ -1180,6 +1221,7 @@ class CPPOutputFile(ScopeController):
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	
 	def registerVariable(self, var):
+		#var.name = self.getNamespacePrefix() + var.name
 		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
 		#self.currentClassImpl.addMember(var)

@@ -61,5 +61,16 @@
 				</assign>
 			</code>
 		</namespace>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>Port</value>
+						<value>Echo</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>

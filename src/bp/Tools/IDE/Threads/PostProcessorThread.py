@@ -21,6 +21,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 			self.startBenchmark("[%s] PostProcessor" % stripDir(self.codeEdit.getFilePath()))
 			self.processor.resetDTreesForFile(self.codeEdit.getFilePath())
 			self.bpIDE.processorOutFile = self.processor.process(self.codeEdit.root, self.codeEdit.getFilePath())
+			#self.bpIDE.processorOutFile = self.processor.processExistingInputFile(self.codeEdit.bpcFile)
 			self.endBenchmark()
 			self.lastException = None
 		except PostProcessorException as e:

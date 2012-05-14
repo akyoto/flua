@@ -65,7 +65,8 @@ simpleBlocks = {
 	"setter" : [],
 	"operators" : [],
 	"operator" : [],
-	"casts" : []
+	"casts" : [],
+	"namespace" : []
 }
 
 def addGenerics(line):

@@ -22,12 +22,14 @@ class BPMessageView(QtGui.QListWidget):
 		
 	def goToLineOfItem(self, item):
 		errorFilePath = item.data(QtCore.Qt.UserRole + 1)
-		lineNum = int(item.data(QtCore.Qt.UserRole + 2))
+		lineNum = item.data(QtCore.Qt.UserRole + 2)
+		if lineNum:
+			lineNum = int(lineNum)
 		
 		if errorFilePath != self.bpIDE.getFilePath():
 			self.bpIDE.openFile(errorFilePath)
 		
-		if lineNum != -1:
+		if lineNum is not None and lineNum != -1:
 			self.bpIDE.goToLineEnd(lineNum)
 		
 	def addMessage(self, msg):

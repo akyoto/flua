@@ -97,17 +97,20 @@ class PostProcessorException(CompilerException):
  
 class OutputCompilerException(CompilerException):
 	
-	def __init__(self, value, outFile):
+	def __init__(self, value, outFile, ppFile):
 		#super.__init__(value)
 		self.setMsg(value)
 		self.outFile = outFile
+		self.ppFile = ppFile
 		
 	def getFilePath(self):
 		return self.outFile.getFilePath()
 		
 	def getLineNumber(self):
 		# TODO: Implement getLineNumber
-		return 1
+		#if self.inpFile.nodeToOriginalLine:
+		#	return 5
+		return -1
 		
 	def getLastParsedNode(self):
 		return self.outFile.getLastParsedNode()
@@ -120,15 +123,20 @@ class OutputCompilerException(CompilerException):
 		node = self.outFile.getLastParsedNode()
 		nodeXML = ""
 		nodeExpr = ""
-		nodeToOriginalLine = self.outFile.nodeToOriginalLine
+		nodeToOriginalLine = None
+		
+		if self.inpFile and self.inpFile.nodeToOriginalLine:
+			nodeToOriginalLine = self.inpFile.nodeToOriginalLine
+		
 		if node and nodeToOriginalLine:
-			while not node in nodeToOriginalLine:
+			while node and not node in nodeToOriginalLine:
 				node = node.parentNode
 			
-			nodeXML = node.toprettyxml()
-			nodeExpr = nodeToOriginalLine[node] + sep
+			if node:
+				nodeXML = node.toprettyxml()
+				nodeExpr = nodeToOriginalLine[node] + sep
 		
-		return sep + "In " + filePath + sep + node.toprettyxml() + basicSep + nodeExpr + self.getMsg() + sep
+		return sep + "In " + filePath + sep + nodeXML + basicSep + nodeExpr + self.getMsg() + sep
 
 def CompilerWarning(msg):
 	print("[Warning] " + msg)
