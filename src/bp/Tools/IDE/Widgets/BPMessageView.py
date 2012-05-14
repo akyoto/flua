@@ -61,6 +61,9 @@ class BPMessageView(QtGui.QListWidget):
 				self.lastErrorMessage = errorMessage
 				self.lastErrorFilePath = errorFilePath
 		else:
+			self.lastLineNumber = -2
+			self.lastErrorMessage = ""
+			self.lastErrorFilePath = ""
 			self.clear()
 		
 	def updateViewPostProcessor(self):

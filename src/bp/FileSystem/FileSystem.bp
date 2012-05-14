@@ -164,18 +164,35 @@
 					</parameters>
 					<name>rename</name>
 					<code>
-						<call depth="2">
-							<function>renameFile</function>
-							<parameters>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>path</value>
-									</access>
-								</parameter>
-								<parameter>to</parameter>
-							</parameters>
-						</call>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<call>
+										<function>renameFile</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>path</value>
+												</access>
+											</parameter>
+											<parameter>to</parameter>
+										</parameters>
+									</call>
+								</condition>
+								<code>
+									<assign depth="3">
+										<value>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</value>
+										<value>to</value>
+									</assign>
+								</code>
+							</if>
+						</if-block>
 					</code>
 				</function>
 				<get depth="1">

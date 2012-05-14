@@ -572,6 +572,8 @@ class BPPostProcessorFile:
 				return
 			if name[0].isupper():
 				return
+			if name == "my":
+				return
 			
 			if name in self.lastOccurence:
 				if tree.addVar(name):
@@ -640,12 +642,14 @@ class BPPostProcessorFile:
 						
 						#print("Node:", node.toprettyxml())
 						#print("Me  :", tree.instruction.toprettyxml())	
+						oldNode = node
 						
 						# Retrieve the parent they have in common
-						while not node.parentNode.isSameNode(myParent):
+						while node.parentNode and not node.parentNode.isSameNode(myParent):
 							node = node.parentNode
-							if not node:
-								raise CompilerException("Could not retrieve dependency information for '%s'" % nodeToBPC(xmlNode))
+						
+						if not node.parentNode:
+							node = oldNode#raise CompilerException("Could not retrieve dependency information for '%s'" % nodeToBPC(xmlNode))
 					
 					# Now we have a node, but we need a DTree
 					if not node in self.dTreeByNode:

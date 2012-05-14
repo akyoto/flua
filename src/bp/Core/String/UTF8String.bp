@@ -6,7 +6,9 @@
 			<import>bp.Core.String</import>
 			<import>bp.Collection.Array</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">\n</string>
+		</strings>
 	</header>
 	<code>
 		<comment>\SUTF-8\Sencoded\Simmutable\Sstring</comment>
@@ -482,28 +484,54 @@
 					<code>
 						<assign depth="2">
 							<value>
+								<declare-type>
+									<value>
+										<access>
+											<value>my</value>
+											<value>data</value>
+										</access>
+									</value>
+									<value>
+										<unmanaged>
+											<value>
+												<template-call>
+													<value>MemPointer</value>
+													<value>Byte</value>
+												</template-call>
+											</value>
+										</unmanaged>
+									</value>
+								</declare-type>
+							</value>
+							<value>bytes</value>
+						</assign>
+						<assign depth="2">
+							<value>
 								<access>
 									<value>my</value>
 									<value>length</value>
 								</access>
 							</value>
+							<value>characterCount</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlen</function>
 									<parameters>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>data</value>
-											</access>
-										</parameter>
+										<parameter>bytes</parameter>
 									</parameters>
 								</call>
 							</value>
 						</assign>
 						<comment>\STODO:\S...</comment>
 						<comment>my.data\S=\Sbytes</comment>
-						<comment>my.lengthInBytes\S=\Sbp_strlen(bytes)</comment>
 					</code>
 				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
@@ -518,55 +546,7 @@
 					</parameters>
 					<name>until</name>
 					<code>
-						<assign depth="2">
-							<value>pos</value>
-							<value>0</value>
-						</assign>
-						<while depth="2">
-							<condition>
-								<less>
-									<value>pos</value>
-									<value>
-										<access>
-											<value>self</value>
-											<value>lengthInBytes</value>
-										</access>
-									</value>
-								</less>
-							</condition>
-							<code>
-								<assign depth="3">
-									<value>posChars</value>
-									<value>0</value>
-								</assign>
-								<while depth="3">
-									<condition>
-										<equal>
-											<value>
-												<index>
-													<value>
-														<access>
-															<value>my</value>
-															<value>data</value>
-														</access>
-													</value>
-													<value>i</value>
-												</index>
-											</value>
-											<value>
-												<index>
-													<value>chars</value>
-													<value>posChars</value>
-												</index>
-											</value>
-										</equal>
-									</condition>
-									<code>
-										<noop depth="4"/>
-									</code>
-								</while>
-							</code>
-						</while>
+						<noop depth="2"/>
 					</code>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
@@ -617,23 +597,11 @@
 					</parameters>
 					<name>mid</name>
 					<code>
+						<comment>UTF8String(my.data\S+\Sindex,\Slength)</comment>
 						<return depth="2">
 							<new>
 								<type>UTF8String</type>
-								<parameters>
-									<parameter>
-										<add>
-											<value>
-												<access>
-													<value>my</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>index</value>
-										</add>
-									</parameter>
-									<parameter>length</parameter>
-								</parameters>
+								<parameters/>
 							</new>
 						</return>
 					</code>
@@ -665,6 +633,45 @@
 								</parameters>
 							</call>
 						</return>
+					</code>
+				</function>
+				<function depth="1">
+					<name>print</name>
+					<code>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</until>
+							<code>
+								<call depth="3">
+									<function>bp_print</function>
+									<parameters>
+										<parameter>
+											<index>
+												<value>
+													<access>
+														<value>my</value>
+														<value>data</value>
+													</access>
+												</value>
+												<value>i</value>
+											</index>
+										</parameter>
+									</parameters>
+								</call>
+							</code>
+						</for>
+						<call depth="2">
+							<function>bp_print</function>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</call>
 					</code>
 				</function>
 				<operators depth="1">
@@ -827,15 +834,13 @@
 			<name>print</name>
 			<code>
 				<call depth="1">
-					<function>bp_println</function>
-					<parameters>
-						<parameter>
-							<access>
-								<value>stri</value>
-								<value>data</value>
-							</access>
-						</parameter>
-					</parameters>
+					<function>
+						<access>
+							<value>stri</value>
+							<value>print</value>
+						</access>
+					</function>
+					<parameters/>
 				</call>
 			</code>
 		</function>
