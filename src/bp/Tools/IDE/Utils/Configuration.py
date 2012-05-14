@@ -4,6 +4,9 @@ import os
 from bp.Compiler.Utils import *
 from PyQt4 import QtGui, QtCore, uic
 
+def getIDERoot():
+	return fixPath(os.path.abspath(extractDir(os.path.realpath(__file__)) + "../"))
+
 def getGitPath():
 	if os.name == "nt":
 		return fixPath(os.path.abspath("../../../../../msysgit/bin/"))
@@ -16,6 +19,13 @@ class BPConfiguration:
 		self.bpIDE = bpIDE
 		self.fileName = fileName
 		self.parser = configparser.SafeConfigParser()
+		
+		# Fonts
+		if QtGui.QFontDatabase.addApplicationFont(getIDERoot() + "fonts/Ubuntu-R.ttf") == -1:
+			print("Could not load Ubuntu font")
+			
+		if QtGui.QFontDatabase.addApplicationFont(getIDERoot() + "fonts/UbuntuMono-R.ttf") == -1:
+			print("Could not load UbuntuMono font")
 		
 		self.loadSettings()
 		

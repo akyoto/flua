@@ -4,9 +4,6 @@ from bp.Tools.IDE.Editor import *
 from bp.Tools.IDE.Widgets import *
 from bp.Tools.IDE.MenuActions import *
 
-def getIDERoot():
-	return extractDir(os.path.realpath(__file__))
-
 class Startup:
 	
 	def initAll(self):
@@ -101,7 +98,7 @@ b.doSomething()
 		uic.loadUi(getIDERoot() + "ui/blitzprog-ide.ui", self)
 		
 		# StatusBar
-		self.statusBar.setFont(QtGui.QFont("SansSerif", 8))
+		self.statusBar.setFont(QtGui.QFont("Ubuntu", 9))
 		
 		# Window
 		#self.setWindowTitle("Blitzprog IDE")
@@ -247,12 +244,18 @@ b.doSomething()
 				'include-file': cf('#666666'),
 				'string': cf('#009000'),
 				'string2': cf('darkMagenta'),
-				'comment': cf('#d05000', 'italic',),
+				'comment': cf('#888888', 'italic',),
 				'disabled': cf('#dddddd', 'italic'),
 				'self': cf('#666666'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
-				'own-function': cf('#171717', 'bold'),
+				'function': cf('#171717', 'bold'),
+				'class-function': cf('#008000', 'bold'),
+				'class-getter': cf('#003060', 'bold'),
+				'class-setter': cf('#003060', 'bold'),
+				'class-operator': cf('#008000', 'bold'),
+				'class-cast-definition': cf('#500050', 'bold'),
+				'class-name': cf('#000030'),
 				'local-module-import': cf('#661166', 'bold'),
 				'project-module-import': cf('#378737', 'bold'),
 				'global-module-import': cf('#373737', 'bold'),
@@ -275,7 +278,8 @@ b.doSomething()
 				'self': cf('#eeeeee', 'italic'),
 				'number': cf('#00cccc'),
 				'hex-number': cf('brown'),
-				'own-function': cf('#ff8000', 'bold'),
+				'function': cf('#ff8000', 'bold'),
+				'method': cf('#ee3000'),
 				'local-module-import': cf('#77ee77', 'bold'),
 				'project-module-import': cf('#dddddd', 'bold'),
 				'global-module-import': cf('#22dd22', 'bold'),

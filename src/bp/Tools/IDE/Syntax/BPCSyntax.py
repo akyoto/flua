@@ -109,9 +109,9 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		
 		while i < textLen:
 			char = text[i]
-			if char.isalpha() or char == '_':
+			if char.isalpha() or char == '_' or char == '~':
 				h = i + 1
-				while h < textLen and (text[h].isalnum() or text[h] == '_'):
+				while h < textLen and (text[h].isalnum() or text[h] == '_'): #or (char =='~' and (text[h] == '<' or text[h] == '>'))):
 					h += 1
 				expr = text[i:h]
 				
@@ -123,6 +123,18 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				
 				#print(ord(expr[0]))
 				#print(BPCHighlighter.keywords[ord(expr[0])])
+				
+				if (userData and userData.node):
+					node = userData.node
+					inClass = (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
+					if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
+						self.setFormat(i, h - i, style['class-' + userData.node.tagName])
+						i = h
+						continue
+					elif userData.node.tagName == "class":
+						self.setFormat(i, h - i, style['class-name'])
+						i = h
+						continue
 				
 				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":
@@ -154,9 +166,12 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						self.setFormat(i, h - i, style['keyword'])
 				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
-				
-				if self.bpIDE.processor.getFirstDTreeByFunctionName(expr) or (userData and userData.node and userData.node.tagName in functionNodeTagNames and i == countTabs(text)):
-					self.setFormat(i, h - i, style['own-function'])
+					i = h
+					continue
+				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
+					self.setFormat(i, h - i, style['function'])
+					i = h
+					continue
 				
 				i = h - 1
 			elif char.isdigit():
