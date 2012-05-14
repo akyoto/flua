@@ -1302,14 +1302,13 @@ class CPPOutputFile(ScopeController):
 		id = self.id + "_" + node.getAttribute("id")
 		value = decodeCDATA(node.childNodes[0].nodeValue)
 		
-		
 		# TODO: classExists(self.compiler.stringDataType)
 		if self.stringClassDefined:
 			dataType = self.compiler.stringDataType
 			line = id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 		else:
 			dataType = "CString"
-			line = id + " = \"" + value + "\";\n"
+			line = id + " = const_cast<Byte*>(\"" + value + "\");\n"
 		
 		var = CPPVariable(id, dataType, value, False, False, True)
 		#self.currentClassImpl.addMember(var)

@@ -269,7 +269,7 @@ b.doSomething()
 		}
 		
 		if not useBold:
-			self.themes['Default']['function'] = cf('#1727a7')
+			self.themes['Default']['function'] = cf('#071777')
 		
 		self.config.theme = self.themes[self.config.themeName]
 		
