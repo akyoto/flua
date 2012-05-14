@@ -9,6 +9,8 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.bpIDE = bpIDE
 		self.wsID = wsID
 		self.filesClosed = []
+		self.colorModified = QtGui.QColor("#ff0000")
+		self.colorUnmodified = QtGui.QColor("#000000")
 		
 		if bpIDE.config.documentModeEnabled:
 			self.setDocumentMode(True)
@@ -27,9 +29,16 @@ class BPWorkspace(QtGui.QTabWidget):
 	def addAndSelectTab(self, widget, name):
 		index = self.addTab(widget, name)
 		self.setCurrentIndex(index)
+		widget.qdoc.modificationChanged.connect(self.updateModifiedState)
 		
 		# Buttons widget in the status bar
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
+		
+	def updateModifiedState(self, state):
+		if state:
+			self.tabBar().setTabTextColor(self.currentIndex(), self.colorModified)
+		else:
+			self.tabBar().setTabTextColor(self.currentIndex(), self.colorUnmodified)
 		
 	def getWorkspaceID(self):
 		return self.wsID

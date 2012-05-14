@@ -363,8 +363,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			if self.bpcFile:
 				self.bpcFile.writeToFS()
-			
-			self.bpIDE.statusBar.showMessage("Saved " + newPath + " successfully.", 1000)
+				
+				self.qdoc.setModified(False)
+				self.bpIDE.statusBar.showMessage("Saved " + newPath + " successfully.", 1000)
+			else:
+				raise "No bpc data"
 		except:
 			self.setFilePath(oldPath)
 			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)

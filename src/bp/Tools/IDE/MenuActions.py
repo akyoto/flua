@@ -93,7 +93,7 @@ class MenuActions:
 	
 	def saveAsFile(self):
 		if self.codeEdit is None:
-			return
+			return False
 		
 		if self.isTmpFile():
 			saveInDirectory = getModuleDir()
@@ -113,6 +113,10 @@ class MenuActions:
 			# If it was saved in the module directory, reload the view
 			if getModuleDir() in fixPath(filePath):
 				self.moduleView.reloadModuleDirectory()
+			
+			return True
+		
+		return False
 	
 	def runProfiler(self):
 		self.notImplemented()
