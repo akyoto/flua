@@ -44,6 +44,7 @@ class BPConfiguration:
 		self.editorFontSize = self.parser.getint(editorConfig, "FontSize")
 		self.tabWidth = self.parser.getint(editorConfig, "TabWidth")
 		self.documentModeEnabled = self.parser.getboolean(editorConfig, "DocumentMode")
+		self.useBold = self.parser.getboolean(editorConfig, "EnableBoldFormatting")
 		
 		self.themeName = self.parser.get("Editor.Theme", "Theme")
 		

@@ -232,6 +232,11 @@ b.doSomething()
 		self.actionAbout.triggered.connect(self.about)
 		
 	def initTheme(self):
+		if self.config.useBold:
+			useBold = 'bold'
+		else:
+			useBold = ''
+		
 		self.themes = {
 			"Default": {
 				'default': cf("#272727"),
@@ -249,43 +254,22 @@ b.doSomething()
 				'self': cf('#666666'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
-				'function': cf('#171717', 'bold'),
-				'class-function': cf('#008000', 'bold'),
-				'class-getter': cf('#003060', 'bold'),
-				'class-setter': cf('#003060', 'bold'),
-				'class-operator': cf('#008000', 'bold'),
-				'class-cast-definition': cf('#500050', 'bold'),
+				'function': cf('#171717', useBold),
+				'class-function': cf('#008000', useBold),
+				'class-getter': cf('#003060', useBold),
+				'class-setter': cf('#003060', useBold),
+				'class-operator': cf('#008000', useBold),
+				'class-cast-definition': cf('#500050', useBold),
 				'class-name': cf('#000030'),
-				'local-module-import': cf('#661166', 'bold'),
-				'project-module-import': cf('#378737', 'bold'),
-				'global-module-import': cf('#373737', 'bold'),
+				'local-module-import': cf('#661166', useBold),
+				'project-module-import': cf('#378737', useBold),
+				'global-module-import': cf('#373737', useBold),
 				'current-line' : None#QtGui.QColor("#fefefe")
 			},
-			
-			"Orange": {
-				'default': cf("#eeeeee"),
-				'default-background': "#272727",
-				'keyword': cf('orange'),
-				'operator': cf('#ff2010'),
-				'brace': cf('darkGray'),
-				'comma': cf('#777777'),
-				'output-target': cf('#888888'),
-				'include-file': cf('#888888'),
-				'string': cf('#00c000'),
-				'string2': cf('darkMagenta'),
-				'comment': cf('lightGray', 'italic'),
-				'disabled': cf('lightGray', 'italic'),
-				'self': cf('#eeeeee', 'italic'),
-				'number': cf('#00cccc'),
-				'hex-number': cf('brown'),
-				'function': cf('#ff8000', 'bold'),
-				'method': cf('#ee3000'),
-				'local-module-import': cf('#77ee77', 'bold'),
-				'project-module-import': cf('#dddddd', 'bold'),
-				'global-module-import': cf('#22dd22', 'bold'),
-				'current-line' : QtGui.QColor("#474747")
-			},
 		}
+		
+		if not useBold:
+			self.themes['Default']['function'] = cf('#1727a7')
 		
 		self.config.theme = self.themes[self.config.themeName]
 		
