@@ -234,7 +234,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			ppCodeEdit.disableUpdatesFlag = False
 			ppCodeEdit.rehighlightFunctionUsage()
 		
-		self.dependencyView.updateView()
+		if (not self.dependenciesViewDock.isHidden()):
+			self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
 		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
@@ -268,13 +269,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def showDependencies(self, node, updateDependencyView = True):
 		self.dependencyView.setNode(node)
-		if updateDependencyView:
+		if updateDependencyView and (not self.dependenciesViewDock.isHidden()):
 			self.dependencyView.updateView()
 		
-		if node:
-			self.xmlView.setPlainText(node.toprettyxml())
-		else:
-			self.xmlView.clear()
+		self.xmlView.setNode(node)
+		if not self.xmlViewDock.isHidden():
+			self.xmlView.updateView()
 		
 	def setFilePath(self, path):
 		filePath = os.path.abspath(path)

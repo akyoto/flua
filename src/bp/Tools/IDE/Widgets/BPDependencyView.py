@@ -7,12 +7,16 @@ class BPDependencyView(QtGui.QPlainTextEdit):
 		self.bpIDE = parent
 		self.node = None
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-
+	
 	def setNode(self, newNode):
 		self.node = newNode
 		
 	def getProcessor(self):
 		return self.bpIDE.processor
+		
+	def showEvent(self, event):
+		self.updateView()
+		event.accept()
 		
 	def updateView(self):
 		if self.isHidden() and not self.bpIDE.intelliEnabled:
