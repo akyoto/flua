@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -52,6 +52,7 @@
     <addaction name="actionRunOptimized"/>
     <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
+    <addaction name="actionRun_module_test"/>
     <addaction name="actionProperties"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -401,6 +402,11 @@
   <action name="actionChangeLog">
    <property name="text">
     <string>Changelog</string>
+   </property>
+  </action>
+  <action name="actionRun_module_test">
+   <property name="text">
+    <string>Run module test</string>
    </property>
   </action>
  </widget>
