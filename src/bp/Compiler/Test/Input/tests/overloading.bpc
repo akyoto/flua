@@ -1,9 +1,0 @@
-
-testFunc x
-	print "Function overloading NOT working!"
-	
-testFunc x : Point
-	print "Function overloading working!"
-
-testA = Point(3.0, 4.0)
-testFunc testA

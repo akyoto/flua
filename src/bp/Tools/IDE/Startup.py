@@ -223,6 +223,8 @@ b.doSomething()
 		self.actionRun.triggered.connect(self.onRunModule)
 		self.actionRunOptimized.triggered.connect(self.runModuleOptimized)
 		self.actionRunProfiler.triggered.connect(self.runProfiler)
+		self.actionRunModuleTest.triggered.connect(self.runModuleTest)
+		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Window

@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -51,8 +51,10 @@
     <addaction name="separator"/>
     <addaction name="actionRunOptimized"/>
     <addaction name="actionRunProfiler"/>
+    <addaction name="actionRunModuleTest"/>
     <addaction name="separator"/>
-    <addaction name="actionRun_module_test"/>
+    <addaction name="actionCleanAllTargets"/>
+    <addaction name="separator"/>
     <addaction name="actionProperties"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -360,6 +362,10 @@
    </property>
   </action>
   <action name="actionDownloadUpdates">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/go-down.png</normaloff>../images/icons/actions/go-down.png</iconset>
+   </property>
    <property name="text">
     <string>Download updates</string>
    </property>
@@ -392,6 +398,10 @@
    </property>
   </action>
   <action name="actionToggleFullscreen">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/view-fullscreen.png</normaloff>../images/icons/actions/view-fullscreen.png</iconset>
+   </property>
    <property name="text">
     <string>Toggle fullscreen</string>
    </property>
@@ -400,6 +410,10 @@
    </property>
   </action>
   <action name="actionChangeLog">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/apps/accessories-text-editor.png</normaloff>../images/icons/apps/accessories-text-editor.png</iconset>
+   </property>
    <property name="text">
     <string>Changelog</string>
    </property>
@@ -407,6 +421,20 @@
   <action name="actionRun_module_test">
    <property name="text">
     <string>Run module test</string>
+   </property>
+  </action>
+  <action name="actionRunModuleTest">
+   <property name="text">
+    <string>Run module test</string>
+   </property>
+  </action>
+  <action name="actionCleanAllTargets">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clean all targets</string>
    </property>
   </action>
  </widget>

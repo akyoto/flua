@@ -728,7 +728,7 @@ class CPPOutputFile(ScopeController):
 		# TODO: Fully implement namespaces
 		name = getElementByTagName(node, "name").firstChild.nodeValue
 		
-		print("Namespace %s" % name)
+		#print("Namespace %s" % name)
 		
 		self.namespaceStack.append(name)
 		if not name in self.currentClass.namespaces:
@@ -920,7 +920,7 @@ class CPPOutputFile(ScopeController):
 				if counter < len(defaultValueTypes) and defaultValueTypes[counter]:
 					defaultValueType = defaultValueTypes[counter]
 					adjustedDefaultValueType = adjustDataType(defaultValueType)
-					print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
+					#print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
 					self.getCurrentScope().variables[name] = CPPVariable(name, adjustedDefaultValueType, "", False, not adjustedDefaultValueType in nonPointerClasses, False)
 					pList += adjustedDefaultValueType + " " + name + ", "
 					continue
@@ -936,7 +936,7 @@ class CPPOutputFile(ScopeController):
 			
 			declaredInline = (tagName(node.childNodes[0]) == "declare-type")
 			if not declaredInline:
-				print("Variable %s used as '%s'" % (name, usedAs))
+				#print("Variable %s used as '%s'" % (name, usedAs))
 				self.getCurrentScope().variables[name] = CPPVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
 				pList += adjustDataType(usedAs) + " " + name + ", "
 			else:
@@ -1484,7 +1484,7 @@ class CPPOutputFile(ScopeController):
 		importedModulePath = node.childNodes[0].nodeValue.strip()
 		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
 		#print("MODULE: " + importedModule)
-		return "#include <" + stripExt(importedModule) + "-out.hpp>\n"
+		return "#include <" + extractDir(importedModule) + "C++/" + stripAll(importedModule) + ".hpp>\n"
 	
 	def handleCompilerFlag(self, node):
 		self.compiler.customCompilerFlags.insert(0, node.childNodes[0].nodeValue)

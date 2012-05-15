@@ -200,12 +200,17 @@ class MenuActions:
 			
 			#cpp.compile(self.file, self.codeEdit.root)
 			
-	def showChangeLog(self):
+	def acquireGitThread(self):
 		if self.gitThread and self.gitThread.isRunning():
-			return
+			return False
 		
 		if self.gitThread is None:
 			self.gitThread = BPGitThread(self)
+		
+		return True
+			
+	def showChangeLog(self):
+		self.acquireGitThread()
 		
 		gitLogCmd = [
 			getGitPath() + "git",
@@ -230,7 +235,7 @@ class MenuActions:
 		self.changeLog.clear()
 		
 		print("Retrieving changelog...")
-		self.gitThread.startCmd(gitLogCmd, self.changeLog)
+		self.gitThread.startCmd(gitLogCmd, self.changeLog, True)
 		#self.gitThread.wait()
 		
 		#cursor = self.changeLog.textCursor()
@@ -241,11 +246,7 @@ class MenuActions:
 		self.changeLogDialog.show()
 	
 	def downloadUpdates(self):
-		if self.gitThread and self.gitThread.isRunning():
-			return
-		
-		if self.gitThread is None:
-			self.gitThread = BPGitThread(self)
+		self.acquireGitThread()
 		
 		#gitResetCmd = [
 		#	getGitPath() + "git",
@@ -268,6 +269,34 @@ class MenuActions:
 		
 		print("Checking for updates...")
 		self.gitThread.startCmd(gitPullCmd)
+	
+	def cleanAllTargets(self):
+		self.acquireGitThread()
+		
+		os.chdir(getModuleDir())
+		
+		cleanCmd = [
+			getGitPath() + "find",
+			".",
+			"-name",
+			"'C++'",
+			
+			"-exec",
+			getGitPath() + "rm",
+			"-rf",
+			"{}",
+			";",
+		]
+		
+		print("Cleaning all targets...")
+		#print(" ".join(cleanCmd))
+		self.gitThread.startCmd(cleanCmd, self.console.log)
+		self.gitThread.wait()
+		
+		os.chdir(getIDERoot())
+	
+	def runModuleTest(self):
+		self.notImplemented()
 	
 	def showModuleProperties(self):
 		self.moduleProperties, existed = self.getUIFromCache("module-properties")

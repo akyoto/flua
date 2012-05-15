@@ -1,0 +1,134 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0">
+			<name>Vector3</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>0</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>0</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>0</value>
+							</assign>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<operators depth="1">
+					<operator depth="2">
+						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code>
+							<switch depth="3">
+								<value>index</value>
+								<case depth="4">
+									<values>
+										<value>0</value>
+									</values>
+									<code>
+										<return depth="5">
+											<access>
+												<value>self</value>
+												<value>x</value>
+											</access>
+										</return>
+									</code>
+								</case>
+								<case depth="4">
+									<values>
+										<value>1</value>
+									</values>
+									<code>
+										<return depth="5">
+											<access>
+												<value>self</value>
+												<value>y</value>
+											</access>
+										</return>
+									</code>
+								</case>
+								<case depth="4">
+									<values>
+										<value>2</value>
+									</values>
+									<code>
+										<return depth="5">
+											<access>
+												<value>self</value>
+												<value>z</value>
+											</access>
+										</return>
+									</code>
+								</case>
+							</switch>
+						</code>
+					</operator>
+				</operators>
+				<get depth="1">
+					<getter depth="2">
+						<name>length</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</getter>
+				</get>
+			</code>
+		</class>
+		<comment>\Tset</comment>
+		<comment>\T\Tlength\SnewLength</comment>
+		<comment>\T\T\Tself.normalise</comment>
+		<comment>\T\T\Tself\S*=\SnewLength</comment>
+		<comment>\T\T+=\Svalue\S:\SFloat</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S+=\Svalue</comment>
+		<comment>\T\T-=\Svalue\S:\SFloat</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S-=\Svalue</comment>
+		<comment>\T\T*=\Svalue\S:\SFloat</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S*=\Svalue</comment>
+		<comment>\T\T/=\Svalue\S:\SFloat</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S/=\Svalue</comment>
+		<comment>\T\T+=\Svector\S:\SVector3</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S+=\Svector.[x,\Sy,\Sz]</comment>
+		<comment>\T\T-=\Svector\S:\SVector3</comment>
+		<comment>\T\T\Tself.[x,\Sy,\Sz]\S-=\Svector.[x,\Sy,\Sz]</comment>
+	</code>
+</module>

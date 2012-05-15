@@ -4,12 +4,21 @@ import os
 from bp.Compiler.Utils import *
 from PyQt4 import QtGui, QtCore, uic
 
+globalIDERoot = fixPath(os.path.abspath(extractDir(os.path.realpath(__file__)) + "../"))
+
+if os.name == "nt":
+	globalGitPath = fixPath(os.path.abspath("../msysgit/bin/"))
+else:
+	globalGitPath = ""
+
 def getIDERoot():
-	return fixPath(os.path.abspath(extractDir(os.path.realpath(__file__)) + "../"))
+	global globalIDERoot
+	return globalIDERoot
 
 def getGitPath():
 	if os.name == "nt":
-		return fixPath(os.path.abspath("../../../../../msysgit/bin/"))
+		global globalGitPath
+		return globalGitPath
 	else:
 		return ""
 

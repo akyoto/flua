@@ -1,7 +1,0 @@
-import UTF8String
-
-target C++
-	include String.hpp
-
-extern
-	bp_strlen : Size

@@ -140,13 +140,15 @@ class CPPOutputCompiler(Benchmarkable):
 		# Write to files
 		for cppFile in cppFiles:
 			#fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
-			fileOut = stripExt(cppFile.file) + "-out.hpp"
+			#fileOut = stripExt(cppFile.file) + "-out.hpp"
+			fileOut = extractDir(cppFile.file) + self.getTargetName() + "/" + stripAll(cppFile.file) + ".hpp"
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
 			if not os.path.isdir(concreteDirOut):
 				os.makedirs(concreteDirOut)
 			
+			print(fileOut)
 			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
 				outStream.write(cppFile.getCode())
 			
@@ -155,7 +157,8 @@ class CPPOutputCompiler(Benchmarkable):
 				hppFile = os.path.basename(fileOut)
 				
 				#fileOut = stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
-				fileOut = stripExt(cppFile.file) + "-out.cpp"
+				#fileOut = stripExt(cppFile.file) + "-out.cpp"
+				fileOut = extractDir(cppFile.file) + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
 				self.mainCppFile = fileOut
 				
 				gcInit = ""
@@ -218,8 +221,8 @@ class CPPOutputCompiler(Benchmarkable):
 	def getExePath(self):
 		exe = stripExt(self.mainCppFile)
 		
-		if os.name == "nt":
-			exe += ".exe"
+		#if os.name == "nt":
+		#	exe += ".exe"
 		
 		return exe
 	

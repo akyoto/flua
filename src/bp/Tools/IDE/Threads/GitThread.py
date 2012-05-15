@@ -11,16 +11,18 @@ class BPGitThread(QtCore.QThread):
 		self.finished.connect(self.bpIDE.gitPullFinished)
 		self.finished.connect(self.gitCmdFinished)
 		self.cmd = None
+		self.scrollUpWhenFinished = False
 		
 	def gitCmdFinished(self):
-		if self.logWidget:
+		if self.logWidget and self.scrollUpWhenFinished:
 			vScrollBar = self.logWidget.verticalScrollBar()
 			vScrollBar.triggerAction(QtGui.QScrollBar.SliderToMinimum)
 		
-	def startCmd(self, cmd, logWidget = None):
+	def startCmd(self, cmd, logWidget = None, scrollUp = False):
 		if self.isRunning():
 			return
 		
+		self.scrollUpWhenFinished = scrollUp
 		self.cmd = cmd
 		self.logWidget = logWidget
 		self.start()
