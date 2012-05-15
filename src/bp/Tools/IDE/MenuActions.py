@@ -82,7 +82,7 @@ class MenuActions:
 		#self.recentFiles
 		
 	def saveFile(self):
-		if self.codeEdit is None:
+		if self.codeEdit is None or self.currentWorkspace.count() == 0:
 			return
 		
 		filePath = self.getFilePath()

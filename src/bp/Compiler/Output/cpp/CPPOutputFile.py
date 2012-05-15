@@ -418,6 +418,13 @@ class CPPOutputFile(ScopeController):
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
 		definedInFile = func.cppFile
 		
+		# Default parameters
+		#paramTypesLen = len(paramTypes)
+		#paramDefaultValueTypes = func.getParamDefaultValueTypes()
+		#paramDefaultValueTypesLen = len(paramDefaultValueTypes)
+		#if paramTypesLen < paramDefaultValueTypesLen:
+		#	paramTypes += paramDefaultValueTypes[paramTypesLen:paramDefaultValueTypesLen]
+		
 		# Push
 		oldFunc = definedInFile.currentFunction
 		
@@ -634,6 +641,10 @@ class CPPOutputFile(ScopeController):
 		else:
 			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
 		
+		# In parameter definition?
+		if node.parentNode.tagName == "parameter":
+			return variableName
+		
 		# Parse value
 		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
 		
@@ -773,13 +784,13 @@ class CPPOutputFile(ScopeController):
 				paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
 			
 			# Check whether the given parameters match the default parameter types
-			defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
-			for i in range(len(defaultValueTypes)):
-				if i >= paramTypesLen:
-					break
-				
-				if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
-					raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
+			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
+			#for i in range(len(defaultValueTypes)):
+			#	if i >= paramTypesLen:
+			#		break
+			#	
+			#	if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
+			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
 			
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
@@ -896,11 +907,12 @@ class CPPOutputFile(ScopeController):
 			
 			# Not enough parameters
 			if counter >= typesLen:
-				# TODO: Default values?
+				# Default values?
 				if counter < len(defaultValueTypes) and defaultValueTypes[counter]:
 					defaultValueType = defaultValueTypes[counter]
 					adjustedDefaultValueType = adjustDataType(defaultValueType)
 					print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
+					self.getCurrentScope().variables[name] = CPPVariable(name, adjustedDefaultValueType, "", False, not adjustedDefaultValueType in nonPointerClasses, False)
 					pList += adjustedDefaultValueType + " " + name + ", "
 					continue
 				
@@ -915,6 +927,7 @@ class CPPOutputFile(ScopeController):
 			
 			declaredInline = (tagName(node.childNodes[0]) == "declare-type")
 			if not declaredInline:
+				print("Variable %s used as '%s'" % (name, usedAs))
 				self.getCurrentScope().variables[name] = CPPVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
 				pList += adjustDataType(usedAs) + " " + name + ", "
 			else:

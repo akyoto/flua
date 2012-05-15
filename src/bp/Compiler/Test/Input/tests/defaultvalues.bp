@@ -33,17 +33,35 @@
 		<if-block depth="0">
 			<if>
 				<condition>
-					<equal>
+					<and>
 						<value>
-							<call>
-								<function>defaultValueFunc</function>
-								<parameters>
-									<parameter>15</parameter>
-								</parameters>
-							</call>
+							<equal>
+								<value>
+									<call>
+										<function>defaultValueFunc</function>
+										<parameters>
+											<parameter>15</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>20</value>
+							</equal>
 						</value>
-						<value>20</value>
-					</equal>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>defaultValueFunc</function>
+										<parameters>
+											<parameter>10</parameter>
+											<parameter>30</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>40</value>
+							</equal>
+						</value>
+					</and>
 				</condition>
 				<code>
 					<call depth="1">
