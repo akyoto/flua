@@ -14,7 +14,7 @@
 				<value>1024</value>
 			</assign>
 		</const>
-		<comment>\SMutable\Sarray</comment>
+		<comment>\SMutable\Sarray,\Sonly\Susable\Sfor\SC++\Stargets</comment>
 		<comment>\STODO:\SFast,\Slock-free\Sand\Simmutable\Sversion</comment>
 		<class depth="0">
 			<name>Array</name>

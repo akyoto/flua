@@ -75,6 +75,7 @@ class CPPOutputCompiler(Benchmarkable):
 		self.includes = []
 		self.stringDataType = "UTF8String"
 		self.needToInitStringClass = False
+		self.defines = dict()
 		
 		self.mainClass = CPPClass("")
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])

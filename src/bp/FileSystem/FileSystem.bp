@@ -22,7 +22,7 @@
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_getCurrentDir</name>
-				<type>UTF8String</type>
+				<type>String</type>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_deleteFile</name>

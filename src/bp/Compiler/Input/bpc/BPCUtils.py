@@ -65,6 +65,7 @@ xmlToBPCBlock = {
 	"else" : "else",
 	"private" : "private",
 	"extern" : "extern",
+	"define" : "define",
 	#"static" : "static"
 	
 	# TODO: Metadata
@@ -84,6 +85,7 @@ xmlToBPCExprBlock = {
 	"while" : ["while", "condition", "code"],
 	"catch" : ["catch", "variable", "code"],
 	"switch" : ["switch", "value", "case"],
+	"pattern" : ["pattern", "type", ""]
 }
 
 xmlToBPCSingleLineExpr = {
@@ -135,6 +137,7 @@ autoNewlineBlock = {
 	"operators",
 	"casts",
 	"namespace",
+	"define",
 	
 	"function",
 	"getter",

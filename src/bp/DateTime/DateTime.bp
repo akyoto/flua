@@ -1,0 +1,128 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">DateTime.hpp</include>
+			</code>
+		</target>
+		<target depth="0">
+			<name>JS</name>
+			<code>
+				<include depth="1">DateTime.js</include>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_getCurrentDate</name>
+				<type>String</type>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getCurrentTime</name>
+				<type>String</type>
+			</extern-function>
+		</extern>
+		<function depth="0">
+			<name>getCurrentDate</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCurrentDate</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<name>getCurrentTime</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCurrentTime</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>year</parameter>
+			</parameters>
+			<name>isLeapYear</name>
+			<code>
+				<return depth="1">
+					<and>
+						<value>
+							<equal>
+								<value>
+									<modulo>
+										<value>year</value>
+										<value>4</value>
+									</modulo>
+								</value>
+								<value>0</value>
+							</equal>
+						</value>
+						<value>
+							<or>
+								<value>
+									<not-equal>
+										<value>
+											<modulo>
+												<value>year</value>
+												<value>100</value>
+											</modulo>
+										</value>
+										<value>0</value>
+									</not-equal>
+								</value>
+								<value>
+									<equal>
+										<value>
+											<modulo>
+												<value>year</value>
+												<value>400</value>
+											</modulo>
+										</value>
+										<value>0</value>
+									</equal>
+								</value>
+							</or>
+						</value>
+					</and>
+				</return>
+			</code>
+		</function>
+		<test depth="0">
+			<call depth="1">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<call>
+							<function>getCurrentDate</function>
+							<parameters/>
+						</call>
+					</parameter>
+				</parameters>
+			</call>
+			<call depth="1">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<call>
+							<function>getCurrentTime</function>
+							<parameters/>
+						</call>
+					</parameter>
+				</parameters>
+			</call>
+		</test>
+	</code>
+</module>

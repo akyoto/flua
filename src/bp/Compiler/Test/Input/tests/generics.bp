@@ -5,9 +5,9 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Generics are working!</string>
-			<string id="bp_string_1">Generics are truly working!</string>
-			<string id="bp_string_2">Generics are perfectly working!</string>
+			<string id="bp_string_0">Generics\Sare\Sworking!</string>
+			<string id="bp_string_1">Generics\Sare\Struly\Sworking!</string>
+			<string id="bp_string_2">Generics\Sare\Sperfectly\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -168,15 +168,6 @@
 					<getter depth="2">
 						<name>value</name>
 						<code>
-							<assign depth="3">
-								<value>
-									<access>
-										<value>my</value>
-										<value>a</value>
-									</access>
-								</value>
-								<value>5</value>
-							</assign>
 							<return depth="3">
 								<access>
 									<value>my</value>

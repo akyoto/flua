@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <bp/Core/String/UTF8String-out.hpp>
-#include <iostream>
 
 // bp_fileModificationTime
 template <typename T>
@@ -47,7 +46,6 @@ inline BPUTF8String* bp_getCurrentDir() {
 		return new BPUTF8String(temp);
 	}
 	
-	std::cout << "Error" << PATH_MAX << std::endl;
 	/*int error = errno;
 
     switch ( error ) {

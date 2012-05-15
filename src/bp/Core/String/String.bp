@@ -27,5 +27,11 @@
 				<name>bp_insertInt</name>
 			</extern-function>
 		</extern>
+		<define depth="0">
+			<assign depth="1">
+				<value>String</value>
+				<value>UTF8String</value>
+			</assign>
+		</define>
 	</code>
 </module>

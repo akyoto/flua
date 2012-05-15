@@ -99,6 +99,7 @@ class CPPOutputFile(ScopeController):
 		self.inOperator = 0
 		self.inTypeDeclaration = 0
 		self.inFunction = 0
+		self.inDefine = 0
 		self.namespaceStack = []
 		
 		# Codes
@@ -318,6 +319,8 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "namespace":
 			return self.handleNamespace(node)
+		elif tagName == "define":
+			return self.handleDefine(node)
 		elif tagName == "target":
 			return self.handleTarget(node)
 		elif tagName == "return":
@@ -590,6 +593,14 @@ class CPPOutputFile(ScopeController):
 		self.inAssignment += 1
 		isSelfMemberAccess = False
 		
+		# Typedefs
+		if self.inDefine:
+			defineWhat = self.parseExpr(node.firstChild.firstChild)
+			defineAs = self.parseExpr(node.childNodes[1].firstChild)
+			self.compiler.defines[defineWhat] = defineAs
+			#"typedef %s %s" % (defineAs, defineWhat)
+			return ""
+		
 		# Member access (setter)
 		op1 = node.childNodes[0].childNodes[0]
 		if not isTextNode(op1):
@@ -698,6 +709,7 @@ class CPPOutputFile(ScopeController):
 		return variableName + " = " + value
 		
 	def handleNamespace(self, node):
+		# TODO: Fully implement namespaces
 		name = getElementByTagName(node, "name").firstChild.nodeValue
 		
 		print("Namespace %s" % name)
@@ -713,6 +725,13 @@ class CPPOutputFile(ScopeController):
 		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
 		
 		self.namespaceStack.pop()
+		
+		return code
+		
+	def handleDefine(self, node):
+		self.inDefine += 1
+		code = self.parseChilds(node, "\t" * self.currentTabLevel, ";\n")
+		self.inDefine -= 1
 		
 		return code
 		
@@ -1073,6 +1092,11 @@ class CPPOutputFile(ScopeController):
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
 		dataType = self.addMissingTemplateValues(dataType)
+		
+		# Replace typedefs
+		while dataType in self.compiler.defines:
+			dataType = self.compiler.defines[dataType]
+		
 		return dataType#self.currentClassImpl.translateTemplateName(dataType)
 	
 	def getExprDataTypeClean(self, node):
@@ -1315,6 +1339,11 @@ class CPPOutputFile(ScopeController):
 			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
 		else:
 			#debug("Declaring '%s' as '%s'" % (varName, typeName))
+			
+			# Replace typedefs
+			while typeName in self.compiler.defines:
+				typeName = self.compiler.defines[typeName]
+			
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
 			

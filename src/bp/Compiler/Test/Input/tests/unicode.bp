@@ -222,7 +222,7 @@
 					<type>
 						<template-call>
 							<value>Array</value>
-							<value>UTF8String</value>
+							<value>String</value>
 						</template-call>
 					</type>
 					<parameters/>

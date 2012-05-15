@@ -66,7 +66,8 @@ simpleBlocks = {
 	"operators" : [],
 	"operator" : [],
 	"casts" : [],
-	"namespace" : []
+	"namespace" : [],
+	"define" : []
 }
 
 def addGenerics(line):
@@ -193,6 +194,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"compilerflags" : self.handleCompilerFlags,
 			"const" : self.handleConst,
 			"continue" : self.handleContinue,
+			"define" : self.handleDefine,
 			"elif" : self.handleElif,
 			"else" : self.handleElse,
 			"ensure" : self.handleEnsure,
@@ -696,6 +698,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.raiseBlockException("private", line)
 		
 		node = self.doc.createElement("private")
+		self.nextNode = node
+		return node
+		
+	def handleDefine(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("define", line)
+		
+		node = self.doc.createElement("define")
 		self.nextNode = node
 		return node
 		

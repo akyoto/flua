@@ -210,17 +210,20 @@
 								</access>
 							</value>
 							<value>
-								<call>
-									<function>bp_strlen_utf8</function>
-									<parameters>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>data</value>
-											</access>
-										</parameter>
-									</parameters>
-								</call>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>length</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>s2</value>
+											<value>length</value>
+										</access>
+									</value>
+								</add>
 							</value>
 						</assign>
 					</code>
