@@ -1,11 +1,20 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <limits.h>
+#include <cstdio>
 #include <bp/Core/String/UTF8String-out.hpp>
+
+// Typedef
+#define BPFileHandle FILE
+
+// bp_fopen
+inline BPFileHandle* bp_fopen(BPUTF8String *path, BPUTF8String *mode) {
+	return fopen(*path, *mode);
+}
 
 // bp_fileModificationTime
 template <typename T>
-time_t bp_fileModificationTime(T file) {
+inline time_t bp_fileModificationTime(T file) {
 	struct stat fileInfo;
 	
 	if(stat(*file, &fileInfo) != 0) {

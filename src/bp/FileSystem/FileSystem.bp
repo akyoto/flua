@@ -5,7 +5,8 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">test.txt</string>
+			<string id="bp_string_0">w</string>
+			<string id="bp_string_1">test.txt</string>
 		</strings>
 	</header>
 	<code>
@@ -36,9 +37,24 @@
 				<name>bp_fileExists</name>
 				<type>Bool</type>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_fopen</name>
+				<type>FileHandle</type>
+			</extern-function>
+			<class depth="1">
+				<name>FileHandle</name>
+				<code>
+					<function depth="2">
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</function>
+				</code>
+			</class>
 		</extern>
 		<class depth="0">
-			<name>File</name>
+			<name>FileWriteStream</name>
 			<code>
 				<function depth="1">
 					<parameters>
@@ -58,27 +74,38 @@
 									<value>fd</value>
 								</access>
 							</value>
-							<value>0</value>
+							<value>
+								<call>
+									<function>bp_fopen</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+										<parameter>bp_string_0</parameter>
+									</parameters>
+								</call>
+							</value>
 						</assign>
 					</code>
 				</function>
-				<function depth="1">
-					<name>close</name>
-					<code>
-						<noop depth="2"/>
-					</code>
-				</function>
-				<function depth="1">
-					<name>read</name>
-					<code>
-						<noop depth="2"/>
-					</code>
-				</function>
+			</code>
+		</class>
+		<class depth="0">
+			<name>File</name>
+			<code>
 				<function depth="1">
 					<parameters>
-						<parameter>data</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
 					</parameters>
-					<name>write</name>
+					<name>init</name>
 					<code>
 						<noop depth="2"/>
 					</code>
@@ -118,6 +145,24 @@
 								</code>
 							</if>
 						</if-block>
+					</code>
+				</function>
+				<function depth="1">
+					<name>createWriteStream</name>
+					<code>
+						<return depth="2">
+							<new>
+								<type>FileWriteStream</type>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>path</value>
+										</access>
+									</parameter>
+								</parameters>
+							</new>
+						</return>
 					</code>
 				</function>
 				<get depth="1">
@@ -172,6 +217,18 @@
 									<value>path</value>
 								</access>
 							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>absolutePath</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>relativePath</name>
+						<code>
+							<noop depth="3"/>
 						</code>
 					</getter>
 				</get>
@@ -260,7 +317,7 @@
 					<new>
 						<type>FileWriteStream</type>
 						<parameters>
-							<parameter>bp_string_0</parameter>
+							<parameter>bp_string_1</parameter>
 						</parameters>
 					</new>
 				</value>

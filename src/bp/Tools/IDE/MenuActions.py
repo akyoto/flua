@@ -154,10 +154,12 @@ class MenuActions:
 				#	os.remove(exePath)
 				
 				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-				try:
-					cpp.compile(bpPostPFile)
-				except OutputCompilerException as e:
-					self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
+				#try:
+				cpp.compile(bpPostPFile)
+				#except OutputCompilerException as e:
+				#	self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
+				#	return
+				
 				cpp.writeToFS()
 				
 				exitCode = cpp.build(compilerFlags)
@@ -175,6 +177,9 @@ class MenuActions:
 				print("Executing: %s" % exe)
 				print("-" * 80)
 				
+				exeDir = extractDir(exe)
+				os.chdir(exeDir)
+				
 				cpp.execute(exe, self.console.log.write, self.console.log.writeError)
 			except OutputCompilerException as e:
 				#lineNumber = e.getLineNumber()
@@ -190,6 +195,8 @@ class MenuActions:
 					self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
 			except:
 				printTraceback()
+			finally:
+				os.chdir(getIDERoot())
 			
 			#cpp.compile(self.file, self.codeEdit.root)
 			
