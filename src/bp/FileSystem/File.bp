@@ -1,0 +1,167 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.FileSystem</import>
+			<import>FileWriteStream</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0">
+			<name>File</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>to</parameter>
+					</parameters>
+					<name>rename</name>
+					<code>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<call>
+										<function>renameFile</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>path</value>
+												</access>
+											</parameter>
+											<parameter>to</parameter>
+										</parameters>
+									</call>
+								</condition>
+								<code>
+									<assign depth="3">
+										<value>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</value>
+										<value>to</value>
+									</assign>
+								</code>
+							</if>
+						</if-block>
+					</code>
+				</function>
+				<function depth="1">
+					<name>createWriteStream</name>
+					<code>
+						<return depth="2">
+							<new>
+								<type>FileWriteStream</type>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>path</value>
+										</access>
+									</parameter>
+								</parameters>
+							</new>
+						</return>
+					</code>
+				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>creationTime</name>
+						<code>
+							<return depth="3">0</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>modificationTime</name>
+						<code>
+							<return depth="3">
+								<call>
+									<function>bp_fileModificationTime</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>exists</name>
+						<code>
+							<return depth="3">
+								<call>
+									<function>fileExists</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>path</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>absolutePath</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>relativePath</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+					</getter>
+				</get>
+				<casts depth="1">
+					<cast-definition depth="2">
+						<to>String</to>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</cast-definition>
+				</casts>
+			</code>
+		</class>
+	</code>
+</module>

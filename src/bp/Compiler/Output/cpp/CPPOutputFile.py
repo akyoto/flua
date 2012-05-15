@@ -317,10 +317,10 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "test":
 			return ""
+		elif tagName == "define":
+			return ""
 		elif tagName == "namespace":
 			return self.handleNamespace(node)
-		elif tagName == "define":
-			return self.handleDefine(node)
 		elif tagName == "target":
 			return self.handleTarget(node)
 		elif tagName == "return":
@@ -402,6 +402,10 @@ class CPPOutputFile(ScopeController):
 			#classImpl.initCallTypes = paramTypes
 		funcName = correctOperators(funcName)
 		
+		# For casts
+		#while funcName in self.compiler.defines:
+		#	funcName = self.compiler.defines[funcName]
+		
 		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
 		if key in self.compiler.funcImplCache:
 			return self.compiler.funcImplCache[key]
@@ -448,6 +452,7 @@ class CPPOutputFile(ScopeController):
 		oldGetter = self.inGetter
 		oldSetter = self.inSetter
 		oldOperator = self.inOperator
+		oldCastDefinition = self.inCastDefinition
 		oldImpl = self.currentClassImpl
 		oldClass = self.currentClass
 		oldFunction = self.currentFunction
@@ -465,6 +470,13 @@ class CPPOutputFile(ScopeController):
 			self.inSetter += 1
 		elif node.tagName == "operator":
 			self.inOperator += 1
+		elif node.tagName == "cast-definition":
+			self.inCastDefinition += 1
+		
+		if self.inCastDefinition:
+			# For casts
+			while funcName in self.compiler.defines:
+				funcName = self.compiler.defines[funcName]
 		
 		# Implement it
 		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)
@@ -512,6 +524,7 @@ class CPPOutputFile(ScopeController):
 		self.inGetter = oldGetter
 		self.inSetter = oldSetter
 		self.inOperator = oldOperator
+		self.inCastDefinition = oldCastDefinition
 		self.currentClass = oldClass
 		self.currentClassImpl = oldImpl
 		
@@ -599,14 +612,6 @@ class CPPOutputFile(ScopeController):
 	def handleAssign(self, node):
 		self.inAssignment += 1
 		isSelfMemberAccess = False
-		
-		# Typedefs
-		if self.inDefine:
-			defineWhat = self.parseExpr(node.firstChild.firstChild)
-			defineAs = self.parseExpr(node.childNodes[1].firstChild)
-			self.compiler.defines[defineWhat] = defineAs
-			#"typedef %s %s" % (defineAs, defineWhat)
-			return ""
 		
 		# Member access (setter)
 		op1 = node.childNodes[0].childNodes[0]
@@ -739,15 +744,19 @@ class CPPOutputFile(ScopeController):
 		
 		return code
 		
-	def handleDefine(self, node):
-		self.inDefine += 1
-		code = self.parseChilds(node, "\t" * self.currentTabLevel, ";\n")
-		self.inDefine -= 1
+	# def handleDefine(self, node):
+		# self.inDefine += 1
+		# code = self.parseChilds(node, "\t" * self.currentTabLevel, ";\n")
+		# self.inDefine -= 1
 		
-		return code
+		# return code
 		
 	def handleCall(self, node):
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
+		
+		# For casts
+		while funcName in self.compiler.defines:
+			funcName = self.compiler.defines[funcName]
 		
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
@@ -1512,6 +1521,10 @@ class CPPOutputFile(ScopeController):
 					self.inCasts += 1
 					self.scanAhead(node)
 					self.inCasts -= 1
+				elif node.tagName == "define":
+					self.inDefine += 1
+					self.scanAhead(node)
+					self.inDefine -= 1
 				elif node.tagName == "get" or node.tagName == "set":
 					self.scanAhead(node)
 				elif node.tagName == "template":
@@ -1520,6 +1533,8 @@ class CPPOutputFile(ScopeController):
 					self.inTemplate -= 1
 				elif node.tagName == "extern-function":
 					self.scanExternFunction(node)
+				elif node.tagName == "assign" and self.inDefine > 0:
+					self.scanDefine(node)
 	
 	def scanTemplate(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
@@ -1549,9 +1564,19 @@ class CPPOutputFile(ScopeController):
 			self.popClass()
 		self.popScope()
 	
+	# Typedefs
+	def scanDefine(self, node):
+		defineWhat = self.parseExpr(node.firstChild.firstChild)
+		defineAs = self.parseExpr(node.childNodes[1].firstChild)
+		self.compiler.defines[defineWhat] = defineAs
+	
 	def scanFunction(self, node):
 		if self.inCastDefinition:
 			name = self.parseExpr(getElementByTagName(node, "to").childNodes[0], True)
+			
+			# Replace typedefs
+			while name in self.compiler.defines:
+				name = self.compiler.defines[name]
 		else:
 			#print(node.toprettyxml())
 			name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -1587,6 +1612,10 @@ class CPPOutputFile(ScopeController):
 		# TODO: Remove hardcoded
 		if type == "CString":
 			type = "~MemPointer<Byte>"
+		
+		# Typedefs
+		while type in self.compiler.defines:
+			type = self.compiler.defines[type]
 		
 		self.compiler.mainClass.addExternFunction(name, type)
 	

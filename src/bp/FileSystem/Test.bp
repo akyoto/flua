@@ -7,7 +7,8 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">../</string>
-			<string id="bp_string_1">IDE/tmp/</string>
+			<string id="bp_string_1">testa.txt</string>
+			<string id="bp_string_2">testb.txt</string>
 		</strings>
 	</header>
 	<code>
@@ -39,11 +40,41 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
-			<function>changeDir</function>
-			<parameters>
-				<parameter>bp_string_1</parameter>
-			</parameters>
-		</call>
+		<assign depth="0">
+			<value>a</value>
+			<value>
+				<new>
+					<type>FileWriteStream</type>
+					<parameters>
+						<parameter>bp_string_1</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>b</value>
+			<value>
+				<new>
+					<type>File</type>
+					<parameters>
+						<parameter>bp_string_2</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>c</value>
+			<value>
+				<call>
+					<function>
+						<access>
+							<value>b</value>
+							<value>createWriteStream</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
 	</code>
 </module>

@@ -12,6 +12,11 @@ class CPPFunction:
 		if self.isCast:
 			typeNode = getElementByTagName(node, "to")
 			self.name = cppFile.parseExpr(typeNode.childNodes[0])
+			
+			# Replace typedefs
+			while self.name in cppFile.compiler.defines:
+				self.name = cppFile.compiler.defines[self.name]
+			
 			# TODO: Remove quick fix
 			#if isElemNode(typeNode.childNodes[0]) and typeNode.childNodes[0].tagName == "unmanaged":
 			#	self.castToUnmanaged = True
