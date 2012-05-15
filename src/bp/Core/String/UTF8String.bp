@@ -616,7 +616,37 @@
 						<noop depth="2"/>
 					</code>
 				</function>
-				<comment>\SSubstring</comment>
+				<comment>\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>chars</parameter>
+					</parameters>
+					<name>erase</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\Schars</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>chars</parameter>
+					</parameters>
+					<name>startsWith</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\Schars</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>chars</parameter>
+					</parameters>
+					<name>endsWith</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<comment>\SSubstring\Sfrom\Sindex\Sto\Sindex\S+\Slength</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>index</parameter>

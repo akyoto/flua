@@ -22,6 +22,8 @@ class CPPFunction:
 		self.implementations = {}
 		self.paramNames = []
 		self.paramTypesByDefinition = []
+		self.paramDefaultValues = []
+		self.paramDefaultValueTypes = []
 		
 	def isOperator(self):
 		return self.node.tagName == "operator"
@@ -40,6 +42,12 @@ class CPPFunction:
 	def getParamNamesString(self):
 		return ", ".join(self.paramNames)
 	
+	def getParamDefaultValues(self):
+		return self.paramDefaultValues
+		
+	def getParamDefaultValueTypes(self):
+		return self.paramDefaultValueTypes
+	
 	def getMatchingScore(self, calledTypes, classImpl):
 		numCalledTypes = len(calledTypes)
 		numTypesByDef = len(self.paramTypesByDefinition)
@@ -51,33 +59,46 @@ class CPPFunction:
 		
 		if numCalledTypes > numTypesByDef:
 			return 0
-		elif numCalledTypes < numTypesByDef:
-			# TODO: Check for default values
-			return 0
-		else:
-			score = 1
-			for i in range(numTypesByDef):
-				typeA = calledTypes[i]
-				typeB = self.paramTypesByDefinition[i]
-				typeB = classImpl.translateTemplateName(typeB)
-				
+		
+		#if numCalledTypes < numTypesByDef:
+			# Check for default values
+		#	print("Default value check")
+		#	for i in range(numCalledTypes, numTypesByDef):
+		#		print("Using default value %s" % self.paramDefaultValues[i])
+		#		calledTypes.append()
+		#	return 0
+		
+		score = 1
+		for i in range(numTypesByDef):
+			# Default values
+			if i >= numCalledTypes:
+				if self.paramDefaultValues[i]:
+					score += 2
+					continue
+				else:
+					return 0
+			
+			typeA = calledTypes[i]
+			typeB = self.paramTypesByDefinition[i]
+			typeB = classImpl.translateTemplateName(typeB)
+			
 #				print(typeA)
 #				print(typeB)
 #				print(self.paramTypesByDefinition[i])
 #				print(classImpl.translateTemplateName("Tradius"))
 #				print(classImpl.templateValues)
 #				print("---------------->")
-				
-				if typeA == typeB:
-					score += 3
-				elif typeB == "":
-					score += 2
-				elif canBeCastedTo(typeA, typeB):
-					score += 1
-				else:
-					return 0
-					
-			return score
+			
+			if typeA == typeB:
+				score += 3
+			elif typeB == "":
+				score += 2
+			elif canBeCastedTo(typeA, typeB):
+				score += 1
+			else:
+				return 0
+			
+		return score
 		
 	def getInitList(self):
 		stri = ""

@@ -479,7 +479,7 @@ class CPPOutputFile(ScopeController):
 			if typeName: #and not self.variableExistsAnywhere("my"):
 				# TODO: removeUnmanaged(typeName) ? yes/no?
 				self.registerVariable(CPPVariable("my", typeName, "", False, True, False))
-			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes)
+			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes, funcImpl.func.getParamDefaultValueTypes())
 			
 			#  * self.currentTabLevel
 			oldTabLevel = self.currentTabLevel
@@ -763,6 +763,24 @@ class CPPOutputFile(ScopeController):
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
 			
+			# Default parameters
+			paramTypesLen = len(paramTypes)
+			paramDefaultValues = funcImpl.func.getParamDefaultValues()
+			paramDefaultValuesLen = len(paramDefaultValues)
+			if paramTypesLen < paramDefaultValuesLen:
+				if paramsString:
+					paramsString += ", "
+				paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
+			
+			# Check whether the given parameters match the default parameter types
+			defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
+			for i in range(len(defaultValueTypes)):
+				if i >= paramTypesLen:
+					break
+				
+				if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
+					raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
+			
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
@@ -796,17 +814,21 @@ class CPPOutputFile(ScopeController):
 		
 	def getParameterList(self, pNode):
 		if pNode is None:
-			return [], [], []
+			return [], [], [], []
 		
 		pList = []
 		pTypes = []
 		pDefault = []
+		pDefaultTypes = []
 		
 		for node in pNode.childNodes:
 			name = ""
 			type = ""
 			defaultValue = ""
+			defaultValueType = ""
+			
 			exprNode = node.childNodes[0]
+			
 			if isTextNode(exprNode):
 				name = exprNode.nodeValue
 			elif exprNode.tagName == "name":
@@ -816,6 +838,11 @@ class CPPOutputFile(ScopeController):
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
 				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+				defaultValue = self.parseExpr(exprNode.childNodes[1].childNodes[0])
+				defaultValueType = self.getExprDataType(exprNode)
+				
+				# TODO: declare-type
+				#type = defaultValueType
 			elif exprNode.tagName == "declare-type":
 				op1 = exprNode.childNodes[0].childNodes[0]
 				if isElemNode(op1) and op1.tagName == "access":
@@ -839,12 +866,18 @@ class CPPOutputFile(ScopeController):
 			
 			type = self.currentClassImpl.translateTemplateName(type)
 			type = self.addMissingTemplateValues(type)
+			
+			# Use default value type if not set
+			#if not type and defaultValueType:
+			#	type = defaultValueType
+			
 			pTypes.append(type)
 			pDefault.append(defaultValue)
+			pDefaultTypes.append(defaultValueType)
 		
-		return pList, pTypes, pDefault
+		return pList, pTypes, pDefault, pDefaultTypes
 		
-	def getParameterDefinitions(self, pNode, types):
+	def getParameterDefinitions(self, pNode, types, defaultValueTypes):
 		if pNode is None:
 			return "", ""
 		
@@ -863,6 +896,14 @@ class CPPOutputFile(ScopeController):
 			
 			# Not enough parameters
 			if counter >= typesLen:
+				# TODO: Default values?
+				if counter < len(defaultValueTypes) and defaultValueTypes[counter]:
+					defaultValueType = defaultValueTypes[counter]
+					adjustedDefaultValueType = adjustDataType(defaultValueType)
+					print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
+					pList += adjustedDefaultValueType + " " + name + ", "
+					continue
+				
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
 			
 			usedAs = types[counter]
@@ -1130,11 +1171,16 @@ class CPPOutputFile(ScopeController):
 				typeNode = getElementByTagName(node, "type").childNodes[0]
 				
 				if isTextNode(typeNode):
-					return typeNode.nodeValue
+					typeName = typeNode.nodeValue
 				else:
 					# Template parameters
 					typeName = self.parseExpr(typeNode, True)
-					return typeName
+					
+				# Check defines
+				while typeName in self.compiler.defines:
+					typeName = self.compiler.defines[typeName]
+					
+				return typeName
 					#return typeNode.childNodes[0].childNodes[0].nodeValue
 			elif node.tagName == "call":
 				if self.inFunction:
@@ -1146,6 +1192,11 @@ class CPPOutputFile(ScopeController):
 							raise CompilerException("Unknown data type for recursive call: " + self.currentFunction.getName())
 				
 				return self.getCallDataType(node)
+			elif node.tagName == "assign":
+				#op1 = node.childNodes[0].childNodes[0]
+				op2 = node.childNodes[1].childNodes[0]
+				# TODO: Check for declare-type in op1
+				return self.getExprDataType(op2)
 			elif node.tagName == "access":
 				caller = node.childNodes[0].childNodes[0]
 				
@@ -1156,6 +1207,10 @@ class CPPOutputFile(ScopeController):
 					return self.getVariableTypeAnywhere(varName)
 				
 				callerType = self.getExprDataType(caller)
+				
+				#while callerType in self.compiler.defines:
+				#	callerType = self.compiler.defines[callerType]
+				
 				callerClassName = extractClassName(callerType)
 				memberName = node.childNodes[1].childNodes[0].nodeValue
 				callerClass = self.getClass(callerClassName)
@@ -1367,6 +1422,9 @@ class CPPOutputFile(ScopeController):
 		op1 = self.currentClassImpl.translateTemplateName(op1)
 		op2 = self.currentClassImpl.translateTemplateName(op2)
 		
+		while op2 in self.compiler.defines:
+			op2 = self.compiler.defines[op2]
+		
 		return op1 + "<" + op2 + ">"
 	
 	def handleString(self, node):
@@ -1451,7 +1509,7 @@ class CPPOutputFile(ScopeController):
 					self.scanExternFunction(node)
 	
 	def scanTemplate(self, node):
-		pNames, pTypes, pDefaultValues = self.getParameterList(node)
+		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
 		self.currentClass.setTemplateNames(pNames, pDefaultValues)
 	
 	def scanClass(self, node):
@@ -1494,9 +1552,11 @@ class CPPOutputFile(ScopeController):
 		name = correctOperators(name)
 		
 		newFunc = CPPFunction(self, node)
-		paramNames, paramTypesByDefinition, paramDefaultValues = self.getParameterList(getElementByTagName(node, "parameters"))
+		paramNames, paramTypesByDefinition, paramDefaultValues, paramDefaultValueTypes = self.getParameterList(getElementByTagName(node, "parameters"))
 		newFunc.paramNames = paramNames
 		newFunc.paramTypesByDefinition = paramTypesByDefinition
+		newFunc.paramDefaultValues = paramDefaultValues
+		newFunc.paramDefaultValueTypes = paramDefaultValueTypes
 		#debug("Types:" + str(newFunc.paramTypesByDefintion))
 		self.currentClass.addFunction(newFunc)
 		

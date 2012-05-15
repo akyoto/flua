@@ -50,17 +50,30 @@ class CPPFunctionImplementation:
 	def getParamString(self):
 		stri = ""
 		paramNames = self.func.getParamNames()
+		paramTypesLen = len(self.paramTypes)
+		
 		for i in range(len(paramNames)):
-			stri += "%s %s, " % (adjustDataType(self.paramTypes[i]), paramNames[i])
+			if i < paramTypesLen:
+				paramType = self.paramTypes[i]
+			else:
+				# Default values
+				paramType = self.func.paramDefaultValueTypes[i]
+			stri += "%s %s, " % (adjustDataType(paramType), paramNames[i])
 		return stri[:-2]
 		
 	def getParamTypeString(self):
 		stri = ""
 		paramNames = self.func.getParamNames()
+		paramTypesLen = len(self.paramTypes)
 		#print(paramNames)
 		#print(self.paramTypes)
 		for i in range(len(paramNames)):
-			stri += "%s, " % (adjustDataType(self.paramTypes[i]))
+			if i < paramTypesLen:
+				paramType = self.paramTypes[i]
+			else:
+				# Default values
+				paramType = self.func.paramDefaultValueTypes[i]
+			stri += "%s, " % (adjustDataType(paramType))
 		return stri[:-2]
 		
 	def getReferenceString(self):

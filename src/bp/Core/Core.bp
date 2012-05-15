@@ -15,6 +15,18 @@
 				<include depth="1">Core.hpp</include>
 			</code>
 		</target>
+		<target depth="0">
+			<name>HTML5</name>
+			<code>
+				<include depth="1">Core.js</include>
+			</code>
+		</target>
+		<target depth="0">
+			<name>Python</name>
+			<code>
+				<include depth="1">Core.py</include>
+			</code>
+		</target>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_print</name>

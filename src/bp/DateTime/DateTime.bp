@@ -14,9 +14,15 @@
 			</code>
 		</target>
 		<target depth="0">
-			<name>JS</name>
+			<name>HTML5</name>
 			<code>
 				<include depth="1">DateTime.js</include>
+			</code>
+		</target>
+		<target depth="0">
+			<name>Python</name>
+			<code>
+				<include depth="1">DateTime.py</include>
 			</code>
 		</target>
 		<extern depth="0">
