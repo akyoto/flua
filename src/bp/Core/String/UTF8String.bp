@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SUTF-8\Sencoded\Simmutable\Sstring</comment>
+		<comment>\SUTF-8\Sencoded\Simmutable\Sstring\S(only\Sfor\SC++\Starget)</comment>
 		<class depth="0">
 			<name>UTF8String</name>
 			<code>
@@ -533,8 +533,6 @@
 								</call>
 							</value>
 						</assign>
-						<comment>\STODO:\S...</comment>
-						<comment>my.data\S=\Sbytes</comment>
 					</code>
 				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>

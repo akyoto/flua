@@ -273,27 +273,26 @@ class MenuActions:
 	def cleanAllTargets(self):
 		self.acquireGitThread()
 		
-		os.chdir(getModuleDir())
+		#os.chdir(getModuleDir())
 		
 		cleanCmd = [
-			getGitPath() + "find",
-			".",
+			getFindPath() + "find",
+			getModuleDir(),
 			"-name",
-			"'C++'",
+			"C++",
 			
 			"-exec",
-			getGitPath() + "rm",
+			getRmPath() + "rm",
 			"-rf",
 			"{}",
 			";",
 		]
 		
 		print("Cleaning all targets...")
-		#print(" ".join(cleanCmd))
 		self.gitThread.startCmd(cleanCmd, self.console.log)
 		self.gitThread.wait()
 		
-		os.chdir(getIDERoot())
+		#os.chdir(getIDERoot())
 	
 	def runModuleTest(self):
 		self.notImplemented()

@@ -22,6 +22,15 @@ def getGitPath():
 	else:
 		return ""
 
+def getFindPath():
+	if os.name == "nt":
+		return getGitPath()
+	else:
+		return "/usr/bin/"
+		
+def getRmPath():
+	return ""
+
 class BPConfiguration:
 	
 	def __init__(self, bpIDE, fileName):

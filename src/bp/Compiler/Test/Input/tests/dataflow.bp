@@ -7,13 +7,13 @@
 		<strings/>
 	</header>
 	<code>
-		<class>
+		<class depth="0">
 			<name>DataFlowTest</name>
 			<code>
-				<function>
+				<function depth="1">
 					<name>init</name>
 					<code>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>my</value>
@@ -22,7 +22,7 @@
 							</value>
 							<value>10</value>
 						</assign>
-						<assign>
+						<assign depth="2">
 							<value>
 								<access>
 									<value>my</value>
@@ -31,7 +31,7 @@
 							</value>
 							<value>20</value>
 						</assign>
-						<flow-to>
+						<flow-to depth="2">
 							<value>
 								<multiply>
 									<value>
@@ -52,23 +52,33 @@
 						</flow-to>
 					</code>
 				</function>
-				<get>
-					<getter>
+				<get depth="1">
+					<getter depth="2">
 						<name>x</name>
 						<code>
-							<return>x</return>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>x</value>
+								</access>
+							</return>
 						</code>
 					</getter>
-					<getter>
+					<getter depth="2">
 						<name>y</name>
 						<code>
-							<return>y</return>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>y</value>
+								</access>
+							</return>
 						</code>
 					</getter>
 				</get>
 			</code>
 		</class>
-		<assign>
+		<assign depth="0">
 			<value>a</value>
 			<value>
 				<new>
@@ -77,7 +87,7 @@
 				</new>
 			</value>
 		</assign>
-		<call>
+		<call depth="0">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -88,7 +98,7 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call>
+		<call depth="0">
 			<function>print</function>
 			<parameters>
 				<parameter>

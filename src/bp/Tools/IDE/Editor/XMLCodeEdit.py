@@ -19,4 +19,4 @@ class XMLCodeEdit(QtGui.QTextEdit):
 		if self.node:
 			self.setPlainText(self.node.toprettyxml())
 		else:
-			self.xmlView.clear()
+			self.clear()
