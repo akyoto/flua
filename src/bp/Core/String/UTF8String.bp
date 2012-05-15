@@ -567,7 +567,7 @@
 						<noop depth="2"/>
 					</code>
 				</function>
-				<comment>\SSubstring\Sfrom\Sthe\Spoint\Sa\Scertain\Sstring\Sappears</comment>
+				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -582,6 +582,7 @@
 						<noop depth="2"/>
 					</code>
 				</function>
+				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
