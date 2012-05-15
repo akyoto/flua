@@ -6,9 +6,11 @@
 			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">---\n</string>
-			<string id="bp_string_1">\Sms</string>
-			<string id="bp_string_2">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
+			<string id="bp_string_0">Factorial\Sof\Sa:</string>
+			<string id="bp_string_1">Factorial\Sof\Sb:\S</string>
+			<string id="bp_string_2">---\n</string>
+			<string id="bp_string_3">\Sms</string>
+			<string id="bp_string_4">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
 		</strings>
 	</header>
 	<code>
@@ -68,7 +70,7 @@
 					<value>BigInt</value>
 				</declare-type>
 			</value>
-			<value>20</value>
+			<value>20000</value>
 		</assign>
 		<assign depth="0">
 			<value>
@@ -77,10 +79,10 @@
 					<value>Int</value>
 				</declare-type>
 			</value>
-			<value>20</value>
+			<value>20000</value>
 		</assign>
 		<assign depth="0">
-			<value>a</value>
+			<value>fA</value>
 			<value>
 				<call>
 					<function>factorial</function>
@@ -91,7 +93,7 @@
 			</value>
 		</assign>
 		<assign depth="0">
-			<value>b</value>
+			<value>fB</value>
 			<value>
 				<call>
 					<function>factorial</function>
@@ -113,13 +115,13 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>a</parameter>
+				<parameter>bp_string_0</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>b</parameter>
+				<parameter>fA</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
@@ -127,9 +129,21 @@
 			<parameters>
 				<parameter>
 					<add>
+						<value>bp_string_1</value>
+						<value>fB</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>print\S((&quot;Factorial\Sof\S&quot;\S+\Sa)\S+\S&quot;:\S&quot;)\S+\SfA</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
 						<value>
 							<add>
-								<value>bp_string_0</value>
+								<value>bp_string_2</value>
 								<value>
 									<subtract>
 										<value>timeB</value>
@@ -138,7 +152,7 @@
 								</value>
 							</add>
 						</value>
-						<value>bp_string_1</value>
+						<value>bp_string_3</value>
 					</add>
 				</parameter>
 			</parameters>
@@ -146,7 +160,7 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_2</parameter>
+				<parameter>bp_string_4</parameter>
 			</parameters>
 		</call>
 	</code>

@@ -9,6 +9,7 @@
 		<strings/>
 	</header>
 	<code>
+		<comment>\SImmutable\Sfile\Sobject</comment>
 		<class depth="0">
 			<name>File</name>
 			<code>
@@ -24,43 +25,6 @@
 					<name>init</name>
 					<code>
 						<noop depth="2"/>
-					</code>
-				</function>
-				<function depth="1">
-					<parameters>
-						<parameter>to</parameter>
-					</parameters>
-					<name>rename</name>
-					<code>
-						<if-block depth="2">
-							<if>
-								<condition>
-									<call>
-										<function>renameFile</function>
-										<parameters>
-											<parameter>
-												<access>
-													<value>my</value>
-													<value>path</value>
-												</access>
-											</parameter>
-											<parameter>to</parameter>
-										</parameters>
-									</call>
-								</condition>
-								<code>
-									<assign depth="3">
-										<value>
-											<access>
-												<value>my</value>
-												<value>path</value>
-											</access>
-										</value>
-										<value>to</value>
-									</assign>
-								</code>
-							</if>
-						</if-block>
 					</code>
 				</function>
 				<function depth="1">
@@ -93,7 +57,7 @@
 						<code>
 							<return depth="3">
 								<call>
-									<function>bp_fileModificationTime</function>
+									<function>fileModificationTime</function>
 									<parameters>
 										<parameter>
 											<access>

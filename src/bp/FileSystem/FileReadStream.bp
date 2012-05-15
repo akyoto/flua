@@ -1,0 +1,54 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.FileSystem</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">r</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0">
+			<name>FileReadStream</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>fd</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_fopen</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+										<parameter>bp_string_0</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</function>
+			</code>
+		</class>
+	</code>
+</module>

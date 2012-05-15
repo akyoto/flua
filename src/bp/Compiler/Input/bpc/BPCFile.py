@@ -1085,6 +1085,20 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return node
 	
+	def addString(self, stri):
+		# TODO: Add string to string list
+		identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
+		
+		# Create XML node
+		stringNode = self.doc.createElement("string")
+		stringNode.setAttribute("id", identifier)
+		stringNode.appendChild(self.doc.createTextNode(encodeCDATA(stri)))
+		self.strings.appendChild(stringNode)
+		
+		self.stringCount += 1
+		
+		return identifier
+	
 	def prepareLine(self, line):
 		i = 0
 		roundBracketsBalance = 0 # ()
@@ -1127,10 +1141,42 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif line[i] == '"':
 				lineLen = len(line)
 				
+				paramAtEndOfString = False
+				
 				h = i + 1
 				while h < lineLen and line[h] != '"':
+					# Variables in strings
+					if line[h] == '$' and line[h - 1] != '\\':
+						paramEnd = h + 1
+						
+						if paramEnd >= lineLen:
+							raise CompilerException("Expecting variable name after '%s'" % line)
+						
+						# Get variable name
+						while paramEnd < lineLen and line[paramEnd].isalnum() or line[paramEnd] == '_':
+							paramEnd += 1
+						
+						paramName = line[h+1:paramEnd]
+						identifier = self.addString(line[i+1:h])
+						
+						# TODO: Possible string concatenation optimization
+						rest = line[paramEnd:]
+						if rest and rest[0] == '"':
+							# Ignore empty string at the end
+							line = '%s%s+%s%s' % (line[:i], identifier, paramName, rest[1:])
+							paramAtEndOfString = True
+							break
+						else:
+							line = '%s%s+%s+"%s' % (line[:i], identifier, paramName, rest)
+						lineLen = len(line)
+						h = lineLen - len(rest)
+						i = h - 1
+						continue
 					h += 1
 					
+				if paramAtEndOfString:
+					continue
+				
 				if h == lineLen:
 					raise CompilerException("You forgot to close the string: '\"' missing")
 				
@@ -1139,17 +1185,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				if i > 1 and mustNotBeNextToExpr(line[i - 1]):
 					raise CompilerException("Operator missing: %s ↓ %s" % (line[:i].strip(), line[i:h+1].strip()))
 				
-				# TODO: Add string to string list
-				identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
-				
-				# Create XML node
-				stringNode = self.doc.createElement("string")
-				stringNode.setAttribute("id", identifier)
-				stringNode.appendChild(self.doc.createTextNode(encodeCDATA(line[i+1:h])))
-				self.strings.appendChild(stringNode)
-				
+				identifier = self.addString(line[i+1:h])
 				line = line[:i] + identifier + line[h+1:]
-				self.stringCount += 1
 				i += len(identifier) - 1
 			i += 1
 		

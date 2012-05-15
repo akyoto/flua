@@ -486,6 +486,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return nodeToBPC(op1, 0, conv) + "<" + nodeToBPC(op2, 0, conv) + ">"
 		elif nodeName == "index":
 			return nodeToBPC(op1, 0, conv) + "[" + nodeToBPC(op2, 0, conv) + "]"
+		# String parameters
+		elif nodeName == "add" and op1.nodeType == Node.TEXT_NODE and op1.nodeValue.startswith("bp_string_") and op2.nodeType == Node.TEXT_NODE and not isNumeric(op2.nodeValue):
+			return '%s$%s"' % (nodeToBPC(op1, 0, conv)[:-1], nodeToBPC(op2, 0, conv))
 		
 		# Find operation "above" the current one
 		if node.parentNode.tagName == "value":

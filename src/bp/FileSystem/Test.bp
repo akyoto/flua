@@ -9,6 +9,7 @@
 			<string id="bp_string_0">../../</string>
 			<string id="bp_string_1">Test\S1.txt</string>
 			<string id="bp_string_2">Test\S2.txt</string>
+			<string id="bp_string_3">h\Sis:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -76,5 +77,20 @@
 				</call>
 			</value>
 		</assign>
+		<assign depth="0">
+			<value>h</value>
+			<value>13</value>
+		</assign>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_3</value>
+						<value>h</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>

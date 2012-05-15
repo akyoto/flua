@@ -593,7 +593,16 @@ class CPPOutputFile(ScopeController):
 		else:
 			typeName = self.addMissingTemplateValues(typeName)
 		
-		self.implementFunction(typeName, "init", paramTypes)
+		funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		
+		# Default parameters for init
+		paramTypesLen = len(paramTypes)
+		paramDefaultValues = funcImpl.func.getParamDefaultValues()
+		paramDefaultValuesLen = len(paramDefaultValues)
+		if paramTypesLen < paramDefaultValuesLen:
+			if paramsString:
+				paramsString += ", "
+			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
 		
 		finalTypeName = adjustDataType(typeName, False)
 		

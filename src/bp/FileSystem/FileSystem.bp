@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>File</import>
+			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
 		</dependencies>
 		<strings>
@@ -122,6 +123,22 @@
 				<return depth="1">
 					<call>
 						<function>bp_fileExists</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>fileModificationTime</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_fileModificationTime</function>
 						<parameters>
 							<parameter>path</parameter>
 						</parameters>

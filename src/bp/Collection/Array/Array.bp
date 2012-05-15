@@ -8,12 +8,6 @@
 		<strings/>
 	</header>
 	<code>
-		<const depth="0">
-			<assign>
-				<value>arrayMinSize</value>
-				<value>1024</value>
-			</assign>
-		</const>
 		<comment>\SMutable\Sarray,\Scurrently\Sonly\Susable\Sfor\SC++\Stargets</comment>
 		<comment>\STODO:\SFast,\Slock-free\Sand\Simmutable\Sversion</comment>
 		<class depth="0">
@@ -23,6 +17,14 @@
 					<parameter depth="2">TDataType</parameter>
 				</template>
 				<function depth="1">
+					<parameters>
+						<parameter>
+							<assign>
+								<value>size</value>
+								<value>1024</value>
+							</assign>
+						</parameter>
+					</parameters>
 					<name>init</name>
 					<code>
 						<assign depth="2">
@@ -43,7 +45,7 @@
 												</template-call>
 											</type>
 											<parameters>
-												<parameter>arrayMinSize</parameter>
+												<parameter>size</parameter>
 											</parameters>
 										</new>
 									</value>
@@ -79,10 +81,29 @@
 											<value>start</value>
 										</access>
 									</value>
-									<value>arrayMinSize</value>
+									<value>size</value>
 								</add>
 							</value>
 						</assign>
+					</code>
+				</function>
+				<function depth="1">
+					<name>delete</name>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>start</value>
+										</access>
+									</value>
+									<value>free</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
 					</code>
 				</function>
 				<function depth="1">

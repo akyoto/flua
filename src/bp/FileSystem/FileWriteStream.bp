@@ -46,6 +46,97 @@
 								</call>
 							</value>
 						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>buffer</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Array</value>
+											<value>String</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>bufferLen</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>line</value>
+								<value>String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>writeLine</name>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>buffer</value>
+										</access>
+									</value>
+									<value>add</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>line</parameter>
+							</parameters>
+						</call>
+						<assign-add depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>bufferLen</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>line</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+						</assign-add>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>data</parameter>
+					</parameters>
+					<name>write</name>
+					<code>
+						<call depth="2">
+							<function>bp_fwrite</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</parameter>
+								<parameter>data</parameter>
+							</parameters>
+						</call>
 					</code>
 				</function>
 			</code>
