@@ -29,7 +29,10 @@ def getFindPath():
 		return "/usr/bin/"
 		
 def getRmPath():
-	return ""
+	if os.name == "nt":
+		return getGitPath()
+	else:
+		return ""
 
 class BPConfiguration:
 	
