@@ -385,6 +385,7 @@ This feature is currently in development.
 									<li style='margin-bottom: 4px'>Git</li>
 									<li style='margin-bottom: 4px'>Linux</li>
 									<li style='margin-bottom: 4px'>MinGW</li>
+									<li style='margin-bottom: 4px'>GMP</li>
 									<li style='margin-bottom: 4px'>Boehm GC</li>
 									<li style='margin-bottom: 4px'>github.com</li>
 								</ul>

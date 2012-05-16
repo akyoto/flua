@@ -67,7 +67,8 @@ simpleBlocks = {
 	"operator" : [],
 	"casts" : [],
 	"namespace" : [],
-	"define" : []
+	"define" : [],
+	"extends" : []
 }
 
 def addGenerics(line):
@@ -156,6 +157,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inSwitch = 0
 		self.inCase = 0
 		self.inExtern = 0
+		self.inExtends = 0
 		self.inTemplate = 0
 		self.inFunction = 0
 		self.inGetter = 0
@@ -198,6 +200,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"elif" : self.handleElif,
 			"else" : self.handleElse,
 			"ensure" : self.handleEnsure,
+			"extends" : self.handleExtends,
 			"extern" : self.handleExtern,
 			"for" : self.handleFor,
 			"get" : self.handleGet,
@@ -408,6 +411,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inExtern -= 1
 				elif nodeName == "template":
 					self.inTemplate -= 1
+				elif nodeName == "extends":
+					self.inExtends -= 1
 				elif nodeName == "get":
 					self.inGetter -= 1
 				elif nodeName == "set":
@@ -463,6 +468,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		else:
 			if self.inTemplate:
 				return self.handleTemplateParameter(line)
+			if self.inExtends:
+				return self.handleExtendsParameter(line)
 			elif self.inCompilerFlags:
 				return self.handleCompilerFlag(line)
 			
@@ -586,6 +593,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.nextNode = node
 		return node
 		
+	def handleExtends(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("extends", line)
+		
+		node = self.doc.createElement("extends")
+		
+		self.inExtends = 1
+		self.nextNode = node
+		return node
+		
 	def handleTemplateParameter(self, line):
 		paramNode = self.parseExpr(line)
 		
@@ -598,6 +615,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			node = self.doc.createElement("parameter")
 			node.appendChild(paramNode)
 			return node
+		
+	def handleExtendsParameter(self, line):
+		# parseExpr because of possible namespaces
+		paramNode = self.parseExpr(line)
+		
+		node = self.doc.createElement("extends-class")
+		node.appendChild(paramNode)
+		return node
 		
 	def handleIn(self, line):
 		if not self.nextLineIndented:

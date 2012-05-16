@@ -148,7 +148,7 @@ class CPPOutputCompiler(Benchmarkable):
 			if not os.path.isdir(concreteDirOut):
 				os.makedirs(concreteDirOut)
 			
-			print(fileOut)
+			#print(fileOut)
 			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
 				outStream.write(cppFile.getCode())
 			

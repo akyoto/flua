@@ -12,6 +12,7 @@
 			<import>unicode</import>
 			<import>bigint</import>
 			<import>defaultvalues</import>
+			<import>inheritance</import>
 		</dependencies>
 		<strings/>
 	</header>

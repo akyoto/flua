@@ -44,6 +44,10 @@ class CPPClass(CPPNamespace):
 		self.parent = None
 		self.isExtern = False
 		self.usesActorModel = False
+		self.extends = []
+		
+	def setExtends(self, extends):
+		self.extends = extends
 		
 	def requestImplementation(self, initTypes, templateValues):
 		key = ", ".join(initTypes + templateValues)

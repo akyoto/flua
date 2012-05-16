@@ -1,6 +1,6 @@
 // Two underscores because it makes the header look important and cool
-#ifndef __bp_precompiler_header
-#define __bp_precompiler_header
+#ifndef __bp_precompiled_header
+#define __bp_precompiled_header
 
 #include <cstdint>
 #include <cstdlib>
@@ -31,6 +31,17 @@
 	//  --enable-fat
 	#include <gmpxx.h>
 	#include <gmp.h>
+	
+	// === IMPORTANT ===
+	// MODIFICATION FOR GMP mpz_class:
+	// === IMPORTANT ===
+	/*
+	inline operator signed long int() { return mpz_get_si(mp); }
+	inline operator char *() {
+		char *buffer = static_cast<char*>(GC_MALLOC(mpz_sizeinbase(mp, 10) + 2));
+		return mpz_get_str(buffer, 10, mp);
+	}
+	*/
 #endif
 
 #ifdef BP_USE_BOOST

@@ -62,6 +62,7 @@ wrapperMultipleElements = {
 
 xmlToBPCBlock = {
 	"template" : "template",
+	"extends" : "extends",
 	"else" : "else",
 	"private" : "private",
 	"extern" : "extern",
@@ -94,7 +95,8 @@ xmlToBPCSingleLineExpr = {
 	"const" : "const",
 	"break" : "break",
 	"continue" : "continue",
-	"throw" : "throw"
+	"throw" : "throw",
+	"extends-class" : "",
 }
 
 elementsNoNewline = [
@@ -433,7 +435,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		keyword = xmlToBPCSingleLineExpr[nodeName]
 		
 		if node.childNodes:
-			return "%s %s" % (keyword, nodeToBPC(node.childNodes[0], 0, conv))
+			if keyword:
+				return "%s %s" % (keyword, nodeToBPC(node.childNodes[0], 0, conv))
+			else:
+				return nodeToBPC(node.childNodes[0], 0, conv)
 		else:
 			return keyword
 	# Blocks with an expression at the beginning

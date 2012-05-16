@@ -1,0 +1,155 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Inheritance\Sworking!</string>
+			<string id="bp_string_1">Inheritance\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SBase\Sclass</comment>
+		<class depth="0">
+			<name>TestBaseClass</name>
+			<code>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+					<name>doSomething</name>
+					<code>
+						<return depth="2">
+							<multiply>
+								<value>x</value>
+								<value>2</value>
+							</multiply>
+						</return>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+					<name>doSomethingOverloaded</name>
+					<code>
+						<return depth="2">
+							<multiply>
+								<value>x</value>
+								<value>3</value>
+							</multiply>
+						</return>
+					</code>
+				</function>
+			</code>
+		</class>
+		<comment>\SDerived\Sclass</comment>
+		<class depth="0">
+			<name>TestDerivedClass</name>
+			<code>
+				<extends depth="1">
+					<extends-class depth="2">TestBaseClass</extends-class>
+				</extends>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+					<name>doSomethingOverloaded</name>
+					<code>
+						<return depth="2">
+							<multiply>
+								<value>x</value>
+								<value>4</value>
+							</multiply>
+						</return>
+					</code>
+				</function>
+			</code>
+		</class>
+		<comment>\STest\Sit</comment>
+		<assign depth="0">
+			<value>tbc</value>
+			<value>
+				<new>
+					<type>TestDerivedClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>tbc</value>
+												<value>doSomething</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>8</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>16</value>
+							</equal>
+						</value>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>tbc</value>
+												<value>doSomethingOverloaded</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>20</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>80</value>
+							</equal>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

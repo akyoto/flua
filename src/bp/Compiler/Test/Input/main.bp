@@ -6,11 +6,13 @@
 			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Factorial\Sof\Sa:\S</string>
-			<string id="bp_string_1">Factorial\Sof\Sb:\S</string>
-			<string id="bp_string_2">---\n</string>
-			<string id="bp_string_3">\Sms</string>
-			<string id="bp_string_4">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
+			<string id="bp_string_0">c\S+\Sd\S=\S</string>
+			<string id="bp_string_1">c\S+\Sd\S=\S</string>
+			<string id="bp_string_2">Factorial\Sof\Sa\S(BigInt):\S</string>
+			<string id="bp_string_3">Factorial\Sof\Sb\S\S\S\S(Int):\S</string>
+			<string id="bp_string_4">---\n</string>
+			<string id="bp_string_5">\Sms</string>
+			<string id="bp_string_6">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
 		</strings>
 	</header>
 	<code>
@@ -55,15 +57,6 @@
 			</code>
 		</function>
 		<assign depth="0">
-			<value>timeA</value>
-			<value>
-				<call>
-					<function>systemTime</function>
-					<parameters/>
-				</call>
-			</value>
-		</assign>
-		<assign depth="0">
 			<value>
 				<declare-type>
 					<value>a</value>
@@ -80,6 +73,78 @@
 				</declare-type>
 			</value>
 			<value>20000</value>
+		</assign>
+		<assign depth="0">
+			<value>
+				<declare-type>
+					<value>c</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>5</value>
+		</assign>
+		<assign depth="0">
+			<value>
+				<declare-type>
+					<value>d</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>10</value>
+		</assign>
+		<assign depth="0">
+			<value>e</value>
+			<value>
+				<add>
+					<value>c</value>
+					<value>d</value>
+				</add>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>
+				<declare-type>
+					<value>f</value>
+					<value>Int</value>
+				</declare-type>
+			</value>
+			<value>
+				<add>
+					<value>c</value>
+					<value>d</value>
+				</add>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_0</value>
+						<value>e</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_1</value>
+						<value>f</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+		<assign depth="0">
+			<value>timeA</value>
+			<value>
+				<call>
+					<function>systemTime</function>
+					<parameters/>
+				</call>
+			</value>
 		</assign>
 		<assign depth="0">
 			<value>factA</value>
@@ -117,7 +182,7 @@
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_0</value>
+						<value>bp_string_2</value>
 						<value>factA</value>
 					</add>
 				</parameter>
@@ -128,7 +193,7 @@
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_1</value>
+						<value>bp_string_3</value>
 						<value>factB</value>
 					</add>
 				</parameter>
@@ -141,7 +206,7 @@
 					<add>
 						<value>
 							<add>
-								<value>bp_string_2</value>
+								<value>bp_string_4</value>
 								<value>
 									<subtract>
 										<value>timeB</value>
@@ -150,7 +215,7 @@
 								</value>
 							</add>
 						</value>
-						<value>bp_string_3</value>
+						<value>bp_string_5</value>
 					</add>
 				</parameter>
 			</parameters>
@@ -158,7 +223,7 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_4</parameter>
+				<parameter>bp_string_6</parameter>
 			</parameters>
 		</call>
 	</code>

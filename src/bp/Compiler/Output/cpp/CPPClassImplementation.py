@@ -1,5 +1,18 @@
 from bp.Compiler.Output.cpp.CPPFunctionImplementation import *
 
+def findFunctionInBaseClasses(callerClass, funcName):
+	for classObj in callerClass.extends:
+		debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))
+		if funcName in classObj.functions:
+			debug("Found function '%s' in base class '%s'" % (funcName, classObj.name))
+			return classObj.functions[funcName]
+		
+		if classObj.extends:
+			func = findFunctionInBaseClasses(classObj, funcName)
+			if func:
+				return func
+	return None
+
 class CPPClassImplementation:
 	
 	def __init__(self, classObj, templateValues):
@@ -61,10 +74,12 @@ class CPPClassImplementation:
 			codeExists = 0
 			#debug(self.classObj.functions)
 			if not funcName in self.classObj.functions:
-				if self.classObj.name:
-					raise CompilerException("Function '%s.%s' has not been defined" % (self.classObj.name, funcName))
-				else:
-					raise CompilerException("Function '%s' has not been defined" % (funcName))
+				candidates = findFunctionInBaseClasses(self.classObj, funcName)
+				if not candidates:
+					if self.classObj.name:
+						raise CompilerException("Function '%s.%s' has not been defined" % (self.classObj.name, funcName))
+					else:
+						raise CompilerException("Function '%s' has not been defined" % (funcName))
 			impl = CPPFunctionImplementation(self, self.getMatchingFunction(funcName, paramTypes), paramTypes)
 			self.addFuncImplementation(impl)
 			return impl, codeExists
@@ -85,7 +100,10 @@ class CPPClassImplementation:
 		
 	def getMatchingFunction(self, funcName, paramTypes):
 		#print("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
-		candidates = self.classObj.functions[funcName]
+		if not funcName in self.classObj.functions:
+			candidates = findFunctionInBaseClasses(self.classObj, funcName)
+		else:
+			candidates = self.classObj.functions[funcName]
 		#print(candidates[0].paramTypesByDefinition)
 		winner = None
 		winnerScore = 0

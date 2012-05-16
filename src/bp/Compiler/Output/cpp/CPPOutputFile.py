@@ -100,6 +100,7 @@ class CPPOutputFile(ScopeController):
 		self.inTypeDeclaration = 0
 		self.inFunction = 0
 		self.inDefine = 0
+		self.inExtends = 0
 		self.namespaceStack = []
 		
 		# Codes
@@ -416,9 +417,14 @@ class CPPOutputFile(ScopeController):
 		
 		#print(funcName, "|", className, "|", key)
 		if not funcName in self.getClass(className).functions:
-			print(className + " contains the following functions:")
-			print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
-			raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
+			classObj = self.getClass(className)
+			tmpFunc = findFunctionInBaseClasses(classObj, funcName)
+			
+			if not tmpFunc:
+				print(className + " contains the following functions:")
+				print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
+				raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
+		
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
 		definedInFile = func.cppFile
 		
@@ -770,7 +776,7 @@ class CPPOutputFile(ScopeController):
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
 		
-		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [self : " + callerType + "]")
+		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 		
 		callerClassName = extractClassName(callerType)
 		#if callerClassName == "void":
@@ -783,11 +789,16 @@ class CPPOutputFile(ScopeController):
 		
 		if not funcName.startswith("bp_"):
 			if not funcName in callerClass.functions:
-				if funcName[0].islower():
-					raise CompilerException("Function '%s.%s' has not been defined" % (callerType, funcName))
-				else:
-					raise CompilerException("Class '%s' has not been defined" % (funcName))
-			func = callerClass.functions[funcName]
+				# Check extended classes
+				func = findFunctionInBaseClasses(callerClass, funcName)
+				
+				if not func:
+					if funcName[0].islower():
+						raise CompilerException("Function '%s.%s' has not been defined" % (callerType, funcName))
+					else:
+						raise CompilerException("Class '%s' has not been defined" % (funcName))
+			else:
+				func = callerClass.functions[funcName]
 			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
@@ -1546,6 +1557,10 @@ class CPPOutputFile(ScopeController):
 					self.inTemplate += 1
 					self.scanTemplate(node)
 					self.inTemplate -= 1
+				elif node.tagName == "extends":
+					self.inExtends += 1
+					self.scanExtends(node)
+					self.inExtends -= 1
 				elif node.tagName == "extern-function":
 					self.scanExternFunction(node)
 				elif node.tagName == "assign" and self.inDefine > 0:
@@ -1554,6 +1569,10 @@ class CPPOutputFile(ScopeController):
 	def scanTemplate(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
 		self.currentClass.setTemplateNames(pNames, pDefaultValues)
+	
+	def scanExtends(self, node):
+		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
+		self.currentClass.setExtends([self.getClass(className) for className in pNames])
 	
 	def scanClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
