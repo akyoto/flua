@@ -83,6 +83,11 @@ class BPConfiguration:
 		if os.name == "nt":
 			self.applyMenuFont(self.standardFont)
 		
+	def saveSettings(self):
+		pass
+		#with open(getIDERoot() + "settings.ini", "wb") as configFileStream:
+		#	self.parser.write(configFileStream)
+		
 	def applyTheme(self, themeName):
 		if not themeName in self.bpIDE.themes:
 			return

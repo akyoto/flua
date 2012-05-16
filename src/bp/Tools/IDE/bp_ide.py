@@ -58,6 +58,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.uiCache = dict()
 		self.config = None
 		self.gitThread = None
+		self.geometryState = None
 		
 		# Load config
 		self.startBenchmark("Load Configuration")
@@ -111,6 +112,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	#	
 	#	return super().eventFilter(obj, event)
 		
+	def hideEvent(self, event):
+		self.geometryState = self.saveState()
+		super().hideEvent(event)
+		
+	def showEvent(self, event):
+		super().showEvent(event)
+		
+		if self.geometryState:
+			self.restoreState(self.geometryState)
+		
 	def setCurrentWorkspace(self, index):
 		if self.currentWorkspace is not None:
 			self.currentWorkspace.deactivateWorkspace()
@@ -125,8 +136,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Done.")
 		
 	def loadConfig(self):
-		if os.path.isfile("settings.ini"):
-			self.config = BPConfiguration(self, getIDERoot() + "settings.ini")
+		if os.path.isfile(getIDERoot() + "settings.ini"):
+			try:
+				self.config = BPConfiguration(self, getIDERoot() + "settings.ini")
+			except:
+				self.config = BPConfiguration(self, getIDERoot() + "default-settings.ini")
 		else:
 			self.config = BPConfiguration(self, getIDERoot() + "default-settings.ini")
 		#self.config.applySettings()
@@ -393,6 +407,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		newDock = QtGui.QDockWidget(name, self)
 		#newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
 		newDock.setWidget(widget)
+		newDock.setObjectName(name)
 		#newDock.installEventFilter(self)
 		self.addDockWidget(area, newDock)
 		
@@ -423,6 +438,9 @@ def main():
 	
 	# In order to not have a segfault
 	editor.console.detach()
+	
+	# Save config
+	editor.config.saveSettings()
 	
 	print("--- EOP: %d ---" % exitCode)
 	sys.exit(exitCode)
