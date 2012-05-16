@@ -588,6 +588,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		bpcCode = nodeToBPC(self.root, 0, converter).strip()
 		self.lines = bpcCode.split("\n")
 		
+		# Set new text
+		self.disableUpdatesFlag = True
+		self.setPlainText("\n".join(self.lines))
+		
 		# Set user data
 		lineToNodeLen = len(converter.lineToNode)
 		for i in range(len(self.lines)):
@@ -596,10 +600,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				userData = BPLineInformation()
 			self.qdoc.findBlockByNumber(i).setUserData(userData)
-		
-		# Set new text
-		self.disableUpdatesFlag = True
-		self.setPlainText("\n".join(self.lines))
 		
 		self.runUpdater()
 		

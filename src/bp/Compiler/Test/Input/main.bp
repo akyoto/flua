@@ -56,7 +56,9 @@
 					</add>
 				</return>
 			</code>
-			<meta/>
+			<meta>
+				<force-parallelization>true</force-parallelization>
+			</meta>
 		</function>
 		<assign depth="0">
 			<value>
