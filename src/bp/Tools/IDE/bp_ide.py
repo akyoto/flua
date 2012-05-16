@@ -59,6 +59,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.config = None
 		self.gitThread = None
 		self.geometryState = None
+		self.authorName = ""
 		
 		# Load config
 		self.startBenchmark("Load Configuration")
@@ -281,6 +282,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
 		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
 		
+	def getXMLDocument(self):
+		if self.codeEdit is None:
+			return None
+		
+		return self.codeEdit.doc
+		
 	def showDependencies(self, node, updateDependencyView = True):
 		self.dependencyView.setNode(node)
 		if updateDependencyView and (not self.dependenciesViewDock.isHidden()):
@@ -289,6 +296,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.xmlView.setNode(node)
 		if not self.xmlViewDock.isHidden():
 			self.xmlView.updateView()
+			
+		self.metaData.setNode(node, self.getXMLDocument())
+		if not self.metaData.isHidden():
+			self.metaData.updateView()
 		
 	def setFilePath(self, path):
 		filePath = os.path.abspath(path)

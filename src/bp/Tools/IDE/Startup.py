@@ -165,6 +165,12 @@ b.doSomething()
 		# It's always the little things that are awesome :)
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
 		
+		# Outline
+		self.outlineView = BPOutlineView(self)
+		
+		# Meta data
+		self.metaData = BPMetaDataWidget(self)
+		
 		# IntelliView enabled?
 		if self.intelliEnabled:
 			# IntelliView
@@ -181,6 +187,8 @@ b.doSomething()
 			
 			#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
 			
+			self.outlineViewDock = self.createDockWidget("Outline", self.outlineView, QtCore.Qt.RightDockWidgetArea)
+			self.metaDataViewDock = self.createDockWidget("Meta data", self.metaData, QtCore.Qt.RightDockWidgetArea)
 			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
@@ -197,6 +205,7 @@ b.doSomething()
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
 			self.xmlViewDock.hide()
+		self.outlineViewDock.hide()
 		
 		# Needed for workspaces
 		self.viewsInitialized = True

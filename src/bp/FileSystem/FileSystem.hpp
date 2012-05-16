@@ -13,9 +13,9 @@ inline BPFileHandle* bp_fopen(BPUTF8String *path, BPUTF8String *mode) {
 }
 
 // bp_fwrite
-/*inline void bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
-	fwrite(*contents, sizeof(Byte), contents->lengthInBytes, fh);
-}*/
+inline size_t bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
+	return fwrite(*contents, sizeof(Byte), contents->getLengthInBytes(), fh);
+}
 
 // bp_fileModificationTime
 template <typename T>

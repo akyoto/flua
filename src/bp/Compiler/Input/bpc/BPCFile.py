@@ -1178,7 +1178,7 @@ class BPCFile(ScopeController, Benchmarkable):
 							raise CompilerException("Expecting variable name after '%s'" % line)
 						
 						# Get variable name
-						while paramEnd < lineLen and line[paramEnd].isalnum() or line[paramEnd] == '_':
+						while paramEnd < lineLen and (line[paramEnd].isalnum() or line[paramEnd] == '_'):
 							paramEnd += 1
 						
 						paramName = line[h+1:paramEnd]

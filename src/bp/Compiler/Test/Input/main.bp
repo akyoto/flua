@@ -56,6 +56,9 @@
 					</add>
 				</return>
 			</code>
+			<meta>
+				<force-implementation>true</force-implementation>
+			</meta>
 		</function>
 		<assign depth="0">
 			<value>

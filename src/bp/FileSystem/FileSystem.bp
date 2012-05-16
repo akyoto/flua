@@ -43,6 +43,10 @@
 				<name>bp_fopen</name>
 				<type>FileHandle</type>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_fwrite</name>
+				<type>Size</type>
+			</extern-function>
 			<class depth="1">
 				<name>FileHandle</name>
 				<code>

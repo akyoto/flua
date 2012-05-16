@@ -496,12 +496,19 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return op1bpc + "[" + op2bpc + "]"
 		# String parameters
 		elif nodeName == "add" and (op1.nodeType == Node.TEXT_NODE and op1.nodeValue.startswith("bp_string_") and op2.nodeType == Node.TEXT_NODE and not isNumeric(op2.nodeValue)):
-			return '%s$%s"' % (op1bpc[:-1], op2bpc)
-		elif nodeName == "add" and (op1bpc.startswith('"') and op1bpc.endswith('"')) and op2.nodeType == Node.TEXT_NODE:
-			# String
 			if op2.nodeValue.startswith("bp_string_"):
-				return '%s%s' % (op1bpc[:-1], op2bpc[1:])
-			# Variable
+				return '%s + %s' % (op1bpc, op2bpc)
+			else:
+				return '%s$%s"' % (op1bpc[:-1], op2bpc)
+		elif nodeName == "add" and (op1bpc.startswith('"') and op1bpc.endswith('"')) and op2.nodeType == Node.TEXT_NODE:
+			#String
+			if op2.nodeValue.startswith("bp_string_"):
+				# If the start of the string is a character for variables it's not safe to combine them
+				if not isVarChar(op2bpc[1]):
+					return '%s%s' % (op1bpc[:-1], op2bpc[1:])
+				else:
+					return '%s + %s' % (op1bpc, op2bpc)
+			#Variable
 			else:
 				return '%s$%s"' % (op1bpc[:-1], op2bpc)
 		

@@ -887,7 +887,7 @@
 						<parameters>
 							<parameter>
 								<declare-type>
-									<value>num</value>
+									<value>chars</value>
 									<value>
 										<unmanaged>
 											<value>
@@ -908,7 +908,7 @@
 									<type>UTF8String</type>
 									<parameters>
 										<parameter>my</parameter>
-										<parameter>num</parameter>
+										<parameter>chars</parameter>
 									</parameters>
 								</new>
 							</return>

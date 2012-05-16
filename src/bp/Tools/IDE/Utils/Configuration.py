@@ -41,6 +41,17 @@ class BPConfiguration:
 		self.fileName = fileName
 		self.parser = configparser.SafeConfigParser()
 		
+		self.dialogStyleSheet = """
+			QWidget {
+				font-family: Ubuntu, Verdana; font-size: 12px;
+			}
+			
+			QCheckBox {
+				padding: 3px;
+				
+			}
+		"""
+		
 		# Fonts
 		if QtGui.QFontDatabase.addApplicationFont(getIDERoot() + "fonts/Ubuntu-R.ttf") == -1:
 			print("Could not load Ubuntu font")
@@ -98,12 +109,6 @@ class BPConfiguration:
 		else:
 			self.themeName = self.themeWidget.currentText()
 			self.theme = self.bpIDE.themes[self.themeName]
-		
-		self.dialogStyleSheet = """
-			QWidget {
-				font-family: Ubuntu, Verdana; font-size: 12px;
-			}
-		"""
 		
 		#codeEdit.setBackgroundColor(self.theme['default-background'])
 		QtGui.QApplication.instance().setStyleSheet("""
