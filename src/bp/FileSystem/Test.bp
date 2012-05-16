@@ -9,7 +9,6 @@
 			<string id="bp_string_0">../../</string>
 			<string id="bp_string_1">Test\S1.txt</string>
 			<string id="bp_string_2">Test\S2.txt</string>
-			<string id="bp_string_3">Test</string>
 		</strings>
 	</header>
 	<code>
@@ -77,16 +76,5 @@
 				</call>
 			</value>
 		</assign>
-		<call depth="0">
-			<function>
-				<access>
-					<value>a</value>
-					<value>write</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>bp_string_3</parameter>
-			</parameters>
-		</call>
 	</code>
 </module>
