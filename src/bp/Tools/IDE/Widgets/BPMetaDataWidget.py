@@ -29,6 +29,8 @@ class BPMetaDataWidget(QtGui.QWidget):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.node = None
+		self.viewOnNode = None
+		self.lastLineIndex = -2
 		self.stackedLayout = QtGui.QStackedLayout()
 		self.setLayout(self.stackedLayout)
 		
@@ -43,6 +45,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 			widget = self.stackedLayout.itemAt(0).widget()
 			widget.close()
 			self.stackedLayout.removeWidget(widget)
+		self.viewOnNode = None
 		
 	def setNode(self, node, doc):
 		self.node = node
@@ -53,7 +56,25 @@ class BPMetaDataWidget(QtGui.QWidget):
 		event.accept()
 		
 	def updateView(self):
-		# Clear all items
+		# Are we still in the same line?
+		if self.bpIDE.codeEdit and self.bpIDE.codeEdit.getLineIndex() == self.lastLineIndex:
+			return
+		self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()
+		
+		# Avoid doing unnecessary stuff
+		if self.viewOnNode is None:
+			# Widget is currently showing nothing
+			if self.node is None:
+				return
+			elif not self.node.tagName in metaDataForNodeName:
+				return
+		else:
+			# Widget is currently showing some items
+			if (self.node and self.node.isSameNode(self.viewOnNode)):
+				return
+		
+		# Clear all current form items
+		print("Clear!")
 		self.clear()
 		
 		# Valid node?
@@ -74,7 +95,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		# New form layout
 		formWidget = QtGui.QWidget(self)
 		formLayout = QtGui.QFormLayout(formWidget)
-		
+		print("Update!")
 		# Build the form
 		for metaTag, metaInfo in metaDataForNodeName[nodeName]:
 			labelName = metaInfo[0]
@@ -110,6 +131,9 @@ class BPMetaDataWidget(QtGui.QWidget):
 		
 		# Replace with current layout
 		self.stackedLayout.addWidget(formWidget)
+		
+		# Save
+		self.viewOnNode = self.node
 	
 class BPMetaObject:
 	def setupMetaInfo(self, node, elemName, doc):
