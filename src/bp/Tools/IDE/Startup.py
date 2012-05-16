@@ -109,7 +109,7 @@ b.doSomething()
 		# Status bar
 		self.lineNumberLabel = QtGui.QLabel()
 		self.moduleInfoLabel = QtGui.QLabel()
-		self.evalInfoLabel = QtGui.QLabel(" Reserved")
+		self.evalInfoLabel = QtGui.QLabel(" You are using an unstable Alpha version, please note that many features aren't working yet.")
 		self.lineNumberLabel.setMinimumWidth(100)
 		self.progressBar = QtGui.QProgressBar(self.statusBar)
 		self.progressBar.setTextVisible(False)

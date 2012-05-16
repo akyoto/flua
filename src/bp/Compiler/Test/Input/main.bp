@@ -57,7 +57,9 @@
 				</return>
 			</code>
 			<meta>
-				<force-parallelization>true</force-parallelization>
+				<force-parallelization>false</force-parallelization>
+				<force-implementation>false</force-implementation>
+				<force-inlining>false</force-inlining>
 			</meta>
 		</function>
 		<assign depth="0">

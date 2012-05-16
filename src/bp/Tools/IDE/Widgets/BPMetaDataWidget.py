@@ -74,7 +74,6 @@ class BPMetaDataWidget(QtGui.QWidget):
 				return
 		
 		# Clear all current form items
-		print("Clear!")
 		self.clear()
 		
 		# Valid node?
@@ -95,7 +94,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		# New form layout
 		formWidget = QtGui.QWidget(self)
 		formLayout = QtGui.QFormLayout(formWidget)
-		print("Update!")
+		
 		# Build the form
 		for metaTag, metaInfo in metaDataForNodeName[nodeName]:
 			labelName = metaInfo[0]
@@ -136,11 +135,12 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnNode = self.node
 	
 class BPMetaObject:
-	def setupMetaInfo(self, node, elemName, doc):
+	def setupMetaInfo(self, bpIDE, node, elemName, doc):
 		self.node = node
 		self.elemName = elemName
 		self.doc = doc
 		self.elemNode = getElementByTagName(self.node, self.elemName)
+		self.bpIDE = bpIDE
 		
 	def setValue(self, value):
 		if not self.elemNode:
@@ -152,13 +152,16 @@ class BPMetaObject:
 		else:
 			self.elemNode.appendChild(self.doc.createTextNode(value))
 		
+		# Modification state
+		if self.bpIDE.codeEdit:
+			self.bpIDE.codeEdit.qdoc.setModified(True)
 
 class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 	
 	def __init__(self, parent, node, elemName, defaultValue, doc):
 		super().__init__(parent)
 		self.bpIDE = parent.bpIDE
-		self.setupMetaInfo(node, elemName, doc)
+		self.setupMetaInfo(self.bpIDE, node, elemName, doc)
 		if self.elemNode:
 			self.setChecked(self.elemNode.firstChild.nodeValue == "true")
 		elif defaultValue:
