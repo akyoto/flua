@@ -8,11 +8,12 @@
 		<strings>
 			<string id="bp_string_0">c\S+\Sd\S=\S</string>
 			<string id="bp_string_1">c\S+\Sd\S=\S</string>
-			<string id="bp_string_2">Factorial\Sof\Sa\S(BigInt):\S</string>
-			<string id="bp_string_3">Factorial\Sof\Sb\S\S\S\S(Int):\S</string>
-			<string id="bp_string_4">---\n</string>
-			<string id="bp_string_5">\Sms</string>
-			<string id="bp_string_6">\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\SEnd\Sof\Sprogram.</string>
+			<string id="bp_string_2">Factorial\Sof\S</string>
+			<string id="bp_string_3">\Sas\SBigInt:\S</string>
+			<string id="bp_string_4">Factorial\Sof\S</string>
+			<string id="bp_string_5">\Sas\S\S\S\SInt:\S</string>
+			<string id="bp_string_6">---\nRuntime:\S</string>
+			<string id="bp_string_7">\Sms</string>
 		</strings>
 	</header>
 	<code>
@@ -177,12 +178,31 @@
 				</call>
 			</value>
 		</assign>
+		<assign depth="0">
+			<value>runTime</value>
+			<value>
+				<subtract>
+					<value>timeB</value>
+					<value>timeA</value>
+				</subtract>
+			</value>
+		</assign>
 		<call depth="0">
 			<function>print</function>
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_2</value>
+						<value>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_2</value>
+										<value>a</value>
+									</add>
+								</value>
+								<value>bp_string_3</value>
+							</add>
+						</value>
 						<value>factA</value>
 					</add>
 				</parameter>
@@ -193,7 +213,17 @@
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_3</value>
+						<value>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_4</value>
+										<value>b</value>
+									</add>
+								</value>
+								<value>bp_string_5</value>
+							</add>
+						</value>
 						<value>factB</value>
 					</add>
 				</parameter>
@@ -206,24 +236,13 @@
 					<add>
 						<value>
 							<add>
-								<value>bp_string_4</value>
-								<value>
-									<subtract>
-										<value>timeB</value>
-										<value>timeA</value>
-									</subtract>
-								</value>
+								<value>bp_string_6</value>
+								<value>runTime</value>
 							</add>
 						</value>
-						<value>bp_string_5</value>
+						<value>bp_string_7</value>
 					</add>
 				</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_6</parameter>
 			</parameters>
 		</call>
 	</code>

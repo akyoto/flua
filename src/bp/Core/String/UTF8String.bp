@@ -120,88 +120,62 @@
 								</new>
 							</value>
 						</assign>
-						<for depth="2">
-							<iterator>i</iterator>
-							<from>0</from>
-							<until>
-								<access>
-									<value>s1</value>
-									<value>lengthInBytes</value>
-								</access>
-							</until>
-							<code>
-								<assign depth="3">
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>my</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>s1</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-								</assign>
-							</code>
-						</for>
-						<for depth="2">
-							<iterator>i</iterator>
-							<from>0</from>
-							<until>
-								<access>
-									<value>s2</value>
-									<value>lengthInBytes</value>
-								</access>
-							</until>
-							<code>
-								<assign depth="3">
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>my</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>
-												<add>
-													<value>i</value>
-													<value>
-														<access>
-															<value>s1</value>
-															<value>lengthInBytes</value>
-														</access>
-													</value>
-												</add>
-											</value>
-										</index>
-									</value>
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>s2</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-								</assign>
-							</code>
-						</for>
+						<call depth="2">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<call depth="2">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>s2</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<add>
+										<value>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>
+											<access>
+												<value>s1</value>
+												<value>lengthInBytes</value>
+											</access>
+										</value>
+									</add>
+								</parameter>
+								<parameter>
+									<access>
+										<value>s2</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
 						<assign depth="2">
 							<value>
 								<access>
@@ -278,42 +252,29 @@
 								</new>
 							</value>
 						</assign>
-						<for depth="2">
-							<iterator>i</iterator>
-							<from>0</from>
-							<until>
-								<access>
-									<value>s1</value>
-									<value>lengthInBytes</value>
-								</access>
-							</until>
-							<code>
-								<assign depth="3">
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>my</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>s1</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-								</assign>
-							</code>
-						</for>
+						<call depth="2">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
 						<assign depth="2">
 							<value>
 								<access>
@@ -812,13 +773,23 @@
 					</parameters>
 					<name>mid</name>
 					<code>
-						<comment>UTF8String(my.data\S+\Sindex,\Slength)</comment>
-						<return depth="2">
-							<new>
-								<type>UTF8String</type>
-								<parameters/>
-							</new>
-						</return>
+						<new depth="2">
+							<type>UTF8String</type>
+							<parameters>
+								<parameter>
+									<add>
+										<value>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>index</value>
+									</add>
+								</parameter>
+								<parameter>length</parameter>
+							</parameters>
+						</new>
 					</code>
 				</function>
 				<comment>\SSubstring</comment>

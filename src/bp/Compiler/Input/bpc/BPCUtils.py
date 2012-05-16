@@ -487,13 +487,23 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		prefix = ""
 		postfix = ""
 		
+		op1bpc = nodeToBPC(op1, 0, conv)
+		op2bpc = nodeToBPC(op2, 0, conv)
+		
 		if nodeName == "template-call":
-			return nodeToBPC(op1, 0, conv) + "<" + nodeToBPC(op2, 0, conv) + ">"
+			return op1bpc + "<" + op2bpc + ">"
 		elif nodeName == "index":
-			return nodeToBPC(op1, 0, conv) + "[" + nodeToBPC(op2, 0, conv) + "]"
+			return op1bpc + "[" + op2bpc + "]"
 		# String parameters
-		elif nodeName == "add" and op1.nodeType == Node.TEXT_NODE and op1.nodeValue.startswith("bp_string_") and op2.nodeType == Node.TEXT_NODE and not isNumeric(op2.nodeValue):
-			return '%s$%s"' % (nodeToBPC(op1, 0, conv)[:-1], nodeToBPC(op2, 0, conv))
+		elif nodeName == "add" and (op1.nodeType == Node.TEXT_NODE and op1.nodeValue.startswith("bp_string_") and op2.nodeType == Node.TEXT_NODE and not isNumeric(op2.nodeValue)):
+			return '%s$%s"' % (op1bpc[:-1], op2bpc)
+		elif nodeName == "add" and (op1bpc.startswith('"') and op1bpc.endswith('"')) and op2.nodeType == Node.TEXT_NODE:
+			# String
+			if op2.nodeValue.startswith("bp_string_"):
+				return '%s%s' % (op1bpc[:-1], op2bpc[1:])
+			# Variable
+			else:
+				return '%s$%s"' % (op1bpc[:-1], op2bpc)
 		
 		# Find operation "above" the current one
 		if node.parentNode.tagName == "value":
@@ -514,9 +524,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if opSymbol in translateLogicalOperatorSign:
 			opSymbol = translateLogicalOperatorSign[opSymbol]
 		
-		return prefix + nodeToBPC(op1, 0, conv) + space + opSymbol + space + nodeToBPC(op2, 0, conv) + postfix
+		return ''.join([prefix, op1bpc, space, opSymbol, space, op2bpc, postfix])
 	
-	raise CompilerException("Can't turn '%s' into pseudo code, unknown element tag" % (nodeName))
+	raise CompilerException("Can't turn '%s' into BPC code, unknown element tag" % (nodeName))
 
 def getCalledFuncName(node):
 	funcNameNode = getFuncNameNode(node)
