@@ -1326,7 +1326,13 @@ class CPPOutputFile(ScopeController):
 						#else:
 						#	return self.getExprDataType(op2)
 				
-				return self.getCombinationResult(node.tagName, self.getExprDataType(op1), self.getExprDataType(op2))
+				op1Type = self.getExprDataType(op1)
+				op2Type = self.getExprDataType(op2)
+				
+				#if op1Type == "UTF8String" and op2Type in nonPointerClasses:
+				#	return "UTF8String"
+				
+				return self.getCombinationResult(node.tagName, op1Type, op2Type)
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	

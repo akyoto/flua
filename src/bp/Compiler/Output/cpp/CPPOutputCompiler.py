@@ -191,7 +191,7 @@ class CPPOutputCompiler(Benchmarkable):
 			
 			for dataType, definition in dataTypeDefinitions.items():
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
-			outStream.write("typedef %s %s;\n" % ("CString", "String"))
+			#outStream.write("typedef %s %s;\n" % ("CString", "String"))
 			
 			#outStream.write("#define %s %s\n" % ("Ptr", "boost::shared_ptr"))
 			#outStream.write("#define %s %s\n" % ("BP_PTR_DECL(x)", "Ptr< x >"))

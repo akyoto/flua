@@ -95,6 +95,8 @@ class CPPFunction:
 #				print("---------------->")
 			
 			if typeA == typeB:
+				score += 4
+			elif typeA == "BigInt" and (typeB == "MemPointer<Byte>" or typeB == "~MemPointer<Byte>"):
 				score += 3
 			elif typeB == "":
 				score += 2

@@ -6,7 +6,7 @@
 			<import>tests</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Factorial\Sof\Sa:</string>
+			<string id="bp_string_0">Factorial\Sof\Sa:\S</string>
 			<string id="bp_string_1">Factorial\Sof\Sb:\S</string>
 			<string id="bp_string_2">---\n</string>
 			<string id="bp_string_3">\Sms</string>
@@ -82,7 +82,7 @@
 			<value>20000</value>
 		</assign>
 		<assign depth="0">
-			<value>fA</value>
+			<value>factA</value>
 			<value>
 				<call>
 					<function>factorial</function>
@@ -93,7 +93,7 @@
 			</value>
 		</assign>
 		<assign depth="0">
-			<value>fB</value>
+			<value>factB</value>
 			<value>
 				<call>
 					<function>factorial</function>
@@ -115,13 +115,12 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>fA</parameter>
+				<parameter>
+					<add>
+						<value>bp_string_0</value>
+						<value>factA</value>
+					</add>
+				</parameter>
 			</parameters>
 		</call>
 		<call depth="0">
@@ -130,12 +129,11 @@
 				<parameter>
 					<add>
 						<value>bp_string_1</value>
-						<value>fB</value>
+						<value>factB</value>
 					</add>
 				</parameter>
 			</parameters>
 		</call>
-		<comment>print\S((&quot;Factorial\Sof\S&quot;\S+\Sa)\S+\S&quot;:\S&quot;)\S+\SfA</comment>
 		<call depth="0">
 			<function>print</function>
 			<parameters>

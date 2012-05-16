@@ -375,6 +375,165 @@
 						</assign>
 					</code>
 				</function>
+				<comment>\SInit\Sfrom\SUTF8String\S+\SCString</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>s1</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>cs2</value>
+								<value>
+									<unmanaged>
+										<value>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</value>
+									</unmanaged>
+								</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>cs2len</value>
+							<value>
+								<call>
+									<function>bp_strlen</function>
+									<parameters>
+										<parameter>cs2</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>MemPointer</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>
+											<add>
+												<value>
+													<access>
+														<value>s1</value>
+														<value>lengthInBytes</value>
+													</access>
+												</value>
+												<value>cs2len</value>
+											</add>
+										</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<call depth="2">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>s1</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<call depth="2">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>cs2</parameter>
+								<parameter>
+									<add>
+										<value>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>
+											<access>
+												<value>s1</value>
+												<value>lengthInBytes</value>
+											</access>
+										</value>
+									</add>
+								</parameter>
+								<parameter>cs2len</parameter>
+							</parameters>
+						</call>
+						<comment>\Sfor\Si\S=\S0\Suntil\Ss1.lengthInBytes</comment>
+						<comment>\Tmy.data[i]\S=\Ss1.data[i]</comment>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>lengthInBytes</value>
+										</access>
+									</value>
+									<value>cs2len</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlen_utf8</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</function>
 				<comment>\SInit\Sfrom\SC-String</comment>
 				<function depth="1">
 					<parameters>
@@ -748,6 +907,37 @@
 									<parameters>
 										<parameter>my</parameter>
 										<parameter>stri</parameter>
+									</parameters>
+								</new>
+							</return>
+						</code>
+					</operator>
+					<operator depth="2">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>num</value>
+									<value>
+										<unmanaged>
+											<value>
+												<template-call>
+													<value>MemPointer</value>
+													<value>Byte</value>
+												</template-call>
+											</value>
+										</unmanaged>
+									</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>+</name>
+						<code>
+							<return depth="3">
+								<new>
+									<type>UTF8String</type>
+									<parameters>
+										<parameter>my</parameter>
+										<parameter>num</parameter>
 									</parameters>
 								</new>
 							</return>

@@ -1661,6 +1661,13 @@ public:
   signed long int get_si() const { return mpz_get_si(mp); }
   unsigned long int get_ui() const { return mpz_get_ui(mp); }
   double get_d() const { return mpz_get_d(mp); }
+  
+  // MODIFICATION:
+  inline operator signed long int() { return mpz_get_si(mp); }
+  inline operator char *() {
+    char *buffer = static_cast<char*>(GC_MALLOC(mpz_sizeinbase(mp, 10) + 2));
+	return mpz_get_str(buffer, 10, mp);
+  }
 
   // bool fits_schar_p() const { return mpz_fits_schar_p(mp); }
   // bool fits_uchar_p() const { return mpz_fits_uchar_p(mp); }
