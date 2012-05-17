@@ -8,7 +8,7 @@
 	</header>
 	<code>
 		<comment>\SBefore\Syou\Sinclude\Syour\SC++\Slibrary\Smake\Ssure\Sthat\Syou\Sonly\Sdo\Sit\Sfor\Sthe\SC++\Starget.</comment>
-		<comment>\SWe\Sdo\Snot\Swant\Sto\Suse\SC++\Slibraries\Swhen\Sswitching\Sto\SJavaScript\Sor\SPython\Soutput\S;)</comment>
+		<comment>\SWe\Sdo\Snot\Swant\Sto\Suse\SC++\Slibraries\Swhen\Sswitching\Sto\SJavaScript/HTML5\Soutput\S;)</comment>
 		<target depth="0">
 			<name>C++</name>
 			<code>

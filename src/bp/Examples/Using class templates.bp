@@ -75,6 +75,7 @@
 					</code>
 				</function>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Susing\Sthe\Sdefault\Stype\S'Int':</comment>
 		<assign depth="0">
@@ -145,8 +146,8 @@
 			</function>
 			<parameters/>
 		</call>
-		<comment>\SNotice\Sthat\S5\S/\S2\Sresults\Sin\S2.5\Sbut\Ssince\Sa\Suses\SInt\Sto\Sstore\Sthese\Svalues\Syou\Slose\Ssome\Sdata.</comment>
-		<comment>\Sb\Son\Sthe\Sother\Shand\Suses\SFloat\Sto\Sstore\Sthe\Svalues\Sfor\Sx\Sand\Sy.</comment>
+		<comment>\SNotice\Sthat\S5\S/\S2\Sresults\Sin\S2.5\Sbut\Ssince\S'a'\Suses\SInt\Sto\Sstore\Sthese\Svalues\Syou\Slose\Ssome\Sdata.</comment>
+		<comment>\S'b'\Son\Sthe\Sother\Shand\Suses\SFloat\Sto\Sstore\Sthe\Svalues\Sfor\Sx\Sand\Sy.</comment>
 		<comment>\SIn\Smy\Sopinion\Sthis\Sis\Sa\Scleaner\Ssyntax\Sthan\Sthe\SC++\Sstyle\SMyAwesomeClass&lt;&gt;()\Swhich\Sjust\Slooks\Sweird</comment>
 		<comment>\S(my\Spersonal\Sopinion).</comment>
 	</code>
