@@ -331,9 +331,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Read
 		print("-" * 80)
 		print("File: %s " % (fileName.rjust(80 - 7)))
-		#self.startBenchmark("LoadXMLFile (physically read file)")
+		self.startBenchmark("LoadXMLFile (physically read file)")
 		xmlCode = loadXMLFile(self.getFilePath())
-		#self.endBenchmark()
+		self.endBenchmark()
 		
 		# TODO: Clear all views
 		self.dependencyView.clear()

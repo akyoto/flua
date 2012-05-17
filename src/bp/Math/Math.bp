@@ -71,6 +71,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -216,6 +217,7 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

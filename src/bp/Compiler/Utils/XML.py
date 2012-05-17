@@ -48,6 +48,12 @@ def getMetaData(node, metaTag):
 	
 	return metaTagNode.firstChild.nodeValue
 
+def createMetaDictFromNode(metaNode):
+	meta = dict()
+	for child in metaNode.childNodes:
+		meta[child.tagName] = child.firstChild.nodeValue
+	return meta
+	
 def getMetaDataBool(node, metaTag):
 	return False
 	

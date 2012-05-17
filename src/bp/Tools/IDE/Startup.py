@@ -109,7 +109,7 @@ b.doSomething()
 		# Status bar
 		self.lineNumberLabel = QtGui.QLabel()
 		self.moduleInfoLabel = QtGui.QLabel()
-		self.evalInfoLabel = QtGui.QLabel(" You are using an unstable Alpha version, please note that many features aren't working yet.")
+		self.evalInfoLabel = QtGui.QLabel(" Reserved. ")
 		self.lineNumberLabel.setMinimumWidth(100)
 		self.progressBar = QtGui.QProgressBar(self.statusBar)
 		self.progressBar.setTextVisible(False)
@@ -226,6 +226,7 @@ b.doSomething()
 		# Edit
 		self.actionUndo.triggered.connect(self.undoLastAction)
 		self.actionRedo.triggered.connect(self.redoLastAction)
+		self.actionSearch.triggered.connect(self.showSearch)
 		self.actionCopy.triggered.connect(self.codeEdit.copy)
 		self.actionCut.triggered.connect(self.codeEdit.cut)
 		self.actionPaste.triggered.connect(self.codeEdit.paste)
@@ -283,7 +284,7 @@ b.doSomething()
 				'class-operator': cf('#008000', useBold),
 				'class-cast-definition': cf('#500050', useBold),
 				'class-name': cf('#000030'),
-				'local-module-import': cf('#aa1111', useBold),
+				'local-module-import': cf('#cf2000', useBold),
 				'project-module-import': cf('#378737', useBold),
 				'global-module-import': cf('#aa11aa', useBold),
 				'current-line' : None#QtGui.QColor("#fefefe")

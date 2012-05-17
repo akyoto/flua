@@ -289,13 +289,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.checkObjectCreation(node)
 			
 			if node.nodeType != Node.TEXT_NODE:
+				# WE NEED TO CONVERT IT TO XML BECAUSE CLONENODE IS BUGGED
 				self.compiler.exprCache[line] = node.toxml()
 			else:
 				self.compiler.textNodeCache[line] = node
 			return node
 			
 		if inExprCache:
-			# Element node
+			# Element node - WE NEED TO RE-PARSE IT BECAUSE PYTHON'S CLONENODE IS BUGGED
 			node = parseString(self.compiler.exprCache[line]).documentElement
 		else:
 			# Text node

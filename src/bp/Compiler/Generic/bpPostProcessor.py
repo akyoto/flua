@@ -393,6 +393,7 @@ class BPPostProcessor:
 		
 		self.compiledFiles = dict()
 		self.compiledFilesList = list()
+		self.externFuncNameToMetaDict = dict()
 		self.classes = {}
 		self.mainFilePath = ""
 		self.funcCount = 0
@@ -838,7 +839,15 @@ class BPPostProcessorFile:
 				}:
 			# Data dependency
 			#debugPP("Getting dependencies for %s..." % node.tagName)
+			
 			#debugPush()
+			if node.tagName == "extern-function":
+				funcName = getElementByTagName(node, "name").firstChild.nodeValue
+				metaNode = getElementByTagName(node, "meta")
+				if metaNode:
+					self.processor.externFuncNameToMetaDict[funcName] = createMetaDictFromNode(metaNode)
+				else:
+					self.processor.externFuncNameToMetaDict[funcName] = dict()
 			
 			thisOperation = DTree("%s: %s" % (node.tagName, nodeToBPC(node).replace("\n", ":").replace("\t", "")), node)
 			self.getInstructionDependencies(thisOperation, node)

@@ -76,7 +76,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		# Bitwise
 		'\^', '\|', '\&', '\~', '>>', '<<',
 		# Data Flow
-		'<-', '->', '<--', '-->' ,
+		'<-', '->', '<--', '-->',
 		# Type declaration
 		':',
 	}
@@ -94,10 +94,11 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	def highlightBlock(self, text):
 		"""Apply syntax highlighting to the given block of text.
 		"""
-		if not text or (self.bpIDE.codeEdit and self.bpIDE.codeEdit.disableUpdatesFlag):
+		bpIDE = self.bpIDE
+		if not text or (bpIDE.codeEdit and bpIDE.codeEdit.disableUpdatesFlag):
 			return
 		
-		style = self.bpIDE.getCurrentTheme()
+		style = bpIDE.getCurrentTheme()
 		
 		i = 0
 		text += " "
@@ -137,6 +138,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						i = h
 						continue
 					elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
+						# TODO: Optimize using bpIDE.processor
 						if isMetaDataTrue(getMetaData(node, "no-side-effects")):
 							if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
 								self.setFormat(i, h - i, style['ref-transparent-extern-function'])
@@ -161,7 +163,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						while j < textLen and not text[j].isspace():
 							j += 1
 						importedModule = text[h+1:j]
-						importType = self.bpIDE.getModuleImportType(importedModule)
+						importType = bpIDE.getModuleImportType(importedModule)
 						if importType == 1 or importType == 2:
 							self.setFormat(h, j - h, style['local-module-import'])
 						elif importType == 3 or importType == 4:
@@ -176,19 +178,30 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					else:
 						self.setFormat(i, h - i, style['keyword'])
 				elif expr.startswith("bp_"):
-					if 1:
-						self.setFormat(i, h - i, style['default'])
-					elif 0:
-						self.setFormat(i, h - i, style['side-effects-extern-function'])
+					# Extern function call
+					if expr in bpIDE.processor.externFuncNameToMetaDict:
+						meta = bpIDE.processor.externFuncNameToMetaDict[expr]
+						
+						sideEffects = not ("no-side-effects" in meta and meta["no-side-effects"] == "true")
+						sameOutput = ("same-output-for-input" in meta and meta["same-output-for-input"] == "true")
+						
+						if sameOutput and not sideEffects:
+							self.setFormat(i, h - i, style['ref-transparent-extern-function'])
+						elif sideEffects:
+							self.setFormat(i, h - i, style['side-effects-extern-function'])
+						else:
+							self.setFormat(i, h - i, style['no-side-effects-extern-function'])
 					else:
-						self.setFormat(i, h - i, style['no-side-effects-extern-function'])
+						meta = None
+						self.setFormat(i, h - i, style['default'])
+					
 					i = h
 					continue
 				elif expr == "my":
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue
-				elif self.bpIDE.processor.getFirstDTreeByFunctionName(expr):
+				elif bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['function'])
 					i = h
 					continue

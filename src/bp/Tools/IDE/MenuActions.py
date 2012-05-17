@@ -118,6 +118,23 @@ class MenuActions:
 		
 		return False
 	
+	def showSearch(self):
+		self.searchForm, existed = self.getUIFromCache("search")
+		
+		if not existed:
+			self.searchForm.setStyleSheet(self.config.dialogStyleSheet)
+			
+			flags = self.searchForm.windowFlags()
+			flags |= QtCore.Qt.WindowStaysOnTopHint
+			#flags |= QtCore.Qt.Popup
+			#flags |= QtCore.Qt.FramelessWindowHint
+			
+			self.searchForm.setWindowFlags(flags)
+			#self.searchForm.searchEdit.
+		
+		self.searchForm.searchEdit.setFocus()
+		self.searchForm.show()
+	
 	def runProfiler(self):
 		self.notImplemented()
 	
@@ -394,6 +411,7 @@ This feature is currently in development.
 			self.codeEdit.redo()
 		
 	def toggleFullScreen(self):
+		self.geometryState = self.saveState()
 		if self.isFullScreen():
 			self.showNormal()
 		else:
