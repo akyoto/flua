@@ -38,12 +38,20 @@ binaryOperatorTagToSymbol = dict()
 ####################################################################
 
 def getMetaData(node, metaTag):
-	return None
+	metaNode = getElementByTagName(node, "meta")
+	metaTagNode = getElementByTagName(metaNode, metaTag)
+	if not metaTagNode:
+		return ""
+	
+	return metaTagNode.firstChild.nodeValue
 
 def getMetaDataBool(node, metaTag):
 	return False
 	
 def isMetaDataTrue(stri):
+	if not stri:
+		return False
+	
 	stri = stri.lower()
 	return stri == "true" or stri == "yes"
 	

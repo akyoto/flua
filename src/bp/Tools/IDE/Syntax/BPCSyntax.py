@@ -136,6 +136,13 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						self.setFormat(i, h - i, style['class-name'])
 						i = h
 						continue
+					elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
+						if isMetaDataTrue(getMetaData(node, "no-side-effects")):
+							self.setFormat(i, h - i, style['no-side-effects-extern-function'])
+						else:
+							self.setFormat(i, h - i, style['side-effects-extern-function'])
+						i = h
+						continue
 				
 				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":
@@ -166,7 +173,12 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					else:
 						self.setFormat(i, h - i, style['keyword'])
 				elif expr.startswith("bp_"):
-					self.setFormat(i, h - i, style['extern-function'])	
+					if 1:
+						self.setFormat(i, h - i, style['default'])
+					elif 0:
+						self.setFormat(i, h - i, style['side-effects-extern-function'])
+					else:
+						self.setFormat(i, h - i, style['no-side-effects-extern-function'])
 					i = h
 					continue
 				elif expr == "my":

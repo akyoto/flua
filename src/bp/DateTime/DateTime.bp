@@ -13,18 +13,6 @@
 				<include depth="1">DateTime.hpp</include>
 			</code>
 		</target>
-		<target depth="0">
-			<name>HTML5</name>
-			<code>
-				<include depth="1">DateTime.js</include>
-			</code>
-		</target>
-		<target depth="0">
-			<name>Python</name>
-			<code>
-				<include depth="1">DateTime.py</include>
-			</code>
-		</target>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_getCurrentDate</name>
@@ -53,6 +41,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<name>getCurrentTime</name>

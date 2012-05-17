@@ -432,6 +432,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.startBenchmark("CDE Rehighlight")
 		self.highlighter.rehighlight()
 		self.endBenchmark()
+		
+	def rehighlightCurrentLine(self):
+		self.highlighter.rehighlightBlock(self.textCursor().block())
 	
 	def save(self, newPath = ""):
 		oldPath = self.getFilePath()

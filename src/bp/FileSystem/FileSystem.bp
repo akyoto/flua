@@ -36,6 +36,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_fileExists</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_deleteFile</name>
 				<type>Bool</type>
 				<meta/>
@@ -44,14 +51,6 @@
 				<name>bp_renameFile</name>
 				<type>Bool</type>
 				<meta/>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_fileExists</name>
-				<type>Bool</type>
-				<meta>
-					<referentially-transparent>true</referentially-transparent>
-					<no-side-effects>true</no-side-effects>
-				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_fopen</name>

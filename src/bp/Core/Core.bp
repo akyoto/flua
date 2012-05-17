@@ -15,18 +15,6 @@
 				<include depth="1">Core.hpp</include>
 			</code>
 		</target>
-		<target depth="0">
-			<name>HTML5</name>
-			<code>
-				<include depth="1">Core.js</include>
-			</code>
-		</target>
-		<target depth="0">
-			<name>Python</name>
-			<code>
-				<include depth="1">Core.py</include>
-			</code>
-		</target>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_print</name>
@@ -48,6 +36,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_swap</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_sizeOf</name>
 				<type>Size</type>
 				<meta>
@@ -66,13 +61,6 @@
 				<name>bp_systemCPUClock</name>
 				<type>Int64</type>
 				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_swap</name>
-				<meta>
-					<same-output-for-input>true</same-output-for-input>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
