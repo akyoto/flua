@@ -1,0 +1,21 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SWhen\Sworking\Son\Sa\Ssoftware\Sproject\SI\Soften\Snoticed</comment>
+		<comment>\Sthat\SI\Swas\Sworking\Son\Sone\Ssubset\Sof\Sthe\Sprogram\Sat\Sonce.</comment>
+		<comment>\STherefore\SI\Sthought\S&quot;Why\Snot\Sadd\Sthe\Sworkspace\Sfeature\Syou\Ssee\Son\Smany\SLinux\Sdistributions\Sto\San\SIDE?&quot;</comment>
+		<comment>\SWhen\Syou\Sthink\Sabout\Sthis\Sproject\Sit\Sconsists\Sof:</comment>
+		<comment>\S*\SCompiler</comment>
+		<comment>\S*\SLibrary</comment>
+		<comment>\S*\SEditor/IDE</comment>
+		<comment>\SUsing\Sthis\SIDE\SI\Scould\Splace\Sall\Sfiles\Srelated\Sto\SCompiler\Sdevelopment\Son\SWorkspace\S1,</comment>
+		<comment>\SLibrary\Sdevelopment\Son\SWorkspace\S2\Sand\SEditor\Sdevelopment\Son\SWorkspace\S3.</comment>
+		<comment>\SPress\SAlt\S+\S[Number]\Sto\Sget\Sto\Sanother\Sworkspace\Sor\Spress\Sone\Sof\Sthe\Sbuttons\Son\Sthe\Sstatus\Sbar.</comment>
+	</code>
+</module>

@@ -11,7 +11,7 @@
 	</header>
 	<code>
 		<assign depth="0">
-			<value>years</value>
+			<value>age</value>
 			<value>20</value>
 		</assign>
 		<call depth="0">
@@ -22,7 +22,7 @@
 						<value>
 							<add>
 								<value>bp_string_0</value>
-								<value>years</value>
+								<value>age</value>
 							</add>
 						</value>
 						<value>bp_string_1</value>

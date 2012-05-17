@@ -7,6 +7,6 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SType\S'import\Sbp.FileSystem.'\Shere\Sand\Sthe\Smodule\Sbrowser\Sshould\Sshow\Syou\Sa\Slist\Sof\Ssubmodules</comment>
+		<comment>\SType\S'import\Sbp.Collection.'\Shere\Sand\Sthe\Smodule\Sbrowser\Sshould\Sshow\Syou\Sa\Slist\Sof\Ssubmodules</comment>
 	</code>
 </module>
