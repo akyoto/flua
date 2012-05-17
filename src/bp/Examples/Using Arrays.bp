@@ -1,0 +1,94 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SArray\S/\SVector\Sof\Sintegers</comment>
+		<assign depth="0">
+			<value>array</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Array</value>
+							<value>Int</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>
+				<access>
+					<value>array</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>1</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>array</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>2</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>array</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>3</parameter>
+			</parameters>
+		</call>
+		<comment>\SCurrently\S'for\Sx\Sin\Sarray'\Sis\Snot\Simplemented\S(will\Sdo\Sthat\Slater).</comment>
+		<comment>\SBut\Swe\Scan\Suse\Sa\Sstandard\Sloop:</comment>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>0</from>
+			<until>
+				<access>
+					<value>array</value>
+					<value>length</value>
+				</access>
+			</until>
+			<code>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<multiply>
+								<value>
+									<index>
+										<value>array</value>
+										<value>i</value>
+									</index>
+								</value>
+								<value>
+									<index>
+										<value>array</value>
+										<value>i</value>
+									</index>
+								</value>
+							</multiply>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</for>
+	</code>
+</module>

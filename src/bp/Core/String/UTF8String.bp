@@ -1030,6 +1030,9 @@
 					</cast-definition>
 				</casts>
 			</code>
+			<meta>
+				<ensure-destructor-call>false</ensure-destructor-call>
+			</meta>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0">

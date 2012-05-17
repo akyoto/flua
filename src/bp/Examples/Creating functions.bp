@@ -1,0 +1,124 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">This\S</string>
+			<string id="bp_string_1">works\S</string>
+			<string id="bp_string_2">as\Swell.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SFunctions\Sin\Sthe\SBPC\Ssyntax\Sneed\Sto\Sstart\Swith\Sa\Slowercase\Sletter</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+				<parameter>c</parameter>
+			</parameters>
+			<name>func</name>
+			<code>
+				<return depth="1">
+					<add>
+						<value>
+							<add>
+								<value>a</value>
+								<value>b</value>
+							</add>
+						</value>
+						<value>c</value>
+					</add>
+				</return>
+			</code>
+		</function>
+		<comment>\SWe\Sdidn't\Sspecify\Sa\Stype\Sfor\Sa,\Sb\Sand\Sc\S-\Stherefore\Swe\Scan\Scall\Sfunc\Swith\Sany\Stype:</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<call>
+						<function>func</function>
+						<parameters>
+							<parameter>1</parameter>
+							<parameter>2</parameter>
+							<parameter>3</parameter>
+						</parameters>
+					</call>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<call>
+						<function>func</function>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+							<parameter>bp_string_1</parameter>
+							<parameter>bp_string_2</parameter>
+						</parameters>
+					</call>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\SNote\Sthat\Sthis\Screates\Sa\Sbetter\Sreusability\Sfor\Sfunctions.</comment>
+		<comment>\SEven\Sthough\Sthe\SC++\Soutput\Smodule\Suses\Sstatic\Styping\S(well,\Sit's\SC++\Sfiles\Safter\Sall...)</comment>
+		<comment>\Syou\Sshould\Sleave\Sout\Sthe\Stype\Sspecifiers\Sas\Soften\Sas\Spossible\Sbecause</comment>
+		<comment>\Syour\Sfunction\Scan\Sthen\Sbe\Sused\Swith\Smany\Spossible\Stypes,\Snot\Sjust\Sthe\Sones\Syou\Sthought\Sof.</comment>
+		<comment>\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour\Sfunction\Sto\Sa\Sspecific\Stype,\Syou\Sneed\Sto\Swrite:</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>a</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+				<parameter>
+					<declare-type>
+						<value>b</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+				<parameter>
+					<declare-type>
+						<value>c</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>func2</name>
+			<code>
+				<return depth="1">
+					<add>
+						<value>
+							<add>
+								<value>a</value>
+								<value>b</value>
+							</add>
+						</value>
+						<value>c</value>
+					</add>
+				</return>
+			</code>
+		</function>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<call>
+						<function>func2</function>
+						<parameters>
+							<parameter>1</parameter>
+							<parameter>2</parameter>
+							<parameter>3</parameter>
+						</parameters>
+					</call>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

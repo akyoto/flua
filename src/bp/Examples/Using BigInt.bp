@@ -1,0 +1,79 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Factorial\Sof\S20\Sas\SInt\Sis\S</string>
+			<string id="bp_string_1">Factorial\Sof\S20\Sas\SBigInt\Sis\S</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0">
+			<value>
+				<declare-type>
+					<value>a</value>
+					<value>Int</value>
+				</declare-type>
+			</value>
+			<value>20</value>
+		</assign>
+		<assign depth="0">
+			<value>
+				<declare-type>
+					<value>b</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>20</value>
+		</assign>
+		<assign depth="0">
+			<value>factOfA</value>
+			<value>
+				<call>
+					<function>factorial</function>
+					<parameters>
+						<parameter>a</parameter>
+					</parameters>
+				</call>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>factOfB</value>
+			<value>
+				<call>
+					<function>factorial</function>
+					<parameters>
+						<parameter>b</parameter>
+					</parameters>
+				</call>
+			</value>
+		</assign>
+		<comment>\SWrong\Svalue\Sbecause\Sa\Sstandard\SInt\Scan\Snot\Sstore\Sthis\Svalue</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_0</value>
+						<value>factOfA</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\SCorrect\Svalue</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_1</value>
+						<value>factOfB</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

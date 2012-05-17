@@ -1,0 +1,25 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\Sfor\Siterator\S=\Sstart\Sto\Send</comment>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>1</from>
+			<to>10</to>
+			<code>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>i</parameter>
+					</parameters>
+				</call>
+			</code>
+		</for>
+	</code>
+</module>

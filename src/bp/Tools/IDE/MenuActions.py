@@ -294,6 +294,15 @@ class MenuActions:
 		#os.chdir(getIDERoot())
 	
 	def resetLocalChanges(self):
+		reply = QtGui.QMessageBox.question(self,
+				"Message",
+				"Are you sure you want to revert all local source code changes?",
+				QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
+				QtGui.QMessageBox.No)
+		
+		if reply == QtGui.QMessageBox.No:
+			return
+		
 		self.acquireGitThread()
 		
 		os.chdir(getModuleDir())
@@ -305,7 +314,7 @@ class MenuActions:
 			"HEAD"
 		]
 		
-		print("Cleaning all targets...")
+		print("Reset local changes...")
 		self.gitThread.startCmd(gitResetCmd, self.console.log)
 		self.gitThread.wait()
 		

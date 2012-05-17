@@ -1,0 +1,12 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SType\S'import\Sbp.FileSystem.'\Shere\Sand\Sthe\Smodule\Sbrowser\Sshould\Sshow\Syou\Sa\Slist\Sof\Ssubmodules</comment>
+	</code>
+</module>

@@ -45,11 +45,6 @@ class BPConfiguration:
 			QWidget {
 				font-family: Ubuntu, Verdana; font-size: 12px;
 			}
-			
-			QCheckBox {
-				padding: 3px;
-				
-			}
 		"""
 		
 		# Fonts
