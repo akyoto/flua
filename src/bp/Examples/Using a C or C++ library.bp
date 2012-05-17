@@ -20,7 +20,7 @@
 		<comment>\Sint\Sbp_myCFunction(int\Sa,\Sint\Sb)\S{</comment>
 		<comment>\S\S\S\S\Sreturn\Sa\S+\Sb;</comment>
 		<comment>\S}</comment>
-		<comment>\SNow\Swe\Sneed\Sto\Sdeclare\San\Sextern\Sfunction\Swith\Sthe\Sprefix\S'bp_'\Sand\Sits\Stype:</comment>
+		<comment>\SNow\Swe\Sneed\Sto\Sdeclare\San\Sextern\Sfunction\Swith\Sthe\Sprefix\S'bp_'\Sand\Sits\Sreturn\Stype:</comment>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_myCFunction</name>

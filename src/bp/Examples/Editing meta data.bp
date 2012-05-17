@@ -1,0 +1,73 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SYou\Smight\Shave\Salready\Srealized\Sthat\Sthis\Sisn't\Sjust\Ssome\Splain\Stext\Seditor.</comment>
+		<comment>\SIn\Sreality\Severything\Syou\Ssee\Sis\SXML\S-\Syes,\Slook\Sin\Sthe\Smirror\S-\Syour\Sface,\Syour\Shair...everything\SXML.</comment>
+		<comment>\SMaybe\Snot\Sthat\Smuch,\Sbut\Sat\Sleast\Sthis\Seditor\Scontent\Syou\Ssee\Sis\Smade\Sout\Sof\SXML\Snodes.</comment>
+		<comment>\SYou\Scan\Senable\Sthe\S'XML'\Sview\Sin\Sthe\Smain\Smenu\Son\Sthe\Stop.</comment>
+		<comment>\SAt\Sleast\Sit\Sshould\Sbe\Son\Sthe\Stop\S-\Sunless\SCanonical\Sdecided\Sto\Stry\Sout\Ssome\Snew\Sand\Sweird\Smenu\Sinterface.</comment>
+		<comment>\SIn\Sany\Scase...meta\Sdata\Sis\Sall\Sthe\Sdata\S'between'\Sthe\Slines\Swhich\Syou\Scan't\Ssee\Sin\Stext\Sform.</comment>
+		<comment>\SYou\Smight\Ssee\Sit\Sin\Sthe\Sform\Sof\Sdifferent\Ssyntax\Shighlighting:</comment>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_terribleSideEffectsFunction</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_insignificantSideEffectsFunction</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_referentiallyTransparentFunction</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<comment>\SIn\Sthe\Scurrent\Sversion\Sthis\Shighlighting\Sonly\Sworks\Sfor\Sextern\Sfunction\Sdefinitions.</comment>
+		<comment>\SNow\Sclick\Son\Sthese\Sand\Scheck\Stheir\Smeta\Sdata.\SIn\Scase\Syou\Sdisabled\Sthat\Sweird,\Sempty,\Sgray\Swindow</comment>
+		<comment>\Sgo\Sto\Sthe\S&quot;top&quot;\Smain\Smenu\S&gt;\SView\S&gt;\SMeta\Sdata\Sand\Senable\Sit.</comment>
+		<comment>\SExtern\Sfunctions\Sare\Sthe\S_only_\Sinterface\Sfrom\Sbp\Sto\Sthe\Soutside\Sworld.\STherefore\Sbp\Sneeds\Sto\Sknow</comment>
+		<comment>\Swhether\Sthese\Sfunctions\Sare\Sthread\Ssafe\Sand\S/\Sor\Sreferentially\Stransparent.</comment>
+		<comment>\SWe\Scan\Suse\Sthat\Smeta\Sdata\Sfor\Sall\Ssorts\Sof\Sinformation.</comment>
+		<comment>\SYou\Smight\Salready\Ssee\Sthat\Sthis\Sis\Sa\Sclass\Sdefinition...</comment>
+		<class depth="0">
+			<name>ClickOnMe</name>
+			<code>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SIt\Sincludes\Sthe\Smeta\Sdata\Sof\Swhether\Sthe\SGarbage\SCollector\Sneeds\Sto\Sregister\Sits\Sdestructor\Sas\Sa\Sfinalizer.</comment>
+		<comment>\SMeta\Sdata\Smakes\Sthe\Slanguage\Smore\Sclean\Sin\Smy\Sopinion\Sbecause\Sinformation\Swhich\Srarely\Sneeds\Sto\Sbe</comment>
+		<comment>\Sedited\Sis\Shidden\Sfrom\Sthe\Sview\Suntil\Syou\Sneed\Sit\S/\Sclick\Son\Sit.</comment>
+		<comment>\SWe\Scould\Salso\Ssave\Sseveral\Sforms\Sof\Sdocumentation\Sfor\Sany\Sinstruction,\Sclass\Sor\Sfunction.</comment>
+		<comment>\SIn\Sfact\Sfunctions\Salready\Shave\Sa\Sgood\Samount\Sof\Smeta\Sdata:</comment>
+		<function depth="0">
+			<name>clickOnMe</name>
+			<code>
+				<return depth="1">42</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SThey\Saren't\Sworking\Sin\Sthe\Scurrent\Sversion,\Sthough.</comment>
+		<comment>\SAfter\Sediting\Sthe\Smeta\Sdata\Sthe\Sdocument\Sgets\Smodified\Sand\Stherefore\Syou\Sneed\Sto\Ssave\Syour\Schanges.</comment>
+		<comment>\SDo\Syou\Shave\Ssome\Sawesome\Sideas\Sabout\Swhat\Stypes\Sof\Smeta\Sdata\Sone\Scould\Sstore\Sin\San\Sinstruction?</comment>
+		<comment>\SLet\Sme\Sknow\Sabout\Syour\Sideas\Sand\Smaybe\Sit\Swill\Sbe\Simplemented!</comment>
+	</code>
+</module>
