@@ -6,6 +6,7 @@ functionMetaData = [
 	("force-parallelization",     ["Force parallelization:", "Bool", "false", False, "<p>Forces the compiler to parallelize the function ignoring whether it actually enhances the performance or not. <strong>Note: You should only check this if you know what you are doing, otherwise this can cause heavy side-effects.</strong></p>"]),
 	("force-inlining",            ["Force inlining:", "Bool", "false", False, "", "<p>Forces the compiler to use inlining for this function. Note that compilers for C++ targets already do a good job in selecting what should be inlined.</p>"]),
 	("force-implementation",      ["Force inclusion in output:", "Bool", "false", False, "<p>Forces this function to be included in the target code ignoring whether it is actually used or not. This can be used to ensure an extern source file for a specific target can include this function.</p>"]),
+	("create-cache",              ["Create a cache:", "Bool", "false", False, "<p>Specifies whether the compiler should automatically create a cache for the results of this function. <strong>This is only possible for referentially transparent functions.</strong></p>"]),
 	("referentially-transparent", ["Referentially transparent:", "SingleLine", "Unknown", True, "<p>Shows whether this function is referentially transparent or not.</p>"]),
 	("parallelization-threads",   ["Can run on X cores:", "SingleLine", "Unknown", True, "<p>This shows on how many cores this function could run in parallel.</p>"]),
 	("last-modification-author",  ["Last modification by:", "SingleLine", "", True, "<p>The person who modified this function last.</p>"]),
@@ -24,7 +25,9 @@ metaDataForNodeName = {
 	"cast-definition" : functionMetaData,
 	
 	"extern-function" : [
-		("referentially-transparent", ["Referentially transparent:", "Bool", False, False, "<p>Sets the flag whether this extern function is referentially transparent or not. <strong>A function is referentially transparent if it can be replaced with its return value without changing the behaviour of the program. It should return the same output for the same input and not cause any side effects.</strong></p>"]),
+		("same-output-for-input",     ["Same output for a given input:", "Bool", False, False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
+		("no-side-effects",           ["No side effects:", "Bool", False, False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
+		("referentially-transparent", ["Referentially transparent:", "SingleLine", False, True, "<p>Shows whether this extern function is referentially transparent or not. <strong>A function is referentially transparent if it can be replaced with its return value without changing the behaviour of the program. It should return the same output for the same input and not cause any side effects.</strong></p>"]),
 	]
 }
 
@@ -35,6 +38,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.bpIDE = parent
 		self.node = None
 		self.viewOnNode = None
+		self.widgetByMetaTag = None
 		self.lastLineIndex = -2
 		self.stackedLayout = QtGui.QStackedLayout()
 		self.setLayout(self.stackedLayout)
@@ -100,6 +104,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		formWidget = QtGui.QWidget(self)
 		formLayout = QtGui.QFormLayout(formWidget)
 		formLayout.setContentsMargins(3, 3, 3, 3)
+		self.widgetByMetaTag = dict()
 		
 		# Build the form
 		for metaTag, metaInfo in metaDataForNodeName[nodeName]:
@@ -115,7 +120,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 			# Widget
 			widget = None
 			if dataType == "SingleLine":
-				widget = QtGui.QLineEdit(self)
+				widget = BPMetaLineEdit(self, metaNode, metaTag, defaultValue, self.doc)
 				if defaultValue:
 					widget.setText(defaultValue)
 			elif dataType == "Bool":
@@ -123,6 +128,8 @@ class BPMetaDataWidget(QtGui.QWidget):
 				if defaultValue == "true":
 					widget.setChecked("true")
 				widget.stateChanged.connect(widget.onStateChange)
+			
+			self.widgetByMetaTag[metaTag] = widget
 			
 			# Readonly
 			if readOnly:
@@ -151,6 +158,10 @@ class BPMetaObject:
 		self.elemNode = getElementByTagName(self.node, self.elemName)
 		self.bpIDE = bpIDE
 		
+	def focusEditor(self):
+		if self.bpIDE.codeEdit:
+			self.bpIDE.codeEdit.setFocus()
+		
 	def setValue(self, value):
 		if not self.elemNode:
 			self.elemNode = self.doc.createElement(self.elemName)
@@ -165,16 +176,80 @@ class BPMetaObject:
 		if self.bpIDE.codeEdit:
 			self.bpIDE.codeEdit.qdoc.setModified(True)
 
+class BPMetaLineEdit(QtGui.QLineEdit, BPMetaObject):
+	
+	def __init__(self, parent, node, elemName, defaultValue, doc):
+		super().__init__(parent)
+		self.metaDataWidget = parent
+		self.bpIDE = parent.bpIDE
+		self.setupMetaInfo(self.bpIDE, node, elemName, doc)
+		
+		if self.node.parentNode.tagName == "extern-function" and self.elemName == "referentially-transparent":
+			sideEffects = self.metaDataWidget.widgetByMetaTag["no-side-effects"]
+			sameOutput = self.metaDataWidget.widgetByMetaTag["same-output-for-input"]
+			if sideEffects.isChecked() and sameOutput.isChecked():
+				self.setText("Yes")
+			else:
+				self.setText("No")
+		else:
+			if self.elemNode:
+				self.setText(self.elemNode.firstChild.nodeValue)
+			elif defaultValue:
+				self.setText(defaultValue)
+
 class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 	
 	def __init__(self, parent, node, elemName, defaultValue, doc):
 		super().__init__(parent)
+		self.metaDataWidget = parent
 		self.bpIDE = parent.bpIDE
 		self.setupMetaInfo(self.bpIDE, node, elemName, doc)
 		if self.elemNode:
 			self.setChecked(self.elemNode.firstChild.nodeValue == "true")
 		elif defaultValue:
 			self.setChecked(defaultValue == "true")
+		
+	def nextCheckState(self):
+		if (not self.isChecked()):
+			# Checking the box
+			if self.elemName == "create-cache":
+				if not getMetaDataBool(self.elemNode, "referentially-transparent"):
+					self.bpIDE.notify("You can only create a cache for referentially transparent functions.")
+					self.focusEditor()
+					return
+			# elif self.elemName == "referentially-transparent":
+				# # Referential transparency means the other 2 boxes need to be checked
+				# sideEffects = self.metaDataWidget.widgetByMetaTag["no-side-effects"]
+				# if not sideEffects.isChecked():
+					# sideEffects.setChecked(True)
+					
+				# sameOutput = self.metaDataWidget.widgetByMetaTag["same-output-for-input"]
+				# if not sameOutput.isChecked():
+					# sameOutput.setChecked(True)
+		else:
+			# Unchecking the box
+			if self.elemName == "no-side-effects":
+				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
+				refTransparent.setText("No")
+			elif self.elemName == "same-output-for-input":
+				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
+				refTransparent.setText("No")
+		
+		state = not self.isChecked()
+		self.setChecked(state)
+		self.onStateChange(state)
+		
+		# Update referential transparency
+		if self.elemName == "same-output-for-input" or self.elemName == "no-side-effects":
+			sideEffects = self.metaDataWidget.widgetByMetaTag["no-side-effects"]
+			sameOutput = self.metaDataWidget.widgetByMetaTag["same-output-for-input"]
+			
+			if sideEffects.isChecked() and sameOutput.isChecked():
+				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
+				refTransparent.setText("Yes")
+		
+		# Focus the editor again
+		self.focusEditor()
 		
 	def onStateChange(self, state):
 		if state:
@@ -183,4 +258,4 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 			self.setValue("false")
 			
 		# Focus the editor again
-		self.bpIDE.codeEdit.setFocus()
+		self.focusEditor()

@@ -435,6 +435,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.menuView.addAction(newAction)
 		return newAction
 		
+	def notify(self, msg, title = "Notification"):
+		msgBox = QtGui.QMessageBox(self)
+		msgBox.setWindowTitle(title)
+		msgBox.setText(msg)
+		msgBox.setIcon(QtGui.QMessageBox.Information)
+		msgBox.setStyleSheet(self.config.dialogStyleSheet)
+		msgBox.exec()
+		
 	def center(self):
 		qr = self.frameGeometry()
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
@@ -459,7 +467,7 @@ def main():
 if __name__ == '__main__':
 	try:
 		#import cProfile
-		#cProfile.run("main()", "bp.prof")
+		#cProfile.run("main()")#, "bp.prof")
 		main()
 	except SystemExit:
 		pass

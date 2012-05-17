@@ -37,6 +37,16 @@ binaryOperatorTagToSymbol = dict()
 # Functions
 ####################################################################
 
+def getMetaData(node, metaTag):
+	return None
+
+def getMetaDataBool(node, metaTag):
+	return False
+	
+def isMetaDataTrue(stri):
+	stri = stri.lower()
+	return stri == "true" or stri == "yes"
+	
 # Check whether node has some usable content
 def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")

@@ -30,10 +30,15 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_copyMem</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
 			</extern-function>
 			<class depth="1">
 				<name>MemPointer</name>

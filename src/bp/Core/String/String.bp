@@ -20,6 +20,8 @@
 				<type>Size</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -27,12 +29,16 @@
 				<type>Size</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_insertInt</name>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 		</extern>

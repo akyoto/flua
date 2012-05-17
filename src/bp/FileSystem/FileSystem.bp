@@ -24,13 +24,15 @@
 				<type>Int64</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_getCurrentDir</name>
 				<type>String</type>
 				<meta>
-					<referentially-transparent>true</referentially-transparent>
+					<referentially-transparent>false</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -48,6 +50,7 @@
 				<type>Bool</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">

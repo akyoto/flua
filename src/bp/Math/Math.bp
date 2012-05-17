@@ -19,6 +19,8 @@
 				<type>Float64</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -26,6 +28,8 @@
 				<type>Float64</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -33,6 +37,8 @@
 				<type>Float64</type>
 				<meta>
 					<referentially-transparent>true</referentially-transparent>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 		</extern>

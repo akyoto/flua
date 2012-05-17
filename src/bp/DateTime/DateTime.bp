@@ -30,14 +30,16 @@
 				<name>bp_getCurrentDate</name>
 				<type>String</type>
 				<meta>
-					<referentially-transparent>true</referentially-transparent>
+					<referentially-transparent>false</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_getCurrentTime</name>
 				<type>String</type>
 				<meta>
-					<referentially-transparent>true</referentially-transparent>
+					<referentially-transparent>false</referentially-transparent>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 		</extern>
