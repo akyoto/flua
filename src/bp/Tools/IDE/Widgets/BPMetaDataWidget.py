@@ -2,6 +2,7 @@ from PyQt4 import QtGui, QtCore
 from bp.Compiler.Utils import *
 
 refTransparencyToolTip = "<p>Shows whether this extern function is referentially transparent or not. <strong>A function is referentially transparent if it can be replaced with its return value without changing the behaviour of the program. It should return the same output for the same input and not cause any side effects.</strong></p>"
+threadSafeToolTip = "<p>Shows whether this function can be safely called from multiple threads at the same time.</p>"
 
 functionMetaData = [
 	# Name : [Label, DataType, DefaultValue, ReadOnly, ToolTip]
@@ -10,12 +11,13 @@ functionMetaData = [
 	("force-implementation",      ["Force inclusion in output:", "Bool", "false", False, "<p>Forces this function to be included in the target code ignoring whether it is actually used or not. This can be used to ensure an extern source file for a specific target can include this function.</p>"]),
 	("create-cache",              ["Create a cache:", "Bool", "false", False, "<p>Specifies whether the compiler should automatically create a cache for the results of this function. <strong>This is only possible for referentially transparent functions.</strong></p>"]),
 	("referentially-transparent", ["Referentially transparent:", "SingleLine", "Unknown", True, refTransparencyToolTip]),
+	("thread-safe",               ["Thread safe:", "SingleLine", "Unknown", True, threadSafeToolTip]),
 	("parallelization-threads",   ["Can run on X cores:", "SingleLine", "Unknown", True, "<p>This shows on how many cores this function could run in parallel.</p>"]),
-	("last-modification-author",  ["Last modification by:", "SingleLine", "", True, "<p>The person who modified this function last.</p>"]),
-	("last-modification-date",    ["Last modification date:", "SingleLine", "", True, "<p>Date this function has been modified last.</p>"]),
 	("number-of-calls",           ["Number of calls:", "SingleLine", "Unknown", True, "<p>Shows how many times this function was called in the last run.</p>"]),
 	("average-runtime",           ["Average runtime:", "SingleLine", "Unknown", True, "<p>The <strong>average</strong> runtime of the last run.</p>"]),
 	("estimated-runtime",         ["Estimated runtime:", "SingleLine", "Unknown", True, "<p>Estimated runtime for this function. This is used by the data dependency analyzer to determine whether it's worth parallelizing this function.</p>"]),
+	("last-modification-author",  ["Last modification by:", "SingleLine", "", True, "<p>The person who modified this function last.</p>"]),
+	("last-modification-date",    ["Last modification date:", "SingleLine", "", True, "<p>Date this function has been modified last.</p>"]),
 	("creation-date",             ["Creation date:", "SingleLine", "", True, "<p>The date this function has been created.</p>"]),
 ]
 
@@ -27,13 +29,14 @@ metaDataForNodeName = {
 	"cast-definition" : functionMetaData,
 	
 	"extern-function" : [
-		("same-output-for-input",     ["Same output for a given input:", "Bool", False, False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
 		("no-side-effects",           ["No significant side effects:", "Bool", False, False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
+		("same-output-for-input",     ["Same output for a given input:", "Bool", False, False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
+		("thread-safe",               ["Thread safe:", "SingleLine", "Unknown", True, threadSafeToolTip]),
 		("referentially-transparent", ["Referentially transparent:", "SingleLine", False, True, refTransparencyToolTip]),
 	],
 	
 	"class" : [
-		("ensure-destructor-call",     ["Ensure destructor is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that this function absolutely needs to call its destructor when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
+		("ensure-destructor-call",     ["Ensure destructor is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the destructor when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
 	]
 }
 
@@ -157,12 +160,13 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnNode = self.node
 	
 class BPMetaObject:
-	def setupMetaInfo(self, bpIDE, node, elemName, doc):
+	def setupMetaInfo(self, metaDataWidget, node, elemName, doc):
+		self.metaDataWidget = metaDataWidget
+		self.bpIDE = metaDataWidget.bpIDE
 		self.node = node
 		self.elemName = elemName
 		self.doc = doc
 		self.elemNode = getElementByTagName(self.node, self.elemName)
-		self.bpIDE = bpIDE
 		
 	def focusEditor(self):
 		if self.bpIDE.codeEdit:
@@ -182,22 +186,27 @@ class BPMetaObject:
 		if self.bpIDE.codeEdit:
 			self.bpIDE.codeEdit.qdoc.setModified(True)
 			self.bpIDE.codeEdit.rehighlightCurrentLine()
+			
+	def metaDataIsChecked(self, tagName):
+		return self.metaDataWidget.widgetByMetaTag[tagName].isChecked()
 
 class BPMetaLineEdit(QtGui.QLineEdit, BPMetaObject):
 	
 	def __init__(self, parent, node, elemName, defaultValue, doc):
 		super().__init__(parent)
-		self.metaDataWidget = parent
-		self.bpIDE = parent.bpIDE
-		self.setupMetaInfo(self.bpIDE, node, elemName, doc)
+		self.setupMetaInfo(parent, node, elemName, doc)
 		
-		if self.node.parentNode.tagName == "extern-function" and self.elemName == "referentially-transparent":
-			sideEffects = self.metaDataWidget.widgetByMetaTag["no-side-effects"]
-			sameOutput = self.metaDataWidget.widgetByMetaTag["same-output-for-input"]
-			if sideEffects.isChecked() and sameOutput.isChecked():
-				self.setText("Yes")
-			else:
-				self.setText("No")
+		if self.node.parentNode.tagName == "extern-function":
+			if self.elemName == "referentially-transparent":
+				if self.metaDataIsChecked("no-side-effects") and self.metaDataIsChecked("same-output-for-input"):
+					self.setText("Yes")
+				else:
+					self.setText("No")
+			elif self.elemName == "thread-safe":
+				if self.metaDataIsChecked("no-side-effects"):
+					self.setText("Yes")
+				else:
+					self.setText("No")
 		else:
 			if self.elemNode:
 				self.setText(self.elemNode.firstChild.nodeValue)
@@ -208,9 +217,7 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 	
 	def __init__(self, parent, node, elemName, defaultValue, doc):
 		super().__init__(parent)
-		self.metaDataWidget = parent
-		self.bpIDE = parent.bpIDE
-		self.setupMetaInfo(self.bpIDE, node, elemName, doc)
+		self.setupMetaInfo(parent, node, elemName, doc)
 		if self.elemNode:
 			self.setChecked(self.elemNode.firstChild.nodeValue == "true")
 		elif defaultValue:
@@ -221,7 +228,7 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 			# Checking the box
 			if self.elemName == "create-cache":
 				if not getMetaDataBool(self.elemNode, "referentially-transparent"):
-					self.bpIDE.notify("You can only create a cache for referentially transparent functions.")
+					self.bpIDE.notify("You can only create a cache for referentially transparent functions which always produce the same output for a given input.")
 					self.focusEditor()
 					return
 			# elif self.elemName == "referentially-transparent":
@@ -238,6 +245,8 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 			if self.elemName == "no-side-effects":
 				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
 				refTransparent.setText("No")
+				threadSafe = self.metaDataWidget.widgetByMetaTag["thread-safe"]
+				threadSafe.setText("No")
 			elif self.elemName == "same-output-for-input":
 				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
 				refTransparent.setText("No")
@@ -251,9 +260,10 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 			sideEffects = self.metaDataWidget.widgetByMetaTag["no-side-effects"]
 			sameOutput = self.metaDataWidget.widgetByMetaTag["same-output-for-input"]
 			
-			if sideEffects.isChecked() and sameOutput.isChecked():
-				refTransparent = self.metaDataWidget.widgetByMetaTag["referentially-transparent"]
-				refTransparent.setText("Yes")
+			if self.metaDataIsChecked("no-side-effects"):
+				self.metaDataWidget.widgetByMetaTag["thread-safe"].setText("Yes")
+				if self.metaDataIsChecked("same-output-for-input"):
+					self.metaDataWidget.widgetByMetaTag["referentially-transparent"].setText("Yes")
 		
 		# Focus the editor again
 		self.focusEditor()

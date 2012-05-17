@@ -290,9 +290,26 @@ class MenuActions:
 		
 		print("Cleaning all targets...")
 		self.gitThread.startCmd(cleanCmd, self.console.log)
-		self.gitThread.wait()
 		
 		#os.chdir(getIDERoot())
+	
+	def resetLocalChanges(self):
+		self.acquireGitThread()
+		
+		os.chdir(getModuleDir())
+		
+		gitResetCmd = [
+			getGitPath() + "git",
+			"reset",
+			"--hard",
+			"HEAD"
+		]
+		
+		print("Cleaning all targets...")
+		self.gitThread.startCmd(gitResetCmd, self.console.log)
+		self.gitThread.wait()
+		
+		os.chdir(getIDERoot())
 	
 	def runModuleTest(self):
 		self.notImplemented()
@@ -429,6 +446,4 @@ This feature is currently in development.
 			event.ignore()
 			
 	def notImplemented(self):
-		msg = QtGui.QMessageBox(self)
-		msg.setText("Not implemented yet")
-		msg.show()
+		self.notify("Not implemented yet.")

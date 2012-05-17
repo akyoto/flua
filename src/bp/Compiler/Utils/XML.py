@@ -39,6 +39,9 @@ binaryOperatorTagToSymbol = dict()
 
 def getMetaData(node, metaTag):
 	metaNode = getElementByTagName(node, "meta")
+	if not metaNode:
+		return ""
+	
 	metaTagNode = getElementByTagName(metaNode, metaTag)
 	if not metaTagNode:
 		return ""

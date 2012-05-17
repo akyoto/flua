@@ -33,21 +33,7 @@
 				<type>Int</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_swap</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_sizeOf</name>
-				<type>Size</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
+					<same-output-for-input>false</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -61,6 +47,21 @@
 				<name>bp_systemCPUClock</name>
 				<type>Int64</type>
 				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_swap</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_sizeOf</name>
+				<type>Size</type>
+				<meta>
+					<same-output-for-input>true</same-output-for-input>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
@@ -78,6 +79,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>

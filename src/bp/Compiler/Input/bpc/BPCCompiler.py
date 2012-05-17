@@ -43,6 +43,8 @@ class BPCCompiler:
 		self.projectDir = ""
 		self.importExtension = importExtension
 		self.modDir = fixPath(os.path.abspath(modDir)) + "/"
+		self.exprCache = dict()
+		self.textNodeCache = dict()
 		self.initExprParser()
 	
 	def getProjectDir(self):

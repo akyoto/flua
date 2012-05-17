@@ -540,6 +540,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#self.disableUpdatesFlag = True
 		
 		if self.bpcFile:
+			self.doc = self.bpcFile.doc
 			#self.bpIDE.startBenchmark("UpdateRootSafely")
 			self.updateRootSafely()
 			#self.bpIDE.endBenchmark()

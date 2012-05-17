@@ -64,10 +64,12 @@
     <addaction name="actionIntroduction"/>
     <addaction name="separator"/>
     <addaction name="actionChangeLog"/>
+    <addaction name="actionResetLocalChanges"/>
     <addaction name="actionDownloadUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -435,6 +437,15 @@
    </property>
    <property name="text">
     <string>Clean all targets</string>
+   </property>
+  </action>
+  <action name="actionResetLocalChanges">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset all local changes</string>
    </property>
   </action>
  </widget>

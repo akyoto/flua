@@ -207,6 +207,9 @@ b.doSomething()
 			self.xmlViewDock.hide()
 		self.outlineViewDock.hide()
 		
+		#self.metaDataViewDock.hide()
+		#self.xmlViewDock.show()
+		
 		# Needed for workspaces
 		self.viewsInitialized = True
 		
@@ -241,8 +244,9 @@ b.doSomething()
 		
 		# Help
 		self.actionIntroduction.triggered.connect(self.showIntroduction)
-		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
 		self.actionChangeLog.triggered.connect(self.showChangeLog)
+		self.actionResetLocalChanges.triggered.connect(self.resetLocalChanges)
+		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		
@@ -271,7 +275,8 @@ b.doSomething()
 				'hex-number': cf('brown'),
 				'function': cf('#171717', useBold),
 				'side-effects-extern-function': cf('#ee0000', useBold),
-				'no-side-effects-extern-function': cf('#00aa00', useBold),
+				'no-side-effects-extern-function': cf('#000099', useBold),
+				'ref-transparent-extern-function' : cf('#009900', useBold),
 				'class-function': cf('#008000', useBold),
 				'class-getter': cf('#003060', useBold),
 				'class-setter': cf('#003060', useBold),

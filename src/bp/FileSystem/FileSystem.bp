@@ -23,7 +23,6 @@
 				<name>bp_fileModificationTime</name>
 				<type>Int64</type>
 				<meta>
-					<referentially-transparent>true</referentially-transparent>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
@@ -31,7 +30,6 @@
 				<name>bp_getCurrentDir</name>
 				<type>String</type>
 				<meta>
-					<referentially-transparent>false</referentially-transparent>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
@@ -73,6 +71,7 @@
 						<meta/>
 					</function>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<function depth="0">

@@ -187,8 +187,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		# This is used for xml tags which have a "code" node
 		self.nextNode = 0
 		
-		# parseExpr
-		self.parseExpr = self.parser.buildXMLTree
+		self.buildXMLTree = self.parser.buildXMLTree
+		self.adjustXMLTree = self.parser.adjustXMLTree
+		self.parseExprNoCache = self.parser.buildXMLTree
 		self.keywordToHandler = {
 			"break" : self.handleBreak,
 			"to" : self.handleCasts,
@@ -259,6 +260,55 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def setFilePath(self, path):
 		self.file = path
+		
+	def checkObjectCreation(self, node):
+		if tagName(node) == "call":
+			funcNode = getElementByTagName(node, "function")
+			#print(node.toprettyxml())
+			#print(self.exprCache)
+			funcNameNode = funcNode.childNodes[0]
+			
+			# Template call
+			if not isTextNode(funcNameNode):
+				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+				if funcName and funcName[0].isupper():
+					node.tagName = "new"
+					funcNode.tagName = "type"
+			elif funcNameNode.nodeValue and funcNameNode.nodeValue[0].isupper():
+				node.tagName = "new"
+				funcNode.tagName = "type"
+		
+		for child in node.childNodes:
+			self.checkObjectCreation(child)
+		
+	def parseExpr(self, line):
+		inExprCache = line in self.compiler.exprCache
+		
+		if not inExprCache and not line in self.compiler.textNodeCache:
+			node = self.buildXMLTree(line)
+			self.checkObjectCreation(node)
+			
+			if node.nodeType != Node.TEXT_NODE:
+				self.compiler.exprCache[line] = node.toxml()
+			else:
+				self.compiler.textNodeCache[line] = node
+			return node
+			
+		if inExprCache:
+			# Element node
+			node = parseString(self.compiler.exprCache[line]).documentElement
+		else:
+			# Text node
+			node = self.compiler.textNodeCache[line].cloneNode(False)
+		
+		return node
+		
+	# def cloneNode(self, node):
+		# if node.nodeType == Node.TEXT_NODE:
+			# return node.cloneNode(False)
+		
+		# copy = self.doc.createElement(node.tagName)
+		# for attr in node.attributes:	
 		
 	def compile(self, codeText = None):
 		#print("Compiling: " + self.file)
@@ -483,27 +533,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			line = addGenerics(line)
 			node = self.parseExpr(line)
 			
-			self.checkObjectCreation(node)
-			
 			return node
-	
-	def checkObjectCreation(self, node):
-		if tagName(node) == "call":
-			funcNode = getElementByTagName(node, "function")
-			funcNameNode = funcNode.childNodes[0]
-			
-			# Template call
-			if not isTextNode(funcNameNode):
-				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
-				if funcName and funcName[0].isupper():
-					node.tagName = "new"
-					funcNode.tagName = "type"
-			elif funcNameNode.nodeValue and funcNameNode.nodeValue[0].isupper():
-				node.tagName = "new"
-				funcNode.tagName = "type"
-		
-		for child in node.childNodes:
-			self.checkObjectCreation(child)
 	
 	def registerNode(self, node):
 		if len(self.nodes) <= self.lastLineCount:
@@ -682,7 +712,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			if initCode.find('=') == -1:
 				# TODO: Allow nameless iterators
 				raise CompilerException("Missing iterator assignment: %s" % (initCode))
-			initExpr = self.parseExpr(initCode)
+			initExpr = self.parseExprNoCache(initCode)
 			
 			#if not toParam:
 			#	keyword = ["until", "to"][toUsed]
