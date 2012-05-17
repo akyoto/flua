@@ -567,7 +567,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					# Meta data
 					if oldNode:
 						metaNode = getElementByTagName(oldNode, "meta")
-						if metaNode:
+						if metaNode and node:
 							node.appendChild(metaNode)
 					
 					#oldData.oldNode = oldData.node

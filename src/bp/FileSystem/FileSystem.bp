@@ -22,30 +22,43 @@
 			<extern-function depth="1">
 				<name>bp_fileModificationTime</name>
 				<type>Int64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_getCurrentDir</name>
 				<type>String</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_deleteFile</name>
 				<type>Bool</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_renameFile</name>
 				<type>Bool</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_fileExists</name>
 				<type>Bool</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_fopen</name>
 				<type>FileHandle</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_fwrite</name>
 				<type>Size</type>
+				<meta/>
 			</extern-function>
 			<class depth="1">
 				<name>FileHandle</name>
@@ -55,6 +68,7 @@
 						<code>
 							<noop depth="3"/>
 						</code>
+						<meta/>
 					</function>
 				</code>
 			</class>

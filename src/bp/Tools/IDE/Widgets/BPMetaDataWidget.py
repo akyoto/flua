@@ -3,16 +3,17 @@ from bp.Compiler.Utils import *
 
 functionMetaData = [
 	# Name : [Label, DataType, DefaultValue, ReadOnly, ToolTip]
-	("force-parallelization",    ["Force parallelization:", "Bool", "false", False, "<p>Forces the compiler to parallelize the function ignoring whether it actually enhances the performance or not. <strong>Note: You should only check this if you know what you are doing, otherwise this can cause heavy side-effects.</strong></p>"]),
-	("force-inlining",           ["Force inlining:", "Bool", "false", False, "", "<p>Forces the compiler to use inlining for this function. Note that compilers for C++ targets already do a good job in selecting what should be inlined.</p>"]),
-	("force-implementation",     ["Force inclusion in output:", "Bool", "false", False, "<p>Forces this function to be included in the target code ignoring whether it is actually used or not. This can be used to ensure an extern source file for a specific target can include this function.</p>"]),
-	("parallelization-threads",  ["Can run on X cores:", "SingleLine", "Unknown", True, "<p>This shows on how many cores this function could run in parallel.</p>"]),
-	("last-modification-author", ["Last modification by:", "SingleLine", "", True, "<p>The person who modified this function last.</p>"]),
-	("last-modification-date",   ["Last modification date:", "SingleLine", "", True, "<p>Date this function has been modified last.</p>"]),
-	("last-runtime",             ["Last runtime:", "SingleLine", "Unknown", True, "<p>The <strong>average</strong> runtime of the last run.</p>"]),
-	("average-runtime",          ["Average runtime:", "SingleLine", "Not executed yet", True, "<p>The <strong>average</strong> runtime of all runs.</p>"]),
-	("estimated-runtime",        ["Estimated runtime:", "SingleLine", "Unknown", True, "<p>Estimated runtime for this function. This is used by the data dependency analyzer to determine whether it's worth parallelizing this function.</p>"]),
-	("creation-date",            ["Creation date:", "SingleLine", "", True, "<p>The date this function has been created.</p>"]),
+	("force-parallelization",     ["Force parallelization:", "Bool", "false", False, "<p>Forces the compiler to parallelize the function ignoring whether it actually enhances the performance or not. <strong>Note: You should only check this if you know what you are doing, otherwise this can cause heavy side-effects.</strong></p>"]),
+	("force-inlining",            ["Force inlining:", "Bool", "false", False, "", "<p>Forces the compiler to use inlining for this function. Note that compilers for C++ targets already do a good job in selecting what should be inlined.</p>"]),
+	("force-implementation",      ["Force inclusion in output:", "Bool", "false", False, "<p>Forces this function to be included in the target code ignoring whether it is actually used or not. This can be used to ensure an extern source file for a specific target can include this function.</p>"]),
+	("referentially-transparent", ["Referentially transparent:", "SingleLine", "Unknown", True, "<p>Shows whether this function is referentially transparent or not.</p>"]),
+	("parallelization-threads",   ["Can run on X cores:", "SingleLine", "Unknown", True, "<p>This shows on how many cores this function could run in parallel.</p>"]),
+	("last-modification-author",  ["Last modification by:", "SingleLine", "", True, "<p>The person who modified this function last.</p>"]),
+	("last-modification-date",    ["Last modification date:", "SingleLine", "", True, "<p>Date this function has been modified last.</p>"]),
+	("number-of-calls",           ["Number of calls:", "SingleLine", "Unknown", True, "<p>Shows how many times this function was called in the last run.</p>"]),
+	("average-runtime",           ["Average runtime:", "SingleLine", "Unknown", True, "<p>The <strong>average</strong> runtime of the last run.</p>"]),
+	("estimated-runtime",         ["Estimated runtime:", "SingleLine", "Unknown", True, "<p>Estimated runtime for this function. This is used by the data dependency analyzer to determine whether it's worth parallelizing this function.</p>"]),
+	("creation-date",             ["Creation date:", "SingleLine", "", True, "<p>The date this function has been created.</p>"]),
 ]
 
 metaDataForNodeName = {
@@ -21,6 +22,10 @@ metaDataForNodeName = {
 	"getter" : functionMetaData,
 	"operator" : functionMetaData,
 	"cast-definition" : functionMetaData,
+	
+	"extern-function" : [
+		("referentially-transparent", ["Referentially transparent:", "Bool", False, False, "<p>Sets the flag whether this extern function is referentially transparent or not. <strong>A function is referentially transparent if it can be replaced with its return value without changing the behaviour of the program. It should return the same output for the same input and not cause any side effects.</strong></p>"]),
+	]
 }
 
 class BPMetaDataWidget(QtGui.QWidget):
@@ -94,6 +99,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		# New form layout
 		formWidget = QtGui.QWidget(self)
 		formLayout = QtGui.QFormLayout(formWidget)
+		formLayout.setContentsMargins(3, 3, 3, 3)
 		
 		# Build the form
 		for metaTag, metaInfo in metaDataForNodeName[nodeName]:
@@ -110,10 +116,13 @@ class BPMetaDataWidget(QtGui.QWidget):
 			widget = None
 			if dataType == "SingleLine":
 				widget = QtGui.QLineEdit(self)
+				if defaultValue:
+					widget.setText(defaultValue)
 			elif dataType == "Bool":
 				widget = BPMetaCheckBox(self, metaNode, metaTag, defaultValue, self.doc)
-			
-			formLayout.setContentsMargins(3, 3, 3, 3)
+				if defaultValue == "true":
+					widget.setChecked("true")
+				widget.stateChanged.connect(widget.onStateChange)
 			
 			# Readonly
 			if readOnly:
@@ -166,7 +175,6 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 			self.setChecked(self.elemNode.firstChild.nodeValue == "true")
 		elif defaultValue:
 			self.setChecked(defaultValue == "true")
-		self.stateChanged.connect(self.onStateChange)
 		
 	def onStateChange(self, state):
 		if state:

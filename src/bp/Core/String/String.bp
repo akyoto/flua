@@ -18,13 +18,22 @@
 			<extern-function depth="1">
 				<name>bp_strlen</name>
 				<type>Size</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_strlen_utf8</name>
 				<type>Size</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_insertInt</name>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 		</extern>
 		<define depth="0">

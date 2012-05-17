@@ -471,7 +471,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			tabs = "\t" * (tabLevel + 1)
 		for child in node.childNodes:
 			if child.nodeType != Node.TEXT_NODE:
-				blockCode += tabs + nodeToBPC(child, tabLevel + 1, conv) + "\n"
+				blockCode += tabs + nodeToBPCSaved(child, tabLevel + 1, conv) + "\n"
 		#if blockCode[-2].isspace():
 		#	blockCode = blockCode.rstrip() + "\n"
 		#else:

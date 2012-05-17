@@ -30,28 +30,39 @@
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_print</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_println</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_usleep</name>
 				<type>Int</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_sizeOf</name>
 				<type>Size</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_systemTime</name>
 				<type>Int64</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_systemCPUClock</name>
 				<type>Int64</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_swap</name>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 		</extern>
 		<function depth="0">

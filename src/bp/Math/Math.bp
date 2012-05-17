@@ -17,14 +17,23 @@
 			<extern-function depth="1">
 				<name>bp_log</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_log10</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_sqrt</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 		</extern>
 		<function depth="0">

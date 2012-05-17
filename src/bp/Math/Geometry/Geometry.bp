@@ -19,14 +19,23 @@
 			<extern-function depth="1">
 				<name>bp_sin</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_cos</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_atan2</name>
 				<type>Float64</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 		</extern>
 		<const depth="0">

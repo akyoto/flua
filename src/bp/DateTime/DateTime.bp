@@ -29,10 +29,16 @@
 			<extern-function depth="1">
 				<name>bp_getCurrentDate</name>
 				<type>String</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_getCurrentTime</name>
 				<type>String</type>
+				<meta>
+					<referentially-transparent>true</referentially-transparent>
+				</meta>
 			</extern-function>
 		</extern>
 		<function depth="0">
