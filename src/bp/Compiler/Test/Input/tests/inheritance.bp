@@ -65,6 +65,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>
@@ -79,13 +80,14 @@
 							</multiply>
 						</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
 		<comment>\STest\Sit</comment>
 		<assign depth="0">
-			<value>obj</value>
+			<value>tbc</value>
 			<value>
 				<new>
 					<type>MyDerivedClass</type>
@@ -104,7 +106,7 @@
 									<call>
 										<function>
 											<access>
-												<value>obj</value>
+												<value>tbc</value>
 												<value>doSomething</value>
 											</access>
 										</function>
@@ -122,7 +124,7 @@
 									<call>
 										<function>
 											<access>
-												<value>obj</value>
+												<value>tbc</value>
 												<value>doSomethingOverloaded</value>
 											</access>
 										</function>

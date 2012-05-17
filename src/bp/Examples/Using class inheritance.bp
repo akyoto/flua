@@ -40,7 +40,7 @@
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverloaded</name>
+					<name>doSomethingOverwritten</name>
 					<code>
 						<return depth="2">
 							<multiply>
@@ -49,6 +49,7 @@
 							</multiply>
 						</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
 		</class>
@@ -69,7 +70,7 @@
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverloaded</name>
+					<name>doSomethingOverwritten</name>
 					<code>
 						<return depth="2">
 							<multiply>
@@ -78,6 +79,7 @@
 							</multiply>
 						</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
 		</class>
@@ -121,7 +123,7 @@
 										<function>
 											<access>
 												<value>obj</value>
-												<value>doSomethingOverloaded</value>
+												<value>doSomethingOverwritten</value>
 											</access>
 										</function>
 										<parameters>

@@ -51,6 +51,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<operators depth="1">
 					<operator depth="2">
@@ -102,6 +103,7 @@
 								</case>
 							</switch>
 						</code>
+						<meta/>
 					</operator>
 				</operators>
 				<get depth="1">
@@ -113,6 +115,7 @@
 					</getter>
 				</get>
 			</code>
+			<meta/>
 		</class>
 		<comment>\Tset</comment>
 		<comment>\T\Tlength\SnewLength</comment>
