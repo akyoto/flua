@@ -53,10 +53,15 @@
 						</assign>
 						<assign depth="2">
 							<value>
-								<access>
-									<value>my</value>
-									<value>length</value>
-								</access>
+								<declare-type>
+									<value>
+										<access>
+											<value>my</value>
+											<value>length</value>
+										</access>
+									</value>
+									<value>Size</value>
+								</declare-type>
 							</value>
 							<value>0</value>
 						</assign>
@@ -642,7 +647,6 @@
 							</value>
 							<value>characterCount</value>
 						</assign>
-						<comment>\STODO:\ScharacterCount\Sto\Sbyte\Slen</comment>
 						<assign depth="2">
 							<value>
 								<access>
@@ -652,13 +656,76 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen</function>
+									<function>bp_strlen_utf8_xchars</function>
 									<parameters>
 										<parameter>bytes</parameter>
+										<parameter>characterCount</parameter>
 									</parameters>
 								</call>
 							</value>
 						</assign>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>bytes</value>
+								<value>
+									<unmanaged>
+										<value>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</value>
+									</unmanaged>
+								</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>index</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>characterCount</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<call depth="2">
+							<function>bp_utf8_slice</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>length</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+								<parameter>bytes</parameter>
+								<parameter>index</parameter>
+								<parameter>characterCount</parameter>
+							</parameters>
+						</call>
 					</code>
 					<meta/>
 				</function>
@@ -733,7 +800,20 @@
 					</parameters>
 					<name>left</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>0</parameter>
+									<parameter>length</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 					<meta/>
 				</function>
@@ -744,7 +824,30 @@
 					</parameters>
 					<name>right</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>length</value>
+										</subtract>
+									</parameter>
+									<parameter>length</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 					<meta/>
 				</function>
@@ -789,21 +892,32 @@
 					</parameters>
 					<name>mid</name>
 					<code>
+						<require depth="2">
+							<greater-or-equal depth="3">
+								<value>index</value>
+								<value>0</value>
+							</greater-or-equal>
+							<less depth="3">
+								<value>index</value>
+								<value>
+									<access>
+										<value>my</value>
+										<value>length</value>
+									</access>
+								</value>
+							</less>
+						</require>
 						<return depth="2">
 							<new>
 								<type>UTF8String</type>
 								<parameters>
 									<parameter>
-										<add>
-											<value>
-												<access>
-													<value>my</value>
-													<value>data</value>
-												</access>
-											</value>
-											<value>index</value>
-										</add>
+										<access>
+											<value>my</value>
+											<value>data</value>
+										</access>
 									</parameter>
+									<parameter>index</parameter>
 									<parameter>length</parameter>
 								</parameters>
 							</new>
@@ -1033,6 +1147,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</cast-definition>
 				</casts>
 			</code>

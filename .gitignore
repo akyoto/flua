@@ -6,6 +6,7 @@ bp.geany
 bp_decls.hpp
 *.o
 *.exe
+C++
 test.png
 __pycache__
 src/bp/Tools/IDE/tmp/*

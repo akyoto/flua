@@ -32,6 +32,21 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_strlen_utf8_xchars</name>
+				<type>Size</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_utf8_slice</name>
+				<meta>
+					<no-side-effects>false</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_insertInt</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>

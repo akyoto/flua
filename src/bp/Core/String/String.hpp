@@ -1,4 +1,5 @@
-﻿#include <cstring>
+#include <cstring>
+#include <iostream>
 #define _toString(x) (new BPUTF8String(const_cast<char*>(x)))
 
 template <typename T>
@@ -13,57 +14,67 @@ inline size_t bp_strlen(T ptr) {
 
 #define ONEMASK ((size_t)(-1) / 0xFF)
 
-// UTF-8 fast character count by Colin Percival
-static size_t bp_strlen_utf8(char * _s)
-{
-	char * s;
+// TODO: Optimize
+inline size_t bp_strlen_utf8_xchars(char* _s, size_t _limit) {
+	char *start = _s;
+	char b;
 	size_t count = 0;
-	size_t u;
-	unsigned char b;
-
-	/* Handle any initial misaligned bytes. */
-	for (s = _s; (uintptr_t)(s) & (sizeof(size_t) - 1); s++) {
-		b = *s;
-
-		/* Exit if we hit a zero byte. */
-		if (b == '\0')
-			goto done;
-
-		/* Is this byte NOT the first byte of a character? */
-		count += (b >> 7) & ((~b) >> 6);
+	_limit++;
+	
+	while(count < _limit) {
+		b = *_s++;
+		if (((b >> 7) & ((~b) >> 6)) == 0)
+			count++;
 	}
+	
+	return _s - start - 1;
+}
 
-	/* Handle complete blocks. */
-	for (; ; s += sizeof(size_t)) {
-		/* Prefetch 256 bytes ahead. */
-		__builtin_prefetch(&s[256], 0, 0);
-
-		/* Grab 4 or 8 bytes of UTF-8 data. */
-		u = *(size_t *)(s);
-
-		/* Exit the loop if there are any zero bytes. */
-		if ((u - ONEMASK) & (~u) & (ONEMASK * 0x80))
+// TODO: Optimize
+inline void bp_utf8_slice(
+		char* &myData, 
+		size_t &myLen,
+		size_t &myLenInBytes,
+		char* _s,
+		size_t _from,
+		size_t _limit)
+{
+	char b;
+	size_t count = 0;
+	
+	while(count <= _from) {
+		b = *_s++;
+		if (((b >> 7) & ((~b) >> 6)) == 0)
+			count++;
+		if(b == '\0')
 			break;
-
-		/* Count bytes which are NOT the first byte of a character. */
-		u = ((u & (ONEMASK * 0x80)) >> 7) & ((~u) >> 6);
-		count += (u * ONEMASK) >> ((sizeof(size_t) - 1) * 8);
 	}
-
-	/* Take care of any left-over bytes. */
-	for (; ; s++) {
-		b = *s;
-
-		/* Exit if we hit a zero byte. */
-		if (b == '\0')
+	
+	count = 0;
+	myData = --_s;
+	
+	while(count <= _limit) {
+		b = *_s++;
+		if (((b >> 7) & ((~b) >> 6)) == 0)
+			count++;
+		if(b == '\0')
 			break;
-
-		/* Is this byte NOT the first byte of a character? */
-		count += (b >> 7) & ((~b) >> 6);
 	}
+	
+	myLen = count - 1;
+	myLenInBytes = _s - myData - 1;
+}
 
-done:
-	return ((s - _s) - count);
+inline size_t bp_strlen_utf8(char* _s) {
+	char b;
+	size_t count = 0;
+	
+	while((b = *_s++) != '\0') {
+		if (((b >> 7) & ((~b) >> 6)) == 0)
+			count++;
+	}
+	
+	return count;
 }
 
 /**
