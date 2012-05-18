@@ -85,6 +85,14 @@ class MenuActions:
 		if self.codeEdit is None or self.currentWorkspace.count() == 0:
 			return
 		
+		# Make sure the XML is up 2 date
+		if self.codeEdit.updateQueue:
+			# We first need to end parsing!
+			# Disable the stupid threads!
+			self.codeEdit.threaded = False
+			self.codeEdit.onUpdateTimeout()
+			self.codeEdit.threaded = True
+		
 		filePath = self.getFilePath()
 		if self.isTmpPath(filePath) or filePath.endswith(".bpc"):
 			self.saveAsFile()
@@ -151,6 +159,14 @@ class MenuActions:
 	def runModule(self, compilerFlags = []):
 		if self.codeEdit is None:
 			return
+		
+		# Make sure the XML is up 2 date
+		if self.codeEdit.updateQueue:
+			# We first need to end parsing!
+			# Disable the stupid threads!
+			self.codeEdit.threaded = False
+			self.codeEdit.onUpdateTimeout()
+			self.codeEdit.threaded = True
 		
 		outputTarget = "C++"
 		

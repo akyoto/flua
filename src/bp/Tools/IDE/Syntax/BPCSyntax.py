@@ -128,26 +128,27 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				
 				if (userData and userData.node):
 					node = userData.node
-					inClass = (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
-					if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
-						self.setFormat(i, h - i, style['class-' + userData.node.tagName])
-						i = h
-						continue
-					elif userData.node.tagName == "class":
-						self.setFormat(i, h - i, style['class-name'])
-						i = h
-						continue
-					elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
-						# TODO: Optimize using bpIDE.processor
-						if isMetaDataTrue(getMetaData(node, "no-side-effects")):
-							if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
-								self.setFormat(i, h - i, style['ref-transparent-extern-function'])
+					if userData.node.nodeType != Node.TEXT_NODE:
+						inClass = (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
+						if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
+							self.setFormat(i, h - i, style['class-' + userData.node.tagName])
+							i = h
+							continue
+						elif userData.node.tagName == "class":
+							self.setFormat(i, h - i, style['class-name'])
+							i = h
+							continue
+						elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
+							# TODO: Optimize using bpIDE.processor
+							if isMetaDataTrue(getMetaData(node, "no-side-effects")):
+								if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
+									self.setFormat(i, h - i, style['ref-transparent-extern-function'])
+								else:
+									self.setFormat(i, h - i, style['no-side-effects-extern-function'])
 							else:
-								self.setFormat(i, h - i, style['no-side-effects-extern-function'])
-						else:
-							self.setFormat(i, h - i, style['side-effects-extern-function'])
-						i = h
-						continue
+								self.setFormat(i, h - i, style['side-effects-extern-function'])
+							i = h
+							continue
 				
 				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":

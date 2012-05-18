@@ -124,6 +124,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		super().clear()
 		self.updater = BPCodeUpdater(self)
 		self.disableUpdatesFlag = False
+		
+		self.timer = QtCore.QTimer(self)
+		self.timer.timeout.connect(self.onUpdateTimeout)
+		self.timer.start(2000)
 	
 	#def setBackgroundColor(self, bgColor):
 	#	p = self.palette()
@@ -293,7 +297,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				node = None
 			
-			# Retrive the keyword from the line
+			# Retrieve the keyword from the line
 			pureLine = line[tabLevel:]
 			keyword = ""
 			i = 0
@@ -319,23 +323,25 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					tabLevel += 1
 				elif keyword == "init" and tabLevel == 1:
 					tabLevel += 1
-				else:
-					isTopLevelFuncDefinition = (node is not None and node.parentNode.parentNode.tagName == "module")
-					isClassFunction = (self.updater is not None) and (self.updater.lastException is not None)
-										#and self.updater.lastException.getMsg().find("may not contain top-level") != -1
-					topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
-					if (
-						(wasFullLine or addBrackets(pureLine)[-1] == ')')
-						and tabLevel <= 1
-						#and self.bpIDE.getErrorCount() == 0
-						and isAtEndOfLine
-						and line and line[-1] != ')'
-						and (isTopLevelFuncDefinition or isClassFunction)
-						and (not topLevelFuncExists) or (isClassFunction)
-						):
+				#else:
+				#	topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+				#	if not topLevelFuncExists:
+				#		tabLevel += 1
+					# isTopLevelFuncDefinition = (node is not None and node.parentNode.parentNode.tagName == "module")
+					# isClassFunction = (self.updater is not None) and (self.updater.lastException is not None)
+					# topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+					# if (
+						# (wasFullLine or addBrackets(pureLine)[-1] == ')')
+						# and tabLevel <= 1
+						# and isAtEndOfLine
+						# and line and line[-1] != ')'
+						# and (isTopLevelFuncDefinition or isClassFunction)
+						# and (not topLevelFuncExists) or (isClassFunction)
+						# ):
+						
 					# TODO: Check whether parameters hold variable names only
 					# If the parameters have numbers then this won't be a function definition
-						tabLevel += 1
+						# tabLevel += 1
 					
 			# Add the text
 			cursor.beginEditBlock()
@@ -477,37 +483,40 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	
 	#	block.setUserData(BPLineInformation(newNode, False, oldNode))
 	
-	def setLineEdited(self, index, edited):
-		block = self.qdoc.findBlockByNumber(index)
-		lineInfo = block.userData()
-		if lineInfo:
-			block.setUserData(BPLineInformation(lineInfo.node, True, lineInfo.oldNode))
+	# def setLineEdited(self, index, edited):
+		# block = self.qdoc.findBlockByNumber(index)
+		# lineInfo = block.userData()
+		# if lineInfo:
+			# block.setUserData(BPLineInformation(lineInfo.node, True, lineInfo.oldNode))
 		
 	def onTextChange(self, position, charsRemoved, charsAdded):
-		blockStart = self.qdoc.findBlock(position)
-		blockEnd = self.qdoc.findBlock(position + charsAdded)
-		for i in range(blockStart.blockNumber(), blockEnd.blockNumber() + 1):
-			#print("Update user data for line: " + str(block.text()))
-			self.setLineEdited(i, True)
+		# blockStart = self.qdoc.findBlock(position)
+		# blockEnd = self.qdoc.findBlock(position + charsAdded)
+		# for i in range(blockStart.blockNumber(), blockEnd.blockNumber() + 1):
+			# #print("Update user data for line: " + str(block.text()))
+			# self.setLineEdited(i, True)
 		
 		# Run bpc -> xml updater
 		#print(self.disableUpdatesFlag)
+		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()
 		
 	def runUpdater(self):
-		if self.updater.isRunning():
-			self.updateQueue.append(1)
-			return
+		self.updateQueue.append(1)
+		if self.openingFile:
+			self.onUpdateTimeout()
 		
-		self.updateQueue.clear()
-		self.updater.setDocument(self.qdoc)
-		
-		if self.threaded:
-			self.updater.start(QtCore.QThread.IdlePriority)
-		else:
-			self.updater.run()
-			self.compilerFinished()
+	def onUpdateTimeout(self):
+		if self.updateQueue:
+			self.updateQueue.clear()
+			self.updater.setDocument(self.qdoc)
+			
+			if self.threaded:
+				self.updater.start(QtCore.QThread.IdlePriority)
+			else:
+				self.updater.run()
+				self.compilerFinished()
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -549,10 +558,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bpIDE.runPostProcessor()
 		
 		# Any work in the queue left?
-		if self.updateQueue:
-			print("There is some work left!")
-			self.runUpdater()
-		#self.disableUpdatesFlag = False
+		interval = self.updater.executionTime + 1000
+		if self.updateQueue and abs(self.timer.interval() - interval) > 300:
+			print("Setting new update interval: %d" % (interval))
+			self.timer.setInterval(interval)
 		
 	def getCurrentLine(self):
 		lineIndex = self.getLineIndex()

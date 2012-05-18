@@ -59,6 +59,7 @@ class BPWorkspace(QtGui.QTabWidget):
 	def changeCodeEdit(self, index):
 		#print("CODE EDIT CHANGED TO INDEX %d" % index)
 		if index != -1:
+			del self.bpIDE.codeEdit
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
