@@ -60,6 +60,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.gitThread = None
 		self.geometryState = None
 		self.authorName = ""
+		self.lastCodeEdit = None
 		
 		# Load config
 		self.startBenchmark("Load Configuration")
@@ -227,23 +228,25 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def getModuleImportType(self, importedModule):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
 		
-	def runPostProcessor(self):
+	def runPostProcessor(self, codeEdit):
 		# TODO: Less cpu usage
 		if self.threaded:
 			if not self.postProcessorThread.isRunning():
-				self.postProcessorThread.startWith(self.codeEdit)
+				self.postProcessorThread.startWith(codeEdit)
 		else:
-			self.postProcessorThread.run()
-			self.postProcessorFinished()
+			raise "Not implemented in single-threaded mode"
+			#self.postProcessorThread.run()
+			#self.postProcessorFinished()
 		
 	def postProcessorFinished(self):
 		ppCodeEdit = self.postProcessorThread.codeEdit
+		self.processorOutFile = self.postProcessorThread.ppFile
 		
 		# Update line info
 		self.updateLineInfo(force=True, updateDependencyView=False)
 		
 		# Exists?
-		if ppCodeEdit is None:
+		if ppCodeEdit is None or ppCodeEdit.isTextFile:
 			return
 		
 		# After we parsed the functions, set the text and highlight the file
@@ -255,10 +258,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.dependencyView.updateView()
 		
 		# If the number of functions changed, rehighlight
-		if self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
+		if self.lastCodeEdit == self.codeEdit and self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
 			ppCodeEdit.rehighlightFunctionUsage()
 		
 		self.lastFunctionCount = self.processor.getFunctionCount()
+		self.lastCodeEdit = self.codeEdit
 		
 		# If the function name changed, rehighlight
 		lineIndex = ppCodeEdit.getLineIndex()
@@ -375,6 +379,22 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	# If you need to do something AFTER a new file gets loaded, this is the right place
 	def afterSwitchingFile(self):
 		pass
+		
+	def loadTextFileToEditor(self, fileName):
+		self.beforeSwitchingFile()
+		
+		with codecs.open(fileName, "r", "utf-8") as inStream:
+			codeText = inStream.read()
+		
+		# Let's rock!
+		if self.codeEdit:
+			self.codeEdit.disableUpdatesFlag = True
+			self.codeEdit.isTextFile = True
+			del self.codeEdit.highlighter
+			self.codeEdit.setPlainText(codeText)
+		
+		# Enable dependency view for first line
+		self.afterSwitchingFile()
 		
 	def loadBPCFileToEditor(self, fileName):
 		self.beforeSwitchingFile()

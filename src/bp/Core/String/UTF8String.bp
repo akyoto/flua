@@ -642,6 +642,7 @@
 							</value>
 							<value>characterCount</value>
 						</assign>
+						<comment>\STODO:\ScharacterCount\Sto\Sbyte\Slen</comment>
 						<assign depth="2">
 							<value>
 								<access>
@@ -788,23 +789,25 @@
 					</parameters>
 					<name>mid</name>
 					<code>
-						<new depth="2">
-							<type>UTF8String</type>
-							<parameters>
-								<parameter>
-									<add>
-										<value>
-											<access>
-												<value>my</value>
-												<value>data</value>
-											</access>
-										</value>
-										<value>index</value>
-									</add>
-								</parameter>
-								<parameter>length</parameter>
-							</parameters>
-						</new>
+						<return depth="2">
+							<new>
+								<type>UTF8String</type>
+								<parameters>
+									<parameter>
+										<add>
+											<value>
+												<access>
+													<value>my</value>
+													<value>data</value>
+												</access>
+											</value>
+											<value>index</value>
+										</add>
+									</parameter>
+									<parameter>length</parameter>
+								</parameters>
+							</new>
+						</return>
 					</code>
 					<meta/>
 				</function>

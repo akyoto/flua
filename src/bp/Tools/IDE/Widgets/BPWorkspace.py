@@ -63,7 +63,7 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
-			if not self.bpIDE.codeEdit.openingFile:
+			if (not self.bpIDE.codeEdit.openingFile) and (not self.bpIDE.codeEdit.isTextFile):
 				self.bpIDE.codeEdit.runUpdater()
 			
 			if self.currentIndex() != index:
@@ -114,7 +114,11 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 	def updateCurrentCodeEditName(self):
 		if self.count():
-			self.setTabText(self.currentIndex(), stripAll(self.currentWidget().getFilePath()))
+			if self.bpIDE.codeEdit.isTextFile:
+				tabName = stripDir(self.currentWidget().getFilePath())
+			else:
+				tabName = stripAll(self.currentWidget().getFilePath())
+			self.setTabText(self.currentIndex(), tabName)
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()

@@ -42,7 +42,7 @@ class MenuActions:
 				parent=self,
 				caption="Open File",
 				directory=openInDirectory,
-				filter="bp Files (*.bp);;bpc Files (*.bpc)")
+				filter="bp Files (*.bp);;bpc Files (*.bpc);;Any text file (*.*)")
 		
 		if fileName:
 			# File already opened in workspace?
@@ -66,9 +66,15 @@ class MenuActions:
 					self.loadFileToEditor(fileName)
 				elif fileName.endswith(".bpc"):
 					self.loadBPCFileToEditor(fileName)
+				else:
+					self.loadTextFileToEditor(fileName)
 			# File was opened in another workspace
 			elif self.workspaces[workspaceID] != self.currentWorkspace:
-				self.currentWorkspace.addAndSelectTab(ce, stripAll(fileName))
+				if ce.isTextFile:
+					tabName = stripDir(fileName)
+				else:
+					tabName = stripAll(fileName)
+				self.currentWorkspace.addAndSelectTab(ce, tabName)
 				
 				# For some reason Qt shows the others workspace even though we have hidden it
 				# => So we need to hide it again
@@ -86,7 +92,7 @@ class MenuActions:
 			return
 		
 		# Make sure the XML is up 2 date
-		if self.codeEdit.updateQueue:
+		if (not self.codeEdit.isTextFile) and self.codeEdit.updateQueue:
 			# We first need to end parsing!
 			# Disable the stupid threads!
 			self.codeEdit.threaded = False
@@ -157,7 +163,7 @@ class MenuActions:
 		])
 	
 	def runModule(self, compilerFlags = []):
-		if self.codeEdit is None:
+		if self.codeEdit is None or self.codeEdit.isTextFile:
 			return
 		
 		# Make sure the XML is up 2 date

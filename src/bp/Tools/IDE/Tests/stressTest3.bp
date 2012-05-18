@@ -4,7 +4,9 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Hello\SWorld</string>
+		</strings>
 	</header>
 	<code>
 		<target depth="0">
@@ -57,6 +59,12 @@
 				<value>57.2957795130823208767981548141052</value>
 			</assign>
 		</const>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_0</parameter>
+			</parameters>
+		</call>
 		<function depth="0">
 			<parameters>
 				<parameter>deg</parameter>
@@ -70,6 +78,7 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>

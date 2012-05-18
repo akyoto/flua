@@ -13,7 +13,7 @@ def getGCCCompilerPath():
 	if os.name == "nt":
 		return fixPath(os.path.abspath("../../../../../mingw/bin/"))
 	else:
-		return "./"
+		return ""
 	
 def getGCCCompilerName():
 	return "g++"

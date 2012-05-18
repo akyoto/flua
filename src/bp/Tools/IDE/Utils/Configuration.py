@@ -79,6 +79,8 @@ class BPConfiguration:
 		self.ideFontFamily = self.parser.get(ideConfig, "FontFamily")
 		self.ideFontSize = self.parser.getint(ideConfig, "FontSize")
 		
+		self.updateInterval = self.parser.getint("Parser", "UpdateInterval")
+		
 		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
 		self.standardFont = QtGui.QFont(self.ideFontFamily, self.ideFontSize)
 		

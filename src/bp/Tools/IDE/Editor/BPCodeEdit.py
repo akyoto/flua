@@ -64,6 +64,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		currentTheme = self.bpIDE.getCurrentTheme()
 		
 		self.openingFile = False
+		self.isTextFile = False
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
@@ -127,7 +128,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.timer = QtCore.QTimer(self)
 		self.timer.timeout.connect(self.onUpdateTimeout)
-		self.timer.start(2000)
+		self.timer.start(self.bpIDE.config.updateInterval)
 	
 	#def setBackgroundColor(self, bgColor):
 	#	p = self.palette()
@@ -434,8 +435,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		return self.bpIDE.getCurrentTheme()
 	
 	def rehighlightFunctionUsage(self):
+		if self.isTextFile:
+			return
+		
 		# TODO: Only highlight blocks where the function is used
-		self.startBenchmark("CDE Rehighlight")
+		self.startBenchmark("[%s] Syntax Highlighter" % (stripDir(self.filePath)))
 		self.highlighter.rehighlight()
 		self.endBenchmark()
 		
@@ -447,20 +451,28 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		try:
 			if newPath:
-				if not newPath.endswith(".bp"):
-					newPath = stripExt(newPath) + ".bp"
-				self.setFilePath(newPath)
-				
-				if oldPath != newPath and self.bpIDE.processor:
-					self.bpIDE.processor.changeCompiledFilePath(oldPath, newPath)
+				if self.isTextFile:
+					self.setFilePath(newPath)
+				else:
+					if not newPath.endswith(".bp"):
+						newPath = stripExt(newPath) + ".bp"
+					self.setFilePath(newPath)
+					
+					if oldPath != newPath and self.bpIDE.processor:
+						self.bpIDE.processor.changeCompiledFilePath(oldPath, newPath)
 			
-			if self.bpcFile:
-				self.bpcFile.writeToFS()
-				
-				self.qdoc.setModified(False)
-				self.bpIDE.statusBar.showMessage("Saved " + newPath + " successfully.", 1000)
+			if self.isTextFile:
+				with codecs.open(self.getFilePath(), "w", encoding="utf-8") as outStream:
+					outStream.write(self.toPlainText())
 			else:
-				raise "No bpc data"
+				if self.bpcFile:
+					self.bpcFile.writeToFS()
+				else:
+					raise "No bpc data"
+			
+			# Success
+			self.qdoc.setModified(False)
+			self.bpIDE.statusBar.showMessage("Saved " + self.getFilePath() + " successfully.", 1000)
 		except:
 			self.setFilePath(oldPath)
 			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)
@@ -503,11 +515,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.runUpdater()
 		
 	def runUpdater(self):
+		if self.isTextFile:
+			return
+		
 		self.updateQueue.append(1)
 		if self.openingFile:
 			self.onUpdateTimeout()
 		
 	def onUpdateTimeout(self):
+		if self.isTextFile:
+			return
+		
 		if self.updateQueue:
 			self.updateQueue.clear()
 			self.updater.setDocument(self.qdoc)
@@ -555,12 +573,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.updateRootSafely()
 			#self.bpIDE.endBenchmark()
 			
-			self.bpIDE.runPostProcessor()
+			self.bpIDE.runPostProcessor(self)
 		
 		# Any work in the queue left?
-		interval = self.updater.executionTime + 1000
+		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
 		if self.updateQueue and abs(self.timer.interval() - interval) > 300:
-			print("Setting new update interval: %d" % (interval))
+			print("Setting new update interval: %d ms" % (interval))
 			self.timer.setInterval(interval)
 		
 	def getCurrentLine(self):
