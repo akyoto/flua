@@ -36,58 +36,6 @@ class Startup:
 		self.startBenchmark("Init Actions")
 		self.initActions()
 		self.endBenchmark()
-		
-	def showIntroduction(self):
-		# For beginners
-		self.newFile()
-		
-		if not self.codeEdit:
-			return
-		
-		self.codeEdit.disableUpdatesFlag = True
-		self.codeEdit.setPlainText('''# Press F5 to run this
-print "Hello bp!"
-
-# You are using BPC syntax at the moment.
-# It's pretty similar to Python:
-if 1 + 1 == 2
-	print "I'm a genius!"
-else
-	print "Something's wrong here..."
-
-# A function starts with a lowercase letter (this will be changeable in the settings later):
-myFunction x, y
-	return x + y
-
-# Call the function:
-a = myFunction(5, 5)
-
-# By using type inference the compiler knows 'a' is an integer.
-
-# Classes start with an uppercase letter (will be changeable)
-# and must contain an init function as a constructor:
-MyClass
-	init my.message
-		print my.message
-		
-	doSomething
-		print "By the way I heard Unicode works: おはようございます。"
-
-# Creating objects:
-b = MyClass("Hey it's b here! Long time no see.")
-
-# Calling methods (whether brackets are optional or not depends on the syntax module):
-b.doSomething()
-
-# The current version is not stable.
-# If you find a bug you can either tell me about it on IRC (#blitzprog on irc.freenode.net)
-# or wait until I setup a bug tracker. Settings and preferences currently aren't saved and
-# in some cases aren't even used.
-# There are still lots of features missing but they'll be implemented sooner or later.
-
-# Happy alpha testing :)''')
-		self.codeEdit.disableUpdatesFlag = False
-		self.codeEdit.runUpdater()
 	
 	def initPreferences(self):
 		self.preferences = uic.loadUi("ui/preferences.ui")
