@@ -8,14 +8,19 @@
 #define BPFileHandle FILE
 
 // bp_fopen
-inline BPFileHandle* bp_fopen(BPUTF8String *path, BPUTF8String *mode) {
+inline BPFileHandle* bp_fopen(BPUTF8String* path, BPUTF8String* mode) {
 	return fopen(*path, *mode);
 }
 
 // bp_fwrite
-/*inline size_t bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
-	return fwrite(*contents, sizeof(Byte), contents->getLengthInBytes(), fh);
-}*/
+inline size_t bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
+	return fwrite(*contents, sizeof(Byte), contents->lengthInBytes, fh);
+}
+
+// bp_fclose
+inline bool bp_fclose(BPFileHandle* fh) {
+	return !fclose(fh);
+}
 
 // bp_fileModificationTime
 template <typename T>

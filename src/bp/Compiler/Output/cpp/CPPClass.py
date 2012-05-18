@@ -37,7 +37,7 @@ from bp.Compiler.Output.cpp.CPPNamespace import *
 ####################################################################
 class CPPClass(CPPNamespace):
 	
-	def __init__(self, name):
+	def __init__(self, name, node):
 		super().__init__(name)
 		self.templateNames = []
 		self.templateDefaultValues = []
@@ -45,6 +45,12 @@ class CPPClass(CPPNamespace):
 		self.isExtern = False
 		self.usesActorModel = False
 		self.extends = []
+		self.node = node
+		
+		if self.node:
+			self.ensureDestructorCall = isMetaDataTrueByTag(node, "ensure-destructor-call")
+		else:
+			self.ensureDestructorCall = False
 		
 	def setExtends(self, extends):
 		self.extends = extends

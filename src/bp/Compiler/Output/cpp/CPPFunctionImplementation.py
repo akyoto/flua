@@ -108,6 +108,11 @@ class CPPFunctionImplementation:
 		
 		return "// %s\n%sinline %s %s(%s) {\n%s%s}\n" % (funcName, tabs, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
 	
+	# Constructor
 	def getConstructorCode(self):
 		# TODO: Add parameters
 		return "// %s\n\tinline %s(%s) {\n%s\t}\n" % (self.getFuncName(), "BP" + self.func.classObj.name, self.getParamString(), self.code)
+	
+	# Destructor
+	def getDestructorCode(self):
+		return "// %s\n\tinline ~%s(%s) {\n%s\t}\n" % (self.getFuncName(), "BP" + self.func.classObj.name, self.getParamString(), self.code)

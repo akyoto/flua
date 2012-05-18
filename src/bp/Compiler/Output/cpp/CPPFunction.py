@@ -8,6 +8,7 @@ class CPPFunction:
 		self.cppFile = cppFile
 		self.isCast = (node.tagName == "cast-definition")
 		self.castToUnmanaged = False
+		self.forceImplementation = False
 		
 		if self.isCast:
 			typeNode = getElementByTagName(node, "to")
@@ -29,6 +30,9 @@ class CPPFunction:
 		self.paramTypesByDefinition = []
 		self.paramDefaultValues = []
 		self.paramDefaultValueTypes = []
+		
+	def setForceImplementation(self, state):
+		self.forceImplementation = state
 		
 	def isOperator(self):
 		return self.node.tagName == "operator"

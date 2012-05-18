@@ -1,0 +1,36 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SA\Ssimple\Swhile\S&lt;condition&gt;\Sloop</comment>
+		<assign depth="0">
+			<value>a</value>
+			<value>0</value>
+		</assign>
+		<while depth="0">
+			<condition>
+				<less>
+					<value>a</value>
+					<value>10</value>
+				</less>
+			</condition>
+			<code>
+				<assign-add depth="1">
+					<value>a</value>
+					<value>5</value>
+				</assign-add>
+			</code>
+		</while>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

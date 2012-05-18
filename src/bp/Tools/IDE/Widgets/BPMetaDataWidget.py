@@ -36,7 +36,7 @@ metaDataForNodeName = {
 	],
 	
 	"class" : [
-		("ensure-destructor-call",     ["Ensure destructor is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the destructor when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
+		("ensure-destructor-call",     ["Ensure finalizer is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the 'finalize' method (destructor) when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
 	]
 }
 

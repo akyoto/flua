@@ -77,7 +77,7 @@ class CPPOutputCompiler(Benchmarkable):
 		self.needToInitStringClass = False
 		self.defines = dict()
 		
-		self.mainClass = CPPClass("")
+		self.mainClass = CPPClass("", None)
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
 		if os.name == "nt":

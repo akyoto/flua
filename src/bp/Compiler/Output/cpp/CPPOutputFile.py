@@ -574,6 +574,7 @@ class CPPOutputFile(ScopeController):
 		pos = typeName.find("<")
 		if pos != -1:
 			className = removeUnmanaged(typeName[:pos])
+			classObj = self.getClass(className)
 			
 			# Actor
 			if className == "Actor":
@@ -597,9 +598,13 @@ class CPPOutputFile(ScopeController):
 				else:
 					raise CompilerException("To create a manageable object you need to enable the GC")
 		else:
+			classObj = self.getClass(typeName)
 			typeName = self.addMissingTemplateValues(typeName)
 		
 		funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		
+		if "finalize" in classObj.functions:
+			destructorImpl = self.implementFunction(typeName, "finalize", [])
 		
 		# Default parameters for init
 		paramTypesLen = len(paramTypes)
@@ -1586,7 +1591,7 @@ class CPPOutputFile(ScopeController):
 			oldClass = self.currentClass
 			self.currentClass = refClass
 		else:
-			refClass = CPPClass(name)
+			refClass = CPPClass(name, node)
 			self.pushClass(refClass)
 			self.localClasses.append(self.currentClass)
 		
@@ -1634,6 +1639,9 @@ class CPPOutputFile(ScopeController):
 		
 		if self.currentClass.name == "":
 			self.localFunctions.append(newFunc)
+		
+		if isMetaDataTrue(getMetaData(node, "force-implementation")):
+			newFunc.setForceImplementation(True)
 		
 	def scanExternFunction(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -1695,13 +1703,16 @@ class CPPOutputFile(ScopeController):
 					
 					# Functions
 					for funcImpl in classImpl.funcImplementations.values():
-						if funcImpl.getFuncName() != "init":
-							code += "\t" + funcImpl.getFullCode() + "\n"
-						else:
+						if funcImpl.getFuncName() == "init":
 							code += "\t" + funcImpl.getConstructorCode() + "\n"
+						elif funcImpl.getFuncName() == "finalize":
+							code += "\t" + funcImpl.getDestructorCode() + "\n"
+						else:
+							code += "\t" + funcImpl.getFullCode() + "\n"
 					
 					# Private members
-					code += "private:\n"
+					# TODO: SET IT BACK TO PRIVATE AFTER FIXING FORCE INCLUSION
+					code += "public:\n"
 					for member in classImpl.members.values():
 						#print(member.name + " is of type " + member.type)
 						code += "\t" + adjustDataType(member.type, True) + " " + member.name + ";\n"
@@ -1725,7 +1736,12 @@ class CPPOutputFile(ScopeController):
 					
 					# Memory management
 					if self.useGC:
-						self.classesHeader += "class %s: public gc" % (finalClassName)
+						# Ensure destructor call?
+						if classObj.ensureDestructorCall:
+							gcClass = "gc_cleanup"
+						else:
+							gcClass = "gc"
+						self.classesHeader += "class %s: public %s" % (finalClassName, gcClass)
 					elif self.useReferenceCounting:
 						self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName)
 					else:

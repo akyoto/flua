@@ -64,6 +64,9 @@ def isMetaDataTrue(stri):
 	stri = stri.lower()
 	return stri == "true" or stri == "yes"
 	
+def isMetaDataTrueByTag(node, metaTag):
+	return isMetaDataTrue(getMetaData(node, metaTag))
+	
 # Check whether node has some usable content
 def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")

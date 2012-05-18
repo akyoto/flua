@@ -1008,6 +1008,9 @@
 								</access>
 							</return>
 						</code>
+						<meta>
+							<force-implementation>true</force-implementation>
+						</meta>
 					</getter>
 				</get>
 				<casts depth="1">

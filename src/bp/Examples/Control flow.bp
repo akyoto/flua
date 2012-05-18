@@ -1,0 +1,71 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">1\S+\S1\Sis\S5!</string>
+			<string id="bp_string_1">1\S+\S1\Sis\S2!</string>
+			<string id="bp_string_2">1\S+\S1\Sis\Ssomething\Selse!</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SAn\Sif\S/\Selif\S/\Selse\Sblock\Sis\Sbuilt\Slike\Sthis:</comment>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<add>
+								<value>1</value>
+								<value>1</value>
+							</add>
+						</value>
+						<value>5</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else-if depth="0">
+				<condition>
+					<equal>
+						<value>
+							<add>
+								<value>1</value>
+								<value>1</value>
+							</add>
+						</value>
+						<value>2</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else-if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_2</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+		<comment>\SPress\SF5\Sto\Srun\Sthis.</comment>
+	</code>
+</module>

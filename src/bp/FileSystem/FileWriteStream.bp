@@ -6,7 +6,9 @@
 			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">w</string>
+			<string id="bp_string_0">FileWriteStream\SCONSTRUCTOR</string>
+			<string id="bp_string_1">w</string>
+			<string id="bp_string_2">FileWriteStream\SDESTRUCTOR</string>
 		</strings>
 	</header>
 	<code>
@@ -24,6 +26,12 @@
 					</parameters>
 					<name>init</name>
 					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</call>
 						<assign depth="2">
 							<value>
 								<access>
@@ -41,7 +49,7 @@
 												<value>path</value>
 											</access>
 										</parameter>
-										<parameter>bp_string_0</parameter>
+										<parameter>bp_string_1</parameter>
 									</parameters>
 								</call>
 							</value>
@@ -75,13 +83,26 @@
 							<value>0</value>
 						</assign>
 					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>finalize</name>
+					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_2</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>
 						<parameter>
 							<declare-type>
 								<value>line</value>
-								<value>String</value>
+								<value>UTF8String</value>
 							</declare-type>
 						</parameter>
 					</parameters>
@@ -118,6 +139,7 @@
 							</value>
 						</assign-add>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>
@@ -138,8 +160,12 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 			</code>
+			<meta>
+				<ensure-destructor-call>true</ensure-destructor-call>
+			</meta>
 		</class>
 	</code>
 </module>
