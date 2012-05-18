@@ -449,6 +449,7 @@ class BPPostProcessor:
 	def changeCompiledFilePath(self, oldPath, newPath):
 		# TODO: Can we do this faster in Python?
 		self.compiledFiles[newPath] = self.compiledFiles[oldPath]
+		del self.compiledFiles[oldPath]
 		self.compiledFiles[oldPath] = None
 	
 	def getCompiledFilesList(self):
@@ -459,6 +460,12 @@ class BPPostProcessor:
 		
 	def getFileInstanceByPath(self, filePath):
 		return self.compiledFiles[filePath]
+		
+	def cleanUpFile(self, filePath):
+		if filePath in self.compiledFiles:
+			bpOut = self.compiledFiles.pop(filePath)
+			self.compiledFilesList.remove(bpOut)
+		return
 		
 	def processFile(self, filePath):
 		xmlCode = loadXMLFile(filePath)
@@ -472,8 +479,11 @@ class BPPostProcessor:
 			if filePath:
 				if not self.compiledFiles:
 					self.setMainFile(filePath)
+				
 				self.compiledFiles[filePath] = bpOut
 				self.compiledFilesList.append(bpOut)
+				#print("\n".join(self.compiledFiles))
+				#print("----")
 			
 			# Get a list of imported files
 			bpOut.updateImportedFiles()

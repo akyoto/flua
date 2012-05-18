@@ -188,6 +188,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			funcCount = 0
 			if self.processorOutFile:
 				funcCount = self.processorOutFile.funcCount
+				del self.processorOutFile
+				self.processorOutFile = None
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded. " % (funcCount, self.processor.funcCount))
@@ -282,6 +284,19 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
 		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
 		
+		#del gc.garbage[:]
+		
+		# Leak detection
+		# if 0:
+			# import bp.Compiler.Utils.GC as gcInfo
+			# print("[--------")
+			# gcInfo.showMostCommonTypes()
+			# print("BPC Files: %d" % gcInfo.countByTypename("BPCFile"))
+			# print("PP Files: %d" % gcInfo.countByTypename("BPPostProcessorFile"))
+			# for x in gcInfo.byType("BPPostProcessorFile"):
+				# print(x.getFilePath())
+			# print("--------]")
+		
 	def getXMLDocument(self):
 		if self.codeEdit is None:
 			return None
@@ -331,9 +346,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Read
 		print("-" * 80)
 		print("File: %s " % (fileName.rjust(80 - 7)))
-		self.startBenchmark("LoadXMLFile (physically read file)")
+		#self.startBenchmark("LoadXMLFile (physically read file)")
 		xmlCode = loadXMLFile(self.getFilePath())
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# TODO: Clear all views
 		self.dependencyView.clear()
@@ -451,6 +466,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 
 def main():
 	# Create the application
+	#gc.set_debug(gc.DEBUG_LEAK)
+	#gc.enable()
 	app = QtGui.QApplication(sys.argv)
 	editor = BPMainWindow()
 	exitCode = app.exec_()

@@ -190,7 +190,8 @@ def nodeToBPCSaved(node, tabLevel, conv):
 	
 	# e.g. import bp.Core
 	if not codeAdded:
-		conv.removeLast()
+		if conv:
+			conv.removeLast()
 		return codeAdded
 	
 	if conv and not isInvalidNodeToCheckNewlines:

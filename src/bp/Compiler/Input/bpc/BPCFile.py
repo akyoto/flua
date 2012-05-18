@@ -226,6 +226,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			"while" : self.handleWhile,
 		}
 		
+	#def __del__(self):
+	#	del self.nodeToOriginalLine
+	#	del self.nodes
+	#	del self.doc
+		
 	def writeToFS(self):
 		#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
 		#fileOut = dirOut + stripAll(bpcFile.file) + ".bp"
@@ -330,6 +335,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.lastLineCount = -1	# -1 because of "import bp.Core"
 		lines = ["import bp.Core"] + codeText.split('\n') + ["..."]
 		self.maxLineIndex = len(lines) - 1
+		del codeText
 		
 		#if "unicode" in self.file:
 		#	print(lines)
@@ -442,8 +448,12 @@ class BPCFile(ScopeController, Benchmarkable):
 							if not variable in self.getCurrentScope().variables:
 								self.getCurrentScope().variables[variable] = currentLine
 				
+				if not self.currentNode:
+					raise CompilerException("'%s' was indented and needs to be in a valid block" % self.lastLine)
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
+		
+		del lines
 		
 	def tabBack(self, currentLine, prevTabCount, currentTabCount, countIns):
 		atTab = prevTabCount
@@ -970,7 +980,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		expr = addGenerics(line[len(funcName)+1:])
 		if expr:
 			if isDefinitelyOperatorSign(expr[0]):
-				raise CompilerException("Parameter name missing: '%s'" % expr)
+				raise CompilerException("Parameter name missing: '%s' (expecting function definition)" % expr)
 			params = self.parseExpr(expr)
 			paramsNode = self.parser.getParametersNode(params)
 			node.appendChild(paramsNode)

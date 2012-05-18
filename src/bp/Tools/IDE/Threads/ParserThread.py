@@ -27,6 +27,11 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		
 		#self.codeEdit.clearHighlights()
 		
+		# Reduces memory usage
+		if self.bpcFile:
+			del self.bpcFile
+			self.bpcFile = None
+		
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
@@ -36,6 +41,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			#if self.bpcFile.inFunction != 0:
 			#	print("inFunction: " +  str(self.bpcFile.inFunction))
 				
+			del self.lastException
 			self.lastException = None
 		except InputCompilerException as e:
 			self.lastException = e

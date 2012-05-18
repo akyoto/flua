@@ -82,6 +82,22 @@
          </column>
          <item>
           <property name="text">
+           <string>Targets</string>
+          </property>
+          <property name="toolTip">
+           <string>Targets</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>C++</string>
+           </property>
+           <property name="toolTip">
+            <string>Targets - C++</string>
+           </property>
+          </item>
+         </item>
+         <item>
+          <property name="text">
            <string>Editor</string>
           </property>
           <property name="toolTip">

@@ -18,6 +18,10 @@ def getGCCCompilerPath():
 def getGCCCompilerName():
 	return "g++"
 	
+def getGCCCompilerVersion():
+	# TODO: ...
+	return ""
+	
 def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
 	# ########################### #
 	# Priority for module search: #

@@ -534,6 +534,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		return None
 		
 	def compilerFinished(self):
+		del self.bpcFile
 		self.bpcFile = self.updater.bpcFile
 		self.updater.bpcFile = None
 		
@@ -577,11 +578,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					#oldData.oldNode = oldData.node
 					#oldData.node = node
 				#else:
+				del oldData
 				block.setUserData(BPLineInformation(node, False, oldNode))
 				#self.setLineNode(lineIndex, node)
 			lineIndex += 1
 		
+		del self.root
 		self.root = self.bpcFile.root
+		
+		del self.bpcFile.root
+		del self.bpcFile.doc
+		del self.bpcFile.nodeToOriginalLine
+		del self.bpcFile.nodes
 		
 	def setRoot(self, newRoot):
 		self.root = newRoot

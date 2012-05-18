@@ -2,6 +2,7 @@ import configparser
 import codecs
 import os
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 from PyQt4 import QtGui, QtCore, uic
 
 globalIDERoot = fixPath(os.path.abspath(extractDir(os.path.realpath(__file__)) + "../"))
@@ -199,3 +200,9 @@ class BPConfiguration:
 		elif uiFileName == "preferences/editor.theme":
 			self.themeWidget = widget.themeName
 			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
+		elif uiFileName == "preferences/targets.c++":
+			widget.compilerName.setText(getGCCCompilerName())
+			widget.compilerPath.setText(getGCCCompilerPath())
+			widget.compilerVersion.setText(getGCCCompilerVersion())
+			#self.themeWidget = widget.themeName
+			#self.themeWidget.currentIndexChanged.connect(self.applyTheme)
