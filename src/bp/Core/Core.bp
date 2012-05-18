@@ -51,6 +51,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_gcCollect</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_swap</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
@@ -98,7 +105,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<name>systemTime</name>
@@ -137,7 +143,15 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
+		</function>
+		<function depth="0">
+			<name>gcCollect</name>
+			<code>
+				<call depth="1">
+					<function>bp_gcCollect</function>
+					<parameters/>
+				</call>
+			</code>
 		</function>
 	</code>
 </module>

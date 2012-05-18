@@ -6,9 +6,10 @@
 			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">FileWriteStream\SCONSTRUCTOR</string>
-			<string id="bp_string_1">w</string>
-			<string id="bp_string_2">FileWriteStream\SDESTRUCTOR</string>
+			<string id="bp_string_0">w</string>
+			<string id="bp_string_1">\n</string>
+			<string id="bp_string_2">Closing\SFileWriteStream\SWORKED</string>
+			<string id="bp_string_3">Closing\SFileWriteStream\SFAILED</string>
 		</strings>
 	</header>
 	<code>
@@ -26,12 +27,6 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<call depth="2">
-							<function>print</function>
-							<parameters>
-								<parameter>bp_string_0</parameter>
-							</parameters>
-						</call>
 						<assign depth="2">
 							<value>
 								<access>
@@ -49,7 +44,7 @@
 												<value>path</value>
 											</access>
 										</parameter>
-										<parameter>bp_string_1</parameter>
+										<parameter>bp_string_0</parameter>
 									</parameters>
 								</call>
 							</value>
@@ -58,29 +53,10 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>buffer</value>
+									<value>newline</value>
 								</access>
 							</value>
-							<value>
-								<new>
-									<type>
-										<template-call>
-											<value>Array</value>
-											<value>String</value>
-										</template-call>
-									</type>
-									<parameters/>
-								</new>
-							</value>
-						</assign>
-						<assign depth="2">
-							<value>
-								<access>
-									<value>my</value>
-									<value>bufferLen</value>
-								</access>
-							</value>
-							<value>0</value>
+							<value>bp_string_1</value>
 						</assign>
 					</code>
 					<meta/>
@@ -88,12 +64,51 @@
 				<function depth="1">
 					<name>finalize</name>
 					<code>
-						<call depth="2">
-							<function>print</function>
-							<parameters>
-								<parameter>bp_string_2</parameter>
-							</parameters>
-						</call>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</condition>
+								<code>
+									<if-block depth="3">
+										<if>
+											<condition>
+												<call>
+													<function>
+														<access>
+															<value>my</value>
+															<value>close</value>
+														</access>
+													</function>
+													<parameters/>
+												</call>
+											</condition>
+											<code>
+												<call depth="4">
+													<function>print</function>
+													<parameters>
+														<parameter>bp_string_2</parameter>
+													</parameters>
+												</call>
+											</code>
+										</if>
+										<else depth="3">
+											<code>
+												<call depth="4">
+													<function>print</function>
+													<parameters>
+														<parameter>bp_string_3</parameter>
+													</parameters>
+												</call>
+											</code>
+										</else>
+									</if-block>
+								</code>
+							</if>
+						</if-block>
 					</code>
 					<meta/>
 				</function>
@@ -102,7 +117,7 @@
 						<parameter>
 							<declare-type>
 								<value>line</value>
-								<value>UTF8String</value>
+								<value>String</value>
 							</declare-type>
 						</parameter>
 					</parameters>
@@ -111,33 +126,30 @@
 						<call depth="2">
 							<function>
 								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>buffer</value>
-										</access>
-									</value>
-									<value>add</value>
+									<value>my</value>
+									<value>write</value>
 								</access>
 							</function>
 							<parameters>
 								<parameter>line</parameter>
 							</parameters>
 						</call>
-						<assign-add depth="2">
-							<value>
+						<call depth="2">
+							<function>
 								<access>
 									<value>my</value>
-									<value>bufferLen</value>
+									<value>write</value>
 								</access>
-							</value>
-							<value>
-								<access>
-									<value>line</value>
-									<value>lengthInBytes</value>
-								</access>
-							</value>
-						</assign-add>
+							</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>newline</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
 					</code>
 					<meta/>
 				</function>
@@ -162,6 +174,113 @@
 					</code>
 					<meta/>
 				</function>
+				<function depth="1">
+					<name>flush</name>
+					<code>
+						<call depth="2">
+							<function>bp_fflush</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>close</name>
+					<code>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</condition>
+								<code>
+									<assign depth="3">
+										<value>success</value>
+										<value>
+											<call>
+												<function>bp_fclose</function>
+												<parameters>
+													<parameter>
+														<access>
+															<value>my</value>
+															<value>fd</value>
+														</access>
+													</parameter>
+												</parameters>
+											</call>
+										</value>
+									</assign>
+									<assign depth="3">
+										<value>
+											<access>
+												<value>my</value>
+												<value>fd</value>
+											</access>
+										</value>
+										<value>null</value>
+									</assign>
+									<return depth="3">success</return>
+								</code>
+							</if>
+						</if-block>
+						<return depth="2">false</return>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>path</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>newline</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>newline</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+				<set depth="1">
+					<setter depth="2">
+						<parameters>
+							<parameter>newlineCharacter</parameter>
+						</parameters>
+						<name>newline</name>
+						<code>
+							<assign depth="3">
+								<value>
+									<access>
+										<value>my</value>
+										<value>newline</value>
+									</access>
+								</value>
+								<value>newlineCharacter</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+				</set>
 			</code>
 			<meta>
 				<ensure-destructor-call>true</ensure-destructor-call>

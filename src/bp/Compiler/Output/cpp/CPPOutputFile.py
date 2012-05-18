@@ -231,6 +231,8 @@ class CPPOutputFile(ScopeController):
 						# TODO: Unmanaged object initiations need to return 'this'
 					#	return "shared_from_this()"
 				# BigInt support
+				elif node.nodeValue == "null":
+					return "NULL"
 				elif node.nodeValue.isdigit():
 					num = int(node.nodeValue)
 					if num > INT32_MAX or num < INT32_MIN:
@@ -838,6 +840,11 @@ class CPPOutputFile(ScopeController):
 		pTypes = []
 		for node in pNode.childNodes:
 			paramType = self.getExprDataType(node.childNodes[0])
+			
+			# Typedefs
+			while paramType in self.compiler.defines:
+				paramType = self.compiler.defines[paramType]
+			
 			#paramType = self.translateTemplateParam(paramType)
 			pList += self.parseExpr(node.childNodes[0]) + ", "
 			pTypes.append(paramType)
@@ -902,6 +909,11 @@ class CPPOutputFile(ScopeController):
 				
 				typeNode = exprNode.childNodes[1].childNodes[0]
 				type = self.parseExpr(typeNode, True)
+				
+				# Typedefs
+				while type in self.compiler.defines:
+					type = self.compiler.defines[type]
+				
 				#if typeNode.childNodes and isElemNode(typeNode) and typeNode.tagName == "unmanaged":
 				#	type = "~" + type
 			else:
@@ -911,6 +923,9 @@ class CPPOutputFile(ScopeController):
 			
 			type = self.currentClassImpl.translateTemplateName(type)
 			type = self.addMissingTemplateValues(type)
+			
+			while type in self.compiler.defines:
+				type = self.compiler.defines[type]
 			
 			# Use default value type if not set
 			#if not type and defaultValueType:
@@ -953,6 +968,11 @@ class CPPOutputFile(ScopeController):
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
 			
 			usedAs = types[counter]
+			
+			# Typedefs
+			while usedAs in self.compiler.defines:
+				usedAs = self.compiler.defines[usedAs]
+			
 			if name.startswith("this->"):
 				member = name[len("this->"):]
 				self.currentClassImpl.addMember(CPPVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
@@ -970,6 +990,11 @@ class CPPOutputFile(ScopeController):
 				#	print(member.type)
 				
 				definedAs = self.parseExpr(node.childNodes[0].childNodes[1], True) #self.getVariableTypeAnywhere(name)
+				
+				# Typedefs
+				while definedAs in self.compiler.defines:
+					definedAs = self.compiler.defines[definedAs]
+				
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
 				definedAs = self.addMissingTemplateValues(definedAs)
 				
@@ -1206,10 +1231,12 @@ class CPPOutputFile(ScopeController):
 				else:
 					# Modules who are compiled before that have to live with CStrings
 					return "~MemPointer<ConstChar>"
-			elif node.nodeValue == "True" or node.nodeValue == "False":
+			elif node.nodeValue == "true" or node.nodeValue == "false":
 				return "Bool"
 			elif node.nodeValue == "my":
 				return self.currentClassImpl.getName()
+			elif node.nodeValue == "null":
+				return "~MemPointer<void>"
 			else:
 				return self.getVariableTypeAnywhere(node.nodeValue)
 		else:
@@ -1429,7 +1456,13 @@ class CPPOutputFile(ScopeController):
 	
 	def handleTypeDeclaration(self, node, insertTypeName = True):
 		self.inTypeDeclaration += 1
-		typeName = self.currentClassImpl.translateTemplateName(self.parseExpr(node.childNodes[1], True))
+		typeName = self.parseExpr(node.childNodes[1], True)
+		
+		# Typedefs
+		while typeName in self.compiler.defines:
+			typeName = self.compiler.defines[typeName]
+		
+		typeName = self.currentClassImpl.translateTemplateName(typeName)
 		varName = self.parseExpr(node.childNodes[0])
 		self.inTypeDeclaration -= 1
 		
@@ -1447,11 +1480,6 @@ class CPPOutputFile(ScopeController):
 			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
 		else:
 			#debug("Declaring '%s' as '%s'" % (varName, typeName))
-			
-			# Replace typedefs
-			while typeName in self.compiler.defines:
-				typeName = self.compiler.defines[typeName]
-			
 			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
 			

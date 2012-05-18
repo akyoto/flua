@@ -28,6 +28,25 @@
 					</code>
 				</function>
 				<function depth="1">
+					<name>createReadStream</name>
+					<code>
+						<return depth="2">
+							<new>
+								<type>FileReadStream</type>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>path</value>
+										</access>
+									</parameter>
+								</parameters>
+							</new>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
 					<name>createWriteStream</name>
 					<code>
 						<return depth="2">
@@ -44,6 +63,7 @@
 							</new>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1">
 					<getter depth="2">

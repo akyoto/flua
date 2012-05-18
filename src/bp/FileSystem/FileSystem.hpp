@@ -17,6 +17,11 @@ inline size_t bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
 	return fwrite(*contents, sizeof(Byte), contents->lengthInBytes, fh);
 }
 
+// bp_fflush
+inline bool bp_fflush(BPFileHandle* fh) {
+	return !fflush(fh);
+}
+
 // bp_fclose
 inline bool bp_fclose(BPFileHandle* fh) {
 	return !fclose(fh);

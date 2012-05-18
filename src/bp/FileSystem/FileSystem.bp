@@ -63,6 +63,12 @@
 			<extern-function depth="1">
 				<name>bp_fclose</name>
 				<type>Bool</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_fflush</name>
+				<type>Bool</type>
+				<meta/>
 			</extern-function>
 			<class depth="1">
 				<name>FileHandle</name>
@@ -175,7 +181,7 @@
 				<value>a</value>
 				<value>
 					<new>
-						<type>FileWriteStream</type>
+						<type>FileReadStream</type>
 						<parameters>
 							<parameter>bp_string_0</parameter>
 						</parameters>

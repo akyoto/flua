@@ -6,6 +6,10 @@
 #define bp_sizeOf sizeof
 
 // Standard functions
+inline void bp_gcCollect() {
+	GC_gcollect();
+}
+
 template <typename T>
 inline void bp_print(T var) {
 	std::cout << var;
