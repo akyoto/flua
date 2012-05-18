@@ -586,10 +586,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		del self.root
 		self.root = self.bpcFile.root
 		
-		del self.bpcFile.root
-		del self.bpcFile.doc
-		del self.bpcFile.nodeToOriginalLine
-		del self.bpcFile.nodes
+		#del self.bpcFile.root
+		#del self.bpcFile.doc
+		#del self.bpcFile.nodeToOriginalLine
+		#del self.bpcFile.nodes
 		
 	def setRoot(self, newRoot):
 		self.root = newRoot
