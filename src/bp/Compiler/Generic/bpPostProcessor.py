@@ -464,7 +464,13 @@ class BPPostProcessor:
 	def cleanUpFile(self, filePath):
 		if filePath in self.compiledFiles:
 			bpOut = self.compiledFiles.pop(filePath)
+			del bpOut.root
+			#del bpOut.dTreesByFunctionName
+			del bpOut.dTreeByNode
+			del bpOut.lastOccurence
+			del bpOut.lastOccurenceStack
 			self.compiledFilesList.remove(bpOut)
+			del bpOut
 		return
 		
 	def processFile(self, filePath):
