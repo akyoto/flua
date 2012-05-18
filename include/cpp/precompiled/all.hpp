@@ -16,11 +16,15 @@
 	//	-DUSE_LIBC_PRIVATES
 	//	-DPARALLEL_MARK
 	
+	// Boehm GC flags
 	#define GC_THREADS
 	#define _REENTRANT
 	#define GC_OPERATOR_NEW_ARRAY
 	#define PARALLEL_MARK
 	#define USE_LIBC_PRIVATE
+	
+	// PThreads
+	#define _MULTI_THREADED
 	
 	#include "../gc/gc_cpp.h"
 #endif

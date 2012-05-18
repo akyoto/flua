@@ -534,7 +534,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				self.updater.start(QtCore.QThread.IdlePriority)
 			else:
 				self.updater.run()
-				self.compilerFinished()
+				self.updater.finished.emit()
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()

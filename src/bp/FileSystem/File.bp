@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.FileSystem</import>
+			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
 		</dependencies>
 		<strings/>
@@ -71,6 +72,7 @@
 						<code>
 							<return depth="3">0</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>modificationTime</name>
@@ -89,6 +91,7 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>exists</name>
@@ -107,6 +110,7 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>path</name>
@@ -118,6 +122,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>absolutePath</name>
@@ -143,6 +148,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</cast-definition>
 				</casts>
 			</code>
