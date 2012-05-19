@@ -1,8 +1,3 @@
-# This syntax module was based on Eric Pierce's syntax highlighter for Python:
-# http://diotavelli.net/PyQtWiki/Python%20syntax%20highlighting
-# I reimplemented the highlightBlock function to not depend on RegEx evaluation
-# which is a lot faster.
-
 from PyQt4 import QtGui, QtCore
 from bp.Tools.IDE import *
 from bp.Compiler.Utils import *

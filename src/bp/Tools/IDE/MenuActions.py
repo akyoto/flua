@@ -68,6 +68,8 @@ class MenuActions:
 					self.loadBPCFileToEditor(fileName)
 				else:
 					self.loadTextFileToEditor(fileName)
+				
+				self.currentWorkspace.updateCurrentCodeEditName()
 			# File was opened in another workspace
 			elif self.workspaces[workspaceID] != self.currentWorkspace:
 				if ce.isTextFile:

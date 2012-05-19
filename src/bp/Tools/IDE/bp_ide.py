@@ -34,6 +34,7 @@ import os
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
 from bp.Tools.IDE.Startup import *
+from bp.Tools.IDE.Syntax import *
 
 ####################################################################
 # Code
@@ -390,7 +391,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.codeEdit:
 			self.codeEdit.disableUpdatesFlag = True
 			self.codeEdit.isTextFile = True
-			del self.codeEdit.highlighter
+			#del self.codeEdit.highlighter
+			self.codeEdit.highlighter = CPPHighlighter(self.codeEdit.qdoc, self)
 			self.codeEdit.setPlainText(codeText)
 		
 		# Enable dependency view for first line

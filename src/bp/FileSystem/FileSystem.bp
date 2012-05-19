@@ -70,6 +70,10 @@
 				<type>Bool</type>
 				<meta/>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_changeDir</name>
+				<meta/>
+			</extern-function>
 			<class depth="1">
 				<name>FileHandle</name>
 				<code>

@@ -222,6 +222,7 @@ class Startup:
 				'self': cf('#666666'),
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
+				'preprocessor': cf('#005000'),
 				'function': cf('#171717', useBold),
 				'side-effects-extern-function': cf('#ee0000', useBold),
 				'no-side-effects-extern-function': cf('#000099', useBold),
@@ -235,6 +236,7 @@ class Startup:
 				'local-module-import': cf('#cf2000', useBold),
 				'project-module-import': cf('#378737', useBold),
 				'global-module-import': cf('#aa11aa', useBold),
+				
 				'current-line' : None#QtGui.QColor("#fefefe")
 			},
 		}

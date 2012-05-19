@@ -107,7 +107,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"to",
 			"require",
 			"ensure",
-			"test"
+			"test",
+			
+			# A dirty hack so that C++ gets some auto indent
+			'inline',
+			'case',
+			'default',
 		}
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)
