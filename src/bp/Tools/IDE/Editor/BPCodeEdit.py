@@ -149,7 +149,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	self.setBackgroundVisible(True)
 	
 	def mousePressEvent(self, event):
-		if self.hoveringFileName:
+		if self.hasMouseTracking() and self.hoveringFileName:
 			self.bpIDE.openFile(self.hoveringFileName)
 			self.hoveringFileName = ""
 			self.setMouseTracking(False)

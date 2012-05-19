@@ -98,6 +98,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -128,6 +129,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -146,6 +148,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
