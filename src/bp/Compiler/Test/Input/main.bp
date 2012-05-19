@@ -77,8 +77,8 @@
 						<value>a</value>
 						<value>
 							<range>
-								<from>1</from>
-								<to>5</to>
+								<from>0</from>
+								<to>6</to>
 							</range>
 						</value>
 					</slice>
