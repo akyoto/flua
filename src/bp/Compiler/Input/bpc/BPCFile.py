@@ -153,6 +153,14 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.nextLineIndented = False
 		self.savedNextNode = 0
 		
+		pureFileName = stripAll(fileIn)
+		if pureFileName == "Mutable":
+			self.classPrefix = "Mutable"
+		elif pureFileName == "Immutable":
+			self.classPrefix = "Immutable"
+		else:
+			self.classPrefix = ""
+		
 		self.inClass = 0
 		self.inSwitch = 0
 		self.inCase = 0
@@ -1003,7 +1011,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		node = self.doc.createElement("class")
 		
 		nameNode = self.doc.createElement("name")
-		nameNode.appendChild(self.doc.createTextNode(className))
+		nameNode.appendChild(self.doc.createTextNode(self.classPrefix + className))
 		#publicNode = self.doc.createElement("public")
 		#privateNode = self.doc.createElement("private")
 		code = self.doc.createElement("code")

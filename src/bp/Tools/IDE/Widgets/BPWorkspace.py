@@ -35,7 +35,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
 	def updateModifiedState(self, state):
-		if state:
+		if state:#and self.bpIDE.codeEdit and self.bpIDE.codeEdit.qdoc.isModified():
 			self.tabBar().setTabTextColor(self.currentIndex(), self.colorModified)
 		else:
 			self.tabBar().setTabTextColor(self.currentIndex(), self.colorUnmodified)
@@ -44,7 +44,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		return self.wsID
 		
 	def getTabNameList(self):
-		tabNames = []
+		tabNames = []	
 		for i in range(self.count()):
 			tabNames.append(self.tabText(i))
 		return tabNames
@@ -117,7 +117,12 @@ class BPWorkspace(QtGui.QTabWidget):
 			if self.bpIDE.codeEdit.isTextFile:
 				tabName = stripDir(self.currentWidget().getFilePath())
 			else:
-				tabName = stripAll(self.currentWidget().getFilePath())
+				filePath = self.currentWidget().getFilePath()
+				moduleName = stripAll(filePath)
+				if moduleName == "Mutable" or moduleName == "Immutable":
+					tabName = "%s %s" % (moduleName, filePath.split("/")[-2])
+				else:
+					tabName = moduleName
 			self.setTabText(self.currentIndex(), tabName)
 		
 	def activateWorkspace(self):

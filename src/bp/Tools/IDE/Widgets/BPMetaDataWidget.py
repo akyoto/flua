@@ -39,6 +39,7 @@ metaDataForNodeName = {
 	"class" : [
 		("ensure-destructor-call",     ["Ensure finalizer is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the 'finalize' method (destructor) when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
 		forceImplementation,
+		("default-class-version",      ["Use this class by default:", "Bool", False, False, "<p>Use this version of the class as the default one.</p>"]),
 	]
 }
 
@@ -140,6 +141,12 @@ class BPMetaDataWidget(QtGui.QWidget):
 			
 			# Label
 			label = QtGui.QLabel(labelName)
+			
+			# Hide this meta tag when it's not needed
+			if metaTag == "default-class-version":
+				fileName = stripAll(self.bpIDE.codeEdit.getFilePath())
+				if self.bpIDE.codeEdit and fileName != "Mutable" and fileName != "Immutable":
+					continue
 			
 			# Widget
 			widget = None

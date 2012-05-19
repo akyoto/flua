@@ -863,6 +863,70 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>characterCount</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseLeft</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseLeft</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>characterCount</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseRight</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\Schars</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseRight</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
 					<parameters>

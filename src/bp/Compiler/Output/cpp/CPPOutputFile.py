@@ -507,8 +507,7 @@ class CPPOutputFile(ScopeController):
 		
 		if self.inCastDefinition:
 			# For casts
-			while funcName in self.compiler.defines:
-				funcName = self.compiler.defines[funcName]
+			funcName = self.prepareTypeName(funcName)
 		
 		# Implement it
 		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)
@@ -562,6 +561,27 @@ class CPPOutputFile(ScopeController):
 		
 		return funcImpl
 	
+	def prepareTypeName(self, typeName):
+		#print("PREPARE: " + typeName)
+		while typeName in self.compiler.defines:
+			typeName = self.compiler.defines[typeName]
+		
+		pos = typeName.find("<")
+		if pos != -1:
+			templateParts = []
+			for param in splitParams(typeName[pos + 1:-1]):
+				templateParts.append(self.prepareTypeName(param))
+			
+			typeName = typeName[:pos]
+			templatePart = "<" + ", ".join(templateParts) + ">"
+		else:
+			templatePart = ""
+		
+		if typeName in self.compiler.specializedClasses:
+			typeName = self.compiler.specializedClasses[typeName].name
+		#print("PREPARED: " + typeName + templatePart)
+		return typeName + templatePart
+	
 	def handleAccess(self, node):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
@@ -597,6 +617,8 @@ class CPPOutputFile(ScopeController):
 		paramsNode = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(paramsNode)
 		
+		typeName = self.prepareTypeName(typeName)
+		
 		pos = typeName.find("<")
 		if pos != -1:
 			className = removeUnmanaged(typeName[:pos])
@@ -626,6 +648,10 @@ class CPPOutputFile(ScopeController):
 		else:
 			classObj = self.getClass(typeName)
 			typeName = self.addMissingTemplateValues(typeName)
+		
+		# Mutable / Immutable
+		if classObj.name in self.compiler.specializedClasses:
+			classObj = self.compiler.specializedClasses[classObj.name]
 		
 		funcImpl = self.implementFunction(typeName, "init", paramTypes)
 		
@@ -839,8 +865,7 @@ class CPPOutputFile(ScopeController):
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		
 		# For casts
-		while funcName in self.compiler.defines:
-			funcName = self.compiler.defines[funcName]
+		funcName = self.prepareTypeName(funcName)
 		
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
@@ -918,8 +943,7 @@ class CPPOutputFile(ScopeController):
 			paramType = self.getExprDataType(node.childNodes[0])
 			
 			# Typedefs
-			while paramType in self.compiler.defines:
-				paramType = self.compiler.defines[paramType]
+			paramType = self.prepareTypeName(paramType)
 			
 			#paramType = self.translateTemplateParam(paramType)
 			pList += self.parseExpr(node.childNodes[0]) + ", "
@@ -930,6 +954,8 @@ class CPPOutputFile(ScopeController):
 	def getClass(self, className):
 		if className == "":
 			return self.compiler.mainClass
+		elif className in self.compiler.specializedClasses:
+			return self.compiler.specializedClasses[className]
 		elif className in self.compiler.mainClass.classes:
 			return self.compiler.mainClass.classes[className]
 		else:
@@ -987,8 +1013,7 @@ class CPPOutputFile(ScopeController):
 				type = self.parseExpr(typeNode, True)
 				
 				# Typedefs
-				while type in self.compiler.defines:
-					type = self.compiler.defines[type]
+				type = self.prepareTypeName(type)
 				
 				#if typeNode.childNodes and isElemNode(typeNode) and typeNode.tagName == "unmanaged":
 				#	type = "~" + type
@@ -1000,8 +1025,7 @@ class CPPOutputFile(ScopeController):
 			type = self.currentClassImpl.translateTemplateName(type)
 			type = self.addMissingTemplateValues(type)
 			
-			while type in self.compiler.defines:
-				type = self.compiler.defines[type]
+			type = self.prepareTypeName(type)
 			
 			# Use default value type if not set
 			#if not type and defaultValueType:
@@ -1046,8 +1070,7 @@ class CPPOutputFile(ScopeController):
 			usedAs = types[counter]
 			
 			# Typedefs
-			while usedAs in self.compiler.defines:
-				usedAs = self.compiler.defines[usedAs]
+			usedAs = self.prepareTypeName(usedAs)
 			
 			if name.startswith("this->"):
 				member = name[len("this->"):]
@@ -1068,8 +1091,7 @@ class CPPOutputFile(ScopeController):
 				definedAs = self.parseExpr(node.childNodes[0].childNodes[1], True) #self.getVariableTypeAnywhere(name)
 				
 				# Typedefs
-				while definedAs in self.compiler.defines:
-					definedAs = self.compiler.defines[definedAs]
+				definedAs = self.prepareTypeName(definedAs)
 				
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
 				definedAs = self.addMissingTemplateValues(definedAs)
@@ -1297,8 +1319,7 @@ class CPPOutputFile(ScopeController):
 		dataType = self.addMissingTemplateValues(dataType)
 		
 		# Replace typedefs
-		while dataType in self.compiler.defines:
-			dataType = self.compiler.defines[dataType]
+		dataType = self.prepareTypeName(dataType)
 		
 		return dataType#self.currentClassImpl.translateTemplateName(dataType)
 	
@@ -1341,8 +1362,7 @@ class CPPOutputFile(ScopeController):
 					typeName = self.parseExpr(typeNode, True)
 					
 				# Check defines
-				while typeName in self.compiler.defines:
-					typeName = self.compiler.defines[typeName]
+				typeName = self.prepareTypeName(typeName)
 					
 				return typeName
 					#return typeNode.childNodes[0].childNodes[0].nodeValue
@@ -1557,8 +1577,7 @@ class CPPOutputFile(ScopeController):
 		typeName = self.parseExpr(node.childNodes[1], True)
 		
 		# Typedefs
-		while typeName in self.compiler.defines:
-			typeName = self.compiler.defines[typeName]
+		typeName = self.prepareTypeName(typeName)
 		
 		typeName = self.currentClassImpl.translateTemplateName(typeName)
 		varName = self.parseExpr(node.childNodes[0])
@@ -1601,8 +1620,7 @@ class CPPOutputFile(ScopeController):
 		op1 = self.currentClassImpl.translateTemplateName(op1)
 		op2 = self.currentClassImpl.translateTemplateName(op2)
 		
-		while op2 in self.compiler.defines:
-			op2 = self.compiler.defines[op2]
+		op2 = self.prepareTypeName(op2)
 		
 		return op1 + "<" + op2 + ">"
 	
@@ -1720,6 +1738,8 @@ class CPPOutputFile(ScopeController):
 			self.currentClass = refClass
 		else:
 			refClass = CPPClass(name, node)
+			if refClass.isDefaultVersion:
+				self.compiler.specializedClasses[refClass.getFinalName()] = refClass
 			self.pushClass(refClass)
 			self.localClasses.append(self.currentClass)
 		
@@ -1742,8 +1762,7 @@ class CPPOutputFile(ScopeController):
 			name = self.parseExpr(getElementByTagName(node, "to").childNodes[0], True)
 			
 			# Replace typedefs
-			while name in self.compiler.defines:
-				name = self.compiler.defines[name]
+			name = self.prepareTypeName(name)
 		else:
 			#print(node.toprettyxml())
 			name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -1784,8 +1803,7 @@ class CPPOutputFile(ScopeController):
 			type = "~MemPointer<Byte>"
 		
 		# Typedefs
-		while type in self.compiler.defines:
-			type = self.compiler.defines[type]
+		type = self.prepareTypeName(type)
 		
 		self.compiler.mainClass.addExternFunction(name, type)
 	

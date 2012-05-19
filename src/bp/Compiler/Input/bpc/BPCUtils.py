@@ -428,7 +428,14 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "class":
 		nameNode = getElementByTagName(node, "name")
 		codeNode = getElementByTagName(node, "code")
-		return nodeToBPC(nameNode, 0, conv) + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+		className = nodeToBPC(nameNode, 0, conv)
+		
+		if className.startswith("Mutable"):
+			className = className[len("Mutable"):]
+		elif className.startswith("Immutable"):
+			className = className[len("Immutable"):]
+		
+		return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
 	elif nodeName == "noop":
 		return "..."
 	# Single line

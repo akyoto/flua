@@ -149,7 +149,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	self.setBackgroundVisible(True)
 	
 	def mousePressEvent(self, event):
-		if self.hasMouseTracking() and self.hoveringFileName:
+		if self.bpIDE.ctrlPressed and self.hasMouseTracking() and self.hoveringFileName:
 			self.bpIDE.openFile(self.hoveringFileName)
 			self.hoveringFileName = ""
 			self.setMouseTracking(False)
@@ -157,19 +157,22 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		super().mousePressEvent(event)
 	
 	def mouseMoveEvent(self, event):
-		p = event.pos()
-		cursor = self.cursorForPosition(p)
-		block = cursor.block()
-		text = block.text().strip()
+		self.hoveringFileName = ""
 		
-		#cursor.movePosition(QtGui.QTextCursor.StartOfWord)
-		#cursor.select(QtGui.QTextCursor.WordUnderCursor)
-		
-		if text.startswith("include "):
-			self.hoveringFileName = extractDir(self.getFilePath()) + text[len("include "):]
-		elif text.startswith("import "):
-			importedMod = text[len("import "):]
-			self.hoveringFileName = self.bpIDE.getModulePath(importedMod)
+		if self.bpIDE.ctrlPressed:
+			p = event.pos()
+			cursor = self.cursorForPosition(p)
+			block = cursor.block()
+			text = block.text().strip()
+			
+			#cursor.movePosition(QtGui.QTextCursor.StartOfWord)
+			#cursor.select(QtGui.QTextCursor.WordUnderCursor)
+			
+			if text.startswith("include "):
+				self.hoveringFileName = extractDir(self.getFilePath()) + text[len("include "):]
+			elif text.startswith("import "):
+				importedMod = text[len("import "):]
+				self.hoveringFileName = self.bpIDE.getModulePath(importedMod)
 		
 		super().mouseMoveEvent(event)
 	
@@ -239,9 +242,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def keyReleaseEvent(self, event):
 		#if event.modifiers() & QtCore.Qt.ControlModifier:
-		if self.hasMouseTracking():
+		if self.bpIDE.ctrlPressed and self.hasMouseTracking():
 			self.setMouseTracking(False)
+		
+		self.bpIDE.ctrlPressed = False
 		super().keyReleaseEvent(event)
+	
+	def focusInEvent(self, event):
+		# To fix switching workspaces on GNOME/KDE
+		self.bpIDE.ctrlPressed = False
+		super().focusInEvent(event)
 	
 	def keyPressEvent(self, event):
 		if self.bpIDE.codeEdit is None:
@@ -251,6 +261,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
 		
 		if event.modifiers() == QtCore.Qt.ControlModifier:
+			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
 		
 		# Auto Complete
@@ -678,7 +689,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Set new text
 		self.disableUpdatesFlag = True
-		self.setPlainText("\n".join(self.lines))
+		code = "\n".join(self.lines)
+		
+		# Fixes a bug in QTextDocument for the modification state
+		if not code:
+			code = "\n"
+		
+		self.setPlainText(code)
 		
 		# Set user data
 		lineToNodeLen = len(converter.lineToNode)

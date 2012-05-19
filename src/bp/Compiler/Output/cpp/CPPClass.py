@@ -50,11 +50,22 @@ class CPPClass(CPPNamespace):
 		if self.node:
 			self.ensureDestructorCall = isMetaDataTrueByTag(node, "ensure-destructor-call")
 			self.forceImplementation = isMetaDataTrueByTag(node, "force-implementation")
+			self.isDefaultVersion = isMetaDataTrueByTag(node, "default-class-version")
 			
 			if self.forceImplementation:
 				self.requestDefaultImplementation()
 		else:
 			self.ensureDestructorCall = False
+			self.forceImplementation = False
+			self.isDefaultVersion = False
+		
+	def getFinalName(self):
+		if self.name.startswith("Mutable"):
+			return self.name[len("Mutable"):]
+		elif self.name.startswith("Immutable"):
+			return self.name[len("Immutable"):]
+		
+		return self.name
 		
 	def setExtends(self, extends):
 		self.extends = extends

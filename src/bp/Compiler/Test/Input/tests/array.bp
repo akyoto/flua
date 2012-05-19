@@ -6,8 +6,8 @@
 			<import>bp.Collection.Array</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Array module NOT working!</string>
-			<string id="bp_string_1">Array module working!</string>
+			<string id="bp_string_0">Array\Smodule\SNOT\Sworking!</string>
+			<string id="bp_string_1">Array\Smodule\Sworking!</string>
 		</strings>
 	</header>
 	<code>

@@ -1,0 +1,36 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Core.Memory</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\STODO:\SFast,\Slock-free\Sand\Simmutable\Sversion</comment>
+		<class depth="0">
+			<name>ImmutableArray</name>
+			<code>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>add</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

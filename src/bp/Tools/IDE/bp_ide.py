@@ -63,6 +63,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.authorName = ""
 		self.lastCodeEdit = None
 		
+		# TODO: Keymap
+		self.ctrlPressed = False
+		
 		# Load config
 		self.startBenchmark("Load Configuration")
 		self.loadConfig()
