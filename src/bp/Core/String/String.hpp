@@ -41,6 +41,8 @@ inline void bp_utf8_slice(
 {
 	char b;
 	size_t count = 0;
+	if(_from < 0)
+		_from = 0;
 	
 	while(count <= _from) {
 		b = *_s++;

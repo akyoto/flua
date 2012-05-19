@@ -71,7 +71,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -104,6 +103,54 @@
 					</call>
 				</return>
 			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>min</name>
+			<code>
+				<if-block depth="1">
+					<if>
+						<condition>
+							<less>
+								<value>a</value>
+								<value>b</value>
+							</less>
+						</condition>
+						<code>
+							<return depth="2">a</return>
+						</code>
+					</if>
+				</if-block>
+				<return depth="1">b</return>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>max</name>
+			<code>
+				<if-block depth="1">
+					<if>
+						<condition>
+							<greater>
+								<value>a</value>
+								<value>b</value>
+							</greater>
+						</condition>
+						<code>
+							<return depth="2">a</return>
+						</code>
+					</if>
+				</if-block>
+				<return depth="1">b</return>
+			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -217,7 +264,6 @@
 					</multiply>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

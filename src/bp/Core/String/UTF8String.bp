@@ -918,7 +918,15 @@
 										</access>
 									</parameter>
 									<parameter>index</parameter>
-									<parameter>length</parameter>
+									<parameter>
+										<call>
+											<function>max</function>
+											<parameters>
+												<parameter>length</parameter>
+												<parameter>0</parameter>
+											</parameters>
+										</call>
+									</parameter>
 								</parameters>
 							</new>
 						</return>

@@ -76,6 +76,27 @@
 				</function>
 				<function depth="1">
 					<parameters>
+						<parameter>data</parameter>
+					</parameters>
+					<name>write</name>
+					<code>
+						<call depth="2">
+							<function>bp_fwrite</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</parameter>
+								<parameter>data</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<parameters>
 						<parameter>
 							<declare-type>
 								<value>line</value>
@@ -110,27 +131,6 @@
 										<value>newline</value>
 									</access>
 								</parameter>
-							</parameters>
-						</call>
-					</code>
-					<meta/>
-				</function>
-				<function depth="1">
-					<parameters>
-						<parameter>data</parameter>
-					</parameters>
-					<name>write</name>
-					<code>
-						<call depth="2">
-							<function>bp_fwrite</function>
-							<parameters>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>fd</value>
-									</access>
-								</parameter>
-								<parameter>data</parameter>
 							</parameters>
 						</call>
 					</code>
@@ -209,6 +209,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>newline</name>

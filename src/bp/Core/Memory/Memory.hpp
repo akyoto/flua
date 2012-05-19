@@ -1,6 +1,6 @@
 #include <cstring>
 
-template <typename TDataType>
+/*template <typename TDataType>
 class BPMemPointer {
 	public:
 		inline BPMemPointer() : ptr(NULL) {}
@@ -62,7 +62,7 @@ class BPMemPointer {
 		
 	private:
 		TDataType *ptr;
-};
+};*/
 
 template <typename TSource, typename TDest, typename sizeType>
 inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numBytes) {
