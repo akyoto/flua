@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
 		</dependencies>
 		<strings/>
 	</header>
