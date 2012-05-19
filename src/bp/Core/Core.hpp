@@ -40,9 +40,9 @@ inline time_t bp_systemTime() {
 	return ts.tv_sec * 1000 + (ts.tv_usec / 1000);
 }
 
-inline clock_t bp_systemCPUClock() {
+/*inline clock_t bp_systemCPUClock() {
 	return clock();
-}
+}*/
 
 // operator << for BigInt
 /*inline std::ostream &operator<<(std::ostream& stream, const mpz_class& matrix) {

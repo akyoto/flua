@@ -369,6 +369,14 @@ class CPPOutputFile(ScopeController):
 			name = self.handleTypeDeclaration(node, insertTypeName = True)
 			#print(name)
 			return name
+		elif node.tagName == "slice":
+			#           slice.value       .range        .from/to
+			sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
+			sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
+			memberFunc = "operatorSlice"
+			virtualSliceCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
+			
+			return self.handleCall(virtualSliceCall)
 		elif node.tagName == "unmanaged":
 			return self.handleUnmanaged(node)
 		elif node.tagName == "compiler-flags":
@@ -782,9 +790,9 @@ class CPPOutputFile(ScopeController):
 			varName = varNode.firstChild.childNodes[0].childNodes[0].nodeValue
 			typeName = varNode.firstChild.childNodes[1].childNodes[0].nodeValue
 			
-			print("Registering")
-			print(varName)
-			print(typeName)
+			#print("Registering")
+			#print(varName)
+			#print(typeName)
 			varObject = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(varObject)
 			
@@ -892,6 +900,20 @@ class CPPOutputFile(ScopeController):
 	def handleParameters(self, pNode):
 		pList = ""
 		pTypes = []
+		
+		# For slicing:
+		#<parameter>						= node
+		#	<slice>							= node.firstChild
+		#		<value>a</value>			= node.firstChild.firstChild
+		#		<value>						= node.firstChild.childNodes[1]
+		#			<range>					= node.firstChild.childNodes[1].firstChild
+		#				<from>2</from>
+		#				<to>3</to>
+		#			</range>
+		#		</value>
+		#	</slice>
+		#</parameter>
+		
 		for node in pNode.childNodes:
 			paramType = self.getExprDataType(node.childNodes[0])
 			
@@ -1403,6 +1425,14 @@ class CPPOutputFile(ScopeController):
 #						return memberType
 #				else:
 #					return memberType
+			elif node.tagName == "slice":
+				#           slice.value       .range        .from/to
+				sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
+				sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
+				memberFunc = "operatorSlice"
+				virtualSliceCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
+				
+				return self.getCallDataType(virtualSliceCall)
 			elif node.tagName == "unmanaged":
 				self.inUnmanaged += 1
 				expr = self.getExprDataTypeClean(node.childNodes[0].childNodes[0])

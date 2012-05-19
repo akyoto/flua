@@ -45,13 +45,6 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
-				<name>bp_systemCPUClock</name>
-				<type>Int64</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
 				<name>bp_gcCollect</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
@@ -117,17 +110,7 @@
 					</call>
 				</return>
 			</code>
-		</function>
-		<function depth="0">
-			<name>systemCPUClock</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_systemCPUClock</function>
-						<parameters/>
-					</call>
-				</return>
-			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>

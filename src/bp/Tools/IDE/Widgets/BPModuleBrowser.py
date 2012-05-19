@@ -163,7 +163,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.oldImportedModsLen = 0
 		
 	def showContextMenu(self, pos):
-		print("yep!")
+		print("Context menu not implemented!")
 		
 	def updateView(self):
 		# Show imports

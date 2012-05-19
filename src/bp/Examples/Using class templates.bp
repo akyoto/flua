@@ -46,6 +46,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>doSomething</name>
@@ -73,10 +74,30 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
+		<comment>\SCreate\S2\Sfloats</comment>
+		<assign depth="0">
+			<value>x</value>
+			<value>
+				<divide>
+					<value>5</value>
+					<value>2</value>
+				</divide>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>y</value>
+			<value>
+				<divide>
+					<value>7</value>
+					<value>2</value>
+				</divide>
+			</value>
+		</assign>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Susing\Sthe\Sdefault\Stype\S'Int':</comment>
 		<assign depth="0">
 			<value>a</value>
@@ -84,18 +105,8 @@
 				<new>
 					<type>MyAwesomeClass</type>
 					<parameters>
-						<parameter>
-							<divide>
-								<value>5</value>
-								<value>2</value>
-							</divide>
-						</parameter>
-						<parameter>
-							<divide>
-								<value>7</value>
-								<value>2</value>
-							</divide>
-						</parameter>
+						<parameter>x</parameter>
+						<parameter>y</parameter>
 					</parameters>
 				</new>
 			</value>
@@ -121,18 +132,8 @@
 						</template-call>
 					</type>
 					<parameters>
-						<parameter>
-							<divide>
-								<value>5</value>
-								<value>2</value>
-							</divide>
-						</parameter>
-						<parameter>
-							<divide>
-								<value>7</value>
-								<value>2</value>
-							</divide>
-						</parameter>
+						<parameter>x</parameter>
+						<parameter>y</parameter>
 					</parameters>
 				</new>
 			</value>

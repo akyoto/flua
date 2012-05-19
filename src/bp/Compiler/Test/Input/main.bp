@@ -7,7 +7,6 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">あいうえおか</string>
-			<string id="bp_string_1">\S=\S</string>
 		</strings>
 	</header>
 	<code>
@@ -74,10 +73,15 @@
 			<function>print</function>
 			<parameters>
 				<parameter>
-					<add>
-						<value>bp_string_1</value>
+					<slice>
 						<value>a</value>
-					</add>
+						<value>
+							<range>
+								<from>1</from>
+								<to>2</to>
+							</range>
+						</value>
+					</slice>
 				</parameter>
 			</parameters>
 		</call>

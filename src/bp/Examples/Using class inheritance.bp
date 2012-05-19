@@ -79,7 +79,6 @@
 							</multiply>
 						</return>
 					</code>
-					<meta/>
 				</function>
 			</code>
 		</class>
@@ -93,7 +92,7 @@
 				</new>
 			</value>
 		</assign>
-		<comment>\SCall\San\Soverloaded\Smethod\Sof\SMyDerivedClass\Sand\Sa\Snormal\Sone\Sof\SMyBaseClass</comment>
+		<comment>\SCall\San\Soverwritten\Smethod\Sof\SMyDerivedClass\Sand\Sa\Snormal\Sone\Sof\SMyBaseClass</comment>
 		<if-block depth="0">
 			<if>
 				<condition>

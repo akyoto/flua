@@ -32,6 +32,7 @@
 					</add>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SWe\Sdidn't\Sspecify\Sa\Stype\Sfor\Sa,\Sb\Sand\Sc\S-\Stherefore\Swe\Scan\Scall\Sfunc\Swith\Sany\Stype:</comment>
 		<call depth="0">
@@ -104,6 +105,7 @@
 					</add>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<call depth="0">
 			<function>print</function>
