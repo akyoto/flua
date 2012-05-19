@@ -49,12 +49,24 @@ class CPPClass(CPPNamespace):
 		
 		if self.node:
 			self.ensureDestructorCall = isMetaDataTrueByTag(node, "ensure-destructor-call")
+			self.forceImplementation = isMetaDataTrueByTag(node, "force-implementation")
+			
+			if self.forceImplementation:
+				self.requestDefaultImplementation()
 		else:
 			self.ensureDestructorCall = False
 		
 	def setExtends(self, extends):
 		self.extends = extends
 		
+		# Also implement base classes
+		if self.forceImplementation:
+			for classObj in self.extends:
+				classObj.requestDefaultImplementation()
+	
+	def requestDefaultImplementation(self):
+		self.requestImplementation([], [])
+	
 	def requestImplementation(self, initTypes, templateValues):
 		key = ", ".join(initTypes + templateValues)
 		if not key in self.implementations:

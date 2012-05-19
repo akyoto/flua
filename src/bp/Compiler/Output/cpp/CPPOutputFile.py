@@ -60,6 +60,7 @@ class CPPOutputFile(ScopeController):
 		self.strings = getElementByTagName(self.headerNode, "strings")
 		self.localClasses = []
 		self.localFunctions = []
+		self.additionalCodePerLine = []
 		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
@@ -122,6 +123,10 @@ class CPPOutputFile(ScopeController):
 		# Memory management
 		self.useGC = True
 		self.useReferenceCounting = False
+		
+		# TODO: Read from module meta data
+		# Speed / Correctness
+		self.checkDivisionByZero = True#self.compiler.checkDivisionByZero
 		
 	def getNamespacePrefix(self):
 		namespacePrefix = '_'.join(self.namespaceStack)
@@ -199,6 +204,11 @@ class CPPOutputFile(ScopeController):
 		for node in parent.childNodes:
 			line = self.parseExpr(node)
 			self.lastParsedNode.pop()
+			
+			if self.additionalCodePerLine:
+				line = (postfix + prefix).join(self.additionalCodePerLine) + postfix + prefix + line
+				self.additionalCodePerLine = []
+			
 			if line:
 				lines += prefix + line + postfix
 		return lines
@@ -322,6 +332,12 @@ class CPPOutputFile(ScopeController):
 			return ""
 		elif tagName == "define":
 			return ""
+		elif tagName == "try":
+			return self.handleTry(node)
+		elif tagName == "catch":
+			return self.handleCatch(node)
+		elif tagName == "throw":
+			return "throw %s" % self.parseExpr(node.firstChild)
 		elif tagName == "namespace":
 			return self.handleNamespace(node)
 		elif tagName == "target":
@@ -746,6 +762,44 @@ class CPPOutputFile(ScopeController):
 		
 		return variableName + " = " + value
 		
+	def handleTry(self, node):
+		codeNode = getElementByTagName(node, "code")
+		
+		self.pushScope()
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
+		self.popScope()
+		
+		return "try {\n" + code + "\n\t}"
+		
+	def handleCatch(self, node):
+		varNode = getElementByTagName(node, "variable")
+		codeNode = getElementByTagName(node, "code")
+		
+		var = self.parseExpr(varNode)
+		
+		# Declare-type on exceptions
+		if not var and varNode.firstChild and varNode.firstChild.nodeType != Node.TEXT_NODE and varNode.firstChild.tagName == "declare-type":
+			varName = varNode.firstChild.childNodes[0].childNodes[0].nodeValue
+			typeName = varNode.firstChild.childNodes[1].childNodes[0].nodeValue
+			
+			print("Registering")
+			print(varName)
+			print(typeName)
+			varObject = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
+			self.registerVariable(varObject)
+			
+			var = "%s %s" % (adjustDataType(typeName), varName)
+		
+		if not var:
+			var = "..."
+		
+		# Code needs to be compiled AFTER THE EXCEPTION VARIABLE HAS BEEN REGISTERED
+		self.pushScope()
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
+		self.popScope()
+		
+		return " catch (%s) {\n%s\n\t}" % (var, code)
+	
 	def handleNamespace(self, node):
 		# TODO: Fully implement namespaces
 		name = getElementByTagName(node, "name").firstChild.nodeValue
@@ -1032,11 +1086,25 @@ class CPPOutputFile(ScopeController):
 #			if (not op1type in nonPointerClasses) and (not isUnmanaged(op1type)) and (not connector == " == "):
 #				return self.exprPrefix + op1 + "->operator" + connector.replace(" ", "") + "(" + op2 + ")" + self.exprPostfix
 		
+		# Division by zero
+		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
+			self.addDivisionByZeroCheck(op2)
+		
 		# Float conversion if needed
 		if connector != " / ":
 			return self.exprPrefix + op1 + connector + op2 + self.exprPostfix
 		else:
 			return self.exprPrefix + "float(" + op1 + ")" + connector + op2 + self.exprPostfix
+		
+	def addDivisionByZeroCheck(self, op):
+		if isNumeric(op):
+			if op != "0" and op != "0.0":
+				return
+			else:
+				self.additionalCodePerLine.append('throw new BPDivisionByZeroException()')
+				return
+		
+		self.additionalCodePerLine.append('if(%s == 0) throw new BPDivisionByZeroException()' % op)
 		
 	def getFunctionCallInfo(self, node):
 		funcNameNode = getFuncNameNode(node)

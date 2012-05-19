@@ -5,6 +5,7 @@
 			<import>bp.Core</import>
 			<import>Memory</import>
 			<import>String</import>
+			<import>Exception</import>
 		</dependencies>
 		<strings/>
 	</header>

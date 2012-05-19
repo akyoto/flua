@@ -88,8 +88,23 @@ class CPPOutputCompiler(Benchmarkable):
 		self.boehmGCEnabled = True
 		self.gmpEnabled = True
 		
+		# No optimization
+		self.disableOptimization()
+		
 		# Expression parser
 		self.initExprParser()
+		
+	def enableOptimization(self):
+		self.optimize = True
+		self.updateOptimizationFlags()
+		
+	def disableOptimization(self):
+		self.optimize = False
+		self.updateOptimizationFlags()
+		
+	def updateOptimizationFlags(self):
+		# TODO: Module dependant setting
+		self.checkDivisionByZero = not self.optimize
 		
 	def initExprParser(self):
 		self.parser = getBPCExpressionParser()
@@ -262,8 +277,9 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-march=native",
 			#"-mtune=native",
 			
-			"-std=c++0x",
+			"-Wno-div-by-zero",
 			"-Wall",
+			"-std=c++0x",
 			"-m32",
 		]
 		

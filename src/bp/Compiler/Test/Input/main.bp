@@ -11,7 +11,7 @@
 	</header>
 	<code>
 		<assign depth="0">
-			<value>a</value>
+			<value>stri</value>
 			<value>bp_string_0</value>
 		</assign>
 		<call depth="0">
@@ -21,7 +21,7 @@
 					<call>
 						<function>
 							<access>
-								<value>a</value>
+								<value>stri</value>
 								<value>left</value>
 							</access>
 						</function>
@@ -39,7 +39,7 @@
 					<call>
 						<function>
 							<access>
-								<value>a</value>
+								<value>stri</value>
 								<value>mid</value>
 							</access>
 						</function>
@@ -58,7 +58,7 @@
 					<call>
 						<function>
 							<access>
-								<value>a</value>
+								<value>stri</value>
 								<value>right</value>
 							</access>
 						</function>

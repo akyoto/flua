@@ -267,7 +267,7 @@
 			<try>
 				<code>
 					<assign depth="1">
-						<value>a</value>
+						<value>testInf</value>
 						<value>
 							<divide>
 								<value>1</value>
@@ -275,6 +275,12 @@
 							</divide>
 						</value>
 					</assign>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>testInf</parameter>
+						</parameters>
+					</call>
 				</code>
 			</try>
 			<catch depth="0">
@@ -318,7 +324,7 @@
 			<try>
 				<code>
 					<assign depth="1">
-						<value>a</value>
+						<value>testInf</value>
 						<value>
 							<divide>
 								<value>1</value>
@@ -326,20 +332,39 @@
 							</divide>
 						</value>
 					</assign>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>testInf</parameter>
+						</parameters>
+					</call>
 				</code>
 			</try>
 			<catch depth="0">
 				<variable>
 					<declare-type>
 						<value>e</value>
-						<value>ArrayOutOfBoundsException</value>
+						<value>DivisionByZeroException</value>
 					</declare-type>
 				</variable>
 				<code>
-					<assign depth="1">
-						<value>worked</value>
-						<value>1</value>
-					</assign>
+					<if-block depth="1">
+						<if>
+							<condition>e</condition>
+							<code>
+								<assign depth="2">
+									<value>worked</value>
+									<value>1</value>
+								</assign>
+							</code>
+						</if>
+					</if-block>
+				</code>
+			</catch>
+			<catch depth="0">
+				<variable/>
+				<code>
+					<noop depth="1"/>
 				</code>
 			</catch>
 		</try-block>

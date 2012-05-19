@@ -95,6 +95,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"switch",
 			"case",
 			"target",
+			"extends",
+			"pattern",
 			"extern",
 			"compilerflags",
 			"template",

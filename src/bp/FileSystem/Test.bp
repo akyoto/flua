@@ -92,15 +92,6 @@
 					</parameters>
 				</call>
 				<call depth="1">
-					<function>
-						<access>
-							<value>a</value>
-							<value>close</value>
-						</access>
-					</function>
-					<parameters/>
-				</call>
-				<call depth="1">
 					<function>gcCollect</function>
 					<parameters/>
 				</call>

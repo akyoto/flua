@@ -480,6 +480,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
 	elif nodeName == "not":
 		return "not " + nodeToBPC(node.firstChild, 0, conv)
+	elif nodeName == "meta":
+		return ""
 	# Binary operations
 	elif nodeName in binaryOperatorTagToSymbol:
 		op1 = node.childNodes[0].childNodes[0]

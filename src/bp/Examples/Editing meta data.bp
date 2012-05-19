@@ -4,7 +4,9 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">A\Smysterious\Sbeing\Skilled\Sme!</string>
+		</strings>
 	</header>
 	<code>
 		<comment>\SYou\Smight\Shave\Salready\Srealized\Sthat\Sthis\Sisn't\Sjust\Ssome\Splain\Stext\Seditor.</comment>
@@ -33,7 +35,7 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<comment>\SIn\Sthe\Scurrent\Sversion\Sthis\Shighlighting\Sonly\Sworks\Sfor\Sextern\Sfunction\Sdefinitions.</comment>
+		<comment>\SIn\Sthe\Scurrent\Sversion\Sthis\Shighlighting\Sonly\Sworks\Sfor\Sextern\Sfunctions.</comment>
 		<comment>\SNow\Sclick\Son\Sthese\Sand\Scheck\Stheir\Smeta\Sdata.\SIn\Scase\Syou\Sdisabled\Sthat\Sweird,\Sempty,\Sgray\Swindow</comment>
 		<comment>\Sgo\Sto\Sthe\S&quot;top&quot;\Smain\Smenu\S&gt;\SView\S&gt;\SMeta\Sdata\Sand\Senable\Sit.</comment>
 		<comment>\SExtern\Sfunctions\Sare\Sthe\S_only_\Sinterface\Sfrom\Sbp\Sto\Sthe\Soutside\Sworld.\STherefore\Sbp\Sneeds\Sto\Sknow</comment>
@@ -47,6 +49,17 @@
 					<name>init</name>
 					<code>
 						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<name>finalize</name>
+					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</call>
 					</code>
 					<meta/>
 				</function>
@@ -63,7 +76,6 @@
 			<code>
 				<return depth="1">42</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SThey\Saren't\Sworking\Sin\Sthe\Scurrent\Sversion,\Sthough.</comment>
 		<comment>\SAfter\Sediting\Sthe\Smeta\Sdata\Sthe\Sdocument\Sgets\Smodified\Sand\Stherefore\Syou\Sneed\Sto\Ssave\Syour\Schanges.</comment>
