@@ -67,6 +67,11 @@ class CPPClass(CPPNamespace):
 	def requestDefaultImplementation(self):
 		self.requestImplementation([], [])
 	
+	def checkDefaultImplementation(self):
+		for i in range(len(self.templateNames)):
+			if not self.templateDefaultValues[i]:
+				raise CompilerException("Can't force an implementation for a class which doesn't have default values for its template parameters")
+	
 	def requestImplementation(self, initTypes, templateValues):
 		key = ", ".join(initTypes + templateValues)
 		if not key in self.implementations:

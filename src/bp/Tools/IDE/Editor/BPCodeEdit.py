@@ -160,9 +160,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		completer.setWidget(self)
 		self.completer = completer
+		completer.disconnect(self.completer, signal, self.insertCompletion)
 		self.connect(self.completer, signal, self.insertCompletion)
 	
 	def insertCompletion(self, completion):
+		if self.bpIDE.codeEdit != self:
+			return
+		
 		tc = self.textCursor()
 		
 		if completion in self.completer.bpcModel.shortCuts:

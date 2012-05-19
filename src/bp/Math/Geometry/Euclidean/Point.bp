@@ -6,7 +6,6 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">,\S</string>
-			<string id="bp_string_1">\n</string>
 		</strings>
 	</header>
 	<code>
@@ -50,7 +49,9 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2">
+							<meta/>
+						</noop>
 					</code>
 				</function>
 				<function depth="1">
@@ -68,6 +69,7 @@
 								</access>
 							</value>
 							<value>offX</value>
+							<meta/>
 						</assign-add>
 						<assign-add depth="2">
 							<value>
@@ -102,6 +104,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 				<set depth="1">
@@ -121,6 +124,7 @@
 								<value>value</value>
 							</assign>
 						</code>
+						<meta/>
 					</setter>
 					<setter depth="2">
 						<parameters>
@@ -202,15 +206,17 @@
 							</access>
 						</parameter>
 					</parameters>
+					<meta/>
 				</call>
 				<call depth="1">
 					<function>bp_print</function>
 					<parameters>
 						<parameter>bp_string_0</parameter>
 					</parameters>
+					<meta/>
 				</call>
 				<call depth="1">
-					<function>bp_print</function>
+					<function>bp_println</function>
 					<parameters>
 						<parameter>
 							<access>
@@ -219,14 +225,10 @@
 							</access>
 						</parameter>
 					</parameters>
-				</call>
-				<call depth="1">
-					<function>bp_print</function>
-					<parameters>
-						<parameter>bp_string_1</parameter>
-					</parameters>
+					<meta/>
 				</call>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

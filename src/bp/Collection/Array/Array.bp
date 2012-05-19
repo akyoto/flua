@@ -414,7 +414,9 @@
 								</index>
 							</return>
 						</code>
+						<meta/>
 					</operator>
+					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">

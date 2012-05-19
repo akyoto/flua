@@ -7,11 +7,12 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">あいうえおか</string>
+			<string id="bp_string_1">\S=\S</string>
 		</strings>
 	</header>
 	<code>
 		<assign depth="0">
-			<value>stri</value>
+			<value>a</value>
 			<value>bp_string_0</value>
 		</assign>
 		<call depth="0">
@@ -21,7 +22,7 @@
 					<call>
 						<function>
 							<access>
-								<value>stri</value>
+								<value>a</value>
 								<value>left</value>
 							</access>
 						</function>
@@ -39,7 +40,7 @@
 					<call>
 						<function>
 							<access>
-								<value>stri</value>
+								<value>a</value>
 								<value>mid</value>
 							</access>
 						</function>
@@ -58,7 +59,7 @@
 					<call>
 						<function>
 							<access>
-								<value>stri</value>
+								<value>a</value>
 								<value>right</value>
 							</access>
 						</function>
@@ -66,6 +67,17 @@
 							<parameter>2</parameter>
 						</parameters>
 					</call>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>bp_string_1</value>
+						<value>a</value>
+					</add>
 				</parameter>
 			</parameters>
 		</call>

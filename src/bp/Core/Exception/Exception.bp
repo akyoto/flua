@@ -13,7 +13,9 @@
 				<function depth="1">
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2">
+							<meta/>
+						</noop>
 					</code>
 					<meta/>
 				</function>

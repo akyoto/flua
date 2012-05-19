@@ -365,7 +365,7 @@ class MenuActions:
 	def showModuleProperties(self):
 		self.moduleProperties, existed = self.getUIFromCache("module-properties")
 		if not existed:
-			self.moduleProperties.optimizeFor.currentIndexChanged.connect(self.getOptimizeExplanation)
+			self.moduleProperties.optimizeFor.currentIndexChanged.connect(self.setOptimizationOptions)
 			self.moduleProperties.setStyleSheet(self.config.dialogStyleSheet)
 		
 		if self.codeEdit is None:
@@ -396,29 +396,25 @@ class MenuActions:
 			self.moduleProperties.dateCreated.setText("-")
 			self.moduleProperties.dateModified.setText("-")
 		
-		self.getOptimizeExplanation(self.moduleProperties.optimizeFor.currentIndex())
+		self.setOptimizationOptions(self.moduleProperties.optimizeFor.currentIndex())
 		self.moduleProperties.show()
 	
-	def getOptimizeExplanation(self, index):
-		# 0: Numerics in this module use Int and Float as their data type by default.
-		# 1: Numerics in this module use BigInt and BigFloat as their data type by default.
-		# 2: Custom
+	def setOptimizationOptions(self, index):
+		# 0: Speed
 		if index == 0:
-			self.moduleProperties.optimizeForExplanation.setPlainText("""
-Numerics in this module use Int and Float as their data type by default.
-				
-Array boundaries will not be checked and will not throw an exception.
-""".strip())
+			self.moduleProperties.useBigInt.setChecked(False)
+			self.moduleProperties.useRequirements.setChecked(False)
+			self.moduleProperties.useArrayRequirements.setChecked(False)
+			self.moduleProperties.useDivisionByZeroCheck.setChecked(False)
+		# 1: Correctness
 		elif index == 1:
-			self.moduleProperties.optimizeForExplanation.setPlainText("""
-Numerics in this module use BigInt and BigFloat as their data type by default (arbitrary precision).
-				
-Array boundaries will be checked and throw an exception when needed.
-""".strip())
+			self.moduleProperties.useBigInt.setChecked(True)
+			self.moduleProperties.useRequirements.setChecked(True)
+			self.moduleProperties.useArrayRequirements.setChecked(True)
+			self.moduleProperties.useDivisionByZeroCheck.setChecked(True)
+		# 2: Custom
 		else:
-			self.moduleProperties.optimizeForExplanation.setPlainText("""
-This feature is currently in development.
-""".strip())
+			pass
 	
 	def showPreferences(self):
 		self.preferences.setStyleSheet(self.config.dialogStyleSheet)

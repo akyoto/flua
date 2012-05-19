@@ -1670,6 +1670,8 @@ class CPPOutputFile(ScopeController):
 	def scanTemplate(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
 		self.currentClass.setTemplateNames(pNames, pDefaultValues)
+		if self.currentClass.forceImplementation:
+			self.currentClass.checkDefaultImplementation()
 	
 	def scanExtends(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)

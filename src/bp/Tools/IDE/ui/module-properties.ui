@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
+    <width>732</width>
     <height>380</height>
    </rect>
   </property>
@@ -101,42 +101,65 @@ Author</string>
        </item>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Modified:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Created:</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QPlainTextEdit" name="optimizeForExplanation">
-       <property name="undoRedoEnabled">
-        <bool>false</bool>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
+     <item row="11" column="1">
+      <widget class="QLineEdit" name="dateCreated"/>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Modified:</string>
        </property>
       </widget>
      </item>
+     <item row="12" column="1">
+      <widget class="QLineEdit" name="dateModified"/>
+     </item>
      <item row="9" column="1">
-      <widget class="QLineEdit" name="dateCreated"/>
+      <widget class="QCheckBox" name="useArrayRequirements">
+       <property name="whatsThis">
+        <string>check-array-requirements</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">padding-left: 20px;</string>
+       </property>
+       <property name="text">
+        <string>Check array bounds when accessing elements at a given index (ArrayIndexOutOfBoundsException)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QCheckBox" name="useBigInt">
+       <property name="whatsThis">
+        <string notr="true">use-arbitrary-precision</string>
+       </property>
+       <property name="text">
+        <string>Numerics in this module use arbitrary precision BigInt / BigFloat data types by default</string>
+       </property>
+      </widget>
      </item>
      <item row="10" column="1">
-      <widget class="QLineEdit" name="dateModified"/>
+      <widget class="QCheckBox" name="useDivisionByZeroCheck">
+       <property name="text">
+        <string>Check for division by zero (DivisionByZeroException)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QCheckBox" name="useRequirements">
+       <property name="whatsThis">
+        <string notr="true">check-requirements</string>
+       </property>
+       <property name="text">
+        <string>Check contract requirements for all functions used in this module (RequirementNotMetException)</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

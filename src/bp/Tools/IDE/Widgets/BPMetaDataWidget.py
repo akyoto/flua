@@ -49,6 +49,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.bpIDE = parent
 		self.node = None
 		self.viewOnNode = None
+		self.viewOnCE = None
 		self.widgetByMetaTag = None
 		self.lastLineIndex = -2
 		self.stackedLayout = QtGui.QStackedLayout()
@@ -76,34 +77,45 @@ class BPMetaDataWidget(QtGui.QWidget):
 		event.accept()
 		
 	def updateView(self):
-		# Are we still in the same line?
-		if self.bpIDE.codeEdit and self.bpIDE.codeEdit.getLineIndex() == self.lastLineIndex:
-			return
-		self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()
+		# Only check for return if we are in the same CE
+		if self.viewOnCE == self.bpIDE.codeEdit:
+			# Are we still in the same line?
+			if self.bpIDE.codeEdit and self.bpIDE.codeEdit.getLineIndex() == self.lastLineIndex:
+				return
+			
+			# Avoid doing unnecessary stuff
+			if self.viewOnNode is None:
+				# Widget is currently showing nothing
+				if self.node is None:
+					return
+				elif (not self.node.tagName in metaDataForNodeName) and (not self.node.parentNode.parentNode.tagName in metaDataForNodeName):
+					return
+			else:
+				# Widget is currently showing some items
+				if (self.node and self.node.isSameNode(self.viewOnNode)) or (self.node and self.node.parentNode and self.node.parentNode.parentNode.isSameNode(self.viewOnNode)):
+					return
 		
-		# Avoid doing unnecessary stuff
-		if self.viewOnNode is None:
-			# Widget is currently showing nothing
-			if self.node is None:
-				return
-			elif not self.node.tagName in metaDataForNodeName:
-				return
-		else:
-			# Widget is currently showing some items
-			if (self.node and self.node.isSameNode(self.viewOnNode)):
-				return
+		self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()
 		
 		# Clear all current form items
 		self.clear()
+		self.viewOnNode = None
+		self.viewOnCE = self.bpIDE.codeEdit
 		
 		# Valid node?
 		if not self.node or self.node.nodeType == Node.TEXT_NODE:
 			return
 		
-		# Is there any meta data options available for this node?
+		# Is there any meta data options available for this or its parent node?
 		nodeName = self.node.tagName
 		if not nodeName in metaDataForNodeName:
-			return
+			self.node = self.node.parentNode.parentNode
+			nodeName = self.node.tagName
+			if not nodeName in metaDataForNodeName:
+				return
+		
+		# Save
+		self.viewOnNode = self.node
 		
 		# Set up the values from this node if there are any
 		metaNode = getElementByTagName(self.node, "meta")
@@ -157,9 +169,6 @@ class BPMetaDataWidget(QtGui.QWidget):
 		
 		# Replace with current layout
 		self.stackedLayout.addWidget(formWidget)
-		
-		# Save
-		self.viewOnNode = self.node
 	
 class BPMetaObject:
 	def setupMetaInfo(self, metaDataWidget, node, elemName, doc):
