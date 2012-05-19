@@ -65,6 +65,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.openingFile = False
 		self.isTextFile = False
+		self.hoveringFileName = ""
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
@@ -147,6 +148,31 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	self.setPalette(p)
 	#	self.setBackgroundVisible(True)
 	
+	def mousePressEvent(self, event):
+		if self.hoveringFileName:
+			self.bpIDE.openFile(self.hoveringFileName)
+			self.hoveringFileName = ""
+			self.setMouseTracking(False)
+		
+		super().mousePressEvent(event)
+	
+	def mouseMoveEvent(self, event):
+		p = event.pos()
+		cursor = self.cursorForPosition(p)
+		block = cursor.block()
+		text = block.text().strip()
+		
+		#cursor.movePosition(QtGui.QTextCursor.StartOfWord)
+		#cursor.select(QtGui.QTextCursor.WordUnderCursor)
+		
+		if text.startswith("include "):
+			self.hoveringFileName = extractDir(self.getFilePath()) + text[len("include "):]
+		elif text.startswith("import "):
+			importedMod = text[len("import "):]
+			self.hoveringFileName = self.bpIDE.getModulePath(importedMod)
+		
+		super().mouseMoveEvent(event)
+	
 	def setFont(self, font):
 		super().setFont(font)
 		self.setTabWidth(self.bpIDE.config.tabWidth)
@@ -211,12 +237,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					importedMods.append(mod)
 		return importedMods
 	
+	def keyReleaseEvent(self, event):
+		#if event.modifiers() & QtCore.Qt.ControlModifier:
+		if self.hasMouseTracking():
+			self.setMouseTracking(False)
+		super().keyReleaseEvent(event)
+	
 	def keyPressEvent(self, event):
 		if self.bpIDE.codeEdit is None:
 			return
 		
 		# Auto Complete
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
+		
+		if event.modifiers() == QtCore.Qt.ControlModifier:
+			self.setMouseTracking(True)
 		
 		# Auto Complete
 		if self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible()):

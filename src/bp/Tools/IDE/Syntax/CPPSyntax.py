@@ -7,30 +7,30 @@ from bp.Compiler.Input.bpc import *
 class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the C++ language.
 	"""
-	# Python keywords
+	# C++ keywords
 	keywords = [{}] * 97 + [
 		{'and', 'assert'},
-		{'break', 'bool'},
-		{'class', 'continue', 'char', 'const', 'case', 'catch', 'compilerflags'},
-		{'define', 'double', 'default'},
+		{'break'},
+		{'class', 'continue', 'const', 'case', 'catch'},
+		{'default'},
 		{'elif', 'else', 'ensure', 'extern', 'extends'},
-		{'for', 'false', 'float'},
+		{'for', 'false', },
 		{'get'},
 		{},
-		{'if', 'int', 'inline', 'include'},
+		{'if', 'inline', 'include'},
 		{},
 		{},
 		{'long'},
 		{},
-		{'not', 'null', 'namespace', 'new'},
+		{'not', 'namespace', 'new'},
 		{'or', 'operator'},
-		{'pattern', 'private'},
+		{'private'},
 		{},
 		{'return'},
-		{'switch', 'struct'},
+		{'sizeof', 'switch', 'struct'},
 		{'try', 'typename', 'template', 'throw', 'true'},
 		{'until'},
-		{'void'},
+		{},
 		{'while'},
 		{},
 		{},
@@ -42,8 +42,8 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	keywordList = {
 		'and', 'assert',
 		'break', 'bool',
-		'class', 'continue', 'const', 'char', 'case', 'catch', 'compilerflags',
-		'define', 'double', 'default',
+		'class', 'continue', 'const', 'char', 'case', 'catch',
+		'double', 'default',
 		'elif', 'else', 'ensure', 'extern', 'extends',
 		'for', 'false', 'float',
 		'get',
@@ -53,7 +53,7 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'or', 'operator',
 		'private',
 		'return',
-		'switch', 'struct',
+		'sizeof', 'switch', 'struct',
 		'try', 'typename', 'template', 'throw', 'true',
 		'until',
 		'void',
@@ -143,6 +143,11 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					continue
 				elif expr == "this":
 					self.setFormat(i, h - i, style['self'])
+					i = h
+					continue
+				elif expr in {'char', 'bool', 'void', 'int', 'float', 'double'}:
+					# Quick hack
+					#self.setFormat(i, h - i, style['default'])
 					i = h
 					continue
 				elif bpIDE.processor.getFirstDTreeByFunctionName(expr):
