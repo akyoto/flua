@@ -86,6 +86,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>delete</name>
@@ -402,6 +403,21 @@
 						</parameters>
 						<name>[]</name>
 						<code>
+							<require depth="3">
+								<greater-or-equal depth="4">
+									<value>index</value>
+									<value>0</value>
+								</greater-or-equal>
+								<less depth="4">
+									<value>index</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>length</value>
+										</access>
+									</value>
+								</less>
+							</require>
 							<return depth="3">
 								<index>
 									<value>
@@ -416,7 +432,6 @@
 						</code>
 						<meta/>
 					</operator>
-					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">

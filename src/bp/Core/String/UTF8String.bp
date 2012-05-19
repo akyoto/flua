@@ -1074,6 +1074,30 @@
 						</code>
 						<meta/>
 					</operator>
+					<operator depth="2">
+						<parameters>
+							<parameter>from</parameter>
+							<parameter>to</parameter>
+						</parameters>
+						<name>[:]</name>
+						<code>
+							<return depth="3">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>substr</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>from</parameter>
+										<parameter>to</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</operator>
 				</operators>
 				<get depth="1">
 					<getter depth="2">

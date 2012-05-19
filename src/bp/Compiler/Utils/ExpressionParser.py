@@ -200,5 +200,8 @@ def getBPCExpressionParser():
 			if op.type == Operator.BINARY:
 				binaryOperatorTagToSymbol[op.name] = op.text
 	
+	binaryOperatorTagToSymbol["slice"] = "[:]"
+	binaryOperatorTagToSymbol["range"] = ":"
+	
 	globalBPCParser = parser
 	return parser

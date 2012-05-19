@@ -497,6 +497,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return op1bpc + "<" + op2bpc + ">"
 		elif nodeName == "index":
 			return op1bpc + "[" + op2bpc + "]"
+		elif nodeName == "slice":
+			return op1bpc + "[" + op2bpc + "]"
+		elif nodeName == "range":
+			return op1bpc + ":" + op2bpc
 		# String parameters
 		elif nodeName == "add" and (op1.nodeType == Node.TEXT_NODE and op1.nodeValue.startswith("bp_string_") and op2.nodeType == Node.TEXT_NODE and not isNumeric(op2.nodeValue)):
 			if op2.nodeValue.startswith("bp_string_"):

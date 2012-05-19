@@ -499,10 +499,21 @@ class ExpressionParser:
 				# Correct float values being interpreted as access calls
 				value1 = node.childNodes[0].childNodes[0]
 				value2 = node.childNodes[1].childNodes[0]
-				if isTextNode(value1) and isTextNode(value2) and value1.nodeValue.isdigit() and value2.nodeValue.isdigit():
+				
+				if value1.nodeType == Node.TEXT_NODE and value2.nodeType == Node.TEXT_NODE and value1.nodeValue.isdigit() and value2.nodeValue.isdigit():
 					parent = node.parentNode
 					parent.insertBefore(self.doc.createTextNode(value1.nodeValue + "." + value2.nodeValue), node)
 					parent.removeChild(node)
+			# Slice operator
+			elif node.tagName == "index":
+				value1 = node.childNodes[0].childNodes[0]
+				value2 = node.childNodes[1].childNodes[0]
+				
+				if value2.nodeType != Node.TEXT_NODE and value2.tagName == "declare-type":
+					node.tagName = "slice"
+					value2.tagName = "range"
+					value2.childNodes[0].tagName = "from"
+					value2.childNodes[1].tagName = "to"
 			
 			# Object-oriented call
 #			elif node.tagName == "access":

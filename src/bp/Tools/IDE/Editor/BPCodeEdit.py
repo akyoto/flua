@@ -104,7 +104,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"set",
 			"private",
 			"operator",
-			"to"
+			"to",
+			"require",
+			"ensure",
+			"test"
 		}
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)

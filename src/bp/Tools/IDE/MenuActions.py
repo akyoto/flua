@@ -478,8 +478,8 @@ b = MyClass("Hey it's b here! Long time no see.")
 b.doSomething()
 
 # The current version is not stable.
-# If you find a bug you can either tell me about it on IRC (#blitzprog on irc.freenode.net)
-# or wait until I setup a bug tracker. Settings and preferences currently aren't saved and
+# If you find a bug you can either post it here: https://github.com/blitzprog/bp/issues
+# or tell me about it on IRC (#blitzprog on irc.freenode.net). Settings and preferences currently aren't saved and
 # in some cases aren't even used.
 # There are still lots of features missing but they'll be implemented sooner or later.
 
