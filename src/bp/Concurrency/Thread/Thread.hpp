@@ -4,5 +4,5 @@
 
 template <typename T1, typename T2>
 inline bool bp_createThread(BPThreadHandle* pThread, T1 func, T2 args) {
-	return GC_pthread_create(pThread, NULL, func, args) == 0;
+	return pthread_create(pThread, NULL, func, args) == 0;
 }

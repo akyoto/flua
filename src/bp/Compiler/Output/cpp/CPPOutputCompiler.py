@@ -258,6 +258,7 @@ class CPPOutputCompiler(Benchmarkable):
 		if self.boehmGCEnabled:
 			if os.name == "posix":
 				self.customCompilerFlags.append("-DGC_LINUX_THREADS")
+				self.customCompilerFlags.append("-pthread")
 		
 		# Compiler
 		ccCmd = [
@@ -280,7 +281,6 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-march=native",
 			#"-mtune=native",
 			
-			"-pthread",
 			"-Wno-div-by-zero",
 			"-Wall",
 			"-std=c++0x",
