@@ -21,6 +21,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>

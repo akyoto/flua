@@ -165,7 +165,7 @@ class MenuActions:
 		])
 	
 	def runModule(self, compilerFlags = []):
-		if self.codeEdit is None or self.codeEdit.isTextFile:
+		if self.codeEdit is None or self.currentWorkspace.count() == 0 or self.codeEdit.isTextFile:
 			return
 		
 		# Make sure the XML is up 2 date
@@ -214,7 +214,10 @@ class MenuActions:
 				
 				exe = cpp.getExePath()
 				
-				print("No optimizations active (-O0)")
+				if not compilerFlags:
+					print("No optimizations active (-O0)")
+				else:
+					print("Using optimizations (-O3)")
 				print("Executing: %s" % exe)
 				print("-" * 80)
 				

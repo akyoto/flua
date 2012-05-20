@@ -130,15 +130,15 @@
 			<name>isOdd</name>
 			<code>
 				<return depth="1">
-					<equal>
+					<not-equal>
 						<value>
 							<modulo>
 								<value>x</value>
 								<value>2</value>
 							</modulo>
 						</value>
-						<value>1</value>
-					</equal>
+						<value>0</value>
+					</not-equal>
 				</return>
 			</code>
 			<meta/>

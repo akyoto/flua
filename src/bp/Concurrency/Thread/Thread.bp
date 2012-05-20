@@ -21,19 +21,6 @@
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<class depth="1">
-				<name>ThreadHandle</name>
-				<code>
-					<function depth="2">
-						<name>init</name>
-						<code>
-							<noop depth="3"/>
-						</code>
-						<meta/>
-					</function>
-				</code>
-				<meta/>
-			</class>
 		</extern>
 	</code>
 </module>

@@ -52,6 +52,18 @@ metaDataForNodeName = {
 	]
 }
 
+metaDataTitleForNodeName = {
+	"function" : "Function",
+	"setter" : "Setter",
+	"getter" : "Getter",
+	"operator" : "Operator",
+	"cast-definition" : "Cast",
+	"extern-function" : "Extern function",
+	"class" : "Class",
+	"for" : "For loop",
+	"parallel" : "Parallel block",
+}
+
 class BPMetaDataWidget(QtGui.QWidget):
 	
 	def __init__(self, parent):
@@ -113,6 +125,9 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnNode = None
 		self.viewOnCE = self.bpIDE.codeEdit
 		
+		# Reset title
+		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data")
+		
 		# Valid node?
 		if not self.node or self.node.nodeType == Node.TEXT_NODE:
 			return
@@ -139,6 +154,9 @@ class BPMetaDataWidget(QtGui.QWidget):
 		formLayout = QtGui.QFormLayout(formWidget)
 		formLayout.setContentsMargins(3, 3, 3, 3)
 		self.widgetByMetaTag = dict()
+		
+		# Set dock name
+		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data: %s" % metaDataTitleForNodeName[nodeName])
 		
 		# Build the form
 		for metaTag, metaInfo in metaDataForNodeName[nodeName]:

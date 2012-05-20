@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -50,8 +50,8 @@
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionRunOptimized"/>
-    <addaction name="actionRunProfiler"/>
     <addaction name="actionRunModuleTest"/>
+    <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
     <addaction name="actionCleanAllTargets"/>
     <addaction name="separator"/>
@@ -281,7 +281,7 @@
     <string>Properties</string>
    </property>
    <property name="shortcut">
-    <string>F7</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="actionCopy">
@@ -329,7 +329,7 @@
     <string>Preferences</string>
    </property>
    <property name="shortcut">
-    <string>F8</string>
+    <string>F9</string>
    </property>
   </action>
   <action name="actionAutoComplete">
@@ -395,6 +395,9 @@
    <property name="text">
     <string>Run optimized</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
   <action name="actionRunProfiler">
    <property name="text">
@@ -430,6 +433,9 @@
   <action name="actionRunModuleTest">
    <property name="text">
     <string>Run module test</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
   </action>
   <action name="actionCleanAllTargets">

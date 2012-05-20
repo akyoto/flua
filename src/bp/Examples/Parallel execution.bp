@@ -23,7 +23,8 @@
 	<code>
 		<comment>\SThere\Sare\Smultiple\Sways\Sof\Sutilizing\Smultiple\Sprocessor\Scores\Sin\Sbp.</comment>
 		<comment>\SOne\Sof\Sthem\Sis\Sthe\Smanual\Screation\Sof\Sthreads\Susing\Sthe\S'parallel'\Skeyword.</comment>
-		<comment>\SEach\Sline\Sinside\Sa\Sparallel\Sblock\Swill\Sbe\Sexecuted.</comment>
+		<comment>\SEach\Sline\Sinside\Sa\Sparallel\Sblock\Swill\Sbe\Sexecuted\Sasynchronously\Swhich</comment>
+		<comment>\Smeans\Sthe\Scalls\Sdon't\Sblock\Seach\Sother.</comment>
 		<comment>\SIn\Sthe\Scurrent\Sversion\Syou\Scan\Sonly\Suse\Sfunctions\Sinside\Sa\Sparallel\Sblock,</comment>
 		<comment>\Sassignments\Saren't\Sworking\Syet.</comment>
 		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
@@ -41,7 +42,7 @@
 							<call>
 								<function>rand</function>
 								<parameters>
-									<parameter>200</parameter>
+									<parameter>100</parameter>
 									<parameter>400</parameter>
 								</parameters>
 							</call>
