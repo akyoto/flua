@@ -68,7 +68,8 @@ simpleBlocks = {
 	"casts" : [],
 	"namespace" : [],
 	"define" : [],
-	"extends" : []
+	"extends" : [],
+	"parallel" : [],
 }
 
 def addGenerics(line):
@@ -221,6 +222,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"namespace" : self.handleNamespace,
 			"..." : self.handleNOOP,
 			"operator" : self.handleOperatorBlock,
+			"parallel" : self.handleParallel,
 			"private" : self.handlePrivate,
 			"require" : self.handleRequire,
 			"return" : self.handleReturn,
@@ -782,6 +784,17 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node = self.doc.createElement("define")
 		self.nextNode = node
+		return node
+		
+	def handleParallel(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("parallel", line)
+		
+		node = self.doc.createElement("parallel")
+		code = self.doc.createElement("code")
+		node.appendChild(code)
+		
+		self.nextNode = code
 		return node
 		
 	def handleRequire(self, line):

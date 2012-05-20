@@ -18,13 +18,18 @@
 	
 	// Boehm GC flags
 	#define GC_THREADS
-	#define _REENTRANT
 	#define GC_OPERATOR_NEW_ARRAY
 	#define PARALLEL_MARK
 	#define USE_LIBC_PRIVATE
 	
 	// PThreads
+	#ifndef _REENTRANT
+	#define _REENTRANT
+	#endif
+
+	#ifndef _MULTI_THREADED
 	#define _MULTI_THREADED
+	#endif
 	
 	#include "../gc/gc_cpp.h"
 #endif

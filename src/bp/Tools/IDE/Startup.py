@@ -237,7 +237,7 @@ class Startup:
 				'class-cast-definition': cf('#500050', useBold),
 				'class-name': cf('#000030'),
 				
-				'local-module-import': cf('#cf2000', useBold),
+				'local-module-import': cf('#df2000', useBold), #cf2000
 				'project-module-import': cf('#378737', useBold),
 				'global-module-import': cf('#aa11aa', useBold),
 				

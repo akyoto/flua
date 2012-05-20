@@ -61,6 +61,8 @@ class CPPOutputFile(ScopeController):
 		self.localClasses = []
 		self.localFunctions = []
 		self.additionalCodePerLine = []
+		self.customThreads = dict()
+		self.customThreadsString = ""
 		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
@@ -77,6 +79,7 @@ class CPPOutputFile(ScopeController):
 		self.stringClassDefined = False
 		
 		# Increment id
+		self.compiler.customThreadsCount += 1
 		self.compiler.fileCounter += 1
 		self.id = "file_" + str(self.compiler.fileCounter)
 		
@@ -102,7 +105,9 @@ class CPPOutputFile(ScopeController):
 		self.inFunction = 0
 		self.inDefine = 0
 		self.inExtends = 0
+		self.inParallel = 0
 		self.namespaceStack = []
+		self.parallelBlockStack = []
 		
 		# Codes
 		self.header = "#ifndef " + self.id + "\n#define " + self.id + "\n\n"
@@ -189,6 +194,9 @@ class CPPOutputFile(ScopeController):
 		self.body += "\t// Code\n"
 		self.body += self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, ";\n")
 		self.body += "}\n"
+		
+		# Custom Threads
+		self.customThreadsString = '\n'.join(self.customThreads.values()) + '\n'
 		
 		# Variables
 		for var in self.getTopLevelScope().variables.values():
@@ -358,6 +366,8 @@ class CPPOutputFile(ScopeController):
 			return "break"
 		elif tagName == "continue":
 			return "continue"
+		elif tagName == "parallel":
+			return self.handleParallel(node)
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
@@ -940,12 +950,85 @@ class CPPOutputFile(ScopeController):
 			#	if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
 			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
 			
+			# Parallel
+			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName == "parallel":
+				threadID = self.compiler.customThreadsCount
+				threadFuncID = fullName
+				self.buildThreadFunc(threadFuncID, paramTypes)
+				self.parallelBlockStack[-1].append(threadID)
+				self.compiler.customThreadsCount += 1
+				tabs = "\t" * self.currentTabLevel
+				
+				threadCreation =  "BPThreadHandle bp_threadHandle_%d;\n%s" % (threadID, tabs)
+				threadCreation += "bp_thread_args_%s* bp_threadArgs_%d = new (NoGC) bp_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
+				threadCreation += "bp_createThread(&bp_threadHandle_%d, &bp_thread_func_%s, bp_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
+				return threadCreation
+				
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
 			else:
 				return ["::", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
 		else:
 			return funcName + "(" + paramsString + ")"
+		
+	def buildThreadFunc(self, funcName, paramTypes):
+		count = 0
+		params = []
+		paramNames = []
+		constructorList = []
+		initList = []
+		
+		for typeName in paramTypes:
+			nTypeName = adjustDataType(typeName)
+			params.append(nTypeName)
+			params.append(" _%d;\n\t" % count)
+			
+			constructorList.append("%s __%d" % (nTypeName, count))
+			initList.append("_%d(__%d)" % (count, count))
+			
+			paramNames.append("args->_%d" % count)
+			count += 1
+		
+		func = """
+typedef struct bp_thread_args_%s {
+	%s
+	inline bp_thread_args_%s(%s) : %s {}
+} bp_thread_args_%s;
+
+void* bp_thread_func_%s(void *bp_arg_struct_void) {
+	bp_thread_args_%s *args = reinterpret_cast<bp_thread_args_%s*>(bp_arg_struct_void);
+	%s(%s);
+	delete args;
+	return NULL;
+}
+""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), ', '.join(initList), funcName, funcName, funcName, funcName, funcName, ', '.join(paramNames))
+		self.customThreads[funcName] = func
+		
+	def handleParallel(self, node):
+		codeNode = getElementByTagName(node, "code")
+		
+		joinAll = isMetaDataTrueByTag(node, "wait-for-all-threads")
+		
+		self.parallelBlockStack.append(list())
+		self.inParallel += 1
+		#self.pushScope()
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
+		#self.popScope()
+		self.inParallel -= 1
+		
+		block = self.parallelBlockStack.pop()
+		
+		if joinAll:
+			code += self.waitCustomThreadsCode(block)
+		
+		return code
+		
+	def waitCustomThreadsCode(self, block):
+		joinCodes = []
+		tabs = "\t" * self.currentTabLevel
+		for threadID in block:
+			joinCodes.append("\n%spthread_join(bp_threadHandle_%d, NULL);" % (tabs, threadID))
+		return ''.join(joinCodes)
 		
 	def handleParameters(self, pNode):
 		pList = ""
@@ -1925,4 +2008,4 @@ class CPPOutputFile(ScopeController):
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.body + self.footer
+		return self.header + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.customThreadsString + self.body + self.footer

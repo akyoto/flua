@@ -4,10 +4,11 @@ from bp.Compiler.Utils import *
 refTransparencyToolTip = "<p>Shows whether this extern function is referentially transparent or not. <strong>A function is referentially transparent if it can be replaced with its return value without changing the behaviour of the program. It should return the same output for the same input and not cause any side effects.</strong></p>"
 threadSafeToolTip = "<p>Shows whether this function can be safely called from multiple threads at the same time.</p>"
 forceImplementation = ("force-implementation",      ["Force inclusion in output:", "Bool", "false", False, "<p>Forces this class or function to be included in the target code ignoring whether it is actually used or not. This can be used to ensure an extern source file for a specific target can use it in its source code.</p>"])
+forcePara = ("force-parallelization",     ["Force parallelization:", "Bool", "false", False, "<p>Forces the compiler to parallelize the function / loop ignoring whether it actually enhances the performance or not. <strong>Note: You should only check this if you know what you are doing, otherwise this can cause heavy side-effects.</strong></p>"])
 
 functionMetaData = [
 	# Name : [Label, DataType, DefaultValue, ReadOnly, ToolTip]
-	("force-parallelization",     ["Force parallelization:", "Bool", "false", False, "<p>Forces the compiler to parallelize the function ignoring whether it actually enhances the performance or not. <strong>Note: You should only check this if you know what you are doing, otherwise this can cause heavy side-effects.</strong></p>"]),
+	forcePara,
 	("force-inlining",            ["Force inlining:", "Bool", "false", False, "", "<p>Forces the compiler to use inlining for this function. Note that compilers for C++ targets already do a good job in selecting what should be inlined.</p>"]),
 	forceImplementation,
 	("create-cache",              ["Create a cache:", "Bool", "false", False, "<p>Specifies whether the compiler should automatically create a cache for the results of this function. <strong>This is only possible for referentially transparent functions.</strong></p>"]),
@@ -40,6 +41,14 @@ metaDataForNodeName = {
 		("ensure-destructor-call",     ["Ensure finalizer is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the 'finalize' method (destructor) when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
 		forceImplementation,
 		("default-class-version",      ["Use this class by default:", "Bool", False, False, "<p>Use this version of the class as the default one.</p>"]),
+	],
+	
+	"for" : [
+		forcePara,
+	],
+	
+	"parallel" : [
+		("wait-for-all-threads",     ["Wait for all calls / threads to finish:", "Bool", False, False, "<p>Activate this if you need all parallel calls to finish their work before continuing the program flow.</p>"]),
 	]
 }
 

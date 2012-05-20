@@ -39,3 +39,10 @@ template <typename T>
 inline double bp_log10(T x) {
 	return log10(x);
 }
+
+template <typename T1, typename T2>
+inline int bp_rand(T1 a, T2 b) {
+	if(a != b)
+		return (b >= a) ? rand() % (b - a) + a : rand() % (a - b) + b;
+	return a;
+}

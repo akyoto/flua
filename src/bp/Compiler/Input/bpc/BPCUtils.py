@@ -73,7 +73,7 @@ xmlToBPCBlock = {
 	"require" : "require",
 	"ensure" : "ensure",
 	"maybe" : "maybe",
-	"test" : "test"
+	"test" : "test",
 }
 
 xmlToBPCExprBlock = {
@@ -82,6 +82,7 @@ xmlToBPCExprBlock = {
 	"if" : ["if", "condition", "code"],
 	"else-if" : ["elif", "condition", "code"],
 	"try" : ["try", "", "code"],
+	"parallel" : ["parallel", "", "code"],
 	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
 	"catch" : ["catch", "variable", "code"],
@@ -140,6 +141,7 @@ autoNewlineBlock = {
 	"casts",
 	"namespace",
 	"define",
+	"parallel",
 	
 	"function",
 	"getter",

@@ -41,6 +41,13 @@
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_rand</name>
+				<type>Int</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
 		</extern>
 		<function depth="0">
 			<parameters>
@@ -87,6 +94,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -99,6 +107,24 @@
 						<function>bp_log10</function>
 						<parameters>
 							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>rand</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_rand</function>
+						<parameters>
+							<parameter>a</parameter>
+							<parameter>b</parameter>
 						</parameters>
 					</call>
 				</return>

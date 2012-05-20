@@ -1,0 +1,32 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">This</string>
+			<string id="bp_string_1">\S</string>
+			<string id="bp_string_2">works!</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SSimply\Suse\Sthe\S'+'\Soperator</comment>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>
+							<add>
+								<value>bp_string_0</value>
+								<value>bp_string_1</value>
+							</add>
+						</value>
+						<value>bp_string_2</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

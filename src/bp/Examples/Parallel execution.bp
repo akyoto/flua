@@ -1,0 +1,135 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math</import>
+			<import>bp.Concurrency</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">P</string>
+			<string id="bp_string_1">A</string>
+			<string id="bp_string_2">R</string>
+			<string id="bp_string_3">A</string>
+			<string id="bp_string_4">L</string>
+			<string id="bp_string_5">L</string>
+			<string id="bp_string_6">E</string>
+			<string id="bp_string_7">L</string>
+			<string id="bp_string_8">I</string>
+			<string id="bp_string_9">S</string>
+			<string id="bp_string_10">M</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SThere\Sare\Smultiple\Sways\Sof\Sutilizing\Smultiple\Sprocessor\Scores\Sin\Sbp.</comment>
+		<comment>\SOne\Sof\Sthem\Sis\Sthe\Smanual\Screation\Sof\Sthreads\Susing\Sthe\S'parallel'\Skeyword.</comment>
+		<comment>\SEach\Sline\Sinside\Sa\Sparallel\Sblock\Swill\Sbe\Sexecuted.</comment>
+		<comment>\SIn\Sthe\Scurrent\Sversion\Syou\Scan\Sonly\Suse\Sfunctions\Sinside\Sa\Sparallel\Sblock,</comment>
+		<comment>\Sassignments\Saren't\Sworking\Syet.</comment>
+		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
+		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>func</name>
+			<code>
+				<call depth="1">
+					<function>sleep</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>rand</function>
+								<parameters>
+									<parameter>200</parameter>
+									<parameter>400</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SExecute\Sall\Scalls\Sto\Sfunc\Sin\Sparallel</comment>
+		<parallel depth="0">
+			<code>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_1</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_2</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_3</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_4</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_5</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_6</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_7</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_8</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_9</parameter>
+					</parameters>
+				</call>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>bp_string_10</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta>
+				<wait-for-all-threads>true</wait-for-all-threads>
+			</meta>
+		</parallel>
+	</code>
+</module>

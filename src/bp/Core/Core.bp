@@ -80,6 +80,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -99,6 +100,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<name>systemTime</name>

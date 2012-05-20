@@ -75,6 +75,7 @@ class CPPOutputCompiler(Benchmarkable):
 		self.includes = []
 		self.stringDataType = "UTF8String"
 		self.needToInitStringClass = False
+		self.customThreadsCount = 0
 		self.defines = dict()
 		self.specializedClasses = dict()
 		
@@ -279,6 +280,7 @@ class CPPOutputCompiler(Benchmarkable):
 			#"-march=native",
 			#"-mtune=native",
 			
+			"-pthread",
 			"-Wno-div-by-zero",
 			"-Wall",
 			"-std=c++0x",

@@ -365,13 +365,13 @@ class MenuActions:
 		self.notImplemented()
 	
 	def showModuleProperties(self):
+		if self.codeEdit is None or not self.currentWorkspace.count():
+			return
+		
 		self.moduleProperties, existed = self.getUIFromCache("module-properties")
 		if not existed:
 			self.moduleProperties.optimizeFor.currentIndexChanged.connect(self.setOptimizationOptions)
 			self.moduleProperties.setStyleSheet(self.config.dialogStyleSheet)
-		
-		if self.codeEdit is None:
-			return
 		
 		filePath = self.getFilePath()
 		modulePath = self.localToGlobalImport(stripAll(filePath))
