@@ -27,7 +27,7 @@
 		<comment>\SIn\Sthe\Scurrent\Sversion\Syou\Scan\Sonly\Suse\Sfunctions\Sinside\Sa\Sparallel\Sblock,</comment>
 		<comment>\Sassignments\Saren't\Sworking\Syet.</comment>
 		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
-		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread</comment>
+		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread:</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
