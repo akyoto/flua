@@ -126,6 +126,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnCE = self.bpIDE.codeEdit
 		
 		# Reset title
+		self.bpIDE.metaDataViewDock.hide()
 		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data")
 		
 		# Valid node?
@@ -156,6 +157,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.widgetByMetaTag = dict()
 		
 		# Set dock name
+		self.bpIDE.metaDataViewDock.show()
 		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data: %s" % metaDataTitleForNodeName[nodeName])
 		
 		# Build the form
