@@ -785,6 +785,11 @@ class CPPOutputFile(ScopeController):
 		if isUnmanaged(valueType) and not variableExisted:
 			return var.getPrototype() + "(" + value + ")"
 		
+		# Casts
+		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses:
+			debug("Need to cast %s to %s" % (valueType, variableType))
+			value = "static_cast<%s>(*(%s))" % (adjustDataType(variableType), value)
+		
 		if self.getCurrentScope() == self.getTopLevelScope():
 			return variableName + " = " + value
 		elif variableExisted:
@@ -893,6 +898,26 @@ class CPPOutputFile(ScopeController):
 						raise CompilerException("Class '%s' has not been defined" % (funcName))
 			else:
 				func = callerClass.functions[funcName]
+			
+			# Optimized string concatenation
+			if self.compiler.optimizeStringConcatenation:
+				if funcName == "operatorAdd" and callerType == "UTF8String" and paramTypes[0] in {"UTF8String", "Int"}:
+					# Check if above our node is an add node
+					op = getElementByTagName(node, "operator")
+					secondAddNode = op.firstChild.firstChild.firstChild
+					
+					if op and op.firstChild.tagName == "access" and tagName(secondAddNode) == "add":
+						string1 = secondAddNode.childNodes[0].firstChild
+						string2 = secondAddNode.childNodes[1].firstChild
+						if string1 and string2:
+							# Add one more parameter to the operator
+							paramTypes = [self.getExprDataType(string2)] + paramTypes
+							paramsString = "%s, %s" % (self.parseExpr(string2), paramsString)
+							secondAddNode.parentNode.replaceChild(string1, secondAddNode)
+							caller = self.parseExpr(string1)
+							# Remove add node
+							
+						#print(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()

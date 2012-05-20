@@ -179,6 +179,24 @@ def hasHigherOrEqualPriority(operationA, operationB):
 	
 	return False
 
+def hasHigherPriority(operationA, operationB):
+	aLevel = 0
+	bLevel = 0
+	count = 0
+	for opLevel in bpOperatorLevels:
+		count += 1
+		for op in opLevel:
+			if op.name == operationB:
+				bLevel = -count
+			
+			if op.name == operationA:
+				aLevel = -count
+			
+			if aLevel and bLevel:
+				return aLevel > bLevel
+	
+	return False
+
 def getBPCExpressionParser():
 	global globalBPCParser
 	

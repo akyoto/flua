@@ -6,7 +6,7 @@
 			<import>bp.Core.Memory</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">MemPointer working!</string>
+			<string id="bp_string_0">MemPointer\Sworking!</string>
 		</strings>
 	</header>
 	<code>

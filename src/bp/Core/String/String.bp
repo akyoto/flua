@@ -41,6 +41,7 @@
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_insertInt</name>
+				<type>Size</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>

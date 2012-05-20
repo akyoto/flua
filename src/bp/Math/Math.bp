@@ -103,6 +103,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -123,10 +124,13 @@
 							<return depth="2">a</return>
 						</code>
 					</if>
+					<else depth="1">
+						<code>
+							<return depth="2">b</return>
+						</code>
+					</else>
 				</if-block>
-				<return depth="1">b</return>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -147,122 +151,12 @@
 							<return depth="2">a</return>
 						</code>
 					</if>
-				</if-block>
-				<return depth="1">b</return>
-			</code>
-			<meta/>
-		</function>
-		<function depth="0">
-			<parameters>
-				<parameter>n</parameter>
-			</parameters>
-			<name>factorial</name>
-			<code>
-				<require depth="1">
-					<greater-or-equal depth="2">
-						<value>n</value>
-						<value>0</value>
-					</greater-or-equal>
-				</require>
-				<ensure depth="1">
-					<greater depth="2">
-						<value>result</value>
-						<value>0</value>
-					</greater>
-				</ensure>
-				<maybe depth="1">
-					<declare-type depth="2">
-						<value>result</value>
-						<value>BigInt</value>
-					</declare-type>
-				</maybe>
-				<test depth="1">
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>0</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>1</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>10</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>3628800</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>20</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>2432902008176640000</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
-				</test>
-				<if-block depth="1">
-					<if>
-						<condition>
-							<equal>
-								<value>n</value>
-								<value>0</value>
-							</equal>
-						</condition>
+					<else depth="1">
 						<code>
-							<return depth="2">1</return>
+							<return depth="2">b</return>
 						</code>
-					</if>
+					</else>
 				</if-block>
-				<return depth="1">
-					<multiply>
-						<value>n</value>
-						<value>
-							<call>
-								<function>factorial</function>
-								<parameters>
-									<parameter>
-										<subtract>
-											<value>n</value>
-											<value>1</value>
-										</subtract>
-									</parameter>
-								</parameters>
-							</call>
-						</value>
-					</multiply>
-				</return>
 			</code>
 		</function>
 	</code>

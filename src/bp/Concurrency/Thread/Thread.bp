@@ -1,0 +1,17 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Thread.hpp</include>
+			</code>
+		</target>
+	</code>
+</module>

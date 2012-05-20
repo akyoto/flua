@@ -3,11 +3,11 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Math</import>
+			<import>bp.Math.Utils</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">BigInt working!</string>
-			<string id="bp_string_1">BigInt not working!</string>
+			<string id="bp_string_0">BigInt\Sworking!</string>
+			<string id="bp_string_1">BigInt\Snot\Sworking!</string>
 		</strings>
 	</header>
 	<code>

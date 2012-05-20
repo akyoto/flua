@@ -524,6 +524,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					return '%s + %s' % (op1bpc, op2bpc)
 			#Variable
 			else:
+				if isNumeric(op2.nodeValue):
+					return '%s%s"' % (op1bpc[:-1], op2bpc)
 				return '%s$%s"' % (op1bpc[:-1], op2bpc)
 		
 		# Find operation "above" the current one
@@ -537,7 +539,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			prefix = ""
 			postfix = ""
 		# Does it have higher or equal priority compared to the current one? If so, use brackets
-		elif hasHigherOrEqualPriority(operationAbove, nodeName):
+		elif hasHigherPriority(operationAbove, nodeName):
 			prefix = "("
 			postfix = ")"
 		

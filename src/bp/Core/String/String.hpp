@@ -12,8 +12,6 @@ inline size_t bp_strlen(T ptr) {
 	return strlen(ptr);
 }
 
-#define ONEMASK ((size_t)(-1) / 0xFF)
-
 // TODO: Optimize
 inline size_t bp_strlen_utf8_xchars(char* _s, size_t _limit) {
 	char *start = _s;

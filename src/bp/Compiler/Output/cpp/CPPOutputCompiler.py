@@ -89,8 +89,8 @@ class CPPOutputCompiler(Benchmarkable):
 		self.boehmGCEnabled = True
 		self.gmpEnabled = True
 		
-		# No optimization
-		self.disableOptimization()
+		# Optimization
+		self.enableOptimization()
 		
 		# Expression parser
 		self.initExprParser()
@@ -105,7 +105,8 @@ class CPPOutputCompiler(Benchmarkable):
 		
 	def updateOptimizationFlags(self):
 		# TODO: Module dependant setting
-		self.checkDivisionByZero = not self.optimize
+		self.checkDivisionByZero = True
+		self.optimizeStringConcatenation = self.optimize
 		
 	def initExprParser(self):
 		self.parser = getBPCExpressionParser()
