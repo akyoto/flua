@@ -95,6 +95,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 3
+		self.autoSuggestionMinCompleteChars = 1
 		
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
@@ -350,7 +351,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			if self.autoCompleteOpenedAuto:
-				if (not isShortcut) and len(completionPrefix) < self.autoSuggestionMinChars:
+				autoCompleteAintWorthIt = (
+					len(completionPrefix) < self.autoSuggestionMinChars
+					or
+					len(self.completer.currentCompletion()) - len(completionPrefix) < self.autoSuggestionMinCompleteChars
+				)
+				if (not isShortcut) and autoCompleteAintWorthIt:
 					self.completer.popup().hide()
 					return
 			

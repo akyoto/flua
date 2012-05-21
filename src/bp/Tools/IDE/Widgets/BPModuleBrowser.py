@@ -199,12 +199,12 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				#print("RESET FOR " + modName + "/" + modItem.name)
 				self.resetHighlight(modItem)
 		
-		#print("NEW: " + str(importedMods))
+		# Modified by the coming for loop
+		self.oldImportedMods = []
+		self.oldImportedModsLen = 0
+		
 		for modName in importedMods:
 			self.highlightModule(modName)
-		
-		self.oldImportedMods = importedMods
-		self.oldImportedModsLen = len(importedMods)
 		
 		#if not self.bpIDE.codeEdit.root:
 		#	return
@@ -248,6 +248,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if item:
 			item.setFont(style.font())
 			item.setForeground(style.foreground())
+			
+		self.oldImportedMods.append(modPath)
+		self.oldImportedModsLen += 1
 		
 	def getModuleItemByName(self, modName, expand = False):
 		importType = self.bpIDE.getModuleImportType(modName)
