@@ -4,11 +4,9 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Concurrency</import>
-			<import>bp.Concurrency.GPU</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Processors:\S\S\S\S\S</string>
-			<string id="bp_string_1">Graphics\Scards:\S</string>
+			<string id="bp_string_0">Processors:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -23,22 +21,6 @@
 						<value>
 							<call>
 								<function>getCPUCount</function>
-								<parameters/>
-							</call>
-						</value>
-					</add>
-				</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<add>
-						<value>bp_string_1</value>
-						<value>
-							<call>
-								<function>getGPUCount</function>
 								<parameters/>
 							</call>
 						</value>
