@@ -1,0 +1,75 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Runtime:\S</string>
+			<string id="bp_string_1">\Sms</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\STODO:\SAdd\Swarmup</comment>
+		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
+		<assign depth="0">
+			<value>start</value>
+			<value>
+				<call>
+					<function>systemTime</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>1</from>
+			<to>100000000</to>
+			<code>
+				<assign depth="1">
+					<value>a</value>
+					<value>
+						<divide>
+							<value>3</value>
+							<value>4</value>
+						</divide>
+					</value>
+				</assign>
+			</code>
+		</for>
+		<assign depth="0">
+			<value>end</value>
+			<value>
+				<call>
+					<function>systemTime</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>runtime</value>
+			<value>
+				<subtract>
+					<value>end</value>
+					<value>start</value>
+				</subtract>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>
+							<add>
+								<value>bp_string_0</value>
+								<value>runtime</value>
+							</add>
+						</value>
+						<value>bp_string_1</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

@@ -7,6 +7,7 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">MemPointer\Sworking!</string>
+			<string id="bp_string_1">MemPointer\SNOT\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -111,6 +112,16 @@
 					</call>
 				</code>
 			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
 		</if-block>
 	</code>
 </module>

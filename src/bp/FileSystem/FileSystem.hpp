@@ -27,6 +27,12 @@ inline bool bp_fclose(BPFileHandle* fh) {
 	return !fclose(fh);
 }
 
+// bp_fread
+template <typename T>
+inline size_t bp_fread(BPFileHandle* fh, T* buffer, size_t bufferSize) {
+	return fread(buffer, sizeof(T), bufferSize, fh);
+}
+
 // bp_fileModificationTime
 template <typename T>
 inline time_t bp_fileModificationTime(T file) {
@@ -55,6 +61,14 @@ inline bool bp_fileExists(BPUTF8String* fileName) {
 	if(stat(*fileName, &fileInfo))
 		return false;
 	return true;
+}
+
+// bp_fileSize
+inline size_t bp_fileSize(BPUTF8String* fileName) {
+	struct stat fileInfo;
+	if(stat(*fileName, &fileInfo))
+		return 0;
+	return fileInfo.st_size;
 }
 
 // bp_changeDir

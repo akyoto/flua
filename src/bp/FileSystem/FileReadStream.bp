@@ -47,8 +47,128 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>finalize</name>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>my</value>
+									<value>close</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+				</function>
+				<function depth="1">
+					<name>read</name>
+					<code>
+						<assign depth="2">
+							<value>fSize</value>
+							<value>
+								<call>
+									<function>fileSize</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>path</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2">
+							<value>buffer</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>MemPointer</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>fSize</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<call depth="2">
+							<function>bp_fread</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</parameter>
+								<parameter>buffer</parameter>
+								<parameter>fSize</parameter>
+							</parameters>
+						</call>
+						<return depth="2">
+							<new>
+								<type>String</type>
+								<parameters>
+									<parameter>buffer</parameter>
+								</parameters>
+							</new>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>close</name>
+					<code>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</condition>
+								<code>
+									<assign depth="3">
+										<value>success</value>
+										<value>
+											<call>
+												<function>bp_fclose</function>
+												<parameters>
+													<parameter>
+														<access>
+															<value>my</value>
+															<value>fd</value>
+														</access>
+													</parameter>
+												</parameters>
+											</call>
+										</value>
+									</assign>
+									<assign depth="3">
+										<value>
+											<access>
+												<value>my</value>
+												<value>fd</value>
+											</access>
+										</value>
+										<value>null</value>
+									</assign>
+									<return depth="3">success</return>
+								</code>
+							</if>
+						</if-block>
+						<return depth="2">false</return>
+					</code>
+					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

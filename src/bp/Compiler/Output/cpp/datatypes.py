@@ -83,8 +83,8 @@ def canBeCastedTo(fromType, toType):
 		return True
 	elif fromType == toType:
 		return True
-	#elif "~" + fromType == toType:
-	#	return True
+	elif "~" + fromType == toType:
+		return True
 	else:
 		return False
 
@@ -126,8 +126,14 @@ def correctOperators(sign):
 		return "operatorAdd"
 	elif sign == "-" or sign == "subtract":
 		return "operatorSubtract"
+	elif sign == "*" or sign == "multiply":
+		return "operatorMultiply"
+	elif sign == "/" or sign == "divide":
+		return "operatorDivide"
 	elif sign == "=" or sign == "assign":
 		return "operatorAssign"
+	elif sign == "==" or sign == "equal":
+		return "operatorCompare"
 	
 	return sign
 
@@ -150,17 +156,18 @@ def adjustDataType(type, adjustOuterAsWell = True):
 			paramsNew.append(adjustDataType(param))
 		type = type[:pos] + "<" + ", ".join(paramsNew) + ">"
 	
+	className = extractClassName(type)
+	
+	if className == "MemPointer":
+		return paramsNew[0] + "*"
+	
 	if not isUnmanaged(type):
 		if adjustOuterAsWell:
 			type = classPrefix + type + classPostfix
 		else:
 			type = standardClassPrefix + type
 	else:
-		className = extractClassName(type)
-		if className == "MemPointer":
-			return paramsNew[0] + "*"
-		else:
-			type = standardClassPrefix + removeUnmanaged(type)
+		type = standardClassPrefix + removeUnmanaged(type)
 	return type.replace("<", "< ").replace(">", " >").replace("  ", " ")
 
 # Old version

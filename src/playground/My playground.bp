@@ -1,0 +1,12 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SUse\Sthis\Sto\Squickly\Stest\Ssomething\Sin\Sbp\Swithout\Sthe\Sneed\Sto\Screate\Syour\Sown\Smodule\Sdirectory.</comment>
+	</code>
+</module>

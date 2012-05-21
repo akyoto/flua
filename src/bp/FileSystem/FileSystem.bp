@@ -41,6 +41,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_fileSize</name>
+				<type>Size</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_deleteFile</name>
 				<type>Bool</type>
 				<meta/>
@@ -61,6 +68,11 @@
 				<meta/>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_fread</name>
+				<type>Size</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_fclose</name>
 				<type>Bool</type>
 				<meta/>
@@ -68,6 +80,11 @@
 			<extern-function depth="1">
 				<name>bp_fflush</name>
 				<type>Bool</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_readLine</name>
+				<type>String</type>
 				<meta/>
 			</extern-function>
 			<extern-function depth="1">
@@ -165,6 +182,24 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>fileSize</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_fileSize</function>
+						<parameters>
+							<parameter>path</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -181,6 +216,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SUsage\Sexample\S(not\Sworking\Syet)</comment>
 		<test depth="0">

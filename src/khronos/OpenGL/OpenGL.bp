@@ -16,6 +16,7 @@
 					<code>
 						<compiler-flags depth="2">
 							<compiler-flag depth="3">-lOpenGL32</compiler-flag>
+							<compiler-flag depth="3">-lglu32</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
@@ -24,6 +25,7 @@
 					<code>
 						<compiler-flags depth="2">
 							<compiler-flag depth="3">-lGL</compiler-flag>
+							<compiler-flag depth="3">-lGLU</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

@@ -354,7 +354,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				autoCompleteAintWorthIt = (
 					len(completionPrefix) < self.autoSuggestionMinChars
 					or
-					len(self.completer.currentCompletion()) - len(completionPrefix) < self.autoSuggestionMinCompleteChars
+					(
+						len(self.completer.currentCompletion()) - len(completionPrefix) < self.autoSuggestionMinCompleteChars
+						and
+						not completionPrefix in self.completer.bpcModel.shortCuts
+					)
 				)
 				if (not isShortcut) and autoCompleteAintWorthIt:
 					self.completer.popup().hide()

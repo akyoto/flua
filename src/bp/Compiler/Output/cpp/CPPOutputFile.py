@@ -285,26 +285,32 @@ class CPPOutputFile(ScopeController):
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
-		# TODO: Why has 'add' its own section? Implemented this for other operators or remove?
-		elif tagName == "add":
+		# TODO: Why has 'add' its own section? Implement this for other operators or remove?
+		elif tagName in {"add", "equal"}:#{"add", "subtract", "multiply", "divide", "equal"}:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
-			op2 = self.parseExpr(node.childNodes[1].childNodes[0])
 			callerClassName = extractClassName(callerType)
+			#valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
 			
 			if callerClassName == "void":
 				funcName = node.childNodes[0].childNodes[0].childNodes[0].childNodes[0].nodeValue
 				raise CompilerException("Function '%s' has no return value" % funcName)
 			
 			if callerClassName in nonPointerClasses:
-				return "(%s+%s)" % (caller, op2)
-			elif callerClassName == "MemPointer" and isUnmanaged(callerType):
-				return "(%s + %s)" % (caller, op2)
-			
-			memberFunc = "+"
-			virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
-			
-			return self.handleCall(virtualIndexCall)
+				pass#return "(%s+%s)" % (caller, op2)
+			elif callerClassName == "MemPointer": #and isUnmanaged(callerType):
+				pass#return "(%s + %s)" % (caller, op2)
+			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
+				memberFunc = correctOperators(tagName)
+				virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
+				
+				# Not the cleanest solution
+				try:
+					call = self.handleCall(virtualIndexCall)
+					return call
+				except CompilerException:
+					pass
+				 
 		elif tagName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -807,9 +813,14 @@ class CPPOutputFile(ScopeController):
 			return var.getPrototype() + "(" + value + ")"
 		
 		# Casts
-		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses:
+		# TODO: Implement this correctly
+		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
 			debug("Need to cast %s to %s" % (valueType, variableType))
-			value = "static_cast<%s>(*(%s))" % (adjustDataType(variableType), value)
+			if variableType in nonPointerClasses:
+				castType = "static_cast"
+			else:
+				castType = "reinterpret_cast"
+			value = "%s<%s>(*(%s))" % (castType, adjustDataType(variableType), value)
 		
 		if self.getCurrentScope() == self.getTopLevelScope():
 			return variableName + " = " + value
@@ -1291,6 +1302,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		return caller, callerType, correctOperators(funcName)
 		
 	def getCombinationResult(self, operation, operatorType1, operatorType2):
+		operatorType1 = removeUnmanaged(operatorType1)
+		operatorType2 = removeUnmanaged(operatorType2)
+		
 		if operatorType1 in dataTypeWeights and operatorType2 in dataTypeWeights:
 			if operation == "divide":
 				dataType = getHeavierOperator(operatorType1, operatorType2)
@@ -1303,16 +1317,16 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			else:
 				return getHeavierOperator(operatorType1, operatorType2)
 		else:
-			if operatorType1.startswith("~MemPointer"):
+			if operatorType1.startswith("MemPointer"):
 				if operation == "index":
-					return operatorType1[len("~MemPointer<"):-1]
-				if operatorType2.startswith("~MemPointer"):
+					return operatorType1[len("MemPointer<"):-1]
+				if operatorType2.startswith("MemPointer"):
 					if operation == "subtract":
 						return "Size"
 				if operation == "add" or operation == "subtract":
 					return operatorType1
 				return self.getCombinationResult(operation, "Size", operatorType2)
-			if operatorType2.startswith("~MemPointer"):
+			if operatorType2.startswith("MemPointer"):
 				return self.getCombinationResult(operation, operatorType1, "Size")
 			
 			# TODO: Remove temporary fix
