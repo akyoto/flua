@@ -9,9 +9,7 @@ import collections
 class BPCAutoCompleterModel(QtGui.QStringListModel):
 	
 	def __init__(self, parent = None):
-		self.shortCuts = {
-			"saac" : "SimplyAwesomeAutoComplete"
-		}
+		self.shortCuts = dict()
 		self.shortCutList = list(self.shortCuts)
 		
 		self.funcListLen = 0
@@ -21,16 +19,26 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		super().__init__([], parent)
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
+		self.shortcutFunctionIcon = QtGui.QIcon("images/icons/autocomplete/shortcut-function.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
 	def setKeywordList(self, keywordList):
 		self.keywordList = keywordList
 		self.updateStringList()
 		
-	def setFunctionList(self, functionList):
+	def setFunctionList(self, functionList, shortCuts):
 		self.functionList = functionList
 		self.funcListLen = len(functionList)
+		
+		self.shortCuts = shortCuts
+		self.shortCutList = list(shortCuts)
+		
 		self.updateStringList()
+		
+	#def setShortCutDict(self, shortCuts):
+	#	self.shortCuts = shortCuts
+	#	self.shortCutList = list(shortCuts)
+	#	self.updateStringList()
 		
 	def updateStringList(self):
 		self.setStringList(self.keywordList + self.functionList + self.shortCutList)
@@ -41,7 +49,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 			if text in self.keywordList:
 				return self.keywordIcon
 			elif text in self.shortCutList:
-				return self.functionIcon
+				return self.shortcutFunctionIcon
 			elif text in self.functionList:
 				return self.functionIcon
 		
@@ -243,14 +251,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Functions
 		if completion in self.completer.bpcModel.functionList:
 			beforeCompletion = tc.block().text()[:-len(completion)]
-			if beforeCompletion.isspace() or not beforeCompletion:
+			functionHasParameters = False
+			if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
 				tc.insertText(" ")
 			else:
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
 		# Expr blocks
-		elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
-			tc.insertText(" ")
+		#elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
+		#	pass#tc.insertText(" ")
 		# Blocks
 		elif completion in xmlToBPCBlock.values():
 			tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
@@ -361,6 +370,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					self.autoCompleteOpenedAuto = False
 				elif self.autoSuggestion:
 					self.autoCompleteOpenedAuto = True
+			else:
+				if not completionPrefix:
+					self.autoCompleteOpenedAuto = True
+					popup.hide()
+					return
 			
 			self.completer.complete(cr) ## pop it up!
 			

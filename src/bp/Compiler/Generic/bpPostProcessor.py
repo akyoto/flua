@@ -426,13 +426,13 @@ class BPPostProcessor:
 				return ppFile.dTreeByNode[node]
 		return None
 	
-	def getFunctionsOnlyList(self):
-		funcList = dict()
+	def getFunctionsDict(self):
+		funcs = dict()
 		for ppFile in self.compiledFilesList:
-			for funcName in ppFile.dTreesByFunctionName:
+			for funcName, funcVariations in ppFile.dTreesByFunctionName.items():
 				if funcName.find('.') == -1:
-					funcList[funcName] = None
-		return list(funcList)
+					funcs[funcName] = funcVariations
+		return funcs
 	
 	def setMainFile(self, path):
 		self.mainFilePath = path
