@@ -31,16 +31,16 @@ metaDataForNodeName = {
 	"cast-definition" : functionMetaData,
 	
 	"extern-function" : [
-		("no-side-effects",           ["No significant side effects:", "Bool", False, False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
-		("same-output-for-input",     ["Same output for a given input:", "Bool", False, False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
+		("no-side-effects",           ["No significant side effects:", "Bool", "false", False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
+		("same-output-for-input",     ["Same output for a given input:", "Bool", "false", False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
 		("thread-safe",               ["Thread safe:", "SingleLine", "Unknown", True, threadSafeToolTip]),
-		("referentially-transparent", ["Referentially transparent:", "SingleLine", False, True, refTransparencyToolTip]),
+		("referentially-transparent", ["Referentially transparent:", "SingleLine", "false", True, refTransparencyToolTip]),
 	],
 	
 	"class" : [
-		("ensure-destructor-call",     ["Ensure finalizer is called:", "Bool", False, False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the 'finalize' method (destructor) when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
+		("ensure-destructor-call",     ["Ensure finalizer is called:", "Bool", "false", False, "<p>A <strong>hint</strong> to the garbage collector that objects of this class absolutely need to call the 'finalize' method (destructor) when the object is being destroyed. This might have a tiny impact on the performance of the garbage collector. It is better to not enable this unless you absolutely need to make sure the destructor is called.</p>"]),
 		forceImplementation,
-		("default-class-version",      ["Use this class by default:", "Bool", False, False, "<p>Use this version of the class as the default one.</p>"]),
+		("default-class-version",      ["Use this class by default:", "Bool", "false", False, "<p>Use this version of the class as the default one.</p>"]),
 	],
 	
 	"for" : [
@@ -48,7 +48,7 @@ metaDataForNodeName = {
 	],
 	
 	"parallel" : [
-		("wait-for-all-threads",     ["Wait for all calls / threads to finish:", "Bool", False, False, "<p>Activate this if you need all parallel calls to finish their work before continuing the program flow.</p>"]),
+		("wait-for-all-threads",     ["Wait for all calls / threads to finish:", "Bool", "true", False, "<p>Activate this if you need all parallel calls to finish their work before continuing the program flow.</p>"]),
 	]
 }
 
@@ -74,6 +74,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnCE = None
 		self.widgetByMetaTag = None
 		self.lastLineIndex = -2
+		self.autoHide = True
 		self.stackedLayout = QtGui.QStackedLayout()
 		self.setLayout(self.stackedLayout)
 		
@@ -126,7 +127,8 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnCE = self.bpIDE.codeEdit
 		
 		# Reset title
-		self.bpIDE.metaDataViewDock.hide()
+		if self.autoHide:
+			self.bpIDE.metaDataViewDock.hide()
 		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data")
 		
 		# Valid node?
@@ -157,7 +159,8 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.widgetByMetaTag = dict()
 		
 		# Set dock name
-		self.bpIDE.metaDataViewDock.show()
+		if self.autoHide:
+			self.bpIDE.metaDataViewDock.show()
 		self.bpIDE.metaDataViewDock.setWindowTitle("Meta data: %s" % metaDataTitleForNodeName[nodeName])
 		
 		# Build the form
@@ -186,7 +189,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 			elif dataType == "Bool":
 				widget = BPMetaCheckBox(self, metaNode, metaTag, defaultValue, self.doc)
 				if defaultValue == "true":
-					widget.setChecked("true")
+					widget.setChecked(True)
 				widget.stateChanged.connect(widget.onStateChange)
 			
 			self.widgetByMetaTag[metaTag] = widget

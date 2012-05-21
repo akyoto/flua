@@ -664,16 +664,7 @@ class CPPOutputFile(ScopeController):
 			classObj = self.compiler.specializedClasses[classObj.name]
 		
 		# Default parameters for init
-		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction("init", paramTypes)
-		paramTypesLen = len(paramTypes)
-		paramDefaultValues = func.getParamDefaultValues()
-		paramDefaultValueTypes = func.getParamDefaultValueTypes()
-		paramDefaultValuesLen = len(paramDefaultValues)
-		if paramTypesLen < paramDefaultValuesLen:
-			if paramsString:
-				paramsString += ", "
-			paramTypes += paramDefaultValueTypes[paramTypesLen:paramDefaultValuesLen]
-			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
+		paramTypes, paramsString = self.addDefaultParameters(typeName, "init", paramTypes, paramsString)
 		
 		funcImpl = self.implementFunction(typeName, "init", paramTypes)
 		
@@ -693,6 +684,23 @@ class CPPOutputFile(ScopeController):
 				return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
 			else:
 				return "(new " + finalTypeName + "(" + paramsString + "))"
+		
+	def addDefaultParameters(self, typeName, funcName, paramTypes, paramsString):
+		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
+		#if not func:
+		#	raise CompilerException("Couldn't")
+		
+		paramTypesLen = len(paramTypes)
+		paramDefaultValues = func.getParamDefaultValues()
+		paramDefaultValueTypes = func.getParamDefaultValueTypes()
+		paramDefaultValuesLen = len(paramDefaultValues)
+		if paramTypesLen < paramDefaultValuesLen:
+			if paramsString:
+				paramsString += ", "
+			paramTypes += paramDefaultValueTypes[paramTypesLen:paramDefaultValuesLen]
+			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
+			
+		return paramTypes, paramsString
 		
 	def handleAssign(self, node):
 		self.inAssignment += 1
@@ -932,17 +940,11 @@ class CPPOutputFile(ScopeController):
 							
 						#print(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 			
+			# Default parameters
+			paramTypes, paramsString = self.addDefaultParameters(callerType, funcName, paramTypes, paramsString)
+			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
-			
-			# Default parameters
-			paramTypesLen = len(paramTypes)
-			paramDefaultValues = funcImpl.func.getParamDefaultValues()
-			paramDefaultValuesLen = len(paramDefaultValues)
-			if paramTypesLen < paramDefaultValuesLen:
-				if paramsString:
-					paramsString += ", "
-				paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
@@ -962,9 +964,14 @@ class CPPOutputFile(ScopeController):
 				self.compiler.customThreadsCount += 1
 				tabs = "\t" * self.currentTabLevel
 				
-				threadCreation =  "BPThreadHandle bp_threadHandle_%d;\n%s" % (threadID, tabs)
-				threadCreation += "bp_thread_args_%s* bp_threadArgs_%d = new (NoGC) bp_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
-				threadCreation += "bp_createThread(&bp_threadHandle_%d, &bp_thread_func_%s, bp_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
+				threadCreation =  "pthread_t bp_threadHandle_%d;\n%s" % (threadID, tabs)
+				
+				if paramTypes:
+					threadCreation += "bp_thread_args_%s* bp_threadArgs_%d = new (NoGC) bp_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
+					threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, bp_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
+				else:
+					threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, reinterpret_cast<void*>(NULL));\n%s" % (threadID, threadFuncID, tabs)
+				
 				return threadCreation
 				
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
@@ -992,25 +999,31 @@ class CPPOutputFile(ScopeController):
 			paramNames.append("args->_%d" % count)
 			count += 1
 		
+		if initList:
+			initParams = ": " + ', '.join(initList)
+		else:
+			initParams = ""
+		
 		func = """
 typedef struct bp_thread_args_%s {
 	%s
-	inline bp_thread_args_%s(%s) : %s {}
+	inline bp_thread_args_%s(%s) %s {}
 } bp_thread_args_%s;
 
 void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	bp_thread_args_%s *args = reinterpret_cast<bp_thread_args_%s*>(bp_arg_struct_void);
 	%s(%s);
-	delete args;
+	if(args)
+		delete args;
 	return NULL;
 }
-""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), ', '.join(initList), funcName, funcName, funcName, funcName, funcName, ', '.join(paramNames))
+""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), initParams, funcName, funcName, funcName, funcName, funcName, ', '.join(paramNames))
 		self.customThreads[funcName] = func
 		
 	def handleParallel(self, node):
 		codeNode = getElementByTagName(node, "code")
 		
-		joinAll = isMetaDataTrueByTag(node, "wait-for-all-threads")
+		joinAll = getMetaData(node, "wait-for-all-threads") != "false" #isMetaDataTrueByTag(node, "wait-for-all-threads")
 		
 		self.parallelBlockStack.append(list())
 		self.inParallel += 1

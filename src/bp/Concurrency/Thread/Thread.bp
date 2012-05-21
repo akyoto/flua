@@ -13,14 +13,5 @@
 				<include depth="1">Thread.hpp</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
-				<name>bp_createThread</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-		</extern>
 	</code>
 </module>

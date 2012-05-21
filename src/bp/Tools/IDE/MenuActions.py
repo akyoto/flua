@@ -440,6 +440,25 @@ class MenuActions:
 		else:
 			self.showFullScreen()
 		
+	# Copy console log
+	def copy(self):
+		if self.console.log:
+			self.console.log.copy()
+		elif self.codeEdit:
+			self.codeEdit.copy()
+		
+	# Cut console log
+	def cut(self):
+		if self.console.log:
+			self.console.log.copy() # Don't cut!
+		elif self.codeEdit:
+			self.codeEdit.cut()
+		
+	# Paste into console - forbidden, the police will hunt you if you dare.
+	def paste(self):
+		# Don't do anything
+		pass
+		
 	def showIntroduction(self):
 		# For beginners
 		self.newFile()

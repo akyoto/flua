@@ -175,9 +175,9 @@ class Startup:
 		self.actionUndo.triggered.connect(self.undoLastAction)
 		self.actionRedo.triggered.connect(self.redoLastAction)
 		self.actionSearch.triggered.connect(self.showSearch)
-		self.actionCopy.triggered.connect(self.codeEdit.copy)
-		self.actionCut.triggered.connect(self.codeEdit.cut)
-		self.actionPaste.triggered.connect(self.codeEdit.paste)
+		self.actionCopy.triggered.connect(self.copy)
+		self.actionCut.triggered.connect(self.cut)
+		self.actionPaste.triggered.connect(self.paste)
 		self.actionPreferences.triggered.connect(self.showPreferences)
 		
 		# Module

@@ -350,7 +350,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
-		return "-(" + nodeToBPC(node.childNodes[0], 0, conv) + ")"
+		if isTextNode(node.childNodes[0].firstChild):
+			return "-" + nodeToBPC(node.childNodes[0].firstChild, 0, conv)
+		else:
+			return "-(" + nodeToBPC(node.childNodes[0].firstChild, 0, conv) + ")"
 	elif nodeName == "unmanaged":
 		return "~" + nodeToBPC(node.childNodes[0], 0, conv)
 	elif nodeName == "new":

@@ -128,9 +128,7 @@
 					</parameters>
 				</call>
 			</code>
-			<meta>
-				<wait-for-all-threads>true</wait-for-all-threads>
-			</meta>
+			<meta/>
 		</parallel>
 	</code>
 </module>
