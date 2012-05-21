@@ -253,6 +253,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if ppCodeEdit is None or ppCodeEdit.isTextFile:
 			return
 		
+		# Update auto completer data
+		funcsOnly = self.processor.getFunctionsOnlyList()
+		
+		if len(funcsOnly) != ppCodeEdit.completer.bpcModel.funcListLen:
+			ppCodeEdit.completer.bpcModel.setFunctionList(funcsOnly)
+		
 		# After we parsed the functions, set the text and highlight the file
 		if ppCodeEdit.disableUpdatesFlag:
 			ppCodeEdit.disableUpdatesFlag = False

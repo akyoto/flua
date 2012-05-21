@@ -14,6 +14,9 @@
 #endif
 
 #ifdef BP_USE_BOEHM_GC
+	// "If Java had true garbage collection, most programs would delete themselves upon execution."
+	// -- Robert Sewell
+	
 	// ./configure
 	//  --enable-cplusplus
 	//  --enable-threads=posix

@@ -14,18 +14,26 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		}
 		self.shortCutList = list(self.shortCuts)
 		
-		self.keywordList = None
+		self.funcListLen = 0
+		self.functionList = []
+		self.keywordList = []
 		
 		super().__init__([], parent)
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
+		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
 	def setKeywordList(self, keywordList):
 		self.keywordList = keywordList
 		self.updateStringList()
 		
+	def setFunctionList(self, functionList):
+		self.functionList = functionList
+		self.funcListLen = len(functionList)
+		self.updateStringList()
+		
 	def updateStringList(self):
-		self.setStringList(self.keywordList + self.shortCutList)
+		self.setStringList(self.keywordList + self.functionList + self.shortCutList)
 		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
@@ -33,7 +41,9 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 			if text in self.keywordList:
 				return self.keywordIcon
 			elif text in self.shortCutList:
-				return self.keywordIcon
+				return self.functionIcon
+			elif text in self.functionList:
+				return self.functionIcon
 		
 		# TODO: Auto completion for shortcuts
 		if role == QtCore.Qt.DisplayRole:
@@ -72,6 +82,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)
+		self.lastCompletionTime = 0
+		self.autoCompleteOpenedAuto = True
+		
+		self.autoSuggestion = True
+		self.autoSuggestionMinChars = 3
+		
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
 		#bgStyle = bpIDE.currentTheme["default-background"]
@@ -224,6 +240,22 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			tc.movePosition(QtGui.QTextCursor.EndOfWord)
 			tc.insertText(completion[len(completion) - extra:])
 			
+		# Functions
+		if completion in self.completer.bpcModel.functionList:
+			beforeCompletion = tc.block().text()[:-len(completion)]
+			if beforeCompletion.isspace() or not beforeCompletion:
+				tc.insertText(" ")
+			else:
+				tc.insertText("()")
+				tc.movePosition(QtGui.QTextCursor.Left)
+		# Expr blocks
+		elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
+			tc.insertText(" ")
+		# Blocks
+		elif completion in xmlToBPCBlock.values():
+			tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
+			
+		self.lastCompletionTime = time.time()
 		self.setTextCursor(tc)
 	
 	def textUnderCursor(self):
@@ -260,20 +292,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE.ctrlPressed = False
 		super().focusInEvent(event)
 	
-	def keyPressEvent(self, event):
+	def keyPressEvent(self, event, dontAutoComplete = False):
 		if self.bpIDE.codeEdit is None:
 			return
 		
 		# Auto Complete
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
 		
+		# Ctrl + Mouse click
 		if event.modifiers() == QtCore.Qt.ControlModifier:
 			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
 		
 		# Auto Complete
-		if self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible()):
-			if event.key() in (
+		if (not dontAutoComplete) and self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible() or self.autoSuggestion):
+			if self.completer.popup().isVisible() and event.key() in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
 					QtCore.Qt.Key_Escape,
@@ -282,9 +315,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				event.ignore()
 				return
 			
-			## has ctrl-E been pressed??
+			# Has ctrl + space been pressed?
 			if (not self.completer or not isShortcut):
-				super().keyPressEvent(event)
+				self.keyPressEvent(event, True)
 
 			## ctrl or shift key on it's own??
 			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
@@ -298,25 +331,38 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			completionPrefix = self.textUnderCursor()
 			
-			if (not isShortcut and (hasModifier or not event.text() or len(completionPrefix) < 3 or event.text()[-1] in eow)):
+			if (not isShortcut and (hasModifier or not event.text() or event.text()[-1] in eow)):
 				self.completer.popup().hide()
 				return
 			
+			popup = self.completer.popup()
 			if (completionPrefix != self.completer.completionPrefix()):
 				self.completer.setCompletionPrefix(completionPrefix)
-				popup = self.completer.popup()
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
+			if self.autoCompleteOpenedAuto:
+				if (not isShortcut) and len(completionPrefix) < self.autoSuggestionMinChars:
+					self.completer.popup().hide()
+					return
+			
 			# Insert directly if it's just 1 possibility
-			enableACInstant = False
-			if enableACInstant:
+			enableACInstant = True
+			if enableACInstant and isShortcut:
 				if self.completer.completionCount() == 1:
 					self.insertCompletion(self.completer.currentCompletion())
+					self.completer.popup().hide()
 					return
 			
 			cr = self.cursorRect()
 			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
-			self.completer.complete(cr) ## popup it up!
+			
+			if popup.isHidden():
+				if isShortcut:
+					self.autoCompleteOpenedAuto = False
+				elif self.autoSuggestion:
+					self.autoCompleteOpenedAuto = True
+			
+			self.completer.complete(cr) ## pop it up!
 			
 			#if isShortcut:
 			#	self.completer.popup().show()
@@ -348,6 +394,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Auto Indent
 		elif event.key() == QtCore.Qt.Key_Return:
 			cursor = self.textCursor()
+			
 			pos = cursor.position()
 			block = self.qdoc.findBlock(pos)
 			blockPos = block.position()
