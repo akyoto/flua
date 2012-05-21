@@ -85,7 +85,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>
@@ -485,6 +484,29 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
+					</getter>
+					<getter depth="2">
+						<name>allocatedElements</name>
+						<code>
+							<return depth="3">
+								<subtract>
+									<value>
+										<access>
+											<value>my</value>
+											<value>endOfStorage</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>start</value>
+										</access>
+									</value>
+								</subtract>
+							</return>
+						</code>
+						<meta/>
 					</getter>
 				</get>
 				<set depth="1">

@@ -1,0 +1,47 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Concurrency</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Threads\Sworking!\S(</string>
+			<string id="bp_string_1">\Sprocessors\Sdetected)</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0">
+			<value>numCores</value>
+			<value>
+				<call>
+					<function>getCPUCount</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<parallel depth="0">
+			<code>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_0</value>
+										<value>numCores</value>
+									</add>
+								</value>
+								<value>bp_string_1</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta>
+				<wait-for-all-threads>true</wait-for-all-threads>
+			</meta>
+		</parallel>
+	</code>
+</module>

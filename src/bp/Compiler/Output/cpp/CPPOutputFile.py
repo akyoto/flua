@@ -663,19 +663,22 @@ class CPPOutputFile(ScopeController):
 		if classObj.name in self.compiler.specializedClasses:
 			classObj = self.compiler.specializedClasses[classObj.name]
 		
-		funcImpl = self.implementFunction(typeName, "init", paramTypes)
-		
-		if "finalize" in classObj.functions:
-			destructorImpl = self.implementFunction(typeName, "finalize", [])
-		
 		# Default parameters for init
+		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction("init", paramTypes)
 		paramTypesLen = len(paramTypes)
-		paramDefaultValues = funcImpl.func.getParamDefaultValues()
+		paramDefaultValues = func.getParamDefaultValues()
+		paramDefaultValueTypes = func.getParamDefaultValueTypes()
 		paramDefaultValuesLen = len(paramDefaultValues)
 		if paramTypesLen < paramDefaultValuesLen:
 			if paramsString:
 				paramsString += ", "
+			paramTypes += paramDefaultValueTypes[paramTypesLen:paramDefaultValuesLen]
 			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
+		
+		funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		
+		if "finalize" in classObj.functions:
+			destructorImpl = self.implementFunction(typeName, "finalize", [])
 		
 		finalTypeName = adjustDataType(typeName, False)
 		
