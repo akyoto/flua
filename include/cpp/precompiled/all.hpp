@@ -5,6 +5,14 @@
 #include <cstdint>
 #include <cstdlib>
 
+#ifdef _WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+	#ifndef WINDOWS
+		#define WINDOWS
+	#endif
+#endif
+
 #ifdef BP_USE_BOEHM_GC
 	// ./configure
 	//  --enable-cplusplus

@@ -46,6 +46,7 @@ wrapperSingleElement = [
 	"value",
 	"condition",
 	"variable",
+	"compiler-flag",
 ]
 
 wrapperMultipleElements = {
@@ -67,6 +68,7 @@ xmlToBPCBlock = {
 	"private" : "private",
 	"extern" : "extern",
 	"define" : "define",
+	"compiler-flags" : "compilerflags",
 	#"static" : "static"
 	
 	# TODO: Metadata

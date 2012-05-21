@@ -7,5 +7,34 @@
 		</dependencies>
 		<strings/>
 	</header>
-	<code/>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Concurrency.hpp</include>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_getCPUCount</name>
+				<type>Size</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<function depth="0">
+			<name>getCPUCount</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCPUCount</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+	</code>
 </module>

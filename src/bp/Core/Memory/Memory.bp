@@ -40,6 +40,13 @@
 					<same-output-for-input>false</same-output-for-input>
 				</meta>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_gcCollect</name>
+				<meta>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
 			<class depth="1">
 				<name>MemPointer</name>
 				<code>
@@ -97,11 +104,22 @@
 								</declare-type>
 								<return depth="4">retValue</return>
 							</code>
+							<meta/>
 						</getter>
 					</get>
 				</code>
 				<meta/>
 			</class>
 		</extern>
+		<function depth="0">
+			<name>gcCollect</name>
+			<code>
+				<call depth="1">
+					<function>bp_gcCollect</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>

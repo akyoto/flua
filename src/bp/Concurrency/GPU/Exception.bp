@@ -8,22 +8,7 @@
 	</header>
 	<code>
 		<class depth="0">
-			<name>Exception</name>
-			<code>
-				<function depth="1">
-					<name>init</name>
-					<code>
-						<noop depth="2">
-							<meta/>
-						</noop>
-					</code>
-					<meta/>
-				</function>
-			</code>
-			<meta/>
-		</class>
-		<class depth="0">
-			<name>DivisionByZeroException</name>
+			<name>GPUInitException</name>
 			<code>
 				<extends depth="1">
 					<extends-class depth="2">Exception</extends-class>
@@ -33,7 +18,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 			</code>
 			<meta>

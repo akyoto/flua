@@ -20,6 +20,8 @@
 		<comment>\Sint\Sbp_myCFunction(int\Sa,\Sint\Sb)\S{</comment>
 		<comment>\S\S\S\S\Sreturn\Sa\S+\Sb;</comment>
 		<comment>\S}</comment>
+		<comment>\SYou\Scan\Shold\SCtrl\Sfor\Ssome\Stime\Sand\Sclick\Son\S'MyLibrary.hpp'\Sin\Sthe\Sabove\Sinclude\Sinstruction.</comment>
+		<comment>\SIf\Sthe\Sfile\Sexists\Sit\Swill\Sbe\Sopened,\Sotherwise\Sa\Snew\Sfile\Swith\Sthat\Sname\S(MyLibrary.hpp)\Swill\Sbe\Screated.</comment>
 		<comment>\SNow\Swe\Sneed\Sto\Sdeclare\San\Sextern\Sfunction\Swith\Sthe\Sprefix\S'bp_'\Sand\Sits\Sreturn\Stype:</comment>
 		<extern depth="0">
 			<extern-function depth="1">

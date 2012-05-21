@@ -151,6 +151,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def mousePressEvent(self, event):
 		if self.bpIDE.ctrlPressed and self.hasMouseTracking() and self.hoveringFileName:
+			
+			# Create file if it doesn't exist
+			if not os.path.exists(self.hoveringFileName):
+				with open(self.hoveringFileName, "w") as out:
+					out.write("\n")
+			
 			self.bpIDE.openFile(self.hoveringFileName)
 			self.hoveringFileName = ""
 			self.setMouseTracking(False)

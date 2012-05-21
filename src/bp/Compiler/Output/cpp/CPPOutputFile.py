@@ -1770,7 +1770,11 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		return "#include <" + extractDir(importedModule) + "C++/" + stripAll(importedModule) + ".hpp>\n"
 	
 	def handleCompilerFlag(self, node):
-		self.compiler.customCompilerFlags.insert(0, node.childNodes[0].nodeValue)
+		flag = node.childNodes[0].nodeValue
+		if flag.startswith("-l"):
+			self.compiler.customLinkerFlags.insert(0, flag)
+		else:
+			self.compiler.customCompilerFlags.insert(0, flag)
 		return ""
 	
 	def scanAhead(self, parent):

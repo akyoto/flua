@@ -1,0 +1,141 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Exception</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">GPU.hpp</include>
+				<compiler-flags depth="1">
+					<compiler-flag depth="2">-lOpenCL</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_initGPUCalculations</name>
+				<meta>
+					<no-side-effects>false</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getCLPlatformName</name>
+				<type>String</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getCLPlatformCount</name>
+				<type>Size</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getCLDeviceName</name>
+				<type>String</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_getGPUCount</name>
+				<type>Size</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<assign>
+						<value>deviceId</value>
+						<value>
+							<negative>
+								<value>1</value>
+							</negative>
+						</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<name>getCLDeviceName</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCLDeviceName</function>
+						<parameters>
+							<parameter>deviceId</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<assign>
+						<value>id</value>
+						<value>
+							<negative>
+								<value>1</value>
+							</negative>
+						</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<name>getCLPlatformName</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCLPlatformName</function>
+						<parameters>
+							<parameter>id</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<name>getCLPlatformCount</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getCLPlatformCount</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<name>getGPUCount</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_getGPUCount</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<call depth="0">
+			<function>bp_initGPUCalculations</function>
+			<parameters/>
+		</call>
+	</code>
+</module>
