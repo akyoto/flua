@@ -1775,7 +1775,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	
 	def handleTarget(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		if name == self.compiler.getTargetName():
+		if name == self.compiler.getTargetName() or matchesCurrentPlatform(name):
 			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
 	
 	def handleImport(self, node):

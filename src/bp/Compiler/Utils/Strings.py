@@ -171,3 +171,11 @@ def isDefinitelyOperatorSign(char):
 
 def mustNotBeNextToExpr(char):
 	return char.isalnum() or char == '_'
+	
+def matchesCurrentPlatform(name):
+	if os.name == "nt" and name == "Windows":
+		return True
+	elif os.name == "posix" and name == "Linux":
+		return True
+		
+	return False

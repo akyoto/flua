@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>khronos.OpenCL</import>
 			<import>Exception</import>
 		</dependencies>
 		<strings/>
@@ -12,9 +13,6 @@
 			<name>C++</name>
 			<code>
 				<include depth="1">GPU.hpp</include>
-				<compiler-flags depth="1">
-					<compiler-flag depth="2">-lOpenCL</compiler-flag>
-				</compiler-flags>
 			</code>
 		</target>
 		<extern depth="0">
@@ -81,7 +79,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -107,7 +104,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<name>getCLPlatformCount</name>
@@ -119,7 +115,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<name>getGPUCount</name>
@@ -131,7 +126,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<call depth="0">
 			<function>bp_initGPUCalculations</function>

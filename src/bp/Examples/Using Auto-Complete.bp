@@ -7,8 +7,6 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SCurrently\Sthe\Seditor\Sain't\Svery\Sintelligent\Sand\Sonly\Soffers\Syou\Sa\Slist\Sof\Skeywords.</comment>
-		<comment>\SIf\Syou\Sstill\Swant\Sto\Ssee\Sit,\Spress\SCtrl\S+\SSpace.</comment>
-		<comment>\STODO:\SFix\SAuto-Complete\Sbugs.</comment>
+		<comment>\SUse\SCtrl\S+\SSpace\Sor\Sstart\Styping\S'pri'\Sand\Sthe\SIDE\Swill\Soffer\Syou\Sto\Scomplete\Sit\Sto\Sprint()</comment>
 	</code>
 </module>

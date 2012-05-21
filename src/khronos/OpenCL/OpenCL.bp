@@ -1,0 +1,20 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">OpenCL.hpp</include>
+				<compiler-flags depth="1">
+					<compiler-flag depth="2">-lOpenCL</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+	</code>
+</module>

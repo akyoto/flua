@@ -1,4 +1,3 @@
-#include <CL/opencl.h>
 #include <bp/Concurrency/GPU/C++/Exception.hpp>
 
 // Global
