@@ -9,7 +9,6 @@
 			<import>bp.FileSystem</import>
 			<import>bp.DateTime</import>
 			<import>bp.Concurrency</import>
-			<import>lgomila.SFML</import>
 		</dependencies>
 		<strings/>
 	</header>
