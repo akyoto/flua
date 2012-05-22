@@ -533,7 +533,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
-			elif self.inOperators or self.inCasts or line[0].islower():
+			elif self.inOperators or self.inCasts or line[0].islower() or self.inClass:
 				return self.handleFunction(line)
 			else:
 				return self.handleClass(line)

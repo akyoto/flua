@@ -20,6 +20,10 @@ inline void bp_println(T var) {
 	std::cout << var << std::endl;
 }
 
+inline void bp_flush() {
+	std::cout.flush();
+}
+
 template <>
 inline void bp_println(bool var) {
 	static const char *a[2] = {"false", "true"};

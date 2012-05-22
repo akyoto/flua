@@ -12,6 +12,7 @@ def startProcess(cmd, fhOut, fhErr):
 	linesThreshold = 2000
 	timeThreshold = 1.0 / 25 # seconds
 	lastWriteTime = 0
+	lastErrWriteTime = 0
 	
 	while 1:
 		# Make the GUI feel more responsive
@@ -45,12 +46,12 @@ def startProcess(cmd, fhOut, fhErr):
 				combinedLinesStderrCount += 1
 				
 				# For programs which produce too much output at once
-				if combinedLinesStderrCount > linesThreshold or time.time() - lastWriteTime > timeThreshold:
+				if combinedLinesStderrCount > linesThreshold or time.time() - lastErrWriteTime > timeThreshold:
 					fhErr(''.join(combinedLinesStderr))
 					combinedLinesStderr = []
 					combinedLinesStderrCount = 0
 					QtGui.QApplication.instance().processEvents()
-					lastWriteTime = time.time()
+					lastErrWriteTime = time.time()
 			else:
 				break
 		
@@ -67,3 +68,4 @@ def startProcess(cmd, fhOut, fhErr):
 			fhErr(''.join(combinedLinesStderr))
 			
 		lastWriteTime = time.time()
+		lastErrWriteTime = time.time()

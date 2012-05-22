@@ -3,9 +3,109 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>tests</import>
+			<import>lgomila.SFML</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Hello\SWorld</string>
+			<string id="bp_string_1">Let's\Sprint\Ssomething!</string>
+		</strings>
 	</header>
-	<code/>
+	<code>
+		<assign depth="0">
+			<value>vm</value>
+			<value>
+				<new>
+					<type>SFVideoMode</type>
+					<parameters>
+						<parameter>800</parameter>
+						<parameter>600</parameter>
+						<parameter>32</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>app</value>
+			<value>
+				<new>
+					<type>SFWindow</type>
+					<parameters>
+						<parameter>vm</parameter>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>event</value>
+			<value>
+				<new>
+					<type>SFEvent</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>running</value>
+			<value>true</value>
+		</assign>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_1</parameter>
+			</parameters>
+		</call>
+		<while depth="0">
+			<condition>running</condition>
+			<code>
+				<while depth="1">
+					<condition>
+						<call>
+							<function>
+								<access>
+									<value>app</value>
+									<value>GetEvent</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>event</parameter>
+							</parameters>
+						</call>
+					</condition>
+					<code>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<call>
+										<function>
+											<access>
+												<value>event</value>
+												<value>isClosed</value>
+											</access>
+										</function>
+										<parameters/>
+									</call>
+								</condition>
+								<code>
+									<assign depth="3">
+										<value>running</value>
+										<value>false</value>
+									</assign>
+								</code>
+							</if>
+						</if-block>
+					</code>
+				</while>
+				<call depth="1">
+					<function>
+						<access>
+							<value>app</value>
+							<value>Display</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</code>
+		</while>
+	</code>
 </module>

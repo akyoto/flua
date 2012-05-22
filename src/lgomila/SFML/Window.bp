@@ -1,0 +1,109 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>System</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SSome\Sweird\Swrapper</comment>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Window.hpp</include>
+				<compiler-flags depth="1">
+					<compiler-flag depth="2">-lsfml-window-s</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+		<extern depth="0">
+			<class depth="1">
+				<name>SFEventType</name>
+				<code>
+					<function depth="2">
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+						<meta/>
+					</function>
+				</code>
+				<meta/>
+			</class>
+			<class depth="1">
+				<name>SFEvent</name>
+				<code>
+					<function depth="2">
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2">
+						<name>isClosed</name>
+						<code>
+							<return depth="3">true</return>
+						</code>
+						<meta/>
+					</function>
+				</code>
+				<meta/>
+			</class>
+			<class depth="1">
+				<name>SFWindow</name>
+				<code>
+					<function depth="2">
+						<parameters>
+							<parameter>vm</parameter>
+							<parameter>title</parameter>
+						</parameters>
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2">
+						<name>Display</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2">
+						<parameters>
+							<parameter>event</parameter>
+						</parameters>
+						<name>GetEvent</name>
+						<code>
+							<return depth="3">true</return>
+						</code>
+						<meta/>
+					</function>
+				</code>
+				<meta/>
+			</class>
+			<class depth="1">
+				<name>SFVideoMode</name>
+				<code>
+					<function depth="2">
+						<parameters>
+							<parameter>width</parameter>
+							<parameter>height</parameter>
+							<parameter>depth</parameter>
+						</parameters>
+						<name>init</name>
+						<code>
+							<noop depth="3"/>
+						</code>
+						<meta/>
+					</function>
+				</code>
+				<meta/>
+			</class>
+		</extern>
+	</code>
+</module>

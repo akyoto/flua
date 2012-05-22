@@ -30,6 +30,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
+				<name>bp_flush</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
 				<name>bp_usleep</name>
 				<type>Int</type>
 				<meta>
@@ -73,7 +80,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>

@@ -1650,6 +1650,10 @@
 								<parameter>bp_string_0</parameter>
 							</parameters>
 						</call>
+						<call depth="2">
+							<function>bp_flush</function>
+							<parameters/>
+						</call>
 					</code>
 					<meta/>
 				</function>

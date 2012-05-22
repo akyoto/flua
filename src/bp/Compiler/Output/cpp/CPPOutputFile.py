@@ -2053,6 +2053,8 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 					# For debugging the GC add this commented line to the string:
 					# ~%s(){std::cout << \"Destroying %s\" << std::endl;}\n
 					self.classesHeader += " {\npublic:\n" + code + "};\n\n"
+			#else:
+			#	print("Extern: " + classObj.name)
 	
 	def getCode(self):
 		self.writeFunctions()

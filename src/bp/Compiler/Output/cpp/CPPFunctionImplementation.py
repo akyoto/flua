@@ -13,7 +13,12 @@ class CPPFunctionImplementation:
 			if byDef:
 				self.paramTypes[i] = self.classImpl.translateTemplateName(byDef)
 		
-		self.name = self.func.getName() + self.buildPostfix()
+		# Extern methods
+		if self.classImpl.classObj.isExtern:
+			self.name = self.func.getName()
+		else:
+			self.name = self.func.getName() + self.buildPostfix()
+		
 		self.code = ""
 		self.returnTypes = []
 		self.func.implementations[self.name] = self

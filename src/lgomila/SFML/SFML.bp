@@ -1,0 +1,15 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Audio</import>
+			<import>Graphics</import>
+			<import>Network</import>
+			<import>System</import>
+			<import>Window</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

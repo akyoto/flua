@@ -54,6 +54,8 @@ class CPPClass(CPPNamespace):
 			
 			if self.forceImplementation:
 				self.requestDefaultImplementation()
+			
+			self.isExtern = self.node.parentNode.tagName == "extern"
 		else:
 			self.ensureDestructorCall = False
 			self.forceImplementation = False
