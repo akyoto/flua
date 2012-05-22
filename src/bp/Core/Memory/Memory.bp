@@ -53,12 +53,31 @@
 			</code>
 			<meta/>
 		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>dest</parameter>
+				<parameter>value</parameter>
+				<parameter>num</parameter>
+			</parameters>
+			<name>setMem</name>
+			<code>
+				<call depth="1">
+					<function>bp_setMem</function>
+					<parameters>
+						<parameter>dest</parameter>
+						<parameter>value</parameter>
+						<parameter>num</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_copyMem</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>false</same-output-for-input>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -66,6 +85,13 @@
 				<type>Bool</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_setMem</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">

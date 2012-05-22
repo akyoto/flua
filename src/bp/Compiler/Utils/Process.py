@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import time
 from PyQt4 import QtGui
 
 def startProcess(cmd, fhOut, fhErr):
@@ -9,6 +10,8 @@ def startProcess(cmd, fhOut, fhErr):
 	errLine = ""
 	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
 	linesThreshold = 2000
+	timeThreshold = 1.0 / 25 # seconds
+	lastWriteTime = 0
 	
 	while 1:
 		# Make the GUI feel more responsive
@@ -26,11 +29,12 @@ def startProcess(cmd, fhOut, fhErr):
 				combinedLinesStdoutCount += 1
 				
 				# For programs which produce too much output at once
-				if combinedLinesStdoutCount > linesThreshold:
+				if combinedLinesStdoutCount > linesThreshold or time.time() - lastWriteTime > timeThreshold:
 					fhOut(''.join(combinedLinesStdout))
 					combinedLinesStdout = []
 					combinedLinesStdoutCount = 0
 					QtGui.QApplication.instance().processEvents()
+					lastWriteTime = time.time()
 			else:
 				break
 			
@@ -41,11 +45,12 @@ def startProcess(cmd, fhOut, fhErr):
 				combinedLinesStderrCount += 1
 				
 				# For programs which produce too much output at once
-				if combinedLinesStderrCount > linesThreshold:
+				if combinedLinesStderrCount > linesThreshold or time.time() - lastWriteTime > timeThreshold:
 					fhErr(''.join(combinedLinesStderr))
 					combinedLinesStderr = []
 					combinedLinesStderrCount = 0
 					QtGui.QApplication.instance().processEvents()
+					lastWriteTime = time.time()
 			else:
 				break
 		
@@ -60,3 +65,5 @@ def startProcess(cmd, fhOut, fhErr):
 		
 		if combinedLinesStderr:
 			fhErr(''.join(combinedLinesStderr))
+			
+		lastWriteTime = time.time()
