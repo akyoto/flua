@@ -32,12 +32,40 @@
 			</code>
 			<meta/>
 		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>source</parameter>
+				<parameter>dest</parameter>
+				<parameter>size</parameter>
+			</parameters>
+			<name>compareMem</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_compareMem</function>
+						<parameters>
+							<parameter>source</parameter>
+							<parameter>dest</parameter>
+							<parameter>size</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_copyMem</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>false</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_compareMem</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -104,7 +132,6 @@
 								</declare-type>
 								<return depth="4">retValue</return>
 							</code>
-							<meta/>
 						</getter>
 					</get>
 				</code>

@@ -133,7 +133,9 @@ def correctOperators(sign):
 	elif sign == "=" or sign == "assign":
 		return "operatorAssign"
 	elif sign == "==" or sign == "equal":
-		return "operatorCompare"
+		return "operatorEqual"
+	elif sign == "!=" or sign == "not-equal":
+		return "operatorNotEqual"
 	
 	return sign
 

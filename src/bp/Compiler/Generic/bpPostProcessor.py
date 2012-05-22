@@ -564,6 +564,9 @@ class BPPostProcessorFile:
 	def getImportedFiles(self):
 		return self.importedFiles
 		
+	def nodeToText(self, node):
+		return tagName(node)
+		
 	def process(self):
 		print("Processing: " + self.filePath)
 		
@@ -703,7 +706,7 @@ class BPPostProcessorFile:
 			#if funcName:
 			#	tree.addFunctionCall(funcName)
 			
-			callTree = DTree(nodeToBPC(xmlNode), xmlNode)
+			callTree = DTree(self.nodeToText(xmlNode), xmlNode)
 			if tree:
 				tree.addTree(callTree)
 			self.dTreeByNode[xmlNode] = callTree
@@ -721,7 +724,7 @@ class BPPostProcessorFile:
 			#for child in xmlNode.childNodes:
 			#	self.getInstructionDependencies(paramTree, child)
 		elif xmlNode.hasAttribute("depth"):#xmlNode.tagName == "if-block" or xmlNode.tagName == "try-block":
-			newTree = DTree(nodeToBPC(xmlNode), xmlNode)
+			newTree = DTree(self.nodeToText(xmlNode), xmlNode)
 			self.dTreeByNode[xmlNode] = newTree
 		elif xmlNode.tagName == "code":
 			#newTree = DTree(nodeToBPC(xmlNode), xmlNode)
@@ -784,7 +787,7 @@ class BPPostProcessorFile:
 			op1 = node.childNodes[0].childNodes[0]
 			op2 = node.childNodes[1].childNodes[0]
 			
-			thisOperation = DTree(nodeToBPC(node), node)
+			thisOperation = DTree(self.nodeToText(node), node)
 			self.getInstructionDependencies(thisOperation, op2)
 			if node.tagName.startswith("assign-"):
 				self.getInstructionDependencies(thisOperation, op1)
@@ -794,11 +797,11 @@ class BPPostProcessorFile:
 			# Access
 			varToAdd = op1
 			while 1:
-				self.lastOccurence[nodeToBPC(varToAdd)] = thisOperation
+				self.lastOccurence[self.nodeToText(varToAdd)] = thisOperation
 				# access
 				if isElemNode(varToAdd) and varToAdd.tagName == "access":
-					accessOp1 = nodeToBPC(varToAdd.childNodes[0].childNodes[0])
-					accessOp2 = nodeToBPC(varToAdd.childNodes[1].childNodes[0])
+					accessOp1 = self.nodeToText(varToAdd.childNodes[0].childNodes[0])
+					accessOp2 = self.nodeToText(varToAdd.childNodes[1].childNodes[0])
 					self.lastOccurence[accessOp1] = thisOperation
 					self.lastOccurence[accessOp2] = thisOperation
 					varToAdd = varToAdd.childNodes[0].childNodes[0] # varToAdd = accessOp1
@@ -873,7 +876,7 @@ class BPPostProcessorFile:
 				else:
 					self.processor.externFuncNameToMetaDict[funcName] = dict()
 			
-			thisOperation = DTree("%s: %s" % (node.tagName, nodeToBPC(node).replace("\n", ":").replace("\t", "")), node)
+			thisOperation = DTree("%s: %s" % (node.tagName, self.nodeToText(node).replace("\n", ":").replace("\t", "")), node)
 			self.getInstructionDependencies(thisOperation, node)
 			
 			#debugPop()

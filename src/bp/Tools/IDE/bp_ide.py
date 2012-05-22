@@ -47,7 +47,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
-		self.developerFlag = False
+		self.developerFlag = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
@@ -238,9 +238,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			if not self.postProcessorThread.isRunning():
 				self.postProcessorThread.startWith(codeEdit)
 		else:
-			raise "Not implemented in single-threaded mode"
-			#self.postProcessorThread.run()
-			#self.postProcessorFinished()
+			#raise "Not implemented in single-threaded mode"
+			self.postProcessorThread.codeEdit = codeEdit
+			self.postProcessorThread.run()
+			self.postProcessorFinished()
 		
 	def postProcessorFinished(self):
 		ppCodeEdit = self.postProcessorThread.codeEdit

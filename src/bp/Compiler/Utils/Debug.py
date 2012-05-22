@@ -110,6 +110,8 @@ class OutputCompilerException(CompilerException):
 		# TODO: Implement getLineNumber
 		#if self.inpFile.nodeToOriginalLine:
 		#	return 5
+		#if self.ppFile:
+		#	return len(self.getLastParsedNode().tagName)
 		return -1
 		
 	def getLastParsedNode(self):

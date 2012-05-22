@@ -1,0 +1,125 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.FileSystem</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Test.hpp</string>
+			<string id="bp_string_1">\E</string>
+			<string id="bp_string_2">\E</string>
+			<string id="bp_string_3">File\Ssystem\Sworking!</string>
+			<string id="bp_string_4">File\Ssystem\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0">
+			<value>fsErrors</value>
+			<value>0</value>
+		</assign>
+		<assign depth="0">
+			<value>testReadStream</value>
+			<value>
+				<new>
+					<type>FileReadStream</type>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>streamContents</value>
+			<value>
+				<call>
+					<function>
+						<access>
+							<value>testReadStream</value>
+							<value>read</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>
+				<access>
+					<value>testReadStream</value>
+					<value>close</value>
+				</access>
+			</function>
+			<parameters/>
+		</call>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<equal>
+						<value>streamContents</value>
+						<value>bp_string_1</value>
+					</equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>fsErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<assign depth="0">
+			<value>currentDir</value>
+			<value>
+				<call>
+					<function>getCurrentDir</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<equal>
+						<value>currentDir</value>
+						<value>bp_string_2</value>
+					</equal>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>fsErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<greater>
+						<value>fsErrors</value>
+						<value>0</value>
+					</greater>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_3</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_4</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

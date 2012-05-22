@@ -1,0 +1,169 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">おはようございます。</string>
+			<string id="bp_string_1">おはようございます。</string>
+			<string id="bp_string_2">Hello\SWorld.</string>
+			<string id="bp_string_3">String\Soperations\Sworking!</string>
+			<string id="bp_string_4">String\Soperations\SNOT\Sworking!</string>
+			<string id="bp_string_5">\E</string>
+			<string id="bp_string_6">\E</string>
+			<string id="bp_string_7">String\Soperations\Sworking!</string>
+			<string id="bp_string_8">String\Soperations\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0">
+			<value>strErrors</value>
+			<value>0</value>
+		</assign>
+		<assign depth="0">
+			<value>stringTestA</value>
+			<value>bp_string_0</value>
+		</assign>
+		<assign depth="0">
+			<value>stringTestB</value>
+			<value>bp_string_1</value>
+		</assign>
+		<assign depth="0">
+			<value>stringTestC</value>
+			<value>bp_string_2</value>
+		</assign>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<not>
+						<value>
+							<and>
+								<value>
+									<and>
+										<value>
+											<and>
+												<value>
+													<equal>
+														<value>
+															<slice>
+																<value>stringTestA</value>
+																<value>
+																	<range>
+																		<from>1</from>
+																		<to>5</to>
+																	</range>
+																</value>
+															</slice>
+														</value>
+														<value>
+															<slice>
+																<value>stringTestA</value>
+																<value>
+																	<range>
+																		<from>1</from>
+																		<to>5</to>
+																	</range>
+																</value>
+															</slice>
+														</value>
+													</equal>
+												</value>
+												<value>
+													<equal>
+														<value>stringTestA</value>
+														<value>stringTestB</value>
+													</equal>
+												</value>
+											</and>
+										</value>
+										<value>
+											<not-equal>
+												<value>stringTestA</value>
+												<value>stringTestC</value>
+											</not-equal>
+										</value>
+									</and>
+								</value>
+								<value>
+									<not-equal>
+										<value>
+											<not>
+												<value>stringTestA</value>
+											</not>
+										</value>
+										<value>stringTestB</value>
+									</not-equal>
+								</value>
+							</and>
+						</value>
+					</not>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<or>
+						<value>
+							<not-equal>
+								<value>bp_string_3</value>
+								<value>bp_string_4</value>
+							</not-equal>
+						</value>
+						<value>
+							<not>
+								<value>
+									<equal>
+										<value>bp_string_5</value>
+										<value>bp_string_6</value>
+									</equal>
+								</value>
+							</not>
+						</value>
+					</or>
+				</condition>
+				<code>
+					<assign-add depth="1">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<greater>
+						<value>strErrors</value>
+						<value>0</value>
+					</greater>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_7</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_8</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

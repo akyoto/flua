@@ -9,10 +9,12 @@
 			<import>memory</import>
 			<import>array</import>
 			<import>overloading</import>
-			<import>unicode</import>
 			<import>bigint</import>
 			<import>defaultvalues</import>
 			<import>inheritance</import>
+			<import>unicode</import>
+			<import>filesystem</import>
+			<import>stringoperations</import>
 			<import>parallel</import>
 		</dependencies>
 		<strings/>

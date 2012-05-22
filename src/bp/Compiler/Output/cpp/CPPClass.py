@@ -105,8 +105,11 @@ class CPPClass(CPPNamespace):
 					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
 		self.functions[func.getName()].append(func)
 		
+	def hasFunction(self, name):
+		return name in self.functions
+		
 	def addExternFunction(self, name, type):
-		debug("'%s' added extern function '%s'" % (self.name, name))
+		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
 		self.externFunctions[name] = type
 	
 	def setTemplateNames(self, names, defaultValues):

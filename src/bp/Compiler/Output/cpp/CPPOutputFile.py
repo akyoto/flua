@@ -32,6 +32,7 @@ from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
 from bp.Compiler.Output.cpp.datatypes import *
 from bp.Compiler.Output.cpp.CPPClass import *
+from bp.Compiler.Input.bpc.BPCUtils import *
 
 ####################################################################
 # Globals
@@ -286,7 +287,7 @@ class CPPOutputFile(ScopeController):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
 		# TODO: Why has 'add' its own section? Implement this for other operators or remove?
-		elif tagName in {"add", "equal"}:#{"add", "subtract", "multiply", "divide", "equal"}:
+		elif tagName in {"add", "equal", "not-equal"}:#{"add", "subtract", "multiply", "divide", "equal"}:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			callerClassName = extractClassName(callerType)
@@ -302,15 +303,14 @@ class CPPOutputFile(ScopeController):
 				pass#return "(%s + %s)" % (caller, op2)
 			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
 				memberFunc = correctOperators(tagName)
-				virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
-				
-				# Not the cleanest solution
-				try:
+				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
+					virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
+					
 					call = self.handleCall(virtualIndexCall)
 					return call
-				except CompilerException:
-					pass
 				 
+		#elif tagName == "not":
+		#	return "!" + self.parseChilds(node)
 		elif tagName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -408,6 +408,9 @@ class CPPOutputFile(ScopeController):
 			keywordName = paramBlock[0]
 			paramTagName = paramBlock[1]
 			codeTagName = paramBlock[2]
+			
+			#if isElemNode(getElementByTagName(node, paramTagName)):
+			#	print(getElementByTagName(node, paramTagName).childNodes[0].toprettyxml())
 			
 			condition = self.parseExpr(getElementByTagName(node, paramTagName).childNodes[0])
 			
@@ -925,9 +928,9 @@ class CPPOutputFile(ScopeController):
 				
 				if not func:
 					if funcName[0].islower():
-						raise CompilerException("Function '%s.%s' has not been defined" % (callerType, funcName))
+						raise CompilerException("Function '%s.%s' has not been defined [Error code 1]" % (callerType, funcName))
 					else:
-						raise CompilerException("Class '%s' has not been defined" % (funcName))
+						raise CompilerException("Class '%s' has not been defined  [Error code 2]" % (funcName))
 			else:
 				func = callerClass.functions[funcName]
 			
@@ -1094,7 +1097,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		elif className in self.compiler.mainClass.classes:
 			return self.compiler.mainClass.classes[className]
 		else:
-			raise CompilerException("Class '%s' has not been defined" % (className))
+			raise CompilerException("Class '%s' has not been defined  [Error code 3]" % (className))
 		
 	def getClassImplementationByTypeName(self, typeName, initTypes = []):
 		className = extractClassName(typeName)
@@ -1302,9 +1305,6 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		return caller, callerType, correctOperators(funcName)
 		
 	def getCombinationResult(self, operation, operatorType1, operatorType2):
-		operatorType1 = removeUnmanaged(operatorType1)
-		operatorType2 = removeUnmanaged(operatorType2)
-		
 		if operatorType1 in dataTypeWeights and operatorType2 in dataTypeWeights:
 			if operation == "divide":
 				dataType = getHeavierOperator(operatorType1, operatorType2)
@@ -1317,6 +1317,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			else:
 				return getHeavierOperator(operatorType1, operatorType2)
 		else:
+			operatorType1 = removeUnmanaged(operatorType1)
+			operatorType2 = removeUnmanaged(operatorType2)
+			
 			if operatorType1.startswith("MemPointer"):
 				if operation == "index":
 					return operatorType1[len("MemPointer<"):-1]
@@ -1428,7 +1431,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			return funcImpl.getReturnType()
 		else:
 			if not (funcName in self.compiler.mainClass.externFunctions):
-				raise CompilerException("Function '" + funcName + "' has not been defined")
+				raise CompilerException("Function '" + funcName + "' has not been defined  [Error code 4]")
 			
 			return self.compiler.mainClass.externFunctions[funcName]
 	
@@ -1591,6 +1594,8 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 				virtualSliceCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 				
 				return self.getCallDataType(virtualSliceCall)
+			elif node.tagName == "not":
+				return self.getExprDataType(node.childNodes[0].childNodes[0])
 			elif node.tagName == "unmanaged":
 				self.inUnmanaged += 1
 				expr = self.getExprDataTypeClean(node.childNodes[0].childNodes[0])
@@ -1696,6 +1701,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		
 		# STEP 2
 		expr = self.parseExpr(node.childNodes[0], False)
+		
+		if retType == "void":
+			raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
 		
 		#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 		return "return " + expr

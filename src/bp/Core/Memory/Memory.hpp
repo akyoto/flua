@@ -1,5 +1,15 @@
 #include <cstring>
 
+template <typename TSource, typename TDest, typename sizeType>
+inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numBytes) {
+	return static_cast<TDest*>(memcpy(dest, source, numBytes));
+}
+
+template <typename TSource, typename TDest, typename sizeType>
+inline bool bp_compareMem(TSource *source, TDest *dest, const sizeType numBytes) {
+	return memcmp(dest, source, numBytes) == 0;
+}
+
 /*template <typename TDataType>
 class BPMemPointer {
 	public:
@@ -63,8 +73,3 @@ class BPMemPointer {
 	private:
 		TDataType *ptr;
 };*/
-
-template <typename TSource, typename TDest, typename sizeType>
-inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numBytes) {
-	return static_cast<TDest*>(memcpy(dest, source, numBytes));
-}

@@ -6,29 +6,12 @@
 			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">../../</string>
-			<string id="bp_string_1">gl.h</string>
-			<string id="bp_string_2">End.</string>
+			<string id="bp_string_0">Test.hpp</string>
+			<string id="bp_string_1">End.</string>
 		</strings>
 	</header>
 	<code>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<call>
-						<function>getCurrentDir</function>
-						<parameters/>
-					</call>
-				</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>changeDir</function>
-			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
+		<comment>\SWrites\Sits\Sown\SC++\Scode\Sto\Sconsole</comment>
 		<call depth="0">
 			<function>print</function>
 			<parameters>
@@ -46,7 +29,7 @@
 				<new>
 					<type>FileReadStream</type>
 					<parameters>
-						<parameter>bp_string_1</parameter>
+						<parameter>bp_string_0</parameter>
 					</parameters>
 				</new>
 			</value>
@@ -79,7 +62,7 @@
 		<call depth="0">
 			<function>print</function>
 			<parameters>
-				<parameter>bp_string_2</parameter>
+				<parameter>bp_string_1</parameter>
 			</parameters>
 		</call>
 	</code>

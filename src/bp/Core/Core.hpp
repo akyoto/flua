@@ -20,6 +20,12 @@ inline void bp_println(T var) {
 	std::cout << var << std::endl;
 }
 
+template <>
+inline void bp_println(bool var) {
+	static const char *a[2] = {"false", "true"};
+	std::cout << a[var] << std::endl;
+}
+
 // Standard functions
 template <typename T1, typename T2>
 inline void bp_swap(T1 &x, T2 &y) {

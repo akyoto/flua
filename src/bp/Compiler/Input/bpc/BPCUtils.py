@@ -250,6 +250,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		funcName = getCalledFuncName(node)
 		parameters = nodeToBPC(getElementByTagName(node, "parameters"), 0, conv)
 		
+		#return "%s(%s)" % (funcName, parameters)
+		
 		if node.parentNode.tagName == "code":
 			if parameters:
 				return "%s %s" % (funcName, parameters)
