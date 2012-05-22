@@ -5,8 +5,10 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Runtime:\S</string>
-			<string id="bp_string_1">\Sms</string>
+			<string id="bp_string_0">\E</string>
+			<string id="bp_string_1">\E</string>
+			<string id="bp_string_2">Runtime:\S</string>
+			<string id="bp_string_3">\Sms</string>
 		</strings>
 	</header>
 	<code>
@@ -21,21 +23,47 @@
 				</call>
 			</value>
 		</assign>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>func</name>
+			<code>
+				<assign-add depth="1">
+					<value>x</value>
+					<value>1</value>
+				</assign-add>
+			</code>
+			<meta/>
+		</function>
 		<for depth="0">
 			<iterator>i</iterator>
 			<from>1</from>
-			<to>100000000</to>
+			<to>1000000</to>
 			<code>
-				<assign depth="1">
-					<value>a</value>
-					<value>
-						<divide>
-							<value>3</value>
-							<value>4</value>
-						</divide>
-					</value>
-				</assign>
+				<call depth="1">
+					<function>func</function>
+					<parameters>
+						<parameter>
+							<equal>
+								<value>
+									<add>
+										<value>bp_string_0</value>
+										<value>i</value>
+									</add>
+								</value>
+								<value>
+									<add>
+										<value>bp_string_1</value>
+										<value>i</value>
+									</add>
+								</value>
+							</equal>
+						</parameter>
+					</parameters>
+				</call>
 			</code>
+			<meta/>
 		</for>
 		<assign depth="0">
 			<value>end</value>
@@ -62,11 +90,11 @@
 					<add>
 						<value>
 							<add>
-								<value>bp_string_0</value>
+								<value>bp_string_2</value>
 								<value>runtime</value>
 							</add>
 						</value>
-						<value>bp_string_1</value>
+						<value>bp_string_3</value>
 					</add>
 				</parameter>
 			</parameters>

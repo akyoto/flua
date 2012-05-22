@@ -13,8 +13,8 @@
 			<import>defaultvalues</import>
 			<import>inheritance</import>
 			<import>unicode</import>
-			<import>filesystem</import>
 			<import>stringoperations</import>
+			<import>filesystem</import>
 			<import>parallel</import>
 		</dependencies>
 		<strings/>
