@@ -1,0 +1,13 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Compiler.Test.Input.tests</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SPress\SF5\Sor\SF6\Sto\Ssee\Sif\Sbp\Sis\Sworking\Son\Syour\Scomputer!</comment>
+	</code>
+</module>

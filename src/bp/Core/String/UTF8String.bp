@@ -1824,6 +1824,26 @@
 					</operator>
 					<operator depth="2">
 						<parameters>
+							<parameter>
+								<declare-type>
+									<value>num</value>
+									<value>Int</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>*</name>
+						<code>
+							<return depth="3">
+								<new>
+									<type>UTF8String</type>
+									<parameters/>
+								</new>
+							</return>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2">
+						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
 						</parameters>

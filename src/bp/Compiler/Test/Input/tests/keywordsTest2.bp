@@ -2,25 +2,29 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>
-				bp.Core
-			</import>
+			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">
-				#import working
-			</string>
+			<string id="bp_string_0">=</string>
+			<string id="bp_string_1">#import\Sworking</string>
 		</strings>
 	</header>
 	<code>
-		<call>
-			<function>
-				print
-			</function>
+		<call depth="0">
+			<function>print</function>
 			<parameters>
 				<parameter>
-					bp_string_0
+					<multiply>
+						<value>bp_string_0</value>
+						<value>80</value>
+					</multiply>
 				</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>bp_string_1</parameter>
 			</parameters>
 		</call>
 	</code>

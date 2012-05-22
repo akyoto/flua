@@ -29,6 +29,9 @@ class Startup:
 		self.initCompiler()
 		self.endBenchmark()
 		
+		# New file
+		#self.newFile()
+		
 		self.startBenchmark("Init Preferences")
 		self.initPreferences()
 		self.endBenchmark()
@@ -256,7 +259,6 @@ class Startup:
 		self.processor = BPPostProcessor(self.bpc)
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
-		self.newFile()
 		
 	def initToolBar(self):
 		# Syntax switcher

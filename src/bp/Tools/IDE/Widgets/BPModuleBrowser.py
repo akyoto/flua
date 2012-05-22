@@ -35,7 +35,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDir = modDir
 		self.modDirLen = len(self.modDir)
 		self.setExpandsOnDoubleClick(False)
-		self.setAnimated(True)
+		#self.setAnimated(True)
 		self.oldImportedMods = []
 		self.oldImportedModsLen = 0
 		self.setHeaderHidden(True)
@@ -275,7 +275,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				break
 			
 			if expand and currentPart != lastPart - 1:
-				self.setExpanded(currentModule.index(), True)
+				if currentPart < 3 or 1:
+					self.setExpanded(currentModule.index(), True)
 			currentPart += 1
 		
 		if currentModule == self.modules:

@@ -99,7 +99,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
 		self.setCentralWidget(self.workspacesContainer)
 		self.showMaximized()
+		
 		self.config.applySettings()
+		
+		self.openFile(getModuleDir() + "playground/My playground.bp")
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		

@@ -767,11 +767,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Set new text
 		self.disableUpdatesFlag = True
-		code = "\n".join(self.lines)
+		code = "\n".join(self.lines) + "\n"
 		
 		# Fixes a bug in QTextDocument for the modification state
-		if not code:
-			code = "\n"
+		#if not code:
+		#	code = "\n"
 		
 		self.setPlainText(code)
 		

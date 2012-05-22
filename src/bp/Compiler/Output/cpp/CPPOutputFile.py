@@ -40,6 +40,13 @@ from bp.Compiler.Input.bpc.BPCUtils import *
 INT32_MAX = 2147483647
 INT32_MIN = -2147483648
 
+enableOperatorOverloading = {
+	"add",
+	"equal",
+	"not-equal",
+	"multiply"
+}#{"add", "subtract", "multiply", "divide", "equal"}:
+
 ####################################################################
 # Classes
 ####################################################################
@@ -287,7 +294,7 @@ class CPPOutputFile(ScopeController):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
 		# TODO: Why has 'add' its own section? Implement this for other operators or remove?
-		elif tagName in {"add", "equal", "not-equal"}:#{"add", "subtract", "multiply", "divide", "equal"}:
+		elif tagName in enableOperatorOverloading:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			callerClassName = extractClassName(callerType)

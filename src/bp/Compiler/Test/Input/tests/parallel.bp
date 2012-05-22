@@ -6,7 +6,7 @@
 			<import>bp.Concurrency</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Threads\Sworking!\S(</string>
+			<string id="bp_string_0">Multithreading\Sworking!\S(</string>
 			<string id="bp_string_1">\Sprocessors\Sdetected)</string>
 		</strings>
 	</header>
@@ -39,9 +39,7 @@
 					</parameters>
 				</call>
 			</code>
-			<meta>
-				<wait-for-all-threads>true</wait-for-all-threads>
-			</meta>
+			<meta/>
 		</parallel>
 	</code>
 </module>
