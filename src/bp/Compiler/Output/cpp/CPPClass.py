@@ -110,6 +110,9 @@ class CPPClass(CPPNamespace):
 	def hasFunction(self, name):
 		return name in self.functions
 		
+	def hasExternFunction(self, name):
+		return name in self.externFunctions
+		
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
 		self.externFunctions[name] = type

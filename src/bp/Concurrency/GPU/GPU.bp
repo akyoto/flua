@@ -116,6 +116,7 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sgraphics\Scards</comment>
 		<function depth="0">
 			<name>getGPUCount</name>
 			<code>

@@ -11,5 +11,7 @@
 		</dependencies>
 		<strings/>
 	</header>
-	<code/>
+	<code>
+		<comment>\SSFML\Slibrary\Sby\SLaurent\SGomila.</comment>
+	</code>
 </module>

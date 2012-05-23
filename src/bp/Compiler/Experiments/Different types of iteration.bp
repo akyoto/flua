@@ -3,11 +3,11 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Compiler.Test</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<comment>\SPress\SF5\Sor\SF6\Sto\Ssee\Sif\Sbp\Sis\Sworking\Son\Syour\Scomputer!</comment>
+		<comment>\SCtrl\S+\SClick\Son\Sit</comment>
+		<include depth="0">Iteration.hpp</include>
 	</code>
 </module>

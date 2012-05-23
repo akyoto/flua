@@ -9,6 +9,7 @@
 			<import>memory</import>
 			<import>array</import>
 			<import>overloading</import>
+			<import>casts</import>
 			<import>bigint</import>
 			<import>defaultvalues</import>
 			<import>inheritance</import>

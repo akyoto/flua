@@ -156,10 +156,13 @@ def splitParams(line):
 		params.append(lastParam)
 	return params
 
+def normalizeName(name):
+	return name.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
+
 def buildPostfix(paramTypes):
 	postfix = ""
 	for dataType in paramTypes:
-		postfix += "__" + dataType.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
+		postfix += "__" + normalizeName(dataType)
 	return postfix
 
 # These functions do NOT rely on each other

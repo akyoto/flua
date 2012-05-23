@@ -98,7 +98,11 @@ class CPPFunctionImplementation:
 				castType = adjustDataType("~" + self.name)
 			else:
 				castType = adjustDataType(self.name)
-			return "// Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
+			
+			funcIntern = "// BP Cast: %s\n\tinline %s to%s(%s) {\n%s\t}\n" % (self.func.name, castType, normalizeName(self.func.name), self.getParamString(), self.code)
+			funcCppComfort = "// C++ Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
+			
+			return funcIntern + "\n\t" + funcCppComfort
 		
 		# TODO: Remove hardcoded stuff (here: Operator = for ~MemPointer<ConstChar> is directly used by C++ and therefore needs no name change)
 		if self.getFuncName() == "operatorAssign" and self.classImpl.getName() == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":

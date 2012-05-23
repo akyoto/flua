@@ -406,8 +406,11 @@ class BPPostProcessor:
 			return#raise CompilerException("%s has not been processed yet" % filePath)
 		
 		ppFile = self.compiledFiles[filePath]
-		ppFile.resetDTreeByNode()
-		ppFile.resetDTreesByFunctionName()
+		if ppFile:
+			ppFile.resetDTreeByNode()
+			ppFile.resetDTreesByFunctionName()
+		else:
+			self.compiledFiles.pop(filePath)
 	
 	def getDTreeByPolyFunctionName(self, polyFuncName):
 		# TODO: Polymorphism

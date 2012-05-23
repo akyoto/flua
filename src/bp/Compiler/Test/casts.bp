@@ -1,0 +1,99 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">TestValue</string>
+			<string id="bp_string_1">\E</string>
+			<string id="bp_string_2">TestValue</string>
+			<string id="bp_string_3">Type\Scasting\Sworking!</string>
+			<string id="bp_string_4">Type\Scasting\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0">
+			<name>MyClass</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>val</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<casts depth="1">
+					<cast-definition depth="2">
+						<to>String</to>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>val</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
+			</code>
+			<meta/>
+		</class>
+		<assign depth="0">
+			<value>testInstance</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0">
+			<value>someString</value>
+			<value>bp_string_1</value>
+		</assign>
+		<assign depth="0">
+			<value>someString</value>
+			<value>testInstance</value>
+		</assign>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<equal>
+						<value>someString</value>
+						<value>bp_string_2</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_3</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_4</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

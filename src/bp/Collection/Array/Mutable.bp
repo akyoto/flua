@@ -19,7 +19,7 @@
 					<parameters>
 						<parameter>
 							<assign>
-								<value>size</value>
+								<value>allocateElements</value>
 								<value>1024</value>
 							</assign>
 						</parameter>
@@ -44,7 +44,7 @@
 												</template-call>
 											</type>
 											<parameters>
-												<parameter>size</parameter>
+												<parameter>allocateElements</parameter>
 											</parameters>
 										</new>
 									</value>
@@ -80,11 +80,12 @@
 											<value>start</value>
 										</access>
 									</value>
-									<value>size</value>
+									<value>allocateElements</value>
 								</add>
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>
@@ -186,7 +187,12 @@
 				</function>
 				<function depth="1">
 					<parameters>
-						<parameter>newSize</parameter>
+						<parameter>
+							<declare-type>
+								<value>newSize</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
 					</parameters>
 					<name>reserve</name>
 					<code>
@@ -293,6 +299,17 @@
 				<function depth="1">
 					<name>removeLast</name>
 					<code>
+						<require depth="2">
+							<greater depth="3">
+								<value>
+									<access>
+										<value>my</value>
+										<value>length</value>
+									</access>
+								</value>
+								<value>0</value>
+							</greater>
+						</require>
 						<if-block depth="2">
 							<if>
 								<condition>
@@ -429,6 +446,7 @@
 							</return>
 						</code>
 					</operator>
+					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">
@@ -484,7 +502,6 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>allocatedElements</name>
@@ -506,7 +523,6 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 				<set depth="1">

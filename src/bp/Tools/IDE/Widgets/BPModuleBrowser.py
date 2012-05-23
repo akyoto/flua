@@ -50,9 +50,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
-		self.reloadModuleDirectory()
+		self.reloadModuleDirectory(False)
 		
-	def reloadModuleDirectory(self):
+	def reloadModuleDirectory(self, expand = True):
 		if self.bpcModel:
 			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
 		
@@ -87,7 +87,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#self.setModel(None)
 		self.buildTree()
 		
-		self.expandToDepth(0)
+		if expand:
+			self.expandToDepth(0)
 		
 	def onItemClick(self, item):
 		modItem = item.data(QtCore.Qt.UserRole + 1)

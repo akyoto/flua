@@ -149,7 +149,7 @@ class Startup:
 			
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
-		self.scribbleDock.hide()
+		#self.scribbleDock.hide()
 		#self.fileViewDock.hide()
 		#self.consoleDock.hide()
 		

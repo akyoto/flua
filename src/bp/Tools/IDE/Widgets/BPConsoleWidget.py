@@ -53,6 +53,8 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.realStdout = sys.stdout
 		self.realStderr = sys.stderr
 		
+		self.setMinimumWidth(424)
+		
 		#vBox = QtGui.QVBoxLayout(self)
 		
 		# TODO: Remove font

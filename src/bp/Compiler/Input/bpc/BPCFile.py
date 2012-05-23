@@ -403,6 +403,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			#print(self.lastLineCount, self.maxLineIndex, line, self.inClass, self.inFunction)
 			
+			# Seriously.
+			if (not self.nextLineIndented) and line.startswith("if java"):
+				raise CompilerException("If Java had true garbage collection, most programs would delete themselves upon execution.")
+			
 			# Don't process last NOOP
 			if self.lastLineCount == self.maxLineIndex:
 				break

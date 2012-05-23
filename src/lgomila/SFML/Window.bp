@@ -8,16 +8,29 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SSome\Sweird\Swrapper</comment>
 		<target depth="0">
 			<name>C++</name>
 			<code>
 				<include depth="1">Window.hpp</include>
-				<compiler-flags depth="1">
-					<compiler-flag depth="2">-lsfml-window-s</compiler-flag>
-				</compiler-flags>
+				<target depth="1">
+					<name>Windows</name>
+					<code>
+						<compiler-flags depth="2">
+							<compiler-flag depth="3">-lsfml-window-s</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+				<target depth="1">
+					<name>Linux</name>
+					<code>
+						<compiler-flags depth="2">
+							<compiler-flag depth="3">-lsfml-window</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
 			</code>
 		</target>
+		<comment>\SSome\Sdirty\Shacks\Sto\Squickly\Senable\Susing\Ssome\SSFML\Sstuff.\SWill\Sbe\Sremoved\Slater.</comment>
 		<extern depth="0">
 			<class depth="1">
 				<name>SFEventType</name>
@@ -78,6 +91,13 @@
 							<parameter>event</parameter>
 						</parameters>
 						<name>GetEvent</name>
+						<code>
+							<return depth="3">true</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2">
+						<name>IsOpened</name>
 						<code>
 							<return depth="3">true</return>
 						</code>

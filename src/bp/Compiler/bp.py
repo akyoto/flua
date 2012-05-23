@@ -140,6 +140,7 @@ def bpMain(compileFile, outputDir = None):
 		if useRoot:
 			allGraphs += "root [shape=circle];\n"
 			allGraphs += "}"
+		
 		print(allGraphs)
 	
 	# Exec

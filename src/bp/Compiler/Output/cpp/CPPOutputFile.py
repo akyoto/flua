@@ -256,9 +256,9 @@ class CPPOutputFile(ScopeController):
 					#else:
 						# TODO: Unmanaged object initiations need to return 'this'
 					#	return "shared_from_this()"
+				#elif node.nodeValue == "null":
+				#	return "NULL"
 				# BigInt support
-				elif node.nodeValue == "null":
-					return "NULL"
 				elif node.nodeValue.isdigit():
 					num = int(node.nodeValue)
 					if num > INT32_MAX or num < INT32_MIN:
@@ -293,7 +293,6 @@ class CPPOutputFile(ScopeController):
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
-		# TODO: Why has 'add' its own section? Implement this for other operators or remove?
 		elif tagName in enableOperatorOverloading:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -826,11 +825,11 @@ class CPPOutputFile(ScopeController):
 		# TODO: Implement this correctly
 		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
 			debug("Need to cast %s to %s" % (valueType, variableType))
-			if variableType in nonPointerClasses:
-				castType = "static_cast"
-			else:
-				castType = "reinterpret_cast"
-			value = "%s<%s>(*(%s))" % (castType, adjustDataType(variableType), value)
+			#if variableType in nonPointerClasses:
+			#	castType = "static_cast"
+			#else:
+			#	castType = "reinterpret_cast"
+			value = "((%s)->to%s())" % (value, normalizeName(variableType))
 		
 		if self.getCurrentScope() == self.getTopLevelScope():
 			return variableName + " = " + value
@@ -928,7 +927,7 @@ class CPPOutputFile(ScopeController):
 		if funcName == "free" and callerClassName == "MemPointer":
 			return "delete [] %s" % (caller)
 		
-		if not funcName.startswith("bp_"):
+		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
 			if not funcName in callerClass.functions:
 				# Check extended classes
 				func = findFunctionInBaseClasses(callerClass, funcName)
@@ -1494,8 +1493,8 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 				return "Bool"
 			elif node.nodeValue == "my":
 				return self.currentClassImpl.getName()
-			elif node.nodeValue == "null":
-				return "~MemPointer<void>"
+			#elif node.nodeValue == "null":
+			#	return "~MemPointer<void>"
 			else:
 				return self.getVariableTypeAnywhere(node.nodeValue)
 		else:

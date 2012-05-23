@@ -270,7 +270,7 @@
 			</parameters>
 			<name>writeFile</name>
 			<code>
-				<comment>\SToDo:\S'in'\Ssyntax</comment>
+				<comment>\STODO:\S'in'\Ssyntax</comment>
 				<assign depth="1">
 					<value>f</value>
 					<value>

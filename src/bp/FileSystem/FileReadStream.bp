@@ -157,7 +157,7 @@
 												<value>fd</value>
 											</access>
 										</value>
-										<value>null</value>
+										<value>0</value>
 									</assign>
 									<return depth="3">success</return>
 								</code>

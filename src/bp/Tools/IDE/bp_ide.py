@@ -102,7 +102,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.config.applySettings()
 		
+		# We love hard coding! ... or maybe not.
 		self.openFile(getModuleDir() + "playground/My playground.bp")
+		self.moduleView.highlightModule("playground.My playground")
+		cursor = self.codeEdit.textCursor()
+		cursor.movePosition(QtGui.QTextCursor.End)
+		self.codeEdit.setTextCursor(cursor)
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		

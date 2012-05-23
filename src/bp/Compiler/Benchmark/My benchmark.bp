@@ -10,7 +10,24 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\STODO:\SAdd\Swarmup</comment>
+		<comment>\SProcessor\Swarmup</comment>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>1</from>
+			<to>100000000</to>
+			<code>
+				<assign depth="1">
+					<value>a</value>
+					<value>
+						<add>
+							<value>i</value>
+							<value>1</value>
+						</add>
+					</value>
+				</assign>
+			</code>
+			<meta/>
+		</for>
 		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
 		<assign depth="0">
 			<value>start</value>
