@@ -27,97 +27,17 @@
 ####################################################################
 # Imports
 ####################################################################
-from bp.Compiler.Output.cpp.CPPFunction import *
-from bp.Compiler.Output.cpp.CPPVariable import *
+from bp.Compiler.Output import *
+from bp.Compiler.Output.BaseClass import *
 from bp.Compiler.Output.cpp.CPPClassImplementation import *
-from bp.Compiler.Output.cpp.CPPNamespace import *
 
 ####################################################################
 # Classes
 ####################################################################
-class CPPClass(CPPNamespace):
+class CPPClass(BaseClass):
 	
 	def __init__(self, name, node):
-		super().__init__(name)
-		self.templateNames = []
-		self.templateDefaultValues = []
-		self.parent = None
-		self.isExtern = False
-		self.usesActorModel = False
-		self.extends = []
-		self.node = node
+		super().__init__(name, node)
 		
-		if self.node:
-			self.ensureDestructorCall = isMetaDataTrueByTag(node, "ensure-destructor-call")
-			self.forceImplementation = isMetaDataTrueByTag(node, "force-implementation")
-			self.isDefaultVersion = isMetaDataTrueByTag(node, "default-class-version")
-			
-			if self.forceImplementation:
-				self.requestDefaultImplementation()
-			
-			self.isExtern = self.node.parentNode.tagName == "extern"
-		else:
-			self.ensureDestructorCall = False
-			self.forceImplementation = False
-			self.isDefaultVersion = False
-		
-	def getFinalName(self):
-		if self.name.startswith("Mutable"):
-			return self.name[len("Mutable"):]
-		elif self.name.startswith("Immutable"):
-			return self.name[len("Immutable"):]
-		
-		return self.name
-		
-	def setExtends(self, extends):
-		self.extends = extends
-		
-		# Also implement base classes
-		if self.forceImplementation:
-			for classObj in self.extends:
-				classObj.requestDefaultImplementation()
-	
-	def requestDefaultImplementation(self):
-		self.requestImplementation([], [])
-	
-	def checkDefaultImplementation(self):
-		for i in range(len(self.templateNames)):
-			if not self.templateDefaultValues[i]:
-				raise CompilerException("Can't force an implementation for a class which doesn't have default values for its template parameters")
-	
-	def requestImplementation(self, initTypes, templateValues):
-		key = ", ".join(initTypes + templateValues)
-		if not key in self.implementations:
-			self.implementations[key] = CPPClassImplementation(self, templateValues)
-		return self.implementations[key]
-		
-	def addClass(self, classObj):
-		debug("'%s' added class '%s'" % (self.name, classObj.name))
-		classObj.parent = self
-		self.classes[classObj.name] = classObj
-		
-	def addFunction(self, func):
-		debug("'%s' added function '%s'" % (self.name, func.getName()))
-		func.classObj = self
-		if not func.getName() in self.functions:
-			self.functions[func.getName()] = []
-		else:
-			for iterFunc in self.functions[func.getName()]:
-				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
-					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
-		self.functions[func.getName()].append(func)
-		
-	def hasFunction(self, name):
-		return name in self.functions
-		
-	def hasExternFunction(self, name):
-		return name in self.externFunctions
-		
-	def addExternFunction(self, name, type):
-		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
-		self.externFunctions[name] = type
-	
-	def setTemplateNames(self, names, defaultValues):
-		debug("'%s' set the template names %s" % (self.name, names))
-		self.templateNames = names
-		self.templateDefaultValues = defaultValues
+	def createClassImplementation(self, templateValues):
+		return CPPClassImplementation(self, templateValues)

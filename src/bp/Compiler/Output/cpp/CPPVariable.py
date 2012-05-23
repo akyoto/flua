@@ -1,15 +1,10 @@
+from bp.Compiler.Output import *
 from bp.Compiler.Output.cpp.datatypes import *
 
-class CPPVariable:
+class CPPVariable(BaseVariable):
 	
 	def __init__(self, name, type, value, isConst, isPointer, isPublic):
-		self.name = name
-		self.type = type
-		self.value = value
-		self.isConst = isConst
-		self.isPointer = isPointer
-		self.isPublic = isPublic
-		self.classImpl = None
+		super().__init__(name, type, value, isConst, isPointer, isPublic)
 		
 	def getPrototype(self):
-		return adjustDataType(self.type, True) + " " + self.name
+		return adjustDataTypeCPP(self.type, True) + " " + self.name

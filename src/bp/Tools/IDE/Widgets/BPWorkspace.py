@@ -115,7 +115,8 @@ class BPWorkspace(QtGui.QTabWidget):
 	def updateCurrentCodeEditName(self):
 		if self.count():
 			if self.bpIDE.codeEdit.isTextFile:
-				tabName = stripDir(self.currentWidget().getFilePath())
+				filePath = self.currentWidget().getFilePath()
+				tabName = stripDir(filePath)
 			else:
 				filePath = self.currentWidget().getFilePath()
 				moduleName = stripAll(filePath)
@@ -123,7 +124,9 @@ class BPWorkspace(QtGui.QTabWidget):
 					tabName = "%s %s" % (moduleName, filePath.split("/")[-2])
 				else:
 					tabName = moduleName
+			
 			self.setTabText(self.currentIndex(), tabName)
+			self.setTabToolTip(self.currentIndex(), filePath)
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()

@@ -1,7 +1,7 @@
 ####################################################################
 # Header
 ####################################################################
-# Target:   Python Code
+# Target:   Python 3 Code
 # Author:   Eduard Urbach
 
 ####################################################################
@@ -35,11 +35,12 @@ from bp.Compiler.Output.python.PythonOutputFile import *
 ####################################################################
 class PythonOutputCompiler(BaseOutputCompiler):
 	
-	def __init__(self, inpFile):
-		pass
+	def __init__(self, inpCompiler):
+		super().__init__(inpCompiler)
 		
 	def compile(self, inpFile):
-		pass
+		pyOut = PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
+		self.genericCompile(inpFile, pyOut)
 		
 	def writeToFS(self):
 		pass
@@ -51,4 +52,4 @@ class PythonOutputCompiler(BaseOutputCompiler):
 		return 0
 		
 	def getTargetName(self):
-		return "Python"
+		return "Python 3"

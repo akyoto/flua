@@ -190,7 +190,7 @@ class MenuActions:
 			
 			if outputTarget == "C++":
 				outputCompiler = CPPOutputCompiler(self.processor)
-			elif outputTarget == "Python":
+			elif outputTarget == "Python 3":
 				outputCompiler = PythonOutputCompiler(self.processor)
 			
 			#exePath = cpp.getExePath().replace("/", "\\")

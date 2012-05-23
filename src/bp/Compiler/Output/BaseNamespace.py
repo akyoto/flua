@@ -1,7 +1,7 @@
 ####################################################################
 # Header
 ####################################################################
-# Target:   Python 3 Code
+# File:		Namespace class
 # Author:   Eduard Urbach
 
 ####################################################################
@@ -25,24 +25,20 @@
 # along with Blitzprog.  If not, see <http://www.gnu.org/licenses/>.
 
 ####################################################################
-# Imports
-####################################################################
-from bp.Compiler.Output.BaseOutputFile import *
-
-####################################################################
 # Classes
 ####################################################################
-class PythonOutputFile(BaseOutputFile):
+class BaseNamespace:
 	
-	def __init__(self, compiler, file, root):
-		self.currentTabLevel = 0
-		
-		BaseOutputFile.__init__(self, compiler, file, root)
+	def __init__(self, name):
+		self.name = name
+		self.namespaces = {}
+		self.classes = {}
+		self.functions = {}
+		self.externFunctions = {}
+		self.implementations = {}
 	
-	def compile(self):
-		print("Compiling: " + self.file)
-		
-		self.scanAhead(self.codeNode)
+	def getPrefix(self):
+		return self.name + "_"
 	
-	def getCode(self):
-		return ""
+	def hasClassByName(self, name):
+		return name in self.classes

@@ -81,8 +81,10 @@ class Startup:
 		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
+		
+		#self.targetSwitcher.addItem("Python 3")
 		self.targetSwitcher.addItem("C++")
-		self.targetSwitcher.addItem("Python")
+		
 		self.statusBar.addPermanentWidget(self.targetSwitcher, 0)
 		
 		# Workspaces view

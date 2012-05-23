@@ -1,7 +1,7 @@
 ####################################################################
 # Header
 ####################################################################
-# Target:   C++ Code
+# File:		Namespace class
 # Author:   Eduard Urbach
 
 ####################################################################
@@ -27,25 +27,12 @@
 ####################################################################
 # Imports
 ####################################################################
-from bp.Compiler.Output.cpp.CPPFunction import *
-from bp.Compiler.Output.cpp.CPPVariable import *
-from bp.Compiler.Output.cpp.CPPClass import *
+from bp.Compiler.Output import *
 
 ####################################################################
 # Classes
 ####################################################################
-class CPPNamespace:
+class CPPNamespace(BaseNamespace):
 	
 	def __init__(self, name):
-		self.name = name
-		self.namespaces = {}
-		self.classes = {}
-		self.functions = {}
-		self.externFunctions = {}
-		self.implementations = {}
-	
-	def getPrefix(self):
-		return self.name + "_"
-	
-	def hasClassByName(self, name):
-		return name in self.classes
+		super().__init__(name)

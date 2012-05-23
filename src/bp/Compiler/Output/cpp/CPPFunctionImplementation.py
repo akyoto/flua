@@ -1,56 +1,11 @@
 from bp.Compiler.Utils import *
+from bp.Compiler.Output import *
 from bp.Compiler.Output.cpp.datatypes import *
 
-class CPPFunctionImplementation:
+class CPPFunctionImplementation(BaseFunctionImplementation):
 	
 	def __init__(self, classImpl, func, paramTypes):
-		self.classImpl = classImpl
-		self.func = func
-		self.paramTypes = paramTypes
-		
-		for i in range(len(self.func.paramTypesByDefinition)):
-			byDef = self.func.paramTypesByDefinition[i]
-			if byDef:
-				self.paramTypes[i] = self.classImpl.translateTemplateName(byDef)
-		
-		# Extern methods
-		if self.classImpl.classObj.isExtern:
-			self.name = self.func.getName()
-		else:
-			self.name = self.func.getName() + self.buildPostfix()
-		
-		self.code = ""
-		self.returnTypes = []
-		self.func.implementations[self.name] = self
-		
-	def getReturnType(self):
-		heaviest = None
-		
-		for type in self.returnTypes:
-			if type in dataTypeWeights:
-				heaviest = getHeavierOperator(heaviest, type)
-			else:
-				return type
-		
-		if heaviest:
-			return heaviest
-		else:
-			return "void"
-		
-	def buildPostfix(self):
-		return buildPostfix(self.paramTypes)
-	
-	def setCode(self, newCode):
-		self.code = newCode
-		
-	def getName(self):
-		# main -> _bp_custom_main
-		if self.name == "main":
-			return "_bp_custom_main"
-		return self.name
-	
-	def getFuncName(self):
-		return self.func.getName()
+		super().__init__(classImpl, func, paramTypes)
 		
 	def getParamString(self):
 		stri = ""
@@ -63,7 +18,7 @@ class CPPFunctionImplementation:
 			else:
 				# Default values
 				paramType = self.func.paramDefaultValueTypes[i]
-			stri += "%s %s, " % (adjustDataType(paramType), paramNames[i])
+			stri += "%s %s, " % (adjustDataTypeCPP(paramType), paramNames[i])
 		return stri[:-2]
 		
 	def getParamTypeString(self):
@@ -78,7 +33,7 @@ class CPPFunctionImplementation:
 			else:
 				# Default values
 				paramType = self.func.paramDefaultValueTypes[i]
-			stri += "%s, " % (adjustDataType(paramType))
+			stri += "%s, " % (adjustDataTypeCPP(paramType))
 		return stri[:-2]
 		
 	def getReferenceString(self):
@@ -88,16 +43,16 @@ class CPPFunctionImplementation:
 		return ""
 		
 	def getPrototype(self):
-		return "inline %s %s(%s);\n" % (adjustDataType(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
+		return "inline %s %s(%s);\n" % (adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
 		
 	def getFullCode(self):
 		# TODO: Add parameters
 		if self.func.isCast:
 			castType = ""
 			if self.func.castToUnmanaged:
-				castType = adjustDataType("~" + self.name)
+				castType = adjustDataTypeCPP("~" + self.name)
 			else:
-				castType = adjustDataType(self.name)
+				castType = adjustDataTypeCPP(self.name)
 			
 			funcIntern = "// BP Cast: %s\n\tinline %s to%s(%s) {\n%s\t}\n" % (self.func.name, castType, normalizeName(self.func.name), self.getParamString(), self.code)
 			funcCppComfort = "// C++ Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
@@ -115,7 +70,7 @@ class CPPFunctionImplementation:
 		else:
 			tabs = ""
 		
-		return "// %s\n%sinline %s %s(%s) {\n%s%s}\n" % (funcName, tabs, adjustDataType(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
+		return "// %s\n%sinline %s %s(%s) {\n%s%s}\n" % (funcName, tabs, adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
 	
 	# Constructor
 	def getConstructorCode(self):

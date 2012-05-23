@@ -27,10 +27,8 @@
 ####################################################################
 # Imports
 ####################################################################
-from bp.Compiler.Output import *
+from bp.Compiler.Output.BaseOutputCompiler import *
 from bp.Compiler.Output.cpp.CPPOutputFile import *
-from bp.Compiler.Utils import *
-from bp.Compiler.Config import *
 import codecs
 import subprocess
 import os
@@ -42,18 +40,7 @@ import sys
 class CPPOutputCompiler(BaseOutputCompiler):
 	
 	def __init__(self, inpCompiler = None):
-		
-		if inpCompiler:
-			self.inputCompiler = inpCompiler
-			self.inputFiles = inpCompiler.getCompiledFiles()
-			self.projectDir = self.inputCompiler.getProjectDir()
-		else:
-			self.projectDir = ""
-		
-		self.compiledFiles = dict()
-		self.compiledFilesList = []
-		self.modDir = getModuleDir()
-		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../"))
+		super().__init__(inpCompiler)
 		
 		# OS and architecture
 		if os.name == "nt":
@@ -74,11 +61,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.customLinkerFlags = []
 		self.funcImplCache = {}
 		self.includes = []
-		self.stringDataType = "UTF8String"
 		self.needToInitStringClass = False
 		self.customThreadsCount = 0
-		self.defines = dict()
-		self.specializedClasses = dict()
 		
 		self.mainClass = CPPClass("", None)
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])
@@ -90,43 +74,10 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		self.boehmGCEnabled = True
 		self.gmpEnabled = True
-		
-		# Optimization
-		self.enableOptimization()
-		
-		# Expression parser
-		self.initExprParser()
-		
+	
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
-		
-		if len(self.compiledFiles) == 0:
-			self.mainFile = cppOut
-			self.projectDir = extractDir(self.mainFile.getFilePath())
-		
-		# This needs to be executed BEFORE the imported files have been compiled
-		# It'll prevent a file from being processed twice
-		self.compiledFiles[inpFile] = cppOut
-		
-		# Compile imported files first
-		for imp in inpFile.getImportedFiles():
-			inFile = self.inputCompiler.getFileInstanceByPath(imp)
-			if (not inFile in self.compiledFiles):
-				self.compile(inFile)
-		
-		# This needs to be executed AFTER the imported files have been compiled
-		# It'll make sure the files are called in the correct (recursive) order
-		self.compiledFilesList.append(cppOut)
-		
-		# After the dependencies have been compiled, compile itself
-		try:
-			cppOut.compile()
-		except CompilerException as e:
-			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
-		
-		# Change string class
-		#if self.mainClass.hasClassByName("UTF8String"):
-		#	self.stringDataType = "~UTF8String"
+		self.genericCompile(inpFile, cppOut)
 	
 	def writeToFS(self):
 		#dirOut = fixPath(os.path.abspath(dirOut))
