@@ -38,23 +38,17 @@
 				</call>
 			</value>
 		</assign>
+		<comment>\SDo\Ssomething.</comment>
 		<for depth="0">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>100000000</to>
 			<code>
-				<assign depth="1">
-					<value>a</value>
-					<value>
-						<divide>
-							<value>3</value>
-							<value>4</value>
-						</divide>
-					</value>
-				</assign>
+				<noop depth="1"/>
 			</code>
 			<meta/>
 		</for>
+		<comment>\SSo,\Show\Smuch\Stime\Sdid\Swe\Sactually\Sneed\Sto\Sdo\Sthis?</comment>
 		<assign depth="0">
 			<value>end</value>
 			<value>
@@ -73,6 +67,7 @@
 				</subtract>
 			</value>
 		</assign>
+		<comment>\SVariables\Sin\Sstrings.\SYes\Swe\Scan!</comment>
 		<call depth="0">
 			<function>print</function>
 			<parameters>

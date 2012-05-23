@@ -34,9 +34,17 @@
      </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="targetName">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <item>
         <property name="text">
          <string>C++</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Python</string>
         </property>
        </item>
       </widget>

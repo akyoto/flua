@@ -8,7 +8,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.codeEdit = codeEdit
 		self.bpIDE = codeEdit.bpIDE
 		self.setDocument(codeEdit.qdoc)
-		self.bpc = self.bpIDE.bpc#BPCCompiler(getModuleDir())
+		self.bpc = self.bpIDE.inputCompiler#BPCCompiler(getModuleDir())
 		self.bpcFile = None
 		self.lastException = None
 		self.executionTime = 0

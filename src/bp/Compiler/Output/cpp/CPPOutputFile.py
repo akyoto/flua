@@ -30,6 +30,7 @@
 from bp.Compiler.ExpressionParser import *
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
+from bp.Compiler.Output.BaseOutputFile import *
 from bp.Compiler.Output.cpp.datatypes import *
 from bp.Compiler.Output.cpp.CPPClass import *
 from bp.Compiler.Input.bpc.BPCUtils import *
@@ -50,22 +51,13 @@ enableOperatorOverloading = {
 ####################################################################
 # Classes
 ####################################################################
-class CPPOutputFile(ScopeController):
+class CPPOutputFile(BaseOutputFile):
 	
 	def __init__(self, compiler, file, root):
 		self.currentTabLevel = 0
 		
-		ScopeController.__init__(self)
+		BaseOutputFile.__init__(self, compiler, file, root)
 		
-		self.compiler = compiler
-		self.file = fixPath(file)
-		self.root = root
-		self.isMainFile = (len(self.compiler.compiledFiles) == 0)
-		self.dir = extractDir(file)
-		self.codeNode = getElementByTagName(self.root, "code")
-		self.headerNode = getElementByTagName(self.root, "header")
-		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
-		self.strings = getElementByTagName(self.headerNode, "strings")
 		self.localClasses = []
 		self.localFunctions = []
 		self.additionalCodePerLine = []
@@ -137,25 +129,12 @@ class CPPOutputFile(ScopeController):
 		self.useGC = True
 		self.useReferenceCounting = False
 		
-		# TODO: Read from module meta data
-		# Speed / Correctness
-		self.checkDivisionByZero = True#self.compiler.checkDivisionByZero
-		
 	def getNamespacePrefix(self):
 		namespacePrefix = '_'.join(self.namespaceStack)
 		if namespacePrefix:
 			return namespacePrefix + "_"
 		else:
 			return ""
-		
-	def getFilePath(self):
-		return self.file
-	
-	def getFileName(self):
-		return self.file[len(self.dir):]
-	
-	def getDirectory(self):
-		return self.dir
 	
 	def getLastParsedNode(self):
 		if not self.lastParsedNode:
@@ -438,14 +417,6 @@ class CPPOutputFile(ScopeController):
 						return op.text + "(" + self.parseExpr(node.childNodes[0]) + ")"
 		
 		return ""
-	
-	def debugScopes(self):
-		counter = 0
-		for scope in self.scopes:
-			debug("[" + str(counter) + "]")
-			for name, variable in scope.variables.items():
-				debug(" => " + variable.name.ljust(40) + " : " + variable.type)
-			counter += 1
 	
 	def implementFunction(self, typeName, funcName, paramTypes):
 		#if funcName == "init":
@@ -822,7 +793,6 @@ class CPPOutputFile(ScopeController):
 			return var.getPrototype() + "(" + value + ")"
 		
 		# Casts
-		# TODO: Implement this correctly
 		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
 			debug("Need to cast %s to %s" % (valueType, variableType))
 			#if variableType in nonPointerClasses:
@@ -1962,14 +1932,6 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		type = self.prepareTypeName(type)
 		
 		self.compiler.mainClass.addExternFunction(name, type)
-	
-	def pushScope(self):
-		self.currentTabLevel += 1
-		ScopeController.pushScope(self)
-		
-	def popScope(self):
-		self.currentTabLevel -= 1
-		ScopeController.popScope(self)
 	
 	def pushClass(self, classObj):
 		self.currentClass.addClass(classObj)

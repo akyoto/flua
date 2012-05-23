@@ -89,6 +89,14 @@
           </property>
           <item>
            <property name="text">
+            <string>Python</string>
+           </property>
+           <property name="toolTip">
+            <string>Targets - Python</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>C++</string>
            </property>
            <property name="toolTip">

@@ -34,6 +34,9 @@
      </item>
      <item row="0" column="1">
       <widget class="QComboBox" name="themeName">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <item>
         <property name="text">
          <string>Default</string>

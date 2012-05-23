@@ -27,6 +27,7 @@
 ####################################################################
 # Imports
 ####################################################################
+from bp.Compiler.Output import *
 from bp.Compiler.Output.cpp.CPPOutputFile import *
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
@@ -38,7 +39,7 @@ import sys
 ####################################################################
 # Classes
 ####################################################################
-class CPPOutputCompiler(Benchmarkable):
+class CPPOutputCompiler(BaseOutputCompiler):
 	
 	def __init__(self, inpCompiler = None):
 		
@@ -95,25 +96,6 @@ class CPPOutputCompiler(Benchmarkable):
 		
 		# Expression parser
 		self.initExprParser()
-		
-	def enableOptimization(self):
-		self.optimize = True
-		self.updateOptimizationFlags()
-		
-	def disableOptimization(self):
-		self.optimize = False
-		self.updateOptimizationFlags()
-		
-	def updateOptimizationFlags(self):
-		# TODO: Module dependant setting
-		self.checkDivisionByZero = True
-		self.optimizeStringConcatenation = self.optimize
-		
-	def initExprParser(self):
-		self.parser = getBPCExpressionParser()
-		
-	def getProjectDir(self):
-		return self.projectDir
 		
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
@@ -355,19 +337,8 @@ class CPPOutputCompiler(Benchmarkable):
 		
 		return 0
 	
-	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
-		cmd = [exe]
-		
-		try:
-			startProcess(cmd, fhOut, fhErr)
-		except OSError:
-			print("Can't execute '%s'" % exe)
-	
-	def getFileExecList(self):
-		files = ""
-		for cppFile in self.compiledFilesList:
-			files += "\texec_" + cppFile.id + "();\n"
-		return files
+	def getCompiledFiles(self):
+		return self.compiledFiles
 	
 	def getTargetName(self):
 		return "C++"

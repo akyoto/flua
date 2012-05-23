@@ -772,7 +772,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SInit\Sfrom\S2\Sstrings\S+\SInteger</comment>
+				<comment>\SInit\Sfrom\SUTF8String\S+\SUTF8String\S+\SInteger</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -1102,8 +1102,6 @@
 								<parameter>cs2len</parameter>
 							</parameters>
 						</call>
-						<comment>\Sfor\Si\S=\S0\Suntil\Ss1.lengthInBytes</comment>
-						<comment>\Tmy.data[i]\S=\Ss1.data[i]</comment>
 						<assign depth="2">
 							<value>
 								<access>

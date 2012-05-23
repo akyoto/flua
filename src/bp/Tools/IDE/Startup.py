@@ -79,6 +79,12 @@ class Startup:
 		self.statusBar.addWidget(self.evalInfoLabel)
 		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		
+		# Target switching
+		self.targetSwitcher = QtGui.QComboBox(self)
+		self.targetSwitcher.addItem("C++")
+		self.targetSwitcher.addItem("Python")
+		self.statusBar.addPermanentWidget(self.targetSwitcher, 0)
+		
 		# Workspaces view
 		self.workspacesView = BPWorkspacesView(self)
 		self.statusBar.addPermanentWidget(self.workspacesView, 0)
@@ -255,8 +261,8 @@ class Startup:
 		
 	def initCompiler(self):
 		self.postProcessorThread = None
-		self.bpc = BPCCompiler(getModuleDir(), ".bp")
-		self.processor = BPPostProcessor(self.bpc)
+		self.inputCompiler = BPCCompiler(getModuleDir(), ".bp")
+		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
 		
@@ -264,9 +270,9 @@ class Startup:
 		# Syntax switcher
 		syntaxSwitcher = QtGui.QComboBox()
 		syntaxSwitcher.addItem("BPC Syntax")
-		syntaxSwitcher.addItem("C++/Java Syntax")
-		syntaxSwitcher.addItem("Python Syntax")
-		syntaxSwitcher.addItem("Ruby Syntax")
+		#syntaxSwitcher.addItem("C++/Java Syntax")
+		#syntaxSwitcher.addItem("Python Syntax")
+		#syntaxSwitcher.addItem("Ruby Syntax")
 		
 		spacerWidget = QtGui.QWidget()
 		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)

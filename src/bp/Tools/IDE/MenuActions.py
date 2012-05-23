@@ -176,73 +176,81 @@ class MenuActions:
 			self.codeEdit.onUpdateTimeout()
 			self.codeEdit.threaded = True
 		
-		outputTarget = "C++"
+		# General
+		self.codeEdit.save()
+		self.console.clearLog()
+		self.msgView.clear()
 		
-		if outputTarget == "C++":
-			#print(self.processor.getCompiledFilesList())
-			self.codeEdit.save()
+		# Target dependant
+		outputTarget = self.targetSwitcher.currentText()
+		
+		#print(self.processor.getCompiledFilesList())
+		try:
+			self.startBenchmark("%s Build" % outputTarget)
 			
-			self.console.clearLog()
-			self.msgView.clear()
-			try:
-				self.startBenchmark("C++ Build")
-				
-				cpp = CPPOutputCompiler(self.processor)
-				
-				#exePath = cpp.getExePath().replace("/", "\\")
-				#if exePath and os.path.isfile(exePath):
-				#	print("Removing %s" % exePath)
-				#	os.remove(exePath)
-				
-				bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-				#try:
-				cpp.compile(bpPostPFile)
-				#except OutputCompilerException as e:
-				#	self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
-				#	return
-				
-				cpp.writeToFS()
-				
-				exitCode = cpp.build(compilerFlags)
-				
-				print("-" * 80)
-				self.endBenchmark()
-				
-				if exitCode != 0:
-					print("C++ compiler error (see other console window, exit code %d)" % exitCode)
-					return
-				
-				exe = cpp.getExePath()
-				
-				if not compilerFlags:
-					print("No optimizations active (-O0)")
-				else:
-					print("Using optimizations (-O3)")
+			if outputTarget == "C++":
+				outputCompiler = CPPOutputCompiler(self.processor)
+			elif outputTarget == "Python":
+				outputCompiler = PythonOutputCompiler(self.processor)
+			
+			#exePath = cpp.getExePath().replace("/", "\\")
+			#if exePath and os.path.isfile(exePath):
+			#	print("Removing %s" % exePath)
+			#	os.remove(exePath)
+			
+			bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
+			#try:
+			outputCompiler.compile(bpPostPFile)
+			#except OutputCompilerException as e:
+			#	self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
+			#	return
+			
+			outputCompiler.writeToFS()
+			
+			exitCode = outputCompiler.build(compilerFlags)
+			
+			print("-" * 80)
+			self.endBenchmark()
+			
+			if exitCode != 0:
+				print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
+				return
+			
+			exe = outputCompiler.getExePath()
+			
+			if not compilerFlags:
+				print("No optimizations active.")
+			else:
+				print("Using optimizations.")
+			
+			if exe:
 				print("Executing: %s" % exe)
 				print("-" * 80)
 				
 				exeDir = extractDir(exe)
 				os.chdir(exeDir)
-				
-				cpp.execute(exe, self.console.log.write, self.console.log.writeError)
-			except OutputCompilerException as e:
-				#lineNumber = e.getLineNumber()
-				node = e.getLastParsedNode()
-				
-				if self.developerFlag:
-					printTraceback()
-					
-					if node:
-						print("Last parsed node:\n" + node.toxml())
-				else:
-					errorMessage = e.getMsg()
-					self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
-			except:
-				printTraceback()
-			finally:
-				os.chdir(getIDERoot())
 			
-			#cpp.compile(self.file, self.codeEdit.root)
+				outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
+			else:
+				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
+		except OutputCompilerException as e:
+			#lineNumber = e.getLineNumber()
+			node = e.getLastParsedNode()
+			
+			if self.developerFlag:
+				printTraceback()
+				
+				if node:
+					print("Last parsed node:\n" + node.toxml())
+			else:
+				errorMessage = e.getMsg()
+				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
+		except:
+			printTraceback()
+		finally:
+			os.chdir(getIDERoot())
+		
+		#cpp.compile(self.file, self.codeEdit.root)
 			
 	def acquireGitThread(self):
 		if self.gitThread and self.gitThread.isRunning():
