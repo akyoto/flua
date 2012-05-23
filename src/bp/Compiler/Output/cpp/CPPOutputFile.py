@@ -94,10 +94,17 @@ class CPPOutputFile(BaseOutputFile):
 		self.catchSyntax = " catch (%s) {\n%s\n\t}"
 		self.returnSyntax = "return %s"
 		self.memberAccessSyntax = "this->"
-		self.parameterSyntax = "%s %s, "
+		self.singleParameterSyntax = "%s %s"
+		self.parameterSyntax = self.singleParameterSyntax + ", "
 		self.newObjectSyntax = "(new %s(%s))"
-		self.binaryOperatorSyntax = "%s%s%s%s%s"
 		self.binaryOperatorDivideSyntax = "%sfloat(%s)%s%s%s"
+		self.pointerDerefAssignSyntax = "*%s = %s"
+		self.declareUnmanagedSyntax = "%s(%s)"
+		self.constAssignSyntax = "const %s = %s"
+		self.elseSyntax = " else {\n%s%s}"
+		
+	def castToNativeNumeric(self, variableType, value):
+		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
 		
 	def handleCompilerFlag(self, node):
 		flag = node.childNodes[0].nodeValue
@@ -161,168 +168,6 @@ class CPPOutputFile(BaseOutputFile):
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
-		
-	def handleAssign(self, node):
-		self.inAssignment += 1
-		isSelfMemberAccess = False
-		
-		# Member access (setter)
-		op1 = node.childNodes[0].childNodes[0]
-		if not isTextNode(op1):
-			if op1.tagName == "access":
-				accessOp1 = op1.childNodes[0].childNodes[0]
-				accessOp2 = op1.childNodes[1].childNodes[0]
-				
-				# data access from a pointer
-				accessOp1Type = self.getExprDataType(accessOp1)
-				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data" and isUnmanaged(accessOp1Type):
-					return "*" + self.parseExpr(accessOp1) + " = " + self.parseExpr(node.childNodes[1])
-				
-				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
-				if isMemberAccess:
-					#print("Using setter for type '%s'" % (accessOp1type))
-					setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
-					return self.handleCall(setFunc)
-				#pass
-				#variableType = self.getExprDataType(op1)
-				#variableClass = self.compiler.classes[removeGenerics(variableType)]
-			elif op1.tagName == "index":
-				return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
-		
-		# Inline type declarations
-		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
-		
-		# Inline declaration + top level scope = don't include type name
-		variableName = self.getNamespacePrefix()
-		if declaredInline and self.getCurrentScope() == self.getTopLevelScope():
-			variableName += self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
-		else:
-			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
-		
-		# In parameter definition?
-		if node.parentNode.tagName == "parameter":
-			return variableName
-		
-		# Parse value
-		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
-		
-		# Parse value type
-		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
-		if valueType == "void":
-			raise CompilerException("'%s' which is assigned to '%s' does not return a value (void)" % (value, variableName))
-		
-		memberName = variableName
-		
-		# Did we define a type?
-		try:
-			variableType = self.getVariableTypeAnywhere(variableName)
-		except:
-			variableType = ""
-		
-		# Member access?
-		if variableName.startswith("this->"):
-			memberName = variableName[len("this->"):]
-			isSelfMemberAccess = True
-		
-		if isSelfMemberAccess:
-			var = CPPVariable(memberName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
-			#if not variableName in self.currentClass.members:
-			#	self.currentClass.addMember(var)
-			
-			if not memberName in self.currentClassImpl.members:
-				self.currentClassImpl.addMember(var)
-			
-			variableExisted = True
-		else:
-			variableExisted = self.variableExistsAnywhere(variableName)
-		
-		# Need to register it here?
-		if not variableExisted and not declaredInline:
-			var = CPPVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
-			self.registerVariable(var)
-			
-			if self.inConst:
-				if self.getCurrentScope() == self.getTopLevelScope():
-					return ""
-				else:
-					return "const %s = %s" % (var.getFullPrototype(), value)
-		
-		#else:
-		#	var = self.getVariableTypeAnywhere(variableName)
-		
-		#if not variable in self.currentClassImpl.members:
-		#	self.currentClassImpl.add
-		
-		# Int = BigInt
-		if variableType in {"Int", "Int32", "Int64"} and valueType == "BigInt":
-			value = "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
-		
-		self.inAssignment -= 1
-		
-		#print(node.toprettyxml())
-		#print(variableName, "|", variableType, "|", value, "|", valueType)
-		
-		# Unmanaged types
-		if isUnmanaged(valueType) and not variableExisted:
-			return var.getPrototype() + "(" + value + ")"
-		
-		# Casts
-		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
-			debug("Need to cast %s to %s" % (valueType, variableType))
-			#if variableType in nonPointerClasses:
-			#	castType = "static_cast"
-			#else:
-			#	castType = "reinterpret_cast"
-			value = "((%s)->to%s())" % (value, normalizeName(variableType))
-		
-		if self.getCurrentScope() == self.getTopLevelScope():
-			return variableName + " = " + value
-		elif variableExisted:
-			return variableName + " = " + value
-		elif declaredInline:
-			return variableName + " = " + value #+ ";//Declared inline"
-		else:
-			return var.getPrototype() + " = " + value
-		
-		return variableName + " = " + value
-		
-	def handleTry(self, node):
-		codeNode = getElementByTagName(node, "code")
-		
-		self.pushScope()
-		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
-		self.popScope()
-		
-		return self.trySyntax % code
-		
-	def handleCatch(self, node):
-		varNode = getElementByTagName(node, "variable")
-		codeNode = getElementByTagName(node, "code")
-		
-		var = self.parseExpr(varNode)
-		
-		# Declare-type on exceptions
-		if not var and varNode.firstChild and varNode.firstChild.nodeType != Node.TEXT_NODE and varNode.firstChild.tagName == "declare-type":
-			varName = varNode.firstChild.childNodes[0].childNodes[0].nodeValue
-			typeName = varNode.firstChild.childNodes[1].childNodes[0].nodeValue
-			
-			#print("Registering")
-			#print(varName)
-			#print(typeName)
-			varObject = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
-			self.registerVariable(varObject)
-			
-			var = "%s %s" % (adjustDataTypeCPP(typeName), varName)
-		
-		if not var:
-			var = "..."
-		
-		# Code needs to be compiled AFTER THE EXCEPTION VARIABLE HAS BEEN REGISTERED
-		self.pushScope()
-		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
-		self.popScope()
-		
-		return self.catchSyntax % (var, code)
 	
 	def createNamespace(self, name):
 		return CPPNamespace(name)
@@ -467,163 +312,37 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 """ % (funcName, ''.join(params), funcName, ', '.join(constructorList), initParams, funcName, funcName, funcName, funcName, funcName, ', '.join(paramNames))
 		self.customThreads[funcName] = func
 		
-	def waitCustomThreadsCode(self, block):
-		joinCodes = []
-		tabs = "\t" * self.currentTabLevel
-		for threadID in block:
-			joinCodes.append("\n%spthread_join(bp_threadHandle_%d, NULL);" % (tabs, threadID))
-		return ''.join(joinCodes)
-		
 	def adjustDataType(self, typeName, adjustOuterAsWell = True):
 		return adjustDataTypeCPP(typeName, adjustOuterAsWell)
-		
-	def addDivisionByZeroCheck(self, op):
-		if isNumeric(op):
-			if op != "0" and op != "0.0":
-				return
-			else:
-				self.additionalCodePerLine.append('throw new BPDivisionByZeroException()')
-				return
-		
-		self.additionalCodePerLine.append('if(%s == 0) throw new BPDivisionByZeroException()' % op)
 	
-	def handleFor(self, node):
-		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
-		toLimiterNode = getElementByTagName(node, "to")
-		
-		if toLimiterNode:
-			toNodeContent = toLimiterNode.childNodes[0]
-			operator = "<="
-		else:
-			toNodeContent = getElementByTagName(node, "until").childNodes[0]
-			operator = "<"
-		
-		fromType = self.getExprDataType(fromNodeContent)
-		
-		iterExpr = self.parseExpr(getElementByTagName(node, "iterator").childNodes[0])
-		fromExpr = self.parseExpr(fromNodeContent)
-		toExpr = self.parseExpr(toNodeContent)
-		toType = self.getExprDataType(toNodeContent)
-		#stepExpr = self.parseExpr(getElementByTagName(node, "step").childNodes[0])
-		
-		self.pushScope()
-		var = CPPVariable(iterExpr, getHeavierOperator(fromType, toType), fromExpr, False, False, False)
-		typeInit = ""
-		if not self.variableExistsAnywhere(iterExpr):
-			self.getCurrentScope().variables[iterExpr] = var
-			typeInit = var.type + " "
-		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
-		self.popScope()
-		
-		varDefs = ""
-		if not self.variableExistsAnywhere(toExpr):
-			toVar = CPPVariable("bp_for_end_%s" % (self.compiler.forVarCounter), toType, "", False, not toType in nonPointerClasses, False)
-			#self.getTopLevelScope().variables[toVar.name] = toVar
-			self.varsHeader += toVar.type + " " + toVar.name + ";\n"
-			varDefs = "%s = %s;\n" % (toVar.name, toExpr)
-			varDefs += "\t" * self.currentTabLevel
-			toExpr = toVar.name
-			self.compiler.forVarCounter += 1
-		
-		return varDefs + "for(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, "\t" * self.currentTabLevel)
+	def buildThreadJoin(self, threadID, tabs):
+		return "\n%spthread_join(bp_threadHandle_%d, NULL);" % (tabs, threadID)
 	
-	def handleFlowTo(self, node):
-		op1 = node.childNodes[0].childNodes[0]
-		op2 = node.childNodes[0].childNodes[0]
-		
-		op1Expr = self.parseExpr(op1)
-		op2Expr = self.parseExpr(op2)
-		
-		# TODO: Implement data flow
-		return op1Expr
+	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
+		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
-	def handleTypeDeclaration(self, node, insertTypeName = True):
-		self.inTypeDeclaration += 1
-		typeName = self.parseExpr(node.childNodes[1], True)
+	def buildTypeDeclaration(self, typeName, varName):
+		return self.adjustDataType(typeName) + " " + varName
 		
-		# Typedefs
-		typeName = self.prepareTypeName(typeName)
-		
-		typeName = self.currentClassImpl.translateTemplateName(typeName)
-		varName = self.parseExpr(node.childNodes[0])
-		self.inTypeDeclaration -= 1
-		
-		if varName.startswith("this->"):
-			memberName = varName[len("this->"):]
-			self.currentClassImpl.addMember(CPPVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
-			return varName # ""
-		
-		variableExists = self.variableExistsAnywhere(varName)
-		if variableExists:
-			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
-			for item in self.scopes:
-				print(item.variables)
-				print("===")
-			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
-		else:
-			#debug("Declaring '%s' as '%s'" % (varName, typeName))
-			var = CPPVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
-			self.registerVariable(var)
-			
-			if insertTypeName:
-				return adjustDataTypeCPP(typeName) + " " + varName
-			else:
-				return varName
+	def buildTypeDeclarationNameOnly(self, varName):
+		return varName
 	
-	def handleConst(self, node):
-		self.inConst += 1
-		expr = self.handleAssign(node.childNodes[0])
-		self.inConst -= 1
-		
-		return expr
-	
-	def handleTemplateCall(self, node):
-		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
-		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
-		
-		# Template translation
-		op1 = self.currentClassImpl.translateTemplateName(op1)
-		op2 = self.currentClassImpl.translateTemplateName(op2)
-		
-		op2 = self.prepareTypeName(op2)
-		
+	def buildTemplateCall(self, op1, op2):
 		return op1 + "<" + op2 + ">"
 	
-	def handleString(self, node):
-		id = self.id + "_" + node.getAttribute("id")
-		value = decodeCDATA(node.childNodes[0].nodeValue)
-		
-		# TODO: classExists(self.compiler.stringDataType)
-		if self.stringClassDefined:
-			dataType = self.compiler.stringDataType
-			line = id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
-		else:
-			dataType = "CString"
-			line = id + " = const_cast<Byte*>(\"" + value + "\");\n"
-		
-		var = CPPVariable(id, dataType, value, False, False, True)
-		#self.currentClassImpl.addMember(var)
-		self.getTopLevelScope().variables[id] = var
-		self.compiler.stringCounter += 1
-		return line
+	def buildDivByZeroCheck(self, op):
+		return 'if((%s) == 0) throw new BPDivisionByZeroException()' % op
 	
-	def handleElse(self, node):
-		self.pushScope()
-		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
-		self.popScope()
-		
-		return " else {\n" + code + "\t" * self.currentTabLevel + "}"
+	def buildDivByZeroThrow(self, op):
+		return 'throw new BPDivisionByZeroException()'
 	
-	def handleTarget(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		if name == self.compiler.getTargetName() or matchesCurrentPlatform(name):
-			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
+	def buildUndefinedString(self, id, value):
+		return id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 	
-	def handleImport(self, node):
-		#print(node.toprettyxml())
-		importedModulePath = node.childNodes[0].nodeValue.strip()
-		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
-		#print("MODULE: " + importedModule)
+	def buildString(self, id, value):
+		return id + " = const_cast<Byte*>(\"" + value + "\");\n"
+	
+	def buildModuleImport(self, importedModule):
 		return "#include <" + extractDir(importedModule) + "C++/" + stripAll(importedModule) + ".hpp>\n"
 	
 	def createClass(self, name, node):

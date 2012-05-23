@@ -106,14 +106,145 @@ class BaseOutputFile(ScopeController):
 		self.catchSyntax = ""
 		self.returnSyntax = ""
 		self.memberAccessSyntax = ""
+		self.singleParameterSyntax = ""
 		self.parameterSyntax = ""
 		self.newObjectSyntax = ""
+		self.binaryOperatorSyntax = "%s%s%s%s%s"
+		self.binaryOperatorDivideSyntax = "%s%s%s%s%s"
+		self.pointerDerefAssignSyntax = ""
+		self.assignSyntax = "%s = %s"
+		self.assignFirstTimeSyntax = self.assignSyntax
+		self.constAssignSyntax = ""
 	
 	def compile(self):
 		raise NotImplementedError()
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		raise NotImplementedError()
+	
+	def castToNativeNumeric(self, variableType, value):
+		return value
+	
+	def handleAssign(self, node):
+		self.inAssignment += 1
+		isSelfMemberAccess = False
+		
+		# Member access (setter)
+		op1 = node.childNodes[0].childNodes[0]
+		if not isTextNode(op1):
+			if op1.tagName == "access":
+				accessOp1 = op1.childNodes[0].childNodes[0]
+				accessOp2 = op1.childNodes[1].childNodes[0]
+				
+				# data access from a pointer
+				accessOp1Type = self.getExprDataType(accessOp1)
+				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data" and isUnmanaged(accessOp1Type):
+					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
+				
+				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
+				if isMemberAccess:
+					#print("Using setter for type '%s'" % (accessOp1type))
+					setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
+					return self.handleCall(setFunc)
+				#pass
+				#variableType = self.getExprDataType(op1)
+				#variableClass = self.compiler.classes[removeGenerics(variableType)]
+			elif op1.tagName == "index":
+				return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
+		
+		# Inline type declarations
+		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
+		
+		# Inline declaration + top level scope = don't include type name
+		variableName = self.getNamespacePrefix()
+		if declaredInline and self.getCurrentScope() == self.getTopLevelScope():
+			variableName += self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
+		else:
+			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
+		
+		# In parameter definition?
+		if node.parentNode.tagName == "parameter":
+			return variableName
+		
+		# Parse value
+		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
+		
+		# Parse value type
+		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
+		if valueType == "void":
+			raise CompilerException("'%s' which is assigned to '%s' does not return a value (void)" % (value, variableName))
+		
+		memberName = variableName
+		
+		# Did we define a type?
+		try:
+			variableType = self.getVariableTypeAnywhere(variableName)
+		except:
+			variableType = ""
+		
+		# Member access?
+		if variableName.startswith(self.memberAccessSyntax):
+			memberName = variableName[len(self.memberAccessSyntax):]
+			isSelfMemberAccess = True
+		
+		if isSelfMemberAccess:
+			var = self.createVariable(memberName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
+			#if not variableName in self.currentClass.members:
+			#	self.currentClass.addMember(var)
+			
+			if not memberName in self.currentClassImpl.members:
+				self.currentClassImpl.addMember(var)
+			
+			variableExisted = True
+		else:
+			variableExisted = self.variableExistsAnywhere(variableName)
+		
+		# Need to register it here?
+		if not variableExisted and not declaredInline:
+			var = self.createVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
+			self.registerVariable(var)
+			
+			if self.inConst:
+				if self.getCurrentScope() == self.getTopLevelScope():
+					return ""
+				else:
+					return self.constAssignSyntax % (var.getFullPrototype(), value)
+		
+		#else:
+		#	var = self.getVariableTypeAnywhere(variableName)
+		
+		#if not variable in self.currentClassImpl.members:
+		#	self.currentClassImpl.add
+		
+		# Int = BigInt
+		if variableType in {"Int", "Int32", "Int64"} and valueType == "BigInt":
+			value = self.castToNativeNumeric(variableType, value)
+		
+		self.inAssignment -= 1
+		
+		#print(node.toprettyxml())
+		#print(variableName, "|", variableType, "|", value, "|", valueType)
+		
+		# Casts
+		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
+			debug("Need to cast %s to %s" % (valueType, variableType))
+			#if variableType in nonPointerClasses:
+			#	castType = "static_cast"
+			#else:
+			#	castType = "reinterpret_cast"
+			value = "((%s)->to%s())" % (value, normalizeName(variableType))
+		
+		# Unmanaged types
+		if isUnmanaged(valueType) and not variableExisted:
+			return self.declareUnmanagedSyntax % (var.getPrototype(), value)
+		elif self.getCurrentScope() == self.getTopLevelScope():
+			return self.assignSyntax % (variableName, value)
+		elif variableExisted:
+			return self.assignSyntax % (variableName, value)
+		elif declaredInline:
+			return self.assignSyntax % (variableName, value) #+ ";//Declared inline"
+		else:
+			return self.assignFirstTimeSyntax % (var.getPrototype(), value)
 	
 	def parseBinaryOperator(self, node, connector, checkPointer = False):
 		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
@@ -1412,6 +1543,198 @@ class BaseOutputFile(ScopeController):
 			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
 			
 		return paramTypes, paramsString
+	
+	def handleTarget(self, node):
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		if name == self.compiler.getTargetName() or matchesCurrentPlatform(name):
+			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+	
+	def handleImport(self, node):
+		importedModulePath = node.childNodes[0].nodeValue.strip()
+		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
+		return self.buildModuleImport(importedModule)
+	
+	def handleElse(self, node):
+		self.pushScope()
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		self.popScope()
+		
+		return self.elseSyntax % (code, "\t" * self.currentTabLevel)
+	
+	def handleString(self, node):
+		id = self.id + "_" + node.getAttribute("id")
+		value = decodeCDATA(node.childNodes[0].nodeValue)
+		
+		# TODO: classExists(self.compiler.stringDataType)
+		if self.stringClassDefined:
+			dataType = self.compiler.stringDataType
+			line = self.buildUndefinedString(id, value)
+		else:
+			dataType = "CString"
+			line = self.buildString(id, value)
+		
+		var = self.createVariable(id, dataType, value, False, False, True)
+		#self.currentClassImpl.addMember(var)
+		self.getTopLevelScope().variables[id] = var
+		self.compiler.stringCounter += 1
+		return line
+	
+	def handleTemplateCall(self, node):
+		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
+		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
+		
+		# Template translation
+		op1 = self.currentClassImpl.translateTemplateName(op1)
+		op2 = self.currentClassImpl.translateTemplateName(op2)
+		
+		op2 = self.prepareTypeName(op2)
+		
+		return self.buildTemplateCall(op1, op2)
+	
+	def handleConst(self, node):
+		self.inConst += 1
+		expr = self.handleAssign(node.childNodes[0])
+		self.inConst -= 1
+		
+		return expr
+	
+	def handleTypeDeclaration(self, node, insertTypeName = True):
+		self.inTypeDeclaration += 1
+		typeName = self.parseExpr(node.childNodes[1], True)
+		
+		# Typedefs
+		typeName = self.prepareTypeName(typeName)
+		
+		typeName = self.currentClassImpl.translateTemplateName(typeName)
+		varName = self.parseExpr(node.childNodes[0])
+		self.inTypeDeclaration -= 1
+		
+		if varName.startswith(self.memberAccessSyntax):
+			memberName = varName[len(self.memberAccessSyntax):]
+			self.currentClassImpl.addMember(self.createVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
+			return varName # ""
+		
+		variableExists = self.variableExistsAnywhere(varName)
+		if variableExists:
+			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
+			for item in self.scopes:
+				print(item.variables)
+				print("===")
+			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
+		else:
+			#debug("Declaring '%s' as '%s'" % (varName, typeName))
+			var = self.createVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
+			self.registerVariable(var)
+			
+			if insertTypeName:
+				return self.buildTypeDeclaration(typeName, varName)
+			else:
+				return self.buildTypeDeclarationNameOnly(varName)
+	
+	def handleFlowTo(self, node):
+		op1 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[0].childNodes[0]
+		
+		op1Expr = self.parseExpr(op1)
+		op2Expr = self.parseExpr(op2)
+		
+		# TODO: Implement data flow
+		return op1Expr
+	
+	def handleFor(self, node):
+		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
+		toLimiterNode = getElementByTagName(node, "to")
+		
+		if toLimiterNode:
+			toNodeContent = toLimiterNode.childNodes[0]
+			operator = "<="
+		else:
+			toNodeContent = getElementByTagName(node, "until").childNodes[0]
+			operator = "<"
+		
+		fromType = self.getExprDataType(fromNodeContent)
+		
+		iterExpr = self.parseExpr(getElementByTagName(node, "iterator").childNodes[0])
+		fromExpr = self.parseExpr(fromNodeContent)
+		toExpr = self.parseExpr(toNodeContent)
+		toType = self.getExprDataType(toNodeContent)
+		#stepExpr = self.parseExpr(getElementByTagName(node, "step").childNodes[0])
+		
+		self.pushScope()
+		var = self.createVariable(iterExpr, getHeavierOperator(fromType, toType), fromExpr, False, False, False)
+		typeInit = ""
+		if not self.variableExistsAnywhere(iterExpr):
+			self.getCurrentScope().variables[iterExpr] = var
+			typeInit = var.type + " "
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
+		self.popScope()
+		
+		varDefs = ""
+		if not self.variableExistsAnywhere(toExpr):
+			toVar = self.createVariable("bp_for_end_%s" % (self.compiler.forVarCounter), toType, "", False, not toType in nonPointerClasses, False)
+			#self.getTopLevelScope().variables[toVar.name] = toVar
+			self.varsHeader += toVar.type + " " + toVar.name + ";\n"
+			varDefs = "%s = %s;\n" % (toVar.name, toExpr)
+			varDefs += "\t" * self.currentTabLevel
+			toExpr = toVar.name
+			self.compiler.forVarCounter += 1
+		
+		return self.buildForLoop(varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, "\t" * self.currentTabLevel)
+	
+	def addDivisionByZeroCheck(self, op):
+		if isNumeric(op):
+			if op != "0" and op != "0.0":
+				return
+			else:
+				self.additionalCodePerLine.append(self.buildDivByZeroThrow(op))
+				return
+		
+		self.additionalCodePerLine.append(self.buildDivByZeroCheck(op))
+	
+	def waitCustomThreadsCode(self, block):
+		joinCodes = []
+		tabs = "\t" * self.currentTabLevel
+		for threadID in block:
+			joinCodes.append(self.buildThreadJoin(threadID, tabs))
+		return ''.join(joinCodes)
+	
+	def handleTry(self, node):
+		codeNode = getElementByTagName(node, "code")
+		
+		self.pushScope()
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+		self.popScope()
+		
+		return self.trySyntax % code
+		
+	def handleCatch(self, node):
+		varNode = getElementByTagName(node, "variable")
+		codeNode = getElementByTagName(node, "code")
+		
+		var = self.parseExpr(varNode)
+		
+		# Declare-type on exceptions
+		if not var and varNode.firstChild and varNode.firstChild.nodeType != Node.TEXT_NODE and varNode.firstChild.tagName == "declare-type":
+			varName = varNode.firstChild.childNodes[0].childNodes[0].nodeValue
+			typeName = varNode.firstChild.childNodes[1].childNodes[0].nodeValue
+			
+			#print("Registering")
+			#print(varName)
+			#print(typeName)
+			varObject = self.createVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
+			self.registerVariable(varObject)
+			
+			var = self.singleParameterSyntax % (self.adjustDataType(typeName), varName)
+		
+		if not var:
+			var = "..."
+		
+		# Code needs to be compiled AFTER THE EXCEPTION VARIABLE HAS BEEN REGISTERED
+		self.pushScope()
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+		self.popScope()
+		
+		return self.catchSyntax % (var, code)
 	
 	def pushScope(self):
 		self.currentTabLevel += 1
