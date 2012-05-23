@@ -3,12 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Math</import>
-			<import>bp.Math.Geometry</import>
-			<import>bp.Math.Utils</import>
-			<import>bp.FileSystem</import>
-			<import>bp.DateTime</import>
-			<import>bp.Concurrency</import>
+			<import>Everything</import>
 		</dependencies>
 		<strings/>
 	</header>
