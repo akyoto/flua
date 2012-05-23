@@ -51,6 +51,17 @@ class BaseOutputCompiler(Benchmarkable):
 		self.stringDataType = "UTF8String"
 		self.defines = dict()
 		self.specializedClasses = dict()
+		self.funcImplCache = dict()
+		self.needToInitStringClass = False
+		
+		# Counter
+		self.stringCounter = 0
+		self.fileCounter = 0
+		self.forVarCounter = 0
+		
+		# Main class
+		self.mainClass = self.createClass("", None)
+		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
 		# Optimization
 		self.enableOptimization()
@@ -140,7 +151,4 @@ class BaseOutputCompiler(Benchmarkable):
 			print("Can't execute '%s'" % exe)
 	
 	def getFileExecList(self):
-		files = ""
-		for cppFile in self.getCompiledFilesList():
-			files += "\texec_" + cppFile.id + "();\n"
-		return files
+		return NotImplementedError()

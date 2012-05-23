@@ -30,6 +30,7 @@
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
 from bp.Compiler.Output import *
+from bp.Compiler.Input.bpc.BPCUtils import *
 
 ####################################################################
 # Globals
@@ -65,6 +66,11 @@ class BaseOutputFile(ScopeController):
 		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
 		self.strings = getElementByTagName(self.headerNode, "strings")
 		
+		# Local
+		self.localClasses = []
+		self.localFunctions = []
+		self.additionalCodePerLine = []
+		
 		# Increment id
 		self.compiler.fileCounter += 1
 		self.id = "file_" + str(self.compiler.fileCounter)
@@ -99,6 +105,10 @@ class BaseOutputFile(ScopeController):
 		# Speed / Correctness
 		self.checkDivisionByZero = True#self.compiler.checkDivisionByZero
 		
+		# Inserted for mathematical expressions
+		self.exprPrefix = ""
+		self.exprPostfix = ""
+		
 		# Syntax
 		self.lineLimiter = ""
 		self.myself = ""
@@ -115,6 +125,14 @@ class BaseOutputFile(ScopeController):
 		self.assignSyntax = "%s = %s"
 		self.assignFirstTimeSyntax = self.assignSyntax
 		self.constAssignSyntax = ""
+		self.callSyntax = "%s(%s)"
+		self.externCallSyntax = self.callSyntax
+		
+		# Memory management
+		self.useGC = True
+		
+		# Debugging
+		self.lastParsedNode = list()
 	
 	def compile(self):
 		raise NotImplementedError()
@@ -124,6 +142,17 @@ class BaseOutputFile(ScopeController):
 	
 	def castToNativeNumeric(self, variableType, value):
 		return value
+	
+	def checkStringClass(self):
+		# Implement operator = of the string class manually to enable assignments
+		if self.compiler.needToInitStringClass:
+			#self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
+			self.implementFunction("UTF8String", "init", [])
+			self.implementFunction("UTF8String", "init", ["~MemPointer<Byte>"])
+			self.compiler.needToInitStringClass = False
+		
+		if self.classExists("UTF8String") and self.stringClassDefined == False:
+			self.compiler.needToInitStringClass = True
 	
 	def handleAssign(self, node):
 		self.inAssignment += 1
@@ -232,10 +261,11 @@ class BaseOutputFile(ScopeController):
 			#	castType = "static_cast"
 			#else:
 			#	castType = "reinterpret_cast"
-			value = "((%s)->to%s())" % (value, normalizeName(variableType))
+			value = "((%s)%sto%s())" % (value, self.ptrMemberAccessChar, normalizeName(variableType))
 		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
+			print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
 			return self.declareUnmanagedSyntax % (var.getPrototype(), value)
 		elif self.getCurrentScope() == self.getTopLevelScope():
 			return self.assignSyntax % (variableName, value)
@@ -545,14 +575,14 @@ class BaseOutputFile(ScopeController):
 		#if funcName == "distance":
 		#	debugStop()
 		#print(caller, callerType, funcName)
-		if not funcName.startswith("bp_"):
+		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)
-			#funcImpl = callerClassImpl.getFuncImplementation(funcName, paramTypes)
-			#funcImpl, codeExists = callerClassImpl.requestFuncImplementation(funcName, paramTypes)
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
-			#debug("Return types: " + str(funcImpl.returnTypes))
-			#debug(self.compiler.funcImplCache)
-			#debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
+			
+			debug("Return types: " + str(funcImpl.returnTypes))
+			debug(self.compiler.funcImplCache)
+			debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
+			
 			return funcImpl.getReturnType()
 		else:
 			if not (funcName in self.compiler.mainClass.externFunctions):
@@ -925,7 +955,7 @@ class BaseOutputFile(ScopeController):
 			print("Namespace '%s' already exists!" % name)
 		
 		codeNode = getElementByTagName(node, "code")
-		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n")
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		
 		self.namespaceStack.pop()
 		
@@ -1027,7 +1057,7 @@ class BaseOutputFile(ScopeController):
 				if isElemNode(op1) and op1.tagName == "access":
 					accessingObject = self.parseExpr(op1.childNodes[0].childNodes[0])
 					accessingMember = self.parseExpr(op1.childNodes[1].childNodes[0])
-					if accessingObject == "this":
+					if accessingObject == self.myself:
 						name = "__" + accessingMember
 					else:
 						raise CompilerException("'%s.%s' may not be used as a function parameter" % (accessingObject, accessingMember))
@@ -1094,12 +1124,12 @@ class BaseOutputFile(ScopeController):
 			else:
 				if node.nodeValue == "my":
 					if self.useGC:
-						return "this"
+						return self.myself
 					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
 					#opNode = node.parentNode.parentNode
 					#numChildNodes = len(opNode.childNodes)
 					#if numChildNodes > 1:
-					#	return "this"
+					#	return self.myself
 					#else:
 						# TODO: Unmanaged object initiations need to return 'this'
 					#	return "shared_from_this()"
@@ -1268,7 +1298,7 @@ class BaseOutputFile(ScopeController):
 			condition = self.parseExpr(getElementByTagName(node, paramTagName).childNodes[0])
 			
 			self.pushScope()
-			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, ";\n")
+			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, self.lineLimiter)
 			self.popScope()
 			
 			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
@@ -1314,7 +1344,7 @@ class BaseOutputFile(ScopeController):
 				#print(getFunc.toprettyxml())
 				return self.handleCall(getFunc)
 		
-		return self.parseBinaryOperator(node, "->")
+		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	
 	def prepareTypeName(self, typeName):
 		#print("PREPARE: " + typeName)
@@ -1504,7 +1534,7 @@ class BaseOutputFile(ScopeController):
 			else:
 				self.currentTabLevel = 1
 			
-			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, ";\n"))
+			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter))
 			
 			self.currentTabLevel = oldTabLevel - 1
 			
@@ -1568,10 +1598,10 @@ class BaseOutputFile(ScopeController):
 		# TODO: classExists(self.compiler.stringDataType)
 		if self.stringClassDefined:
 			dataType = self.compiler.stringDataType
-			line = self.buildUndefinedString(id, value)
+			line = self.buildString(id, value)
 		else:
 			dataType = "CString"
-			line = self.buildString(id, value)
+			line = self.buildUndefinedString(id, value)
 		
 		var = self.createVariable(id, dataType, value, False, False, True)
 		#self.currentClassImpl.addMember(var)
@@ -1666,14 +1696,14 @@ class BaseOutputFile(ScopeController):
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = var.type + " "
-		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, ";\n")
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		self.popScope()
 		
 		varDefs = ""
 		if not self.variableExistsAnywhere(toExpr):
 			toVar = self.createVariable("bp_for_end_%s" % (self.compiler.forVarCounter), toType, "", False, not toType in nonPointerClasses, False)
 			#self.getTopLevelScope().variables[toVar.name] = toVar
-			self.varsHeader += toVar.type + " " + toVar.name + ";\n"
+			self.varsHeader += toVar.type + " " + toVar.name + self.lineLimiter
 			varDefs = "%s = %s;\n" % (toVar.name, toExpr)
 			varDefs += "\t" * self.currentTabLevel
 			toExpr = toVar.name
@@ -1736,6 +1766,91 @@ class BaseOutputFile(ScopeController):
 		
 		return self.catchSyntax % (var, code)
 	
+	def handleCall(self, node):
+		caller, callerType, funcName = self.getFunctionCallInfo(node)
+		
+		# For casts
+		funcName = self.prepareTypeName(funcName)
+		
+		params = getElementByTagName(node, "parameters")
+		paramsString, paramTypes = self.handleParameters(params)
+		
+		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
+		
+		callerClassName = extractClassName(callerType)
+		#if callerClassName == "void":
+		#	raise CompilerException("Function '%s' has no return value" % getElementByTagName(node, "function"))
+		callerClass = self.getClass(callerClassName)
+		
+		# MemPointer.free
+		if funcName == "free" and callerClassName == "MemPointer":
+			return self.buildDeleteMemPointer(caller)
+		
+		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
+			if not funcName in callerClass.functions:
+				# Check extended classes
+				func = findFunctionInBaseClasses(callerClass, funcName)
+				
+				if not func:
+					if funcName[0].islower():
+						raise CompilerException("Function '%s.%s' has not been defined [Error code 1]" % (callerType, funcName))
+					else:
+						raise CompilerException("Class '%s' has not been defined  [Error code 2]" % (funcName))
+			else:
+				func = callerClass.functions[funcName]
+			
+			# Optimized string concatenation
+			if self.compiler.optimizeStringConcatenation:
+				if funcName == "operatorAdd" and callerType == "UTF8String" and paramTypes[0] in {"UTF8String", "Int"}:
+					# Check if above our node is an add node
+					op = getElementByTagName(node, "operator")
+					secondAddNode = op.firstChild.firstChild.firstChild
+					
+					if op and op.firstChild.tagName == "access" and tagName(secondAddNode) == "add":
+						string1 = secondAddNode.childNodes[0].firstChild
+						string2 = secondAddNode.childNodes[1].firstChild
+						if string1 and string2:
+							# Add one more parameter to the operator
+							paramTypes = [self.getExprDataType(string2)] + paramTypes
+							paramsString = "%s, %s" % (self.parseExpr(string2), paramsString)
+							secondAddNode.parentNode.replaceChild(string1, secondAddNode)
+							caller = self.parseExpr(string1)
+							# Remove add node
+							
+						#print(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
+			
+			# Default parameters
+			paramTypes, paramsString = self.addDefaultParameters(callerType, funcName, paramTypes, paramsString)
+			
+			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
+			fullName = funcImpl.getName()
+			
+			# Check whether the given parameters match the default parameter types
+			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
+			#for i in range(len(defaultValueTypes)):
+			#	if i >= paramTypesLen:
+			#		break
+			#	
+			#	if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
+			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
+			
+			# Parallel
+			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName == "parallel":
+				threadID = self.compiler.customThreadsCount
+				threadFuncID = fullName
+				self.buildThreadFunc(threadFuncID, paramTypes)
+				self.parallelBlockStack[-1].append(threadID)
+				self.compiler.customThreadsCount += 1
+				tabs = "\t" * self.currentTabLevel
+				return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
+				
+			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
+				return self.buildNonPointerCall(caller, fullName, paramsString)
+			else:
+				return self.buildCall(caller, fullName, paramsString)
+		else:
+			return self.externCallSyntax % (funcName, paramsString)
+	
 	def pushScope(self):
 		self.currentTabLevel += 1
 		ScopeController.pushScope(self)
@@ -1763,6 +1878,11 @@ class BaseOutputFile(ScopeController):
 							if func.isCast:
 								#print("===> " + classImpl.getName() + "." + func.getName())
 								self.implementFunction(classImpl.getName(), func.getName(), [])
+	
+	def writeFunctions(self):
+		for func in self.localFunctions:
+			for funcImpl in func.implementations.values():
+				self.functionsHeader += "%s\n" % (funcImpl.getFullCode())
 	
 	def getRootNode(self):
 		return self.root

@@ -51,21 +51,13 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		architecture = "x86"
 		
 		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s/" % (self.modDir, platform, architecture)))
-		self.stringCounter = 0
-		self.fileCounter = 0
-		self.forVarCounter = 0
 		self.outputDir = ""
 		self.mainFile = None
 		self.mainCppFile = ""
 		self.customCompilerFlags = []
 		self.customLinkerFlags = []
-		self.funcImplCache = {}
 		self.includes = []
-		self.needToInitStringClass = False
 		self.customThreadsCount = 0
-		
-		self.mainClass = CPPClass("", None)
-		self.mainClassImpl = self.mainClass.requestImplementation([], [])
 		
 		if os.name == "nt":
 			self.staticStdcppLinking = True
@@ -78,6 +70,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 	def compile(self, inpFile):
 		cppOut = CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 		self.genericCompile(inpFile, cppOut)
+	
+	def createClass(self, name, node):
+		return CPPClass(name, node)
 	
 	def writeToFS(self):
 		#dirOut = fixPath(os.path.abspath(dirOut))
@@ -290,6 +285,12 @@ class CPPOutputCompiler(BaseOutputCompiler):
 	
 	def getCompiledFiles(self):
 		return self.compiledFiles
+	
+	def getFileExecList(self):
+		files = ""
+		for cppFile in self.getCompiledFilesList():
+			files += "\texec_" + cppFile.id + "();\n"
+		return files
 	
 	def getTargetName(self):
 		return "C++"

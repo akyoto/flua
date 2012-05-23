@@ -188,9 +188,9 @@ class MenuActions:
 		try:
 			self.startBenchmark("%s Build" % outputTarget)
 			
-			if outputTarget == "C++":
+			if outputTarget.startswith("C++"):
 				outputCompiler = CPPOutputCompiler(self.processor)
-			elif outputTarget == "Python 3":
+			elif outputTarget.startswith("Python 3"):
 				outputCompiler = PythonOutputCompiler(self.processor)
 			
 			#exePath = cpp.getExePath().replace("/", "\\")
@@ -331,7 +331,7 @@ class MenuActions:
 			getFindPath() + "find",
 			getModuleDir(),
 			"-name",
-			"C++",
+			"Python3",
 			
 			"-exec",
 			getRmPath() + "rm",

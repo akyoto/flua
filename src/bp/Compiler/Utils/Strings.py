@@ -159,6 +159,12 @@ def splitParams(line):
 def normalizeName(name):
 	return name.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
 
+def normalizeModName(name):
+	return normalizeName(name.replace(" ", "_")).replace("-", "_")
+	
+def normalizeModPath(name):
+	return normalizeModName(name).replace("/", ".")
+
 def buildPostfix(paramTypes):
 	postfix = ""
 	for dataType in paramTypes:

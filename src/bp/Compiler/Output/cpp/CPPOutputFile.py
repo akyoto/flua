@@ -47,9 +47,6 @@ class CPPOutputFile(BaseOutputFile):
 		
 		BaseOutputFile.__init__(self, compiler, file, root)
 		
-		self.localClasses = []
-		self.localFunctions = []
-		self.additionalCodePerLine = []
 		self.customThreads = dict()
 		self.customThreadsString = ""
 		
@@ -60,10 +57,6 @@ class CPPOutputFile(BaseOutputFile):
 			"while" : ["while", "condition", "code"]
 		}
 		
-		# Inserted for mathematical expressions
-		self.exprPrefix = ""
-		self.exprPostfix = ""
-		
 		# String class
 		self.stringClassDefined = False
 		
@@ -73,19 +66,12 @@ class CPPOutputFile(BaseOutputFile):
 		self.footer = "#endif\n"
 		
 		# Other code types
-		self.stringsHeader = "\t// Strings\n";
-		self.varsHeader = "\n// Variables\n";
+		self.stringsHeader = "\t// Strings\n"
+		self.varsHeader = "\n// Variables\n"
 		self.functionsHeader = "// Functions\n"
 		self.classesHeader = ""
 		self.actorClassesHeader = ""
 		self.prototypesHeader = "\n// Prototypes\n"
-		
-		# Debugging
-		self.lastParsedNode = list()
-		
-		# Memory management
-		self.useGC = True
-		self.useReferenceCounting = False
 		
 		# Syntax
 		self.lineLimiter = ";\n"
@@ -102,17 +88,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.declareUnmanagedSyntax = "%s(%s)"
 		self.constAssignSyntax = "const %s = %s"
 		self.elseSyntax = " else {\n%s%s}"
-		
-	def castToNativeNumeric(self, variableType, value):
-		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
-		
-	def handleCompilerFlag(self, node):
-		flag = node.childNodes[0].nodeValue
-		if flag.startswith("-l"):
-			self.compiler.customLinkerFlags.insert(0, flag)
-		else:
-			self.compiler.customCompilerFlags.insert(0, flag)
-		return ""
+		self.ptrMemberAccessChar = "->"
 		
 	def compile(self):
 		print("Compiling: " + self.file)
@@ -124,15 +100,8 @@ class CPPOutputFile(BaseOutputFile):
 		# Find classes, functions, operators and external stuff
 		self.scanAhead(self.codeNode)
 		
-		# Implement operator = of the string class manually to enable assignments
-		if self.compiler.needToInitStringClass:
-			#self.implementFunction("UTF8String", correctOperators("="), ["~MemPointer<ConstChar>"])
-			self.implementFunction("UTF8String", "init", [])
-			self.implementFunction("UTF8String", "init", ["~MemPointer<Byte>"])
-			self.compiler.needToInitStringClass = False
-		
-		if self.classExists("UTF8String") and self.stringClassDefined == False:
-			self.compiler.needToInitStringClass = True
+		# String class init
+		self.checkStringClass()
 		
 		# Header
 		self.header += "// Includes\n"
@@ -172,106 +141,11 @@ class CPPOutputFile(BaseOutputFile):
 	def createNamespace(self, name):
 		return CPPNamespace(name)
 		
-	# def handleDefine(self, node):
-		# self.inDefine += 1
-		# code = self.parseChilds(node, "\t" * self.currentTabLevel, ";\n")
-		# self.inDefine -= 1
-		
-		# return code
-		
-	def handleCall(self, node):
-		caller, callerType, funcName = self.getFunctionCallInfo(node)
-		
-		# For casts
-		funcName = self.prepareTypeName(funcName)
-		
-		params = getElementByTagName(node, "parameters")
-		paramsString, paramTypes = self.handleParameters(params)
-		
-		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
-		
-		callerClassName = extractClassName(callerType)
-		#if callerClassName == "void":
-		#	raise CompilerException("Function '%s' has no return value" % getElementByTagName(node, "function"))
-		callerClass = self.getClass(callerClassName)
-		
-		# MemPointer.free
-		if funcName == "free" and callerClassName == "MemPointer":
-			return "delete [] %s" % (caller)
-		
-		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
-			if not funcName in callerClass.functions:
-				# Check extended classes
-				func = findFunctionInBaseClasses(callerClass, funcName)
-				
-				if not func:
-					if funcName[0].islower():
-						raise CompilerException("Function '%s.%s' has not been defined [Error code 1]" % (callerType, funcName))
-					else:
-						raise CompilerException("Class '%s' has not been defined  [Error code 2]" % (funcName))
-			else:
-				func = callerClass.functions[funcName]
-			
-			# Optimized string concatenation
-			if self.compiler.optimizeStringConcatenation:
-				if funcName == "operatorAdd" and callerType == "UTF8String" and paramTypes[0] in {"UTF8String", "Int"}:
-					# Check if above our node is an add node
-					op = getElementByTagName(node, "operator")
-					secondAddNode = op.firstChild.firstChild.firstChild
-					
-					if op and op.firstChild.tagName == "access" and tagName(secondAddNode) == "add":
-						string1 = secondAddNode.childNodes[0].firstChild
-						string2 = secondAddNode.childNodes[1].firstChild
-						if string1 and string2:
-							# Add one more parameter to the operator
-							paramTypes = [self.getExprDataType(string2)] + paramTypes
-							paramsString = "%s, %s" % (self.parseExpr(string2), paramsString)
-							secondAddNode.parentNode.replaceChild(string1, secondAddNode)
-							caller = self.parseExpr(string1)
-							# Remove add node
-							
-						#print(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
-			
-			# Default parameters
-			paramTypes, paramsString = self.addDefaultParameters(callerType, funcName, paramTypes, paramsString)
-			
-			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
-			fullName = funcImpl.getName()
-			
-			# Check whether the given parameters match the default parameter types
-			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
-			#for i in range(len(defaultValueTypes)):
-			#	if i >= paramTypesLen:
-			#		break
-			#	
-			#	if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
-			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
-			
-			# Parallel
-			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName == "parallel":
-				threadID = self.compiler.customThreadsCount
-				threadFuncID = fullName
-				self.buildThreadFunc(threadFuncID, paramTypes)
-				self.parallelBlockStack[-1].append(threadID)
-				self.compiler.customThreadsCount += 1
-				tabs = "\t" * self.currentTabLevel
-				
-				threadCreation =  "pthread_t bp_threadHandle_%d;\n%s" % (threadID, tabs)
-				
-				if paramTypes:
-					threadCreation += "bp_thread_args_%s* bp_threadArgs_%d = new (NoGC) bp_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
-					threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, bp_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
-				else:
-					threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, reinterpret_cast<void*>(NULL));\n%s" % (threadID, threadFuncID, tabs)
-				
-				return threadCreation
-				
-			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
-				return ["::", caller + "."][caller != ""] + fullName + "(" + paramsString + ")"
-			else:
-				return ["::", caller + "->"][caller != ""] + fullName + "(" + paramsString + ")"
-		else:
-			return funcName + "(" + paramsString + ")"
+	def createClass(self, name, node):
+		return CPPClass(name, node)
+	
+	def createFunction(self, node):
+		return CPPFunction(self, node)
 		
 	def buildThreadFunc(self, funcName, paramTypes):
 		count = 0
@@ -336,25 +210,45 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildDivByZeroThrow(self, op):
 		return 'throw new BPDivisionByZeroException()'
 	
-	def buildUndefinedString(self, id, value):
+	def buildString(self, id, value):
 		return id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 	
-	def buildString(self, id, value):
+	def buildUndefinedString(self, id, value):
 		return id + " = const_cast<Byte*>(\"" + value + "\");\n"
 	
 	def buildModuleImport(self, importedModule):
 		return "#include <" + extractDir(importedModule) + "C++/" + stripAll(importedModule) + ".hpp>\n"
 	
-	def createClass(self, name, node):
-		return CPPClass(name, node)
+	def buildDeleteMemPointer(self, caller):
+		return "delete [] %s" % (caller)
 	
-	def createFunction(self, node):
-		return CPPFunction(self, node)
+	def buildThreadCreation(self, threadID, threadFuncID, paramTypes, paramsString, tabs):
+		threadCreation =  "pthread_t bp_threadHandle_%d;\n%s" % (threadID, tabs)
+		
+		if paramTypes:
+			threadCreation += "bp_thread_args_%s* bp_threadArgs_%d = new (NoGC) bp_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
+			threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, bp_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
+		else:
+			threadCreation += "pthread_create(&bp_threadHandle_%d, NULL, &bp_thread_func_%s, reinterpret_cast<void*>(NULL));\n%s" % (threadID, threadFuncID, tabs)
+		
+		return threadCreation
 	
-	def writeFunctions(self):
-		for func in self.localFunctions:
-			for funcImpl in func.implementations.values():
-				self.functionsHeader += "%s\n" % (funcImpl.getFullCode())
+	def buildNonPointerCall(self, caller, fullName, paramsString):
+		return "%s%s%s%s%s" % (["::", caller + "."][caller != ""], fullName, "(", paramsString, ")")
+	
+	def buildCall(self, caller, fullName, paramsString):
+		return "%s%s%s%s%s" % (["::", caller + "->"][caller != ""], fullName, "(", paramsString, ")")
+	
+	def castToNativeNumeric(self, variableType, value):
+		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
+		
+	def handleCompilerFlag(self, node):
+		flag = node.childNodes[0].nodeValue
+		if flag.startswith("-l"):
+			self.compiler.customLinkerFlags.insert(0, flag)
+		else:
+			self.compiler.customCompilerFlags.insert(0, flag)
+		return ""
 	
 	def writeClasses(self):
 		prefix = "BP"

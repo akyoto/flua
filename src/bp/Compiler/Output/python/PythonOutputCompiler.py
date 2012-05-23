@@ -28,6 +28,7 @@
 # Imports
 ####################################################################
 from bp.Compiler.Output.BaseOutputCompiler import *
+from bp.Compiler.Output.python.PythonClass import *
 from bp.Compiler.Output.python.PythonOutputFile import *
 
 ####################################################################
@@ -42,14 +43,78 @@ class PythonOutputCompiler(BaseOutputCompiler):
 		pyOut = PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 		self.genericCompile(inpFile, pyOut)
 		
+	def createClass(self, name, node):
+		return PythonClass(name, node)
+		
 	def writeToFS(self):
-		pass
+		cppFiles = self.compiledFiles.values()
+		projectLocation = self.projectDir + self.getTargetName().replace(" ", "")
+		
+		# Write to files
+		for cppFile in cppFiles:
+			relPath = normalizeModName(stripExt(cppFile.file)[len(self.modDir):])
+			fileOut = projectLocation + "/" + relPath + ".py"
+			
+			# Build all the stupid __init__.py files
+			parts = relPath.split("/")
+			initLocation = projectLocation + "/"
+			for part in parts:
+				initLocation += part + "/"
+				if os.path.isdir(initLocation):
+					with codecs.open(initLocation + "__init__.py", "w", encoding="utf-8") as initOutStream:
+						initOutStream.write("\n")
+			
+			# Directory structure
+			concreteDirOut = os.path.dirname(fileOut)
+			if not os.path.isdir(concreteDirOut):
+				os.makedirs(concreteDirOut)
+			
+			#print(fileOut)
+			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
+				outStream.write(cppFile.getCode())
+			
+			# Write CPP main file (main-out.cpp)
+			if cppFile.isMainFile:
+				hppFile = normalizeModPath(stripExt(cppFile.file)[len(self.modDir):])
+				
+				relPath = normalizeModName(stripAll(cppFile.file))
+				fileOut = projectLocation + "/" + relPath + "_main.py"
+				self.mainCppFile = fileOut
+				
+				# Write main file
+				with open(fileOut, "w") as outStream:
+					outStream.write("""
+import bp_decls
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+import """ + hppFile + "\n" + self.getFileExecList() + "\n")
+		
+		# Decls file
+		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))
+		fileOut = self.outputDir + "bp_decls.py"
+		with open(fileOut, "w") as outStream:
+			outStream.write("print('Decls')")
 		
 	def getExePath(self):
-		return ""
+		return self.mainCppFile
 		
 	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		return 0
+		
+	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+		cmd = ["python3", exe]
+		
+		try:
+			startProcess(cmd, fhOut, fhErr)
+		except OSError:
+			print("Can't execute '%s'" % exe)
+		
+	def getFileExecList(self):
+		files = []
+		#for cppFile in self.getCompiledFilesList():
+		#	files.append("exec_" + cppFile.id + "()\n")
+		return ''.join(files)
 		
 	def getTargetName(self):
 		return "Python 3"

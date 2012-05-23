@@ -27,6 +27,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>createReadStream</name>
@@ -63,6 +64,17 @@
 								</parameters>
 							</new>
 						</return>
+					</code>
+					<meta/>
+				</function>
+				<comment>\STODO:\SImplement\Sit.</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>otherPath</parameter>
+					</parameters>
+					<name>relativePathTo</name>
+					<code>
+						<noop depth="2"/>
 					</code>
 					<meta/>
 				</function>
@@ -135,6 +147,7 @@
 						<code>
 							<noop depth="3"/>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 				<casts depth="1">
@@ -152,6 +165,7 @@
 					</cast-definition>
 				</casts>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>
