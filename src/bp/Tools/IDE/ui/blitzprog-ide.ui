@@ -80,6 +80,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch"/>
     <addaction name="separator"/>
+    <addaction name="actionRegExSearch"/>
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
@@ -466,6 +467,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionRegExSearch">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/edit-find.png</normaloff>../images/icons/actions/edit-find.png</iconset>
+   </property>
+   <property name="text">
+    <string>RegEx Search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
    </property>
   </action>
  </widget>

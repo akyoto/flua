@@ -79,6 +79,10 @@ class Startup:
 		self.statusBar.addWidget(self.evalInfoLabel)
 		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		
+		# Search
+		self.searchEdit = BPSearchEdit(self)
+		self.statusBar.addPermanentWidget(self.searchEdit, 1)
+		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
 		
@@ -186,6 +190,7 @@ class Startup:
 		self.actionUndo.triggered.connect(self.undoLastAction)
 		self.actionRedo.triggered.connect(self.redoLastAction)
 		self.actionSearch.triggered.connect(self.showSearch)
+		self.actionRegExSearch.triggered.connect(self.showRegexSearch)
 		self.actionCopy.triggered.connect(self.copy)
 		self.actionCut.triggered.connect(self.cut)
 		self.actionPaste.triggered.connect(self.paste)

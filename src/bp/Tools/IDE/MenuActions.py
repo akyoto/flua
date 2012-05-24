@@ -134,7 +134,10 @@ class MenuActions:
 		
 		return False
 	
-	def showSearch(self):
+	def showRegexSearch(self):
+		self.showSearch(regex = True)
+	
+	def showSearch(self, regex = False):
 		self.searchForm, existed = self.getUIFromCache("search")
 		
 		if not existed:
@@ -146,10 +149,16 @@ class MenuActions:
 			#flags |= QtCore.Qt.FramelessWindowHint
 			
 			self.searchForm.setWindowFlags(flags)
-			#self.searchForm.searchEdit.
+			
+			#self.searchForm.layout().addWidget(self.searchEdit)
 		
-		self.searchForm.searchEdit.setFocus()
-		self.searchForm.show()
+		#self.searchForm.show()
+		
+		#self.searchEdit.selectAll()
+		if regex:
+			self.searchEdit.focusRegex()
+		else:
+			self.searchEdit.focusNormal()
 	
 	def runProfiler(self):
 		self.notImplemented()
