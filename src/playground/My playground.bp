@@ -7,8 +7,6 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">Hello\SWorld</string>
-			<string id="bp_string_1">Test</string>
-			<string id="bp_string_2">Something</string>
 		</strings>
 	</header>
 	<code>
@@ -17,18 +15,6 @@
 			<function>print</function>
 			<parameters>
 				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_1</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_2</parameter>
 			</parameters>
 		</call>
 	</code>
