@@ -41,7 +41,7 @@ inline void bp_utf8_slice(
 	size_t count = 0;
 	if(_from < 0)
 		_from = 0;
-	
+
 	while(count <= _from) {
 		b = *_s++;
 		if (((b >> 7) & ((~b) >> 6)) == 0)
@@ -49,10 +49,10 @@ inline void bp_utf8_slice(
 		if(b == '\0')
 			break;
 	}
-	
+
 	count = 0;
 	myData = --_s;
-	
+
 	while(count <= _limit) {
 		b = *_s++;
 		if (((b >> 7) & ((~b) >> 6)) == 0)
@@ -60,7 +60,7 @@ inline void bp_utf8_slice(
 		if(b == '\0')
 			break;
 	}
-	
+
 	myLen = count - 1;
 	myLenInBytes = _s - myData - 1;
 }

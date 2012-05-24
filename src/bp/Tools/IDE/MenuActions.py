@@ -554,7 +554,7 @@ b.doSomething()
 		QtGui.QMessageBox.about(self, "About blitzprog IDE",
 							"""
 							<p>
-								<h2>Blitzprog IDE</h2>
+								<h2>bp IDE</h2>
 								A development environment for the blitzprog programming language.<br/>
 								<br/>
 								Official website:<br/>

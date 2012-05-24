@@ -1262,32 +1262,51 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<call depth="2">
-							<function>bp_utf8_slice</function>
-							<parameters>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>data</value>
-									</access>
-								</parameter>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>length</value>
-									</access>
-								</parameter>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>lengthInBytes</value>
-									</access>
-								</parameter>
-								<parameter>bytes</parameter>
-								<parameter>index</parameter>
-								<parameter>characterCount</parameter>
-							</parameters>
-						</call>
+						<target depth="2">
+							<name>C++</name>
+							<code>
+								<call depth="3">
+									<function>bp_utf8_slice</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>length</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>lengthInBytes</value>
+											</access>
+										</parameter>
+										<parameter>bytes</parameter>
+										<parameter>index</parameter>
+										<parameter>characterCount</parameter>
+									</parameters>
+								</call>
+							</code>
+						</target>
+						<target depth="2">
+							<name>Python3</name>
+							<code>
+								<call depth="3">
+									<function>bp_utf8_slice</function>
+									<parameters>
+										<parameter>my</parameter>
+										<parameter>bytes</parameter>
+										<parameter>index</parameter>
+										<parameter>characterCount</parameter>
+									</parameters>
+								</call>
+							</code>
+						</target>
 					</code>
 					<meta/>
 				</function>
@@ -1615,36 +1634,25 @@
 				<function depth="1">
 					<name>print</name>
 					<code>
-						<for depth="2">
-							<iterator>i</iterator>
-							<from>0</from>
-							<until>
-								<access>
-									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
-							</until>
-							<code>
-								<call depth="3">
-									<function>bp_print</function>
-									<parameters>
-										<parameter>
-											<index>
-												<value>
-													<access>
-														<value>my</value>
-														<value>data</value>
-													</access>
-												</value>
-												<value>i</value>
-											</index>
-										</parameter>
-									</parameters>
-								</call>
-							</code>
-						</for>
 						<call depth="2">
-							<function>bp_print</function>
+							<function>bp_write_xbytes</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>lengthInBytes</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<call depth="2">
+							<function>bp_write</function>
 							<parameters>
 								<parameter>bp_string_0</parameter>
 							</parameters>

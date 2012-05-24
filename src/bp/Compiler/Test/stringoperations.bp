@@ -86,14 +86,14 @@
 									</and>
 								</value>
 								<value>
-									<not-equal>
+									<not>
 										<value>
-											<not>
+											<not-equal>
 												<value>stringTestA</value>
-											</not>
+												<value>stringTestB</value>
+											</not-equal>
 										</value>
-										<value>stringTestB</value>
-									</not-equal>
+									</not>
 								</value>
 							</and>
 						</value>

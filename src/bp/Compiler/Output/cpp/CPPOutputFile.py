@@ -241,6 +241,27 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildSingleParameter(self, typeName, name):
 		return self.singleParameterSyntax % (typeName, name)
 	
+	def buildUnmanagedMemPtrWithoutGC(self, ptrType, paramsString):
+		return "new %s[%s]" % (ptrType, paramsString)
+	
+	def buildUnmanagedMemPtrWithGC(self, ptrType, paramsString):
+		return "new (UseGC) %s[%s]" % (ptrType, paramsString)
+	
+	def buildNewObject(self, finalTypeName, funcImpl, paramsString):
+		return self.newObjectSyntax % (finalTypeName, paramsString)
+	
+	def buildParamBlock(self, keywordName, condition, code, tabs):
+		return "%s(%s) {\n%s%s}" % (keywordName, condition, code, tabs)
+	
+	def buildTrue(self):
+		return "true"
+		
+	def buildFalse(self):
+		return "false"
+	
+	def buildNegation(self, expr):
+		return "(!(%s))" % expr
+	
 	def castToNativeNumeric(self, variableType, value):
 		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)
 		

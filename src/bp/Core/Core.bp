@@ -24,17 +24,21 @@
 		</target>
 		<extern depth="0">
 			<extern-function depth="1">
-				<name>bp_print</name>
+				<name>bp_write</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
-				<name>bp_println</name>
+				<name>bp_writeln</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_write_xbytes</name>
 				<meta>
-					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
@@ -82,7 +86,7 @@
 			<name>print</name>
 			<code>
 				<call depth="1">
-					<function>bp_println</function>
+					<function>bp_writeln</function>
 					<parameters>
 						<parameter>stri</parameter>
 					</parameters>

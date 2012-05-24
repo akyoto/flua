@@ -98,6 +98,8 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		with open(fileOut, "w") as outStream:
 			#outStream.write("print('Decls')\n")
 			
+			outStream.write("import ctypes\n")
+			
 			# Includes
 			for incl in self.includes:
 				importPath = normalizeModPath(stripExt(incl)) + includePostfix

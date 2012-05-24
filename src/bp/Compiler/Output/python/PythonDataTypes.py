@@ -51,8 +51,13 @@ dataTypeDefinitions = {
 	"BigInt" : "",
 }
 
+nonPointerTypes = dataTypeDefinitions
+
 ####################################################################
 # Functions
 ####################################################################
 def adjustDataTypePY(type, adjustOuterAsWell = True):
-	return type
+	if type in nonPointerTypes:
+		return type
+	else:
+		return "BP" + type

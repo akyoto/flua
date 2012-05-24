@@ -3,20 +3,11 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.DateTime</import>
 			<import>Everything</import>
 		</dependencies>
-		<strings>
-			<string id="bp_string_0">Hello\SWorld</string>
-		</strings>
+		<strings/>
 	</header>
 	<code>
 		<comment>\SUse\Sthis\Sfile\Sto\Squickly\Stest\Sand\Ssave\Ssomething\Sin\Sbp\Swithout\Sthe\Sneed\Sto\Screate\Syour\Sown\Smodule\Sdirectory.</comment>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
 	</code>
 </module>

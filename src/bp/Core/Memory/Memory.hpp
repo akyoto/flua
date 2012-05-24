@@ -10,7 +10,13 @@ inline bool bp_compareMem(TSource *source, TDest *dest, const sizeType numBytes)
 	return memcmp(dest, source, numBytes) == 0;
 }
 
-/*template <typename TDataType>
+template <typename TDest, typename TValue, typename sizeType>
+inline void bp_setMem(TDest *dest, TValue value, const sizeType numBytes) {
+	memset(dest, value, numBytes);
+}
+
+/* Old, don't use it.
+template <typename TDataType>
 class BPMemPointer {
 	public:
 		inline BPMemPointer() : ptr(NULL) {}

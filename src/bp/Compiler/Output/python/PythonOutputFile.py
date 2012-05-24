@@ -70,7 +70,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.pointerDerefAssignSyntax = "%s = %s"
 		self.declareUnmanagedSyntax = "%s(%s)"
 		self.constAssignSyntax = "%s = %s"
-		self.elseSyntax = " else\n%s%s"
+		self.elseSyntax = "else:\n%s%s"
 		self.ptrMemberAccessChar = "."
 	
 	def compile(self):
@@ -150,10 +150,11 @@ class PythonOutputFile(BaseOutputFile):
 		return 'raise BPDivisionByZeroException()'
 	
 	def buildString(self, id, value):
-		return id + " = BPUTF8String(b\"" + value + "\")\n"
+		return id + " = BPUTF8String().init___MemPointer_Byte_(BPMemPointer(list(\"" + value + "\".encode('utf-8'))))\n"
+		#return id + " = BPUTF8String().init___MemPointer_Byte_(\"" + value + "\".encode('utf-8'))\n"
 	
 	def buildUndefinedString(self, id, value):
-		return id + " = b\"" + value + "\"\n"
+		return id + " = (\"" + value + "\")\n"
 	
 	def buildModuleImport(self, importedModule):
 		path = (extractDir(importedModule) + stripAll(importedModule))[len(self.compiler.modDir):]
@@ -173,6 +174,27 @@ class PythonOutputFile(BaseOutputFile):
 	
 	def buildSingleParameter(self, typeName, name):
 		return self.singleParameterSyntax % (name)
+	
+	def buildUnmanagedMemPtrWithoutGC(self, ptrTypes, paramsString):
+		return "BPMemPointer(%s)" % (paramsString)
+	
+	def buildUnmanagedMemPtrWithGC(self, ptrTypes, paramsString):
+		return "BPMemPointer(%s)" % (paramsString)
+	
+	def buildNewObject(self, finalTypeName, funcImpl, paramsString):
+		return "%s().%s(%s)" % (finalTypeName, funcImpl.getName(), paramsString)
+	
+	def buildParamBlock(self, keywordName, condition, code, tabs):
+		return "%s %s:\n%s%s" % (keywordName, condition, code, tabs)
+	
+	def buildTrue(self):
+		return "True"
+		
+	def buildFalse(self):
+		return "False"
+	
+	def buildNegation(self, expr):
+		return "(not(%s))" % expr
 	
 	def castToNativeNumeric(self, variableType, value):
 		return value
@@ -226,7 +248,7 @@ class PythonOutputFile(BaseOutputFile):
 						else:
 							pass
 						
-						self.classesHeader += "class %s:" % (finalClassName)
+					self.classesHeader += "class %s:\n\tdef __init__(self):\n\t\tpass" % (finalClassName)
 					
 					# For debugging the GC add this commented line to the string:
 					# ~%s(){std::cout << \"Destroying %s\" << std::endl;}\n

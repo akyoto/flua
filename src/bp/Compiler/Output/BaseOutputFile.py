@@ -45,6 +45,10 @@ enableOperatorOverloading = {
 	"multiply"
 }#{"add", "subtract", "multiply", "divide", "equal"}:
 
+replacedNodeValues = {
+	"from" : "_from",
+}
+
 ####################################################################
 # Classes
 ####################################################################
@@ -329,6 +333,9 @@ class BaseOutputFile(ScopeController):
 			#print("Name: " + name)
 			#print(node.toprettyxml())
 			
+			if name in replacedNodeValues:
+				name = replacedNodeValues[name]
+			
 			# Not enough parameters
 			if counter >= typesLen:
 				# Default values?
@@ -510,9 +517,9 @@ class BaseOutputFile(ScopeController):
 				ptrType = self.adjustDataType(ptrType, True)
 				
 				if self.inUnmanaged:
-					return "new %s[%s]" % (ptrType, paramsString)
+					return self.buildUnmanagedMemPtrWithoutGC(ptrType, paramsString)
 				elif self.useGC:
-					return "new (UseGC) %s[%s]" % (ptrType, paramsString)
+					return self.buildUnmanagedMemPtrWithGC(ptrType, paramsString)
 				else:
 					raise CompilerException("To create a manageable object you need to enable the GC")
 		else:
@@ -539,7 +546,7 @@ class BaseOutputFile(ScopeController):
 		else:
 			if self.useGC:
 				# Classes are automatically managed by the GC
-				return self.newObjectSyntax % (finalTypeName, paramsString)
+				return self.buildNewObject(finalTypeName, funcImpl, paramsString)
 			#elif self.useReferenceCounting:
 			#	return pointerType + "< " + finalTypeName + " >(new " + finalTypeName + "(" + paramsString + "))"
 			#else:
@@ -636,6 +643,9 @@ class BaseOutputFile(ScopeController):
 			#elif node.nodeValue == "null":
 			#	return "~MemPointer<void>"
 			else:
+				if node.nodeValue in replacedNodeValues:
+					node.nodeValue = replacedNodeValues[node.nodeValue]
+				
 				return self.getVariableTypeAnywhere(node.nodeValue)
 		else:
 			# Binary operators
@@ -741,7 +751,8 @@ class BaseOutputFile(ScopeController):
 				
 				return self.getCallDataType(virtualSliceCall)
 			elif node.tagName == "not":
-				return self.getExprDataType(node.childNodes[0].childNodes[0])
+				return "Bool"
+				#return self.getExprDataType(node.childNodes[0].childNodes[0])
 			elif node.tagName == "unmanaged":
 				self.inUnmanaged += 1
 				expr = self.getExprDataTypeClean(node.childNodes[0].childNodes[0])
@@ -1075,6 +1086,9 @@ class BaseOutputFile(ScopeController):
 			else:
 				raise CompilerException("Invalid parameter %s" % (exprNode.toxml()))
 			
+			if name in replacedNodeValues:
+				name = replacedNodeValues[name]
+			
 			pList.append(name)
 			
 			type = self.currentClassImpl.translateTemplateName(type)
@@ -1093,18 +1107,20 @@ class BaseOutputFile(ScopeController):
 		return pList, pTypes, pDefault, pDefaultTypes
 	
 	def parseChilds(self, parent, prefix = "", postfix = ""):
-		lines = ""
+		lines = []
 		for node in parent.childNodes:
 			line = self.parseExpr(node)
 			self.lastParsedNode.pop()
 			
 			if self.additionalCodePerLine:
-				line = (postfix + prefix).join(self.additionalCodePerLine) + postfix + prefix + line
+				line = "%s%s%s%s" % ((postfix + prefix).join(self.additionalCodePerLine), postfix, prefix, line)
 				self.additionalCodePerLine = []
-			
+				
 			if line:
-				lines += prefix + line + postfix
-		return lines
+				lines.append(prefix)
+				lines.append(line)
+				lines.append(postfix)
+		return ''.join(lines)
 	
 	def parseExpr(self, node, keepUnmanagedSign = True):
 		# Set last node for debugging purposes
@@ -1142,6 +1158,13 @@ class BaseOutputFile(ScopeController):
 						return "(BigInt)(\"" + str(num) + "\")"
 					else:
 						return str(num)
+				elif node.nodeValue == "true":
+					return self.buildTrue()
+				elif node.nodeValue == "false":
+					return self.buildFalse()
+				elif node.nodeValue in replacedNodeValues:
+					node.nodeValue = replacedNodeValues[node.nodeValue]
+					return node.nodeValue
 				else:
 					return node.nodeValue
 				#else:
@@ -1229,6 +1252,8 @@ class BaseOutputFile(ScopeController):
 			return ""
 		elif tagName == "define":
 			return ""
+		elif tagName == "not":
+			return self.buildNegation(self.parseExpr(node.firstChild))
 		elif tagName == "try":
 			return self.handleTry(node)
 		elif tagName == "catch":
@@ -1301,7 +1326,7 @@ class BaseOutputFile(ScopeController):
 			code = self.parseChilds(getElementByTagName(node, codeTagName), "\t" * self.currentTabLevel, self.lineLimiter)
 			self.popScope()
 			
-			return keywordName + "(" + condition + ") {\n" + code + "\t" * self.currentTabLevel + "}"
+			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
 		# Check operators
 		for opLevel in self.compiler.parser.operatorLevels:
@@ -1577,7 +1602,7 @@ class BaseOutputFile(ScopeController):
 	def handleTarget(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		if name == self.compiler.getTargetName() or matchesCurrentPlatform(name):
-			return self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+			return "\n" + self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 	
 	def handleImport(self, node):
 		importedModulePath = node.childNodes[0].nodeValue.strip()
