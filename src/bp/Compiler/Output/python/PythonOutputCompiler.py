@@ -116,7 +116,9 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		return 0
 		
 	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
-		cmd = [getPython3Path() + getPython3CompilerName(), exe]
+		pythonInterpreter = getPython3Path() + getPython3CompilerName()
+		#print("Using %s" % pythonInterpreter)
+		cmd = [pythonInterpreter, exe]
 		
 		try:
 			startProcess(cmd, fhOut, fhErr)
