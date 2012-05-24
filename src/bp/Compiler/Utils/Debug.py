@@ -147,7 +147,7 @@ def CompilerWarning(msg):
 # Functions
 ####################################################################
 def debug(msg):
-	print("\t" * dbgTabLevel + str(msg))
+	pass#print("\t" * dbgTabLevel + str(msg))
 	
 def debugPP(msg):
 	pass#print("\t" * dbgTabLevel + str(msg))

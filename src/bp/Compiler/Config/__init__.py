@@ -3,15 +3,15 @@ from bp.Compiler.Utils import *
 # Configuration
 buildAndExecute = 1
 buildGraphViz = 0
+configScriptPath = extractDir(os.path.realpath(__file__))
 
 def getModuleDir():
-	scriptPath = extractDir(os.path.realpath(__file__))
-	return fixPath(os.path.abspath(scriptPath + "../../../"))
+	return fixPath(os.path.abspath(configScriptPath + "../../../"))
 	#return extractDir(os.path.abspath("../../"))
 
 def getGCCCompilerPath():
 	if os.name == "nt":
-		return fixPath(os.path.abspath("../../../../../mingw/bin/"))
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/"))
 	else:
 		return ""
 	
@@ -24,7 +24,7 @@ def getGCCCompilerVersion():
 	
 def getPython3Path():
 	if os.name == "nt":
-		return fixPath(os.path.abspath("../../../../../python/"))
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../python/"))
 	else:
 		return ""
 	
