@@ -9,4 +9,5 @@ from bp.Tools.IDE.Widgets.BPWorkspace import *
 from bp.Tools.IDE.Widgets.BPMetaDataWidget import *
 from bp.Tools.IDE.Widgets.BPOutlineView import *
 from bp.Tools.IDE.Widgets.BPSearchEdit import *
+from bp.Tools.IDE.Widgets.BPReplaceEdit import *
 #from bp.Tools.IDE.Widgets.BPIntelliView import *

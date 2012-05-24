@@ -1,4 +1,5 @@
 from PyQt4 import QtGui, QtCore
+from bp.Tools.IDE.Widgets.BPReplaceEdit import *
 
 class BPSearchEdit(QtGui.QLineEdit):
 
@@ -41,11 +42,29 @@ class BPSearchEdit(QtGui.QLineEdit):
 		
 		qdoc = ce.qdoc
 		cursor = ce.textCursor()
+		replaceEdit = self.bpIDE.replaceEdit
 		
 		if not text:
 			cursor.clearSelection()
 			ce.setTextCursor(cursor)
+			replaceEdit.hide()
 			return
+		
+		if not self.regExSearch:
+			pyCount = ce.toPlainText().count(text)
+			
+			if pyCount == 0:
+				replaceEdit.hide()
+				return
+			else:
+				if pyCount == 1:
+					replaceEdit.setPlaceholderText("Replace %d occurence with..." % pyCount)
+				else:
+					replaceEdit.setPlaceholderText("Replace %d occurences with..." % pyCount)
+		else:
+			replaceEdit.setPlaceholderText("Replace with...")
+		
+		replaceEdit.show()
 		
 		#cursor.clearSelection()
 		if not nextResult:

@@ -429,6 +429,9 @@ class BPPostProcessor:
 				return ppFile.dTreeByNode[node]
 		return None
 	
+	def getClassesDict(self):
+		return self.classes
+	
 	def getFunctionsDict(self):
 		funcs = dict()
 		for ppFile in self.compiledFilesList:

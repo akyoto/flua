@@ -85,7 +85,9 @@ class Startup:
 		
 		# Search
 		self.searchEdit = BPSearchEdit(self)
+		self.replaceEdit = BPReplaceEdit(self)
 		self.statusBar.addPermanentWidget(self.searchEdit, 1)
+		self.statusBar.addPermanentWidget(self.replaceEdit, 1)
 		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
