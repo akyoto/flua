@@ -16,6 +16,9 @@ class BPReplaceEdit(QtGui.QLineEdit):
 		findFlags = QtGui.QTextDocument.FindCaseSensitively
 		
 		if self.searchEdit.regExSearch:
+			if text == ".*":
+				return
+			
 			text = QtCore.QRegExp(text)
 			
 		# Start of document
@@ -29,15 +32,16 @@ class BPReplaceEdit(QtGui.QLineEdit):
 			if nextResult.position() == -1:
 				break
 			
-			
 			nextResult.removeSelectedText()
 			nextResult.insertText(self.text())
+			cursor.setPosition(nextResult.position())
 		
 		cursor.endEditBlock()
 		
 	def keyPressEvent(self, event):
 		key = event.key()
 		if key == QtCore.Qt.Key_Escape:
+			self.setText("")
 			self.searchEdit.setFocus()
 		elif key == QtCore.Qt.Key_Down:
 			self.searchEdit.searchForward(self.bpIDE.searchEdit.text(), True)

@@ -62,7 +62,7 @@ class BPSearchEdit(QtGui.QLineEdit):
 				else:
 					replaceEdit.setPlaceholderText("Replace %d occurences with..." % pyCount)
 		else:
-			replaceEdit.setPlaceholderText("Replace with...")
+			replaceEdit.setPlaceholderText("Replace all RegEx matches with...")
 		
 		replaceEdit.show()
 		
