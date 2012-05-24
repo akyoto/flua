@@ -53,12 +53,12 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.realStdout = sys.stdout
 		self.realStderr = sys.stderr
 		
-		self.setMinimumWidth(424)
+		self.setMinimumWidth(390)
 		
 		#vBox = QtGui.QVBoxLayout(self)
 		
 		# TODO: Remove font
-		self.setFont(self.bpIDE.config.monospaceFont)
+		#self.setFont(self.bpIDE.config.monospaceFont)
 		
 		for i in range(3):
 			log = BPLogWidget(self)
@@ -70,21 +70,26 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.compilerLog = self.widget(1)
 		self.outputLog = self.widget(2)
 		
+		self.log.setObjectName("Log")
+		self.compilerLog.setObjectName("CompilerLog")
+		self.outputLog.setObjectName("OutputLog")
+		
 		# Linux / g++ info
-		gccVersionCheck = [
-			getGCCCompilerName(),
-			"--version"
-		]
-		
-		linuxCheck = [
-			"uname",
-			"-a"
-		]
-		
-		if os.name == "posix":
-			startProcess(linuxCheck, self.log.write, self.log.write)
-			self.log.write("\n")
-			startProcess(gccVersionCheck, self.log.write, self.log.write)
+		if 0:
+			gccVersionCheck = [
+				getGCCCompilerName(),
+				"--version"
+			]
+			
+			linuxCheck = [
+				"uname",
+				"-a"
+			]
+			
+			if os.name == "posix":
+				startProcess(linuxCheck, self.log.write, self.log.write)
+				self.log.write("\n")
+				startProcess(gccVersionCheck, self.log.write, self.log.write)
 		
 		# Intercept sys.stdout and sys.stderr
 		self.watch(self.log)

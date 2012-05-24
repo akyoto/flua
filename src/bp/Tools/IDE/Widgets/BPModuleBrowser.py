@@ -41,8 +41,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.setHeaderHidden(True)
 		self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 		
-		self.brushSimpleFolder = QtGui.QBrush(QtGui.QColor("#adadad"))
-		self.brushModule = QtGui.QBrush(QtGui.QColor("#272727"))
+		self.brushSimpleFolder = self.bpIDE.config.theme['module-browser-directory']
+		self.brushModule = self.bpIDE.config.theme['module-browser-module']
 		
 		self.doubleClicked.connect(self.onItemClick)
 		self.customContextMenuRequested.connect(self.showContextMenu)
@@ -50,7 +50,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
-		self.reloadModuleDirectory(False)
+		self.reloadModuleDirectory(True)
 		
 	def reloadModuleDirectory(self, expand = True):
 		if self.bpcModel:
@@ -247,7 +247,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		item = self.getModuleItemByName(modPath, expand = True)
 		if item:
-			item.setFont(style.font())
+			#item.setFont(style.font())
 			item.setForeground(style.foreground())
 			
 		self.oldImportedMods.append(modPath)

@@ -15,6 +15,7 @@ class MenuActions:
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
 		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
+		self.currentWorkspace.updateModifiedState(False)
 		
 		self.setFilePath(fileName)
 		

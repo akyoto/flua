@@ -7,15 +7,19 @@ from bp.Tools.IDE.MenuActions import *
 class Startup:
 	
 	def initAll(self):
+		self.startBenchmark("Init Theme")
+		self.initTheme()
+		self.endBenchmark()
+		
+		self.startBenchmark("Init Workspaces")
+		self.initWorkspaces()
+		self.endBenchmark()
+		
 		self.startBenchmark("Init UI")
 		self.initUI()
 		self.endBenchmark()
 		
 		self.setCurrentWorkspace(0)
-		
-		self.startBenchmark("Init Theme")
-		self.initTheme()
-		self.endBenchmark()
 		
 		self.startBenchmark("Init Toolbar")
 		self.initToolBar()
@@ -60,7 +64,7 @@ class Startup:
 		# Status bar
 		self.lineNumberLabel = QtGui.QLabel()
 		self.moduleInfoLabel = QtGui.QLabel()
-		self.evalInfoLabel = QtGui.QLabel(" Reserved. ")
+		self.evalInfoLabel = QtGui.QLabel("")
 		self.lineNumberLabel.setMinimumWidth(100)
 		self.progressBar = QtGui.QProgressBar(self.statusBar)
 		self.progressBar.setTextVisible(False)
@@ -215,6 +219,22 @@ class Startup:
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		
+	def initWorkspaces(self):
+		# Workspaces
+		self.currentWorkspace = None
+		self.workspacesContainer = QtGui.QWidget(self)
+		self.workspacesContainer.setContentsMargins(0, 0, 0, 0)
+		hBox = QtGui.QHBoxLayout()
+		hBox.setContentsMargins(0, 0, 0, 0)
+		self.workspacesContainer.setLayout(hBox)
+		
+		self.workspaces = [
+			BPWorkspace(self, 0),
+			BPWorkspace(self, 1),
+			BPWorkspace(self, 2),
+			BPWorkspace(self, 3),
+		]
+		
 	def initTheme(self):
 		if self.config.useBold:
 			useBold = 'bold'
@@ -256,6 +276,58 @@ class Startup:
 				'local-module-import': cf('#df2000', useBold), #cf2000
 				'project-module-import': cf('#378737', useBold),
 				'global-module-import': cf('#aa11aa', useBold),
+				
+				'module-browser-directory': QtGui.QBrush(QtGui.QColor("#adadad")),
+				'module-browser-module': QtGui.QBrush(QtGui.QColor("#272727")),
+				
+				'doc-modified' : QtGui.QColor("#ff0000"),
+				'doc-unmodified' : QtGui.QColor("#000000"),
+				
+				'current-line' : None#QtGui.QColor("#fefefe")
+			},
+			
+			# Dark theme
+			"Dark": {
+				'default': cf("#eeeeee"),
+				'default-background': "#272727",
+				'keyword': cf('#eeccaa'),
+				'operator': cf('#aaaaaa'),
+				'brace': cf('darkGray'),
+				'comma': cf('#aaaaaa'),
+				'output-target': cf('#666666'),
+				'include-file': cf('#666666'),
+				'string': cf('#10e010'),
+				'string2': cf('darkMagenta'),
+				'comment': cf('#ffff99'),
+				'disabled': cf('#cccccc', 'italic'),
+				'self': cf('#cccccc'),
+				'number': cf('#ff6020'),
+				'hex-number': cf('brown'),
+				'preprocessor': cf('#005000'),
+				'file-link': cf('#0000ff', 'bold'),
+				
+				'function': cf('#10b0ff', useBold),
+				
+				'side-effects-extern-function': cf('#ff8000', useBold),
+				'no-side-effects-extern-function': cf('#10c0df', useBold),
+				'ref-transparent-extern-function' : cf('#21ee20', useBold),
+				
+				'class-function': cf('#ffaa00', useBold),
+				'class-getter': cf('#eeaa00', useBold),
+				'class-setter': cf('#eeaa00', useBold),
+				'class-operator': cf('#eeaa00', useBold),
+				'class-cast-definition': cf('#eeaa00', useBold),
+				'class-name': cf('#ffffff'),
+				
+				'local-module-import': cf('#dfaf00', useBold), #cf2000
+				'project-module-import': cf('#378737', useBold),
+				'global-module-import': cf('#efdf00', useBold),
+				
+				'module-browser-directory': QtGui.QBrush(QtGui.QColor("#999999")),
+				'module-browser-module': QtGui.QBrush(QtGui.QColor("#e8e8e8")),
+				
+				'doc-modified' : QtGui.QColor("#ff7421"),
+				'doc-unmodified' : QtGui.QColor("#eeeeee"),
 				
 				'current-line' : None#QtGui.QColor("#fefefe")
 			},

@@ -105,6 +105,7 @@
 				<meta/>
 			</class>
 		</extern>
+		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
 		<function depth="0">
 			<name>getCurrentDir</name>
 			<code>
@@ -117,6 +118,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -131,6 +133,7 @@
 				</call>
 			</code>
 		</function>
+		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -148,6 +151,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>from</parameter>
@@ -167,6 +171,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -184,6 +189,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Sfile\Ssize\Sof\S#path\Sin\Sbytes</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -201,6 +207,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Stime\Sstamp\Sthe\Sfile\Sat\Spath\Shas\Sbeen\Smodified\Slast</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -218,6 +225,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -263,6 +271,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>

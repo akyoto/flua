@@ -7,5 +7,8 @@ def bp_print(x):
 	else:
 		sys.stdout.write(x.decode("utf-8"))
 	
+def bp_println(x):
+	print(x)
+	
 def bp_flush():
 	sys.stdout.flush()

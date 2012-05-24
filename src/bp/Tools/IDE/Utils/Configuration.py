@@ -42,11 +42,79 @@ class BPConfiguration:
 		self.fileName = fileName
 		self.parser = configparser.SafeConfigParser()
 		
+		self.darkStyleEnabled = False
+		
+		self.appStyleSheet = """
+			QPlainTextEdit { background-color: #ffffff; }
+		""" #% (self.theme['default-background'])
+		
 		self.dialogStyleSheet = """
 			QWidget {
 				font-family: Ubuntu, Verdana; font-size: 12px;
 			}
 		"""
+		
+		self.darkStyleSheet = """
+			/*QDockWidget QWidget {
+				background-color: #272727;
+				color: #eeeeee;
+			}*/
+			
+			QPlainTextEdit, QTreeView, QListView {
+				background-color: #272727;
+				border-radius: 7px;
+				color: #eeeeee;
+			}
+			
+			QPlainTextEdit {
+				border-top-left-radius: 0px;
+			}
+			
+			QTabBar::tab {
+				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 32), stop:1 rgba(39, 39, 39, 48));
+				border-top-left-radius: 6px;
+				border-top-right-radius: 6px;
+				padding: 3px;
+				padding-left: 5px;
+				padding-right: 0px;
+			}
+			
+			QTabBar::tab:hover {
+				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 164), stop:1 rgba(39, 39, 39, 172));
+			}
+			
+			QTabBar::tab:selected {
+				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 255), stop:1 rgba(39, 39, 39, 255));
+			}
+			
+			#Log {
+				margin-right: 16px;
+				border-radius: 7px;
+				font-size: 10pt;
+			}
+			
+			QStatusBar, QLabel, QLineEdit, QComboBox {
+				font-size: 9pt;
+			}
+"""
+
+# QTabWidget::tab-bar {
+
+ # }
+
+ # QTabBar::tab {
+  # background: #000000;
+  # color: #ffffff;
+  # padding: 7px;
+  # padding-top: 4px;
+  # padding-bottom: 4px;
+  # border-top-right-radius: 7px 14px;
+  # border-top-left-radius: 7px 14px;
+ # }
+
+ # QTabBar::tab:selected {
+  # background: #888888;
+ # }
 		
 		# Fonts
 		if QtGui.QFontDatabase.addApplicationFont(getIDERoot() + "fonts/Ubuntu-R.ttf") == -1:
@@ -98,9 +166,6 @@ class BPConfiguration:
 		#	self.parser.write(configFileStream)
 		
 	def applyTheme(self, themeName):
-		if not themeName in self.bpIDE.themes:
-			return
-		
 		if isinstance(themeName, str):
 			self.themeName = themeName
 			self.theme = self.bpIDE.themes[self.themeName]
@@ -108,28 +173,19 @@ class BPConfiguration:
 			self.themeName = self.themeWidget.currentText()
 			self.theme = self.bpIDE.themes[self.themeName]
 		
-		#codeEdit.setBackgroundColor(self.theme['default-background'])
-		QtGui.QApplication.instance().setStyleSheet("""
-			QPlainTextEdit { background-color: %s; }
-		""" % (self.theme['default-background']))
+		if not self.themeName in self.bpIDE.themes:
+			return
 		
-# QTabWidget::tab-bar {
-
- # }
-
- # QTabBar::tab {
-  # background: #000000;
-  # color: #ffffff;
-  # padding: 7px;
-  # padding-top: 4px;
-  # padding-bottom: 4px;
-  # border-top-right-radius: 7px 14px;
-  # border-top-left-radius: 7px 14px;
- # }
-
- # QTabBar::tab:selected {
-  # background: #888888;
- # }
+		if self.themeName == "Dark":
+			self.darkStyleEnabled = True
+		else:
+			self.darkStyleEnabled = False
+		
+		#codeEdit.setBackgroundColor(self.theme['default-background'])
+		QtGui.QApplication.instance().setStyleSheet(self.appStyleSheet)
+		
+		if self.darkStyleEnabled:
+			QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:
@@ -170,6 +226,7 @@ class BPConfiguration:
 		
 		self.bpIDE.xmlView.setFont(font)
 		self.bpIDE.dependencyView.setFont(font)
+		self.bpIDE.console.log.setFont(font)
 		
 	def applyStandardFont(self, font):
 		QtGui.QToolTip.setFont(font)
@@ -201,6 +258,7 @@ class BPConfiguration:
 			widget.tabWidth.valueChanged.connect(self.applyTabWidth)
 		elif uiFileName == "preferences/editor.theme":
 			self.themeWidget = widget.themeName
+			self.themeWidget.setCurrentIndex(self.themeName == "Dark")
 			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
 		elif uiFileName == "preferences/targets.c++":
 			widget.compilerName.setText(getGCCCompilerName())

@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.DateTime</import>
 			<import>Everything</import>
 		</dependencies>
 		<strings>

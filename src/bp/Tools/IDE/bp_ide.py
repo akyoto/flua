@@ -71,21 +71,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.loadConfig()
 		self.endBenchmark()
 		
-		# Workspaces
-		self.currentWorkspace = None
-		self.workspacesContainer = QtGui.QWidget(self)
-		self.workspacesContainer.setContentsMargins(0, 0, 0, 0)
-		hBox = QtGui.QHBoxLayout()
-		hBox.setContentsMargins(0, 0, 0, 0)
-		self.workspacesContainer.setLayout(hBox)
-		
-		self.workspaces = [
-			BPWorkspace(self, 0),
-			BPWorkspace(self, 1),
-			BPWorkspace(self, 2),
-			BPWorkspace(self, 3),
-		]
-		
 		# Completer
 		self.completer = BPCAutoCompleter(self)
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)

@@ -9,8 +9,8 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.bpIDE = bpIDE
 		self.wsID = wsID
 		self.filesClosed = []
-		self.colorModified = QtGui.QColor("#ff0000")
-		self.colorUnmodified = QtGui.QColor("#000000")
+		self.colorModified = self.bpIDE.config.theme["doc-modified"]
+		self.colorUnmodified = self.bpIDE.config.theme["doc-unmodified"]
 		
 		if bpIDE.config.documentModeEnabled:
 			self.setDocumentMode(True)

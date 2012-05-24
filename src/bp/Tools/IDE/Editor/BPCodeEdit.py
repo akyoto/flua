@@ -591,7 +591,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def rehighlightCurrentLine(self):
 		self.highlighter.rehighlightBlock(self.textCursor().block())
 	
-	def save(self, newPath = "", msgStatusBar = True):
+	def save(self, newPath = "", msgStatusBar = False):
 		oldPath = self.getFilePath()
 		
 		try:
