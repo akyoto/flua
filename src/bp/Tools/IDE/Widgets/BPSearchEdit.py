@@ -27,13 +27,13 @@ class BPSearchEdit(QtGui.QLineEdit):
 		elif key == QtCore.Qt.Key_Down:
 			self.searchForward(self.text(), True)
 		elif key == QtCore.Qt.Key_Up:
-			self.searchBackward(self.text(), False)
+			self.searchBackward(self.text(), True)
 		else:
 			super().keyPressEvent(event)
 		
 	def searchForward(self, text, nextResult = False, findFlags = None):
 		ce = self.bpIDE.codeEdit
-		if not ce or not text:
+		if not ce:
 			return
 		
 		if not findFlags:
@@ -41,6 +41,11 @@ class BPSearchEdit(QtGui.QLineEdit):
 		
 		qdoc = ce.qdoc
 		cursor = ce.textCursor()
+		
+		if not text:
+			cursor.clearSelection()
+			ce.setTextCursor(cursor)
+			return
 		
 		#cursor.clearSelection()
 		if not nextResult:
