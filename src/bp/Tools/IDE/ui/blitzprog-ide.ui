@@ -55,6 +55,7 @@
     <addaction name="separator"/>
     <addaction name="actionCleanAllTargets"/>
     <addaction name="separator"/>
+    <addaction name="actionProperties"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -77,12 +78,14 @@
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
     <addaction name="separator"/>
+    <addaction name="actionSearch"/>
     <addaction name="actionRegExSearch"/>
     <addaction name="separator"/>
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -119,11 +122,6 @@
    <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionRun"/>
-   <addaction name="separator"/>
-   <addaction name="actionSearch"/>
-   <addaction name="separator"/>
-   <addaction name="actionProperties"/>
-   <addaction name="actionPreferences"/>
   </widget>
   <widget class="QToolBar" name="syntaxSwitcherBar">
    <property name="windowTitle">
