@@ -591,7 +591,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def rehighlightCurrentLine(self):
 		self.highlighter.rehighlightBlock(self.textCursor().block())
 	
-	def save(self, newPath = ""):
+	def save(self, newPath = "", msgStatusBar = True):
 		oldPath = self.getFilePath()
 		
 		try:
@@ -617,10 +617,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			# Success
 			self.qdoc.setModified(False)
-			self.bpIDE.statusBar.showMessage("Saved " + self.getFilePath() + " successfully.", 1000)
+			
+			if msgStatusBar:
+				self.bpIDE.statusBar.showMessage("Saved " + self.getFilePath() + " successfully.", 1000)
 		except:
 			self.setFilePath(oldPath)
-			self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)
+			
+			if msgStatusBar:
+				self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)
 	
 	def setFilePath(self, filePath):
 		self.filePath = fixPath(filePath)

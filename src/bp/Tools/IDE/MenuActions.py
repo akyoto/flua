@@ -186,7 +186,7 @@ class MenuActions:
 			self.codeEdit.threaded = True
 		
 		# General
-		self.codeEdit.save()
+		self.codeEdit.save(msgStatusBar = False)
 		self.console.clearLog()
 		self.msgView.clear()
 		
