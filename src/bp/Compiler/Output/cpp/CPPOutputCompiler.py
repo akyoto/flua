@@ -56,7 +56,6 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.mainCppFile = ""
 		self.customCompilerFlags = []
 		self.customLinkerFlags = []
-		self.includes = []
 		self.customThreadsCount = 0
 		
 		if os.name == "nt":

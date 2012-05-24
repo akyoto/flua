@@ -42,7 +42,7 @@ class MenuActions:
 				parent=self,
 				caption="Open File",
 				directory=openInDirectory,
-				filter="bp and related Files (*.bp *.hpp);;bpc Files (*.bpc);;Any text file (*.*)")
+				filter="bp and related Files (*.bp *.hpp *.py);;bpc Files (*.bpc);;Any text file (*.*)")
 		
 		if fileName:
 			# File already opened in workspace?

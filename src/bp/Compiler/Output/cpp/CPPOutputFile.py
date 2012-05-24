@@ -81,7 +81,6 @@ class CPPOutputFile(BaseOutputFile):
 		self.returnSyntax = "return %s"
 		self.memberAccessSyntax = "this->"
 		self.singleParameterSyntax = "%s %s"
-		self.parameterSyntax = self.singleParameterSyntax + ", "
 		self.newObjectSyntax = "(new %s(%s))"
 		self.binaryOperatorDivideSyntax = "%sfloat(%s)%s%s%s"
 		self.pointerDerefAssignSyntax = "*%s = %s"
@@ -120,7 +119,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.body += "void exec_" + self.id + "() {\n"
 		self.body += self.stringsHeader
 		self.body += "\t// Code\n"
-		self.body += self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, ";\n")
+		self.body += self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.body += "}\n"
 		
 		# Custom Threads
@@ -238,6 +237,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	
 	def buildCall(self, caller, fullName, paramsString):
 		return "%s%s%s%s%s" % (["::", caller + "->"][caller != ""], fullName, "(", paramsString, ")")
+	
+	def buildSingleParameter(self, typeName, name):
+		return self.singleParameterSyntax % (typeName, name)
 	
 	def castToNativeNumeric(self, variableType, value):
 		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)

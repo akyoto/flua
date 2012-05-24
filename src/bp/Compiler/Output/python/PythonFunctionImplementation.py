@@ -72,7 +72,7 @@ class PythonFunctionImplementation(BaseFunctionImplementation):
 		else:
 			tabs = ""
 		
-		return "# %s\n%sdef %s(%s):\n%s" % (funcName, tabs, funcName, self.getParamString(), self.code, tabs)
+		return "# %s\n%sdef %s(%s):\n%s" % (funcName, tabs, funcName, self.getParamString(), self.code)
 	
 	# Constructor
 	def getConstructorCode(self):

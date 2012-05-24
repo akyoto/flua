@@ -16,6 +16,12 @@
 				<include depth="1">Core.hpp</include>
 			</code>
 		</target>
+		<target depth="0">
+			<name>Python3</name>
+			<code>
+				<include depth="1">Core.py</include>
+			</code>
+		</target>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_print</name>
@@ -126,6 +132,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

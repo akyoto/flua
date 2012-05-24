@@ -22,6 +22,18 @@ def getGCCCompilerVersion():
 	# TODO: ...
 	return ""
 	
+def getPython3Path():
+	if os.name == "nt":
+		return fixPath(os.path.abspath("../../../../../python/"))
+	else:
+		return ""
+	
+def getPython3CompilerName():
+	if os.name == "nt":
+		return "python.exe"
+	else:
+		return "python3"
+	
 def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
 	# ########################### #
 	# Priority for module search: #

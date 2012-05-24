@@ -265,7 +265,7 @@ class BaseOutputFile(ScopeController):
 		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
-			print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
+			#print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
 			return self.declareUnmanagedSyntax % (var.getPrototype(), value)
 		elif self.getCurrentScope() == self.getTopLevelScope():
 			return self.assignSyntax % (variableName, value)
@@ -337,7 +337,7 @@ class BaseOutputFile(ScopeController):
 					adjustedDefaultValueType = self.adjustDataType(defaultValueType)
 					#print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
 					self.getCurrentScope().variables[name] = self.createVariable(name, adjustedDefaultValueType, "", False, not adjustedDefaultValueType in nonPointerClasses, False)
-					pList += adjustedDefaultValueType + " " + name + ", "
+					pList += self.buildSingleParameter(adjustedDefaultValueType, name) + ", "
 					continue
 				
 				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
@@ -358,7 +358,7 @@ class BaseOutputFile(ScopeController):
 			if not declaredInline:
 				#print("Variable %s used as '%s'" % (name, usedAs))
 				self.getCurrentScope().variables[name] = self.createVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
-				pList += self.parameterSyntax % (self.adjustDataType(usedAs), name)
+				pList += self.buildSingleParameter(self.adjustDataType(usedAs), name) + ", "
 			else:
 				#for member in self.currentClassImpl.members.values():
 				#	print(member.name)
@@ -376,7 +376,7 @@ class BaseOutputFile(ScopeController):
 				#print(name)
 				#print("------------")
 				
-				pList += self.parameterSyntax % (self.adjustDataType(definedAs), name)
+				pList += self.buildSingleParameter(self.adjustDataType(definedAs), name) + ", "
 				
 				if definedAs != usedAs:
 					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
@@ -1703,13 +1703,16 @@ class BaseOutputFile(ScopeController):
 		if not self.variableExistsAnywhere(toExpr):
 			toVar = self.createVariable("bp_for_end_%s" % (self.compiler.forVarCounter), toType, "", False, not toType in nonPointerClasses, False)
 			#self.getTopLevelScope().variables[toVar.name] = toVar
-			self.varsHeader += toVar.type + " " + toVar.name + self.lineLimiter
+			self.varsHeader += self.buildVarDeclaration(toVar.type, toVar.name) + self.lineLimiter
 			varDefs = "%s = %s;\n" % (toVar.name, toExpr)
 			varDefs += "\t" * self.currentTabLevel
 			toExpr = toVar.name
 			self.compiler.forVarCounter += 1
 		
 		return self.buildForLoop(varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, "\t" * self.currentTabLevel)
+	
+	def buildVarDeclaration(self, typeName, name):
+		return self.buildSingleParameter(typeName, name)
 	
 	def addDivisionByZeroCheck(self, op):
 		if isNumeric(op):

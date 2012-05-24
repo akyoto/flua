@@ -30,6 +30,7 @@
 from bp.Compiler.Output.BaseOutputCompiler import *
 from bp.Compiler.Output.python.PythonClass import *
 from bp.Compiler.Output.python.PythonOutputFile import *
+import shutil
 
 ####################################################################
 # Classes
@@ -48,7 +49,8 @@ class PythonOutputCompiler(BaseOutputCompiler):
 		
 	def writeToFS(self):
 		cppFiles = self.compiledFiles.values()
-		projectLocation = self.projectDir + self.getTargetName().replace(" ", "")
+		projectLocation = self.projectDir + self.getTargetName()
+		includePostfix = "Include"
 		
 		# Write to files
 		for cppFile in cppFiles:
@@ -94,7 +96,18 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))
 		fileOut = self.outputDir + "bp_decls.py"
 		with open(fileOut, "w") as outStream:
-			outStream.write("print('Decls')")
+			#outStream.write("print('Decls')\n")
+			
+			# Includes
+			for incl in self.includes:
+				importPath = normalizeModPath(stripExt(incl)) + includePostfix
+				
+				copyFromPath = getModuleDir() + incl
+				copyToPath = self.outputDir + stripExt(incl) + includePostfix + ".py"
+				
+				shutil.copy(copyFromPath, copyToPath)
+				
+				outStream.write("from %s import *\n" % (importPath))
 		
 	def getExePath(self):
 		return self.mainCppFile
@@ -103,7 +116,7 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		return 0
 		
 	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
-		cmd = ["python3", exe]
+		cmd = [getPython3Path() + getPython3CompilerName(), exe]
 		
 		try:
 			startProcess(cmd, fhOut, fhErr)
@@ -117,4 +130,4 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		return ''.join(files)
 		
 	def getTargetName(self):
-		return "Python 3"
+		return "Python3"

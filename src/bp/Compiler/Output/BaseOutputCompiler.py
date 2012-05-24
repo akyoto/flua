@@ -50,6 +50,7 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		self.stringDataType = "UTF8String"
 		self.defines = dict()
+		self.includes = list()
 		self.specializedClasses = dict()
 		self.funcImplCache = dict()
 		self.needToInitStringClass = False

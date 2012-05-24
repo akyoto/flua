@@ -53,7 +53,9 @@ class PythonOutputFile(BaseOutputFile):
 		
 		# Header
 		self.functionsHeader = "# Functions\n"
+		self.varsHeader = "\n# Variables\n"
 		self.classesHeader = ""
+		self.prototypesHeader = "\n# Prototypes\n"
 		
 		# Syntax
 		self.lineLimiter = "\n"
@@ -62,8 +64,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.catchSyntax = "except %s\n%s\n\t"
 		self.returnSyntax = "return %s"
 		self.memberAccessSyntax = "self."
-		self.singleParameterSyntax = "%s %s"
-		self.parameterSyntax = self.singleParameterSyntax + ", "
+		self.singleParameterSyntax = "%s"
 		self.newObjectSyntax = "%s(%s)"
 		self.binaryOperatorDivideSyntax = "%s%s%s%s%s"
 		self.pointerDerefAssignSyntax = "%s = %s"
@@ -87,19 +88,19 @@ class PythonOutputFile(BaseOutputFile):
 		
 		# Header
 		self.header = "# Imports\n"
-		self.header += "import bp_decls\n"
+		self.header += "from bp_decls import *\n"
 		for node in self.dependencies.childNodes:
 			if isElemNode(node) and node.tagName == "import":
 				self.header += self.handleImport(node)
 		
 		# Strings
-		self.stringsHeader = "# Strings\n"
+		self.stringsHeader = "\n# Strings\n"
 		for node in self.strings.childNodes:
 			self.stringsHeader += self.handleString(node)
-		self.stringsHeader += "\n"
 		
 		# Code
-		self.code = self.parseChilds(self.codeNode)
+		self.currentTabLevel = 0
+		self.code = self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return PythonVariable(name, type, value, isConst, isPointer, isPublic)
@@ -127,8 +128,11 @@ class PythonOutputFile(BaseOutputFile):
 		if operator == "<=":
 			toExpr += " + 1"
 		
-		return "for %s in range(%s, %s):\n%s%s" % (iterExpr, fromExpr, toExpr, tabs, code, tabs)
+		return "%sfor %s in range(%s, %s):\n%s%s" % (varDefs, iterExpr, fromExpr, toExpr, tabs, code)
 		#return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
+	
+	def buildVarDeclaration(self, typeName, name):
+		return "%s = None" % name
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return varName
@@ -166,6 +170,9 @@ class PythonOutputFile(BaseOutputFile):
 	
 	def buildCall(self, caller, fullName, paramsString):
 		return "%s%s%s%s%s" % (["", caller + "."][caller != ""], fullName, "(", paramsString, ")")
+	
+	def buildSingleParameter(self, typeName, name):
+		return self.singleParameterSyntax % (name)
 	
 	def castToNativeNumeric(self, variableType, value):
 		return value
@@ -228,4 +235,4 @@ class PythonOutputFile(BaseOutputFile):
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.stringsHeader + self.classesHeader + "\n%s" % self.code
+		return self.header + self.stringsHeader + self.varsHeader + self.functionsHeader + "\n" + self.classesHeader + "\n# Code\n%s" % self.code
