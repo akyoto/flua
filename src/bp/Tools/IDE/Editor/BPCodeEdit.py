@@ -69,6 +69,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 	def __init__(self, parent = None):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
+		self.popup().setObjectName("AutoCompleter")
 
 # Code Edit
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
@@ -254,11 +255,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if completion in self.completer.bpcModel.functionList:
 			beforeCompletion = tc.block().text()[:-len(completion)]
 			functionHasParameters = False
-			if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
-				tc.insertText(" ")
-			else:
-				tc.insertText("()")
-				tc.movePosition(QtGui.QTextCursor.Left)
+			
+			if tc.block().text() == beforeCompletion + completion:
+				if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
+					tc.insertText(" ")
+				else:
+					tc.insertText("()")
+					tc.movePosition(QtGui.QTextCursor.Left)
 		# Expr blocks
 		#elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
 		#	pass#tc.insertText(" ")

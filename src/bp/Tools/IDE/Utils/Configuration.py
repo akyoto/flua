@@ -46,6 +46,9 @@ class BPConfiguration:
 		
 		self.appStyleSheet = """
 			QPlainTextEdit { background-color: #ffffff; }
+			#AutoCompleter {
+				border: none;
+			}
 		""" #% (self.theme['default-background'])
 		
 		self.dialogStyleSheet = """

@@ -53,10 +53,10 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.realStdout = sys.stdout
 		self.realStderr = sys.stderr
 		
-		if os.name == "nt":
-			self.setMinimumWidth(460)
-		else:
-			self.setMinimumWidth(390)
+		#if os.name == "nt":
+		self.setMinimumWidth(440)
+		#else:
+		#	self.setMinimumWidth(390)
 		
 		#vBox = QtGui.QVBoxLayout(self)
 		
