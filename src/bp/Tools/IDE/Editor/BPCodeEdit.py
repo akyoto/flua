@@ -23,6 +23,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
 		self.classIcon = QtGui.QIcon("images/icons/autocomplete/class.png")
+		self.exceptionIcon = QtGui.QIcon("images/icons/autocomplete/exception.png")
 		self.shortcutFunctionIcon = QtGui.QIcon("images/icons/autocomplete/shortcut-function.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
@@ -48,6 +49,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 	#	self.updateStringList()
 		
 	def updateStringList(self):
+		self.classesList.reverse()
 		self.setStringList(self.classesList + self.functionList + self.keywordList + self.shortCutList)
 		
 	def data(self, index, role):
@@ -55,6 +57,8 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 			text = super().data(index, QtCore.Qt.DisplayRole)
 			
 			# TODO: Optimize for 'in' dict search instead of list search
+			if "Exception" in text:
+				return self.exceptionIcon
 			if text in self.functionList:
 				return self.functionIcon
 			elif text in self.classesList:
