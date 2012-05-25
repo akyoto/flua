@@ -444,6 +444,9 @@ class ExpressionParser:
 		expr = expr.replace(" is ", " == ")
 		#expr = expr.replace(" in ", " }= ")
 		
+		if expr.startswith("-"):
+			expr = "-(%s)" % expr[1:]
+		
 		expr = " " + expr
 		expr = expr.replace(" not ", "!")
 		expr = expr.replace(" not(", "!(")

@@ -49,6 +49,7 @@
 				</meta>
 			</extern-function>
 		</extern>
+		<comment>\SPrints\S#stri\Son\Sthe\Sconsole</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>stri</parameter>
@@ -62,7 +63,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

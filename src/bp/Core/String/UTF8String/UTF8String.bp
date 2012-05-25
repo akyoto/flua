@@ -16,7 +16,7 @@
 		<class depth="0">
 			<name>UTF8String</name>
 			<code>
-				<comment>\SSubstring\Sfrom\Sindex\Sto\Sindex\S+\Slength</comment>
+				<comment>\SSubstring\Sfrom\S#index\Sto\S#index\S+\S#length</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>index</parameter>
@@ -86,6 +86,7 @@
 							</else>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring</comment>
 				<function depth="1">
@@ -117,6 +118,119 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
+				<comment>\Sfrom\Sthe\Sposition\S#from\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>from</value>
+								<value>0</value>
+							</assign>
+						</parameter>
+					</parameters>
+					<name>find</name>
+					<code>
+						<assign depth="2">
+							<value>matchedChars</value>
+							<value>0</value>
+						</assign>
+						<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\Sstrings</comment>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</until>
+							<code>
+								<if-block depth="3">
+									<if>
+										<condition>
+											<equal>
+												<value>
+													<index>
+														<value>
+															<access>
+																<value>my</value>
+																<value>data</value>
+															</access>
+														</value>
+														<value>i</value>
+													</index>
+												</value>
+												<value>
+													<index>
+														<value>
+															<access>
+																<value>chars</value>
+																<value>data</value>
+															</access>
+														</value>
+														<value>matchedChars</value>
+													</index>
+												</value>
+											</equal>
+										</condition>
+										<code>
+											<if-block depth="4">
+												<if>
+													<condition>
+														<equal>
+															<value>matchedChars</value>
+															<value>
+																<subtract>
+																	<value>
+																		<access>
+																			<value>chars</value>
+																			<value>lengthInBytes</value>
+																		</access>
+																	</value>
+																	<value>1</value>
+																</subtract>
+															</value>
+														</equal>
+													</condition>
+													<code>
+														<return depth="5">
+															<subtract>
+																<value>i</value>
+																<value>matchedChars</value>
+															</subtract>
+														</return>
+													</code>
+												</if>
+											</if-block>
+											<assign-add depth="4">
+												<value>matchedChars</value>
+												<value>1</value>
+											</assign-add>
+										</code>
+									</if>
+									<else depth="3">
+										<code>
+											<assign depth="4">
+												<value>matchedChars</value>
+												<value>0</value>
+											</assign>
+										</code>
+									</else>
+								</if-block>
+							</code>
+							<meta/>
+						</for>
+						<return depth="2">42</return>
+					</code>
+					<meta/>
+				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
 				<function depth="1">
 					<parameters>
@@ -129,7 +243,36 @@
 					</parameters>
 					<name>until</name>
 					<code>
-						<noop depth="2"/>
+						<assign depth="2">
+							<value>pos</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>find</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>chars</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>0</parameter>
+									<parameter>pos</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 					<meta/>
 				</function>
@@ -147,6 +290,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1">
@@ -160,8 +304,48 @@
 					</parameters>
 					<name>from</name>
 					<code>
-						<noop depth="2"/>
+						<assign depth="2">
+							<value>pos</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>find</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>chars</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>pos</parameter>
+									<parameter>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>pos</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
 				<function depth="1">
@@ -177,6 +361,71 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+				</function>
+				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\Schars</comment>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>after</name>
+					<code>
+						<assign depth="2">
+							<value>pos</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>find</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>chars</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>
+										<add>
+											<value>pos</value>
+											<value>
+												<access>
+													<value>chars</value>
+													<value>length</value>
+												</access>
+											</value>
+										</add>
+									</parameter>
+									<parameter>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>pos</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
+					</code>
+					<meta/>
 				</function>
 				<comment>\SLeft\Sx\Scharacters</comment>
 				<function depth="1">
@@ -237,12 +486,69 @@
 				<comment>\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
 				<function depth="1">
 					<parameters>
-						<parameter>chars</parameter>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
 					</parameters>
 					<name>erase</name>
 					<code>
+						<assign depth="2">
+							<value>pos</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>find</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>chars</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<return depth="2">
+							<new>
+								<type>UTF8String</type>
+								<parameters/>
+							</new>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseAll</name>
+					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>eraseLast</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
 				</function>
 				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
 				<function depth="1">
@@ -391,8 +697,50 @@
 					</parameters>
 					<name>eraseRight</name>
 					<code>
-						<noop depth="2"/>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<call>
+										<function>
+											<access>
+												<value>my</value>
+												<value>endsWith</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>chars</parameter>
+										</parameters>
+									</call>
+								</condition>
+								<code>
+									<return depth="3">
+										<call>
+											<function>
+												<access>
+													<value>my</value>
+													<value>eraseRight</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>
+													<access>
+														<value>chars</value>
+														<value>length</value>
+													</access>
+												</parameter>
+											</parameters>
+										</call>
+									</return>
+								</code>
+							</if>
+							<else depth="2">
+								<code>
+									<return depth="3">my</return>
+								</code>
+							</else>
+						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
@@ -436,7 +784,51 @@
 					</parameters>
 					<name>endsWith</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>compareMem</function>
+								<parameters>
+									<parameter>
+										<subtract>
+											<value>
+												<add>
+													<value>
+														<access>
+															<value>my</value>
+															<value>data</value>
+														</access>
+													</value>
+													<value>
+														<access>
+															<value>my</value>
+															<value>length</value>
+														</access>
+													</value>
+												</add>
+											</value>
+											<value>
+												<access>
+													<value>chars</value>
+													<value>length</value>
+												</access>
+											</value>
+										</subtract>
+									</parameter>
+									<parameter>
+										<access>
+											<value>chars</value>
+											<value>data</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>chars</value>
+											<value>length</value>
+										</access>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
 					<meta/>
 				</function>

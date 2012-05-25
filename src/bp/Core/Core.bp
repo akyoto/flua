@@ -74,7 +74,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds.</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis\Sguaranteed</comment>
@@ -90,6 +89,9 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
+		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
+		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>a</parameter>
@@ -105,6 +107,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

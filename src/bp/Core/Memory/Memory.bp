@@ -19,6 +19,7 @@
 				<include depth="1">Memory.py</include>
 			</code>
 		</target>
+		<comment>\SCopies\S#size\Selements\Sfrom\S#source\Sto\S#dest</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>source</parameter>
@@ -38,6 +39,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SCompares\S#size\Selements\Sin\S#source\Sand\S#dest\Sand\Sreturns\Strue\Sif\Sthey\Sare\Sequal</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>source</parameter>
@@ -59,6 +61,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SWrites\S#value\Sto\S#size\Selements\Sin\S#dest</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>dest</parameter>

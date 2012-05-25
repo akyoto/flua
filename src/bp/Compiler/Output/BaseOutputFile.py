@@ -643,10 +643,11 @@ class BaseOutputFile(ScopeController):
 			#elif node.nodeValue == "null":
 			#	return "~MemPointer<void>"
 			else:
-				if node.nodeValue in replacedNodeValues:
-					node.nodeValue = replacedNodeValues[node.nodeValue]
+				nodeName = node.nodeValue
+				if nodeName in replacedNodeValues:
+					nodeName = replacedNodeValues[nodeName]
 				
-				return self.getVariableTypeAnywhere(node.nodeValue)
+				return self.getVariableTypeAnywhere(nodeName)
 		else:
 			# Binary operators
 			if node.tagName == "new":
@@ -1163,8 +1164,9 @@ class BaseOutputFile(ScopeController):
 				elif node.nodeValue == "false":
 					return self.buildFalse()
 				elif node.nodeValue in replacedNodeValues:
-					node.nodeValue = replacedNodeValues[node.nodeValue]
-					return node.nodeValue
+					nodeName = node.nodeValue
+					nodeName = replacedNodeValues[node.nodeValue]
+					return nodeName
 				else:
 					return node.nodeValue
 				#else:
