@@ -131,6 +131,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
 				<function depth="1">
@@ -255,8 +256,32 @@
 					</parameters>
 					<name>eraseLeft</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>characterCount</parameter>
+									<parameter>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>characterCount</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
@@ -270,8 +295,50 @@
 					</parameters>
 					<name>eraseLeft</name>
 					<code>
-						<noop depth="2"/>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<call>
+										<function>
+											<access>
+												<value>my</value>
+												<value>startsWith</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>chars</parameter>
+										</parameters>
+									</call>
+								</condition>
+								<code>
+									<return depth="3">
+										<call>
+											<function>
+												<access>
+													<value>my</value>
+													<value>eraseLeft</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>
+													<access>
+														<value>chars</value>
+														<value>length</value>
+													</access>
+												</parameter>
+											</parameters>
+										</call>
+									</return>
+								</code>
+							</if>
+							<else depth="2">
+								<code>
+									<return depth="3">my</return>
+								</code>
+							</else>
+						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
 				<function depth="1">
@@ -285,8 +352,32 @@
 					</parameters>
 					<name>eraseRight</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>
+									<access>
+										<value>my</value>
+										<value>mid</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>0</parameter>
+									<parameter>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>characterCount</value>
+										</subtract>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\Schars</comment>
 				<function depth="1">
@@ -310,8 +401,33 @@
 					</parameters>
 					<name>startsWith</name>
 					<code>
-						<noop depth="2"/>
+						<return depth="2">
+							<call>
+								<function>compareMem</function>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>data</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>chars</value>
+											<value>data</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>chars</value>
+											<value>length</value>
+										</access>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\Schars</comment>
 				<function depth="1">
