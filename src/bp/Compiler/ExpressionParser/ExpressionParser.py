@@ -415,6 +415,8 @@ class ExpressionParser:
 		
 		# Right operand missing
 		if len(rightOperand) == 0:
+			if operator == "=":
+				raise CompilerException("You need to assign a valid value to '%s'" % leftOperand)
 			raise CompilerException("Operator [" + operator + "] expects a second operator")
 		
 		#self.recursionLevel -= 1

@@ -32,7 +32,10 @@
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_writeln</name>
-				<meta/>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_write_xbytes</name>
@@ -50,7 +53,7 @@
 			</extern-function>
 			<extern-function depth="1">
 				<name>bp_usleep</name>
-				<type>Int</type>
+				<type>Bool</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>

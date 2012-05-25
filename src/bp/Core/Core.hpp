@@ -49,8 +49,8 @@ inline void bp_swap(T1 &x, T2 &y) {
 }
 
 template <typename T>
-inline Int bp_usleep(T ms) {
-	return usleep(ms);
+inline Bool bp_usleep(T ms) {
+	return usleep(ms) == 0;
 }
 
 inline time_t bp_systemTime() {

@@ -110,6 +110,7 @@ class BaseClass(BaseNamespace):
 		return name in self.functions
 		
 	def hasExternFunction(self, name):
+		debug(self.externFunctions)
 		return name in self.externFunctions
 		
 	def addExternFunction(self, name, type):

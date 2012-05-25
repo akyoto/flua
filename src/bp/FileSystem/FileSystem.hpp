@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <cstdio>
-#include <bp/Core/String/C++/UTF8String.hpp>
+#include <bp/Core/String/UTF8String/C++/UTF8String.hpp>
 
 // Typedef
 #define BPFileHandle FILE

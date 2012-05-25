@@ -1,0 +1,10 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

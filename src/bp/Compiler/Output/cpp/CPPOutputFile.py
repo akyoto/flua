@@ -92,13 +92,6 @@ class CPPOutputFile(BaseOutputFile):
 	def compile(self):
 		print("Compiling: " + self.file)
 		
-		# Check whether string class has been defined or not
-		# NOTE: This has to be called before self.scanAhead is executed.
-		self.stringClassDefined = self.classExists("UTF8String")
-		
-		# Find classes, functions, operators and external stuff
-		self.scanAhead(self.codeNode)
-		
 		# String class init
 		self.checkStringClass()
 		

@@ -78,10 +78,7 @@ class PythonOutputFile(BaseOutputFile):
 		
 		# Check whether string class has been defined or not
 		# NOTE: This has to be called before self.scanAhead is executed.
-		self.stringClassDefined = self.classExists("UTF8String")
-		
-		# Scan
-		self.scanAhead(self.codeNode)
+		#self.stringClassDefined = self.classExists("UTF8String")
 		
 		# String class init
 		self.checkStringClass()

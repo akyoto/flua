@@ -11,7 +11,8 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SUTF-8\Sencoded\Simmutable\Sstring\S(only\Sfor\SC++\Starget)</comment>
+		<comment>import\SConstructors</comment>
+		<comment>import\SFunctions</comment>
 		<class depth="0">
 			<name>UTF8String</name>
 			<code>
@@ -66,7 +67,6 @@
 							<value>0</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1">
@@ -217,7 +217,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S3\Sstrings</comment>
 				<function depth="1">
@@ -437,7 +436,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
 				<function depth="1">
@@ -572,7 +570,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger\S+\SUTF8String</comment>
 				<function depth="1">
@@ -770,7 +767,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SUTF8String\S+\SInteger</comment>
 				<function depth="1">
@@ -985,7 +981,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SCString</comment>
 				<function depth="1">
@@ -1143,7 +1138,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String</comment>
 				<function depth="1">
@@ -1227,7 +1221,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
 				<function depth="1">
@@ -1308,7 +1301,6 @@
 							</code>
 						</target>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
 				<function depth="1">
@@ -1324,7 +1316,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
 				<function depth="1">
@@ -1340,7 +1331,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1">
@@ -1356,7 +1346,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
 				<function depth="1">
@@ -1372,7 +1361,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SLeft\Sx\Scharacters</comment>
 				<function depth="1">
@@ -1396,7 +1384,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRight\Sx\Scharacters</comment>
 				<function depth="1">
@@ -1430,7 +1417,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
 				<function depth="1">
@@ -1441,7 +1427,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
 				<function depth="1">
@@ -1457,7 +1442,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
@@ -1473,7 +1457,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
 				<function depth="1">
@@ -1489,7 +1472,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\Schars</comment>
 				<function depth="1">
@@ -1505,7 +1487,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
@@ -1516,7 +1497,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\Schars</comment>
 				<function depth="1">
@@ -1527,7 +1507,6 @@
 					<code>
 						<noop depth="2"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sindex\Sto\Sindex\S+\Slength</comment>
 				<function depth="1">
@@ -1628,7 +1607,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1">
@@ -2129,9 +2107,7 @@
 					</cast-definition>
 				</casts>
 			</code>
-			<meta>
-				<ensure-destructor-call>false</ensure-destructor-call>
-			</meta>
+			<meta/>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0">

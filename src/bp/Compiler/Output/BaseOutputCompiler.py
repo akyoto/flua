@@ -135,6 +135,14 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		# After the dependencies have been compiled, compile itself
 		try:
+			# Check whether string class has been defined or not
+			# NOTE: This has to be called before self.scanAhead is executed.
+			cppOut.stringClassDefined = cppOut.classExists("UTF8String")
+			
+			# Find classes, functions, operators and external stuff
+			cppOut.scanAhead(cppOut.codeNode)
+			
+			# Compile it
 			cppOut.compile()
 		except CompilerException as e:
 			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
