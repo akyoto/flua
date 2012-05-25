@@ -248,12 +248,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			return
 		
 		# Update auto completer data
+		classesDict = self.processor.getClassesDict()
 		funcsDict = self.processor.getFunctionsDict()
-		funcsList = list(funcsDict)
 		
-		if len(funcsList) != ppCodeEdit.completer.bpcModel.funcListLen:
+		if (
+				len(funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
+				or len(classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
+			):
+			funcsList = list(funcsDict)
+			classesList = list(classesDict)
+			
 			shortCuts = buildShortcutDict(funcsList)
-			ppCodeEdit.completer.bpcModel.setFunctionList(funcsList, shortCuts)
+			ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, shortCuts, classesList)
 		
 		# After we parsed the functions, set the text and highlight the file
 		if ppCodeEdit.disableUpdatesFlag:

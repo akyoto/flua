@@ -12,13 +12,17 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.shortCuts = dict()
 		self.shortCutList = list(self.shortCuts)
 		
-		self.funcListLen = 0
 		self.functionList = []
+		self.classesList = []
 		self.keywordList = []
+		
+		self.funcListLen = 0
+		self.classesListLen = 0
 		
 		super().__init__([], parent)
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
+		self.classIcon = QtGui.QIcon("images/icons/autocomplete/class.png")
 		self.shortcutFunctionIcon = QtGui.QIcon("images/icons/autocomplete/shortcut-function.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
@@ -26,12 +30,15 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.keywordList = keywordList
 		self.updateStringList()
 		
-	def setFunctionList(self, functionList, shortCuts):
+	def setAutoCompleteLists(self, functionList, shortCuts, classesList):
 		self.functionList = functionList
 		self.funcListLen = len(functionList)
 		
 		self.shortCuts = shortCuts
 		self.shortCutList = list(shortCuts)
+		
+		self.classesList = classesList
+		self.classesListLen = len(classesList)
 		
 		self.updateStringList()
 		
@@ -41,17 +48,21 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 	#	self.updateStringList()
 		
 	def updateStringList(self):
-		self.setStringList(self.keywordList + self.functionList + self.shortCutList)
+		self.setStringList(self.classesList + self.functionList + self.keywordList + self.shortCutList)
 		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
 			text = super().data(index, QtCore.Qt.DisplayRole)
-			if text in self.keywordList:
-				return self.keywordIcon
+			
+			# TODO: Optimize for 'in' dict search instead of list search
+			if text in self.functionList:
+				return self.functionIcon
+			elif text in self.classesList:
+				return self.classIcon
 			elif text in self.shortCutList:
 				return self.shortcutFunctionIcon
-			elif text in self.functionList:
-				return self.functionIcon
+			elif text in self.keywordList:
+				return self.keywordIcon
 		
 		# TODO: Auto completion for shortcuts
 		if role == QtCore.Qt.DisplayRole:
@@ -252,10 +263,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			tc.insertText(completion[len(completion) - extra:])
 			
 		# Functions
+		# TODO: Optimize for dict search instead of list search
 		if completion in self.completer.bpcModel.functionList:
 			beforeCompletion = tc.block().text()[:-len(completion)]
 			functionHasParameters = False
 			
+			# At end of line?
 			if tc.block().text() == beforeCompletion + completion:
 				if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
 					tc.insertText(" ")
@@ -266,6 +279,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
 		#	pass#tc.insertText(" ")
 		# Blocks
+		elif completion in self.completer.bpcModel.classesList:
+			# Not exactly a perfect solution but works in most cases...
+			if tc.block().text()[-1] != ")":
+				tc.insertText("()")
+				tc.movePosition(QtGui.QTextCursor.Left)
 		elif completion in xmlToBPCBlock.values():
 			tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
 			
