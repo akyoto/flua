@@ -1850,6 +1850,10 @@ class BaseOutputFile(ScopeController):
 			# Default parameters
 			paramTypes, paramsString = self.addDefaultParameters(callerType, funcName, paramTypes, paramsString)
 			
+			for i in range(len(paramTypes)):
+				if paramTypes[i] == "void":
+					raise CompilerException("'%s' does not return a value" % nodeToBPC(params.childNodes[i]))
+			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
 			

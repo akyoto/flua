@@ -65,6 +65,8 @@ class PythonOutputCompiler(BaseOutputCompiler):
 				if os.path.isdir(initLocation):
 					with codecs.open(initLocation + "__init__.py", "w", encoding="utf-8") as initOutStream:
 						initOutStream.write("\n")
+						#initOutStream.flush()
+						#initOutStream.close()
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
@@ -75,7 +77,7 @@ class PythonOutputCompiler(BaseOutputCompiler):
 			with codecs.open(fileOut, "w", encoding="utf-8") as outStream:
 				outStream.write(cppFile.getCode())
 			
-			# Write CPP main file (main-out.cpp)
+			# Write Python main file
 			if cppFile.isMainFile:
 				hppFile = normalizeModPath(stripExt(cppFile.file)[len(self.modDir):])
 				
@@ -107,7 +109,12 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 				copyFromPath = getModuleDir() + incl
 				copyToPath = self.outputDir + stripExt(incl) + includePostfix + ".py"
 				
-				shutil.copy(copyFromPath, copyToPath)
+				#shutil.copy2(copyFromPath, copyToPath)
+				with open(copyToPath, "w") as copyToStream:
+					with open(copyFromPath, "r") as copyFromStream:
+						copyToStream.write(copyFromStream.read())
+						copyToStream.flush()
+						copyToStream.close()
 				
 				outStream.write("from %s import *\n" % (importPath))
 		

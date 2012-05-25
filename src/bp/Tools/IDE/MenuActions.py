@@ -335,8 +335,28 @@ class MenuActions:
 	def cleanAllTargets(self):
 		self.acquireGitThread()
 		
-		#os.chdir(getModuleDir())
+		# C++
+		print("Cleaning all C++ builds...")
+		cleanCmd = [
+			getFindPath() + "find",
+			getModuleDir(),
+			"-name",
+			"C++",
+			
+			"-exec",
+			getRmPath() + "rm",
+			"-rf",
+			"{}",
+			";",
+		]
 		
+		self.gitThread.startCmd(cleanCmd, self.console.log)
+		
+		# Wait for thread to finish so we can clean the next
+		self.gitThread.wait()
+		
+		# Python 3
+		print("Cleaning all Python 3 builds...")
 		cleanCmd = [
 			getFindPath() + "find",
 			getModuleDir(),
@@ -350,10 +370,7 @@ class MenuActions:
 			";",
 		]
 		
-		print("Cleaning all targets...")
 		self.gitThread.startCmd(cleanCmd, self.console.log)
-		
-		#os.chdir(getIDERoot())
 	
 	def resetLocalChanges(self):
 		reply = QtGui.QMessageBox.question(self,

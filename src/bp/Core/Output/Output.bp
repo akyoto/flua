@@ -1,0 +1,68 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<include depth="1">Output.hpp</include>
+			</code>
+		</target>
+		<target depth="0">
+			<name>Python3</name>
+			<code>
+				<include depth="1">Output.py</include>
+			</code>
+		</target>
+		<extern depth="0">
+			<extern-function depth="1">
+				<name>bp_write</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_writeln</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_write_xbytes</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1">
+				<name>bp_flush</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<function depth="0">
+			<parameters>
+				<parameter>stri</parameter>
+			</parameters>
+			<name>print</name>
+			<code>
+				<call depth="1">
+					<function>bp_writeln</function>
+					<parameters>
+						<parameter>stri</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

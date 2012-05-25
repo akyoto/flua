@@ -5,6 +5,7 @@
 			<import>bp.Core</import>
 			<import>Memory</import>
 			<import>String</import>
+			<import>Output</import>
 			<import>Exception</import>
 		</dependencies>
 		<strings/>
@@ -23,34 +24,6 @@
 			</code>
 		</target>
 		<extern depth="0">
-			<extern-function depth="1">
-				<name>bp_write</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_writeln</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_write_xbytes</name>
-				<meta>
-					<same-output-for-input>true</same-output-for-input>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1">
-				<name>bp_flush</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
 			<extern-function depth="1">
 				<name>bp_usleep</name>
 				<type>Bool</type>
@@ -82,20 +55,7 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<function depth="0">
-			<parameters>
-				<parameter>stri</parameter>
-			</parameters>
-			<name>print</name>
-			<code>
-				<call depth="1">
-					<function>bp_writeln</function>
-					<parameters>
-						<parameter>stri</parameter>
-					</parameters>
-				</call>
-			</code>
-		</function>
+		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>ms</parameter>
@@ -114,7 +74,11 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds.</comment>
+		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis\Sguaranteed</comment>
+		<comment>\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
 		<function depth="0">
 			<name>systemTime</name>
 			<code>
