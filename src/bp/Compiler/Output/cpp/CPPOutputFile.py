@@ -92,9 +92,6 @@ class CPPOutputFile(BaseOutputFile):
 	def compile(self):
 		print("Compiling: " + self.file)
 		
-		# String class init
-		self.checkStringClass()
-		
 		# Header
 		self.header += "// Includes\n"
 		self.header += "#include <bp_decls.hpp>\n"

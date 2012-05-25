@@ -6,10 +6,5 @@
 		</dependencies>
 		<strings/>
 	</header>
-	<code>
-		<assign depth="0">
-			<value>xyz</value>
-			<value>3</value>
-		</assign>
-	</code>
+	<code/>
 </module>

@@ -5,14 +5,14 @@
 			<import>bp.Core</import>
 			<import>bp.Core.String</import>
 			<import>bp.Core.Memory</import>
+			<import>Constructors</import>
+			<import>Functions</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">\n</string>
 		</strings>
 	</header>
 	<code>
-		<comment>import\SConstructors</comment>
-		<comment>import\SFunctions</comment>
 		<class depth="0">
 			<name>UTF8String</name>
 			<code>
@@ -67,6 +67,7 @@
 							<value>0</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1">

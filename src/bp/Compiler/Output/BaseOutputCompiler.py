@@ -119,6 +119,14 @@ class BaseOutputCompiler(Benchmarkable):
 			self.mainFile = cppOut
 			self.projectDir = extractDir(self.mainFile.getFilePath())
 		
+		# Check whether string class has been defined or not
+		# NOTE: This has to be called before self.scanAhead is executed.
+		cppOut.stringClassDefined = cppOut.classExists("UTF8String")
+		
+		# Find classes, functions, operators and external stuff
+		# UTF8String module will find UTF8String class e.g.
+		cppOut.scanAhead(cppOut.codeNode)
+		
 		# This needs to be executed BEFORE the imported files have been compiled
 		# It'll prevent a file from being processed twice
 		self.compiledFiles[inpFile] = cppOut
@@ -133,14 +141,15 @@ class BaseOutputCompiler(Benchmarkable):
 		# It'll make sure the files are called in the correct (recursive) order
 		self.compiledFilesList.append(cppOut)
 		
+		# Kinda hardcoded, yeah...we want to prevent the UTF8String module
+		# from thinking UTF8String has already been defined.
+		if stripAll(cppOut.getFilePath()) != "UTF8String":
+			cppOut.stringClassDefined = cppOut.classExists("UTF8String")
+		
 		# After the dependencies have been compiled, compile itself
 		try:
-			# Check whether string class has been defined or not
-			# NOTE: This has to be called before self.scanAhead is executed.
-			cppOut.stringClassDefined = cppOut.classExists("UTF8String")
-			
-			# Find classes, functions, operators and external stuff
-			cppOut.scanAhead(cppOut.codeNode)
+			# String class init
+			cppOut.checkStringClass()
 			
 			# Compile it
 			cppOut.compile()

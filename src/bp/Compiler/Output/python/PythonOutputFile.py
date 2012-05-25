@@ -76,13 +76,6 @@ class PythonOutputFile(BaseOutputFile):
 	def compile(self):
 		print("Compiling: " + self.file)
 		
-		# Check whether string class has been defined or not
-		# NOTE: This has to be called before self.scanAhead is executed.
-		#self.stringClassDefined = self.classExists("UTF8String")
-		
-		# String class init
-		self.checkStringClass()
-		
 		# Header
 		self.header = "# Imports\n"
 		self.header += "from bp_decls import *\n"

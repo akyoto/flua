@@ -47,7 +47,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
-		self.developerFlag = False
+		self.developerFlag = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
@@ -93,6 +93,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		cursor = self.codeEdit.textCursor()
 		cursor.movePosition(QtGui.QTextCursor.End)
 		self.codeEdit.setTextCursor(cursor)
+		
+		# Enable debug output
+		if self.developerFlag:
+			def debug(msg):
+				print("\t" * dbgTabLevel + str(msg))
+				
+			def debugPP(msg):
+				print("\t" * dbgTabLevel + str(msg))
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		
