@@ -10,9 +10,13 @@ def startProcess(cmd, fhOut, fhErr):
 	line = ""
 	errLine = ""
 	
-	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = {
-		"PATH" : getDLLDir()
-	})
+	envi = None
+	if os.name == "nt":
+		envi = {
+			"PATH" : getDLLDir()
+		}
+	
+	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = envi)
 	linesThreshold = 2000
 	timeThreshold = 1.0 / 25 # seconds
 	lastWriteTime = 0
