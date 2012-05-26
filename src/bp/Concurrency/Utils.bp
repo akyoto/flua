@@ -29,6 +29,9 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_atomicAdd2</name>
+			</extern-function>
 		</extern>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
 		<function depth="0">

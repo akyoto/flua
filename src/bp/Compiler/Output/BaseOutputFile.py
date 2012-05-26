@@ -172,7 +172,7 @@ class BaseOutputFile(ScopeController):
 				
 				# data access from a pointer
 				accessOp1Type = self.getExprDataType(accessOp1)
-				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data" and isUnmanaged(accessOp1Type):
+				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data": #and isUnmanaged(accessOp1Type):
 					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
 				
 				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
@@ -1236,7 +1236,7 @@ class BaseOutputFile(ScopeController):
 			index = self.parseExpr(node.childNodes[1].childNodes[0])
 			callerClassName = extractClassName(callerType)
 			
-			if callerClassName == "MemPointer" and isUnmanaged(callerType):
+			if callerClassName == "MemPointer": #and isUnmanaged(callerType):
 				return "%s[%s]" % (caller, index)
 			
 			memberFunc = "[]"
