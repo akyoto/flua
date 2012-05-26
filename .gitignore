@@ -13,4 +13,5 @@ __pycache__
 src/bp/Tools/IDE/tmp/*
 src/bp/Tools/IDE/miscellaneous/scribble.txt
 src/bp/Tools/IDE/settings.ini
+src/playground/
 .notepad++
