@@ -19,7 +19,7 @@
 		<comment>\SI\Salready\Sadded\Sone\Sto\Sthe\Sbp/Examples/\Sdirectory\Swhich\Slooks\Slike\Sthis:</comment>
 		<comment>\Sint\Sbp_myCFunction(int\Sa,\Sint\Sb)\S{</comment>
 		<comment>\S\S\S\S\Sreturn\Sa\S+\Sb;</comment>
-		<comment>\S}</comment>
+		<comment>\S}45</comment>
 		<comment>\SYou\Scan\Shold\SCtrl\Sfor\Ssome\Stime\Sand\Sclick\Son\S'MyLibrary.hpp'\Sin\Sthe\Sabove\Sinclude\Sinstruction.</comment>
 		<comment>\SIf\Sthe\Sfile\Sexists\Sit\Swill\Sbe\Sopened,\Sotherwise\Sa\Snew\Sfile\Swith\Sthat\Sname\S(MyLibrary.hpp)\Swill\Sbe\Screated.</comment>
 		<comment>\SNow\Swe\Sneed\Sto\Sdeclare\San\Sextern\Sfunction\Swith\Sthe\Sprefix\S'bp_'\Sand\Sits\Sreturn\Stype:</comment>
@@ -54,6 +54,14 @@
 				<parameter>a</parameter>
 			</parameters>
 		</call>
-		<comment>\STODO:\SSection\S'How\Sto\Sdynamically\Sadd\Slinker\Sflags'</comment>
+		<comment>\SHow\Sto\Sdynamically\Sadd\Scompiler,\Sinterpreter\Sor\Slinker\Sflags:</comment>
+		<target depth="0">
+			<name>C++</name>
+			<code>
+				<compiler-flags depth="1">
+					<compiler-flag depth="2">-lpthread</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
 	</code>
 </module>

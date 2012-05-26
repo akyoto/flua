@@ -96,7 +96,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>

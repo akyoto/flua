@@ -813,9 +813,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleRequire(self, line):
 		if not self.nextLineIndented:
-			self.raiseBlockException(elementName, line)
+			self.raiseBlockException("require", line)
 		
-		node = self.doc.createElement(elementName)
+		node = self.doc.createElement("require")
 		self.inRequire += 1
 		
 		self.nextNode = node
