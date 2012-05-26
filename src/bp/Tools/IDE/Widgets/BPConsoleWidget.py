@@ -54,7 +54,7 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		self.realStderr = sys.stderr
 		
 		#if os.name == "nt":
-		self.setMinimumWidth(440)
+		self.setMinimumWidth(450)
 		#else:
 		#	self.setMinimumWidth(390)
 		

@@ -6,11 +6,13 @@
 			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Test.hpp</string>
-			<string id="bp_string_1">\E</string>
-			<string id="bp_string_2">\E</string>
-			<string id="bp_string_3">File\Ssystem\Sworking!</string>
-			<string id="bp_string_4">File\Ssystem\SNOT\Sworking!</string>
+			<string id="bp_string_0">Test.txt</string>
+			<string id="bp_string_1">Hello\SWorld</string>
+			<string id="bp_string_2">Test.txt</string>
+			<string id="bp_string_3">\E</string>
+			<string id="bp_string_4">\E</string>
+			<string id="bp_string_5">File\Ssystem\Sworking!</string>
+			<string id="bp_string_6">File\Ssystem\SNOT\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -18,13 +20,20 @@
 			<value>fsErrors</value>
 			<value>0</value>
 		</assign>
+		<call depth="0">
+			<function>writeFile</function>
+			<parameters>
+				<parameter>bp_string_0</parameter>
+				<parameter>bp_string_1</parameter>
+			</parameters>
+		</call>
 		<assign depth="0">
 			<value>testReadStream</value>
 			<value>
 				<new>
 					<type>FileReadStream</type>
 					<parameters>
-						<parameter>bp_string_0</parameter>
+						<parameter>bp_string_2</parameter>
 					</parameters>
 				</new>
 			</value>
@@ -57,7 +66,7 @@
 				<condition>
 					<equal>
 						<value>streamContents</value>
-						<value>bp_string_1</value>
+						<value>bp_string_3</value>
 					</equal>
 				</condition>
 				<code>
@@ -82,7 +91,7 @@
 				<condition>
 					<equal>
 						<value>currentDir</value>
-						<value>bp_string_2</value>
+						<value>bp_string_4</value>
 					</equal>
 				</condition>
 				<code>
@@ -96,16 +105,16 @@
 		<if-block depth="0">
 			<if>
 				<condition>
-					<greater>
+					<equal>
 						<value>fsErrors</value>
 						<value>0</value>
-					</greater>
+					</equal>
 				</condition>
 				<code>
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_3</parameter>
+							<parameter>bp_string_5</parameter>
 						</parameters>
 					</call>
 				</code>
@@ -115,7 +124,7 @@
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_4</parameter>
+							<parameter>bp_string_6</parameter>
 						</parameters>
 					</call>
 				</code>
