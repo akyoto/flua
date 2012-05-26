@@ -33,6 +33,7 @@ import codecs
 import subprocess
 import os
 import sys
+import platform
 
 ####################################################################
 # Classes
@@ -44,13 +45,19 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# OS and architecture
 		if os.name == "nt":
-			platform = "windows"
+			self.operatingSystem = "windows"
 		else:#elif os.name == "posix":
-			platform = "linux"
+			self.operatingSystem = "linux"
 		
-		architecture = "x86"
+
+		self.is64Bit = ("64" in platform.architecture()[0])
 		
-		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s/" % (self.modDir, platform, architecture)))
+		if self.is64Bit:
+			self.architecture = "x64"
+		else:
+			self.architecture = "x86"
+		
+		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s" % (self.modDir, self.operatingSystem, self.architecture)))
 		self.outputDir = ""
 		self.mainFile = None
 		self.mainCppFile = ""
@@ -211,7 +218,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			"-Wno-div-by-zero",
 			"-Wall",
 			"-std=c++0x",
-			"-m32",
+			["-m32", "-m64"][self.is64Bit],
 		]
 		
 		# Linker options

@@ -22,7 +22,8 @@
 	//  --enable-threads=posix
 	//  --enable-thread-local-alloc
 	//  --enable-parallel-mark
-	
+	// ./configure --enable-cplusplus --enable-threads=posix --enable-thread-local-alloc --enable-parallel-mark --prefix=~/boehmgc/ --CFLAGS=-DUSE_LIBC_PRIVATES-DPARALLEL_MARK
+
 	//compile with
 	//	-DUSE_LIBC_PRIVATES
 	//	-DPARALLEL_MARK
@@ -49,6 +50,7 @@
 	// ./configure
 	//  --enable-cxx
 	//  --enable-fat
+	// ./configure --enable-cxx --enable-fat
 	#include <gmpxx.h>
 	#include <gmp.h>
 	
