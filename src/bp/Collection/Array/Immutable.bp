@@ -8,7 +8,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\STODO:\SFast,\Slock-free\Sand\Simmutable\Sversion</comment>
+		<comment>\SThe\Snaive\Sapproach:</comment>
 		<class depth="0">
 			<name>ImmutableArray</name>
 			<code>
