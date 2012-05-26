@@ -30,7 +30,11 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1">
-				<name>bp_atomicAdd2</name>
+				<name>bp_atomicSetFlag</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
 			</extern-function>
 		</extern>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
@@ -45,5 +49,108 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SCounter\Sthat\Scan\Sbe\Sused\Sby\Sa\Sknown\Snumber\Sof\Sthreads,\Sthis\Sis\Sfaster\Sthan\Satomic\Sadd\Soperations</comment>
+		<class depth="0">
+			<name>AtomicCounter</name>
+			<code>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>size</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2">
+							<value>
+								<access>
+									<value>my</value>
+									<value>counter</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Array</value>
+											<value>Int</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>size</value>
+											</access>
+										</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</code>
+				</function>
+				<function depth="1">
+					<parameters>
+						<parameter>threadId</parameter>
+					</parameters>
+					<name>increment</name>
+					<code>
+						<assign-add depth="2">
+							<value>
+								<index>
+									<value>
+										<access>
+											<value>my</value>
+											<value>counter</value>
+										</access>
+									</value>
+									<value>threadId</value>
+								</index>
+							</value>
+							<value>1</value>
+						</assign-add>
+					</code>
+				</function>
+				<function depth="1">
+					<name>currentValue</name>
+					<code>
+						<assign depth="2">
+							<value>val</value>
+							<value>0</value>
+						</assign>
+						<for depth="2">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>
+								<access>
+									<value>my</value>
+									<value>size</value>
+								</access>
+							</until>
+							<code>
+								<assign-add depth="3">
+									<value>val</value>
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>counter</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign-add>
+							</code>
+						</for>
+						<return depth="2">val</return>
+					</code>
+				</function>
+			</code>
+		</class>
 	</code>
 </module>

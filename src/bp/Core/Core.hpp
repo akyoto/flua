@@ -9,13 +9,6 @@ inline void bp_gcCollect() {
 	GC_gcollect();
 }
 
-template <typename T1>
-inline void bp_updateInc(T1 &ref) {
-	asm volatile("" ::: "memory");
-	ref++;
-	asm volatile("lock addl $0x0,(%esp)");
-}
-
 template <typename T1, typename T2>
 inline void bp_swap(T1 &x, T2 &y) {
 	T1 tmp(x);

@@ -3,11 +3,6 @@
 #define _toString(x) (new BPUTF8String(const_cast<char*>(x)))
 
 template <typename T>
-inline size_t bp_insertInt(char* ptr, const T num, const size_t index) {
-	return fast_itoa_10(num, ptr + index);
-}
-
-template <typename T>
 inline size_t bp_strlen(T ptr) {
 	return strlen(ptr);
 }
@@ -111,4 +106,10 @@ size_t fast_itoa_10(T value, char* result) {
 	}
 	
 	return numbersAdded;
+}
+
+// bp_insertInt
+template <typename T>
+inline size_t bp_insertInt(char* ptr, const T num, const size_t index) {
+	return fast_itoa_10(num, ptr + index);
 }

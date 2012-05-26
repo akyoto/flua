@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -66,6 +66,8 @@
     <addaction name="actionChangeLog"/>
     <addaction name="actionResetLocalChanges"/>
     <addaction name="actionDownloadUpdates"/>
+    <addaction name="separator"/>
+    <addaction name="actionReportBug"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
@@ -389,7 +391,7 @@
   </action>
   <action name="actionIntroduction">
    <property name="text">
-    <string>Introduction</string>
+    <string>Examples</string>
    </property>
   </action>
   <action name="actionRunOptimized">
@@ -479,6 +481,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+F</string>
+   </property>
+  </action>
+  <action name="actionReportBug">
+   <property name="text">
+    <string>Submit a Bug Report</string>
    </property>
   </action>
  </widget>

@@ -19,10 +19,22 @@ def getGCCCompilerPath():
 	if os.name == "nt":
 		return fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/"))
 	else:
+		# Linux
+		#if os.path.exists("/usr/bin/g++"):
+		#	return "/usr/bin/"
+		#else:
 		return ""
 	
 def getGCCCompilerName():
-	return "g++"
+	if os.name == "nt":
+		# Windows
+		return "g++"
+	else:
+		# Linux
+		if os.path.exists("/usr/bin/g++-4.7"):
+			return "g++-4.7"
+		else:
+			return "g++"
 	
 def getGCCCompilerVersion():
 	# TODO: ...

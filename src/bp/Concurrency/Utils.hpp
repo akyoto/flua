@@ -14,3 +14,9 @@ template <typename T1, typename T2>
 inline void bp_atomicAdd(T1 &var, T2 value) {
 	__sync_fetch_and_add(&var, value);
 }
+
+template <typename T1, typename T2>
+inline void bp_atomicSetFlag(T1 &ref, T2 value) {
+	asm volatile("":::"memory");
+	ref = value;
+}
