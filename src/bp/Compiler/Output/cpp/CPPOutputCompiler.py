@@ -240,7 +240,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			additionalLibs += [
 				"-lgccpp",
 				"-lgc",
-				"-lpthread",
+				"-lpthread"
 			]
 		
 		if self.staticStdcppLinking:
@@ -260,7 +260,6 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			"-L" + fixPath(self.libsDir),
 			#"-ltheron",
 			#"-lboost_thread",
-			#"-lpthread"
 		] + staticRuntime + additionalLibs + self.customLinkerFlags
 		
 		try:

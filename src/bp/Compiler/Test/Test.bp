@@ -16,10 +16,9 @@
 			<import>unicode</import>
 			<import>stringoperations</import>
 			<import>filesystem</import>
+			<import>parallel</import>
 		</dependencies>
 		<strings/>
 	</header>
-	<code>
-		<comment>import\Sparallel</comment>
-	</code>
+	<code/>
 </module>

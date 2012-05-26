@@ -5,6 +5,12 @@ buildAndExecute = 1
 buildGraphViz = 0
 configScriptPath = extractDir(os.path.realpath(__file__))
 
+def getDLLDir():
+	if os.name == "nt":
+		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/windows/x86/DLLs"))
+	else:
+		return ""
+
 def getModuleDir():
 	return fixPath(os.path.abspath(configScriptPath + "../../../"))
 	#return extractDir(os.path.abspath("../../"))
