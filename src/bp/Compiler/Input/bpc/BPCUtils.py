@@ -66,6 +66,7 @@ xmlToBPCBlock = {
 	"extends" : "extends",
 	"else" : "else",
 	"private" : "private",
+	"shared" : "shared",
 	"extern" : "extern",
 	"define" : "define",
 	"compiler-flags" : "compilerflags",

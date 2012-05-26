@@ -208,7 +208,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#"-march=native",
 			#"-mtune=native",
 			
-			"-Wno-div-by-zero",
+			"-Wno-div-by-zero", # We check for div by zero
+			"-Wno-parentheses", # TODO: Check
 			"-Wall",
 			"-std=c++0x",
 			"-m32",

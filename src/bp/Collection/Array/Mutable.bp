@@ -19,13 +19,24 @@
 					<parameters>
 						<parameter>
 							<assign>
-								<value>allocateElements</value>
+								<value>size</value>
 								<value>1024</value>
 							</assign>
 						</parameter>
 					</parameters>
 					<name>init</name>
 					<code>
+						<assign depth="2">
+							<value>size</value>
+							<value>
+								<call>
+									<function>getNextPowerOf2</function>
+									<parameters>
+										<parameter>size</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
 						<assign depth="2">
 							<value>
 								<access>
@@ -44,7 +55,7 @@
 												</template-call>
 											</type>
 											<parameters>
-												<parameter>allocateElements</parameter>
+												<parameter>size</parameter>
 											</parameters>
 										</new>
 									</value>
@@ -80,7 +91,7 @@
 											<value>start</value>
 										</access>
 									</value>
-									<value>allocateElements</value>
+									<value>size</value>
 								</add>
 							</value>
 						</assign>
@@ -446,7 +457,6 @@
 							</return>
 						</code>
 					</operator>
-					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">

@@ -19,68 +19,6 @@
 				<include depth="1">Memory.py</include>
 			</code>
 		</target>
-		<comment>\SCopies\S#size\Selements\Sfrom\S#source\Sto\S#dest</comment>
-		<function depth="0">
-			<parameters>
-				<parameter>source</parameter>
-				<parameter>dest</parameter>
-				<parameter>size</parameter>
-			</parameters>
-			<name>copyMem</name>
-			<code>
-				<call depth="1">
-					<function>bp_copyMem</function>
-					<parameters>
-						<parameter>source</parameter>
-						<parameter>dest</parameter>
-						<parameter>size</parameter>
-					</parameters>
-				</call>
-			</code>
-			<meta/>
-		</function>
-		<comment>\SCompares\S#size\Selements\Sin\S#source\Sand\S#dest\Sand\Sreturns\Strue\Sif\Sthey\Sare\Sequal</comment>
-		<function depth="0">
-			<parameters>
-				<parameter>source</parameter>
-				<parameter>dest</parameter>
-				<parameter>size</parameter>
-			</parameters>
-			<name>compareMem</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_compareMem</function>
-						<parameters>
-							<parameter>source</parameter>
-							<parameter>dest</parameter>
-							<parameter>size</parameter>
-						</parameters>
-					</call>
-				</return>
-			</code>
-			<meta/>
-		</function>
-		<comment>\SWrites\S#value\Sto\S#size\Selements\Sin\S#dest</comment>
-		<function depth="0">
-			<parameters>
-				<parameter>dest</parameter>
-				<parameter>value</parameter>
-				<parameter>size</parameter>
-			</parameters>
-			<name>setMem</name>
-			<code>
-				<call depth="1">
-					<function>bp_setMem</function>
-					<parameters>
-						<parameter>dest</parameter>
-						<parameter>value</parameter>
-						<parameter>size</parameter>
-					</parameters>
-				</call>
-			</code>
-			<meta/>
-		</function>
 		<extern depth="0">
 			<extern-function depth="1">
 				<name>bp_copyMem</name>
@@ -173,6 +111,67 @@
 				<meta/>
 			</class>
 		</extern>
+		<comment>\SCopies\S#size\Selements\Sfrom\S#source\Sto\S#dest</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>source</parameter>
+				<parameter>dest</parameter>
+				<parameter>size</parameter>
+			</parameters>
+			<name>copyMem</name>
+			<code>
+				<call depth="1">
+					<function>bp_copyMem</function>
+					<parameters>
+						<parameter>source</parameter>
+						<parameter>dest</parameter>
+						<parameter>size</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<comment>\SCompares\S#size\Selements\Sin\S#source\Sand\S#dest\Sand\Sreturns\Strue\Sif\Sthey\Sare\Sequal</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>source</parameter>
+				<parameter>dest</parameter>
+				<parameter>size</parameter>
+			</parameters>
+			<name>compareMem</name>
+			<code>
+				<return depth="1">
+					<call>
+						<function>bp_compareMem</function>
+						<parameters>
+							<parameter>source</parameter>
+							<parameter>dest</parameter>
+							<parameter>size</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SWrites\S#value\Sto\S#size\Selements\Sin\S#dest</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>dest</parameter>
+				<parameter>value</parameter>
+				<parameter>size</parameter>
+			</parameters>
+			<name>setMem</name>
+			<code>
+				<call depth="1">
+					<function>bp_setMem</function>
+					<parameters>
+						<parameter>dest</parameter>
+						<parameter>value</parameter>
+						<parameter>size</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SActivates\Sone\Sgarbage\Scollection\Scycle\Swhich\Sdoes\Snot\Sguarantee\Sto\Sfree\Sup\Sunused\Smemory\Simmediately</comment>
 		<function depth="0">
 			<name>gcCollect</name>
 			<code>
@@ -180,6 +179,97 @@
 					<function>bp_gcCollect</function>
 					<parameters/>
 				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Snext\Spower\Sof\S2\Sfor\S#x.\SThis\Sfunction\Sis\Sin\Sthe</comment>
+		<comment>\Smemory\Ssection\Sbecause\Sit\Sis\Sused\Squite\Soften\Sby\Sdata\Sstructures.</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>getNextPowerOf2</name>
+			<code>
+				<assign-subtract depth="1">
+					<value>x</value>
+					<value>1</value>
+				</assign-subtract>
+				<assign depth="1">
+					<value>x</value>
+					<value>
+						<bitwise-or>
+							<value>
+								<shift-right>
+									<value>x</value>
+									<value>1</value>
+								</shift-right>
+							</value>
+							<value>x</value>
+						</bitwise-or>
+					</value>
+				</assign>
+				<assign depth="1">
+					<value>x</value>
+					<value>
+						<bitwise-or>
+							<value>
+								<shift-right>
+									<value>x</value>
+									<value>2</value>
+								</shift-right>
+							</value>
+							<value>x</value>
+						</bitwise-or>
+					</value>
+				</assign>
+				<assign depth="1">
+					<value>x</value>
+					<value>
+						<bitwise-or>
+							<value>
+								<shift-right>
+									<value>x</value>
+									<value>4</value>
+								</shift-right>
+							</value>
+							<value>x</value>
+						</bitwise-or>
+					</value>
+				</assign>
+				<assign depth="1">
+					<value>x</value>
+					<value>
+						<bitwise-or>
+							<value>
+								<shift-right>
+									<value>x</value>
+									<value>8</value>
+								</shift-right>
+							</value>
+							<value>x</value>
+						</bitwise-or>
+					</value>
+				</assign>
+				<assign depth="1">
+					<value>x</value>
+					<value>
+						<bitwise-or>
+							<value>
+								<shift-right>
+									<value>x</value>
+									<value>16</value>
+								</shift-right>
+							</value>
+							<value>x</value>
+						</bitwise-or>
+					</value>
+				</assign>
+				<return depth="1">
+					<add>
+						<value>x</value>
+						<value>1</value>
+					</add>
+				</return>
 			</code>
 			<meta/>
 		</function>

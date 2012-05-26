@@ -76,7 +76,10 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 	className = extractClassName(type)
 	
 	if className == "MemPointer":
-		return paramsNew[0] + "*"
+		if paramsNew:
+			return paramsNew[0] + "*"
+		else:
+			raise CompilerException("You forgot to specify the data type of your MemPointer")
 	
 	if not isUnmanaged(type):
 		if adjustOuterAsWell:

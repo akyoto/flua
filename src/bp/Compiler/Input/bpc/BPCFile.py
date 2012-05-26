@@ -70,6 +70,7 @@ simpleBlocks = {
 	"define" : [],
 	"extends" : [],
 	"parallel" : [],
+	"shared" : [],
 }
 
 def addGenerics(line):
@@ -131,7 +132,7 @@ def addBrackets(line):
 	if i < len(line) - 1:
 		nextChar = rightOperand[0]
 		
-		if char.isspace() and (isVarChar(nextChar) or nextChar == '('):
+		if char.isspace() and (isVarChar(nextChar) or nextChar == '(' or (nextChar == '-' and len(rightOperand) > 1 and rightOperand[1] != "=")):
 			line = "%s(%s)" % (line[:i], rightOperand)
 	elif line[-1] != ')':
 		line += "()"
@@ -227,6 +228,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"require" : self.handleRequire,
 			"return" : self.handleReturn,
 			"set" : self.handleSet,
+			"shared" : self.handleShared,
 			"switch" : self.handleSwitch,
 			"target" : self.handleTarget,
 			"template" : self.handleTemplate,
@@ -774,6 +776,14 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return node
 		
+	def handleShared(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("shared", line)
+		
+		node = self.doc.createElement("shared")
+		self.nextNode = node
+		return node
+		
 	def handlePrivate(self, line):
 		if not self.nextLineIndented:
 			self.raiseBlockException("private", line)
@@ -803,9 +813,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleRequire(self, line):
 		if not self.nextLineIndented:
-			self.raiseBlockException("require", line)
+			self.raiseBlockException(elementName, line)
 		
-		node = self.doc.createElement("require")
+		node = self.doc.createElement(elementName)
 		self.inRequire += 1
 		
 		self.nextNode = node

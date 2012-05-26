@@ -122,7 +122,37 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Strue\Sif\Sx\Sis\Sodd,\Sfalse\Sotherwise</comment>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Spower\Sof\S2,\Sfalse\Sotherwise</comment>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>isPowerOf2</name>
+			<code>
+				<return depth="1">
+					<and>
+						<value>x</value>
+						<value>
+							<not>
+								<value>
+									<bitwise-and>
+										<value>x</value>
+										<value>
+											<subtract>
+												<value>x</value>
+												<value>1</value>
+											</subtract>
+										</value>
+									</bitwise-and>
+								</value>
+							</not>
+						</value>
+					</and>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Sodd,\Sfalse\Sotherwise</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -143,7 +173,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturn\Strue\Sif\Sx\Sis\Seven,\Sfalse\Sotherwise</comment>
+		<comment>\SReturn\Strue\Sif\S#x\Sis\Seven,\Sfalse\Sotherwise</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>

@@ -54,6 +54,10 @@
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
+			<extern-function depth="1">
+				<name>bp_updateInc</name>
+				<meta/>
+			</extern-function>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
 		<function depth="0">
@@ -107,7 +111,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

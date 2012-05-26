@@ -102,6 +102,7 @@ class BaseOutputFile(ScopeController):
 		self.inDefine = 0
 		self.inExtends = 0
 		self.inParallel = 0
+		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
 		
@@ -723,6 +724,7 @@ class BaseOutputFile(ScopeController):
 					#debug("Member '" + memberName + "' doesn't exist")
 					
 					# data access from a pointer
+					#print(callerClassName, memberName)
 					if callerClassName == "MemPointer" and memberName == "data":
 						return callerType[callerType.find('<')+1:-1]
 					
@@ -950,6 +952,15 @@ class BaseOutputFile(ScopeController):
 		
 		if joinAll:
 			code += self.waitCustomThreadsCode(block)
+		
+		return code
+	
+	def handleShared(self, node):
+		codeNode = getElementByTagName(node, "code")
+		
+		self.inShared += 1
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+		self.inShared -= 1
 		
 		return code
 	
@@ -1284,6 +1295,8 @@ class BaseOutputFile(ScopeController):
 			return "continue"
 		elif tagName == "parallel":
 			return self.handleParallel(node)
+		elif tagName == "shared":
+			return self.handleShared(node)
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
@@ -1354,7 +1367,7 @@ class BaseOutputFile(ScopeController):
 		callerClassName = extractClassName(callerType)
 		
 		if callerClassName in self.compiler.mainClass.classes:
-			if callerClassName == "MemPointer" and isTextNode(op2) and isUnmanaged(callerType):
+			if callerClassName == "MemPointer" and isTextNode(op2):
 				if op2.nodeValue == "data":
 					return "(*%s)" % (self.parseExpr(op1))
 			# TODO: Optimize
