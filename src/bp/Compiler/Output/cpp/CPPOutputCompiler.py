@@ -254,7 +254,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Linker
 		linkCmd = [
-			compilerName,
+			compilerPath + compilerName,
 			"-o%s" % fixPath(exe),
 			fixPath(exe + ".o"),
 			"-L" + fixPath(self.libsDir),
