@@ -2,13 +2,17 @@ import subprocess
 import sys
 import time
 from PyQt4 import QtGui
+from bp.Compiler.Config import *
 
 def startProcess(cmd, fhOut, fhErr):
 	#fhOut = sys.stdout.write
 	#fhErr = sys.stderr.write
 	line = ""
 	errLine = ""
-	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+	
+	proc = subprocess.Popen(cmd, stdout = subprocess.PIPE, stderr = subprocess.PIPE, env = {
+		"PATH" : getDLLDir()
+	})
 	linesThreshold = 2000
 	timeThreshold = 1.0 / 25 # seconds
 	lastWriteTime = 0

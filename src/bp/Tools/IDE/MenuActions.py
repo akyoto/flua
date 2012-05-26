@@ -234,6 +234,8 @@ class MenuActions:
 				print("Using optimizations.")
 			
 			if exe:
+				if outputTarget.startswith("C++"):
+					print("Using DLLs in path: %s" % getDLLDir())
 				print("Executing: %s" % exe)
 				print("-" * 80)
 				

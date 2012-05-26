@@ -33,6 +33,7 @@ import codecs
 import subprocess
 import os
 import sys
+import platform
 
 ####################################################################
 # Classes
@@ -44,13 +45,23 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# OS and architecture
 		if os.name == "nt":
-			platform = "windows"
+			self.operatingSystem = "windows"
 		else:#elif os.name == "posix":
-			platform = "linux"
+			self.operatingSystem = "linux"
 		
-		architecture = "x86"
+
+		self.is64Bit = ("64" in platform.architecture()[0])
 		
-		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s/" % (self.modDir, platform, architecture)))
+		if os.name == "nt":
+			# No support for 64 bit Windows atm
+			self.is64Bit = False
+		
+		if self.is64Bit:
+			self.architecture = "x64"
+		else:
+			self.architecture = "x86"
+		
+		self.libsDir = fixPath(os.path.abspath("%s../libs/cpp/%s/%s" % (self.modDir, self.operatingSystem, self.architecture)))
 		self.outputDir = ""
 		self.mainFile = None
 		self.mainCppFile = ""
@@ -179,8 +190,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		compilerPath = getGCCCompilerPath()
 		currentPath = os.path.abspath("./")
 		
-		if os.name == "nt":
-			os.chdir(compilerPath)
+		#if os.name == "nt":
+		#	os.chdir(compilerPath)
 		
 		if self.boehmGCEnabled:
 			if os.name == "posix":
@@ -189,7 +200,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Compiler
 		ccCmd = [
-			compilerName,
+			compilerPath + compilerName,
 			"-c",
 			fixPath(self.mainCppFile),
 			"-o%s" % fixPath(exe + ".o"),
@@ -212,7 +223,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			"-Wno-parentheses", # TODO: Check
 			"-Wall",
 			"-std=c++0x",
-			"-m32",
+			["-m32", "-m64"][self.is64Bit],
 		]
 		
 		# Linker options
@@ -230,7 +241,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			additionalLibs += [
 				"-lgccpp",
 				"-lgc",
-				"-lpthread",
+				"-lpthread"
 			]
 		
 		if self.staticStdcppLinking:
@@ -244,13 +255,12 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Linker
 		linkCmd = [
-			compilerName,
+			compilerPath + compilerName,
 			"-o%s" % fixPath(exe),
 			fixPath(exe + ".o"),
 			"-L" + fixPath(self.libsDir),
 			#"-ltheron",
 			#"-lboost_thread",
-			#"-lpthread"
 		] + staticRuntime + additionalLibs + self.customLinkerFlags
 		
 		try:
