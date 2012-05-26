@@ -52,6 +52,10 @@ class CPPOutputCompiler(BaseOutputCompiler):
 
 		self.is64Bit = ("64" in platform.architecture()[0])
 		
+		if os.name == "nt":
+			# No support for 64 bit Windows atm
+			self.is64Bit = False
+		
 		if self.is64Bit:
 			self.architecture = "x64"
 		else:
@@ -186,8 +190,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		compilerPath = getGCCCompilerPath()
 		currentPath = os.path.abspath("./")
 		
-		if os.name == "nt":
-			os.chdir(compilerPath)
+		#if os.name == "nt":
+		#	os.chdir(compilerPath)
 		
 		if self.boehmGCEnabled:
 			if os.name == "posix":
@@ -196,7 +200,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Compiler
 		ccCmd = [
-			compilerName,
+			compilerPath + compilerName,
 			"-c",
 			fixPath(self.mainCppFile),
 			"-o%s" % fixPath(exe + ".o"),
