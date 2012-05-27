@@ -27,6 +27,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.ensureCursorVisible()
 		
 		if "Traceback (most recent call last):" in stri:
+			self.bpIDE.consoleDock.setMinimumHeight(200)
 			self.bpIDE.consoleDock.show()
 		
 	def onNewError(self, stri):
@@ -38,6 +39,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.ensureCursorVisible()
 		
 		# Visible on error
+		self.bpIDE.consoleDock.setMinimumHeight(200)
 		self.bpIDE.consoleDock.show()
 		
 	def flushRequested(self):

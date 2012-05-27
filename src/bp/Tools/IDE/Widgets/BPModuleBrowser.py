@@ -129,9 +129,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if not name:
 			return
 		
-		realPath = item.realPath
+		realPath = fixPath(item.realPath)
 		if not realPath:
-			realPath = getModuleDir() + item.realPath
+			realPath = fixPath(getModuleDir() + item.name)
 		
 		if item.isModule:
 			# Move it to the new directory
@@ -140,7 +140,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			shutil.copy(realPath, newPath)
 			os.unlink(item.realPath)
 		else:
-			newPath = realPath + "/"
+			newPath = realPath
+		
+		#if not newPath:
+		#	newPath = getModuleDir() + item.name
 		
 		shutil.copyfile(getIDERoot() + "Templates/Empty.bp", newPath + name + ".bp")
 		self.reloadModuleDirectory()
@@ -151,6 +154,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		deleted = False
 		
 		if item:
+			# Just to be safe.
+			if item.realPath == getModuleDir():
+				return
+			
 			if item.isModule and item.subModules:
 				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path):
 					if os.path.dirname(item.realPath).split("/")[-1] == item.name:

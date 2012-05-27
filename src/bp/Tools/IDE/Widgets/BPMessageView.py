@@ -91,7 +91,7 @@ class BPMessageView(QtGui.QListWidget):
 			
 			# IntelliView?
 			if 1:
-				self.setMaximumHeight(100)
+				self.setMaximumHeight(50)
 			else:
 				maxHeight = 13
 				for i in range(itemNum):
