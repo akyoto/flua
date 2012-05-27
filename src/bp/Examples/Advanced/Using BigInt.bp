@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Math</import>
+			<import>bp.Math.Utils</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">Factorial\Sof\S20\Sas\SInt\Sis\S</string>
