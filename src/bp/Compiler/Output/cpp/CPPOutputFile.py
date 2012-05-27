@@ -57,9 +57,6 @@ class CPPOutputFile(BaseOutputFile):
 			"while" : ["while", "condition", "code"]
 		}
 		
-		# String class
-		self.stringClassDefined = False
-		
 		# Codes
 		self.header = "#ifndef " + self.id + "\n#define " + self.id + "\n\n"
 		self.body = ""

@@ -5,7 +5,9 @@
 			<import>bp.Core</import>
 			<import>Everything</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Test</string>
+		</strings>
 	</header>
 	<code>
 		<include depth="0">Playground.hpp</include>
@@ -16,5 +18,40 @@
 		</extern>
 		<comment>\SUse\Sthis\Sfile\Sto\Squickly\Stest\Ssomething\Sin\Sbp\Swithout\Shaving\Sthe\Sneed\Sto\Screate\Syour\Sown\Smodule\Sdirectory.</comment>
 		<comment>\SIf\Syou\Shave\Strouble\Sdownloading\Supdates\Suse\S'Reset\Sall\Slocal\Schanges'\Sfrom\Sthe\SHelp\Smenu.</comment>
+		<class depth="0">
+			<name>MyClass</name>
+			<code>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<casts depth="1">
+					<cast-definition depth="2">
+						<to>String</to>
+						<code>
+							<return depth="3">bp_string_0</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
+			</code>
+		</class>
+		<assign depth="0">
+			<value>a</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>print</function>
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>

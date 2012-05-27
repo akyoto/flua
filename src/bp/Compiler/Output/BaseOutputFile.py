@@ -61,8 +61,6 @@ class BaseOutputFile(ScopeController):
 		self.file = fixPath(file)
 		self.dir = extractDir(file)
 		
-		self.isMainFile = (len(self.compiler.getCompiledFiles()) == 0)
-		
 		# XML
 		self.root = root
 		self.codeNode = getElementByTagName(self.root, "code")
@@ -113,6 +111,9 @@ class BaseOutputFile(ScopeController):
 		# Inserted for mathematical expressions
 		self.exprPrefix = ""
 		self.exprPostfix = ""
+		
+		# String class
+		self.stringClassDefined = False
 		
 		# Syntax
 		self.lineLimiter = ""
@@ -454,7 +455,6 @@ class BaseOutputFile(ScopeController):
 		#	getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + capitalize(name)
 		#elif self.inSetter:
 		#	getElementByTagName(node, "name").childNodes[0].nodeValue = name = "set" + capitalize(name)
-		
 		# Index operator
 		name = correctOperators(name)
 		
@@ -583,20 +583,19 @@ class BaseOutputFile(ScopeController):
 		#if funcName == "distance":
 		#	debugStop()
 		#print(caller, callerType, funcName)
-		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
+		if self.compiler.mainClass.hasExternFunction(funcName):
+			return self.compiler.mainClass.externFunctions[funcName]
+		else:
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
+			
+			#raise CompilerException("Function '" + funcName + "' has not been defined  [Error code 4]")
 			
 			debug("Return types: " + str(funcImpl.returnTypes))
 			debug(self.compiler.funcImplCache)
 			debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
 			
 			return funcImpl.getReturnType()
-		else:
-			if not (funcName in self.compiler.mainClass.externFunctions):
-				raise CompilerException("Function '" + funcName + "' has not been defined  [Error code 4]")
-			
-			return self.compiler.mainClass.externFunctions[funcName]
 	
 	def addMissingTemplateValues(self, typeName):
 		pos = typeName.find("<")

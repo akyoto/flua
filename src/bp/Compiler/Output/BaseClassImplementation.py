@@ -54,9 +54,11 @@ class BaseClassImplementation:
 				candidates = findFunctionInBaseClasses(self.classObj, funcName)
 				if not candidates:
 					if self.classObj.name:
-						raise CompilerException("Function '%s.%s' has not been defined" % (self.classObj.name, funcName))
+						print("\n * ".join(["Class '%s' has the following functions:" % self.classObj.name] + list(self.classObj.functions.keys())))
+						print("\n * ".join(["Class '%s' implemented the following functions:" % self.classObj.name] + list(self.funcImplementations.keys())))
+						raise CompilerException("Function '%s.%s' has not been defined [Error code 5]" % (self.classObj.name, funcName))
 					else:
-						raise CompilerException("Function '%s' has not been defined" % (funcName))
+						raise CompilerException("Function '%s' has not been defined [Error code 5]" % (funcName))
 			impl = self.createFunctionImplementation(self.getMatchingFunction(funcName, paramTypes), paramTypes)
 			self.addFuncImplementation(impl)
 			return impl, codeExists

@@ -40,9 +40,8 @@ class PythonOutputCompiler(BaseOutputCompiler):
 	def __init__(self, inpCompiler):
 		super().__init__(inpCompiler)
 		
-	def compile(self, inpFile):
-		pyOut = PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
-		self.genericCompile(inpFile, pyOut)
+	def createOutputFile(self, inpFile):
+		return PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 		
 	def createClass(self, name, node):
 		return PythonClass(name, node)

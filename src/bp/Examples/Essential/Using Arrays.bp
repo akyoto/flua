@@ -5,7 +5,12 @@
 			<import>bp.Core</import>
 			<import>bp.Collection.Array</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">This\Sis\Sten\Spercent\Sluck,\Stwenty\Spercent\Sskill</string>
+			<string id="bp_string_1">Fifteen\Spercent\Sconcentrated\Spower\Sof\Swill</string>
+			<string id="bp_string_2">Five\Spercent\Spleasure,\Sfifty\Spercent\Spain</string>
+			<string id="bp_string_3">And\Sa\Shundred\Spercent\Sreason\Sto\Sremember\Sthe\Sname!</string>
+		</strings>
 	</header>
 	<code>
 		<comment>\SArray\S/\SVector\Sof\Sintegers</comment>
@@ -90,6 +95,90 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
+		</for>
+		<comment>\SYou\Scan\Screate\San\Sarray\Sof\Sany\Sdata\Stype:</comment>
+		<assign depth="0">
+			<value>myArray</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Array</value>
+							<value>String</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<call depth="0">
+			<function>
+				<access>
+					<value>myArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_0</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>myArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_1</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>myArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_2</parameter>
+			</parameters>
+		</call>
+		<call depth="0">
+			<function>
+				<access>
+					<value>myArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>bp_string_3</parameter>
+			</parameters>
+		</call>
+		<for depth="0">
+			<iterator>i</iterator>
+			<from>0</from>
+			<until>
+				<access>
+					<value>myArray</value>
+					<value>length</value>
+				</access>
+			</until>
+			<code>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<index>
+								<value>myArray</value>
+								<value>i</value>
+							</index>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
 		</for>
 	</code>
 </module>

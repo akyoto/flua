@@ -77,9 +77,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.boehmGCEnabled = True
 		self.gmpEnabled = True
 	
-	def compile(self, inpFile):
-		cppOut = CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
-		self.genericCompile(inpFile, cppOut)
+	def createOutputFile(self, inpFile):
+		return CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 	
 	def createClass(self, name, node):
 		return CPPClass(name, node)
@@ -91,7 +90,10 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Implement all casts
 		for cppFile in cppFiles:
-			cppFile.implementCasts()
+			try:
+				cppFile.implementCasts()
+			except CompilerException as e:
+				raise OutputCompilerException(e.getMsg(), cppFile, None)
 		
 		# Write to files
 		for cppFile in cppFiles:

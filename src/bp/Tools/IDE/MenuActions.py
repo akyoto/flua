@@ -196,7 +196,7 @@ class MenuActions:
 		
 		#print(self.processor.getCompiledFilesList())
 		try:
-			self.startBenchmark("%s Build" % outputTarget)
+			
 			
 			if outputTarget.startswith("C++"):
 				outputCompiler = CPPOutputCompiler(self.processor)
@@ -209,16 +209,16 @@ class MenuActions:
 			#	os.remove(exePath)
 			
 			bpPostPFile = self.processor.getCompiledFiles()[self.getFilePath()]
-			#try:
+			
+			# Generate
+			self.startBenchmark("%s Generator" % outputTarget)
 			outputCompiler.compile(bpPostPFile)
-			#except OutputCompilerException as e:
-			#	self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
-			#	return
-			
 			outputCompiler.writeToFS()
+			self.endBenchmark()
 			
+			# Build
+			self.startBenchmark("%s Build" % outputTarget)
 			exitCode = outputCompiler.build(compilerFlags)
-			
 			print("-" * 80)
 			self.endBenchmark()
 			

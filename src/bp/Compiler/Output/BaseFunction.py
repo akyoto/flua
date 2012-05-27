@@ -15,8 +15,9 @@ class BaseFunction:
 			self.name = cppFile.parseExpr(typeNode.childNodes[0])
 			
 			# Replace typedefs
-			while self.name in cppFile.compiler.defines:
-				self.name = cppFile.compiler.defines[self.name]
+			#while self.name in cppFile.compiler.defines:
+			#	self.name = cppFile.compiler.defines[self.name]
+			self.name = cppFile.prepareTypeName(self.name)
 			
 			# TODO: Remove quick fix
 			#if isElemNode(typeNode.childNodes[0]) and typeNode.childNodes[0].tagName == "unmanaged":

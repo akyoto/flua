@@ -44,7 +44,9 @@ class BaseOutputCompiler(Benchmarkable):
 			self.projectDir = ""
 			
 		self.compiledFiles = dict()
-		self.compiledFilesList = []
+		self.outFiles = dict()
+		self.outFilesList = list()
+		self.compiledFilesList = list()
 		self.modDir = getModuleDir()
 		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../"))
 		
@@ -113,12 +115,31 @@ class BaseOutputCompiler(Benchmarkable):
 		self.checkDivisionByZero = True
 		self.optimizeStringConcatenation = self.optimize
 	
-	# Building and executing
-	def genericCompile(self, inpFile, cppOut):
-		if len(self.compiledFiles) == 0:
+	def scan(self, inpFile):
+		cppOut = self.createOutputFile(inpFile)
+		
+		if len(self.outFiles) == 0:
 			self.mainFile = cppOut
 			self.projectDir = extractDir(self.mainFile.getFilePath())
+			cppOut.isMainFile = True
+		else:
+			cppOut.isMainFile = False
 		
+		self.outFiles[inpFile] = cppOut
+		
+		# Scan imported files
+		for imp in inpFile.getImportedFiles():
+			inFile = self.inputCompiler.getFileInstanceByPath(imp)
+			if (not inFile in self.outFiles):
+				self.scan(inFile)
+				
+		# This needs to be executed AFTER the imported files have been compiled
+		# It'll make sure the files are called in the correct (recursive) order
+		self.outFilesList.append((inpFile, cppOut))
+		
+		# Scanning the file itself
+		print("Scanning: %s" % cppOut.file)
+				
 		# Check whether string class has been defined or not
 		# NOTE: This has to be called before self.scanAhead is executed.
 		cppOut.stringClassDefined = cppOut.classExists("UTF8String")
@@ -127,24 +148,31 @@ class BaseOutputCompiler(Benchmarkable):
 		# UTF8String module will find UTF8String class e.g.
 		cppOut.scanAhead(cppOut.codeNode)
 		
+	def compile(self, inpFile):
+		self.scan(inpFile)
+		
+		for inpFile, outFile in self.outFilesList:
+			#print("Compiling: %s" % outFile.file)
+			self.genericCompile(inpFile, outFile)
+		
+	# Building and executing
+	def genericCompile(self, inpFile, cppOut):
 		# This needs to be executed BEFORE the imported files have been compiled
 		# It'll prevent a file from being processed twice
 		self.compiledFiles[inpFile] = cppOut
 		
 		# Compile imported files first
-		for imp in inpFile.getImportedFiles():
-			inFile = self.inputCompiler.getFileInstanceByPath(imp)
-			if (not inFile in self.compiledFiles):
-				self.compile(inFile)
+		#for imp in inpFile.getImportedFiles():
+		#	inFile = self.inputCompiler.getFileInstanceByPath(imp)
+		#	if (not inFile in self.compiledFiles):
+		#		self.compile(inFile)
 		
-		# This needs to be executed AFTER the imported files have been compiled
-		# It'll make sure the files are called in the correct (recursive) order
 		self.compiledFilesList.append(cppOut)
 		
 		# Kinda hardcoded, yeah...we want to prevent the UTF8String module
 		# from thinking UTF8String has already been defined.
-		if stripAll(cppOut.getFilePath()) != "UTF8String":
-			cppOut.stringClassDefined = cppOut.classExists("UTF8String")
+		#if stripAll(cppOut.getFilePath()) != "UTF8String":
+		#	cppOut.stringClassDefined = cppOut.classExists("UTF8String")
 		
 		# After the dependencies have been compiled, compile itself
 		try:
