@@ -550,10 +550,10 @@ class MenuActions:
 							""")
 		
 	def about(self):
-		QtGui.QMessageBox.about(self, "About blitzprog IDE",
+		QtGui.QMessageBox.about(self, "About bp Studio",
 							"""
 							<p>
-								<h2>bp IDE</h2>
+								<h2>bp Studio</h2>
 								A development environment for the blitzprog programming language.<br/>
 								<br/>
 								Official website:<br/>

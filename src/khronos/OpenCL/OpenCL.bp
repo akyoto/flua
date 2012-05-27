@@ -11,9 +11,14 @@
 			<name>C++</name>
 			<code>
 				<include depth="1">OpenCL.hpp</include>
-				<compiler-flags depth="1">
-					<compiler-flag depth="2">-lOpenCL</compiler-flag>
-				</compiler-flags>
+				<target depth="1">
+					<name>Linux</name>
+					<code>
+						<compiler-flags depth="2">
+							<compiler-flag depth="3">-lOpenCL</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
 			</code>
 		</target>
 	</code>
