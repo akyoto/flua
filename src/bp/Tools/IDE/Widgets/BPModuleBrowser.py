@@ -67,16 +67,16 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if item.isModule and item.subModules:
 				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path):
 					item.parent().removeRow(item.row())
-					#shutil.rmtree(item.realPath)
+					shutil.rmtree(item.realPath)
 			elif item.isModule:
 				if self.bpIDE.ask("Are you sure you want to delete the module <b>%s</b>?" % item.path):
 					item.parent().removeRow(item.row())
 					#item.removeColumns(0, item.columnCount())
-					#os.unlink(item.realPath)
+					os.unlink(item.realPath)
 			else:
 				if self.bpIDE.ask("Are you sure you want to delete all modules inside <b>%s</b>?" % item.path):
 					item.parent().removeRow(item.row())
-					#shutil.rmtree(item.realPath)
+					shutil.rmtree(item.realPath)
 		
 		# Top level module
 		if item and "." in item.name:
