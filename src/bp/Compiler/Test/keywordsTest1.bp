@@ -523,7 +523,7 @@
 			</if>
 		</if-block>
 		<const depth="0">
-			<assign>
+			<assign depth="1">
 				<value>myConst</value>
 				<value>13.0</value>
 			</assign>

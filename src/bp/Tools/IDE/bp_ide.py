@@ -94,13 +94,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		cursor.movePosition(QtGui.QTextCursor.End)
 		self.codeEdit.setTextCursor(cursor)
 		
-		# Enable debug output
-		if self.developerFlag:
-			def debug(msg):
-				print("\t" * dbgTabLevel + str(msg))
-				
-			def debugPP(msg):
-				print("\t" * dbgTabLevel + str(msg))
+		# Intercept sys.stdout and sys.stderr
+		self.console.watch(self.console.log)
 		
 		#self.openFile("/home/eduard/Projects/bp/src/bp/Core/String/UTF8String.bp")
 		

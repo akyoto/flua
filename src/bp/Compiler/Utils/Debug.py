@@ -31,6 +31,7 @@ import sys
 ####################################################################
 
 dbgTabLevel = 0
+dbgEnabled = False
 
 ####################################################################
 # Classes
@@ -150,7 +151,8 @@ def debug(msg):
 	pass#print("\t" * dbgTabLevel + str(msg))
 	
 def debugPP(msg):
-	pass#print("\t" * dbgTabLevel + str(msg))
+	pass#if dbgEnabled:
+	#	print("\t" * dbgTabLevel + str(msg))
 	
 def debugPush():
 	global dbgTabLevel

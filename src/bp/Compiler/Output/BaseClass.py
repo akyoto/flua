@@ -113,6 +113,9 @@ class BaseClass(BaseNamespace):
 		debug(self.externFunctions)
 		return name in self.externFunctions
 		
+	def hasCast(self, typeName):
+		return typeName in self.functions
+		
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
 		self.externFunctions[name] = type

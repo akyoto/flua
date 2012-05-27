@@ -5,9 +5,9 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">TestValue</string>
-			<string id="bp_string_1">\E</string>
-			<string id="bp_string_2">TestValue</string>
+			<string id="bp_string_0">Type\Scasting\Sworking!</string>
+			<string id="bp_string_1">TestValue</string>
+			<string id="bp_string_2">\E</string>
 			<string id="bp_string_3">Type\Scasting\Sworking!</string>
 			<string id="bp_string_4">Type\Scasting\SNOT\Sworking!</string>
 		</strings>
@@ -35,12 +35,7 @@
 					<cast-definition depth="2">
 						<to>String</to>
 						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>val</value>
-								</access>
-							</return>
+							<return depth="3">bp_string_0</return>
 						</code>
 						<meta/>
 					</cast-definition>
@@ -54,14 +49,14 @@
 				<new>
 					<type>MyClass</type>
 					<parameters>
-						<parameter>bp_string_0</parameter>
+						<parameter>bp_string_1</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
 		<assign depth="0">
 			<value>someString</value>
-			<value>bp_string_1</value>
+			<value>bp_string_2</value>
 		</assign>
 		<assign depth="0">
 			<value>someString</value>
@@ -72,14 +67,14 @@
 				<condition>
 					<equal>
 						<value>someString</value>
-						<value>bp_string_2</value>
+						<value>bp_string_3</value>
 					</equal>
 				</condition>
 				<code>
 					<call depth="1">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_3</parameter>
+							<parameter>testInstance</parameter>
 						</parameters>
 					</call>
 				</code>

@@ -92,18 +92,26 @@ class BaseFunction:
 			typeB = self.paramTypesByDefinition[i]
 			typeB = classImpl.translateTemplateName(typeB)
 			
-#				print(typeA)
-#				print(typeB)
-#				print(self.paramTypesByDefinition[i])
-#				print(classImpl.translateTemplateName("Tradius"))
-#				print(classImpl.templateValues)
-#				print("---------------->")
+			if typeA in nonPointerClasses:
+				classImplA = None
+			else:
+				classImplA = self.cppFile.getClassImplementationByTypeName(typeA)
+			
+			#print("---------------->")
+			#print("Called as:  " + typeA)
+			#print("Defined as: " + typeB)
+			#print(self.paramTypesByDefinition[i])
+			#print(classImpl.templateValues)
+			#print(classImplA.classObj.hasCast(typeB))
+			#print("<----------------")
 			
 			if typeA == typeB:
-				score += 4
+				score += 5
 			elif typeA == "BigInt" and (typeB == "MemPointer<Byte>" or typeB == "~MemPointer<Byte>"):
-				score += 3
+				score += 4
 			elif typeB == "":
+				score += 3
+			elif classImplA and classImplA.classObj.hasCast(typeB):
 				score += 2
 			elif canBeCastedTo(typeA, typeB):
 				score += 1

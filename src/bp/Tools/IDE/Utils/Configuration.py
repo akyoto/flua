@@ -48,6 +48,7 @@ class BPConfiguration:
 			QPlainTextEdit { background-color: #ffffff; }
 			#AutoCompleter {
 				border: none;
+				font-family: Ubuntu;
 			}
 		""" #% (self.theme['default-background'])
 		

@@ -134,6 +134,9 @@ class Startup:
 		# It's always the little things that are awesome :)
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
 		
+		# Chat
+		#self.chatWidget = BPChatWidget(self)
+		
 		# Outline
 		self.outlineView = BPOutlineView(self)
 		
@@ -162,6 +165,7 @@ class Startup:
 			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
+			#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
 			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.BottomDockWidgetArea)
 			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
 			

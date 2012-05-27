@@ -592,7 +592,7 @@ class BaseOutputFile(ScopeController):
 			#raise CompilerException("Function '" + funcName + "' has not been defined  [Error code 4]")
 			
 			debug("Return types: " + str(funcImpl.returnTypes))
-			debug(self.compiler.funcImplCache)
+			#debug(self.compiler.funcImplCache)
 			debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
 			
 			return funcImpl.getReturnType()
@@ -1863,6 +1863,7 @@ class BaseOutputFile(ScopeController):
 			
 			# Default parameters
 			paramTypes, paramsString = self.addDefaultParameters(callerType, funcName, paramTypes, paramsString)
+			previousParamTypes = list(paramTypes)
 			
 			for i in range(len(paramTypes)):
 				if paramTypes[i] == "void":
@@ -1870,6 +1871,18 @@ class BaseOutputFile(ScopeController):
 			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
+			
+			# Casts
+			for i in range(len(previousParamTypes)):
+				pFrom = previousParamTypes[i]
+				pTo = paramTypes[i]
+				
+				if pFrom != pTo and not canBeCastedTo(pFrom, pTo):
+					# TODO: self.buildCall(caller, fullName, paramsString)
+					debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
+					params = paramsString.split(",")
+					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
+					paramsString = ", ".join(params)
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
