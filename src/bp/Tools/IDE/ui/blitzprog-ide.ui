@@ -125,17 +125,6 @@
    <addaction name="separator"/>
    <addaction name="actionRun"/>
   </widget>
-  <widget class="QToolBar" name="syntaxSwitcherBar">
-   <property name="windowTitle">
-    <string>Syntax Switcher</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <action name="actionNew">
    <property name="icon">
     <iconset>

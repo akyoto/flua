@@ -195,7 +195,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				self.processorOutFile = None
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
-			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded. " % (funcCount, self.processor.funcCount))
+			self.moduleInfoLabel.setText("%d / %d functions. " % (funcCount, self.processor.funcCount))
 			
 			#expr = self.codeEdit.getCurrentLine()
 			#if expr:

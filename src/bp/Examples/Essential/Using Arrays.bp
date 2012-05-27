@@ -143,6 +143,7 @@
 			<parameters>
 				<parameter>bp_string_2</parameter>
 			</parameters>
+			<meta/>
 		</call>
 		<call depth="0">
 			<function>
@@ -154,7 +155,6 @@
 			<parameters>
 				<parameter>bp_string_3</parameter>
 			</parameters>
-			<meta/>
 		</call>
 		<for depth="0">
 			<iterator>i</iterator>

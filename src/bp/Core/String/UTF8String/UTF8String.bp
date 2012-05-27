@@ -223,6 +223,7 @@
 									</else>
 								</if-block>
 							</code>
+							<meta/>
 						</for>
 						<return depth="2">42</return>
 					</code>
@@ -547,7 +548,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
+				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -586,7 +587,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
+				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -643,7 +644,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SDelete\ScharacterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
+				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -682,7 +683,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SDelete\Schars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\Schars</comment>
+				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\S#chars</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>
@@ -739,7 +740,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\Schars</comment>
+				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\S#chars</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>chars</parameter>
@@ -774,7 +775,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\Schars</comment>
+				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\S#chars</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>chars</parameter>

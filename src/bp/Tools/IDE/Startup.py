@@ -83,6 +83,11 @@ class Startup:
 		self.statusBar.addWidget(self.evalInfoLabel)
 		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		
+		# Syntax switcher
+		self.syntaxSwitcher = QtGui.QComboBox(self)
+		self.syntaxSwitcher.addItem("BPC Syntax")
+		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
+		
 		# Search
 		self.searchEdit = BPSearchEdit(self)
 		self.replaceEdit = BPReplaceEdit(self)
@@ -107,7 +112,7 @@ class Startup:
 		
 		#self.statusBar.hide()
 		self.toolBar.hide()
-		self.syntaxSwitcherBar.hide()
+		#self.syntaxSwitcherBar.hide()
 		
 	def initDocks(self):
 		# Console
@@ -359,18 +364,16 @@ class Startup:
 		self.postProcessorThread = BPPostProcessorThread(self)
 		
 	def initToolBar(self):
-		# Syntax switcher
-		syntaxSwitcher = QtGui.QComboBox()
-		syntaxSwitcher.addItem("BPC Syntax")
+		pass
 		#syntaxSwitcher.addItem("C++/Java Syntax")
 		#syntaxSwitcher.addItem("Python Syntax")
 		#syntaxSwitcher.addItem("Ruby Syntax")
 		
-		spacerWidget = QtGui.QWidget()
-		spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
+		#spacerWidget = QtGui.QWidget()
+		#spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
 		
 		# Tool bar
-		self.syntaxSwitcherBar.addSeparator()
-		self.syntaxSwitcherBar.addWidget(spacerWidget)
-		self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
-		self.syntaxSwitcherBar.addSeparator()
+		#self.syntaxSwitcherBar.addSeparator()
+		#self.syntaxSwitcherBar.addWidget(spacerWidget)
+		#self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
+		#self.syntaxSwitcherBar.addSeparator()
