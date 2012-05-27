@@ -191,6 +191,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	self.setPalette(p)
 	#	self.setBackgroundVisible(True)
 	
+	def wheelEvent(self, event):
+		if self.bpIDE.ctrlPressed:
+			font = self.font()
+			ptSize = font.pointSize() + ((event.delta() > 0) * 2 - 1)
+			print(ptSize)
+			if abs(ptSize) > 5:
+				font.setPointSize(abs(ptSize))
+			self.bpIDE.config.applyMonospaceFont(font)
+		else:
+			super().wheelEvent(event)
+	
 	def mousePressEvent(self, event):
 		self.bpIDE.consoleDock.hide()
 		

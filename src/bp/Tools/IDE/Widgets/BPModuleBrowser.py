@@ -174,6 +174,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		print("Context menu not implemented!")
 		
 	def updateView(self):
+		# Ugly on Windows 7
+		if os.name == "nt":
+			self.clearSelection()
+		
 		# Show imports
 		if self.bpIDE.codeEdit is not None:
 			importedMods = self.bpIDE.codeEdit.getImportedModulesByCode()

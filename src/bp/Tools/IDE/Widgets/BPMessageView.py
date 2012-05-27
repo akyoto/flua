@@ -89,10 +89,14 @@ class BPMessageView(QtGui.QListWidget):
 			#self.adjustSize()#resize(0, 0)
 			#self.setMaximumHeight(self.count() * 50)
 			
-			maxHeight = 13
-			for i in range(itemNum):
-				maxHeight += self.visualItemRect(self.item(i)).height() + 2
-			self.setMaximumHeight(maxHeight)
+			# IntelliView?
+			if 1:
+				self.setMaximumHeight(100)
+			else:
+				maxHeight = 13
+				for i in range(itemNum):
+					maxHeight += self.visualItemRect(self.item(i)).height() + 2
+				self.setMaximumHeight(maxHeight)
 			
 			if self.bpIDE.msgViewDock.isHidden():
 				self.bpIDE.msgViewDock.show()

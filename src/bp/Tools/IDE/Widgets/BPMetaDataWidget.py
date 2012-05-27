@@ -74,7 +74,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		self.viewOnCE = None
 		self.widgetByMetaTag = None
 		self.lastLineIndex = -2
-		self.autoHide = True
+		self.autoHide = False
 		self.stackedLayout = QtGui.QStackedLayout()
 		self.setLayout(self.stackedLayout)
 		

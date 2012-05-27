@@ -235,6 +235,8 @@ class BPConfiguration:
 			menuItem.setFont(font)
 		
 	def applyMonospaceFont(self, font):
+		self.monospaceFont = font
+		
 		# Widgets with monospace font
 		for workspace in self.bpIDE.workspaces:
 			for codeEdit in workspace.getCodeEditList():
@@ -245,6 +247,8 @@ class BPConfiguration:
 		self.bpIDE.console.log.setFont(font)
 		
 	def applyStandardFont(self, font):
+		self.standardFont = font
+		
 		QtGui.QToolTip.setFont(font)
 		
 		# Widgets with normal font

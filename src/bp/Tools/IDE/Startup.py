@@ -182,7 +182,7 @@ class Startup:
 		
 		self.outlineViewDock.hide()
 		
-		#self.metaDataViewDock.hide()
+		self.metaDataViewDock.hide()
 		#self.xmlViewDock.show()
 		
 		# Needed for workspaces
