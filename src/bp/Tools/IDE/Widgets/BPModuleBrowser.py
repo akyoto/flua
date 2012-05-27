@@ -91,6 +91,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			self.expandToDepth(0)
 		
 	def onItemClick(self, item):
+		# Ugly on Windows 7
+		if os.name == "nt":
+			self.clearSelection()
+		
 		modItem = item.data(QtCore.Qt.UserRole + 1)
 		realPath = modItem.realPath
 		if realPath:

@@ -75,6 +75,7 @@ class BPConfiguration:
 			}
 			
 			QTabBar::tab {
+				font-family: Ubuntu;
 				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 32), stop:1 rgba(39, 39, 39, 48));
 				border-top-left-radius: 6px;
 				border-top-right-radius: 6px;
