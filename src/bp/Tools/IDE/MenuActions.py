@@ -307,7 +307,7 @@ class MenuActions:
 		#self.changeLog.setTextCursor(cursor)
 		#self.changeLog.ensureCursorVisible()
 		
-		self.changeLogDialog.show()
+		self.changeLogDialog.exec()
 	
 	def downloadUpdates(self):
 		self.acquireGitThread()
@@ -381,6 +381,26 @@ class MenuActions:
 				QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
 				QtGui.QMessageBox.No) == QtGui.QMessageBox.Yes
 	
+	def askText(self, labelText, info = "", title = "Message"):
+		self.textInput, existed = self.getUIFromCache("text-input")
+		
+		self.textInput.textWidget.setText("")
+		self.textInput.labelWidget.setText(labelText)
+		
+		if info:
+			self.textInput.infoWidget.setText(info)
+			self.textInput.infoWidget.show()
+		else:
+			self.textInput.infoWidget.hide()
+		
+		self.textInput.setWindowTitle(title)
+		dialogCode = self.textInput.exec()
+		
+		if dialogCode == QtGui.QDialog.Accepted:
+			return self.textInput.textWidget.text()
+		else:
+			return False
+	
 	def resetLocalChanges(self):
 		if not self.ask("Are you sure you want to revert all local source code changes?"):
 			return
@@ -440,7 +460,7 @@ class MenuActions:
 			self.moduleProperties.dateModified.setText("-")
 		
 		self.setOptimizationOptions(self.moduleProperties.optimizeFor.currentIndex())
-		self.moduleProperties.show()
+		self.moduleProperties.exec()
 	
 	def setOptimizationOptions(self, index):
 		# 0: Speed
@@ -464,7 +484,7 @@ class MenuActions:
 	
 	def showPreferences(self):
 		self.preferences.setStyleSheet(self.config.dialogStyleSheet)
-		self.preferences.show()
+		self.preferences.exec()
 	
 	def undoLastAction(self):
 		if self.codeEdit:

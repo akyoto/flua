@@ -49,6 +49,7 @@ wrapperSingleElement = [
 	"compiler-flag",
 ]
 
+# The contents of those nodes will be formatted 
 wrapperMultipleElements = {
 	"code" : "",
 	
@@ -59,6 +60,8 @@ wrapperMultipleElements = {
 	"set" : "set",
 	"get" : "get",
 	"casts" : "to",
+	
+	"extern" : "extern",
 }
 
 xmlToBPCBlock = {
@@ -67,7 +70,6 @@ xmlToBPCBlock = {
 	"else" : "else",
 	"private" : "private",
 	"shared" : "shared",
-	"extern" : "extern",
 	"define" : "define",
 	"const" : "const",
 	"compiler-flags" : "compilerflags",
@@ -145,6 +147,7 @@ autoNewlineBlock = {
 	"namespace",
 	"define",
 	"parallel",
+	"shared",
 	
 	"function",
 	"getter",
@@ -296,7 +299,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			
 			# Line type
 			if childName in autoNewlineBlock:
-				if childName in {"require", "ensure", "maybe", "test"}:
+				if childName in {"require", "ensure", "maybe"} or childName == "test" and previousLineType == 3:
 					currentLineType = 3
 				else:
 					currentLineType = 2
@@ -321,7 +324,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				#if childCode[-1] != "\n":
 				codeParts.append("\n")
 			else:
-				if nodeName != "code":
+				if nodeName != "code" and nodeName != "extern":
 					codeParts.append(prefix)
 					codeParts.append(tabs)
 					codeParts.append(childCode)

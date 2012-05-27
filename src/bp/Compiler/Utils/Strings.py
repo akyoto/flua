@@ -164,6 +164,15 @@ def normalizeModName(name):
 	
 def normalizeModPath(name):
 	return normalizeModName(name).replace("/", ".")
+	
+def normalizeTopLevelModName(name):
+	newName = ""
+	for c in name.lower().replace(".", ""):
+		if isVarChar(c):
+			newName += c
+		else:
+			newName += "_"
+	return newName
 
 def buildPostfix(paramTypes):
 	postfix = ""

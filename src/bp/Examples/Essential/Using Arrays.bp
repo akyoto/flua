@@ -95,7 +95,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</for>
 		<comment>\SYou\Scan\Screate\San\Sarray\Sof\Sany\Sdata\Stype:</comment>
 		<assign depth="0">
@@ -155,6 +154,7 @@
 			<parameters>
 				<parameter>bp_string_3</parameter>
 			</parameters>
+			<meta/>
 		</call>
 		<for depth="0">
 			<iterator>i</iterator>
@@ -178,7 +178,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</for>
 	</code>
 </module>

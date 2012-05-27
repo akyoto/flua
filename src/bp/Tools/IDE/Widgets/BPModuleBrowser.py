@@ -54,44 +54,69 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDeleteAction = QtGui.QAction(QtGui.QIcon(getIDERoot() + "images/icons/actions/edit-delete.png"), "Delete module", self)
 		self.modDeleteAction.triggered.connect(self.deleteModule)
 		
+		self.repoNewAction = QtGui.QAction(QtGui.QIcon(getIDERoot() + "images/icons/actions/contact-new.png"), "New company / organization / author", self)
+		self.repoNewAction.triggered.connect(self.newRepository)
+		
 		# Model
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
 		self.reloadModuleDirectory(True)
 		
+	# Create new repository
+	def newRepository(self, ignored):
+		name = self.bpIDE.askText("Please enter your name or the name of your company / organization:", "The name can <b>only contain lowercase letters</b>, think of it as a <b>tag</b> and use a short name. <br/>Your work will be published under that tag. <br/>If you are a single author publishing his modules we recommend you to use the first letter <br/> of your first name and your second name, e.g. if your name is <b>Johnny Depp</b> your tag should be <b>jdepp</b>.<br/>This is also the name which will appear in the global repository list if you decide to publish it.")
+		
+		if name:
+			name = normalizeTopLevelModName(name.strip())
+			path = getModuleDir() + name + "/"
+			
+			if not os.path.exists(path):
+				os.makedirs(path)
+			
+			shutil.copyfile(getIDERoot() + "Templates/Empty.bp", path + "Empty.bp")
+			
+			self.reloadModuleDirectory()
+		
 	# Module deletion
-	def deleteModule(self, a):
+	def deleteModule(self, ignored):
 		item = self.selectedModItem
 		if item:
 			if item.isModule and item.subModules:
 				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path):
-					item.parent().removeRow(item.row())
+					if item.parent():
+						item.parent().removeRow(item.row())
 					shutil.rmtree(item.realPath)
 			elif item.isModule:
 				if self.bpIDE.ask("Are you sure you want to delete the module <b>%s</b>?" % item.path):
-					item.parent().removeRow(item.row())
-					#item.removeColumns(0, item.columnCount())
+					if item.parent():
+						item.parent().removeRow(item.row())
 					os.unlink(item.realPath)
 			else:
 				if self.bpIDE.ask("Are you sure you want to delete all modules inside <b>%s</b>?" % item.path):
-					item.parent().removeRow(item.row())
-					shutil.rmtree(item.realPath)
+					if item.parent():
+						item.parent().removeRow(item.row())
+					shutil.rmtree(getModuleDir() + item.path)
 		
 		# Top level module
-		if item and "." in item.name:
+		if item and not "." in item.path:
 			self.reloadModuleDirectory()
 		
 		self.selectedModItem = None
 		
 	# Context menu
 	def showContextMenu(self, pos):
-		menu = QtGui.QMenu(self)
-		menu.addAction(self.modDeleteAction)
-		
 		self.selectedModItem = self.indexAt(pos).data(QtCore.Qt.UserRole + 1)
 		
-		menu.exec(QtGui.QCursor.pos())
+		if self.selectedModItem:
+			menu = QtGui.QMenu(self)
+			menu.addAction(self.modDeleteAction)
+			menu.exec(QtGui.QCursor.pos())
+		else:
+			# TODO: Other menu
+			menu = QtGui.QMenu(self)
+			menu.addAction(self.repoNewAction)
+			menu.exec(QtGui.QCursor.pos())
 		
 	# Reload all directories
 	def reloadModuleDirectory(self, expand = True):
@@ -122,6 +147,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 						if not part in modulesRoot.subModules:
 							modulesRoot.subModules[part] = BPModuleItem(part)
 						modulesRoot = modulesRoot.subModules[part]
+			
 		self.endBenchmark()
 		#print(self.modules.subModules["bp"].subModules)
 		#if self.bpcModel and self.bpcModel.hasChildren():

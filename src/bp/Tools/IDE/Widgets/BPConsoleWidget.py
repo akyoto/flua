@@ -8,6 +8,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 	
 	def __init__(self, parent):
 		super().__init__(parent)
+		self.bpIDE = parent.bpIDE
 		
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
@@ -25,6 +26,9 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.setTextCursor(cursor)
 		self.ensureCursorVisible()
 		
+		if "Traceback (most recent call last):" in stri:
+			self.bpIDE.consoleDock.show()
+		
 	def onNewError(self, stri):
 		# TODO: Scroll + red color
 		cursor = self.textCursor()
@@ -32,6 +36,9 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		cursor.insertText(stri)
 		self.setTextCursor(cursor)
 		self.ensureCursorVisible()
+		
+		# Visible on error
+		self.bpIDE.consoleDock.show()
 		
 	def flushRequested(self):
 		# TODO: ...
