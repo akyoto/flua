@@ -190,6 +190,7 @@ class MenuActions:
 		self.codeEdit.save(msgStatusBar = False)
 		self.console.clearLog()
 		self.msgView.clear()
+		self.console.setMinimumHeight(220)
 		self.consoleDock.show()
 		
 		# Target dependant
