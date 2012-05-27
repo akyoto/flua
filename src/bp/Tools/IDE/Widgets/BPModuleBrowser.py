@@ -30,8 +30,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.realPath = getModulePath(self.path)
 		
 		# Top level modules
-		if not self.realPath:
-			self.realPath = getModuleDir() + self.path
+		#if not self.realPath:
 
 class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	
@@ -130,14 +129,18 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if not name:
 			return
 		
+		realPath = item.realPath
+		if not realPath:
+			realPath = getModuleDir() + item.realPath
+		
 		if item.isModule:
 			# Move it to the new directory
-			newPath = stripExt(item.realPath) + "/"
+			newPath = stripExt(realPath) + "/"
 			os.makedirs(newPath)
-			shutil.copy(item.realPath, newPath)
+			shutil.copy(realPath, newPath)
 			os.unlink(item.realPath)
 		else:
-			newPath = item.realPath + "/"
+			newPath = realPath + "/"
 		
 		shutil.copyfile(getIDERoot() + "Templates/Empty.bp", newPath + name + ".bp")
 		self.reloadModuleDirectory()
