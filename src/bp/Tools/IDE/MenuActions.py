@@ -384,11 +384,16 @@ class MenuActions:
 	def askText(self, labelText, info = "", title = "Message"):
 		self.textInput, existed = self.getUIFromCache("text-input")
 		
+		if not existed:
+			self.textInput.setStyleSheet(self.config.dialogStyleSheet)
+		
 		self.textInput.textWidget.setText("")
 		self.textInput.labelWidget.setText(labelText)
 		
 		if info:
 			self.textInput.infoWidget.setText(info)
+			self.textInput.infoWidget.adjustSize()
+			self.textInput.adjustSize()
 			self.textInput.infoWidget.show()
 		else:
 			self.textInput.infoWidget.hide()
