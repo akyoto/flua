@@ -99,7 +99,11 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		for cppFile in cppFiles:
 			#fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
 			#fileOut = stripExt(cppFile.file) + "-out.hpp"
-			fileOut = extractDir(cppFile.file) + self.getTargetName() + "/" + stripAll(cppFile.file) + ".hpp"
+			dirName = fixPath(extractDir(cppFile.file))
+			if dirName[-1] != "/":
+				dirName += "/"
+			
+			fileOut = dirName + self.getTargetName() + "/" + stripAll(cppFile.file) + ".hpp"
 			
 			# Directory structure
 			concreteDirOut = os.path.dirname(fileOut)
@@ -116,7 +120,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				
 				#fileOut = stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
 				#fileOut = stripExt(cppFile.file) + "-out.cpp"
-				fileOut = extractDir(cppFile.file) + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
+				
+				fileOut = dirName + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
 				self.mainCppFile = fileOut
 				
 				gcInit = ""
