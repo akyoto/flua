@@ -1,8 +1,10 @@
 from PyQt4 import QtGui, QtCore
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
+from bp.Tools.IDE.Utils import *
 import os
 import sys
+import shutil
 
 class BPModuleViewModel(QtGui.QStandardItemModel):
 	
@@ -19,6 +21,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.subModules = dict()
 		self.setEditable(False)
 		self.isModule = False
+		self.selectedModItem = None
 		self.setData(self, QtCore.Qt.UserRole + 1)
 		#self.setData(self.icon, QtCore.Qt.DecorationRole)
 		
@@ -47,11 +50,50 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.doubleClicked.connect(self.onItemClick)
 		self.customContextMenuRequested.connect(self.showContextMenu)
 		
+		# Actions
+		self.modDeleteAction = QtGui.QAction(QtGui.QIcon(getIDERoot() + "images/icons/actions/edit-delete.png"), "Delete module", self)
+		self.modDeleteAction.triggered.connect(self.deleteModule)
+		
+		# Model
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
 		self.reloadModuleDirectory(True)
 		
+	# Module deletion
+	def deleteModule(self, a):
+		item = self.selectedModItem
+		if item:
+			if item.isModule and item.subModules:
+				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path):
+					item.parent().removeRow(item.row())
+					#shutil.rmtree(item.realPath)
+			elif item.isModule:
+				if self.bpIDE.ask("Are you sure you want to delete the module <b>%s</b>?" % item.path):
+					item.parent().removeRow(item.row())
+					#item.removeColumns(0, item.columnCount())
+					#os.unlink(item.realPath)
+			else:
+				if self.bpIDE.ask("Are you sure you want to delete all modules inside <b>%s</b>?" % item.path):
+					item.parent().removeRow(item.row())
+					#shutil.rmtree(item.realPath)
+		
+		# Top level module
+		if item and "." in item.name:
+			self.reloadModuleDirectory()
+		
+		self.selectedModItem = None
+		
+	# Context menu
+	def showContextMenu(self, pos):
+		menu = QtGui.QMenu(self)
+		menu.addAction(self.modDeleteAction)
+		
+		self.selectedModItem = self.indexAt(pos).data(QtCore.Qt.UserRole + 1)
+		
+		menu.exec(QtGui.QCursor.pos())
+		
+	# Reload all directories
 	def reloadModuleDirectory(self, expand = True):
 		if self.bpcModel:
 			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
@@ -91,9 +133,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			self.expandToDepth(0)
 		
 	def onItemClick(self, item):
-		# Ugly on Windows 7
-		if os.name == "nt":
-			self.clearSelection()
+		# Ugly
+		self.clearSelection()
 		
 		modItem = item.data(QtCore.Qt.UserRole + 1)
 		realPath = modItem.realPath
@@ -170,13 +211,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.oldImportedMods = []
 		self.oldImportedModsLen = 0
 		
-	def showContextMenu(self, pos):
-		print("Context menu not implemented!")
-		
 	def updateView(self):
-		# Ugly on Windows 7
-		if os.name == "nt":
-			self.clearSelection()
+		# Ugly
+		self.clearSelection()
 		
 		# Show imports
 		if self.bpIDE.codeEdit is not None:

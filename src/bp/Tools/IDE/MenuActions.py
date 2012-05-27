@@ -198,8 +198,6 @@ class MenuActions:
 		
 		#print(self.processor.getCompiledFilesList())
 		try:
-			
-			
 			if outputTarget.startswith("C++"):
 				outputCompiler = CPPOutputCompiler(self.processor)
 			elif outputTarget.startswith("Python 3"):
@@ -376,14 +374,15 @@ class MenuActions:
 		
 		self.gitThread.startCmd(cleanCmd, self.console.log)
 	
-	def resetLocalChanges(self):
-		reply = QtGui.QMessageBox.question(self,
-				"Message",
-				"Are you sure you want to revert all local source code changes?",
+	def ask(self, question, title = "Message"):
+		return QtGui.QMessageBox.question(self,
+				title,
+				question,
 				QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
-				QtGui.QMessageBox.No)
-		
-		if reply == QtGui.QMessageBox.No:
+				QtGui.QMessageBox.No) == QtGui.QMessageBox.Yes
+	
+	def resetLocalChanges(self):
+		if not self.ask("Are you sure you want to revert all local source code changes?"):
 			return
 		
 		self.acquireGitThread()

@@ -98,7 +98,6 @@ class BPConfiguration:
 			
 			#Log {
 				border-radius: 0px;
-				font-size: 10pt;
 			}
 			
 			#MessageView {
