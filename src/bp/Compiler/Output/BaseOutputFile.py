@@ -1660,13 +1660,13 @@ class BaseOutputFile(ScopeController):
 		op2 = self.prepareTypeName(op2)
 		
 		return self.buildTemplateCall(op1, op2)
-	
+		
 	def handleConst(self, node):
 		self.inConst += 1
-		expr = self.handleAssign(node.childNodes[0])
+		code = self.parseChilds(node, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.inConst -= 1
 		
-		return expr
+		return code
 	
 	def handleTypeDeclaration(self, node, insertTypeName = True):
 		self.inTypeDeclaration += 1

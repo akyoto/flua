@@ -71,6 +71,7 @@ simpleBlocks = {
 	"extends" : [],
 	"parallel" : [],
 	"shared" : [],
+	"const" : [],
 }
 
 def addGenerics(line):
@@ -178,6 +179,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inEnsure = 0
 		self.inMaybe = 0
 		self.inTest = 0
+		self.inConst = 0
 		self.inCompilerFlags = 0
 		
 		self.parser = self.compiler.parser
@@ -506,6 +508,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inMaybe -= 1
 				elif nodeName == "test":
 					self.inTest -= 1
+				elif nodeName == "const":
+					self.inConst -= 1
 				elif nodeName == "compiler-flags":
 					self.inCompilerFlags -= 1
 			
@@ -938,12 +942,13 @@ class BPCFile(ScopeController, Benchmarkable):
 		return self.doc.createElement("break")
 		
 	def handleConst(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("const", line)
+		
 		node = self.doc.createElement("const")
-		param = self.parseExpr(line[len("const")+1:])
-		if param.hasChildNodes() and param.tagName == "assign":
-			node.appendChild(param)
-		else:
-			raise CompilerException("#const keyword expects a variable assignment")
+		self.inConst += 1
+		
+		self.nextNode = node
 		return node
 		
 	def handleReturn(self, line):

@@ -45,19 +45,15 @@
 			</extern-function>
 		</extern>
 		<const depth="0">
-			<assign>
+			<assign depth="1">
 				<value>pi</value>
 				<value>3.14159265358979323846264338327</value>
 			</assign>
-		</const>
-		<const depth="0">
-			<assign>
+			<assign depth="1">
 				<value>DEG_TO_RAD</value>
 				<value>0.0174532925199432957692369076848861</value>
 			</assign>
-		</const>
-		<const depth="0">
-			<assign>
+			<assign depth="1">
 				<value>RAD_TO_DEG</value>
 				<value>57.2957795130823208767981548141052</value>
 			</assign>

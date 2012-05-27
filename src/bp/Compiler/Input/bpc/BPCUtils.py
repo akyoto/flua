@@ -69,6 +69,7 @@ xmlToBPCBlock = {
 	"shared" : "shared",
 	"extern" : "extern",
 	"define" : "define",
+	"const" : "const",
 	"compiler-flags" : "compilerflags",
 	#"static" : "static"
 	
@@ -96,7 +97,6 @@ xmlToBPCExprBlock = {
 xmlToBPCSingleLineExpr = {
 	"return" : "return",
 	"include" : "include",
-	"const" : "const",
 	"break" : "break",
 	"continue" : "continue",
 	"throw" : "throw",
