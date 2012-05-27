@@ -80,7 +80,7 @@ class BPConfiguration:
 				border-top-right-radius: 6px;
 				padding: 3px;
 				padding-left: 5px;
-				padding-right: 0px;
+				padding-right: 5px;
 			}
 			
 			QTabBar::tab:hover {
