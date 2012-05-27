@@ -171,13 +171,15 @@ class Startup:
 			
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 			
-		#self.scribbleDock.hide()
+		self.scribbleDock.hide()
 		#self.fileViewDock.hide()
-		#self.consoleDock.hide()
+		self.consoleDock.hide()
+		self.msgViewDock.hide()
 		
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
 			self.xmlViewDock.hide()
+		
 		self.outlineViewDock.hide()
 		
 		#self.metaDataViewDock.hide()
@@ -289,7 +291,9 @@ class Startup:
 				
 				'doc-modified' : QtGui.QColor("#ff0000"),
 				'doc-unmodified' : QtGui.QColor("#000000"),
+				'doc-selected' : QtGui.QColor("#000000"),
 				
+				'error-line' : QtGui.QColor("#ffddcc"),
 				'current-line' : None#QtGui.QColor("#fefefe")
 			},
 			
@@ -301,8 +305,8 @@ class Startup:
 				'operator': cf('#aaaaaa'),
 				'brace': cf('darkGray'),
 				'comma': cf('#aaaaaa'),
-				'output-target': cf('#666666'),
-				'include-file': cf('#666666'),
+				'output-target': cf('#aa9988'),
+				'include-file': cf('#aa9988'),
 				'string': cf('#10e010'),
 				'string2': cf('darkMagenta'),
 				'comment': cf('#ffff99'),
@@ -310,7 +314,7 @@ class Startup:
 				'self': cf('#cccccc'),
 				'number': cf('#ff6020'),
 				'hex-number': cf('brown'),
-				'preprocessor': cf('#005000'),
+				'preprocessor': cf('#00d000'),
 				'file-link': cf('#0000ff', 'bold'),
 				
 				'function': cf('#10b0ff', useBold),
@@ -334,9 +338,11 @@ class Startup:
 				'module-browser-module': QtGui.QBrush(QtGui.QColor("#e8e8e8")),
 				
 				'doc-modified' : QtGui.QColor("#ff7421"),
-				'doc-unmodified' : QtGui.QColor("#eeeeee"),
+				'doc-unmodified' : QtGui.QColor("#000000"),
+				'doc-selected' : QtGui.QColor("#eeeeee"),
 				
-				'current-line' : None#QtGui.QColor("#fefefe")
+				'error-line' : QtGui.QColor("#f74727"),
+				'current-line' : QtGui.QColor("#303030"),
 			},
 		}
 		

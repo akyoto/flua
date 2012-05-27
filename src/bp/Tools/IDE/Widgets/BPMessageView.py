@@ -6,6 +6,7 @@ class BPMessageView(QtGui.QListWidget):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.setWordWrap(True)
+		self.setObjectName("MessageView")
 		
 		self.resetLastException()
 		
@@ -65,9 +66,12 @@ class BPMessageView(QtGui.QListWidget):
 				self.lastLineNumber = lineNumber
 				self.lastErrorMessage = errorMessage
 				self.lastErrorFilePath = errorFilePath
+			
+			self.updateView()
 		else:
 			self.resetLastException()
 			self.clear()
+			self.updateView()
 		
 	def updateViewPostProcessor(self):
 		# Last post processor exception
@@ -79,19 +83,19 @@ class BPMessageView(QtGui.QListWidget):
 			self.addMessage(errorMessage)
 		
 	def updateView(self):
-		if self.bpIDE.intelliEnabled:
-			itemNum = self.count()
-			if itemNum:
-				#self.adjustSize()#resize(0, 0)
-				#self.setMaximumHeight(self.count() * 50)
-				
-				maxHeight = 13
-				for i in range(itemNum):
-					maxHeight += self.visualItemRect(self.item(i)).height() + 2
-				self.setMaximumHeight(maxHeight)
-				
-				if self.isHidden():
-					self.show()
-			else:
-				if self.isVisible():
-					self.hide()
+		#if self.bpIDE.intelliEnabled:
+		itemNum = self.count()
+		if itemNum:
+			#self.adjustSize()#resize(0, 0)
+			#self.setMaximumHeight(self.count() * 50)
+			
+			maxHeight = 13
+			for i in range(itemNum):
+				maxHeight += self.visualItemRect(self.item(i)).height() + 2
+			self.setMaximumHeight(maxHeight)
+			
+			if self.bpIDE.msgViewDock.isHidden():
+				self.bpIDE.msgViewDock.show()
+		else:
+			if self.bpIDE.msgViewDock.isVisible():
+				self.bpIDE.msgViewDock.hide()

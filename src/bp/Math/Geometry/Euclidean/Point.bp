@@ -5,7 +5,8 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">,\S</string>
+			<string id="bp_string_0">\E</string>
+			<string id="bp_string_1">,\S</string>
 		</strings>
 	</header>
 	<code>
@@ -49,9 +50,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2">
-							<meta/>
-						</noop>
+						<noop depth="2"/>
 					</code>
 				</function>
 				<function depth="1">
@@ -69,7 +68,6 @@
 								</access>
 							</value>
 							<value>offX</value>
-							<meta/>
 						</assign-add>
 						<assign-add depth="2">
 							<value>
@@ -82,68 +80,6 @@
 						</assign-add>
 					</code>
 				</function>
-				<get depth="1">
-					<getter depth="2">
-						<name>x</name>
-						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>x</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2">
-						<name>y</name>
-						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>y</value>
-								</access>
-							</return>
-						</code>
-						<meta/>
-					</getter>
-				</get>
-				<set depth="1">
-					<setter depth="2">
-						<parameters>
-							<parameter>value</parameter>
-						</parameters>
-						<name>x</name>
-						<code>
-							<assign depth="3">
-								<value>
-									<access>
-										<value>my</value>
-										<value>x</value>
-									</access>
-								</value>
-								<value>value</value>
-							</assign>
-						</code>
-						<meta/>
-					</setter>
-					<setter depth="2">
-						<parameters>
-							<parameter>value</parameter>
-						</parameters>
-						<name>y</name>
-						<code>
-							<assign depth="3">
-								<value>
-									<access>
-										<value>my</value>
-										<value>y</value>
-									</access>
-								</value>
-								<value>value</value>
-							</assign>
-						</code>
-					</setter>
-				</set>
 				<function depth="1">
 					<parameters>
 						<parameter>point</parameter>
@@ -182,53 +118,105 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>x</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>x</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2">
+						<name>y</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>y</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
+				<set depth="1">
+					<setter depth="2">
+						<parameters>
+							<parameter>value</parameter>
+						</parameters>
+						<name>x</name>
+						<code>
+							<assign depth="3">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign>
+						</code>
+					</setter>
+					<setter depth="2">
+						<parameters>
+							<parameter>value</parameter>
+						</parameters>
+						<name>y</name>
+						<code>
+							<assign depth="3">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+				</set>
+				<casts depth="1">
+					<cast-definition depth="2">
+						<to>String</to>
+						<code>
+							<comment>\STODO:\SImplement\SInt\S-&gt;\SString\Sautocast</comment>
+							<return depth="3">
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>bp_string_0</value>
+													<value>
+														<access>
+															<value>my</value>
+															<value>x</value>
+														</access>
+													</value>
+												</add>
+											</value>
+											<value>bp_string_1</value>
+										</add>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>y</value>
+										</access>
+									</value>
+								</add>
+							</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
 			</code>
 		</class>
-		<function depth="0">
-			<parameters>
-				<parameter>
-					<declare-type>
-						<value>p</value>
-						<value>Point</value>
-					</declare-type>
-				</parameter>
-			</parameters>
-			<name>print</name>
-			<code>
-				<call depth="1">
-					<function>bp_print</function>
-					<parameters>
-						<parameter>
-							<access>
-								<value>p</value>
-								<value>x</value>
-							</access>
-						</parameter>
-					</parameters>
-					<meta/>
-				</call>
-				<call depth="1">
-					<function>bp_print</function>
-					<parameters>
-						<parameter>bp_string_0</parameter>
-					</parameters>
-					<meta/>
-				</call>
-				<call depth="1">
-					<function>bp_println</function>
-					<parameters>
-						<parameter>
-							<access>
-								<value>p</value>
-								<value>y</value>
-							</access>
-						</parameter>
-					</parameters>
-					<meta/>
-				</call>
-			</code>
-			<meta/>
-		</function>
 	</code>
 </module>

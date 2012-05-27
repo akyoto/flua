@@ -9,8 +9,6 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.bpIDE = bpIDE
 		self.wsID = wsID
 		self.filesClosed = []
-		self.colorModified = self.bpIDE.config.theme["doc-modified"]
-		self.colorUnmodified = self.bpIDE.config.theme["doc-unmodified"]
 		
 		if bpIDE.config.documentModeEnabled:
 			self.setDocumentMode(True)
@@ -35,10 +33,11 @@ class BPWorkspace(QtGui.QTabWidget):
 		self.bpIDE.workspacesView.updateCurrentWorkspace()
 		
 	def updateModifiedState(self, state):
-		if state:#and self.bpIDE.codeEdit and self.bpIDE.codeEdit.qdoc.isModified():
-			self.tabBar().setTabTextColor(self.currentIndex(), self.colorModified)
-		else:
-			self.tabBar().setTabTextColor(self.currentIndex(), self.colorUnmodified)
+		self.updateColors()
+		#if state:#and self.bpIDE.codeEdit and self.bpIDE.codeEdit.qdoc.isModified():
+		#	self.tabBar().setTabTextColor(self.currentIndex(), self.bpIDE.config.theme["doc-modified"])
+		#else:
+		#	self.tabBar().setTabTextColor(self.currentIndex(), self.bpIDE.config.theme["doc-unmodified"])
 		
 	def getWorkspaceID(self):
 		return self.wsID
@@ -55,6 +54,16 @@ class BPWorkspace(QtGui.QTabWidget):
 		for i in range(tabCount):
 			ceList.append(self.widget(i))
 		return ceList
+		
+	def updateColors(self):
+		self.tabBar().setTabTextColor(self.currentIndex(), self.bpIDE.config.theme["doc-selected"])
+		
+		for i in range(self.count()):
+			if self.widget(i).qdoc.isModified():
+				self.tabBar().setTabTextColor(i, self.bpIDE.config.theme["doc-modified"])
+			elif i != self.currentIndex():
+				self.tabBar().setTabTextColor(i, self.bpIDE.config.theme["doc-unmodified"])
+		
 		
 	def changeCodeEdit(self, index):
 		#print("CODE EDIT CHANGED TO INDEX %d" % index)
@@ -75,6 +84,9 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.xmlView.clear()
 		
 		self.bpIDE.updateLineInfo()
+		
+		# Colors
+		self.updateColors()
 		
 		if self.count():
 			self.show()

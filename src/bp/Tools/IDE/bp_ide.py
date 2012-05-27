@@ -196,7 +196,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			self.moduleInfoLabel.setText("%d functions in this file out of %d loaded. " % (funcCount, self.processor.funcCount))
-			#self.codeEdit.highlightLine(lineIndex)
 			
 			#expr = self.codeEdit.getCurrentLine()
 			#if expr:
@@ -214,6 +213,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
+			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
 		
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
@@ -459,7 +459,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.codeEdit.setFocus(QtCore.Qt.MouseFocusReason)
 		self.codeEdit.goToLineEnd(max(lineNum, 0))
-		self.codeEdit.highlightLine(max(lineNum - 1, 0), QtGui.QColor("#ffddcc"))
+		self.codeEdit.highlightLine(max(lineNum - 1, 0), self.config.theme["error-line"])
 		
 	def getCurrentTheme(self):
 		return self.config.theme

@@ -67,7 +67,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0">
 			<parameters>
@@ -75,6 +74,46 @@
 					<declare-type>
 						<value>x</value>
 						<value>Float</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>print</name>
+			<code>
+				<call depth="1">
+					<function>bp_writeln</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Size</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>print</name>
+			<code>
+				<call depth="1">
+					<function>bp_writeln</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Int64</value>
 					</declare-type>
 				</parameter>
 			</parameters>

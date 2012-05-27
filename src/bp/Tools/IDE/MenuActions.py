@@ -190,6 +190,7 @@ class MenuActions:
 		self.codeEdit.save(msgStatusBar = False)
 		self.console.clearLog()
 		self.msgView.clear()
+		self.consoleDock.show()
 		
 		# Target dependant
 		outputTarget = self.targetSwitcher.currentText()

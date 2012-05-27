@@ -62,12 +62,14 @@
 						<code>
 							<noop depth="3"/>
 						</code>
+						<meta/>
 					</function>
 					<function depth="2">
 						<name>free</name>
 						<code>
 							<noop depth="3"/>
 						</code>
+						<meta/>
 					</function>
 					<operators depth="2">
 						<operator depth="3">
@@ -82,6 +84,7 @@
 								</declare-type>
 								<return depth="4">retValue</return>
 							</code>
+							<meta/>
 						</operator>
 					</operators>
 					<set depth="2">

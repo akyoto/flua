@@ -92,9 +92,12 @@ class BPConfiguration:
 			}
 			
 			#Log {
-				margin-right: 16px;
-				border-radius: 7px;
+				border-radius: 0px;
 				font-size: 10pt;
+			}
+			
+			#MessageView {
+				border-radius: 0px;
 			}
 			
 			QStatusBar, QLabel, QLineEdit, QComboBox {
@@ -190,6 +193,7 @@ class BPConfiguration:
 		
 		if self.darkStyleEnabled:
 			QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
+			#QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:

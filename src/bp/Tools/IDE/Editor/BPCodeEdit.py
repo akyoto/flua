@@ -110,9 +110,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoCompleteOpenedAuto = True
 		
 		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 1
-		self.autoSuggestionMinCompleteChars = 2
-		self.autoSuggestionMaxItemCount = 3
+		self.autoSuggestionMinChars = 2
+		self.autoSuggestionMinCompleteChars = 4
+		self.autoSuggestionMaxItemCount = 4
 		
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
@@ -192,8 +192,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	self.setBackgroundVisible(True)
 	
 	def mousePressEvent(self, event):
+		self.bpIDE.consoleDock.hide()
+		
 		if self.bpIDE.ctrlPressed and self.hasMouseTracking() and self.hoveringFileName:
-			
 			# Create file if it doesn't exist
 			if not os.path.exists(self.hoveringFileName):
 				with open(self.hoveringFileName, "w") as out:
@@ -302,6 +303,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def focusInEvent(self, event):
 		if self.completer:
 			self.completer.setWidget(self)
+		
 		QtGui.QPlainTextEdit.focusInEvent(self, event)
 	
 	def getImportedModulesByCode(self):
