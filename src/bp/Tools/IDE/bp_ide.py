@@ -53,7 +53,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastFunctionCount = -1
 		self.intelliEnabled = False
 		self.viewsInitialized = False
-		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		self.docks = []
 		self.dockMenuActions = []
 		self.uiCache = dict()
@@ -62,6 +61,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.geometryState = None
 		self.authorName = ""
 		self.lastCodeEdit = None
+		
+		# Tmp path
+		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
+		if self.tmpPath[-1] != "/":
+			self.tmpPath += "/"
 		
 		# TODO: Keymap
 		self.ctrlPressed = False
