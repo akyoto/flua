@@ -50,6 +50,11 @@ class BPConfiguration:
 				border: none;
 				font-family: Ubuntu;
 			}
+			
+			QPlainTextEdit, QTreeView, QListView {
+				background-color: #ffffff;
+				color: #272727;
+			}
 		""" #% (self.theme['default-background'])
 		
 		self.dialogStyleSheet = """
@@ -75,9 +80,6 @@ class BPConfiguration:
 			}
 			
 			QTabBar::tab {
-				font-family: Ubuntu;
-				font-size: 9pt;
-				
 				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 32), stop:1 rgba(39, 39, 39, 48));
 				border-top-left-radius: 6px;
 				border-top-right-radius: 6px;
@@ -198,8 +200,11 @@ class BPConfiguration:
 			QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 			#QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 		
+		self.bpIDE.moduleView.resetAllHighlights()
+		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:
+			workspace.updateColors()
 			for codeEdit in workspace.getCodeEditList():
 				# Set current format
 				defaultFormat = self.theme["default"]

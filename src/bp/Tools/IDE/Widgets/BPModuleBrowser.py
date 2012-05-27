@@ -161,6 +161,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	# Clear all highlights
 	def resetAllHighlights(self):
+		self.brushSimpleFolder = self.bpIDE.config.theme['module-browser-directory']
+		self.brushModule = self.bpIDE.config.theme['module-browser-module']
+		
 		self.forEachModItemDo(self.modules, self.resetHighlight)
 		
 		# Reset to enable rehighlighting on a file reload

@@ -56,6 +56,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		return ceList
 		
 	def updateColors(self):
+		self.tabBar().setFont(self.bpIDE.config.standardFont)
 		self.tabBar().setTabTextColor(self.currentIndex(), self.bpIDE.config.theme["doc-selected"])
 		
 		for i in range(self.count()):
