@@ -1811,6 +1811,8 @@ class BaseOutputFile(ScopeController):
 		varNode = getElementByTagName(node, "variable")
 		codeNode = getElementByTagName(node, "code")
 		
+		self.pushScope()
+		
 		var = self.parseExpr(varNode)
 		
 		# Declare-type on exceptions
@@ -1830,7 +1832,7 @@ class BaseOutputFile(ScopeController):
 			var = "..."
 		
 		# Code needs to be compiled AFTER THE EXCEPTION VARIABLE HAS BEEN REGISTERED
-		self.pushScope()
+		
 		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.popScope()
 		

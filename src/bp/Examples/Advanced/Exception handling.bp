@@ -1,0 +1,62 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.FileSystem</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">DoesNotExist.txt</string>
+			<string id="bp_string_1">File\Snot\Sfound:\S</string>
+		</strings>
+	</header>
+	<code>
+		<try-block depth="0">
+			<try>
+				<code>
+					<comment>\SLet's\Stry\Sto\Sread\Sthe\Scontents\Sof\Sa\Stext\Sfile</comment>
+					<assign depth="1">
+						<value>contents</value>
+						<value>
+							<call>
+								<function>readFile</function>
+								<parameters>
+									<parameter>bp_string_0</parameter>
+								</parameters>
+							</call>
+						</value>
+					</assign>
+				</code>
+			</try>
+			<catch depth="0">
+				<variable>
+					<declare-type>
+						<value>e</value>
+						<value>FileNotFoundException</value>
+					</declare-type>
+				</variable>
+				<code>
+					<comment>\SWe\Ssave\Sexceptions\Sof\Stype\S'FileNotFoundException'\Sin\Sthe\Svariable\S'e'.</comment>
+					<comment>\SThis\Sexception\Sclass\Sdefines\Sa\Sproperty\S'path'\Swhich\Swe\Scan\Saccess</comment>
+					<comment>\Sto\Sknow\Swhich\Sfile\Sis\Smissing:</comment>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>
+								<add>
+									<value>bp_string_1</value>
+									<value>
+										<access>
+											<value>e</value>
+											<value>path</value>
+										</access>
+									</value>
+								</add>
+							</parameter>
+						</parameters>
+					</call>
+				</code>
+			</catch>
+		</try-block>
+	</code>
+</module>

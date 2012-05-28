@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>keywordsTest1</import>
+			<import>enterexit</import>
 			<import>math</import>
 			<import>generics</import>
 			<import>memory</import>
@@ -12,6 +13,7 @@
 			<import>casts</import>
 			<import>bigint</import>
 			<import>defaultvalues</import>
+			<import>exceptions</import>
 			<import>inheritance</import>
 			<import>unicode</import>
 			<import>stringoperations</import>

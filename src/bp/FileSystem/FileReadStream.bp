@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.FileSystem</import>
+			<import>Exceptions</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">r</string>
@@ -46,6 +47,35 @@
 								</call>
 							</value>
 						</assign>
+						<if-block depth="2">
+							<if>
+								<condition>
+									<not>
+										<value>
+											<access>
+												<value>my</value>
+												<value>fd</value>
+											</access>
+										</value>
+									</not>
+								</condition>
+								<code>
+									<throw depth="3">
+										<new>
+											<type>FileNotFoundException</type>
+											<parameters>
+												<parameter>
+													<access>
+														<value>my</value>
+														<value>path</value>
+													</access>
+												</parameter>
+											</parameters>
+										</new>
+									</throw>
+								</code>
+							</if>
+						</if-block>
 					</code>
 					<meta/>
 				</function>

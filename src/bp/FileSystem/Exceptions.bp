@@ -1,0 +1,89 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SFile\Snot\Sfound</comment>
+		<class depth="0">
+			<name>FileNotFoundException</name>
+			<code>
+				<extends depth="1">
+					<extends-class depth="2">Exception</extends-class>
+				</extends>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>path</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SFile\Scould\Snot\Sbe\Screated\Sor\Swritten\Sto</comment>
+		<class depth="0">
+			<name>FileWriteException</name>
+			<code>
+				<extends depth="1">
+					<extends-class depth="2">Exception</extends-class>
+				</extends>
+				<function depth="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1">
+					<getter depth="2">
+						<name>path</name>
+						<code>
+							<return depth="3">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

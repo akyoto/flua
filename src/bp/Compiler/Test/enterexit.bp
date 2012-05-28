@@ -5,10 +5,7 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Enter!</string>
-			<string id="bp_string_1">Exit!</string>
-			<string id="bp_string_2">\SThis\Sis\Sinside\Sthe\Sblock.\S</string>
-			<string id="bp_string_3">\SThis\Sis\Sinside\Sthe\Sblock.\S</string>
+			<string id="bp_string_0">#in\Sworking</string>
 		</strings>
 	</header>
 	<code>
@@ -24,24 +21,14 @@
 				<function depth="1">
 					<name>enter</name>
 					<code>
-						<call depth="2">
-							<function>print</function>
-							<parameters>
-								<parameter>bp_string_0</parameter>
-							</parameters>
-						</call>
+						<noop depth="2"/>
 					</code>
 					<meta/>
 				</function>
 				<function depth="1">
 					<name>exit</name>
 					<code>
-						<call depth="2">
-							<function>print</function>
-							<parameters>
-								<parameter>bp_string_1</parameter>
-							</parameters>
-						</call>
+						<noop depth="2"/>
 					</code>
 					<meta/>
 				</function>
@@ -58,10 +45,8 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SLet's\Sassume\Syou\Soften\Sneed\Sto\Sinitialize\Ssomething\Sin\Sa\Sblock\Sand\Safterwards\Sremove\Sit.</comment>
 		<comment>\SYou\Scan\Srealize\Sthis\Susing\Sthe\S'in'\Skeyword.</comment>
@@ -74,19 +59,14 @@
 				</new>
 			</expression>
 			<code>
-				<call depth="1">
-					<function>print</function>
-					<parameters>
-						<parameter>bp_string_2</parameter>
-					</parameters>
-				</call>
+				<noop depth="1"/>
 			</code>
 		</in>
 		<comment>\STo\Suse\Sthe\Sobject\Sinstance\Sinside\Sthe\Sblock\Syou\Sneed\Sto\Sname\Sit:</comment>
 		<in depth="0">
 			<expression>
 				<assign>
-					<value>a</value>
+					<value>testObj</value>
 					<value>
 						<new>
 							<type>MyAwesomeClass</type>
@@ -99,12 +79,12 @@
 				<call depth="1">
 					<function>
 						<access>
-							<value>a</value>
+							<value>testObj</value>
 							<value>doSomething</value>
 						</access>
 					</function>
 					<parameters>
-						<parameter>bp_string_3</parameter>
+						<parameter>bp_string_0</parameter>
 					</parameters>
 				</call>
 			</code>
