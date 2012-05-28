@@ -62,6 +62,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.authorName = ""
 		self.lastCodeEdit = None
 		self.outputCompiler = None
+		self.lastShownNode = None
+		self.currentNode = None
+		
+		# 
+		self.depsTimer = QtCore.QTimer(self)
+		self.depsTimer.timeout.connect(self.showDependencies)
+		self.depsTimer.start(200)
 		
 		# AC
 		self.shortCuts = dict()
@@ -185,7 +192,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		widget.show()
 	
-	def updateLineInfo(self, force = False, updateDependencyView = True):
+	def updateLineInfo(self, force = False):#, updateDependencyView = True):
 		if self.codeEdit is None:
 			self.lineNumberLabel.setText("")
 			self.moduleInfoLabel.setText("")
@@ -219,7 +226,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 			
 			# Check that line
-			self.showDependencies(selectedNode, updateDependencyView)
+			self.currentNode = selectedNode
+			#self.showDependencies(selectedNode, updateDependencyView)
 			
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
@@ -266,7 +274,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.currentWorkspace.changeCodeEdit(index)
 		
 		# Update line info
-		self.updateLineInfo(force=True, updateDependencyView=False)
+		self.updateLineInfo(force=True)#, updateDependencyView=False)
 		
 		# Exists?
 		if ppCodeEdit is None or ppCodeEdit.isTextFile:
@@ -349,9 +357,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		return self.codeEdit.doc
 		
-	def showDependencies(self, node, updateDependencyView = True):
+	def showDependencies(self):#, node, updateDependencyView = True):
+		node = self.currentNode
+		if node == self.lastShownNode:
+			return
+		self.lastShownNode = self.currentNode
+		
 		self.dependencyView.setNode(node)
-		if updateDependencyView and (not self.dependenciesViewDock.isHidden()):
+		if (not self.dependenciesViewDock.isHidden()):
 			self.dependencyView.updateView()
 		
 		self.xmlView.setNode(node)
