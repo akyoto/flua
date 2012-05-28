@@ -138,6 +138,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			# Message view
 			self.msgView = BPMessageView(self, self.bpIDE)
+			self.msgView.setFont(QtGui.QFont("Ubuntu", 10))
 		else:
 			self.bubble = None
 			self.msgView = None
