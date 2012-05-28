@@ -256,7 +256,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)
-			return "//{\n%s\t%s %s;\n%s\t%s->enter();\n%s%s\t%s->exit();\n%s//}" % (tabs, exprType, expr, tabs, c, code, tabs, c, tabs)
+			return "//{\n%s\t%s;\n%s\t%s->enter();\n%s%s\t%s->exit();\n%s//}" % (tabs, expr, tabs, c, code, tabs, c, tabs)
 		else:
 			c = self.compiler.inVarCounter
 			self.compiler.inVarCounter += 1

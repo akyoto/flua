@@ -64,6 +64,27 @@
 					</code>
 				</function>
 				<function depth="1">
+					<name>enter</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>exit</name>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>my</value>
+									<value>close</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+				</function>
+				<function depth="1">
 					<name>read</name>
 					<code>
 						<assign depth="2">

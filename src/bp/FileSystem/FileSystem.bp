@@ -99,7 +99,6 @@
 						<code>
 							<noop depth="3"/>
 						</code>
-						<meta/>
 					</function>
 				</code>
 				<meta/>
@@ -232,41 +231,37 @@
 			</parameters>
 			<name>readFile</name>
 			<code>
-				<comment>\STODO:\S'in'\Ssyntax</comment>
-				<assign depth="1">
-					<value>f</value>
-					<value>
-						<new>
-							<type>FileReadStream</type>
-							<parameters>
-								<parameter>path</parameter>
-							</parameters>
-						</new>
-					</value>
-				</assign>
-				<assign depth="1">
-					<value>data</value>
-					<value>
-						<call>
-							<function>
-								<access>
-									<value>f</value>
-									<value>read</value>
-								</access>
-							</function>
-							<parameters/>
-						</call>
-					</value>
-				</assign>
-				<call depth="1">
-					<function>
-						<access>
+				<in depth="1">
+					<expression>
+						<assign>
 							<value>f</value>
-							<value>close</value>
-						</access>
-					</function>
-					<parameters/>
-				</call>
+							<value>
+								<new>
+									<type>FileReadStream</type>
+									<parameters>
+										<parameter>path</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</expression>
+					<code>
+						<assign depth="2">
+							<value>data</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>f</value>
+											<value>read</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</in>
 				<return depth="1">data</return>
 			</code>
 			<meta/>
@@ -279,38 +274,34 @@
 			</parameters>
 			<name>writeFile</name>
 			<code>
-				<comment>\STODO:\S'in'\Ssyntax</comment>
-				<assign depth="1">
-					<value>f</value>
-					<value>
-						<new>
-							<type>FileWriteStream</type>
+				<in depth="1">
+					<expression>
+						<assign>
+							<value>f</value>
+							<value>
+								<new>
+									<type>FileWriteStream</type>
+									<parameters>
+										<parameter>path</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</expression>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>f</value>
+									<value>write</value>
+								</access>
+							</function>
 							<parameters>
-								<parameter>path</parameter>
+								<parameter>data</parameter>
 							</parameters>
-						</new>
-					</value>
-				</assign>
-				<call depth="1">
-					<function>
-						<access>
-							<value>f</value>
-							<value>write</value>
-						</access>
-					</function>
-					<parameters>
-						<parameter>data</parameter>
-					</parameters>
-				</call>
-				<call depth="1">
-					<function>
-						<access>
-							<value>f</value>
-							<value>close</value>
-						</access>
-					</function>
-					<parameters/>
-				</call>
+						</call>
+					</code>
+				</in>
 			</code>
 			<meta/>
 		</function>

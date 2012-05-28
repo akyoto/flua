@@ -75,6 +75,28 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<name>enter</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>exit</name>
+					<code>
+						<call depth="2">
+							<function>
+								<access>
+									<value>my</value>
+									<value>close</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
 					<parameters>
 						<parameter>data</parameter>
 					</parameters>
