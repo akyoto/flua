@@ -96,6 +96,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>
@@ -352,6 +353,7 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>reverse</name>
@@ -420,6 +422,7 @@
 							</code>
 						</while>
 					</code>
+					<meta/>
 				</function>
 				<operators depth="1">
 					<operator depth="2">
@@ -459,39 +462,6 @@
 				</operators>
 				<get depth="1">
 					<getter depth="2">
-						<name>start</name>
-						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>start</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2">
-						<name>end</name>
-						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>end</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2">
-						<name>endOfStorage</name>
-						<code>
-							<return depth="3">
-								<access>
-									<value>my</value>
-									<value>endOfStorage</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2">
 						<name>length</name>
 						<code>
 							<return depth="3">
@@ -511,6 +481,7 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>allocatedElements</name>

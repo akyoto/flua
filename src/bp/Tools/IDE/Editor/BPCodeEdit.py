@@ -114,6 +114,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoSuggestionMinCompleteChars = 4
 		self.autoSuggestionMaxItemCount = 4
 		
+		if not isinstance(parent, BPCodeEdit):
+			self.bubble = BPCodeEdit(self.bpIDE, self)
+			self.bubble.setStyleSheet("background: rgba(0,0,0,10%);")
+			self.bubble.clear(True)
+			self.bubble.setReadOnly(True)
+			self.bubbleWidth = 470
+			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
+		else:
+			self.bubble = None
+		
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
 		#bgStyle = bpIDE.currentTheme["default-background"]
@@ -167,22 +177,27 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		#self.initLineNumberArea()
 	
-	def clear(self):
+	def clear(self, isBubble = False):
 		self.doc = None
 		self.root = None
 		self.filePath = ""
 		self.lines = []
 		self.bpcFile = None
 		
-		self.disableUpdatesFlag = True
-		self.updater = None
-		super().clear()
-		self.updater = BPCodeUpdater(self)
-		self.disableUpdatesFlag = False
-		
-		self.timer = QtCore.QTimer(self)
-		self.timer.timeout.connect(self.onUpdateTimeout)
-		self.timer.start(self.bpIDE.config.updateInterval)
+		if not isBubble:
+			self.disableUpdatesFlag = True
+			self.updater = None
+			super().clear()
+			self.updater = BPCodeUpdater(self)
+			self.disableUpdatesFlag = False
+			
+			self.timer = QtCore.QTimer(self)
+			self.timer.timeout.connect(self.onUpdateTimeout)
+			self.timer.start(self.bpIDE.config.updateInterval)
+		else:
+			self.updater = None
+			self.timer = None
+			super().clear()
 	
 	#def setBackgroundColor(self, bgColor):
 	#	p = self.palette()
@@ -912,6 +927,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if self.lineNumberArea:
 			cr = self.contentsRect()
 			self.lineNumberArea.setGeometry(QtCore.QRect(cr.left(), cr.top(), self.getLineNumberAreaWidth(), cr.height()))
+		
+		if self.bubble:
+			offX = self.width() - self.bubbleWidth
+			offY = 0
+			self.bubble.setGeometry(offX, offY, self.bubbleWidth, self.height())
+			self.bubble.setPlainText(str(offX) + ", " + str(offY))
 		
 	def lineNumberAreaPaintEvent(self, event):
 		painter = QtGui.QPainter(self.lineNumberArea)

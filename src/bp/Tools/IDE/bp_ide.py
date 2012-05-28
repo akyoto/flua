@@ -62,6 +62,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.authorName = ""
 		self.lastCodeEdit = None
 		
+		# AC
+		self.shortCuts = dict()
+		self.funcsDict = dict()
+		self.classesDict = dict()
+		
 		# Tmp path
 		self.tmpPath = fixPath(os.path.abspath("./tmp/"))
 		if self.tmpPath[-1] != "/":
@@ -257,18 +262,22 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			return
 		
 		# Update auto completer data
-		classesDict = self.processor.getClassesDict()
-		funcsDict = self.processor.getFunctionsDict()
+		self.classesDict = self.processor.getClassesDict()
+		self.funcsDict = self.processor.getFunctionsDict()
 		
 		if (
-				len(funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
-				or len(classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
+				ppCodeEdit.completer
+				and
+				(
+					len(self.funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
+					or len(self.classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
+				)
 			):
-			funcsList = list(funcsDict)
-			classesList = list(classesDict)
+			funcsList = list(self.funcsDict)
+			classesList = list(self.classesDict)
 			
-			shortCuts = buildShortcutDict(funcsList)
-			ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, shortCuts, classesList)
+			self.shortCuts = buildShortcutDict(funcsList)
+			ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
 		
 		# After we parsed the functions, set the text and highlight the file
 		if ppCodeEdit.disableUpdatesFlag:
@@ -340,7 +349,60 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.metaData.setNode(node, self.getXMLDocument())
 		if not self.metaData.isHidden():
 			self.metaData.updateView()
-		
+			
+		def findCalls(node):
+			callList = []
+			
+			if tagName(node) == "call":
+				callList.append(node)
+			
+			for child in node.childNodes:
+				callList += findCalls(child)
+			
+			return callList
+			
+		def getNodeComments(node):
+			docs = []
+			while tagName(node.previousSibling) == "comment":
+				node = node.previousSibling
+				docs.insert(0, decodeCDATA(node.firstChild.nodeValue).strip())
+				
+			if docs:
+				return "# " + "\n# ".join(docs) + "\n"
+			else:
+				return ""
+			
+		if self.codeEdit and self.codeEdit.bubble:
+			if node:
+				calls = findCalls(node)
+				
+				code = []
+				shownFuncs = dict()
+				for call in calls:
+					funcName = getCalledFuncName(call)
+					if funcName in self.funcsDict:
+						for func in self.funcsDict[funcName].values():
+							funcDefinition = func.instruction
+							
+							# Don't show the same function twice
+							if funcDefinition in shownFuncs:
+								continue
+							
+							shownFuncs[funcDefinition] = True
+							
+							code.append(nodeToBPC(funcDefinition))
+							doc = getNodeComments(funcDefinition)
+							if doc:
+								code.append(doc)
+				
+				if code:
+					self.codeEdit.bubble.setPlainText("\n".join(code))
+					self.codeEdit.bubble.show()
+				else:
+					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
+			else:
+				self.codeEdit.bubble.hide()
+			
 	def setFilePath(self, path):
 		filePath = os.path.abspath(path)
 		if self.processor:

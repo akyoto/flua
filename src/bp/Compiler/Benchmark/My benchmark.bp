@@ -10,13 +10,17 @@
 		</strings>
 	</header>
 	<code>
+		<assign depth="0">
+			<value>a</value>
+			<value>0</value>
+		</assign>
 		<comment>\SProcessor\Swarmup</comment>
 		<for depth="0">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>100000000</to>
 			<code>
-				<assign depth="1">
+				<assign-add depth="1">
 					<value>a</value>
 					<value>
 						<add>
@@ -24,7 +28,7 @@
 							<value>1</value>
 						</add>
 					</value>
-				</assign>
+				</assign-add>
 			</code>
 			<meta/>
 		</for>
@@ -46,6 +50,7 @@
 			<code>
 				<noop depth="1"/>
 			</code>
+			<meta/>
 		</for>
 		<comment>\SSo,\Show\Smuch\Stime\Sdid\Swe\Sactually\Sneed\Sto\Sdo\Sthis?</comment>
 		<assign depth="0">
