@@ -119,8 +119,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.setStyleSheet("background: rgba(0,0,0,10%);")
 			self.bubble.clear(True)
 			self.bubble.setReadOnly(True)
-			self.bubbleWidth = 470
+			self.bubbleWidth = 480
 			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
+			self.bubble.verticalScrollBar().hide()#setScrollBarsEnabled(False)
 		else:
 			self.bubble = None
 		
@@ -929,10 +930,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.lineNumberArea.setGeometry(QtCore.QRect(cr.left(), cr.top(), self.getLineNumberAreaWidth(), cr.height()))
 		
 		if self.bubble:
-			offX = self.width() - self.bubbleWidth
-			offY = 0
-			self.bubble.setGeometry(offX, offY, self.bubbleWidth, self.height())
-			#self.bubble.setPlainText(str(offX) + ", " + str(offY))
+			self.resizeBubble()
+	
+	def resizeBubble(self, width = -1, height = -1):
+		if width == -1:
+			width = self.bubbleWidth
+		
+		if height == -1:
+			height = self.bubble.height()
+		
+		offX = self.width() - width
+		offY = self.height() - height
+		self.bubble.setGeometry(offX, offY, width, height)
+		#self.bubble.setPlainText(str(offX) + ", " + str(offY))
 		
 	def lineNumberAreaPaintEvent(self, event):
 		painter = QtGui.QPainter(self.lineNumberArea)

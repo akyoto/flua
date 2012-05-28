@@ -437,7 +437,11 @@ class BPPostProcessor:
 		for ppFile in self.compiledFilesList:
 			for funcName, funcVariations in ppFile.dTreesByFunctionName.items():
 				if funcName.find('.') == -1:
-					funcs[funcName] = funcVariations
+					if funcName in funcs:
+						for polyName, dTree in funcVariations.items():
+							funcs[funcName][polyName] = dTree
+					else:
+						funcs[funcName] = funcVariations
 		return funcs
 	
 	def setMainFile(self, path):
@@ -763,8 +767,21 @@ class BPPostProcessorFile:
 					if funcName:
 						self.currentDTree = DTree(funcName, node)
 						
-						# TODO: Add params to name
-						funcNamePolymorphized = funcName
+						# Add params to name
+						def getParamTypes(node):
+							types = []
+							params = getElementByTagName(node, "parameters")
+							if params:
+								for param in params.childNodes:
+									if tagName(param) == "parameter":
+										if tagName(param.firstChild) == "declare-type":
+											types.append(nodeToBPC(param.firstChild.childNodes[1].firstChild))
+										else:
+											types.append("")
+							return types
+						
+						paramTypes = getParamTypes(node)
+						funcNamePolymorphized = funcName + buildPostfix(paramTypes)
 						
 						if not funcName in self.dTreesByFunctionName:
 							self.dTreesByFunctionName[funcName] = dict()

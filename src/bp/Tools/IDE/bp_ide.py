@@ -396,7 +396,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 								code.append(doc)
 				
 				if code:
-					self.codeEdit.bubble.setPlainText("\n".join(code))
+					codeText = "\n".join(code)
+					lines = codeText.count("\n") + 1
+					self.codeEdit.bubble.setPlainText(codeText)
+					self.codeEdit.resizeBubble(-1, lines * (self.codeEdit.bubble.fontMetrics().height()))
 					self.codeEdit.bubble.show()
 				else:
 					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)

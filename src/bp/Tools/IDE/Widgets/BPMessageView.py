@@ -15,6 +15,7 @@ class BPMessageView(QtGui.QListWidget):
 		#self.setScrollBarPolicy(QtGui.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 		self.icon = QtGui.QIcon("images/icons/status/dialog-warning.png")
 		self.itemClicked.connect(self.goToLineOfItem)
+		self.horizontalScrollBar().hide()
 		
 	def resetLastException(self):
 		self.lastLineNumber = -2
