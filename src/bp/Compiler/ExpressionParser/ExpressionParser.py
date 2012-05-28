@@ -445,6 +445,7 @@ class ExpressionParser:
 		#expr = expr.replace(" in ", " }= ")
 		
 		if expr.startswith("-"):
+			#print("------------- MINUS -----------")
 			expr = "-(%s)" % expr[1:]
 		
 		expr = " " + expr

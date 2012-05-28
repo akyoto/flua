@@ -223,7 +223,6 @@
 									</else>
 								</if-block>
 							</code>
-							<meta/>
 						</for>
 						<return depth="2">42</return>
 					</code>
@@ -359,6 +358,7 @@
 					<code>
 						<noop depth="2"/>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\Schars</comment>
 				<function depth="1">
@@ -425,7 +425,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SLeft\Sx\Scharacters</comment>
+				<comment>\SLeft\S#length\Scharacters</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>length</parameter>
@@ -447,8 +447,9 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
-				<comment>\SRight\Sx\Scharacters</comment>
+				<comment>\SRight\S#length\Scharacters</comment>
 				<function depth="1">
 					<parameters>
 						<parameter>length</parameter>
@@ -480,6 +481,7 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
 				<function depth="1">
@@ -766,7 +768,7 @@
 									<parameter>
 										<access>
 											<value>chars</value>
-											<value>length</value>
+											<value>lengthInBytes</value>
 										</access>
 									</parameter>
 								</parameters>
@@ -799,7 +801,7 @@
 													<value>
 														<access>
 															<value>my</value>
-															<value>length</value>
+															<value>lengthInBytes</value>
 														</access>
 													</value>
 												</add>
@@ -807,7 +809,7 @@
 											<value>
 												<access>
 													<value>chars</value>
-													<value>length</value>
+													<value>lengthInBytes</value>
 												</access>
 											</value>
 										</subtract>
@@ -821,7 +823,7 @@
 									<parameter>
 										<access>
 											<value>chars</value>
-											<value>length</value>
+											<value>lengthInBytes</value>
 										</access>
 									</parameter>
 								</parameters>

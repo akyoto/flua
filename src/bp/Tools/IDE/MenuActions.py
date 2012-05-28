@@ -254,9 +254,14 @@ class MenuActions:
 				
 				if node:
 					print("Last parsed node:\n" + node.toxml())
+					
+				self.consoleDock.show()
 			else:
 				errorMessage = e.getMsg()
 				self.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
+				
+				self.consoleDock.hide()
+				self.msgView.updateView()
 		except:
 			printTraceback()
 		finally:

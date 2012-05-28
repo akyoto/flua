@@ -128,5 +128,25 @@
 			</code>
 			<meta/>
 		</function>
+		<function depth="0">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Bool</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>print</name>
+			<code>
+				<call depth="1">
+					<function>bp_writeln</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>

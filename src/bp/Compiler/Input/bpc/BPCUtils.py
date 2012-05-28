@@ -28,12 +28,19 @@
 # Imports
 ####################################################################
 from bp.Compiler.Utils import *
+from bp.Compiler.Config import *
 from bp.Compiler.Input.bpc import *
 
 ####################################################################
 # Variables
 ####################################################################
 # Used by XML -> BPC compiler
+
+# Syntax
+SYNTAX_BPC = 0
+SYNTAX_CPP = 1
+SYNTAX_PYTHON = 2
+currentSyntax = SYNTAX_BPC
 
 # Elements that simply wrap value nodes
 wrapperSingleElement = [
@@ -47,6 +54,7 @@ wrapperSingleElement = [
 	"condition",
 	"variable",
 	"compiler-flag",
+	"expression"
 ]
 
 # The contents of those nodes will be formatted 
@@ -91,6 +99,7 @@ xmlToBPCExprBlock = {
 	"parallel" : ["parallel", "", "code"],
 	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
+	"in" : ["in", "expression", "code"],
 	"catch" : ["catch", "variable", "code"],
 	"switch" : ["switch", "value", "case"],
 	"pattern" : ["pattern", "type", ""]
@@ -333,10 +342,16 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					codeParts.append(tabs)
 					codeParts.append(childCode)
 					if childCode[-1] != "\n":
-						codeParts.append("\n")
+						codeParts.append(["\n", ";\n", "\n"][currentSyntax])
 		
 		if isVisibleBlock:
-			return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
+			global currentSyntax
+			if currentSyntax == SYNTAX_BPC:
+				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
+			elif currentSyntax == SYNTAX_CPP:
+				return wrapperMultipleElements[nodeName] + " {\n" + ''.join(codeParts) + "\t" * (tabLevel - 1) + "}"
+			elif currentSyntax == SYNTAX_PYTHON:
+				return wrapperMultipleElements[nodeName] + ":\n" + ''.join(codeParts)
 		
 		return ''.join(codeParts)
 	# Function definition
@@ -352,7 +367,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			paramsCode = nodeToBPC(params, 0, conv)
 			if paramsCode:
 				paramsCode = " " + paramsCode
-		return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
+		
+		# Syntax
+		if currentSyntax == SYNTAX_BPC:
+			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
+		elif currentSyntax == SYNTAX_CPP:
+			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}"
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
@@ -483,7 +503,13 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			for child in node.childNodes:
 				if child.nodeType != Node.TEXT_NODE and child.tagName == childNodeName:
 					code += tabs + nodeToBPCSaved(child, tabLevel + 1, conv)
-		return "%s%s%s\n%s" % (name, space, expr, code)
+		
+		if currentSyntax == SYNTAX_BPC:
+			return "%s%s%s\n%s" % (name, space, expr, code)
+		elif currentSyntax == SYNTAX_CPP:
+			if code.endswith("}"):
+				code += "\n"
+			return "%s%s(%s) {\n%s%s}" % (name, space, expr, code, ("\t" * (tabLevel)))
 	# Blocks
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""

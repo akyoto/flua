@@ -54,7 +54,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.paramBlocks = {
 			"if" : ["if", "condition", "code"],
 			"else-if" : [" else if", "condition", "code"],
-			"while" : ["while", "condition", "code"]
+			"while" : ["while", "condition", "code"],
 		}
 		
 		# Codes
@@ -248,6 +248,19 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	
 	def buildNegation(self, expr):
 		return "(!(%s))" % expr
+	
+	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
+		exprType = self.adjustDataType(exprType)
+		
+		hasVar = (exprNode.firstChild.tagName == "assign")
+		if hasVar:
+			# Left operator = Tmp variable
+			c = self.parseExpr(exprNode.firstChild.firstChild)
+			return "//{\n%s\t%s %s;\n%s\t%s->enter();\n%s%s\t%s->exit();\n%s//}" % (tabs, exprType, expr, tabs, c, code, tabs, c, tabs)
+		else:
+			c = self.compiler.inVarCounter
+			self.compiler.inVarCounter += 1
+			return "//{\n%s\t%s _tmp_var_%d = (%s);\n%s\t_tmp_var_%d->enter();\n%s%s\t_tmp_var_%d->exit();\n%s//}" % (tabs, exprType, c, expr, tabs, c, code, tabs, c, tabs)
 	
 	def castToNativeNumeric(self, variableType, value):
 		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)

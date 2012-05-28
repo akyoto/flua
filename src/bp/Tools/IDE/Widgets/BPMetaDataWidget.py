@@ -111,12 +111,12 @@ class BPMetaDataWidget(QtGui.QWidget):
 				# Widget is currently showing nothing
 				if self.node is None:
 					return
-				elif (not self.node.tagName in metaDataForNodeName) and (not self.node.parentNode.parentNode.tagName in metaDataForNodeName):
+				elif ((not isElemNode(self.node)) or not self.node.tagName in metaDataForNodeName) and (not self.node.parentNode.parentNode.tagName in metaDataForNodeName):
 					return
 			else:
 				# Widget is currently showing some items
 				if (self.node and self.node.isSameNode(self.viewOnNode)) or (self.node and self.node.parentNode and self.node.parentNode.parentNode.isSameNode(self.viewOnNode)):
-					if not (self.node.tagName in metaDataForNodeName and self.node.parentNode.parentNode.tagName in metaDataForNodeName):
+					if (not isElemNode(self.node)) or not (self.node.tagName in metaDataForNodeName and self.node.parentNode.parentNode.tagName in metaDataForNodeName):
 						return
 		
 		self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()

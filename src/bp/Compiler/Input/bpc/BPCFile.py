@@ -72,6 +72,7 @@ simpleBlocks = {
 	"parallel" : [],
 	"shared" : [],
 	"const" : [],
+	"in" : [],
 }
 
 def addGenerics(line):
@@ -1285,7 +1286,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					continue
 				
 				if h == lineLen:
-					raise CompilerException("You forgot to close the string: '\"' missing")
+					raise CompilerException("You forgot to close the string: \" missing")
 				
 				if h + 1 < lineLen and mustNotBeNextToExpr(line[h + 1]):
 					raise CompilerException("Operator missing: %s ↓ %s" % (line[i:h+1].strip(), line[h+1:].strip()))

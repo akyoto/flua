@@ -962,6 +962,32 @@ class BaseOutputFile(ScopeController):
 		self.inShared -= 1
 		
 		return code
+		
+	def handleIn(self, node):
+		exprNode = getElementByTagName(node, "expression")
+		codeNode = getElementByTagName(node, "code")
+		
+		expr = self.parseExpr(exprNode.firstChild)
+		exprType = self.getExprDataType(exprNode.firstChild)
+		
+		
+		if exprType in nonPointerClasses:
+			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which '%s' lacks" % exprType)
+		
+		classObj = self.getClass(extractClassName(exprType))
+		if not (classObj.hasFunction("enter") and classObj.hasFunction("exit")):
+			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which '%s' lacks" % exprType)
+		
+		self.implementFunction(exprType, "enter", [])
+		self.implementFunction(exprType, "exit", [])
+		
+		self.currentTabLevel += 1
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+		self.currentTabLevel -= 1
+		
+		# TODO: Check for enter/exit methods
+		
+		return self.buildInBlock(exprNode, expr, exprType, code, "\t" * self.currentTabLevel)
 	
 	def handleNamespace(self, node):
 		# TODO: Fully implement namespaces
@@ -1296,6 +1322,8 @@ class BaseOutputFile(ScopeController):
 			return self.handleParallel(node)
 		elif tagName == "shared":
 			return self.handleShared(node)
+		elif tagName == "in":
+			return self.handleIn(node)
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":

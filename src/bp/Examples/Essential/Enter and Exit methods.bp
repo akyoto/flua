@@ -1,0 +1,106 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Enter!</string>
+			<string id="bp_string_1">Exit!</string>
+			<string id="bp_string_2">\SThis\Sis\Sinside\Sthe\Sblock.\S</string>
+			<string id="bp_string_3">\SThis\Sis\Sinside\Sthe\Sblock.\S</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0">
+			<name>MyAwesomeClass</name>
+			<code>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+				<function depth="1">
+					<name>enter</name>
+					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>exit</name>
+					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_1</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<name>doSomething</name>
+					<code>
+						<call depth="2">
+							<function>print</function>
+							<parameters>
+								<parameter>bp_string_2</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SThis\Sautomatically\Scalls\Sthe\S.enter()\Sand\S.exit()\Smethods\Sfor\Sthe\Sobject\Syou\Sused</comment>
+		<in depth="0">
+			<expression>
+				<new>
+					<type>MyAwesomeClass</type>
+					<parameters/>
+				</new>
+			</expression>
+			<code>
+				<call depth="1">
+					<function>print</function>
+					<parameters>
+						<parameter>bp_string_3</parameter>
+					</parameters>
+				</call>
+			</code>
+		</in>
+		<comment>\STo\Suse\Sthe\Sobject\Sinside\Sthe\Sblock\Syou\Sneed\Sto\Sname\Sit:</comment>
+		<in depth="0">
+			<expression>
+				<assign>
+					<value>a</value>
+					<value>
+						<new>
+							<type>MyAwesomeClass</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+			</expression>
+			<code>
+				<call depth="1">
+					<function>
+						<access>
+							<value>a</value>
+							<value>doSomething</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</code>
+		</in>
+	</code>
+</module>

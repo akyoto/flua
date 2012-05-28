@@ -85,7 +85,8 @@ class Startup:
 		
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
-		self.syntaxSwitcher.addItem("BPC Syntax")
+		self.syntaxSwitcher.addItem("BPC Syntax        ")
+		#self.syntaxSwitcher.addItem("C/C++ like Syntax")
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
 		# Search
@@ -171,7 +172,7 @@ class Startup:
 			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
 			#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
-			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.BottomDockWidgetArea)
+			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
 			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
 			
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)

@@ -135,10 +135,13 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		if item.isModule:
 			# Move it to the new directory
-			newPath = stripExt(realPath) + "/"
-			os.makedirs(newPath)
-			shutil.copy(realPath, newPath)
-			os.unlink(item.realPath)
+			if os.path.isfile(realPath) and extractDir(realPath).split("/")[-2] != stripAll(realPath):
+				newPath = stripExt(realPath) + "/"
+				os.makedirs(newPath)
+				shutil.copy(realPath, newPath)
+				os.unlink(item.realPath)
+			else:
+				newPath = extractDir(realPath)
 		else:
 			newPath = realPath
 		
