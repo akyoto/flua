@@ -295,6 +295,9 @@ class MenuActions:
 		self.changeLogDialog, existed = self.getUIFromCache("changelog")
 		
 		if not existed:
+			# To prevent an error
+			self.changeLogDialog.bpIDE = self
+			
 			self.changeLog = BPLogWidget(self.changeLogDialog)
 			self.changeLog.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 			self.changeLog.setReadOnly(True)
