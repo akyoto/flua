@@ -88,8 +88,6 @@ class CPPOutputFile(BaseOutputFile):
 		self.ptrMemberAccessChar = "->"
 		
 	def compile(self):
-		print("Compiling: " + self.file)
-		
 		# Header
 		self.header += "// Includes\n"
 		self.header += "#include <bp_decls.hpp>\n"

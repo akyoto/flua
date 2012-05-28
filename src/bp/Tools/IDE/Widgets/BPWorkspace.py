@@ -1,4 +1,6 @@
+from PyQt4 import QtGui, QtCore
 from bp.Tools.IDE.Editor import *
+from bp.Compiler.Utils import *
 
 class BPWorkspace(QtGui.QTabWidget):
 	
@@ -85,7 +87,8 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 		if self.bpIDE.viewsInitialized:
 			self.bpIDE.dependencyView.clear()
-			self.bpIDE.msgView.clear()
+			#if self.bpIDE.codeEdit:
+			#	self.bpIDE.codeEdit.msgView.clear()
 			self.bpIDE.xmlView.clear()
 		
 		self.bpIDE.updateLineInfo()

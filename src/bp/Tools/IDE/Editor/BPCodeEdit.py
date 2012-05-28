@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore, uic
 from bp.Tools.IDE.Syntax.BPCSyntax import *
 from bp.Tools.IDE.Threads import *
+from bp.Tools.IDE.Widgets import *
 from bp.Compiler import *
 import collections
 #import yappi
@@ -116,11 +117,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoSuggestionMaxItemCount = 4
 		
 		if not isinstance(parent, BPCodeEdit):
+			# Doc bubble
 			self.bubble = BPCodeEdit(self.bpIDE, self)
-			self.bubble.setStyleSheet("background: rgba(0,0,0,10%); border-top-left-radius: 7px;")
+			self.bubble.setObjectName("DocBubble")
+			#self.bubble.setStyleSheet("background: rgba(0,0,0,10%); border-top-left-radius: 7px;")
 			self.bubble.clear(True)
 			self.bubble.setReadOnly(True)
-			self.bubbleWidth = 500
+			self.bubbleWidth = 300
+			self.msgViewWidth = 300
 			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
 			
 			self.bubble.horizontalScrollBar().setMaximumWidth(0)
@@ -129,8 +133,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.verticalScrollBar().setMaximumWidth(0)
 			self.bubble.verticalScrollBar().setMaximumHeight(0)
 			self.bubble.verticalScrollBar().hide()
+			
+			self.bubble.setLineWrapMode(QtGui.QPlainTextEdit.WidgetWidth)
+			
+			# Message view
+			self.msgView = BPMessageView(self, self.bpIDE)
 		else:
 			self.bubble = None
+			self.msgView = None
 		
 		#self.setCurrentCharFormat(self.bpIDE.config.theme["default"])
 		
@@ -740,6 +750,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Run bpc -> xml updater
 		#print(self.disableUpdatesFlag)
 		
+		self.bpIDE.backgroundCompileIsUpToDate = False
+		self.bpIDE.backgroundCompilerRan = False
+		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()
 		
@@ -803,6 +816,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#self.bpIDE.endBenchmark()
 			
 			self.bpIDE.runPostProcessor(self)
+		
+		# Message view
+		self.msgView.updateViewParser()
 		
 		# Any work in the queue left?
 		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
@@ -959,14 +975,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.resizeBubble()
 	
 	def resizeBubble(self, width = -1, height = -1):
+		margin = 7
+		
 		if width == -1:
 			width = self.bubbleWidth
 		
 		if height == -1:
 			height = self.bubble.height()
 		
-		offX = self.width() - width
-		offY = self.height() - height
+		# Resize msg view as well
+		offX = self.width() - self.msgViewWidth - margin
+		self.msgView.setGeometry(offX, margin, self.msgViewWidth, 50)
+		
+		# Docs
+		offX = self.width() - width - margin
+		offY = self.msgView.height() + margin * 2
 		self.bubble.setGeometry(offX, offY, width, height)
 		#self.bubble.setPlainText(str(offX) + ", " + str(offY))
 		

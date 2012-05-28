@@ -75,6 +75,10 @@ class BPConfiguration:
 				color: #eeeeee;
 			}
 			
+			QListView {
+				border-radius: 0px;
+			}
+			
 			QPlainTextEdit {
 				border-top-left-radius: 0px;
 			}
@@ -101,7 +105,15 @@ class BPConfiguration:
 			}
 			
 			#MessageView {
-				border-radius: 0px;
+				border-radius: 7px;
+				color: rgba(255, 255, 255, 80%);
+				background-color: rgba(0, 0, 0, 10%);
+				padding: 5px;
+			}
+			
+			#DocBubble {
+				border-radius: 7px;
+				background-color: rgba(0, 0, 0, 10%);
 			}
 			
 			QStatusBar, QLabel, QLineEdit, QComboBox {
@@ -240,6 +252,7 @@ class BPConfiguration:
 		for workspace in self.bpIDE.workspaces:
 			for codeEdit in workspace.getCodeEditList():
 				codeEdit.setFont(font)
+				codeEdit.msgView.setFont(self.standardFont)
 		
 		self.bpIDE.xmlView.setFont(font)
 		self.bpIDE.dependencyView.setFont(font)
@@ -252,7 +265,6 @@ class BPConfiguration:
 		
 		# Widgets with normal font
 		self.bpIDE.moduleView.setFont(font)
-		self.bpIDE.msgView.setFont(font)
 		self.bpIDE.workspacesContainer.setFont(font)
 		
 		# All docks

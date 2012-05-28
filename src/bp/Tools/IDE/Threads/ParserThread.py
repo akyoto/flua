@@ -14,7 +14,6 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.executionTime = 0
 		self.finished.connect(self.codeEdit.compilerFinished)
 		self.finished.connect(self.bpIDE.moduleView.updateView)
-		self.finished.connect(self.bpIDE.msgView.updateViewParser)
 		
 	def setDocument(self, doc):
 		self.qdoc = doc

@@ -35,14 +35,14 @@ from bp.Compiler.Config import *
 ####################################################################
 class BaseOutputCompiler(Benchmarkable):
 	
-	def __init__(self, inpCompiler):
+	def __init__(self, inpCompiler, background = False):
 		if inpCompiler:
 			self.inputCompiler = inpCompiler
 			self.inputFiles = inpCompiler.getCompiledFiles()
 			self.projectDir = self.inputCompiler.getProjectDir()
 		else:
 			self.projectDir = ""
-			
+		
 		self.compiledFiles = dict()
 		self.outFiles = dict()
 		self.outFilesList = list()
@@ -56,6 +56,9 @@ class BaseOutputCompiler(Benchmarkable):
 		self.specializedClasses = dict()
 		self.funcImplCache = dict()
 		self.needToInitStringClass = False
+		
+		# Background compiler?
+		self.background = background
 		
 		# Counter
 		self.stringCounter = 0
@@ -86,9 +89,6 @@ class BaseOutputCompiler(Benchmarkable):
 	def writeToFS(self):
 		raise NotImplementedError()
 		
-	def compile(self, inpFile):
-		raise NotImplementedError()
-		
 	def getCompiledFiles(self):
 		return self.compiledFiles
 	
@@ -116,7 +116,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.checkDivisionByZero = True
 		self.optimizeStringConcatenation = self.optimize
 	
-	def scan(self, inpFile):
+	def scan(self, inpFile, silent = False):
 		cppOut = self.createOutputFile(inpFile)
 		
 		if len(self.outFiles) == 0:
@@ -139,7 +139,8 @@ class BaseOutputCompiler(Benchmarkable):
 		self.outFilesList.append((inpFile, cppOut))
 		
 		# Scanning the file itself
-		print("Scanning: %s" % cppOut.file)
+		#if not silent:
+		#	print("Scanning: %s" % cppOut.file)
 				
 		# Check whether string class has been defined or not
 		# NOTE: This has to be called before self.scanAhead is executed.
@@ -149,15 +150,15 @@ class BaseOutputCompiler(Benchmarkable):
 		# UTF8String module will find UTF8String class e.g.
 		cppOut.scanAhead(cppOut.codeNode)
 		
-	def compile(self, inpFile):
-		self.scan(inpFile)
+	def compile(self, inpFile, silent = False):
+		self.scan(inpFile, silent)
 		
 		for inpFile, outFile in self.outFilesList:
 			#print("Compiling: %s" % outFile.file)
-			self.genericCompile(inpFile, outFile)
+			self.genericCompile(inpFile, outFile, silent)
 		
 	# Building and executing
-	def genericCompile(self, inpFile, cppOut):
+	def genericCompile(self, inpFile, cppOut, silent = False):
 		# This needs to be executed BEFORE the imported files have been compiled
 		# It'll prevent a file from being processed twice
 		self.compiledFiles[inpFile] = cppOut
@@ -179,6 +180,9 @@ class BaseOutputCompiler(Benchmarkable):
 		try:
 			# String class init
 			cppOut.checkStringClass()
+			
+			if not silent:
+				print("Compiling: " + cppOut.file)
 			
 			# Compile it
 			cppOut.compile()

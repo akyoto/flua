@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>bp Studio 0.2.8 - Alpha version</string>
+   <string>bp Studio 0.2.9 - Alpha version</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -100,9 +100,17 @@
     </property>
     <addaction name="actionToggleFullscreen"/>
    </widget>
+   <widget class="QMenu" name="menuRepository">
+    <property name="title">
+     <string>Repository</string>
+    </property>
+    <addaction name="actionRepositoryList"/>
+    <addaction name="actionConnectWithGitHub"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
+   <addaction name="menuRepository"/>
    <addaction name="menuView"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
@@ -475,6 +483,16 @@
   <action name="actionReportBug">
    <property name="text">
     <string>Submit a Bug Report</string>
+   </property>
+  </action>
+  <action name="actionRepositoryList">
+   <property name="text">
+    <string>Repository list</string>
+   </property>
+  </action>
+  <action name="actionConnectWithGitHub">
+   <property name="text">
+    <string>Connect with GitHub</string>
    </property>
   </action>
  </widget>

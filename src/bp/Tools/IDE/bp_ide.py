@@ -63,12 +63,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastCodeEdit = None
 		self.outputCompiler = None
 		self.lastShownNode = None
+		self.lastShownOutputCompiler = None
 		self.currentNode = None
+		self.running = 0
+		self.backgroundCompileIsUpToDate = False
 		
-		# 
-		self.depsTimer = QtCore.QTimer(self)
-		self.depsTimer.timeout.connect(self.showDependencies)
-		self.depsTimer.start(200)
+		# Timed
+		self.bindFunctionToTimer(self.showDependencies, 200)
+		self.bindFunctionToTimer(self.onCompileTimeout, 1000)
 		
 		# AC
 		self.shortCuts = dict()
@@ -121,7 +123,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	#def eventFilter(self, obj, event):
 	#	
 	#	for i in range(len(self.docks)):
-	#		if obj == self.docks[i]:
+	#		if obj == self.docks[i:
 	#			return False
 	#			if event.type == QtCore.QEvent.Close:
 	#				action = self.dockMenuActions[i]
@@ -132,6 +134,137 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	#			return False
 	#	
 	#	return super().eventFilter(obj, event)
+		
+	def bindFunctionToTimer(self, func, interval):
+		timer = QtCore.QTimer(self)
+		timer.timeout.connect(func)
+		timer.start(interval)
+		
+	def showDependencies(self):#, node, updateDependencyView = True):
+		node = self.currentNode
+		if node == self.lastShownNode:
+			if self.lastShownOutputCompiler != self.outputCompiler:
+				self.updateCodeBubble(node)
+			return
+		self.lastShownNode = self.currentNode
+		
+		self.dependencyView.setNode(node)
+		if (not self.dependenciesViewDock.isHidden()):
+			self.dependencyView.updateView()
+		
+		self.xmlView.setNode(node)
+		if not self.xmlViewDock.isHidden():
+			self.xmlView.updateView()
+			
+		self.metaData.setNode(node, self.getXMLDocument())
+		if not self.metaData.isHidden():
+			self.metaData.updateView()
+		
+		self.updateCodeBubble(node)
+	
+	def onCompileTimeout(self):
+		# Don't do this if we're actually compiling
+		if self.running:
+			return
+		
+		# Create output compiler
+		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
+		self.outputCompilerThread.startWith(tmpOutputCompiler)
+	
+	def backgroundCompilerFinished(self):
+		if self.outputCompilerThread.lastException:
+			#pass
+			
+			# TODO: What should we do with background compiler error messages?
+			
+			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
+			if self.codeEdit and self.codeEdit.msgView.count() == 0:
+				self.displayOutputCompilerException(self.outputCompilerThread.lastException)
+	
+	def createOutputCompiler(self, outputTarget, temporary = False):
+		if outputTarget.startswith("C++"):
+			tmp = CPPOutputCompiler(self.processor, background = temporary)
+		elif outputTarget.startswith("Python 3"):
+			tmp = PythonOutputCompiler(self.processor, background = temporary)
+		
+		if temporary:
+			return tmp
+		else:
+			self.outputCompiler = tmp
+	
+	def updateCodeBubble(self, node):
+		if self.codeEdit and self.codeEdit.bubble and not self.running and self.consoleDock.isHidden():
+			if node:
+				calls = findCalls(node)
+				
+				# TODO: Optimize as a dict lookup
+				# If we have output compiler information
+				currentOutFile = None
+				if self.outputCompiler:
+					self.lastShownOutputCompiler = self.outputCompiler
+					cePath = self.getFilePath()
+					for outFile in self.outputCompiler.outFiles.values():
+						if outFile.file == cePath:
+							currentOutFile = outFile
+							break
+				
+				# Let's see if we can get some information about those calls
+				code = []
+				shownFuncs = dict()
+				for call in calls:
+					funcName = getCalledFuncName(call)
+					if funcName in self.funcsDict:
+						for func in self.funcsDict[funcName].values():
+							funcDefinition = func.instruction
+							
+							# Don't show the same function twice
+							if funcDefinition in shownFuncs:
+								continue
+							
+							shownFuncs[funcDefinition] = True
+							
+							# Documentation
+							doc = getNodeComments(funcDefinition)
+							
+							# Code
+							bpcCode = nodeToBPC(funcDefinition)
+							
+							# Do we have data type information
+							if currentOutFile:
+								dataType = None
+								try:
+									dataType = currentOutFile.getCallDataType(call)
+									if dataType and dataType != "void":
+										pos = bpcCode.find("\n")
+										bpcCode = (bpcCode[:pos] + " # = " + dataType) + bpcCode[pos:] 
+										#bpcCode = (bpcCode[:pos].ljust(80 - 3 - len(dataType)) + dataType) + bpcCode[pos:] 
+								except:
+									pass
+							
+							code.append(bpcCode)
+							# Add the documentation afterwards
+							if doc:
+								code.append(doc)
+				
+				if code:
+					codeText = "\n".join(code)
+					lines = codeText.count("\n") + 1
+					self.codeEdit.bubble.setPlainText(codeText)
+					#self.codeEdit.resizeBubble(-1, lines * (self.codeEdit.bubble.fontMetrics().height()))
+					# self.codeEdit.bubble.document().idealWidth()
+					self.codeEdit.bubble.document().adjustSize()
+					self.codeEdit.resizeBubble(-1, (self.codeEdit.bubble.document().size().height() + 2) * (self.codeEdit.bubble.fontMetrics().height()))
+					self.codeEdit.bubble.show()
+				else:
+					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
+			else:
+				self.codeEdit.bubble.hide()
+		
+	def getPostProcessorFile(self, path):
+		return self.processor.getCompiledFiles()[path]
+		
+	def getCurrentPostProcessorFile(self):
+		return self.processor.getCompiledFiles()[self.getFilePath()]
 		
 	def hideEvent(self, event):
 		self.geometryState = self.saveState()
@@ -280,6 +413,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if ppCodeEdit is None or ppCodeEdit.isTextFile:
 			return
 		
+		# Msg view
+		ppCodeEdit.msgView.updateViewPostProcessor()
+		
 		# Update auto completer data
 		self.classesDict = self.processor.getClassesDict()
 		self.funcsDict = self.processor.getFunctionsDict()
@@ -357,86 +493,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		return self.codeEdit.doc
 		
-	def showDependencies(self):#, node, updateDependencyView = True):
-		node = self.currentNode
-		if node == self.lastShownNode:
-			return
-		self.lastShownNode = self.currentNode
-		
-		self.dependencyView.setNode(node)
-		if (not self.dependenciesViewDock.isHidden()):
-			self.dependencyView.updateView()
-		
-		self.xmlView.setNode(node)
-		if not self.xmlViewDock.isHidden():
-			self.xmlView.updateView()
-			
-		self.metaData.setNode(node, self.getXMLDocument())
-		if not self.metaData.isHidden():
-			self.metaData.updateView()
-		
-		self.updateCodeBubble(node)
-	
-	def updateCodeBubble(self, node):
-		if self.codeEdit and self.codeEdit.bubble:
-			if node:
-				calls = findCalls(node)
-				
-				# If we have output compiler information
-				currentOutFile = None
-				if self.outputCompiler:
-					cePath = self.getFilePath()
-					for outFile in self.outputCompiler.outFiles.values():
-						if outFile.file == cePath:
-							currentOutFile = outFile
-							break
-				
-				code = []
-				shownFuncs = dict()
-				for call in calls:
-					funcName = getCalledFuncName(call)
-					if funcName in self.funcsDict:
-						for func in self.funcsDict[funcName].values():
-							funcDefinition = func.instruction
-							
-							# Don't show the same function twice
-							if funcDefinition in shownFuncs:
-								continue
-							
-							shownFuncs[funcDefinition] = True
-							
-							# Documentation
-							doc = getNodeComments(funcDefinition)
-							
-							# Code
-							bpcCode = nodeToBPC(funcDefinition)
-							
-							# Do we have data type information
-							if currentOutFile:
-								try:
-									dataType = currentOutFile.getCallDataType(call)
-									if dataType and dataType != "void":
-										pos = bpcCode.find("\n")
-										bpcCode = (bpcCode[:pos].ljust(80 - 3 - len(dataType)) + dataType) + bpcCode[pos:] 
-								except:
-									pass
-							
-							code.append(bpcCode)
-							# Add the documentation afterwards
-							if doc:
-								code.append(doc)
-				
-				if code:
-					codeText = "\n".join(code)
-					lines = codeText.count("\n") + 1
-					self.codeEdit.bubble.setPlainText(codeText)
-					self.codeEdit.resizeBubble(-1, lines * (self.codeEdit.bubble.fontMetrics().height()))
-					self.codeEdit.bubble.show()
-				else:
-					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
-			else:
-				self.codeEdit.bubble.hide()
-		
 	def forEachCodeEditDo(self, func):
 		for workspace in self.workspaces:
 			for codeEdit in workspace.getCodeEditList():
@@ -462,7 +518,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return self.codeEdit.getFilePath()
 		
 	def getErrorCount(self):
-		return self.msgView.count()
+		if not self.codeEdit:
+			return 0
+		return self.codeEdit.msgView.count()
 		
 	def loadFileToEditor(self, fileName):
 		self.beforeSwitchingFile()

@@ -85,8 +85,9 @@ class Startup:
 		
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
-		self.syntaxSwitcher.addItem("BPC Syntax        ")
-		self.syntaxSwitcher.addItem("C++ Light")
+		self.syntaxSwitcher.setToolTip("Syntax switcher")
+		self.syntaxSwitcher.addItem("BPC Syntax         ")
+		self.syntaxSwitcher.addItem("C++ Light          ")
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
@@ -98,7 +99,7 @@ class Startup:
 		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
-		
+		self.targetSwitcher.setToolTip("Target language")
 		self.targetSwitcher.addItem("C++")
 		self.targetSwitcher.addItem("Python 3 (in development)")
 		
@@ -119,9 +120,6 @@ class Startup:
 	def initDocks(self):
 		# Console
 		self.console = BPConsoleWidget(self)
-		
-		# Message view
-		self.msgView = BPMessageView(self)
 		
 		# XML view
 		self.xmlView = XMLCodeEdit(self)
@@ -173,7 +171,7 @@ class Startup:
 			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 			
 			#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
-			self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
+			#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
 			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
 			
 			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
@@ -181,7 +179,7 @@ class Startup:
 		self.scribbleDock.hide()
 		#self.fileViewDock.hide()
 		self.consoleDock.hide()
-		self.msgViewDock.hide()
+		#self.msgViewDock.hide()
 		
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
@@ -364,6 +362,7 @@ class Startup:
 		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
+		self.outputCompilerThread = BPOutputCompilerThread(self)
 		
 	def initToolBar(self):
 		pass

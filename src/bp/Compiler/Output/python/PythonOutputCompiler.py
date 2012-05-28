@@ -37,8 +37,8 @@ import shutil
 ####################################################################
 class PythonOutputCompiler(BaseOutputCompiler):
 	
-	def __init__(self, inpCompiler):
-		super().__init__(inpCompiler)
+	def __init__(self, inpCompiler, background = False):
+		super().__init__(inpCompiler, background)
 		
 	def createOutputFile(self, inpFile):
 		return PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())

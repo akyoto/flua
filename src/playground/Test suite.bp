@@ -5,17 +5,9 @@
 			<import>bp.Core</import>
 			<import>bp.Compiler.Test</import>
 		</dependencies>
-		<strings>
-			<string id="bp_string_0">Hello\SWorld</string>
-		</strings>
+		<strings/>
 	</header>
 	<code>
 		<comment>\SPress\SF5\Sor\SF6\Sto\Ssee\Sif\Sbp\Sis\Sworking\Son\Syour\Scomputer!</comment>
-		<call depth="0">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
 	</code>
 </module>

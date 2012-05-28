@@ -80,6 +80,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>finalize</name>
 					<code>
 						<call depth="2">
@@ -94,6 +95,7 @@
 					</code>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>enter</name>
 					<code>
 						<noop depth="2"/>
@@ -101,6 +103,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>exit</name>
 					<code>
 						<call depth="2">
@@ -115,6 +118,7 @@
 					</code>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>read</name>
 					<code>
 						<assign depth="2">
@@ -174,6 +178,46 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters>
+						<parameter>numBytes</parameter>
+					</parameters>
+					<name>read</name>
+					<code>
+						<assign depth="2">
+							<value>buffer</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Array</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>numBytes</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<call depth="2">
+							<function>bp_fread</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>fd</value>
+									</access>
+								</parameter>
+								<parameter>buffer</parameter>
+								<parameter>fSize</parameter>
+							</parameters>
+						</call>
+						<return depth="2">buffer</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1">
+					<parameters/>
 					<name>close</name>
 					<code>
 						<if-block depth="2">

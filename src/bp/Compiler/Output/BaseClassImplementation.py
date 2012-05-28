@@ -97,6 +97,15 @@ class BaseClassImplementation:
 			print("Candidates were:")
 			for func in candidates:
 				print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
-			raise CompilerException("No matching function found for the call '%s.%s' with the parameter types '%s'" % (self.getName(), funcName, paramTypes))
+			if self.getName():
+				calledFunc = "%s.%s"
+			else:
+				calledFunc = funcName
+			
+			if paramTypes:
+				paramsInfo = "with the parameter types %s" % paramTypes
+			else:
+				paramsInfo = "without any parameters"
+			raise CompilerException("No matching function found for the call '%s' %s" % (calledFunc, paramsInfo))
 		
 		return winner

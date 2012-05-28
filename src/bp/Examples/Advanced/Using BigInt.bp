@@ -6,8 +6,10 @@
 			<import>bp.Math.Utils</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Factorial\Sof\S20\Sas\SInt\Sis\S</string>
-			<string id="bp_string_1">Factorial\Sof\S20\Sas\SBigInt\Sis\S</string>
+			<string id="bp_string_0">Factorial\Sof\S</string>
+			<string id="bp_string_1">\Sas\SInt\Sis\S</string>
+			<string id="bp_string_2">Factorial\Sof\S</string>
+			<string id="bp_string_3">\Sas\SBigInt\Sis\S</string>
 		</strings>
 	</header>
 	<code>
@@ -57,7 +59,17 @@
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_0</value>
+						<value>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_0</value>
+										<value>a</value>
+									</add>
+								</value>
+								<value>bp_string_1</value>
+							</add>
+						</value>
 						<value>factOfA</value>
 					</add>
 				</parameter>
@@ -69,7 +81,17 @@
 			<parameters>
 				<parameter>
 					<add>
-						<value>bp_string_1</value>
+						<value>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_2</value>
+										<value>b</value>
+									</add>
+								</value>
+								<value>bp_string_3</value>
+							</add>
+						</value>
 						<value>factOfB</value>
 					</add>
 				</parameter>

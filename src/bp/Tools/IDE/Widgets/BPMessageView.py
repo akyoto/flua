@@ -2,11 +2,13 @@ from PyQt4 import QtGui, QtCore
 
 class BPMessageView(QtGui.QListWidget):
 	
-	def __init__(self, parent):
+	def __init__(self, parent, bpIDE):
 		super().__init__(parent)
-		self.bpIDE = parent
+		self.bpIDE = bpIDE
 		self.setWordWrap(True)
 		self.setObjectName("MessageView")
+		self.messages = dict()
+		self.hide()
 		
 		self.resetLastException()
 		
@@ -33,6 +35,8 @@ class BPMessageView(QtGui.QListWidget):
 		
 		if lineNum is not None and lineNum != -1:
 			self.bpIDE.goToLineEnd(lineNum)
+			
+		self.clearSelection()
 		
 	def addMessage(self, msg):
 		newItem = QtGui.QListWidgetItem(self.icon, msg)
@@ -40,6 +44,12 @@ class BPMessageView(QtGui.QListWidget):
 		self.addItem(newItem)
 		
 	def addLineBasedMessage(self, errorFilePath, lineNumber, msg):
+		awesomeHash = errorFilePath + str(lineNumber) + msg
+		if awesomeHash in self.messages:
+			return
+		
+		self.messages[awesomeHash] = msg
+		
 		newItem = QtGui.QListWidgetItem(self.icon, msg)
 		
 		newItem.setData(QtCore.Qt.UserRole + 1, errorFilePath)
@@ -49,6 +59,8 @@ class BPMessageView(QtGui.QListWidget):
 		newItem.setToolTip(info)
 		#self.setSizeHint(QtCore.QSize(0, 10))
 		self.addItem(newItem)
+		
+		self.updateView()
 		
 	def updateViewParser(self):
 		# Last parser exception
@@ -83,6 +95,11 @@ class BPMessageView(QtGui.QListWidget):
 			errorMessage = e.getMsg()
 			self.addMessage(errorMessage)
 		
+	def clear(self):
+		self.messages = dict()
+		super().clear()
+		self.hide()
+		
 	def updateView(self):
 		#if self.bpIDE.intelliEnabled:
 		itemNum = self.count()
@@ -90,17 +107,15 @@ class BPMessageView(QtGui.QListWidget):
 			#self.adjustSize()#resize(0, 0)
 			#self.setMaximumHeight(self.count() * 50)
 			
-			# IntelliView?
-			if 1:
-				pass#self.bpIDE.msgViewDock.setMaximumHeight(50)
-			else:
-				maxHeight = 13
-				for i in range(itemNum):
-					maxHeight += self.visualItemRect(self.item(i)).height() + 2
-				self.setMaximumHeight(maxHeight)
+			# Item size
+			self.setMaximumHeight(600)
+			maxHeight = 10
+			for i in range(itemNum):
+				maxHeight += self.visualItemRect(self.item(i)).height()
+			self.setGeometry(self.x(), self.y(), self.width(), maxHeight)
 			
-			if self.bpIDE.msgViewDock.isHidden():
-				self.bpIDE.msgViewDock.show()
+			if self.isHidden():
+				self.show()
 		else:
-			if self.bpIDE.msgViewDock.isVisible():
-				self.bpIDE.msgViewDock.hide()
+			if self.isVisible():
+				self.hide()

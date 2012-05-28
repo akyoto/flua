@@ -74,8 +74,6 @@ class PythonOutputFile(BaseOutputFile):
 		self.ptrMemberAccessChar = "."
 	
 	def compile(self):
-		print("Compiling: " + self.file)
-		
 		# Header
 		self.header = "# Imports\n"
 		self.header += "from bp_decls import *\n"

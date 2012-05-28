@@ -11,7 +11,6 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.lastException = None
 		self.ceQueue = collections.deque()
 		self.finished.connect(self.bpIDE.postProcessorFinished)
-		self.finished.connect(self.bpIDE.msgView.updateViewPostProcessor)
 		
 	def startWith(self, codeEdit):
 		self.codeEdit = codeEdit

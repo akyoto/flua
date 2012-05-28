@@ -85,7 +85,12 @@ def getNodeComments(node):
 		docs.insert(0, decodeCDATA(node.firstChild.nodeValue).strip())
 		
 	if docs:
-		return "# " + "\n# ".join(docs) + "\n"
+		doc = "# " + " ".join(docs)
+		
+		#if doc[-1] != ".":
+		#	doc += "."
+		
+		return doc + "\n"
 	else:
 		return ""
 	

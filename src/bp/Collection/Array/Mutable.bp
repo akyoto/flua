@@ -194,6 +194,7 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>
@@ -456,7 +457,6 @@
 							</return>
 						</code>
 					</operator>
-					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">
