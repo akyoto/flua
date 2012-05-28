@@ -932,7 +932,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			offX = self.width() - self.bubbleWidth
 			offY = 0
 			self.bubble.setGeometry(offX, offY, self.bubbleWidth, self.height())
-			self.bubble.setPlainText(str(offX) + ", " + str(offY))
+			#self.bubble.setPlainText(str(offX) + ", " + str(offY))
 		
 	def lineNumberAreaPaintEvent(self, event):
 		painter = QtGui.QPainter(self.lineNumberArea)

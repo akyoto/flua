@@ -35,6 +35,7 @@
 				</meta>
 			</extern-function>
 		</extern>
+		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\SISO\Sformat\SYYYY-MM-DD</comment>
 		<function depth="0">
 			<name>getCurrentDate</name>
 			<code>
@@ -45,7 +46,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Scurrent\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
 		<function depth="0">
 			<name>getCurrentTime</name>
 			<code>
@@ -56,7 +59,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>year</parameter>

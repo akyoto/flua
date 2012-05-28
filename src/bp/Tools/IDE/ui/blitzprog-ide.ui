@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>bp Studio 0.2.7 - Alpha version</string>
+   <string>bp Studio 0.2.8 - Alpha version</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

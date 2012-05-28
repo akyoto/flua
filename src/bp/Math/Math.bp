@@ -49,6 +49,7 @@
 				</meta>
 			</extern-function>
 		</extern>
+		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -62,7 +63,9 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -78,7 +81,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sln\Sof\S#x</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -96,6 +101,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Slg\Sof\S#x</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>x</parameter>
@@ -111,7 +117,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sa\Srandom\Snumber\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>a</parameter>
@@ -119,6 +127,16 @@
 			</parameters>
 			<name>rand</name>
 			<code>
+				<ensure depth="1">
+					<greater-or-equal depth="2">
+						<value>result</value>
+						<value>a</value>
+					</greater-or-equal>
+					<less-or-equal depth="2">
+						<value>result</value>
+						<value>b</value>
+					</less-or-equal>
+				</ensure>
 				<return depth="1">
 					<call>
 						<function>bp_rand</function>
@@ -131,6 +149,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>a</parameter>
@@ -157,7 +176,9 @@
 					</else>
 				</if-block>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>a</parameter>
@@ -184,6 +205,7 @@
 					</else>
 				</if-block>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>
