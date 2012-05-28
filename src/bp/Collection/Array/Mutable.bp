@@ -96,7 +96,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>
@@ -353,7 +352,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1">
 					<name>reverse</name>
@@ -422,7 +420,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<operators depth="1">
 					<operator depth="2">
@@ -459,6 +456,7 @@
 							</return>
 						</code>
 					</operator>
+					<meta/>
 				</operators>
 				<get depth="1">
 					<getter depth="2">
@@ -481,7 +479,6 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>allocatedElements</name>
@@ -503,7 +500,9 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
+					<meta/>
 				</get>
 				<set depth="1">
 					<setter depth="2">

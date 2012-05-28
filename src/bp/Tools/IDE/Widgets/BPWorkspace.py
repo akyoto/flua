@@ -76,6 +76,10 @@ class BPWorkspace(QtGui.QTabWidget):
 			if (not self.bpIDE.codeEdit.openingFile) and (not self.bpIDE.codeEdit.isTextFile):
 				self.bpIDE.codeEdit.runUpdater()
 			
+			if self.bpIDE.codeEdit.reloading:
+				self.bpIDE.codeEdit.highlighter.rehighlight()
+				self.bpIDE.codeEdit.reloading = False
+			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)
 		

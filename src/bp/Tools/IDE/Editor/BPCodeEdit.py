@@ -108,6 +108,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setFont(self.bpIDE.config.monospaceFont)
 		self.lastCompletionTime = 0
 		self.autoCompleteOpenedAuto = True
+		self.reloading = False
 		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 2
@@ -116,12 +117,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if not isinstance(parent, BPCodeEdit):
 			self.bubble = BPCodeEdit(self.bpIDE, self)
-			self.bubble.setStyleSheet("background: rgba(0,0,0,10%);")
+			self.bubble.setStyleSheet("background: rgba(0,0,0,10%); border-top-left-radius: 7px;")
 			self.bubble.clear(True)
 			self.bubble.setReadOnly(True)
-			self.bubbleWidth = 480
+			self.bubbleWidth = 500
 			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
-			self.bubble.verticalScrollBar().hide()#setScrollBarsEnabled(False)
+			
+			self.bubble.horizontalScrollBar().setMaximumWidth(0)
+			self.bubble.horizontalScrollBar().setMaximumHeight(0)
+			self.bubble.horizontalScrollBar().hide()
+			self.bubble.verticalScrollBar().setMaximumWidth(0)
+			self.bubble.verticalScrollBar().setMaximumHeight(0)
+			self.bubble.verticalScrollBar().hide()
 		else:
 			self.bubble = None
 		
@@ -177,6 +184,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#self.completer.setWidget(self)
 		
 		#self.initLineNumberArea()
+	
+	def reload(self):
+		xmlCode = loadXMLFile(self.getFilePath())
+		
+		#self.clear()
+		self.setPlainText("")
+		self.openingFile = True
+		self.reloading = True
+		
+		self.bpIDE.beforeSwitchingFile()
+		self.setXML(xmlCode)
+		self.bpIDE.afterSwitchingFile()
+		#self.onUpdateTimeout()
+		
+		#self.runUpdater()
 	
 	def clear(self, isBubble = False):
 		self.doc = None
@@ -250,6 +272,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			elif text.startswith("import "):
 				importedMod = text[len("import "):]
 				self.hoveringFileName = self.bpIDE.getModulePath(importedMod)
+				
+			# C++ syntax
+			if self.hoveringFileName.endswith(";"):
+				self.hoveringFileName = self.hoveringFileName[:-1]
 		
 		super().mouseMoveEvent(event)
 	
@@ -813,7 +839,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				#self.setLineNode(lineIndex, node)
 			lineIndex += 1
 		
-		del self.root
+		#del self.root
 		self.root = self.bpcFile.root
 		
 		#del self.bpcFile.root

@@ -35,6 +35,7 @@ from bp.Compiler.Output.cpp.datatypes import *
 from bp.Compiler.Output.cpp.CPPClass import *
 from bp.Compiler.Output.cpp.CPPFunction import *
 from bp.Compiler.Output.cpp.CPPVariable import *
+from bp.Compiler.Output.cpp.CPPNamespace import *
 from bp.Compiler.Input.bpc.BPCUtils import *
 
 ####################################################################

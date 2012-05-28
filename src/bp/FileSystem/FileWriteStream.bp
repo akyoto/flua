@@ -90,6 +90,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>finalize</name>
 					<code>
 						<call depth="2">
@@ -105,6 +106,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>enter</name>
 					<code>
 						<noop depth="2"/>
@@ -112,6 +114,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>exit</name>
 					<code>
 						<call depth="2">
@@ -189,6 +192,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>flush</name>
 					<code>
 						<call depth="2">
@@ -206,6 +210,7 @@
 					<meta/>
 				</function>
 				<function depth="1">
+					<parameters/>
 					<name>close</name>
 					<code>
 						<if-block depth="2">
@@ -252,6 +257,7 @@
 				</function>
 				<get depth="1">
 					<getter depth="2">
+						<parameters/>
 						<name>path</name>
 						<code>
 							<return depth="3">
@@ -264,6 +270,7 @@
 						<meta/>
 					</getter>
 					<getter depth="2">
+						<parameters/>
 						<name>newline</name>
 						<code>
 							<return depth="3">

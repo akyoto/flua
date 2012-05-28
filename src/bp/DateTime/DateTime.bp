@@ -35,7 +35,7 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\SISO\Sformat\SYYYY-MM-DD</comment>
+		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
 		<function depth="0">
 			<name>getCurrentDate</name>
 			<code>
@@ -48,7 +48,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Sthe\Scurrent\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
+		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
 		<function depth="0">
 			<name>getCurrentTime</name>
 			<code>

@@ -1,4 +1,5 @@
 from bp.Tools.IDE.Startup import *
+import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
 
 class MenuActions:
 	
@@ -187,6 +188,9 @@ class MenuActions:
 			self.codeEdit.threaded = True
 		
 		# General
+		if self.codeEdit.bubble:
+			self.codeEdit.bubble.hide()
+		
 		self.codeEdit.save(msgStatusBar = False)
 		self.console.clearLog()
 		self.msgView.clear()
@@ -199,9 +203,9 @@ class MenuActions:
 		#print(self.processor.getCompiledFilesList())
 		try:
 			if outputTarget.startswith("C++"):
-				outputCompiler = CPPOutputCompiler(self.processor)
+				self.outputCompiler = CPPOutputCompiler(self.processor)
 			elif outputTarget.startswith("Python 3"):
-				outputCompiler = PythonOutputCompiler(self.processor)
+				self.outputCompiler = PythonOutputCompiler(self.processor)
 			
 			#exePath = cpp.getExePath().replace("/", "\\")
 			#if exePath and os.path.isfile(exePath):
@@ -212,13 +216,13 @@ class MenuActions:
 			
 			# Generate
 			self.startBenchmark("%s Generator" % outputTarget)
-			outputCompiler.compile(bpPostPFile)
-			outputCompiler.writeToFS()
+			self.outputCompiler.compile(bpPostPFile)
+			self.outputCompiler.writeToFS()
 			self.endBenchmark()
 			
 			# Build
 			self.startBenchmark("%s Build" % outputTarget)
-			exitCode = outputCompiler.build(compilerFlags)
+			exitCode = self.outputCompiler.build(compilerFlags)
 			print("-" * 80)
 			self.endBenchmark()
 			
@@ -226,7 +230,7 @@ class MenuActions:
 				print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
 				return
 			
-			exe = outputCompiler.getExePath()
+			exe = self.outputCompiler.getExePath()
 			
 			if not compilerFlags:
 				print("No optimizations active.")
@@ -242,7 +246,7 @@ class MenuActions:
 				exeDir = extractDir(exe)
 				os.chdir(exeDir)
 			
-				outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
+				self.outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
 			else:
 				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
 		except OutputCompilerException as e:
@@ -532,6 +536,25 @@ class MenuActions:
 	def paste(self):
 		# Don't do anything
 		pass
+		
+	def switchSyntax(self, index):
+		bpcUtils.currentSyntax = index
+		
+		ceList = []
+		self.forEachCodeEditDo(lambda ce: ceList.append(ce))
+		
+		for ce in ceList:
+			ce.reload()
+			#ce.updater.run()
+			#ce.updater.finished.emit()
+			#ce.compilerFinished()
+			#ce.highlighter.rehighlight()
+			
+			#self.postProcessorThread.codeEdit = ce
+			#self.postProcessorThread.run()
+			#self.postProcessorFinished()
+			
+			#ce.rehighlightFunctionUsage()
 		
 	def showIntroduction(self):
 		self.moduleView.highlightModule("bp.Examples.")

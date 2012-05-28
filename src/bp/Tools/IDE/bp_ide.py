@@ -61,6 +61,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.geometryState = None
 		self.authorName = ""
 		self.lastCodeEdit = None
+		self.outputCompiler = None
 		
 		# AC
 		self.shortCuts = dict()
@@ -244,15 +245,25 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.threaded:
 			if not self.postProcessorThread.isRunning():
 				self.postProcessorThread.startWith(codeEdit)
+			else:
+				codeEdit.disableUpdatesFlag = False
 		else:
 			#raise "Not implemented in single-threaded mode"
-			self.postProcessorThread.codeEdit = codeEdit
-			self.postProcessorThread.run()
-			self.postProcessorFinished()
+			ppThread = BPPostProcessorThread(self)
+			ppThread.codeEdit = codeEdit
+			ppThread.run()
+			self.postProcessorFinished(ppThread)
 		
-	def postProcessorFinished(self):
-		ppCodeEdit = self.postProcessorThread.codeEdit
-		self.processorOutFile = self.postProcessorThread.ppFile
+	def postProcessorFinished(self, ppThread = None):
+		if ppThread is None:
+			ppThread = self.postProcessorThread
+		
+		ppCodeEdit = ppThread.codeEdit
+		self.processorOutFile = ppThread.ppFile
+		
+		if self.codeEdit and self.codeEdit.reloading:
+			index = self.currentWorkspace.currentIndex()
+			self.currentWorkspace.changeCodeEdit(index)
 		
 		# Update line info
 		self.updateLineInfo(force=True, updateDependencyView=False)
@@ -305,6 +316,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				
 				if nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
 					ppCodeEdit.rehighlightFunctionUsage()
+		
 		#lineIndex = self.codeEdit.getLineIndex()
 		#selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
 		#previousLineNode = self.codeEdit.getNodeByLineIndex(lineIndex - 1)
@@ -349,32 +361,22 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.metaData.setNode(node, self.getXMLDocument())
 		if not self.metaData.isHidden():
 			self.metaData.updateView()
-			
-		def findCalls(node):
-			callList = []
-			
-			if tagName(node) == "call":
-				callList.append(node)
-			
-			for child in node.childNodes:
-				callList += findCalls(child)
-			
-			return callList
-			
-		def getNodeComments(node):
-			docs = []
-			while tagName(node.previousSibling) == "comment":
-				node = node.previousSibling
-				docs.insert(0, decodeCDATA(node.firstChild.nodeValue).strip())
-				
-			if docs:
-				return "# " + "\n# ".join(docs) + "\n"
-			else:
-				return ""
-			
+		
+		self.updateCodeBubble(node)
+	
+	def updateCodeBubble(self, node):
 		if self.codeEdit and self.codeEdit.bubble:
 			if node:
 				calls = findCalls(node)
+				
+				# If we have output compiler information
+				currentOutFile = None
+				if self.outputCompiler:
+					cePath = self.getFilePath()
+					for outFile in self.outputCompiler.outFiles.values():
+						if outFile.file == cePath:
+							currentOutFile = outFile
+							break
 				
 				code = []
 				shownFuncs = dict()
@@ -390,8 +392,24 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 							
 							shownFuncs[funcDefinition] = True
 							
-							code.append(nodeToBPC(funcDefinition))
+							# Documentation
 							doc = getNodeComments(funcDefinition)
+							
+							# Code
+							bpcCode = nodeToBPC(funcDefinition)
+							
+							# Do we have data type information
+							if currentOutFile:
+								try:
+									dataType = currentOutFile.getCallDataType(call)
+									if dataType and dataType != "void":
+										pos = bpcCode.find("\n")
+										bpcCode = (bpcCode[:pos].ljust(80 - 3 - len(dataType)) + dataType) + bpcCode[pos:] 
+								except:
+									pass
+							
+							code.append(bpcCode)
+							# Add the documentation afterwards
 							if doc:
 								code.append(doc)
 				
@@ -405,6 +423,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
 			else:
 				self.codeEdit.bubble.hide()
+		
+	def forEachCodeEditDo(self, func):
+		for workspace in self.workspaces:
+			for codeEdit in workspace.getCodeEditList():
+				func(codeEdit)
 			
 	def setFilePath(self, path):
 		filePath = os.path.abspath(path)

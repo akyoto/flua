@@ -99,9 +99,9 @@
 						<code>
 							<noop depth="3"/>
 						</code>
-						<meta/>
 					</function>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
@@ -131,6 +131,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path</comment>
 		<function depth="0">
@@ -170,7 +171,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists</comment>
+		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists,\Sfalse\Sotherwise</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>

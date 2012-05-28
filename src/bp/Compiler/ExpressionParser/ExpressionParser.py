@@ -448,9 +448,12 @@ class ExpressionParser:
 			#print("------------- MINUS -----------")
 			expr = "-(%s)" % expr[1:]
 		
+		# TODO: Optimize and correct this
 		expr = " " + expr
 		expr = expr.replace(" not ", "!")
 		expr = expr.replace(" not(", "!(")
+		expr = expr.replace("(not", "(!")
+		expr = expr.replace("[not", "[!")
 		#if expr.startswith(" not") and len(expr) > 4 and not isVarChar(expr[4]):
 		#	expr = "!" + expr[4:]
 		#print("buildXMLTree: " + expr)

@@ -50,10 +50,14 @@
 				<name>bp_sizeOf</name>
 				<type>Size</type>
 				<meta>
-					<same-output-for-input>true</same-output-for-input>
 					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
+			<meta>
+				<same-output-for-input>true</same-output-for-input>
+				<no-side-effects>true</no-side-effects>
+			</meta>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
 		<function depth="0">
@@ -88,7 +92,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>

@@ -297,6 +297,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif funcNameNode.nodeValue and funcNameNode.nodeValue[0].isupper():
 				node.tagName = "new"
 				funcNode.tagName = "type"
+		# Correct nodes
+		elif node.nodeType == Node.TEXT_NODE:
+			import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+			
+			if bpcUtils.currentSyntax == SYNTAX_CPP and node.nodeValue == "this":
+				node.nodeValue = "my"
+			elif bpcUtils.currentSyntax == SYNTAX_PYTHON and node.nodeValue == "self":
+				node.nodeValue = "my"
 		
 		for child in node.childNodes:
 			self.checkObjectCreation(child)
@@ -786,7 +794,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.raiseBlockException("shared", line)
 		
 		node = self.doc.createElement("shared")
-		self.nextNode = node
+		code = self.doc.createElement("code")
+		node.appendChild(code)
+		
+		self.nextNode = code
 		return node
 		
 	def handlePrivate(self, line):
@@ -1208,13 +1219,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		return identifier
 	
 	def prepareLine(self, line):
+		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+		
 		i = 0
 		roundBracketsBalance = 0 # ()
 		curlyBracketsBalance = 0 # {}
 		squareBracketsBalance = 0 # []
 		#chevronsBalance = 0 # <>
 		
-		self.currentLineComment = ""
+		self.currentLineComment = None
 		self.keyword = ""
 		
 		# DO NOT CACHE len(line)!
@@ -1235,9 +1248,24 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif line[i] == ']':
 				squareBracketsBalance -= 1
 			elif line[i] == '{':
+				# Ignore on C++
+				if bpcUtils.currentSyntax == SYNTAX_CPP:
+					line = line[:i].rstrip()
+					break
+				
 				curlyBracketsBalance += 1
 			elif line[i] == '}':
+				# Ignore on C++
+				if bpcUtils.currentSyntax == SYNTAX_CPP:
+					line = line[:i].rstrip()
+					break
+				
 				curlyBracketsBalance -= 1
+			elif line[i] == ';':
+				# Ignore on C++
+				if bpcUtils.currentSyntax == SYNTAX_CPP:
+					line = line[:i]
+					break
 			elif line[i] == ' ' and not self.keyword:
 				self.keyword = line[:i]
 			#elif line[i] == '<':

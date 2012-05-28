@@ -1,5 +1,6 @@
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
+import collections
 
 class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	
@@ -8,6 +9,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.bpIDE = bpIDE
 		self.processor = bpIDE.processor
 		self.lastException = None
+		self.ceQueue = collections.deque()
 		self.finished.connect(self.bpIDE.postProcessorFinished)
 		self.finished.connect(self.bpIDE.msgView.updateViewPostProcessor)
 		
@@ -15,6 +17,9 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.codeEdit = codeEdit
 		if not self.codeEdit is None:
 			self.start()
+		
+	def queue(self, codeEdit):
+		self.ceQueue.append(codeEdit)
 		
 	def run(self):
 		try:

@@ -86,7 +86,8 @@ class Startup:
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
 		self.syntaxSwitcher.addItem("BPC Syntax        ")
-		#self.syntaxSwitcher.addItem("C/C++ like Syntax")
+		self.syntaxSwitcher.addItem("C++ Light")
+		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
 		# Search

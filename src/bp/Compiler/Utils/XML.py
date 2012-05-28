@@ -67,6 +67,28 @@ def isMetaDataTrue(stri):
 def isMetaDataTrueByTag(node, metaTag):
 	return isMetaDataTrue(getMetaData(node, metaTag))
 	
+def findCalls(node):
+	callList = []
+	
+	if tagName(node) == "call":
+		callList.append(node)
+	
+	for child in node.childNodes:
+		callList += findCalls(child)
+	
+	return callList
+	
+def getNodeComments(node):
+	docs = []
+	while tagName(node.previousSibling) == "comment":
+		node = node.previousSibling
+		docs.insert(0, decodeCDATA(node.firstChild.nodeValue).strip())
+		
+	if docs:
+		return "# " + "\n# ".join(docs) + "\n"
+	else:
+		return ""
+	
 # Check whether node has some usable content
 def nodeIsValid(node):
 	return (node is not None) and (node.nodeType != Node.TEXT_NODE or node.nodeValue != "")

@@ -834,6 +834,7 @@
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1">
+					<parameters/>
 					<name>print</name>
 					<code>
 						<call depth="2">
@@ -868,6 +869,7 @@
 				</function>
 				<get depth="1">
 					<getter depth="2">
+						<parameters/>
 						<name>data</name>
 						<code>
 							<return depth="3">
@@ -880,6 +882,7 @@
 						<meta/>
 					</getter>
 					<getter depth="2">
+						<parameters/>
 						<name>length</name>
 						<code>
 							<ensure depth="3">
@@ -898,6 +901,7 @@
 						<meta/>
 					</getter>
 					<getter depth="2">
+						<parameters/>
 						<name>lengthInBytes</name>
 						<code>
 							<ensure depth="3">
@@ -920,6 +924,7 @@
 				</get>
 				<casts depth="1">
 					<cast-definition depth="2">
+						<parameters/>
 						<to>
 							<unmanaged>
 								<value>
@@ -996,7 +1001,6 @@
 					<parameters/>
 				</call>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

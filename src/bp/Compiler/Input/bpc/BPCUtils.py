@@ -157,6 +157,7 @@ autoNewlineBlock = {
 	"define",
 	"parallel",
 	"shared",
+	"in",
 	
 	"function",
 	"getter",
@@ -234,6 +235,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		text = node.nodeValue
 		if text.isspace():
 			return ""
+		elif text == "my":
+			return ["my", "this", "self"][currentSyntax]
 		elif text.startswith("bp_string_"):
 			stringContent = ""
 			if node.parentNode:
@@ -267,7 +270,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		if node.parentNode.tagName == "code":
 			if parameters:
-				return "%s %s" % (funcName, parameters)
+				if currentSyntax == SYNTAX_BPC:
+					return "%s %s" % (funcName, parameters)
+				else:
+					return "%s(%s)" % (funcName, parameters)
 			else:
 				return "%s()" % (funcName)
 		else:
@@ -340,16 +346,25 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				else:
 					codeParts.append(prefix)
 					codeParts.append(tabs)
-					codeParts.append(childCode)
-					if childCode[-1] != "\n":
-						codeParts.append(["\n", ";\n", "\n"][currentSyntax])
+					
+					if childCode and not childCode[-1] == "\n":
+						codeParts.append(childCode.rstrip())
+						if currentSyntax == SYNTAX_CPP:
+							if not childCode.endswith("}") and not currentLineType == 0:
+								codeParts.append("\n")
+								#codeParts.append(";\n")
+							else:
+								codeParts.append("\n")
+						else:
+							codeParts.append("\n")
+					else:
+						codeParts.append(childCode)
 		
 		if isVisibleBlock:
-			global currentSyntax
 			if currentSyntax == SYNTAX_BPC:
 				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
 			elif currentSyntax == SYNTAX_CPP:
-				return wrapperMultipleElements[nodeName] + " {\n" + ''.join(codeParts) + "\t" * (tabLevel - 1) + "}"
+				return wrapperMultipleElements[nodeName] + " {\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "}\n"
 			elif currentSyntax == SYNTAX_PYTHON:
 				return wrapperMultipleElements[nodeName] + ":\n" + ''.join(codeParts)
 		
@@ -372,7 +387,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if currentSyntax == SYNTAX_BPC:
 			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
 		elif currentSyntax == SYNTAX_CPP:
-			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}"
+			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}\n"
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
@@ -468,7 +483,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif className.startswith("Immutable"):
 			className = className[len("Immutable"):]
 		
-		return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+		if currentSyntax == SYNTAX_BPC:
+			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+		elif currentSyntax == SYNTAX_CPP:
+			return className + " {\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "}"
 	elif nodeName == "noop":
 		return "..."
 	# Single line
@@ -509,7 +527,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_CPP:
 			if code.endswith("}"):
 				code += "\n"
-			return "%s%s(%s) {\n%s%s}" % (name, space, expr, code, ("\t" * (tabLevel)))
+				
+			if not nodeName in {"target"}:
+				return "%s%s(%s) {\n%s%s}\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
+			else:
+				return "%s%s%s {\n%s%s}\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
 	# Blocks
 	elif nodeName in xmlToBPCBlock:
 		blockCode = ""
@@ -523,7 +545,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		#	blockCode = blockCode.rstrip() + "\n"
 		#else:
 		#blockCode = blockCode + "\t" * tabLevel
-		return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
+		
+		
+		if currentSyntax == SYNTAX_BPC:
+			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
+		elif currentSyntax == SYNTAX_CPP:
+			return xmlToBPCBlock[nodeName] + " {\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "}\n"
 	elif nodeName == "not":
 		return "not " + nodeToBPC(node.firstChild, 0, conv)
 	elif nodeName == "meta":
