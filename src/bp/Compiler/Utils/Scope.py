@@ -38,6 +38,7 @@ class ScopeController:
 	def __init__(self):
 		self.scopes = []
 		self.scopeBackups = []
+		self.nodeToScope = dict()
 		self.pushScope()
 	
 	def getCurrentScope(self):
@@ -53,6 +54,9 @@ class ScopeController:
 	def popScope(self):
 		self.scopes.pop()
 		self.currentScope = self.scopes[-1]
+		
+	def saveScope(self, node):
+		self.nodeToScope[node] = list(self.scopes)
 		
 	def saveScopes(self):
 		self.scopeBackups.append(list(self.scopes))

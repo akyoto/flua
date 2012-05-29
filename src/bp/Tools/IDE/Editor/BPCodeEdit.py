@@ -118,6 +118,10 @@ class BPCAutoCompleter(QtGui.QCompleter):
 	def memberListActivated(self):
 		return self.model() != self.bpcModel
 		
+	def createClassMemberModel(self, dataType):
+		classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
+		self.setModel(BPCClassMemberModel(self, classImpl))
+		
 	def activateMemberList(self):
 		if not self.codeEdit.outFile:
 			return
@@ -125,12 +129,6 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		tc = self.codeEdit.textCursor()
 		pos = tc.position()
 		block = tc.block()
-		
-		# Get the user data
-		userData = block.userData()
-		if not userData or not userData.node:
-			return
-		node = userData.node
 		
 		# Get the line text
 		text = block.text()
@@ -140,34 +138,40 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		# Get what's in front of the dot
 		expr = getLeftMemberAccess(text, relPos - 1)
 		
-		# Algorithm Recipe Book, Chapter 42:
-		# 1. Get all access nodes
-		# 2. nodeToBPC them
-		# 3. If the resulting string matches expr this is our node
-		accessNodes = findNodes(node, "access")
+		# Get the user data
+		accessNodes = None
+		userData = block.userData()
+		if userData and userData.node:
+			node = userData.node
+			
+			# Algorithm Recipe Book, Chapter 42:
+			# 1. Get all access nodes
+			# 2. nodeToBPC them
+			# 3. If the resulting string matches expr this is our node
+			accessNodes = findNodes(node, "access")
+		
+			for acc in accessNodes:
+				accString = nodeToBPC(acc)
+				if accString == expr:
+					try:
+						dataType = self.codeEdit.outFile.getExprDataType(acc)
+					except OutputCompilerException:
+						return
+					
+					# We found the data type, let the party begin!
+					self.createClassMemberModel(dataType)
+					return
 		
 		# Top level access? (99% of the time, statistic is copyright protected)
-		if not accessNodes and expr.find(".") == -1:
+		if (not userData or not accessNodes) and expr.find(".") == -1:
 			try:
 				dataType = self.codeEdit.outFile.getVariableTypeAnywhere(expr)
 			except:
 				return
 			
 			# We found the data type, let the party begin!
-			classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
-			self.setModel(BPCClassMemberModel(self, classImpl))
+			self.createClassMemberModel(dataType)
 			return
-		
-		for acc in accessNodes:
-			accString = nodeToBPC(acc)
-			if accString == expr:
-				try:
-					dataType = self.codeEdit.outFile.getExprDataType(acc)
-				except OutputCompilerException:
-					return
-				
-				# We found the data type, let the party begin!
-				return
 
 def getLeftMemberAccess(expr, lastOccurence):
 	# Left operand
@@ -567,6 +571,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						self.completer.setModel(self.completer.bpcModel)
 					self.completer.popup().hide()
 					return
+			
+			#if  and self.completer.memberListActivated():
+			#	self.completer.setModel(self.completer.bpcModel)
+			#	self.completer.popup().hide()
+			#	return
 			
 			popup = self.completer.popup()
 			if (completionPrefix != self.completer.completionPrefix()):
@@ -1113,7 +1122,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def adjustBubbleSize(self):
 		self.bubble.document().adjustSize()
 		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
-		self.resizeBubble(-1, newHeight)
+		
+		self.resizeBubble(min(self.bubbleWidth, self.bubble.document().size().width() + 24), newHeight)
 	
 	def resizeBubble(self, width = -1, height = -1):
 		margin = 7

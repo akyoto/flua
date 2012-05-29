@@ -228,7 +228,6 @@
 									</else>
 								</if-block>
 							</code>
-							<meta/>
 						</for>
 						<return depth="2">
 							<negative>
@@ -905,7 +904,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2">
 						<name>lengthInBytes</name>
@@ -923,9 +921,6 @@
 								</access>
 							</return>
 						</code>
-						<meta>
-							<force-implementation>true</force-implementation>
-						</meta>
 					</getter>
 				</get>
 				<casts depth="1">
@@ -1006,7 +1001,6 @@
 					<parameters/>
 				</call>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

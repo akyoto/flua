@@ -70,7 +70,7 @@ class BaseClass(BaseNamespace):
 				publicMembers.append(func.name)
 			elif func.isCast or func.isOperator() or func.isSetter():#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
 				continue
-			else:
+			elif not func.name in {"init", "finalize"}:
 				publicFunctions.append(func.name)
 		return publicFunctions, publicMembers
 		

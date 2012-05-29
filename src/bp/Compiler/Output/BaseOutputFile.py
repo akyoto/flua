@@ -1166,6 +1166,10 @@ class BaseOutputFile(ScopeController):
 		lines = []
 		for node in parent.childNodes:
 			line = self.parseExpr(node)
+			
+			# Save scope for the IDE
+			self.saveScope(node)
+			
 			self.lastParsedNode.pop()
 			
 			if self.additionalCodePerLine:
