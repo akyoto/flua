@@ -77,6 +77,12 @@ class BaseClassImplementation:
 		debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
 		self.funcImplementations[impl.name] = impl
 		
+	def getCandidates(self, funcName):
+		if not funcName in self.classObj.functions:
+			return findFunctionInBaseClasses(self.classObj, funcName)
+		else:
+			return self.classObj.functions[funcName]
+		
 	def getMatchingFunction(self, funcName, paramTypes):
 		#print("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
 		if not funcName in self.classObj.functions:
@@ -94,9 +100,11 @@ class BaseClassImplementation:
 				winnerScore = score
 		
 		if winner is None:
-			print("Candidates were:")
-			for func in candidates:
-				print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
+			# Laziness to the maximum!
+			if not candidates[0].cppFile.compiler.background:
+				print("Candidates were:")
+				for func in candidates:
+					print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
 			if self.getName():
 				calledFunc = "%s.%s" % (self.getName(), funcName)
 			else:

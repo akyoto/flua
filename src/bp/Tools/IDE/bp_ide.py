@@ -197,6 +197,72 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		else:
 			self.outputCompiler = tmp
 	
+	# Old, old code...deprecated stuff, you know?
+	def bubbleAllFunctionVariants(self, code, call, shownFuncs, currentOutFile):
+		realFuncDefNode = None
+		
+		funcName = getCalledFuncName(call)
+		
+		if funcName in self.funcsDict:
+			for func in self.funcsDict[funcName].values():
+				funcDefinitionNode = func.instruction
+				
+				# Don't show the same function twice
+				if funcDefinitionNode in shownFuncs:
+					continue
+				
+				if realFuncDefNode and realFuncDefNode != funcDefinitionNode:
+					continue
+				
+				shownFuncs[funcDefinitionNode] = True
+				
+				# Documentation
+				doc = getNodeComments(funcDefinitionNode)
+				
+				# Code
+				bpcCode = nodeToBPC(funcDefinitionNode)
+				bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
+				code.append(bpcCode)
+				
+				# Add the documentation afterwards
+				if doc:
+					code.append(doc)
+	
+	def bubbleAddReturnType(self, bpcCode, call, currentOutFile):
+		# Do we have more information about that call?
+		if currentOutFile:
+			dataType = None
+			try:
+				# Return value
+				dataType = currentOutFile.getCallDataType(call)
+				if dataType and dataType != "void":
+					pos = bpcCode.find("\n")
+					bpcCode = (bpcCode[:pos] + "  → " + dataType + "") + bpcCode[pos:]
+					return bpcCode
+			except:
+				return bpcCode
+			
+		return bpcCode
+	
+	#def bubbleAddReturnTypeByDefinition(self, bpcCode, funcDefNode, classImpl):
+		#try:
+		#	classImpl.getFuncImplementation()
+	
+	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile):
+		# Documentation
+		doc = getNodeComments(realFuncDefNode)
+		
+		# Code
+		bpcCode = nodeToBPC(realFuncDefNode)
+		bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
+		
+		# Add it
+		code.append(bpcCode)
+		
+		# Add the documentation afterwards
+		if doc:
+			code.append(doc)
+	
 	def updateCodeBubble(self, node):
 		if self.codeEdit and self.codeEdit.bubble and not self.running and self.consoleDock.isHidden():
 			if node:
@@ -219,6 +285,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				for call in calls:
 					
 					if currentOutFile:
+						# Exceptions are your friends! ... or not?
 						try:
 							# Params
 							caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
@@ -227,51 +294,27 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 							
 							classImpl = currentOutFile.getClassImplementationByTypeName(callerType)
 							
-							realFuncDefNode = classImpl.getMatchingFunction(funcName, paramTypes).node
-						except:
-							realFuncDefNode = None
-					else:
-						realFuncDefNode = None
-					
-					funcName = getCalledFuncName(call)
-					
-					if funcName in self.funcsDict:
-						for func in self.funcsDict[funcName].values():
-							funcDefinitionNode = func.instruction
-							
-							# Don't show the same function twice
-							if funcDefinitionNode in shownFuncs:
-								continue
-							
-							if realFuncDefNode and realFuncDefNode != funcDefinitionNode:
-								continue
-							
-							shownFuncs[funcDefinitionNode] = True
-							
-							# Documentation
-							doc = getNodeComments(funcDefinitionNode)
-							
-							# Code
-							bpcCode = nodeToBPC(funcDefinitionNode)
-							
-							# Do we have more information about that call?
-							if currentOutFile:
-								dataType = None
+							try:
+								realFunc = classImpl.getMatchingFunction(funcName, paramTypes)
+								realFuncDefNode = realFunc.node
+								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile)
+							except:
 								try:
-									# Return value
-									dataType = currentOutFile.getCallDataType(call)
-									if dataType and dataType != "void":
-										pos = bpcCode.find("\n")
-										bpcCode = (bpcCode[:pos] + "  → " + dataType + "") + bpcCode[pos:]
-										#bpcCode += "\n" + ("→ " + dataType + "\n").rjust(46)
-										#bpcCode = (bpcCode[:pos].ljust(80 - 3 - len(dataType)) + dataType) + bpcCode[pos:] 
+									candidates = classImpl.getCandidates(funcName)
+									
+									for func in candidates:
+										self.bubbleFunction(code, func.node, call, currentOutFile)
+									
+									continue
 								except:
-									pass
+									continue
 							
-							code.append(bpcCode)
-							# Add the documentation afterwards
-							if doc:
-								code.append(doc)
+						except:
+							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
+							continue
+					else:
+						self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
+						continue
 				
 				if code:
 					codeText = "\n".join(code)
@@ -282,11 +325,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						
 						self.codeEdit.bubble.setPlainText(codeText)
 						
-						# DO THIS 2 TIMES ELSE YOUR HEIGHT WILL BE INVALID
+						# DO THIS 2 TIMES ELSE YOUR HEIGHT WILL BE INVALID - GREETINGS FROM TROLLTECH
 						self.codeEdit.adjustBubbleSize()
 						self.codeEdit.adjustBubbleSize()
 						
-						self.codeEdit.bubble.show()
+						#self.codeEdit.bubble.show()
 				elif self.codeEdit:
 					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
 			elif self.codeEdit:
