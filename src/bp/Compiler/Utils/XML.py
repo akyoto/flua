@@ -78,6 +78,14 @@ def findCalls(node):
 	
 	return callList
 	
+def findCallsReversed(node):
+	calls = findCalls(node)
+	if calls:
+		calls.reverse()
+		return calls
+	else:
+		return calls
+	
 def getNodeComments(node):
 	docs = []
 	while tagName(node.previousSibling) == "comment":

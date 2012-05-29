@@ -266,7 +266,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def updateCodeBubble(self, node):
 		if self.codeEdit and self.codeEdit.bubble and not self.running and self.consoleDock.isHidden():
 			if node:
-				calls = findCalls(node)
+				calls = findCallsReversed(node)
 				
 				# TODO: Optimize as a dict lookup
 				# If we have output compiler information
