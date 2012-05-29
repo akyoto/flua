@@ -249,16 +249,27 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				if code:
 					codeText = "\n".join(code)
 					lines = codeText.count("\n") + 1
-					self.codeEdit.bubble.setPlainText(codeText)
-					#self.codeEdit.resizeBubble(-1, lines * (self.codeEdit.bubble.fontMetrics().height()))
-					# self.codeEdit.bubble.document().idealWidth()
-					self.codeEdit.bubble.document().adjustSize()
-					self.codeEdit.resizeBubble(-1, (self.codeEdit.bubble.document().size().height() + 2) * (self.codeEdit.bubble.fontMetrics().height()))
-					self.codeEdit.bubble.show()
+					if lines > 1:
+						# Because of Master-of-Weirdness a.k.a. Qt we need to SHOW FIRST, THEN CALCULATE DOCUMENT SIZE
+						self.codeEdit.bubble.show()
+						
+						self.codeEdit.bubble.setPlainText(codeText)
+						
+						# DO THIS 2 TIMES ELSE YOUR HEIGHT WILL BE INVALID
+						self.codeEdit.adjustBubbleSize()
+						self.codeEdit.adjustBubbleSize()
+						
+						self.codeEdit.bubble.show()
 				else:
 					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
 			else:
 				self.codeEdit.bubble.hide()
+		else:
+			self.codeEdit.bubble.hide()
+		
+	def printL(self, msg):
+		print(msg)
+		self.consoleDock.show()
 		
 	def getPostProcessorFile(self, path):
 		return self.processor.getCompiledFiles()[path]

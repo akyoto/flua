@@ -108,6 +108,9 @@ class BPConfiguration:
 				border-radius: 7px;
 				color: rgba(255, 255, 255, 80%);
 				background-color: rgba(0, 0, 0, 10%);
+			}
+			
+			#MessageView::item {
 				padding: 5px;
 			}
 			

@@ -4,6 +4,7 @@ class BPMessageView(QtGui.QListWidget):
 	
 	def __init__(self, parent, bpIDE):
 		super().__init__(parent)
+		self.ce = parent
 		self.bpIDE = bpIDE
 		self.setWordWrap(True)
 		self.setObjectName("MessageView")
@@ -102,20 +103,38 @@ class BPMessageView(QtGui.QListWidget):
 		
 	def updateView(self):
 		#if self.bpIDE.intelliEnabled:
+		
 		itemNum = self.count()
 		if itemNum:
 			#self.adjustSize()#resize(0, 0)
 			#self.setMaximumHeight(self.count() * 50)
 			
-			# Item size
+			# To make visual item rect calc all items, "fake" a height of 600 px
+			#self.setGeometry(self.x(), self.y(), self.ce.msgViewWidth, 600)
 			self.setMaximumHeight(600)
-			maxHeight = 10
+			
+			# Item size
+			maxHeight = 8
 			for i in range(itemNum):
 				maxHeight += self.visualItemRect(self.item(i)).height()
+			
+			#maxHeight = max(92, maxHeight)
+			
+			# Resize bubble
+			margin = 7
+			b = self.ce.bubble
+			
+			# Resize myself
 			self.setGeometry(self.x(), self.y(), self.width(), maxHeight)
 			
-			if self.isHidden():
+			if self.isHidden() and len(self.ce.updateQueue) == 0:
 				self.show()
+				
+				newOffY = self.height() + margin * 2
+				if newOffY > b.y() or b.y() - newOffY > self.ce.bubbleMinMovePx:
+					b.setGeometry(b.x(), newOffY, b.width(), b.height())
 		else:
 			if self.isVisible():
 				self.hide()
+				#b.setGeometry(b.x(), 7, b.width(), b.height())
+				

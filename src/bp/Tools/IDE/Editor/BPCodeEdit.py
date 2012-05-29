@@ -119,6 +119,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if not isinstance(parent, BPCodeEdit):
 			# Doc bubble
 			self.bubble = BPCodeEdit(self.bpIDE, self)
+			self.bubble.hide()
+			
 			self.bubble.setObjectName("DocBubble")
 			#self.bubble.setStyleSheet("background: rgba(0,0,0,10%); border-top-left-radius: 7px;")
 			self.bubble.clear(True)
@@ -135,6 +137,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.verticalScrollBar().hide()
 			
 			self.bubble.setLineWrapMode(QtGui.QPlainTextEdit.WidgetWidth)
+			
+			self.bubbleMinMovePx = 50
 			
 			# Message view
 			self.msgView = BPMessageView(self, self.bpIDE)
@@ -405,6 +409,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if event.modifiers() == QtCore.Qt.ControlModifier:
 			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
+		
+		if event.key() == QtCore.Qt.Key_Escape:
+			self.bpIDE.consoleDock.hide()
 		
 		# Auto Complete
 		if (not dontAutoComplete) and self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible() or self.autoSuggestion):
@@ -975,6 +982,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if self.bubble:
 			self.resizeBubble()
 	
+	def adjustBubbleSize(self):
+		self.bubble.document().adjustSize()
+		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
+		self.resizeBubble(-1, newHeight)
+	
 	def resizeBubble(self, width = -1, height = -1):
 		margin = 7
 		
@@ -984,15 +996,20 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if height == -1:
 			height = self.bubble.height()
 		
+		msgViewHeight = self.msgView.height()
+		
 		# Resize msg view as well
 		offX = self.width() - self.msgViewWidth - margin
-		self.msgView.setGeometry(offX, margin, self.msgViewWidth, 50)
+		self.msgView.setGeometry(offX, margin, self.msgViewWidth, msgViewHeight)
 		
 		# Docs
 		offX = self.width() - width - margin
-		offY = self.msgView.height() + margin * 2
+		
+		offY = msgViewHeight + margin * 2
+		if not (offY > self.bubble.y() or self.bubble.y() - offY > self.bubbleMinMovePx):
+			offY = self.bubble.y()
+		
 		self.bubble.setGeometry(offX, offY, width, height)
-		#self.bubble.setPlainText(str(offX) + ", " + str(offY))
 		
 	def lineNumberAreaPaintEvent(self, event):
 		painter = QtGui.QPainter(self.lineNumberArea)
