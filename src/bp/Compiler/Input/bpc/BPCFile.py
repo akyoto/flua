@@ -965,9 +965,11 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleReturn(self, line):
 		node = self.doc.createElement("return")
-		param = self.parseExpr(line[len("return")+1:])
-		if param.nodeValue or param.hasChildNodes():
-			node.appendChild(param)
+		paramCode = line[len("return")+1:]
+		if paramCode:
+			param = self.parseExpr(paramCode)
+			if param.nodeValue or param.hasChildNodes():
+				node.appendChild(param)
 		return node
 	
 	def handleThrow(self, line):

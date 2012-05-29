@@ -106,7 +106,7 @@ class BPConfiguration:
 			
 			#MessageView {
 				border-radius: 7px;
-				color: rgba(255, 255, 255, 80%);
+				color: rgba(255, 255, 255, 65%);
 				background-color: rgba(0, 0, 0, 10%);
 			}
 			

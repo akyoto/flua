@@ -70,7 +70,7 @@ def isMetaDataTrueByTag(node, metaTag):
 def findCalls(node):
 	callList = []
 	
-	if tagName(node) == "call":
+	if tagName(node) == "call":# or tagName(node) == "new":
 		callList.append(node)
 	
 	for child in node.childNodes:

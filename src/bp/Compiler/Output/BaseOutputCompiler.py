@@ -43,10 +43,12 @@ class BaseOutputCompiler(Benchmarkable):
 		else:
 			self.projectDir = ""
 		
-		self.compiledFiles = dict()
+		# TODO: Remove redundant data
 		self.outFiles = dict()
 		self.outFilesList = list()
+		self.compiledFiles = dict()
 		self.compiledFilesList = list()
+		
 		self.modDir = getModuleDir()
 		self.bpRoot = fixPath(os.path.abspath(self.modDir + "../"))
 		

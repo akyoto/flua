@@ -207,7 +207,7 @@ class BaseOutputFile(ScopeController):
 		# Parse value type
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
 		if valueType == "void":
-			raise CompilerException("'%s' which is assigned to '%s' does not return a value (void)" % (value, variableName))
+			raise CompilerException("'%s' which is assigned to '%s' does not return a value" % (nodeToBPC(node.childNodes[1].childNodes[0]), variableName))
 		
 		memberName = variableName
 		
@@ -1013,17 +1013,23 @@ class BaseOutputFile(ScopeController):
 		# THIS STEP MUST BE EXECUTED BEFORE expr = ... IS CALLED!
 		# Recursive functions first need their data type value
 		# THEN parseExpr -> implementFunction can be called
-		retType = self.getExprDataType(node.childNodes[0])
-		self.currentFunctionImpl.returnTypes.append(retType)
+		if node.childNodes:
+			retType = self.getExprDataType(node.childNodes[0])
+			
+			self.currentFunctionImpl.returnTypes.append(retType)
+			
+			# STEP 2
+			expr = self.parseExpr(node.childNodes[0], False)
+			
+			if retType == "void":
+				raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+				
+			#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+			return self.returnSyntax % expr
+		else:
+			retType = "void"
+			return "return"
 		
-		# STEP 2
-		expr = self.parseExpr(node.childNodes[0], False)
-		
-		if retType == "void":
-			raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
-		
-		#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
-		return self.returnSyntax % expr
 	
 	def handleParameters(self, pNode):
 		pList = ""

@@ -212,31 +212,53 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				code = []
 				shownFuncs = dict()
 				for call in calls:
+					
+					if currentOutFile:
+						try:
+							# Params
+							caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
+							params = getElementByTagName(call, "parameters")
+							paramsString, paramTypes = currentOutFile.handleParameters(params)
+							
+							classImpl = currentOutFile.getClassImplementationByTypeName(callerType)
+							
+							realFuncDefNode = classImpl.getMatchingFunction(funcName, paramTypes).node
+						except:
+							realFuncDefNode = None
+					else:
+						realFuncDefNode = None
+					
 					funcName = getCalledFuncName(call)
+					
 					if funcName in self.funcsDict:
 						for func in self.funcsDict[funcName].values():
-							funcDefinition = func.instruction
+							funcDefinitionNode = func.instruction
 							
 							# Don't show the same function twice
-							if funcDefinition in shownFuncs:
+							if funcDefinitionNode in shownFuncs:
 								continue
 							
-							shownFuncs[funcDefinition] = True
+							if realFuncDefNode and realFuncDefNode != funcDefinitionNode:
+								continue
+							
+							shownFuncs[funcDefinitionNode] = True
 							
 							# Documentation
-							doc = getNodeComments(funcDefinition)
+							doc = getNodeComments(funcDefinitionNode)
 							
 							# Code
-							bpcCode = nodeToBPC(funcDefinition)
+							bpcCode = nodeToBPC(funcDefinitionNode)
 							
-							# Do we have data type information
+							# Do we have more information about that call?
 							if currentOutFile:
 								dataType = None
 								try:
+									# Return value
 									dataType = currentOutFile.getCallDataType(call)
 									if dataType and dataType != "void":
 										pos = bpcCode.find("\n")
-										bpcCode = (bpcCode[:pos] + " # = " + dataType) + bpcCode[pos:] 
+										bpcCode = (bpcCode[:pos] + "  → " + dataType + "") + bpcCode[pos:]
+										#bpcCode += "\n" + ("→ " + dataType + "\n").rjust(46)
 										#bpcCode = (bpcCode[:pos].ljust(80 - 3 - len(dataType)) + dataType) + bpcCode[pos:] 
 								except:
 									pass

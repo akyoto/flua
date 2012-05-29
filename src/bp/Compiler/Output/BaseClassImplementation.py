@@ -98,7 +98,7 @@ class BaseClassImplementation:
 			for func in candidates:
 				print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
 			if self.getName():
-				calledFunc = "%s.%s"
+				calledFunc = "%s.%s" % (self.getName(), funcName)
 			else:
 				calledFunc = funcName
 			

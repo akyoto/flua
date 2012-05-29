@@ -114,9 +114,9 @@ class BPMessageView(QtGui.QListWidget):
 			self.setMaximumHeight(600)
 			
 			# Item size
-			maxHeight = 8
+			maxHeight = 10
 			for i in range(itemNum):
-				maxHeight += self.visualItemRect(self.item(i)).height()
+				maxHeight += self.visualItemRect(self.item(i)).height() + 1
 			
 			#maxHeight = max(92, maxHeight)
 			
