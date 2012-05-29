@@ -43,6 +43,12 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuA
 		else:
 			self.showFullScreen()
 		
+	def showRepositoryList(self):
+		self.notImplemented()
+		
+	def connectWithGitHub(self):
+		self.notImplemented()
+		
 	def switchSyntax(self, index):
 		bpcUtils.currentSyntax = index
 		

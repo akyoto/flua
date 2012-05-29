@@ -19,13 +19,13 @@
     <normaloff>../images/bp.png</normaloff>../images/bp.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="mainMenuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -89,11 +89,6 @@
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
      <string>Window</string>
@@ -111,7 +106,6 @@
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
    <addaction name="menuRepository"/>
-   <addaction name="menuView"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>

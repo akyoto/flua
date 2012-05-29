@@ -130,7 +130,7 @@ class ModuleMenuActions:
 			self.codeEdit.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
 			
 			self.consoleDock.hide()
-			self.codeEdit.msgView.updateView()
+			#self.codeEdit.msgView.updateView()
 		
 	def showModuleProperties(self):
 		if self.codeEdit is None or not self.currentWorkspace.count():

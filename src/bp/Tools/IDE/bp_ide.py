@@ -98,12 +98,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.threaded = True
 		
+		# The beginning of the end.
 		self.initAll()
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
 		self.setCentralWidget(self.workspacesContainer)
 		self.showMaximized()
 		
+		# Apply settings
 		self.config.applySettings()
 		
 		# We love hard coding! ... or maybe not.
@@ -180,6 +182,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
 			if self.codeEdit and self.codeEdit.msgView.count() == 0:
 				self.displayOutputCompilerException(self.outputCompilerThread.lastException)
+		#else:
+		#	if self.codeEdit:
+		#		self.codeEdit.msgView.updateView()
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):
@@ -282,11 +287,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						self.codeEdit.adjustBubbleSize()
 						
 						self.codeEdit.bubble.show()
-				else:
+				elif self.codeEdit:
 					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
-			else:
+			elif self.codeEdit:
 				self.codeEdit.bubble.hide()
-		else:
+		elif self.codeEdit:
 			self.codeEdit.bubble.hide()
 		
 	def printL(self, msg):
@@ -677,11 +682,20 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return newDock
 		
 	def connectVisibilityToViewMenu(self, name, widget):
-		newAction = QtGui.QAction(name, self)
+		newAction = QtGui.QAction("", self)
 		newAction.setCheckable(True)
+		newAction.setToolTip(name)
+		newAction.setWhatsThis(name)
 		newAction.toggled.connect(widget.setVisible)
 		widget.visibilityChanged.connect(newAction.setChecked)
-		self.menuView.addAction(newAction)
+		
+		#self.menuView.addAction(newAction)
+		
+		# Main menu icons
+		#self.mainMenuBar.addSeparator()
+		newAction.setIcon(self.dockIcons[name])
+		self.mainMenuBar.addAction(newAction)
+		
 		return newAction
 		
 	def notify(self, msg, title = "Notification"):

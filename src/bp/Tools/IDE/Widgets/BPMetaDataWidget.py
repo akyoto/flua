@@ -119,7 +119,8 @@ class BPMetaDataWidget(QtGui.QWidget):
 					if (not isElemNode(self.node)) or not (self.node.tagName in metaDataForNodeName and self.node.parentNode.parentNode.tagName in metaDataForNodeName):
 						return
 		
-		self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()
+		if self.bpIDE.codeEdit:
+			self.lastLineIndex = self.bpIDE.codeEdit.getLineIndex()
 		
 		# Clear all current form items
 		self.clear()

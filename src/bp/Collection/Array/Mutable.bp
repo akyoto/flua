@@ -19,7 +19,12 @@
 					<parameters>
 						<parameter>
 							<assign>
-								<value>size</value>
+								<value>
+									<declare-type>
+										<value>size</value>
+										<value>Size</value>
+									</declare-type>
+								</value>
 								<value>1024</value>
 							</assign>
 						</parameter>
@@ -96,6 +101,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1">
 					<name>finalize</name>
@@ -194,7 +200,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1">
 					<parameters>
@@ -500,9 +505,7 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
-					<meta/>
 				</get>
 				<set depth="1">
 					<setter depth="2">

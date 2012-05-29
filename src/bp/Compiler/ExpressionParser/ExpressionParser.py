@@ -427,7 +427,7 @@ class ExpressionParser:
 		#print(" * buildXMLTree: " + expr)
 		if not expr:
 			raise CompilerException("Expression missing")
-		if expr[0] != '~' and isDefinitelyOperatorSign(expr[0]):
+		if expr[0] != '~' and isDefinitelyOperatorSign(expr[0]) and not expr[0] == "-":
 			raise CompilerException("Invalid expression: '%s'" % expr)
 		
 		#node = self.doc.createElement("expr")
@@ -444,9 +444,9 @@ class ExpressionParser:
 		expr = expr.replace(" is ", " == ")
 		#expr = expr.replace(" in ", " }= ")
 		
-		if expr.startswith("-"):
+		#if expr.startswith("-"):
 			#print("------------- MINUS -----------")
-			expr = "-(%s)" % expr[1:]
+		#	expr = "-(%s)" % expr[1:]
 		
 		# TODO: Optimize and correct this
 		expr = " " + expr

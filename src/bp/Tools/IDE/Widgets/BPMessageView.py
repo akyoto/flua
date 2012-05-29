@@ -80,12 +80,11 @@ class BPMessageView(QtGui.QListWidget):
 				self.lastLineNumber = lineNumber
 				self.lastErrorMessage = errorMessage
 				self.lastErrorFilePath = errorFilePath
-			
-			self.updateView()
 		else:
 			self.resetLastException()
 			self.clear()
-			self.updateView()
+		
+		self.updateView()
 		
 	def updateViewPostProcessor(self):
 		# Last post processor exception
@@ -95,6 +94,8 @@ class BPMessageView(QtGui.QListWidget):
 			pp.lastException = None
 			errorMessage = e.getMsg()
 			self.addMessage(errorMessage)
+		
+		self.updateView()
 		
 	def clear(self):
 		self.messages = dict()

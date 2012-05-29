@@ -26,6 +26,7 @@ class Startup:
 		self.endBenchmark()
 		
 		self.startBenchmark("Init Docks")
+		self.initDockIcons()
 		self.initDocks()
 		self.endBenchmark()
 		
@@ -117,6 +118,22 @@ class Startup:
 		self.toolBar.hide()
 		#self.syntaxSwitcherBar.hide()
 		
+	def initDockIcons(self):
+		defaultIcon = QtGui.QIcon("images/icons/categories/applications-other.png")
+		self.dockIcons = {
+			"Modules" : None,
+			"Outline" : None,
+			"XML" : None,
+			"Files": None,
+			"Meta data": None,
+			"Dependencies": None,
+			"Scribble": None,
+			"Console" : None
+		}
+		
+		for iconName in self.dockIcons.keys():
+			self.dockIcons[iconName] = QtGui.QIcon("images/icons/docks/%s.png" % normalizeName(iconName).lower())
+		
 	def initDocks(self):
 		# Console
 		self.console = BPConsoleWidget(self)
@@ -148,47 +165,31 @@ class Startup:
 		# Meta data
 		self.metaData = BPMetaDataWidget(self)
 		
-		# IntelliView enabled?
-		if self.intelliEnabled:
-			# IntelliView
-			self.intelliView = BPIntelliView(self)
-			
-			# IntelliView Dock
-			self.intelliView.addIntelligentWidget(self.msgView)
-			self.intelliView.addIntelligentWidget(self.dependencyView)
-			#self.intelliView.addIntelligentWidget(self.xmlView)
-			self.intelliView.vBox.addStretch(1)
-			self.intelliViewDock = self.createDockWidget("IntelliView", self.intelliView, QtCore.Qt.RightDockWidgetArea)
-		else:
-			self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.LeftDockWidgetArea)
-			
-			#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
-			
-			self.outlineViewDock = self.createDockWidget("Outline", self.outlineView, QtCore.Qt.RightDockWidgetArea)
-			self.metaDataViewDock = self.createDockWidget("Meta data", self.metaData, QtCore.Qt.RightDockWidgetArea)
-			self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
-			self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
-			#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
-			
-			#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
-			#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
-			self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
-			
-			self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
-			
+		#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
+		#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
+		#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
+		#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
+		
+		self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.LeftDockWidgetArea)
+		self.consoleDock = self.createDockWidget("Console", self.console, QtCore.Qt.BottomDockWidgetArea)
+		self.outlineViewDock = self.createDockWidget("Outline", self.outlineView, QtCore.Qt.RightDockWidgetArea)
+		self.metaDataViewDock = self.createDockWidget("Meta data", self.metaData, QtCore.Qt.RightDockWidgetArea)
+		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
+		self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
+		self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+		
+		self.outlineViewDock.hide()
+		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
-		#self.fileViewDock.hide()
 		self.consoleDock.hide()
 		#self.msgViewDock.hide()
+		#self.fileViewDock.hide()
+		#self.xmlViewDock.show()
+		
 		
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
 			self.xmlViewDock.hide()
-		
-		self.outlineViewDock.hide()
-		
-		self.metaDataViewDock.hide()
-		#self.xmlViewDock.show()
 		
 		# Needed for workspaces
 		self.viewsInitialized = True
@@ -220,6 +221,10 @@ class Startup:
 		self.actionRunModuleTest.triggered.connect(self.runModuleTest)
 		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
+		
+		# Repositories
+		self.actionRepositoryList.triggered.connect(self.showRepositoryList)
+		self.actionConnectWithGitHub.triggered.connect(self.connectWithGitHub)
 		
 		# Window
 		self.actionToggleFullscreen.triggered.connect(self.toggleFullScreen)
@@ -309,7 +314,7 @@ class Startup:
 				'keyword': cf('#eeccaa'),
 				'operator': cf('#aaaaaa'),
 				'brace': cf('darkGray'),
-				'comma': cf('#aaaaaa'),
+				'comma': cf('#acacac'),
 				'output-target': cf('#aa9988'),
 				'include-file': cf('#aa9988'),
 				'string': cf('#10e010'),

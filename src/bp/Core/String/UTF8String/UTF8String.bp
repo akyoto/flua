@@ -128,7 +128,12 @@
 						</parameter>
 						<parameter>
 							<assign>
-								<value>from</value>
+								<value>
+									<declare-type>
+										<value>fromIndex</value>
+										<value>Size</value>
+									</declare-type>
+								</value>
 								<value>0</value>
 							</assign>
 						</parameter>
@@ -142,7 +147,7 @@
 						<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\Sstrings</comment>
 						<for depth="2">
 							<iterator>i</iterator>
-							<from>0</from>
+							<from>fromIndex</from>
 							<until>
 								<access>
 									<value>my</value>
@@ -223,8 +228,13 @@
 									</else>
 								</if-block>
 							</code>
+							<meta/>
 						</for>
-						<return depth="2">42</return>
+						<return depth="2">
+							<negative>
+								<value>1</value>
+							</negative>
+						</return>
 					</code>
 					<meta/>
 				</function>
@@ -834,7 +844,6 @@
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1">
-					<parameters/>
 					<name>print</name>
 					<code>
 						<call depth="2">
@@ -869,7 +878,6 @@
 				</function>
 				<get depth="1">
 					<getter depth="2">
-						<parameters/>
 						<name>data</name>
 						<code>
 							<return depth="3">
@@ -882,7 +890,6 @@
 						<meta/>
 					</getter>
 					<getter depth="2">
-						<parameters/>
 						<name>length</name>
 						<code>
 							<ensure depth="3">
@@ -901,7 +908,6 @@
 						<meta/>
 					</getter>
 					<getter depth="2">
-						<parameters/>
 						<name>lengthInBytes</name>
 						<code>
 							<ensure depth="3">
@@ -924,7 +930,6 @@
 				</get>
 				<casts depth="1">
 					<cast-definition depth="2">
-						<parameters/>
 						<to>
 							<unmanaged>
 								<value>
@@ -1001,6 +1006,7 @@
 					<parameters/>
 				</call>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

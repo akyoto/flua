@@ -363,7 +363,13 @@ class BaseOutputFile(ScopeController):
 				name = "__" + member
 				funcStartCode += "\t" * self.currentTabLevel + self.memberAccessSyntax + member + " = " + name + self.lineLimiter
 			
-			declaredInline = (tagName(node.childNodes[0]) == "declare-type")
+			if node.firstChild and node.firstChild.firstChild and tagName(node.childNodes[0].firstChild.firstChild) == "declare-type":
+				declNode = node.childNodes[0].firstChild.firstChild
+				declaredInline = True
+			else:
+				declNode = node.childNodes[0]
+				declaredInline = (tagName(declNode) == "declare-type")
+			
 			if not declaredInline:
 				#print("Variable %s used as '%s'" % (name, usedAs))
 				self.getCurrentScope().variables[name] = self.createVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
@@ -373,7 +379,7 @@ class BaseOutputFile(ScopeController):
 				#	print(member.name)
 				#	print(member.type)
 				
-				definedAs = self.parseExpr(node.childNodes[0].childNodes[1], True) #self.getVariableTypeAnywhere(name)
+				definedAs = self.parseExpr(declNode.childNodes[1], True) #self.getVariableTypeAnywhere(name)
 				
 				# Typedefs
 				definedAs = self.prepareTypeName(definedAs)
@@ -675,7 +681,11 @@ class BaseOutputFile(ScopeController):
 				
 				return self.getCallDataType(node)
 			elif node.tagName == "assign":
-				#op1 = node.childNodes[0].childNodes[0]
+				op1 = node.childNodes[0].childNodes[0]
+				
+				if tagName(op1) == "declare-type":
+					return self.parseExpr(op1.childNodes[1].firstChild)
+				
 				op2 = node.childNodes[1].childNodes[0]
 				# TODO: Check for declare-type in op1
 				return self.getExprDataType(op2)
@@ -1100,7 +1110,10 @@ class BaseOutputFile(ScopeController):
 			elif exprNode.tagName == "access":
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
-				name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+				if tagName(exprNode.childNodes[0].childNodes[0]) == "declare-type":
+					name = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
+				else:
+					name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
 				defaultValue = self.parseExpr(exprNode.childNodes[1].childNodes[0])
 				defaultValueType = self.getExprDataType(exprNode)
 				
@@ -1644,7 +1657,7 @@ class BaseOutputFile(ScopeController):
 				paramsString += ", "
 			paramTypes += paramDefaultValueTypes[paramTypesLen:paramDefaultValuesLen]
 			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
-			
+		
 		return paramTypes, paramsString
 	
 	def handleTarget(self, node):
@@ -1914,11 +1927,13 @@ class BaseOutputFile(ScopeController):
 				pTo = paramTypes[i]
 				
 				if pFrom != pTo and not canBeCastedTo(pFrom, pTo):
+					params = paramsString.split(",")
 					# TODO: self.buildCall(caller, fullName, paramsString)
 					debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
-					params = paramsString.split(",")
 					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
 					paramsString = ", ".join(params)
+				elif pFrom == "Int" and pTo == "Size":
+					print("WARNING")
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
