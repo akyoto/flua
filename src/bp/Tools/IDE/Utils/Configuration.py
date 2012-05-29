@@ -244,8 +244,8 @@ class BPConfiguration:
 		self.applyMonospaceFont(self.monospaceFont)
 		
 	def applyMenuFont(self, font):
-		self.bpIDE.menuBar.setFont(font)
-		for menuItem in self.bpIDE.menuBar.children():
+		self.bpIDE.mainMenuBar.setFont(font)
+		for menuItem in self.bpIDE.mainMenuBar.children():
 			menuItem.setFont(font)
 		
 	def applyMonospaceFont(self, font):
