@@ -5,7 +5,7 @@ def buildShortcutDict(functionList):
 		chars = funcName[0]
 		previousIsUpper = False
 		for char in funcName:
-			if char.isupper():
+			if char.isupper() or char.isdigit():
 				if not previousIsUpper:
 					chars += char.lower()
 					previousIsUpper = True

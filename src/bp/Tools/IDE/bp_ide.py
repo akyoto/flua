@@ -185,6 +185,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#else:
 		#	if self.codeEdit:
 		#		self.codeEdit.msgView.updateView()
+		
+		# We love long variable names, don't we?
+		if self.outputCompilerThread.codeEdit:
+			self.outputCompilerThread.codeEdit.outFile = self.outputCompilerThread.outputCompiler.getMainFile()
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):

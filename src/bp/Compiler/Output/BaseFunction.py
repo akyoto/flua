@@ -38,10 +38,16 @@ class BaseFunction:
 	def isOperator(self):
 		return self.node.tagName == "operator"
 		
+	def isSetter(self):
+		return self.node.parentNode.tagName == "set"
+		
+	def isGetter(self):
+		return self.node.parentNode.tagName == "get"
+		
 	def getName(self):
-		if self.node.parentNode.tagName == "set":
+		if self.isSetter():
 			return "set" + capitalize(self.name)
-		elif self.node.parentNode.tagName == "get":
+		elif self.isGetter():
 			return "get" + capitalize(self.name)
 		
 		return self.name

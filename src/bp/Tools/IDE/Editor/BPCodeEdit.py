@@ -6,6 +6,31 @@ from bp.Compiler import *
 import collections
 #import yappi
 
+# Auto Completion for class members
+class BPCClassMemberModel(QtGui.QStringListModel):
+	
+	def __init__(self, parent, classImpl):
+		super().__init__([], parent)
+		self.methodList, self.memberList = classImpl.classObj.getPublicFunctionList()
+		self.memberList.sort()
+		self.methodList.sort()
+		self.setStringList(self.memberList + self.methodList)
+		
+		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
+		self.memberIcon = QtGui.QIcon("images/icons/autocomplete/member.png")
+		
+	def data(self, index, role):
+		if role == QtCore.Qt.DecorationRole:
+			text = super().data(index, QtCore.Qt.DisplayRole)
+			
+			# TODO: Optimize for 'in' dict search instead of list search
+			if text in self.methodList:
+				return self.methodIcon
+			elif text in self.memberList:
+				return self.memberIcon
+		
+		return super().data(index, role)
+		
 # Auto Completion
 class BPCAutoCompleterModel(QtGui.QStringListModel):
 	
@@ -53,6 +78,9 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.classesList.reverse()
 		self.setStringList(self.classesList + self.functionList + self.keywordList + self.shortCutList)
 		
+	def setMemberList(self, memberList):
+		self.memberList = memberList
+		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
 			text = super().data(index, QtCore.Qt.DisplayRole)
@@ -86,6 +114,81 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 		self.popup().setObjectName("AutoCompleter")
+		
+	def memberListActivated(self):
+		return self.model() != self.bpcModel
+		
+	def activateMemberList(self):
+		if not self.codeEdit.outFile:
+			return
+		
+		tc = self.codeEdit.textCursor()
+		pos = tc.position()
+		block = tc.block()
+		
+		# Get the user data
+		userData = block.userData()
+		if not userData or not userData.node:
+			return
+		node = userData.node
+		
+		# Get the line text
+		text = block.text()
+		relPos = pos - block.position()
+		leftOfCursor = text[:relPos]
+		
+		# Get what's in front of the dot
+		expr = getLeftMemberAccess(text, relPos - 1)
+		
+		# Algorithm Recipe Book, Chapter 42:
+		# 1. Get all access nodes
+		# 2. nodeToBPC them
+		# 3. If the resulting string matches expr this is our node
+		accessNodes = findNodes(node, "access")
+		
+		# Top level access? (99% of the time, statistic is copyright protected)
+		if not accessNodes and expr.find(".") == -1:
+			try:
+				dataType = self.codeEdit.outFile.getVariableTypeAnywhere(expr)
+			except:
+				return
+			
+			# We found the data type, let the party begin!
+			classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
+			self.setModel(BPCClassMemberModel(self, classImpl))
+			return
+		
+		for acc in accessNodes:
+			accString = nodeToBPC(acc)
+			if accString == expr:
+				try:
+					dataType = self.codeEdit.outFile.getExprDataType(acc)
+				except OutputCompilerException:
+					return
+				
+				# We found the data type, let the party begin!
+				return
+
+def getLeftMemberAccess(expr, lastOccurence):
+	# Left operand
+	start = lastOccurence - 1
+	
+	while start >= 0 and (isVarChar(expr[start]) or expr[start] == "." or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
+		if expr[start] == ')' or expr[start] == ']':
+			bracketCounter = 1
+		else:
+			bracketCounter = 0
+
+		# Move to last part of the bracket
+		while bracketCounter > 0 and start > 0:
+			start -= 1
+			if expr[start] == ')' or expr[start] == ']':
+				bracketCounter += 1
+			elif expr[start] == '(' or expr[start] == '[':
+				bracketCounter -= 1
+		start -= 1
+
+	return expr[start+1:lastOccurence]
 
 # Code Edit
 class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
@@ -110,6 +213,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.lastCompletionTime = 0
 		self.autoCompleteOpenedAuto = True
 		self.reloading = False
+		self.outFile = None
 		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 2
@@ -255,8 +359,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			super().wheelEvent(event)
 	
+	def locationBackward(self):
+		print("Backward not implemented!")
+		
+	def locationForward(self):
+		print("Forward not implemented!")
+	
 	def mousePressEvent(self, event):
 		self.bpIDE.consoleDock.hide()
+		
+		if event.button() == QtCore.Qt.XButton1:
+			self.locationBackward()
+		elif event.button() == QtCore.Qt.XButton2:
+			self.locationForward()
 		
 		if self.bpIDE.ctrlPressed and self.hasMouseTracking() and self.hoveringFileName:
 			# Create file if it doesn't exist
@@ -315,6 +430,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		completer.setWidget(self)
 		self.completer = completer
+		self.completer.codeEdit = self
 		completer.disconnect(self.completer, signal, self.insertCompletion)
 		self.connect(self.completer, signal, self.insertCompletion)
 	
@@ -362,6 +478,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 		self.lastCompletionTime = time.time()
 		self.setTextCursor(tc)
+		
+		if self.completer.memberListActivated():
+			self.completer.setModel(self.completer.bpcModel)
 	
 	def textUnderCursor(self):
 		tc = self.textCursor()
@@ -441,8 +560,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			completionPrefix = self.textUnderCursor()
 			
 			if (not isShortcut and (hasModifier or not event.text() or event.text()[-1] in eow)):
-				self.completer.popup().hide()
-				return
+				if event.text() and event.text()[-1] == ".":
+					self.completer.activateMemberList()
+				else:
+					if self.completer.memberListActivated():
+						self.completer.setModel(self.completer.bpcModel)
+					self.completer.popup().hide()
+					return
 			
 			popup = self.completer.popup()
 			if (completionPrefix != self.completer.completionPrefix()):
@@ -450,7 +574,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			if self.autoCompleteOpenedAuto:
-				autoCompleteAintWorthIt = (
+				autoCompleteAintWorthIt = (not self.completer.memberListActivated()) and (
 					(
 						len(completionPrefix) < self.autoSuggestionMinChars
 					)
@@ -466,6 +590,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					)
 				)
 				if (not isShortcut) and autoCompleteAintWorthIt:
+					if self.completer.memberListActivated():
+						self.completer.setModel(self.completer.bpcModel)
 					self.completer.popup().hide()
 					return
 			
@@ -488,6 +614,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				if not completionPrefix:
 					self.autoCompleteOpenedAuto = True
+					if self.completer.memberListActivated():
+						self.completer.setModel(self.completer.bpcModel)
 					popup.hide()
 					return
 			

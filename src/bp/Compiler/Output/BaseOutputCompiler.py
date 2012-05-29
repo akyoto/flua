@@ -118,6 +118,9 @@ class BaseOutputCompiler(Benchmarkable):
 		self.checkDivisionByZero = True
 		self.optimizeStringConcatenation = self.optimize
 	
+	def getMainFile(self):
+		return self.mainFile
+	
 	def scan(self, inpFile, silent = False):
 		cppOut = self.createOutputFile(inpFile)
 		

@@ -67,24 +67,24 @@ def isMetaDataTrue(stri):
 def isMetaDataTrueByTag(node, metaTag):
 	return isMetaDataTrue(getMetaData(node, metaTag))
 	
-def findCalls(node):
+def findNodes(node, nodeName):
 	callList = []
 	
-	if tagName(node) == "call":# or tagName(node) == "new":
+	if tagName(node) == nodeName:# or tagName(node) == "new":
 		callList.append(node)
 	
 	for child in node.childNodes:
-		callList += findCalls(child)
+		callList += findNodes(child, nodeName)
 	
 	return callList
 	
+def findCalls(node):
+	return findNodes(node, "call")
+	
 def findCallsReversed(node):
 	calls = findCalls(node)
-	if calls:
-		calls.reverse()
-		return calls
-	else:
-		return calls
+	calls.reverse()
+	return calls
 	
 def getNodeComments(node):
 	docs = []

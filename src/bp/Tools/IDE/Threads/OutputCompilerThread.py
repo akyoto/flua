@@ -8,9 +8,11 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		super().__init__(bpIDE)
 		self.bpIDE = bpIDE
 		self.lastException = None
+		self.codeEdit = None
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
 		
 	def startWith(self, outputCompiler):
+		self.codeEdit = self.bpIDE.codeEdit
 		if not self.bpIDE.backgroundCompileIsUpToDate and not self.bpIDE.backgroundCompilerRan:
 			self.outputCompiler = outputCompiler
 			self.start()
@@ -21,7 +23,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		try:
 			self.ppFile = self.bpIDE.getCurrentPostProcessorFile()
 			
-			if self.bpIDE.codeEdit and not self.bpIDE.codeEdit.disableUpdatesFlag:
+			if self.codeEdit and not self.codeEdit.disableUpdatesFlag:
 				self.outputCompiler.compile(self.ppFile, silent = True)
 				
 				if not self.bpIDE.running:

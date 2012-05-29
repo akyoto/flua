@@ -60,6 +60,20 @@ class BaseClass(BaseNamespace):
 			self.forceImplementation = False
 			self.isDefaultVersion = False
 		
+	def getPublicFunctionList(self):
+		publicMembers = list()
+		publicFunctions = list()
+		for funcList in self.functions.values():
+			func = funcList[0]
+			
+			if func.isGetter(): #len(func) >= 4 and func.startswith("get") and func[3].isupper(): # Members
+				publicMembers.append(func.name)
+			elif func.isCast or func.isOperator() or func.isSetter():#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
+				continue
+			else:
+				publicFunctions.append(func.name)
+		return publicFunctions, publicMembers
+		
 	def getFinalName(self):
 		if self.name.startswith("Mutable"):
 			return self.name[len("Mutable"):]
