@@ -118,8 +118,8 @@ class ModuleMenuActions:
 		#lineNumber = e.getLineNumber()
 		node = e.getLastParsedNode()
 		
-		if self.developerFlag:
-			printTraceback()
+		if 0:#self.developerFlag:
+			#print(e.getMsg())
 			
 			if node:
 				print("Last parsed node:\n" + node.toxml())
@@ -129,7 +129,8 @@ class ModuleMenuActions:
 			errorMessage = e.getMsg()
 			self.codeEdit.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
 			
-			self.consoleDock.hide()
+			if not self.developerFlag:
+				self.consoleDock.hide()
 			#self.codeEdit.msgView.updateView()
 		
 	def showModuleProperties(self):

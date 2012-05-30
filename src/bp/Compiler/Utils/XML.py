@@ -140,7 +140,7 @@ def getFuncNameNode(node):
 def tagName(node):
 	if node is None:
 		return ""
-	elif(isTextNode(node)):
+	elif node.nodeType == Node.TEXT_NODE:
 		return ""#node.nodeValue
 	else:
 		return node.tagName

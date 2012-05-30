@@ -156,6 +156,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.importedFiles = []
 		self.nextLineIndented = False
 		self.savedNextNode = 0
+		self.idCount = 0
 		
 		pureFileName = stripAll(fileIn)
 		if pureFileName == "Mutable":
@@ -467,7 +468,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 			if currentLine:
 				if currentLine.nodeType != Node.TEXT_NODE:
+					currentLine.setAttribute("id", str(self.idCount))
 					currentLine.setAttribute("depth", str(tabCount))
+					self.idCount += 1
 					if currentLine.tagName == "assign":
 						variableNode = currentLine.childNodes[0].childNodes[0]
 						if variableNode.nodeType == Node.TEXT_NODE:

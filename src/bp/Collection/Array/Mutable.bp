@@ -9,13 +9,13 @@
 	</header>
 	<code>
 		<comment>\SMutable\Sarray,\Scurrently\Sonly\Susable\Sfor\SC++\Stargets</comment>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>MutableArray</name>
 			<code>
-				<template depth="1">
-					<parameter depth="2">TDataType</parameter>
+				<template depth="1" id="1">
+					<parameter depth="2" id="2">TDataType</parameter>
 				</template>
-				<function depth="1">
+				<function depth="1" id="3">
 					<parameters>
 						<parameter>
 							<assign>
@@ -31,7 +31,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="4">
 							<value>size</value>
 							<value>
 								<call>
@@ -42,7 +42,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -67,7 +67,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
@@ -81,7 +81,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="7">
 							<value>
 								<access>
 									<value>my</value>
@@ -101,12 +101,11 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="8">
 					<name>finalize</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="9">
 							<function>
 								<access>
 									<value>
@@ -122,13 +121,13 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="10">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="11">
 							<value>
 								<access>
 									<value>
@@ -142,7 +141,7 @@
 							</value>
 							<value>element</value>
 						</assign>
-						<assign-add depth="2">
+						<assign-add depth="2" id="12">
 							<value>
 								<access>
 									<value>my</value>
@@ -151,7 +150,7 @@
 							</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2">
+						<if-block depth="2" id="13">
 							<if>
 								<condition>
 									<equal>
@@ -170,7 +169,7 @@
 									</equal>
 								</condition>
 								<code>
-									<call depth="3">
+									<call depth="3" id="14">
 										<function>
 											<access>
 												<value>my</value>
@@ -200,8 +199,9 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="15">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -212,7 +212,7 @@
 					</parameters>
 					<name>reserve</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="16">
 							<value>currentSize</value>
 							<value>
 								<call>
@@ -226,7 +226,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="17">
 							<value>newMem</value>
 							<value>
 								<unmanaged>
@@ -246,7 +246,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<call depth="2">
+						<call depth="2" id="18">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -259,7 +259,7 @@
 								<parameter>currentSize</parameter>
 							</parameters>
 						</call>
-						<call depth="2">
+						<call depth="2" id="19">
 							<function>
 								<access>
 									<value>
@@ -273,7 +273,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<assign depth="2">
+						<assign depth="2" id="20">
 							<value>
 								<access>
 									<value>my</value>
@@ -287,7 +287,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="21">
 							<value>
 								<access>
 									<value>my</value>
@@ -296,7 +296,7 @@
 							</value>
 							<value>newMem</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="22">
 							<value>
 								<access>
 									<value>my</value>
@@ -312,11 +312,11 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="23">
 					<name>removeLast</name>
 					<code>
-						<require depth="2">
-							<greater depth="3">
+						<require depth="2" id="24">
+							<greater depth="3" id="25">
 								<value>
 									<access>
 										<value>my</value>
@@ -326,7 +326,7 @@
 								<value>0</value>
 							</greater>
 						</require>
-						<if-block depth="2">
+						<if-block depth="2" id="26">
 							<if>
 								<condition>
 									<not-equal>
@@ -345,7 +345,7 @@
 									</not-equal>
 								</condition>
 								<code>
-									<assign-subtract depth="3">
+									<assign-subtract depth="3" id="27">
 										<value>
 											<access>
 												<value>my</value>
@@ -359,10 +359,10 @@
 						</if-block>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="28">
 					<name>reverse</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="29">
 							<value>startRev</value>
 							<value>
 								<access>
@@ -371,7 +371,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="30">
 							<value>endRev</value>
 							<value>
 								<subtract>
@@ -385,7 +385,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<while depth="2">
+						<while depth="2" id="31">
 							<condition>
 								<greater>
 									<value>
@@ -398,7 +398,7 @@
 								</greater>
 							</condition>
 							<code>
-								<call depth="3">
+								<call depth="3" id="32">
 									<function>bp_swap</function>
 									<parameters>
 										<parameter>
@@ -415,11 +415,11 @@
 										</parameter>
 									</parameters>
 								</call>
-								<assign-add depth="3">
+								<assign-add depth="3" id="33">
 									<value>startRev</value>
 									<value>1</value>
 								</assign-add>
-								<assign-subtract depth="3">
+								<assign-subtract depth="3" id="34">
 									<value>endRev</value>
 									<value>1</value>
 								</assign-subtract>
@@ -427,19 +427,19 @@
 						</while>
 					</code>
 				</function>
-				<operators depth="1">
-					<operator depth="2">
+				<operators depth="1" id="35">
+					<operator depth="2" id="36">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<require depth="3">
-								<greater-or-equal depth="4">
+							<require depth="3" id="37">
+								<greater-or-equal depth="4" id="38">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4">
+								<less depth="4" id="39">
 									<value>index</value>
 									<value>
 										<access>
@@ -449,7 +449,7 @@
 									</value>
 								</less>
 							</require>
-							<return depth="3">
+							<return depth="3" id="40">
 								<index>
 									<value>
 										<access>
@@ -463,11 +463,11 @@
 						</code>
 					</operator>
 				</operators>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="41">
+					<getter depth="2" id="42">
 						<name>length</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="43">
 								<subtract>
 									<value>
 										<access>
@@ -485,10 +485,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2">
+					<getter depth="2" id="44">
 						<name>allocatedElements</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="45">
 								<subtract>
 									<value>
 										<access>
@@ -507,14 +507,14 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1">
-					<setter depth="2">
+				<set depth="1" id="46">
+					<setter depth="2" id="47">
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<name>length</name>
 						<code>
-							<assign depth="3">
+							<assign depth="3" id="48">
 								<value>
 									<access>
 										<value>my</value>
@@ -533,7 +533,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block depth="3">
+							<if-block depth="3" id="49">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -552,7 +552,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call depth="4">
+										<call depth="4" id="50">
 											<function>
 												<access>
 													<value>my</value>

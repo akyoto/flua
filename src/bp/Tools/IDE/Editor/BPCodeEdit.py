@@ -162,7 +162,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 					self.createClassMemberModel(dataType)
 					return
 		
-		# Top level access? (99% of the time, statistic is copyright protected)
+		# Top level access? (99.7% of all times, this statistic is copyright protected)
 		if (not userData or not accessNodes) and expr.find(".") == -1:
 			try:
 				dataType = self.codeEdit.outFile.getVariableTypeAnywhere(expr)
@@ -234,7 +234,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.clear(True)
 			self.bubble.setReadOnly(True)
 			self.bubbleWidth = 300
-			self.msgViewWidth = 300
+			self.msgViewWidth = self.bubbleWidth
 			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
 			
 			self.bubble.horizontalScrollBar().setMaximumWidth(0)
@@ -370,7 +370,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		print("Forward not implemented!")
 	
 	def mousePressEvent(self, event):
-		self.bpIDE.consoleDock.hide()
+		if not self.bpIDE.developerFlag:
+			self.bpIDE.consoleDock.hide()
 		
 		if event.button() == QtCore.Qt.XButton1:
 			self.locationBackward()
@@ -533,7 +534,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
 		
-		if event.key() == QtCore.Qt.Key_Escape:
+		if event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
 		
 		# Auto Complete
@@ -550,7 +551,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Has ctrl + space been pressed?
 			if (not self.completer or not isShortcut):
 				self.keyPressEvent(event, True)
-
+			
 			## ctrl or shift key on it's own??
 			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
 			if ctrlOrShift and not event.text():

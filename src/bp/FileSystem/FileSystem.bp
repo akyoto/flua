@@ -101,7 +101,6 @@
 						</code>
 					</function>
 				</code>
-				<meta/>
 			</class>
 		</extern>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
@@ -133,7 +132,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path</comment>
+		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>path</parameter>
@@ -151,7 +150,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to</comment>
+		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
 		<function depth="0">
 			<parameters>
 				<parameter>from</parameter>

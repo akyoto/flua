@@ -26,12 +26,18 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			if self.codeEdit and not self.codeEdit.disableUpdatesFlag:
 				self.outputCompiler.compile(self.ppFile, silent = True)
 				
+				# Try getting var types
+				self.outputCompiler.tryGettingVariableTypesInUnimplementedFunctions()
+				
 				if not self.bpIDE.running:
 					self.bpIDE.outputCompiler = self.outputCompiler
 				
 				self.bpIDE.backgroundCompilerRan = True
 				self.lastException = None
 		except OutputCompilerException as e:
+			#if self.bpIDE.developerFlag:
+			#	printTraceback()
+			#else:
 			self.lastException = e
 		except KeyError:
 			pass

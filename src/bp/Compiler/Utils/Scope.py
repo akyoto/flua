@@ -38,7 +38,7 @@ class ScopeController:
 	def __init__(self):
 		self.scopes = []
 		self.scopeBackups = []
-		self.nodeToScope = dict()
+		self.nodeIdToScope = dict()
 		self.pushScope()
 	
 	def getCurrentScope(self):
@@ -55,8 +55,27 @@ class ScopeController:
 		self.scopes.pop()
 		self.currentScope = self.scopes[-1]
 		
-	def saveScope(self, node):
-		self.nodeToScope[node] = list(self.scopes)
+	def saveScopesForNode(self, node):
+		#print("Saving node %s" % node.toxml())
+		nodeId = node.getAttribute("id")
+		if nodeId:
+			self.nodeIdToScope[nodeId] = list(self.scopes)
+		
+	def restoreScopesForNode(self, node):
+		#if node in self.nodeToScope:
+		self.restoreScopesForNodeId(node.getAttribute("id"))
+		
+	def restoreScopesForNodeId(self, nodeId):
+		self.scopes = self.nodeIdToScope[nodeId]
+		self.currentScope = self.scopes[-1]
+		
+	def debugNodeToScope(self):
+		for nodeId, scopes in self.nodeIdToScope.items():
+			print("[Node: %s]" % nodeId)
+			for scope in scopes:
+				print("->SCOPE:")
+				for var in scope.variables.values():
+					print("  ->" + var.name + " : " + var.type)
 		
 	def saveScopes(self):
 		self.scopeBackups.append(list(self.scopes))

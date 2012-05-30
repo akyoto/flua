@@ -528,8 +528,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if code.endswith("}"):
 				code += "\n"
 				
-			if not nodeName in {"target"}:
-				return "%s%s(%s) {\n%s%s}\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
+			if not nodeName in {"target", "parallel"}:
+				return "%s%s(%s) {\n%s%s}\n" % (name, " ", expr.strip(), code, ("\t" * (tabLevel)))
 			else:
 				return "%s%s%s {\n%s%s}\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
 	# Blocks

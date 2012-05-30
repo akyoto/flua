@@ -58,6 +58,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.specializedClasses = dict()
 		self.funcImplCache = dict()
 		self.needToInitStringClass = False
+		self.assignNodes = list()
 		
 		# Background compiler?
 		self.background = background
@@ -120,6 +121,24 @@ class BaseOutputCompiler(Benchmarkable):
 	
 	def getMainFile(self):
 		return self.mainFile
+	
+	def tryGettingVariableTypesInUnimplementedFunctions(self):
+		for funcList in self.mainClass.functions.values():
+			func = funcList[0]
+			
+			# TODO: if not func.implementations ?
+			
+			assignNodes = func.assignNodes
+			
+			self.mainFile.pushScope()
+			for node in assignNodes:
+				try:
+					self.mainFile.handleAssign(node)
+					#print("It worked: %s" % node.toxml())
+				except:
+					continue
+			self.mainFile.saveScopesForNode(func.node)
+			self.mainFile.popScope()
 	
 	def scan(self, inpFile, silent = False):
 		cppOut = self.createOutputFile(inpFile)

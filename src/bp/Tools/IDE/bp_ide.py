@@ -177,7 +177,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.outputCompilerThread.lastException:
 			#pass
 			
-			# TODO: What should we do with background compiler error messages?
+			# Hmm...what should we do with background compiler error messages?
 			
 			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
 			if self.codeEdit and self.codeEdit.msgView.count() == 0:
@@ -189,6 +189,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love long variable names, don't we?
 		if self.outputCompilerThread.codeEdit:
 			self.outputCompilerThread.codeEdit.outFile = self.outputCompilerThread.outputCompiler.getMainFile()
+			
+			# Restore the scopes if possible
+			self.restoreScopesOfNode(self.currentNode)
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):
@@ -326,7 +329,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 					if lines > 1:
 						# Because of Master-of-Weirdness a.k.a. Qt we need to SHOW FIRST, THEN CALCULATE DOCUMENT SIZE
 						self.codeEdit.bubble.show()
-						
 						self.codeEdit.bubble.setPlainText(codeText)
 						
 						# DO THIS 2 TIMES ELSE YOUR HEIGHT WILL BE INVALID - GREETINGS FROM TROLLTECH
@@ -450,6 +452,42 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
 			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
+		
+	def restoreScopesOfNode(self, selectedNode):
+		if self.codeEdit.outFile and selectedNode:
+			#print("Before")
+			#self.codeEdit.outFile.debugScopes()
+			
+			savedNode = selectedNode
+			if savedNode.hasAttribute("id"):
+				savedNodeId = -1
+			else:
+				savedNodeId = savedNode.getAttribute("id")
+			
+			while savedNode.tagName != "module" and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
+				#print("Trying: " + savedNode.getAttribute("id"))
+				savedNode = savedNode.parentNode
+				
+				try:
+					savedNodeId = savedNode.getAttribute("id")
+				except:
+					savedNodeId = None
+			
+			if not savedNode.tagName == "module":
+				try:
+					#if selectedNode.parentNode.tagName == "code":
+					#	self.codeEdit.outFile.restoreScopesForNode(selectedNode.parentNode)
+					#else:
+					self.codeEdit.outFile.restoreScopesForNodeId(savedNodeId)
+					#print("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES! ID: %s" % savedNodeId)
+					#self.codeEdit.outFile.debugScopes()
+				except:
+					pass#print("Could not find scope information for node %s" % tagName(savedNode))
+			else:
+				pass
+				#print("Scopes:")
+				#self.codeEdit.outFile.debugNodeToScope()
+				#self.codeEdit.outFile.debugScopes()
 		
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())

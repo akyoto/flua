@@ -479,6 +479,13 @@ class BaseOutputFile(ScopeController):
 		if isMetaDataTrue(getMetaData(node, "force-implementation")):
 			newFunc.setForceImplementation(True)
 		
+		# Save variables for the IDE
+		if self.compiler.background:
+			self.tryGettingVariableTypes(newFunc)
+		
+	def tryGettingVariableTypes(self, func):
+		func.assignNodes = findNodes(func.node, "assign")
+		
 	def scanExternFunction(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
 		types = node.getElementsByTagName("type")
@@ -937,6 +944,7 @@ class BaseOutputFile(ScopeController):
 		#var.name = self.getNamespacePrefix() + var.name
 		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
+		
 		#self.currentClassImpl.addMember(var)
 	
 	def handleUnmanaged(self, node):
@@ -1167,9 +1175,6 @@ class BaseOutputFile(ScopeController):
 		for node in parent.childNodes:
 			line = self.parseExpr(node)
 			
-			# Save scope for the IDE
-			self.saveScope(node)
-			
 			self.lastParsedNode.pop()
 			
 			if self.additionalCodePerLine:
@@ -1180,6 +1185,11 @@ class BaseOutputFile(ScopeController):
 				lines.append(prefix)
 				lines.append(line)
 				lines.append(postfix)
+		
+		# Save scope for the IDE
+		#if parent.tagName == "code":
+		#self.saveScopesForNode(parent)
+		
 		return ''.join(lines)
 	
 	def parseExpr(self, node, keepUnmanagedSign = True):
@@ -1533,8 +1543,9 @@ class BaseOutputFile(ScopeController):
 			tmpFunc = findFunctionInBaseClasses(classObj, funcName)
 			
 			if not tmpFunc:
-				print(className + " contains the following functions:")
-				print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
+				if not self.compiler.background:
+					print(className + " contains the following functions:")
+					print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
 				raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
 		
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
@@ -1976,9 +1987,9 @@ class BaseOutputFile(ScopeController):
 	def debugScopes(self):
 		counter = 0
 		for scope in self.scopes:
-			debug("[" + str(counter) + "]")
+			print("[Scope " + str(counter) + "]")
 			for name, variable in scope.variables.items():
-				debug(" => " + variable.name.ljust(40) + " : " + variable.type)
+				print(" => " + variable.name.ljust(40) + " : " + variable.type)
 			counter += 1
 	
 	def implementCasts(self):

@@ -181,7 +181,7 @@ class Startup:
 		self.outlineViewDock.hide()
 		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
-		self.consoleDock.hide()
+		
 		#self.msgViewDock.hide()
 		#self.fileViewDock.hide()
 		#self.xmlViewDock.show()
@@ -190,6 +190,7 @@ class Startup:
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
 			self.xmlViewDock.hide()
+			self.consoleDock.hide()
 		
 		# Needed for workspaces
 		self.viewsInitialized = True
