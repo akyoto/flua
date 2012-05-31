@@ -15,7 +15,6 @@ String
 # or
 # lines, words, chars ?
 
-
 # (1)
 for line in code.lines
 	print line
@@ -48,9 +47,7 @@ pattern
 		for x in {Expression 1}.{IteratorType}s
 			if {Expression 2}
 				{Function}(x)
-
-
-
+				
 # Generators
 String
 	# Using yield
@@ -63,7 +60,7 @@ String
 					pos = i
 	
 	find chars, from
-		
+	
 	# Using traditional iterator styles
 	iterate
 		line
@@ -75,3 +72,113 @@ String
 			
 		word
 			
+	# Returning iterators
+	iterator
+		lines pos
+			pos = my.find("\n", pos)
+			return 
+
+
+hasNext
+	...
+
+next
+	...
+
+for x in a.elements
+	...
+
+for x in a.chunks(20)
+	...
+
+String
+	iterator
+		# Iterate over each line
+		lines
+			init
+				iterator.pos = 0
+			
+			hasNext
+				return iterator.pos < my.length
+				
+			next
+				return UTF8String(my.data, iterator.pos)
+				
+			afterwards
+				iterator.pos = my.find("\n", iterator.pos + 1)
+		
+		# Iterate over each word
+		words
+			init
+				iterator.wordStart = start
+				iterator.wordEnd = my.findSpace(iterator.wordStart + 1)
+				
+			hasNext
+				return iterator.wordEnd < my.length
+				
+			next
+				return UTF8String(my.data, iterator.wordStart, iterator.wordEnd)
+				
+			afterwards
+				iterator.wordStart = my.findNonSpace(iterator.wordEnd + 1) #my.findWhere({c} c.isNotWhitespace(), iterator.wordEnd + 1)
+				iterator.wordEnd = my.findSpace(iterator.wordStart + 1) #my.findWhere({c} c.isSpace(), iterator.wordStart + 1)
+				
+		# Default one, to iterate over each character
+		default
+			init start = 0, end = my.length
+				iterator.pos = 0
+			
+			hasNext
+				return iterator.pos < my.length
+			
+			next
+				return my[iterator.pos]
+				
+			afterwards
+				iterator.pos += 1
+				
+			split processors
+				chunk = my.length \ processors
+				rest = my.length % processors
+				
+				for p = 0 until processors
+					process(my.data + p * chunk, chunk)
+					
+				process(my.data + processors * chunk, rest)
+
+# Pattern
+BPIterator_UTF8String iter(0);
+while iter.hasNext() {
+	e = iter.next();
+	userDoSomethingWith(e);
+	iter.afterwards();
+}
+
+# Multithreading: Simply create an array from the generator
+data = Array<UTF8String>()
+BPIterator_UTF8String iter(0);
+while iter.hasNext() {
+	e = iter.next();
+	data.add(e);
+	iter.afterwards();
+}
+
+# Parallel for loop
+for i = 0 until data.length
+	userDoSomethingWith(data[i])
+	
+
+Array
+	iterator
+		init start, end
+			iterator.pos = start
+			iterator.end = end
+			
+		hasNext
+			return iterator.pos != iterator.end
+			
+		next
+			return my[iterator.pos]
+			
+		afterwards
+			iterator.pos += 1
