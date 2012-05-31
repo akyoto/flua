@@ -6,7 +6,7 @@
 			<import>bp.Compiler.Test</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Hello\SWorld</string>
+			<string id="bp_string_0">Hello\SWorld!</string>
 		</strings>
 	</header>
 	<code>

@@ -259,7 +259,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#try:
 		#	classImpl.getFuncImplementation()
 	
-	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile):
+	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile, shownFuncs):
+		# Don't show the same function twice
+		if realFuncDefNode in shownFuncs:
+			return
+		
+		shownFuncs[realFuncDefNode] = True
+		
 		# Documentation
 		doc = getNodeComments(realFuncDefNode)
 		
@@ -308,13 +314,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 							try:
 								realFunc = classImpl.getMatchingFunction(funcName, paramTypes)
 								realFuncDefNode = realFunc.node
-								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile)
+								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile, shownFuncs)
 							except:
 								try:
 									candidates = classImpl.getCandidates(funcName)
 									
 									for func in candidates:
-										self.bubbleFunction(code, func.node, call, currentOutFile)
+										self.bubbleFunction(code, func.node, call, currentOutFile, shownFuncs)
 									
 									continue
 								except:
@@ -463,10 +469,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.codeEdit.outFile.debugScopes()
 			
 			savedNode = selectedNode
+			
+			if not savedNode:
+				return
+			
 			if savedNode.hasAttribute("id"):
-				savedNodeId = -1
-			else:
 				savedNodeId = savedNode.getAttribute("id")
+			else:
+				savedNodeId = -1
 			
 			while savedNode.tagName != "module" and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
 				#print("Trying: " + savedNode.getAttribute("id"))
@@ -761,21 +771,21 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.updateLineInfo()
 		
 	def createDockWidget(self, name, widget, area):
-		newDock = QtGui.QDockWidget(name, self)
+		shortcut = self.dockShortcuts[len(self.docks)]
+		
+		newDock = QtGui.QDockWidget("%s (Alt + %s)" % (name, shortcut), self)
 		#newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
 		newDock.setWidget(widget)
 		newDock.setObjectName(name)
 		#newDock.installEventFilter(self)
 		self.addDockWidget(area, newDock)
 		
-		self.dockMenuActions.append(self.connectVisibilityToViewMenu(name, newDock))
+		self.dockMenuActions.append(self.connectVisibilityToViewMenu(name, newDock, shortcut))
 		self.docks.append(newDock)
 		
 		return newDock
 		
-	def connectVisibilityToViewMenu(self, name, widget):
-		shortcut = self.dockShortcuts[len(self.docks)]
-		
+	def connectVisibilityToViewMenu(self, name, widget, shortcut):
 		newAction = QtGui.QAction(shortcut, self)
 		newAction.setCheckable(True)
 		newAction.setToolTip(name)
