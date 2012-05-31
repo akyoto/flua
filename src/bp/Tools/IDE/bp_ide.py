@@ -70,7 +70,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Timed
 		self.bindFunctionToTimer(self.showDependencies, 200)
-		self.bindFunctionToTimer(self.onCompileTimeout, 1000)
+		self.bindFunctionToTimer(self.onCompileTimeout, 500)
 		
 		# AC
 		self.shortCuts = dict()
@@ -553,6 +553,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			):
 			funcsList = list(self.funcsDict)
 			classesList = list(self.classesDict)
+			
+			classesList.sort()
+			funcsList.sort()
 			
 			self.shortCuts = buildShortcutDict(funcsList)
 			ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)

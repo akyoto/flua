@@ -75,7 +75,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 	#	self.updateStringList()
 		
 	def updateStringList(self):
-		self.classesList.reverse()
+		#self.classesList.reverse()
 		self.setStringList(self.classesList + self.functionList + self.keywordList + self.shortCutList)
 		
 	def setMemberList(self, memberList):
@@ -1124,7 +1124,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bubble.document().adjustSize()
 		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
 		
-		self.resizeBubble(min(self.bubbleWidth, self.bubble.document().size().width() + 24), newHeight)
+		# min(self.bubbleWidth, self.bubble.document().size().width() + 24)
+		self.resizeBubble(self.bubbleWidth, newHeight)
 	
 	def resizeBubble(self, width = -1, height = -1):
 		margin = 7
