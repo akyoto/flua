@@ -10,17 +10,17 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="0">
 			<value>a</value>
 			<value>0</value>
 		</assign>
 		<comment>\SProcessor\Swarmup</comment>
-		<for depth="0">
+		<for depth="0" id="1">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>100000000</to>
 			<code>
-				<assign-add depth="1">
+				<assign-add depth="1" id="2">
 					<value>a</value>
 					<value>
 						<add>
@@ -30,10 +30,9 @@
 					</value>
 				</assign-add>
 			</code>
-			<meta/>
 		</for>
 		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>start</value>
 			<value>
 				<call>
@@ -43,17 +42,16 @@
 			</value>
 		</assign>
 		<comment>\SDo\Ssomething.</comment>
-		<for depth="0">
+		<for depth="0" id="4">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>100000000</to>
 			<code>
-				<noop depth="1"/>
+				<noop depth="1" id="5"/>
 			</code>
-			<meta/>
 		</for>
 		<comment>\SSo,\Show\Smuch\Stime\Sdid\Swe\Sactually\Sneed\Sto\Sdo\Sthis?</comment>
-		<assign depth="0">
+		<assign depth="0" id="6">
 			<value>end</value>
 			<value>
 				<call>
@@ -62,7 +60,7 @@
 				</call>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="7">
 			<value>runtime</value>
 			<value>
 				<subtract>
@@ -72,7 +70,7 @@
 			</value>
 		</assign>
 		<comment>\SVariables\Sin\Sstrings.\SYes\Swe\Scan!</comment>
-		<call depth="0">
+		<call depth="0" id="8">
 			<function>print</function>
 			<parameters>
 				<parameter>
