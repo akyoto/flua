@@ -183,7 +183,7 @@ class HelpMenuActions:
 									<li style='margin-bottom: 4px'>github.com</li>
 								</ul>
 								<br/><br/>
-								Without these projects the development of blitzprog would not have been possible.
+								Without these projects the development of bp would not have been possible.
 							</p>
 							""")
 		
@@ -192,7 +192,7 @@ class HelpMenuActions:
 							"""
 							<p>
 								<h2>bp Studio</h2>
-								A development environment for the blitzprog programming language.<br/>
+								A development environment for bp.<br/>
 								<br/>
 								Official website:<br/>
 								<a href="http://blitzprog.org/">http://blitzprog.org/</a><br/>

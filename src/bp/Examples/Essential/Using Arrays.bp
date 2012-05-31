@@ -61,8 +61,7 @@
 				<parameter>3</parameter>
 			</parameters>
 		</call>
-		<comment>\SCurrently\S'for\Sx\Sin\Sarray'\Sis\Snot\Simplemented\S(will\Sdo\Sthat\Slater).</comment>
-		<comment>\SBut\Swe\Scan\Suse\Sa\Sstandard\Sloop:</comment>
+		<comment>\SWe\Scan\Snow\Siterate\Sover\Sthat\Sarray</comment>
 		<foreach depth="0" id="4">
 			<iterator>x</iterator>
 			<collection>array</collection>
@@ -94,7 +93,6 @@
 					<parameters/>
 				</new>
 			</value>
-			<meta/>
 		</assign>
 		<call depth="0" id="7">
 			<function>
@@ -106,6 +104,7 @@
 			<parameters>
 				<parameter>bp_string_0</parameter>
 			</parameters>
+			<meta/>
 		</call>
 		<call depth="0" id="8">
 			<function>
@@ -128,7 +127,6 @@
 			<parameters>
 				<parameter>bp_string_2</parameter>
 			</parameters>
-			<meta/>
 		</call>
 		<call depth="0" id="10">
 			<function>
@@ -141,6 +139,7 @@
 				<parameter>bp_string_3</parameter>
 			</parameters>
 		</call>
+		<comment>\SIterate\Sover\Sthe\Sarray\Scontents</comment>
 		<foreach depth="0" id="11">
 			<iterator>x</iterator>
 			<collection>myArray</collection>

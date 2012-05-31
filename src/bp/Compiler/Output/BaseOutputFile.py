@@ -1078,7 +1078,6 @@ class BaseOutputFile(ScopeController):
 			raise CompilerException("The 'yield' keyword needs an expression which is processed in each loop iteration")
 			#retType = "void"
 			#return "return"
-		
 	
 	def handleParameters(self, pNode):
 		pList = ""

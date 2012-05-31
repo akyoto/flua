@@ -143,6 +143,7 @@ autoNewlineBlock = {
 	"if-block",
 	"try-block",
 	"for",
+	"foreach",
 	"extern",
 	"target",
 	"switch",

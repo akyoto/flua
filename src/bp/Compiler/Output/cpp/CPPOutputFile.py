@@ -182,11 +182,33 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
 	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs):
+		# Fix tabs
+		numTabs = countTabs(iterImplCode) - len(tabs)
+		
+		if numTabs:
+			lines = []
+			for x in iterImplCode.split('\n'):
+				if not x:
+					continue
+				counter = numTabs
+				while counter > 0 and x[0] == '\t':
+					x = x[1:]
+					counter -= 1
+				lines.append(x)
+			iterImplCode = '\n'.join(lines)
+		
+		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)
+		
+		# Fix member names
 		for member in classImpl.members.values():
 			iterImplCode = iterImplCode.replace("this->" + member.name, collExpr + "->_" + member.name)
+		
+		# Because we love hardcoding. We're removing the '\n' and ';' here.
+		code = code[:-2]
+		
 		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code)
-		return "{" + typeInit + iterExpr + ";\n" + resultingCode + "}"
+		return "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return self.adjustDataType(typeName) + " " + varName
