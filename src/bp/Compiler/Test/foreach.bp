@@ -1,0 +1,104 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Foreach\Sand\Siterators/generators\Sworking!</string>
+			<string id="bp_string_1">Foreach\Sand\Siterators/generators\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="0">
+			<value>testArray</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Array</value>
+							<value>Int</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<call depth="0" id="1">
+			<function>
+				<access>
+					<value>testArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>1</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="2">
+			<function>
+				<access>
+					<value>testArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>2</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="3">
+			<function>
+				<access>
+					<value>testArray</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>3</parameter>
+			</parameters>
+		</call>
+		<assign depth="0" id="4">
+			<value>sum</value>
+			<value>0</value>
+		</assign>
+		<foreach depth="0" id="5">
+			<iterator>val</iterator>
+			<collection>testArray</collection>
+			<code>
+				<assign-add depth="1" id="6">
+					<value>sum</value>
+					<value>val</value>
+				</assign-add>
+			</code>
+		</foreach>
+		<if-block depth="0" id="7">
+			<if>
+				<condition>
+					<equal>
+						<value>sum</value>
+						<value>6</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="8">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="9">
+				<code>
+					<call depth="1" id="10">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

@@ -23,6 +23,29 @@ class HelpMenuActions:
 		self.gitThread.wait()
 		
 		os.chdir(getIDERoot())
+		
+	def resetLocalFileChanges(self):
+		if not self.codeEdit:
+			return
+		
+		if not self.ask("Are you sure you want to revert all local source code changes to the currently opened file?"):
+			return
+		
+		self.acquireGitThread()
+		
+		#os.chdir(getModuleDir())
+		
+		gitResetCmd = [
+			getGitPath() + "git",
+			"checkout",
+			self.codeEdit.getFilePath()
+		]
+		
+		print("Reset local changes...")
+		self.gitThread.startCmd(gitResetCmd, self.console.log)
+		self.gitThread.wait()
+		
+		#os.chdir(getIDERoot())
 	
 	def acquireGitThread(self):
 		if self.gitThread and self.gitThread.isRunning():

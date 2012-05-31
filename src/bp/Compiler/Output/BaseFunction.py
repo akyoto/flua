@@ -7,8 +7,11 @@ class BaseFunction:
 		self.node = node
 		self.cppFile = cppFile
 		self.isCast = (node.tagName == "cast-definition")
+		self.isIterator = (node.tagName == "iterator-type")
 		self.castToUnmanaged = False
 		self.forceImplementation = False
+		
+		#print(node.tagName)
 		
 		if self.isCast:
 			typeNode = getElementByTagName(node, "to")
@@ -49,6 +52,8 @@ class BaseFunction:
 			return "set" + capitalize(self.name)
 		elif self.isGetter():
 			return "get" + capitalize(self.name)
+		elif self.isIterator:
+			return "iterator" + capitalize(self.name)
 		
 		return self.name
 		

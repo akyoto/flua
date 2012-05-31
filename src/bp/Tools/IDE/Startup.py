@@ -234,6 +234,7 @@ class Startup:
 		self.actionIntroduction.triggered.connect(self.showIntroduction)
 		self.actionChangeLog.triggered.connect(self.showChangeLog)
 		self.actionResetLocalChanges.triggered.connect(self.resetLocalChanges)
+		self.actionResetLocalFileChanges.triggered.connect(self.resetLocalFileChanges)
 		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
 		self.actionReportBug.triggered.connect(self.reportBug)
 		self.actionThanksTo.triggered.connect(self.thanksTo)
@@ -290,6 +291,7 @@ class Startup:
 				'class-getter': cf('#003060', useBold),
 				'class-setter': cf('#003060', useBold),
 				'class-operator': cf('#008000', useBold),
+				'class-iterator-type': cf('#008000', useBold),
 				'class-cast-definition': cf('#500050', useBold),
 				'class-name': cf('#000030'),
 				
@@ -338,6 +340,7 @@ class Startup:
 				'class-getter': cf('#eeaa00', useBold),
 				'class-setter': cf('#eeaa00', useBold),
 				'class-operator': cf('#eeaa00', useBold),
+				'class-iterator-type': cf('#eeaa00', useBold),
 				'class-cast-definition': cf('#eeaa00', useBold),
 				'class-name': cf('#ffffff'),
 				

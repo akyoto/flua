@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>bp Studio 0.2.9 - Alpha version</string>
+   <string>bp Studio 0.3.0 - Alpha version</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -64,14 +64,15 @@
     <addaction name="actionIntroduction"/>
     <addaction name="separator"/>
     <addaction name="actionChangeLog"/>
-    <addaction name="actionResetLocalChanges"/>
     <addaction name="actionDownloadUpdates"/>
+    <addaction name="separator"/>
+    <addaction name="actionResetLocalChanges"/>
+    <addaction name="actionResetLocalFileChanges"/>
     <addaction name="separator"/>
     <addaction name="actionReportBug"/>
     <addaction name="separator"/>
     <addaction name="actionThanksTo"/>
     <addaction name="actionAbout"/>
-    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -487,6 +488,15 @@
   <action name="actionConnectWithGitHub">
    <property name="text">
     <string>Connect with GitHub</string>
+   </property>
+  </action>
+  <action name="actionResetLocalFileChanges">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset changes for this module</string>
    </property>
   </action>
  </widget>

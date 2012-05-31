@@ -13,10 +13,11 @@
 			<import>casts</import>
 			<import>bigint</import>
 			<import>defaultvalues</import>
+			<import>stringoperations</import>
 			<import>exceptions</import>
 			<import>inheritance</import>
 			<import>unicode</import>
-			<import>stringoperations</import>
+			<import>foreach</import>
 			<import>filesystem</import>
 			<import>parallel</import>
 		</dependencies>

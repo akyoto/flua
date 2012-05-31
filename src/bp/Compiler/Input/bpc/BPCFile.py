@@ -50,6 +50,7 @@ simpleBlocks = {
 	"function" : [],
 	"while" : [],
 	"for" : [],
+	"foreach" : [],
 	"in" : [],
 	"switch" : [],
 	"case" : [],
@@ -65,6 +66,8 @@ simpleBlocks = {
 	"setter" : [],
 	"operators" : [],
 	"operator" : [],
+	"iterators" : [],
+	"iterator-type" : [],
 	"casts" : [],
 	"namespace" : [],
 	"define" : [],
@@ -177,6 +180,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inSetter = 0
 		self.inCasts = 0
 		self.inOperators = 0
+		self.inIterators = 0
 		self.inRequire = 0
 		self.inEnsure = 0
 		self.inMaybe = 0
@@ -223,6 +227,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"import" : self.handleImport,
 			"in" : self.handleIn,
 			"include" : self.handleInclude,
+			"iterator" : self.handleIteratorBlock,
 			"maybe" : self.handleMaybe,
 			"namespace" : self.handleNamespace,
 			"..." : self.handleNOOP,
@@ -240,6 +245,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"throw" : self.handleThrow,
 			"try" : self.handleTry,
 			"while" : self.handleWhile,
+			"yield" : self.handleYield,
 		}
 		
 	#def __del__(self):
@@ -512,6 +518,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inCasts = 0
 				elif nodeName == "operators":
 					self.inOperators -= 1
+				elif nodeName == "iterators":
+					self.inIterators -= 1
 				elif nodeName == "require":
 					self.inRequire -= 1
 				elif nodeName == "ensure":
@@ -555,7 +563,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
-			elif self.inOperators or self.inCasts or line[0].islower() or self.inClass:
+			elif self.inOperators or self.inCasts or line[0].islower() or self.inClass or self.inIterators:
 				return self.handleFunction(line)
 			else:
 				return self.handleClass(line)
@@ -570,7 +578,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			if self.inExtern and not self.inClass:
 				return self.handleExternLine(line)
 			
-			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inCasts):
+			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
 				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
 			
 			line = addBrackets(line)
@@ -654,6 +662,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		node = self.doc.createElement("operators")
 		
 		self.inOperators = 1
+		self.nextNode = node
+		return node
+		
+	def handleIteratorBlock(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("iterators", line)
+		
+		node = self.doc.createElement("iterators")
+		
+		self.inIterators = 1
 		self.nextNode = node
 		return node
 		
@@ -743,9 +761,28 @@ class BPCFile(ScopeController, Benchmarkable):
 				raise CompilerException("Missing iterator definition in 'for' expression")
 			else:
 				node.tagName = "foreach"
-				# TODO: Foreach
-				#return None
-				raise CompilerException("'for' as 'foreach' not implemented yet")
+				
+				iterName = line[4:pos].strip()
+				iterCollection = line[pos+len(" in "):].strip()
+				
+				iterNameExpr = self.parseExpr(iterName)
+				iterCollectionExpr = self.parseExpr(iterCollection)
+				
+				iterNode = self.doc.createElement("iterator")
+				iterNode.appendChild(iterNameExpr)
+				
+				collNode = self.doc.createElement("collection")
+				collNode.appendChild(iterCollectionExpr)
+				
+				codeNode = self.doc.createElement("code")
+				
+				node.appendChild(iterNode)
+				node.appendChild(collNode)
+				node.appendChild(codeNode)
+				
+				self.nextNode = codeNode
+				
+				#raise CompilerException("'for' as 'foreach' not implemented yet")
 		else:
 			toUsed = True
 			if pos == -1:
@@ -984,6 +1021,15 @@ class BPCFile(ScopeController, Benchmarkable):
 			raise CompilerException("#throw keyword expects a parameter (e.g. an exception object)")
 		return node
 	
+	def handleYield(self, line):
+		node = self.doc.createElement("yield")
+		param = self.parseExpr(line[len("yield")+1:])
+		if param.nodeValue or param.hasChildNodes():
+			node.appendChild(param)
+		else:
+			raise CompilerException("#yield keyword expects a parameter (the next object in the sequence)")
+		return node
+	
 	def handleInclude(self, line):
 		node = self.doc.createElement("include")
 		param = self.doc.createTextNode(line[len("include")+1:])
@@ -1024,6 +1070,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			node = self.doc.createElement("getter")
 		elif self.inOperators:
 			node = self.doc.createElement("operator")
+		elif self.inIterators:
+			node = self.doc.createElement("iterator-type")
 		elif self.inCasts:
 			node = self.doc.createElement("cast-definition")
 			nameNode.tagName = "to"

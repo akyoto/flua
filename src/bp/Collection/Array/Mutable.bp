@@ -101,6 +101,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="8">
 					<name>finalize</name>
@@ -120,6 +121,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="10">
 					<parameters>
@@ -199,7 +201,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<parameters>
@@ -463,11 +464,67 @@
 						</code>
 					</operator>
 				</operators>
-				<get depth="1" id="41">
-					<getter depth="2" id="42">
+				<iterators depth="1" id="41">
+					<iterator-type depth="2" id="42">
+						<name>default</name>
+						<code>
+							<assign depth="3" id="43">
+								<value>pos</value>
+								<value>0</value>
+							</assign>
+							<assign depth="3" id="44">
+								<value>end</value>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>my</value>
+												<value>getLength</value>
+											</access>
+										</function>
+										<parameters/>
+									</call>
+								</value>
+							</assign>
+							<while depth="3" id="45">
+								<condition>
+									<less>
+										<value>pos</value>
+										<value>end</value>
+									</less>
+								</condition>
+								<code>
+									<yield depth="4" id="46">
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>start</value>
+												</access>
+											</value>
+											<value>pos</value>
+										</index>
+									</yield>
+									<assign-add depth="4" id="47">
+										<value>pos</value>
+										<value>1</value>
+									</assign-add>
+								</code>
+							</while>
+						</code>
+					</iterator-type>
+				</iterators>
+				<get depth="1" id="48">
+					<getter depth="2" id="49">
 						<name>length</name>
 						<code>
-							<return depth="3" id="43">
+							<ensure depth="3" id="50">
+								<greater-or-equal depth="4" id="51">
+									<value>result</value>
+									<value>0</value>
+								</greater-or-equal>
+							</ensure>
+							<return depth="3" id="52">
 								<subtract>
 									<value>
 										<access>
@@ -484,11 +541,18 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
-					<getter depth="2" id="44">
+					<getter depth="2" id="53">
 						<name>allocatedElements</name>
 						<code>
-							<return depth="3" id="45">
+							<ensure depth="3" id="54">
+								<greater-or-equal depth="4" id="55">
+									<value>result</value>
+									<value>0</value>
+								</greater-or-equal>
+							</ensure>
+							<return depth="3" id="56">
 								<subtract>
 									<value>
 										<access>
@@ -505,16 +569,23 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
-				<set depth="1" id="46">
-					<setter depth="2" id="47">
+				<set depth="1" id="57">
+					<setter depth="2" id="58">
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<name>length</name>
 						<code>
-							<assign depth="3" id="48">
+							<require depth="3" id="59">
+								<greater-or-equal depth="4" id="60">
+									<value>newLength</value>
+									<value>0</value>
+								</greater-or-equal>
+							</require>
+							<assign depth="3" id="61">
 								<value>
 									<access>
 										<value>my</value>
@@ -533,7 +604,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block depth="3" id="49">
+							<if-block depth="3" id="62">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -552,7 +623,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call depth="4" id="50">
+										<call depth="4" id="63">
 											<function>
 												<access>
 													<value>my</value>
@@ -582,6 +653,7 @@
 								</if>
 							</if-block>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>

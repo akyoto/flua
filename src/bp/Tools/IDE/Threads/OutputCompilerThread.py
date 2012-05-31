@@ -13,7 +13,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		
 	def startWith(self, outputCompiler):
 		self.codeEdit = self.bpIDE.codeEdit
-		if not self.bpIDE.backgroundCompileIsUpToDate and not self.bpIDE.backgroundCompilerRan:
+		if (not self.bpIDE.backgroundCompileIsUpToDate) and (not self.bpIDE.backgroundCompilerRan):
 			self.outputCompiler = outputCompiler
 			self.start()
 			#self.bpIDE.consoleDock.show()
@@ -32,7 +32,6 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				if not self.bpIDE.running:
 					self.bpIDE.outputCompiler = self.outputCompiler
 				
-				self.bpIDE.backgroundCompilerRan = True
 				self.lastException = None
 		except OutputCompilerException as e:
 			#if self.bpIDE.developerFlag:
@@ -42,4 +41,4 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		except KeyError:
 			pass
 		
-		self.bpIDE.backgroundCompilerRan = True
+		#self.bpIDE.backgroundCompilerRan = True

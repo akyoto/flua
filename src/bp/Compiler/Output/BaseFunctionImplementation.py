@@ -21,6 +21,8 @@ class BaseFunctionImplementation:
 		
 		self.code = ""
 		self.returnTypes = []
+		self.yieldType = None
+		self.yieldValue = None
 		self.func.implementations[self.name] = self
 		
 	def getReturnType(self):
@@ -43,6 +45,9 @@ class BaseFunctionImplementation:
 	def setCode(self, newCode):
 		self.code = newCode
 		
+	def getCode(self):
+		return self.code
+		
 	def getName(self):
 		# main -> _bp_custom_main
 		if self.name == "main":
@@ -51,6 +56,12 @@ class BaseFunctionImplementation:
 	
 	def getFuncName(self):
 		return self.func.getName()
+		
+	def getYieldType(self):
+		return self.yieldType
+		
+	def getYieldValue(self):
+		return self.yieldValue
 		
 	def getParamString(self):
 		return NotImplementedError()

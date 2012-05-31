@@ -93,6 +93,7 @@ class BaseOutputFile(ScopeController):
 		self.inConst = 0
 		self.inUnmanaged = 0
 		self.inOperators = 0
+		self.inIterators = 0
 		self.inCasts = 0
 		self.inOperator = 0
 		self.inTypeDeclaration = 0
@@ -232,10 +233,15 @@ class BaseOutputFile(ScopeController):
 			
 			variableExisted = True
 		else:
+			#print("Checking whether '%s' exists:" % variableName)
 			variableExisted = self.variableExistsAnywhere(variableName)
-		
-		# Need to register it here?
-		if not variableExisted and not declaredInline:
+			
+			# If it exists as a member we do not care about it
+			if variableExisted == 2:
+				variableExisted = False
+			
+		# Need to register it here? 2 stands for class members
+		if ((not variableExisted) or variableExisted == 2) and (not declaredInline):
 			var = self.createVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			self.registerVariable(var)
 			
@@ -269,6 +275,9 @@ class BaseOutputFile(ScopeController):
 			#	castType = "reinterpret_cast"
 			value = "((%s)%sto%s())" % (value, self.ptrMemberAccessChar, normalizeName(variableType))
 		
+		#if isSelfMemberAccess:
+		#	variableName = "%s_%s" % (self.memberAccessSyntax, memberName)
+		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
 			#print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
@@ -291,6 +300,10 @@ class BaseOutputFile(ScopeController):
 		
 		if op1 == "my":
 			op1 = self.myself
+			#op2 = "_" + op2
+		
+		#if connector == self.ptrMemberAccessChar:
+		#	op2 = "_" + op2
 		
 #		if checkPointer:
 #			op1type = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -1048,6 +1061,24 @@ class BaseOutputFile(ScopeController):
 			retType = "void"
 			return "return"
 		
+	def handleYield(self, node):
+		if node.childNodes:
+			yieldType = self.getExprDataType(node.childNodes[0])
+			self.currentFunctionImpl.yieldType = yieldType
+			
+			# STEP 2
+			yieldValue = self.parseExpr(node.childNodes[0], False)
+			
+			if yieldType == "void":
+				raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+				
+			#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+			return self.yieldSyntax % yieldValue
+		else:
+			raise CompilerException("The 'yield' keyword needs an expression which is processed in each loop iteration")
+			#retType = "void"
+			#return "return"
+		
 	
 	def handleParameters(self, pNode):
 		pList = ""
@@ -1311,6 +1342,8 @@ class BaseOutputFile(ScopeController):
 			return ""
 		elif tagName == "operators":
 			return ""
+		elif tagName == "iterators":
+			return ""
 		elif tagName == "extern-function":
 			return ""
 		elif tagName == "template":
@@ -1337,8 +1370,12 @@ class BaseOutputFile(ScopeController):
 			return self.handleTarget(node)
 		elif tagName == "return":
 			return self.handleReturn(node)
+		elif tagName == "yield":
+			return self.handleYield(node)
 		elif tagName == "for":
 			return self.handleFor(node)
+		elif tagName == "foreach":
+			return self.handleForEach(node)
 		elif tagName == "flow-to":
 			return self.handleFlowTo(node)
 		elif tagName == "include":
@@ -1429,7 +1466,7 @@ class BaseOutputFile(ScopeController):
 		if callerClassName in self.compiler.mainClass.classes:
 			if callerClassName == "MemPointer" and isTextNode(op2):
 				if op2.nodeValue == "data":
-					return "(*%s)" % (self.parseExpr(op1))
+					return "(*(%s))" % (self.parseExpr(op1))
 			# TODO: Optimize
 			# GET access
 			isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
@@ -1473,7 +1510,7 @@ class BaseOutputFile(ScopeController):
 			if isElemNode(node):
 				if node.tagName == "class":
 					self.scanClass(node)
-				elif node.tagName == "function" or node.tagName == "operator":
+				elif node.tagName == "function" or node.tagName == "operator" or node.tagName == "iterator-type":
 					self.scanFunction(node)
 				elif node.tagName == "getter":
 					self.inGetter += 1
@@ -1495,6 +1532,10 @@ class BaseOutputFile(ScopeController):
 					self.inOperators += 1
 					self.scanAhead(node)
 					self.inOperators -= 1
+				elif node.tagName == "iterators":
+					self.inIterators += 1
+					self.scanAhead(node)
+					self.inIterators -= 1
 				elif node.tagName == "casts":
 					self.inCasts += 1
 					self.scanAhead(node)
@@ -1772,6 +1813,41 @@ class BaseOutputFile(ScopeController):
 		# TODO: Implement data flow
 		return op1Expr
 	
+	def handleForEach(self, node):
+		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
+		collExprNode = getElementByTagName(node, "collection").childNodes[0]
+		
+		iterExpr = self.parseExpr(iterExprNode)
+		collExpr = self.parseExpr(collExprNode)
+		
+		collExprType = self.getExprDataType(collExprNode)
+		
+		iteratorImpl = self.implementFunction(collExprType, "iteratorDefault", [])
+		iteratorType = iteratorImpl.getYieldType()
+		iteratorValue = iteratorImpl.getYieldValue()
+		
+		self.pushScope()
+		var = self.createVariable(iterExpr, iteratorType, iteratorValue, False, False, False)
+		typeInit = ""
+		if not self.variableExistsAnywhere(iterExpr):
+			self.getCurrentScope().variables[iterExpr] = var
+			typeInit = self.adjustDataType(var.type) + " "
+		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		self.popScope()
+		
+		"""
+		# Insert code from iterator
+		
+		while condition
+			x = yieldExpr;
+			$code
+		"""
+		
+		# TODO: Generic
+		tabs = "\t" * self.currentTabLevel
+		iterImplCode = iteratorImpl.getCode()
+		return self.buildForEachLoop(var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs)
+	
 	def handleFor(self, node):
 		fromNodeContent = getElementByTagName(node, "from").childNodes[0]
 		toLimiterNode = getElementByTagName(node, "to")
@@ -1796,7 +1872,7 @@ class BaseOutputFile(ScopeController):
 		typeInit = ""
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
-			typeInit = var.type + " "
+			typeInit = self.adjustDataType(var.type) + " "
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		self.popScope()
 		

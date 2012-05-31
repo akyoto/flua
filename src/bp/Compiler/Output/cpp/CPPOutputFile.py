@@ -86,6 +86,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.constAssignSyntax = "const %s = %s"
 		self.elseSyntax = " else {\n%s%s}"
 		self.ptrMemberAccessChar = "->"
+		self.yieldSyntax = "__bp_yield_var = %s;\n__bp_yield_code"
 		
 	def compile(self):
 		# Header
@@ -179,6 +180,13 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	
 	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
 		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
+	
+	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs):
+		classImpl = self.getClassImplementationByTypeName(collExprType)
+		for member in classImpl.members.values():
+			iterImplCode = iterImplCode.replace("this->" + member.name, collExpr + "->_" + member.name)
+		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code)
+		return "{" + typeInit + iterExpr + ";\n" + resultingCode + "}"
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return self.adjustDataType(typeName) + " " + varName
@@ -286,6 +294,8 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 							code += "\t" + funcImpl.getConstructorCode() + "\n"
 						elif funcImpl.getFuncName() == "finalize":
 							code += "\t" + funcImpl.getDestructorCode() + "\n"
+						elif funcImpl.func.isIterator:
+							continue
 						else:
 							code += "\t" + funcImpl.getFullCode() + "\n"
 					
@@ -294,7 +304,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 					code += "public:\n"
 					for member in classImpl.members.values():
 						#print(member.name + " is of type " + member.type)
-						code += "\t" + adjustDataTypeCPP(member.type, True) + " " + member.name + ";\n"
+						code = code.replace("this->" + member.name, "this->_" + member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
 					
 					code += "\t\n"
 					

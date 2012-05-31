@@ -67,6 +67,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.currentNode = None
 		self.running = 0
 		self.backgroundCompileIsUpToDate = False
+		self.backgroundCompilerRan = False
+		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
 		
 		# Timed
 		self.bindFunctionToTimer(self.showDependencies, 200)
@@ -166,7 +168,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def onCompileTimeout(self):
 		# Don't do this if we're actually compiling
-		if self.running:
+		if self.running or self.backgroundCompilerRan:
 			return
 		
 		# Create output compiler
@@ -192,6 +194,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
+			
+		self.backgroundCompilerRan = True
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):
@@ -770,10 +774,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return newDock
 		
 	def connectVisibilityToViewMenu(self, name, widget):
-		newAction = QtGui.QAction("", self)
+		shortcut = self.dockShortcuts[len(self.docks)]
+		
+		newAction = QtGui.QAction(shortcut, self)
 		newAction.setCheckable(True)
 		newAction.setToolTip(name)
 		newAction.setWhatsThis(name)
+		newAction.setShortcut("Alt+" + shortcut)
 		newAction.toggled.connect(widget.setVisible)
 		widget.visibilityChanged.connect(newAction.setChecked)
 		

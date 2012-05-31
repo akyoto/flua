@@ -897,7 +897,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#print(self.disableUpdatesFlag)
 		
 		self.bpIDE.backgroundCompileIsUpToDate = False
-		self.bpIDE.backgroundCompilerRan = False
+		
+		if charsAdded or charsRemoved:
+			self.bpIDE.backgroundCompilerRan = False
 		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()

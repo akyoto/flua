@@ -17,7 +17,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{'for', 'false'},
 		{'get'},
 		{},
-		{'if', 'in', 'include', 'import'},
+		{'if', 'in', 'include', 'import', 'iterator'},
 		{},
 		{},
 		{},
@@ -33,7 +33,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{},
 		{'while'},
 		{},
-		{},
+		{'yield'},
 		{},
 		{},
 	] + [{}] * (256 - 97 - 26)
@@ -47,7 +47,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'elif', 'else', 'ensure', 'extern', 'extends',
 		'for', 'false',
 		'get',
-		'if', 'in', 'include', 'import',
+		'if', 'in', 'include', 'import', 'iterator',
 		'maybe',
 		'not', 'namespace',
 		'or', 'operator',
@@ -57,6 +57,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'to', 'try', 'template', 'target', 'throw', 'true', 'test',
 		'until',
 		'while',
+		'yield',
 	}
 	
 	# BPC operators

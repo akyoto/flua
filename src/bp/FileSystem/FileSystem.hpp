@@ -14,7 +14,7 @@ inline BPFileHandle* bp_fopen(BPUTF8String* path, BPUTF8String* mode) {
 
 // bp_fwrite
 inline size_t bp_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
-	return fwrite(*contents, sizeof(Byte), contents->lengthInBytes, fh);
+	return fwrite(*contents, sizeof(Byte), contents->_lengthInBytes, fh);
 }
 
 // bp_fflush

@@ -54,8 +54,18 @@ wrapperSingleElement = [
 	"condition",
 	"variable",
 	"compiler-flag",
-	"expression"
+	"expression",
 ]
+
+xmlToBPCSingleLineExpr = {
+	"return" : "return",
+	"include" : "include",
+	"break" : "break",
+	"continue" : "continue",
+	"throw" : "throw",
+	"extends-class" : "",
+	"yield" : "yield",
+}
 
 # The contents of those nodes will be formatted 
 wrapperMultipleElements = {
@@ -65,6 +75,7 @@ wrapperMultipleElements = {
 	"try-block" : "",
 	
 	"operators" : "operator",
+	"iterators" : "iterator",
 	"set" : "set",
 	"get" : "get",
 	"casts" : "to",
@@ -105,15 +116,6 @@ xmlToBPCExprBlock = {
 	"pattern" : ["pattern", "type", ""]
 }
 
-xmlToBPCSingleLineExpr = {
-	"return" : "return",
-	"include" : "include",
-	"break" : "break",
-	"continue" : "continue",
-	"throw" : "throw",
-	"extends-class" : "",
-}
-
 elementsNoNewline = [
 	"if", "else-if", "else",
 	"try", "catch", "case", "import"
@@ -133,6 +135,7 @@ functionNodeTagNames = {
 	"setter",
 	"cast-definition",
 	"operator",
+	"iterator-type",
 }
 
 autoNewlineBlock = {
@@ -164,6 +167,7 @@ autoNewlineBlock = {
 	"setter",
 	"cast-definition",
 	"operator",
+	"iterator-type",
 }
 
 ####################################################################
@@ -370,7 +374,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		return ''.join(codeParts)
 	# Function definition
-	elif nodeName == "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
+	elif nodeName in functionNodeTagNames:#== "function" or nodeName == "operator" or nodeName == "getter" or nodeName == "setter" or nodeName == "cast-definition":
 		if nodeName == "cast-definition":
 			name = getElementByTagName(node, "to")
 		else:
@@ -445,7 +449,14 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			raise CompilerException("Missing <to> or <until> node")
 		
+		# TODO: CPP Syntax
 		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
+	elif nodeName == "foreach":
+		iterator = nodeToBPC(getElementByTagName(node, "iterator").firstChild, 0, conv)
+		coll = nodeToBPC(getElementByTagName(node, "collection").firstChild, 0, conv)
+		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
+		
+		return "for %s in %s\n%s" % (iterator, coll, loopCode)
 	elif nodeName == "parameter":
 		if node.childNodes:
 			if len(node.childNodes) == 1:
