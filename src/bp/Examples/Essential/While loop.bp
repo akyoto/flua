@@ -8,11 +8,11 @@
 	</header>
 	<code>
 		<comment>\SA\Ssimple\Swhile\S&lt;condition&gt;\Sloop</comment>
-		<assign depth="0">
+		<assign depth="0" id="0">
 			<value>a</value>
 			<value>0</value>
 		</assign>
-		<while depth="0">
+		<while depth="0" id="1">
 			<condition>
 				<less>
 					<value>a</value>
@@ -20,13 +20,13 @@
 				</less>
 			</condition>
 			<code>
-				<assign-add depth="1">
+				<assign-add depth="1" id="2">
 					<value>a</value>
 					<value>5</value>
 				</assign-add>
 			</code>
 		</while>
-		<call depth="0">
+		<call depth="0" id="3">
 			<function>print</function>
 			<parameters>
 				<parameter>a</parameter>

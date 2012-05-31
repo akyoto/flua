@@ -131,7 +131,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		realPath = fixPath(item.realPath)
 		if not realPath:
-			realPath = fixPath(getModuleDir() + item.name)
+			realPath = fixPath(getModuleDir() + item.path.replace(".", "/"))
 		
 		if item.isModule:
 			# Move it to the new directory
@@ -148,7 +148,22 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#if not newPath:
 		#	newPath = getModuleDir() + item.name
 		
-		shutil.copyfile(getIDERoot() + "Templates/Empty.bp", newPath + name + ".bp")
+		if not newPath.endswith("/"):
+			newPath += "/"
+		
+		print("Start:")
+		print(item.realPath)
+		print(realPath)
+		print(newPath)
+		print(name)
+		
+		copyFrom = getIDERoot() + "Templates/Empty.bp"
+		copyTo = newPath + name + ".bp"
+		
+		print(copyFrom)
+		print(copyTo)
+		
+		shutil.copyfile(copyFrom, copyTo)
 		self.reloadModuleDirectory()
 		
 	# Module deletion

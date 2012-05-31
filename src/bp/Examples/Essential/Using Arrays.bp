@@ -93,6 +93,7 @@
 					<parameters/>
 				</new>
 			</value>
+			<meta/>
 		</assign>
 		<call depth="0" id="7">
 			<function>
@@ -104,7 +105,6 @@
 			<parameters>
 				<parameter>bp_string_0</parameter>
 			</parameters>
-			<meta/>
 		</call>
 		<call depth="0" id="8">
 			<function>
