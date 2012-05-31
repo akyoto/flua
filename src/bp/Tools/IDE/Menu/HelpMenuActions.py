@@ -166,6 +166,12 @@ class HelpMenuActions:
 	def showIntroduction(self):
 		self.moduleView.highlightModule("bp.Examples.")
 		
+	def faqUpdate(self):
+		self.notify("If you can not update to the latest version it probably means you modified an official module. Try resetting all local changes via Help > Reset all local changes and restarting the IDE.")
+		
+	def faqCompiling(self):
+		self.notify("Compiling for the C++ target is supposed to work out-of-the-box, if it doesn't work for you please submit a bug report which includes the name of your operating system and whether it's a 32 or 64 bit OS.")
+		
 	def thanksTo(self):
 		msgBox = QtGui.QMessageBox.about(self, "Thanks to...",
 							"""

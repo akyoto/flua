@@ -61,6 +61,14 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <widget class="QMenu" name="menuFAQ">
+     <property name="title">
+      <string>FAQ</string>
+     </property>
+     <addaction name="actionFAQUpdate"/>
+     <addaction name="actionFAQCompiling"/>
+    </widget>
+    <addaction name="menuFAQ"/>
     <addaction name="actionIntroduction"/>
     <addaction name="separator"/>
     <addaction name="actionChangeLog"/>
@@ -497,6 +505,16 @@
    </property>
    <property name="text">
     <string>Reset changes for this module</string>
+   </property>
+  </action>
+  <action name="actionFAQUpdate">
+   <property name="text">
+    <string>I can't update</string>
+   </property>
+  </action>
+  <action name="actionFAQCompiling">
+   <property name="text">
+    <string>Compiling doesn't work</string>
    </property>
   </action>
  </widget>

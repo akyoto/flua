@@ -151,17 +151,17 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if not newPath.endswith("/"):
 			newPath += "/"
 		
-		print("Start:")
-		print(item.realPath)
-		print(realPath)
-		print(newPath)
-		print(name)
+		#print("Start:")
+		#print(item.realPath)
+		#print(realPath)
+		#print(newPath)
+		#print(name)
 		
 		copyFrom = getIDERoot() + "Templates/Empty.bp"
 		copyTo = newPath + name + ".bp"
 		
-		print(copyFrom)
-		print(copyTo)
+		#print(copyFrom)
+		#print(copyTo)
 		
 		shutil.copyfile(copyFrom, copyTo)
 		self.reloadModuleDirectory()

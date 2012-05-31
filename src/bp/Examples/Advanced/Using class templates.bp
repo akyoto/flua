@@ -8,16 +8,16 @@
 	</header>
 	<code>
 		<comment>\SOne\Stemplate\Sparameter\Sper\Sline\Sin\Sthe\S'template'\Sblock</comment>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>MyAwesomeClass</name>
 			<code>
-				<template depth="1">
-					<parameter depth="2">
+				<template depth="1" id="1">
+					<parameter depth="2" id="2">
 						<name>TDataType</name>
 						<default-value>Int</default-value>
 					</parameter>
 				</template>
-				<function depth="1">
+				<function depth="1" id="3">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -44,14 +44,13 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="4"/>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="5">
 					<name>doSomething</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="6">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -62,7 +61,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2">
+						<call depth="2" id="7">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -74,13 +73,12 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
 		<comment>\SCreate\S2\Sfloats</comment>
-		<assign depth="0">
+		<assign depth="0" id="8">
 			<value>x</value>
 			<value>
 				<divide>
@@ -89,7 +87,7 @@
 				</divide>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="9">
 			<value>y</value>
 			<value>
 				<divide>
@@ -99,7 +97,7 @@
 			</value>
 		</assign>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Susing\Sthe\Sdefault\Stype\S'Int':</comment>
-		<assign depth="0">
+		<assign depth="0" id="10">
 			<value>a</value>
 			<value>
 				<new>
@@ -111,7 +109,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="11">
 			<function>
 				<access>
 					<value>a</value>
@@ -121,7 +119,7 @@
 			<parameters/>
 		</call>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Sexplicitly\Susing\S'Float'\Sas\Sthe\Sdata\Stype:</comment>
-		<assign depth="0">
+		<assign depth="0" id="12">
 			<value>b</value>
 			<value>
 				<new>
@@ -138,7 +136,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="13">
 			<function>
 				<access>
 					<value>b</value>

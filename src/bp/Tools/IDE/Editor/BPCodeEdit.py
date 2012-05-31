@@ -155,7 +155,8 @@ class BPCAutoCompleter(QtGui.QCompleter):
 				if accString == expr:
 					try:
 						dataType = self.codeEdit.outFile.getExprDataType(acc)
-					except OutputCompilerException:
+					except CompilerException:
+						# Return because this was the right node anyway (99.7% chance!)
 						return
 					
 					# We found the data type, let the party begin!
@@ -166,7 +167,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		if (not userData or not accessNodes) and expr.find(".") == -1:
 			try:
 				dataType = self.codeEdit.outFile.getVariableTypeAnywhere(expr)
-			except:
+			except CompilerException:
 				return
 			
 			# We found the data type, let the party begin!
@@ -233,7 +234,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#self.bubble.setStyleSheet("background: rgba(0,0,0,10%); border-top-left-radius: 7px;")
 			self.bubble.clear(True)
 			self.bubble.setReadOnly(True)
-			self.bubbleWidth = 300
+			self.bubbleWidth = 325
 			self.msgViewWidth = self.bubbleWidth
 			self.bubble.setFont(QtGui.QFont("Ubuntu Mono", 9))
 			

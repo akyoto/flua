@@ -240,6 +240,10 @@ class Startup:
 		self.actionThanksTo.triggered.connect(self.thanksTo)
 		self.actionAbout.triggered.connect(self.about)
 		
+		# FAQ
+		self.actionFAQUpdate.triggered.connect(self.faqUpdate)
+		self.actionFAQCompiling.triggered.connect(self.faqCompiling)
+		
 	def initWorkspaces(self):
 		# Workspaces
 		self.currentWorkspace = None

@@ -11,20 +11,20 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">Core.hpp</include>
+				<include depth="1" id="1">Core.hpp</include>
 			</code>
 		</target>
-		<target depth="0">
+		<target depth="0" id="2">
 			<name>Python3</name>
 			<code>
-				<include depth="1">Core.py</include>
+				<include depth="1" id="3">Core.py</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
+		<extern depth="0" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_usleep</name>
 				<type>Bool</type>
 				<meta>
@@ -32,21 +32,21 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="6">
 				<name>bp_systemTime</name>
 				<type>Int64</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="7">
 				<name>bp_swap</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="8">
 				<name>bp_sizeOf</name>
 				<type>Size</type>
 				<meta>
@@ -60,13 +60,13 @@
 			</meta>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
-		<function depth="0">
+		<function depth="0" id="9">
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
 			<name>sleep</name>
 			<code>
-				<call depth="1">
+				<call depth="1" id="10">
 					<function>bp_usleep</function>
 					<parameters>
 						<parameter>
@@ -82,10 +82,10 @@
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds.</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0">
+		<function depth="0" id="11">
 			<name>systemTime</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="12">
 					<call>
 						<function>bp_systemTime</function>
 						<parameters/>
@@ -96,13 +96,13 @@
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>sizeOf</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="14">
 					<call>
 						<function>bp_sizeOf</function>
 						<parameters>

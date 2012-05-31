@@ -1,0 +1,264 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="0">
+			<name>MutableListNode</name>
+			<code>
+				<template depth="1" id="1">
+					<parameter depth="2" id="2">TDataType</parameter>
+				</template>
+				<function depth="1" id="3">
+					<name>init</name>
+					<code>
+						<declare-type depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>value</value>
+								</access>
+							</value>
+							<value>TDataType</value>
+						</declare-type>
+						<declare-type depth="2" id="5">
+							<value>
+								<access>
+									<value>my</value>
+									<value>next</value>
+								</access>
+							</value>
+							<value>
+								<template-call>
+									<value>ListNode</value>
+									<value>TDataType</value>
+								</template-call>
+							</value>
+						</declare-type>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="6">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>
+									<access>
+										<value>my</value>
+										<value>value</value>
+									</access>
+								</value>
+								<value>TDataType</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="7"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="8">
+					<getter depth="2" id="9">
+						<name>value</name>
+						<code>
+							<return depth="3" id="10">
+								<access>
+									<value>my</value>
+									<value>value</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="11">
+						<name>next</name>
+						<code>
+							<return depth="3" id="12">
+								<access>
+									<value>my</value>
+									<value>next</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<meta/>
+				</get>
+				<set depth="1" id="13">
+					<setter depth="2" id="14">
+						<parameters>
+							<parameter>node</parameter>
+						</parameters>
+						<name>next</name>
+						<code>
+							<assign depth="3" id="15">
+								<value>
+									<access>
+										<value>my</value>
+										<value>next</value>
+									</access>
+								</value>
+								<value>node</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+					<meta/>
+				</set>
+			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
+		</class>
+		<class depth="0" id="16">
+			<name>MutableList</name>
+			<code>
+				<template depth="1" id="17">
+					<parameter depth="2" id="18">TDataType</parameter>
+				</template>
+				<function depth="1" id="19">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="20">
+							<value>
+								<access>
+									<value>my</value>
+									<value>end</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>ListNode</value>
+											<value>TDataType</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="21">
+							<value>
+								<access>
+									<value>my</value>
+									<value>start</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>my</value>
+									<value>end</value>
+								</access>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="22">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>add</name>
+					<code>
+						<assign depth="2" id="23">
+							<value>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>end</value>
+										</access>
+									</value>
+									<value>next</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>ListNode</value>
+											<value>TDataType</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>element</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="24">
+							<value>
+								<access>
+									<value>my</value>
+									<value>end</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>end</value>
+										</access>
+									</value>
+									<value>next</value>
+								</access>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<iterators depth="1" id="25">
+					<iterator-type depth="2" id="26">
+						<name>default</name>
+						<code>
+							<assign depth="3" id="27">
+								<value>node</value>
+								<value>
+									<access>
+										<value>my</value>
+										<value>start</value>
+									</access>
+								</value>
+							</assign>
+							<while depth="3" id="28">
+								<condition>
+									<access>
+										<value>node</value>
+										<value>next</value>
+									</access>
+								</condition>
+								<code>
+									<assign depth="4" id="29">
+										<value>node</value>
+										<value>
+											<access>
+												<value>node</value>
+												<value>next</value>
+											</access>
+										</value>
+									</assign>
+									<yield depth="4" id="30">
+										<access>
+											<value>node</value>
+											<value>value</value>
+										</access>
+									</yield>
+								</code>
+							</while>
+						</code>
+					</iterator-type>
+				</iterators>
+			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
+		</class>
+	</code>
+</module>

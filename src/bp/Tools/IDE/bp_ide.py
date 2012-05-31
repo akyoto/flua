@@ -487,7 +487,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				except:
 					savedNodeId = None
 			
-			if not savedNode.tagName == "module":
+			if savedNode and not savedNode.tagName == "module":
 				try:
 					#if selectedNode.parentNode.tagName == "code":
 					#	self.codeEdit.outFile.restoreScopesForNode(selectedNode.parentNode)
