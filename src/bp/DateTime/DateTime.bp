@@ -4,30 +4,33 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">\E</string>
+			<string id="bp_string_1">\E</string>
+		</strings>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">DateTime.hpp</include>
+				<include depth="1" id="1">DateTime.hpp</include>
 			</code>
 		</target>
-		<target depth="0">
+		<target depth="0" id="2">
 			<name>Python3</name>
 			<code>
-				<include depth="1">DateTime.py</include>
+				<include depth="1" id="3">DateTime.py</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
+		<extern depth="0" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_getCurrentDate</name>
 				<type>String</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="6">
 				<name>bp_getCurrentTime</name>
 				<type>String</type>
 				<meta>
@@ -36,10 +39,10 @@
 			</extern-function>
 		</extern>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
-		<function depth="0">
+		<function depth="0" id="7">
 			<name>getCurrentDate</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="8">
 					<call>
 						<function>bp_getCurrentDate</function>
 						<parameters/>
@@ -49,10 +52,10 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
-		<function depth="0">
+		<function depth="0" id="9">
 			<name>getCurrentTime</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="10">
 					<call>
 						<function>bp_getCurrentTime</function>
 						<parameters/>
@@ -62,13 +65,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
-		<function depth="0">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>year</parameter>
 			</parameters>
 			<name>isLeapYear</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="12">
 					<and>
 						<value>
 							<equal>
@@ -110,30 +113,31 @@
 					</and>
 				</return>
 			</code>
+			<meta/>
 		</function>
-		<test depth="0">
-			<call depth="1">
-				<function>print</function>
-				<parameters>
-					<parameter>
+		<test depth="0" id="13">
+			<assert depth="1" id="14">
+				<not-equal>
+					<value>
 						<call>
 							<function>getCurrentDate</function>
 							<parameters/>
 						</call>
-					</parameter>
-				</parameters>
-			</call>
-			<call depth="1">
-				<function>print</function>
-				<parameters>
-					<parameter>
+					</value>
+					<value>bp_string_0</value>
+				</not-equal>
+			</assert>
+			<assert depth="1" id="15">
+				<not-equal>
+					<value>
 						<call>
 							<function>getCurrentTime</function>
 							<parameters/>
 						</call>
-					</parameter>
-				</parameters>
-			</call>
+					</value>
+					<value>bp_string_1</value>
+				</not-equal>
+			</assert>
 		</test>
 	</code>
 </module>
