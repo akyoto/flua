@@ -105,6 +105,11 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		#if self.updateCharFormatFlag:
 		#	self.setFormat(0, textLen, style['default'])
 		
+		# Ruby
+		if text.strip() == "end":
+			self.setFormat(0, textLen, style['keyword'])
+			return
+		
 		while i < textLen:
 			char = text[i]
 			if char.isalpha() or char == '_' or char == '~':

@@ -1395,6 +1395,14 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.keyword:
 			self.keyword = line
 		
+		if bpcUtils.currentSyntax == SYNTAX_RUBY:
+			if self.keyword == "end":#line.endswith("end") and line[:-3].isspace():
+				self.keyword = ""
+				return ""
+			elif self.keyword == "elsif":
+				self.keyword = "elif"
+				return "elif" + line[4:]
+		
 		# ()
 		if roundBracketsBalance > 0:
 			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))

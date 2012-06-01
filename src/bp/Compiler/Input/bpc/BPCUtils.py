@@ -39,7 +39,8 @@ from bp.Compiler.Input.bpc import *
 # Syntax
 SYNTAX_BPC = 0
 SYNTAX_CPP = 1
-SYNTAX_PYTHON = 2
+SYNTAX_RUBY = 2
+SYNTAX_PYTHON = 1337
 currentSyntax = SYNTAX_BPC
 
 # Elements that simply wrap value nodes
@@ -371,6 +372,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
 			elif currentSyntax == SYNTAX_CPP:
 				return wrapperMultipleElements[nodeName] + " {\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "}\n"
+			elif currentSyntax == SYNTAX_RUBY:
+				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "end\n"
 			elif currentSyntax == SYNTAX_PYTHON:
 				return wrapperMultipleElements[nodeName] + ":\n" + ''.join(codeParts)
 		
@@ -392,6 +395,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		# Syntax
 		if currentSyntax == SYNTAX_BPC:
 			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
+		elif currentSyntax == SYNTAX_RUBY:
+			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "end\n"
 		elif currentSyntax == SYNTAX_CPP:
 			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}\n"
 	elif nodeName == "comment":
@@ -498,6 +503,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		if currentSyntax == SYNTAX_BPC:
 			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+		elif currentSyntax == SYNTAX_RUBY:
+			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "end"
 		elif currentSyntax == SYNTAX_CPP:
 			return className + " {\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "}"
 	elif nodeName == "noop":
@@ -535,8 +542,13 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				if child.nodeType != Node.TEXT_NODE and child.tagName == childNodeName:
 					code += tabs + nodeToBPCSaved(child, tabLevel + 1, conv)
 		
+		if currentSyntax == SYNTAX_RUBY and name == "elif":
+			name = "elsif"
+		
 		if currentSyntax == SYNTAX_BPC:
 			return "%s%s%s\n%s" % (name, space, expr, code)
+		elif currentSyntax == SYNTAX_RUBY:
+			return "%s%s%s\n%s%send\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
 		elif currentSyntax == SYNTAX_CPP:
 			if code.endswith("}"):
 				code += "\n"
@@ -564,6 +576,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
 		elif currentSyntax == SYNTAX_CPP:
 			return xmlToBPCBlock[nodeName] + " {\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "}\n"
+		elif currentSyntax == SYNTAX_RUBY:
+			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "end\n"
 	elif nodeName == "not":
 		return "not " + nodeToBPC(node.firstChild, 0, conv)
 	elif nodeName == "meta":

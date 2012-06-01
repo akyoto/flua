@@ -305,6 +305,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			'inline',
 			'case',
 			'default',
+			
+			# More cheating!
+			"elsif",
 		}
 		
 		self.qdoc.contentsChange.connect(self.onTextChange)

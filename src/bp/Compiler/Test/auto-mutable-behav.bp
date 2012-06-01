@@ -15,7 +15,8 @@
 			<value>immutableString</value>
 			<value>bp_string_0</value>
 		</assign>
-		<comment>\SThis\Sis\San\Simperative\Scall,\Sbut\Swe\Scan\Sautomatically\Stransform\Sit\Sto\Sx\S=\Sx.eraseRight(...)</comment>
+		<comment>\SThis\Sis\San\Simperative\Scall\Sto\San\Simmutable\Sstring,</comment>
+		<comment>\Sbut\Swe\Scan\Sautomatically\Stransform\Sit\Sto\Sx\S=\Sx.eraseRight(...)</comment>
 		<call depth="0" id="1">
 			<function>
 				<access>

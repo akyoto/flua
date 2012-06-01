@@ -96,16 +96,7 @@
 							</call>
 						</value>
 					</assign>
-					<assign depth="2" id="14">
-						<value>end</value>
-						<value>
-							<call>
-								<function>systemTime</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-					<assert depth="2" id="15">
+					<assert depth="2" id="14">
 						<greater-or-equal>
 							<value>
 								<subtract>
@@ -117,7 +108,7 @@
 						</greater-or-equal>
 					</assert>
 				</test>
-				<return depth="1" id="16">
+				<return depth="1" id="15">
 					<call>
 						<function>bp_systemTime</function>
 						<parameters/>
@@ -129,13 +120,13 @@
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="17">
+		<function depth="0" id="16">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>sizeOf</name>
 			<code>
-				<return depth="1" id="18">
+				<return depth="1" id="17">
 					<call>
 						<function>bp_sizeOf</function>
 						<parameters>

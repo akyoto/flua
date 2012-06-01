@@ -89,6 +89,7 @@ class Startup:
 		self.syntaxSwitcher.setToolTip("Syntax switcher")
 		self.syntaxSwitcher.addItem("BPC Syntax         ")
 		self.syntaxSwitcher.addItem("C++ Light          ")
+		self.syntaxSwitcher.addItem("Almost Ruby        ")
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
@@ -379,15 +380,3 @@ class Startup:
 		
 	def initToolBar(self):
 		pass
-		#syntaxSwitcher.addItem("C++/Java Syntax")
-		#syntaxSwitcher.addItem("Python Syntax")
-		#syntaxSwitcher.addItem("Ruby Syntax")
-		
-		#spacerWidget = QtGui.QWidget()
-		#spacerWidget.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
-		
-		# Tool bar
-		#self.syntaxSwitcherBar.addSeparator()
-		#self.syntaxSwitcherBar.addWidget(spacerWidget)
-		#self.syntaxSwitcherBar.addWidget(syntaxSwitcher)
-		#self.syntaxSwitcherBar.addSeparator()
