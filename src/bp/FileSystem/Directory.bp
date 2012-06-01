@@ -1,0 +1,144 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.FileSystem</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">.</string>
+			<string id="bp_string_1">..</string>
+			<string id="bp_string_2">\E</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0" id="0">
+			<name>Directory</name>
+			<code>
+				<function depth="1" id="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="2"/>
+					</code>
+					<meta/>
+				</function>
+				<iterators depth="1" id="3">
+					<iterator-type depth="2" id="4">
+						<name>default</name>
+						<code>
+							<assign depth="3" id="5">
+								<value>dirHandle</value>
+								<value>
+									<call>
+										<function>bp_openDir</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>path</value>
+												</access>
+											</parameter>
+										</parameters>
+									</call>
+								</value>
+							</assign>
+							<while depth="3" id="6">
+								<condition>1</condition>
+								<code>
+									<assign depth="4" id="7">
+										<value>nextFile</value>
+										<value>
+											<call>
+												<function>bp_getNextFile</function>
+												<parameters>
+													<parameter>dirHandle</parameter>
+												</parameters>
+											</call>
+										</value>
+									</assign>
+									<if-block depth="4" id="8">
+										<if>
+											<condition>
+												<or>
+													<value>
+														<equal>
+															<value>nextFile</value>
+															<value>bp_string_0</value>
+														</equal>
+													</value>
+													<value>
+														<equal>
+															<value>nextFile</value>
+															<value>bp_string_1</value>
+														</equal>
+													</value>
+												</or>
+											</condition>
+											<code>
+												<continue depth="5" id="9"/>
+											</code>
+										</if>
+										<else-if depth="4" id="10">
+											<condition>
+												<equal>
+													<value>nextFile</value>
+													<value>bp_string_2</value>
+												</equal>
+											</condition>
+											<code>
+												<break depth="5" id="11"/>
+											</code>
+										</else-if>
+									</if-block>
+									<yield depth="4" id="12">nextFile</yield>
+								</code>
+							</while>
+							<call depth="3" id="13">
+								<function>bp_closeDir</function>
+								<parameters>
+									<parameter>dirHandle</parameter>
+								</parameters>
+							</call>
+						</code>
+					</iterator-type>
+					<meta/>
+				</iterators>
+				<get depth="1" id="14">
+					<getter depth="2" id="15">
+						<name>path</name>
+						<code>
+							<return depth="3" id="16">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
+				<casts depth="1" id="17">
+					<cast-definition depth="2" id="18">
+						<to>String</to>
+						<code>
+							<return depth="3" id="19">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+					</cast-definition>
+				</casts>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

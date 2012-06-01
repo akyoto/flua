@@ -93,7 +93,6 @@
 					<parameters/>
 				</new>
 			</value>
-			<meta/>
 		</assign>
 		<call depth="0" id="7">
 			<function>

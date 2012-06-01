@@ -38,6 +38,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			#	printTraceback()
 			#else:
 			self.lastException = e
+		except CompilerException:
+			pass
 		except KeyError:
 			pass
 		

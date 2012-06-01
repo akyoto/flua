@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>File</import>
+			<import>Directory</import>
 			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
 		</dependencies>
@@ -91,23 +92,48 @@
 				<name>bp_changeDir</name>
 				<meta/>
 			</extern-function>
-			<class depth="1" id="16">
+			<extern-function depth="1" id="16">
+				<name>bp_openDir</name>
+				<type>DirectoryHandle</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="17">
+				<name>bp_closeDir</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="18">
+				<name>bp_getNextFile</name>
+				<type>String</type>
+				<meta/>
+			</extern-function>
+			<class depth="1" id="19">
 				<name>FileHandle</name>
 				<code>
-					<function depth="2" id="17">
+					<function depth="2" id="20">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="18"/>
+							<noop depth="3" id="21"/>
+						</code>
+					</function>
+				</code>
+			</class>
+			<class depth="1" id="22">
+				<name>DirectoryHandle</name>
+				<code>
+					<function depth="2" id="23">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="24"/>
 						</code>
 					</function>
 				</code>
 			</class>
 		</extern>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
-		<function depth="0" id="19">
+		<function depth="0" id="25">
 			<name>getCurrentDir</name>
 			<code>
-				<return depth="1" id="20">
+				<return depth="1" id="26">
 					<call>
 						<function>bp_getCurrentDir</function>
 						<parameters/>
@@ -117,13 +143,13 @@
 			<meta/>
 		</function>
 		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
-		<function depth="0" id="21">
+		<function depth="0" id="27">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>changeDir</name>
 			<code>
-				<call depth="1" id="22">
+				<call depth="1" id="28">
 					<function>bp_changeDir</function>
 					<parameters>
 						<parameter>path</parameter>
@@ -133,13 +159,13 @@
 			<meta/>
 		</function>
 		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="23">
+		<function depth="0" id="29">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>deleteFile</name>
 			<code>
-				<return depth="1" id="24">
+				<return depth="1" id="30">
 					<call>
 						<function>bp_deleteFile</function>
 						<parameters>
@@ -151,14 +177,14 @@
 			<meta/>
 		</function>
 		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="25">
+		<function depth="0" id="31">
 			<parameters>
 				<parameter>from</parameter>
 				<parameter>to</parameter>
 			</parameters>
 			<name>renameFile</name>
 			<code>
-				<return depth="1" id="26">
+				<return depth="1" id="32">
 					<call>
 						<function>bp_renameFile</function>
 						<parameters>
@@ -171,13 +197,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="27">
+		<function depth="0" id="33">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileExists</name>
 			<code>
-				<return depth="1" id="28">
+				<return depth="1" id="34">
 					<call>
 						<function>bp_fileExists</function>
 						<parameters>
@@ -189,13 +215,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sfile\Ssize\Sof\S#path\Sin\Sbytes</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="35">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileSize</name>
 			<code>
-				<return depth="1" id="30">
+				<return depth="1" id="36">
 					<call>
 						<function>bp_fileSize</function>
 						<parameters>
@@ -207,13 +233,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Stime\Sstamp\Sthe\Sfile\Sat\Spath\Shas\Sbeen\Smodified\Slast</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="37">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileModificationTime</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="38">
 					<call>
 						<function>bp_fileModificationTime</function>
 						<parameters>
@@ -225,13 +251,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="39">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>readFile</name>
 			<code>
-				<in depth="1" id="34">
+				<in depth="1" id="40">
 					<expression>
 						<assign>
 							<value>f</value>
@@ -246,7 +272,7 @@
 						</assign>
 					</expression>
 					<code>
-						<assign depth="2" id="35">
+						<assign depth="2" id="41">
 							<value>data</value>
 							<value>
 								<call>
@@ -262,19 +288,19 @@
 						</assign>
 					</code>
 				</in>
-				<return depth="1" id="36">data</return>
+				<return depth="1" id="42">data</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
-		<function depth="0" id="37">
+		<function depth="0" id="43">
 			<parameters>
 				<parameter>path</parameter>
 				<parameter>data</parameter>
 			</parameters>
 			<name>writeFile</name>
 			<code>
-				<in depth="1" id="38">
+				<in depth="1" id="44">
 					<expression>
 						<assign>
 							<value>f</value>
@@ -289,7 +315,7 @@
 						</assign>
 					</expression>
 					<code>
-						<call depth="2" id="39">
+						<call depth="2" id="45">
 							<function>
 								<access>
 									<value>f</value>
@@ -306,8 +332,8 @@
 			<meta/>
 		</function>
 		<comment>\SUsage\Sexample\S(not\Sworking\Syet)</comment>
-		<test depth="0" id="40">
-			<assign depth="1" id="41">
+		<test depth="0" id="46">
+			<assign depth="1" id="47">
 				<value>a</value>
 				<value>
 					<new>
@@ -318,7 +344,7 @@
 					</new>
 				</value>
 			</assign>
-			<while depth="1" id="42">
+			<while depth="1" id="48">
 				<condition>
 					<assign>
 						<value>line</value>
@@ -336,7 +362,7 @@
 					</assign>
 				</condition>
 				<code>
-					<call depth="2" id="43">
+					<call depth="2" id="49">
 						<function>print</function>
 						<parameters>
 							<parameter>line</parameter>
@@ -344,7 +370,7 @@
 					</call>
 				</code>
 			</while>
-			<call depth="1" id="44">
+			<call depth="1" id="50">
 				<function>
 					<access>
 						<value>a</value>

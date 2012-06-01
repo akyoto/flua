@@ -588,7 +588,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			# When the cursor is at a.member| this returns "."
 			b4pos = relPos - len(completionPrefix) - 1
-			if b4pos and text:
+			if b4pos and text and abs(b4pos) < len(text):
 				charBeforeWord = text[b4pos]
 			else:
 				charBeforeWord = ""

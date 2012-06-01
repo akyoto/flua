@@ -1,6 +1,6 @@
 #include <cstring>
 #include <iostream>
-#define _toString(x) (new BPUTF8String(const_cast<char*>(x)))
+#define _toString(x) (new (UseGC) BPUTF8String(const_cast<char*>(x)))
 
 template <typename T>
 inline size_t bp_strlen(T ptr) {

@@ -468,7 +468,11 @@ class BaseOutputFile(ScopeController):
 			name = self.prepareTypeName(name)
 		else:
 			#print(node.toprettyxml())
-			name = getElementByTagName(node, "name").childNodes[0].nodeValue
+			nameNode = getElementByTagName(node, "name")
+			if nameNode.childNodes:
+				name = nameNode.childNodes[0].nodeValue
+			else:
+				name = ""
 		
 		#if self.inGetter:
 		#	getElementByTagName(node, "name").childNodes[0].nodeValue = name = "get" + capitalize(name)
@@ -1813,6 +1817,8 @@ class BaseOutputFile(ScopeController):
 		return op1Expr
 	
 	def handleForEach(self, node):
+		self.compiler.forEachVarCounter += 1
+		
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
@@ -1824,6 +1830,9 @@ class BaseOutputFile(ScopeController):
 		iteratorImpl = self.implementFunction(collExprType, "iteratorDefault", [])
 		iteratorType = iteratorImpl.getYieldType()
 		iteratorValue = iteratorImpl.getYieldValue()
+		
+		if not iteratorType:
+			raise CompilerException("Iterator for '%s' doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
 		
 		self.pushScope()
 		var = self.createVariable(iterExpr, iteratorType, iteratorValue, False, False, False)
