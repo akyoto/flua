@@ -6,7 +6,6 @@
 
 // We need bp modules
 #include <bp/Core/String/UTF8String/C++/UTF8String.hpp>
-#include <bp/FileSystem/C++/File.hpp>
 
 // Typedef
 #define BPFileHandle FILE

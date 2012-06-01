@@ -4,9 +4,9 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>File</import>
-			<import>Directory</import>
 			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
+			<import>Directory</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">test.txt</string>
