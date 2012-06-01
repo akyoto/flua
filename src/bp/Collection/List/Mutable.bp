@@ -105,6 +105,9 @@
 					</setter>
 				</set>
 			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
 		</class>
 		<comment>\SSingly\Slinked\Slist</comment>
 		<class depth="0" id="16">
