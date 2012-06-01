@@ -2048,10 +2048,16 @@ class BaseOutputFile(ScopeController):
 				tabs = "\t" * self.currentTabLevel
 				return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
 				
-			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
-				return self.buildNonPointerCall(caller, fullName, paramsString)
+			# Immutable used with mutable coding style
+			if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "code" and funcImpl.getReturnType() == callerType:
+				implicitAssignment = caller + " = "
 			else:
-				return self.buildCall(caller, fullName, paramsString)
+				implicitAssignment = ""
+				
+			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
+				return implicitAssignment + self.buildNonPointerCall(caller, fullName, paramsString)
+			else:
+				return implicitAssignment + self.buildCall(caller, fullName, paramsString)
 		else:
 			return self.externCallSyntax % (funcName, paramsString)
 	

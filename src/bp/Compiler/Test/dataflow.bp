@@ -7,13 +7,13 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>DataFlowTest</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="1">
 					<name>init</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="2">
 							<value>
 								<access>
 									<value>my</value>
@@ -22,7 +22,7 @@
 							</value>
 							<value>10</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="3">
 							<value>
 								<access>
 									<value>my</value>
@@ -31,7 +31,7 @@
 							</value>
 							<value>20</value>
 						</assign>
-						<flow-to depth="2">
+						<flow-to depth="2" id="4">
 							<value>
 								<multiply>
 									<value>
@@ -51,12 +51,13 @@
 							</value>
 						</flow-to>
 					</code>
+					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
 						<name>x</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="7">
 								<access>
 									<value>my</value>
 									<value>x</value>
@@ -64,10 +65,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2">
+					<getter depth="2" id="8">
 						<name>y</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="9">
 								<access>
 									<value>my</value>
 									<value>y</value>
@@ -78,7 +79,7 @@
 				</get>
 			</code>
 		</class>
-		<assign depth="0">
+		<assign depth="0" id="10">
 			<value>a</value>
 			<value>
 				<new>
@@ -87,7 +88,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="11">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -98,13 +99,24 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="12">
 			<function>print</function>
 			<parameters>
 				<parameter>
 					<access>
 						<value>a</value>
 						<value>y</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="13">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>a</value>
+						<value>z</value>
 					</access>
 				</parameter>
 			</parameters>

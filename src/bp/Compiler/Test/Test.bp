@@ -16,6 +16,7 @@
 			<import>stringoperations</import>
 			<import>exceptions</import>
 			<import>inheritance</import>
+			<import>auto-mutable-behav</import>
 			<import>unicode</import>
 			<import>foreach</import>
 			<import>filesystem</import>

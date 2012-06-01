@@ -101,6 +101,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="8">
 					<name>finalize</name>
@@ -200,7 +201,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<parameters>
@@ -569,7 +569,6 @@
 							</return>
 						</code>
 					</getter>
-					<meta/>
 				</get>
 				<set depth="1" id="57">
 					<setter depth="2" id="58">
