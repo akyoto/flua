@@ -1832,6 +1832,10 @@ class BaseOutputFile(ScopeController):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = self.adjustDataType(var.type) + " "
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		
+		# Save scope
+		self.saveScopesForNode(node)
+		
 		self.popScope()
 		
 		"""
