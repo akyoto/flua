@@ -136,7 +136,11 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		leftOfCursor = text[:relPos]
 		
 		# Get what's in front of the dot
-		expr = getLeftMemberAccess(text, relPos - 1)
+		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
+			self.createClassMemberModel("UTF8String")
+			return
+		else:
+			expr = getLeftMemberAccess(text, relPos - 1)
 		
 		# Get the user data
 		accessNodes = None
@@ -166,7 +170,9 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		# Top level access? (99.7% of all times, this statistic is copyright protected)
 		if (not userData or not accessNodes) and expr.find(".") == -1:
 			try:
-				dataType = self.codeEdit.outFile.getVariableTypeAnywhere(expr)
+				textNode = self.codeEdit.doc.createTextNode(expr)
+				print(expr + "<")
+				dataType = self.codeEdit.outFile.getExprDataType(textNode) #getVariableTypeAnywhere()
 			except CompilerException:
 				return
 			

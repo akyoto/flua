@@ -1,0 +1,25 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<const depth="0" id="0">
+			<assign depth="1" id="1">
+				<value>pi</value>
+				<value>3.14159265358979323846264338327</value>
+			</assign>
+			<assign depth="1" id="2">
+				<value>DEG_TO_RAD</value>
+				<value>0.0174532925199432957692369076848861</value>
+			</assign>
+			<assign depth="1" id="3">
+				<value>RAD_TO_DEG</value>
+				<value>57.2957795130823208767981548141052</value>
+			</assign>
+		</const>
+	</code>
+</module>

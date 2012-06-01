@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Math</import>
+			<import>bp.Math.Constants</import>
 			<import>bp.Math.Geometry</import>
 			<import>bp.Math.Utils</import>
 			<import>bp.FileSystem</import>
