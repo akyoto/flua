@@ -565,14 +565,35 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			completionPrefix = self.textUnderCursor()
 			
-			if (not isShortcut and (hasModifier or not event.text() or event.text()[-1] in eow)):
-				if event.text() and event.text()[-1] == ".":
-					self.completer.activateMemberList()
-				else:
-					if self.completer.memberListActivated():
-						self.completer.setModel(self.completer.bpcModel)
-					self.completer.popup().hide()
-					return
+			# Get the text in the line
+			cursor = self.textCursor()
+			block = cursor.block()
+			text = block.text()
+			relPos = cursor.position() - block.position()
+			
+			# When the cursor is at a.| this return "."
+			#if relPos:
+			#	charBeforeCursor = text[relPos - 1]
+			#else:
+			#	charBeforeCursor = ""
+			
+			# When the cursor is at a.member| this returns "."
+			b4pos = relPos - len(completionPrefix) - 1
+			if b4pos and text:
+				charBeforeWord = text[b4pos]
+			else:
+				charBeforeWord = ""
+			
+			if charBeforeWord == ".":#(event.text() and event.text()[-1] == "."):
+				self.completer.activateMemberList()
+			elif (not isShortcut and (hasModifier or not event.text() or event.text()[-1] in eow)):
+				if self.completer.memberListActivated():
+					self.completer.setModel(self.completer.bpcModel)
+				self.completer.popup().hide()
+				return
+			else:
+				if self.completer.memberListActivated():
+					self.completer.setModel(self.completer.bpcModel)
 			
 			#if  and self.completer.memberListActivated():
 			#	self.completer.setModel(self.completer.bpcModel)
@@ -623,7 +644,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				elif self.autoSuggestion:
 					self.autoCompleteOpenedAuto = True
 			else:
-				if not completionPrefix:
+				if not completionPrefix and not charBeforeWord == ".":
 					self.autoCompleteOpenedAuto = True
 					if self.completer.memberListActivated():
 						self.completer.setModel(self.completer.bpcModel)

@@ -90,8 +90,10 @@ class ModuleMenuActions:
 				print("Using optimizations.")
 			
 			if exe:
-				if outputTarget.startswith("C++"):
+				# Windows DLLs
+				if outputTarget.startswith("C++") and os.name == "nt":
 					print("Using DLLs in path: %s" % getDLLDir())
+				
 				print("Executing: %s" % exe)
 				print("-" * 80)
 				

@@ -209,6 +209,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.adjustXMLTree = self.parser.adjustXMLTree
 		self.parseExprNoCache = self.parser.buildXMLTree
 		self.keywordToHandler = {
+			"assert" : self.handleAssert,
 			"break" : self.handleBreak,
 			"to" : self.handleCasts,
 			"catch" : self.handleCatch,
@@ -1012,13 +1013,25 @@ class BPCFile(ScopeController, Benchmarkable):
 				node.appendChild(param)
 		return node
 	
+	def handleAssert(self, line):
+		node = self.doc.createElement("assert")
+		paramCode = line[len("assert")+1:]
+		if paramCode:
+			param = self.parseExpr(paramCode)
+			if param.nodeValue or param.hasChildNodes():
+				node.appendChild(param)
+				return node
+		
+		raise CompilerException("assert keyword expects an expression to be checked (throws an error if it's 'false')")
+		
+	
 	def handleThrow(self, line):
 		node = self.doc.createElement("throw")
 		param = self.parseExpr(line[len("throw")+1:])
 		if param.nodeValue or param.hasChildNodes():
 			node.appendChild(param)
 		else:
-			raise CompilerException("#throw keyword expects a parameter (e.g. an exception object)")
+			raise CompilerException("throw keyword expects a parameter (e.g. an exception object)")
 		return node
 	
 	def handleYield(self, line):
@@ -1027,7 +1040,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if param.nodeValue or param.hasChildNodes():
 			node.appendChild(param)
 		else:
-			raise CompilerException("#yield keyword expects a parameter (the next object in the sequence)")
+			raise CompilerException("yield keyword expects a parameter (the next object in the sequence)")
 		return node
 	
 	def handleInclude(self, line):
@@ -1036,7 +1049,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if param.nodeValue:
 			node.appendChild(param)
 		else:
-			raise CompilerException("#include keyword expects a file name")
+			raise CompilerException("include keyword expects a file name")
 		return node
 		
 	def handleFunction(self, line):

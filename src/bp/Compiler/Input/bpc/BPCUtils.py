@@ -65,6 +65,7 @@ xmlToBPCSingleLineExpr = {
 	"throw" : "throw",
 	"extends-class" : "",
 	"yield" : "yield",
+	"assert" : "assert",
 }
 
 # The contents of those nodes will be formatted 

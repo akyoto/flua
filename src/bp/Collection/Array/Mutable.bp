@@ -101,7 +101,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="8">
 					<name>finalize</name>
@@ -121,8 +120,8 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
+				<comment>\SAdds\San\S#element\Sto\Sthe\Sarray\Sand\Sresizes\Sit\Sif\Sthere\Sis\Snot\Senough\Sspace</comment>
 				<function depth="1" id="10">
 					<parameters>
 						<parameter>element</parameter>
@@ -201,6 +200,7 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<parameters>
@@ -541,7 +541,6 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="53">
 						<name>allocatedElements</name>
@@ -569,8 +568,8 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
 					</getter>
+					<meta/>
 				</get>
 				<set depth="1" id="57">
 					<setter depth="2" id="58">
@@ -653,8 +652,8 @@
 								</if>
 							</if-block>
 						</code>
-						<meta/>
 					</setter>
+					<meta/>
 				</set>
 			</code>
 			<meta>

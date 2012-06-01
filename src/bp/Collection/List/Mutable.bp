@@ -7,6 +7,7 @@
 		<strings/>
 	</header>
 	<code>
+		<comment>\SA\Snode\Scontaining\Sthe\Svalue\Sand\Sa\Spointer\Sto\Sthe\Snext\Snode</comment>
 		<class depth="0" id="0">
 			<name>MutableListNode</name>
 			<code>
@@ -104,10 +105,8 @@
 					</setter>
 				</set>
 			</code>
-			<meta>
-				<default-class-version>true</default-class-version>
-			</meta>
 		</class>
+		<comment>\SSingly\Slinked\Slist</comment>
 		<class depth="0" id="16">
 			<name>MutableList</name>
 			<code>
@@ -152,6 +151,7 @@
 						</assign>
 					</code>
 				</function>
+				<comment>\SAdds\San\S#element\Sto\Sthe\Slist</comment>
 				<function depth="1" id="22">
 					<parameters>
 						<parameter>element</parameter>

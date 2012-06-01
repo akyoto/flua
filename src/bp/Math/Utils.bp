@@ -8,87 +8,72 @@
 	</header>
 	<code>
 		<comment>\SCalculates\Sthe\Sfactorial\Sof\Sn\Srecursively</comment>
-		<function depth="0">
+		<function depth="0" id="0">
 			<parameters>
 				<parameter>n</parameter>
 			</parameters>
 			<name>factorial</name>
 			<code>
-				<require depth="1">
-					<greater-or-equal depth="2">
+				<require depth="1" id="1">
+					<greater-or-equal depth="2" id="2">
 						<value>n</value>
 						<value>0</value>
 					</greater-or-equal>
 				</require>
-				<ensure depth="1">
-					<greater depth="2">
+				<ensure depth="1" id="3">
+					<greater depth="2" id="4">
 						<value>result</value>
 						<value>0</value>
 					</greater>
 				</ensure>
-				<maybe depth="1">
-					<declare-type depth="2">
+				<maybe depth="1" id="5">
+					<declare-type depth="2" id="6">
 						<value>result</value>
 						<value>BigInt</value>
 					</declare-type>
 				</maybe>
-				<test depth="1">
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>0</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>1</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>10</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>3628800</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
-					<call depth="2">
-						<function>assert</function>
-						<parameters>
-							<parameter>
-								<equal>
-									<value>
-										<call>
-											<function>factorial</function>
-											<parameters>
-												<parameter>20</parameter>
-											</parameters>
-										</call>
-									</value>
-									<value>2432902008176640000</value>
-								</equal>
-							</parameter>
-						</parameters>
-					</call>
+				<test depth="1" id="7">
+					<assert depth="2" id="8">
+						<equal>
+							<value>
+								<call>
+									<function>factorial</function>
+									<parameters>
+										<parameter>0</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>1</value>
+						</equal>
+					</assert>
+					<assert depth="2" id="9">
+						<equal>
+							<value>
+								<call>
+									<function>factorial</function>
+									<parameters>
+										<parameter>10</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>3628800</value>
+						</equal>
+					</assert>
+					<assert depth="2" id="10">
+						<equal>
+							<value>
+								<call>
+									<function>factorial</function>
+									<parameters>
+										<parameter>20</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>2432902008176640000</value>
+						</equal>
+					</assert>
 				</test>
-				<if-block depth="1">
+				<if-block depth="1" id="11">
 					<if>
 						<condition>
 							<equal>
@@ -97,11 +82,11 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2">1</return>
+							<return depth="2" id="12">1</return>
 						</code>
 					</if>
 				</if-block>
-				<return depth="1">
+				<return depth="1" id="13">
 					<multiply>
 						<value>n</value>
 						<value>
@@ -123,13 +108,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Spower\Sof\S2,\Sfalse\Sotherwise</comment>
-		<function depth="0">
+		<function depth="0" id="14">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isPowerOf2</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="15">
 					<and>
 						<value>x</value>
 						<value>
@@ -153,13 +138,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sodd,\Sfalse\Sotherwise</comment>
-		<function depth="0">
+		<function depth="0" id="16">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isOdd</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="17">
 					<not-equal>
 						<value>
 							<modulo>
@@ -174,13 +159,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\Seven,\Sfalse\Sotherwise</comment>
-		<function depth="0">
+		<function depth="0" id="18">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isEven</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="19">
 					<equal>
 						<value>
 							<modulo>
