@@ -221,7 +221,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.outFile = None
 		
 		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 2
+		self.autoSuggestionMinChars = 3
 		self.autoSuggestionMinCompleteChars = 4
 		self.autoSuggestionMaxItemCount = 4
 		

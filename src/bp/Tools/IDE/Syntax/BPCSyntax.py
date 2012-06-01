@@ -194,7 +194,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					
 					i = h
 					continue
-				elif expr == "my":
+				elif expr == "my" or expr == "this" or expr == "self":
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue
