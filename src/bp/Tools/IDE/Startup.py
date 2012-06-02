@@ -87,10 +87,10 @@ class Startup:
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
 		self.syntaxSwitcher.setToolTip("Syntax switcher")
-		self.syntaxSwitcher.addItem("BPC Syntax              ")
-		self.syntaxSwitcher.addItem("C++ Light               ")
-		self.syntaxSwitcher.addItem("Ruby (experimental)     ")
-		self.syntaxSwitcher.addItem("Python (experimental)   ")
+		self.syntaxSwitcher.addItem("BPC Syntax           ")
+		self.syntaxSwitcher.addItem("C++ Light            ")
+		self.syntaxSwitcher.addItem("Ruby (experimental)  ")
+		self.syntaxSwitcher.addItem("Python (experimental)")
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
@@ -316,7 +316,12 @@ class Startup:
 				'doc-selected' : QtGui.QColor("#000000"),
 				
 				'error-line' : QtGui.QColor("#ffddcc"),
-				'current-line' : None#QtGui.QColor("#fefefe")
+				'current-line' : None,
+				
+				'compile-log' : cf("#666666"),
+				'benchmark' : cf("#333333"),
+				'program-output' : cf('#10e010'),
+				'traceback' : cf("#333333"),
 			},
 			
 			# Dark theme
@@ -366,6 +371,11 @@ class Startup:
 				
 				'error-line' : QtGui.QColor("#f74727"),
 				'current-line' : QtGui.QColor("#303030"),
+				
+				'compile-log' : cf("#dddddd"),
+				'benchmark' : cf("#ffffcc"),
+				'program-output' : cf('#ffffff'),
+				'traceback' : cf("#ffa030"),
 			},
 		}
 		

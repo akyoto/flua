@@ -79,7 +79,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring</comment>
 				<function depth="1" id="10">
@@ -109,7 +108,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<comment>\Sfrom\Sthe\Sposition\S#from\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -230,7 +228,6 @@
 							</negative>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
 				<function depth="1" id="22">
@@ -275,7 +272,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
 				<function depth="1" id="25">
@@ -291,7 +287,6 @@
 					<code>
 						<noop depth="2" id="26"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1" id="27">
@@ -346,7 +341,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
 				<function depth="1" id="30">
@@ -362,7 +356,6 @@
 					<code>
 						<noop depth="2" id="31"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\Schars</comment>
 				<function depth="1" id="32">
@@ -448,7 +441,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SLeft\S#length\Scharacters</comment>
 				<function depth="1" id="38">
@@ -472,7 +464,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRight\S#length\Scharacters</comment>
 				<function depth="1" id="40">
@@ -506,7 +497,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
 				<function depth="1" id="42">
@@ -543,7 +533,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="45">
 					<parameters>
@@ -558,7 +547,6 @@
 					<code>
 						<noop depth="2" id="46"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="47">
 					<parameters>
@@ -573,7 +561,6 @@
 					<code>
 						<noop depth="2" id="48"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
 				<function depth="1" id="49">
@@ -612,7 +599,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
 				<function depth="1" id="51">
@@ -669,7 +655,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
 				<function depth="1" id="56">
@@ -708,7 +693,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\S#chars</comment>
 				<function depth="1" id="58">
@@ -765,7 +749,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\S#chars</comment>
 				<function depth="1" id="63">
@@ -800,7 +783,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\S#chars</comment>
 				<function depth="1" id="65">
@@ -855,7 +837,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="67">
@@ -889,7 +870,6 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<get depth="1" id="71">
 					<getter depth="2" id="72">
@@ -902,7 +882,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="74">
 						<name>length</name>
@@ -959,11 +938,10 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</cast-definition>
+					<meta/>
 				</casts>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0" id="85">

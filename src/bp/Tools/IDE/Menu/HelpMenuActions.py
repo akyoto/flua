@@ -64,7 +64,7 @@ class HelpMenuActions:
 			"log",
 			"--no-color",
 			"--date=relative",
-			"--format=%ar, %an: %s"
+			"--format=%ar, %an:\n        %s"
 			#"--oneline",
 			#"-n 20",
 			#"--shortstat"

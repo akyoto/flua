@@ -2,6 +2,7 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QObject
 from bp.Compiler.Config import *
 from bp.Compiler.Utils.Debug import *
+from bp.Tools.IDE.Syntax import *
 import sys
 
 class BPLogWidget(QtGui.QPlainTextEdit):
@@ -9,6 +10,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 	def __init__(self, parent):
 		super().__init__(parent)
 		self.bpIDE = parent.bpIDE
+		self.highlighter = CLogHighlighter(self.document(), self.bpIDE)
 		
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
