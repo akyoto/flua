@@ -28,7 +28,7 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 	def addAndSelectTab(self, widget, name):
 		index = self.addTab(widget, name)
-		self.setCurrentIndex(index)
+		self.changeCodeEdit(index)
 		widget.qdoc.modificationChanged.connect(self.updateModifiedState)
 		
 		# Buttons widget in the status bar
@@ -84,6 +84,11 @@ class BPWorkspace(QtGui.QTabWidget):
 			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)
+			
+			# Text file or not?
+			isText = self.bpIDE.codeEdit.isTextFile
+			self.bpIDE.syntaxSwitcher.setEnabled(not isText)
+			self.bpIDE.targetSwitcher.setEnabled(not isText)
 		
 		if self.bpIDE.viewsInitialized:
 			self.bpIDE.dependencyView.clear()

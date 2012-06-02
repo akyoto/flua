@@ -1,4 +1,5 @@
 from PyQt4 import QtGui, QtCore
+import os
 
 #class BPFileFilter(QtGui.QSortFilterProxyModel):
 	
@@ -63,6 +64,13 @@ class BPFileBrowser(QtGui.QTreeView):
 		self.setColumnHidden(3, True)
 		#self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
 		#self.itemClicked.connect(self.goToLineOfItem)
+		
+		self.doubleClicked.connect(self.onItemClick)
+		
+	def onItemClick(self, item):
+		filePath = self.fsModel.filePath(item)
+		if os.path.isfile(filePath):
+			self.bpIDE.openFile(filePath)
 		
 	#def viewPath(self, path):
 	#	pass

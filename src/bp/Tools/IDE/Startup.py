@@ -130,7 +130,8 @@ class Startup:
 			"Meta data": None,
 			"Dependencies": None,
 			"Scribble": None,
-			"Console" : None
+			"Console" : None,
+			"Files": None,
 		}
 		
 		for iconName in self.dockIcons.keys():
@@ -149,7 +150,7 @@ class Startup:
 		self.dependencyView.setReadOnly(1)
 		
 		# File view
-		#self.fileView = BPFileBrowser(self, getModuleDir())
+		self.fileView = BPFileBrowser(self, getModuleDir())
 		
 		# Module view
 		self.moduleView = BPModuleBrowser(self, getModuleDir())
@@ -168,7 +169,6 @@ class Startup:
 		self.metaData = BPMetaDataWidget(self)
 		
 		#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
-		#self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 		#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
 		#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
 		
@@ -179,13 +179,15 @@ class Startup:
 		self.dependenciesViewDock = self.createDockWidget("Dependencies", self.dependencyView, QtCore.Qt.RightDockWidgetArea)
 		self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
+		self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
 		
 		self.outlineViewDock.hide()
 		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
+		self.fileViewDock.hide()
 		
 		#self.msgViewDock.hide()
-		#self.fileViewDock.hide()
+		
 		#self.xmlViewDock.show()
 		
 		
@@ -223,6 +225,7 @@ class Startup:
 		self.actionRunProfiler.triggered.connect(self.runProfiler)
 		self.actionRunModuleTest.triggered.connect(self.runModuleTest)
 		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
+		self.actionViewSource.triggered.connect(self.viewSource)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
 		
 		# Repositories

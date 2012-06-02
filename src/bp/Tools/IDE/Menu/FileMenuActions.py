@@ -15,6 +15,10 @@ class FileMenuActions:
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
+		# Is text file?
+		if not fileName.endswith(".bp"):
+			newCodeEdit.isTextFile = True
+		
 		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
 		self.currentWorkspace.updateModifiedState(False)
 		
@@ -25,6 +29,8 @@ class FileMenuActions:
 		if not isOpeningFile:
 			newCodeEdit.openingFile = False
 			newCodeEdit.runUpdater()
+			
+		return newCodeEdit
 		
 	def reopenLastFile(self):
 		if not self.currentWorkspace.filesClosed:
@@ -62,7 +68,7 @@ class FileMenuActions:
 			
 			# Completely new file
 			if index == -1:
-				self.newFile(fileName, isOpeningFile = True)
+				ce = self.newFile(fileName, isOpeningFile = True)
 				
 				if fileName.endswith(".bp"):
 					self.loadFileToEditor(fileName)

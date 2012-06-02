@@ -9,20 +9,20 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">GPU.hpp</include>
+				<include depth="1" id="1">GPU.hpp</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
+		<extern depth="0" id="2">
+			<extern-function depth="1" id="3">
 				<name>bp_initGPUCalculations</name>
 				<meta>
 					<no-side-effects>false</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="4">
 				<name>bp_getCLPlatformName</name>
 				<type>String</type>
 				<meta>
@@ -30,7 +30,7 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="5">
 				<name>bp_getCLPlatformCount</name>
 				<type>Size</type>
 				<meta>
@@ -38,7 +38,7 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="6">
 				<name>bp_getCLDeviceName</name>
 				<type>String</type>
 				<meta>
@@ -46,7 +46,7 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="7">
 				<name>bp_getGPUCount</name>
 				<type>Size</type>
 				<meta>
@@ -55,7 +55,7 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<function depth="0">
+		<function depth="0" id="8">
 			<parameters>
 				<parameter>
 					<assign>
@@ -70,7 +70,7 @@
 			</parameters>
 			<name>getCLDeviceName</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="9">
 					<call>
 						<function>bp_getCLDeviceName</function>
 						<parameters>
@@ -79,8 +79,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
-		<function depth="0">
+		<function depth="0" id="10">
 			<parameters>
 				<parameter>
 					<assign>
@@ -95,7 +96,7 @@
 			</parameters>
 			<name>getCLPlatformName</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="11">
 					<call>
 						<function>bp_getCLPlatformName</function>
 						<parameters>
@@ -105,10 +106,10 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0">
+		<function depth="0" id="12">
 			<name>getCLPlatformCount</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="13">
 					<call>
 						<function>bp_getCLPlatformCount</function>
 						<parameters/>
@@ -117,10 +118,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sgraphics\Scards</comment>
-		<function depth="0">
+		<function depth="0" id="14">
 			<name>getGPUCount</name>
 			<code>
-				<return depth="1">
+				<return depth="1" id="15">
 					<call>
 						<function>bp_getGPUCount</function>
 						<parameters/>
@@ -128,7 +129,7 @@
 				</return>
 			</code>
 		</function>
-		<call depth="0">
+		<call depth="0" id="16">
 			<function>bp_initGPUCalculations</function>
 			<parameters/>
 		</call>

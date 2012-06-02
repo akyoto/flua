@@ -54,8 +54,10 @@
     <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
     <addaction name="actionCleanAllTargets"/>
+    <addaction name="actionViewSource"/>
     <addaction name="separator"/>
     <addaction name="actionProperties"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -515,6 +517,11 @@
   <action name="actionFAQCompiling">
    <property name="text">
     <string>Compiling doesn't work</string>
+   </property>
+  </action>
+  <action name="actionViewSource">
+   <property name="text">
+    <string>View generated source code</string>
    </property>
   </action>
  </widget>

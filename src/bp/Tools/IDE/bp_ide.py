@@ -44,9 +44,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def __init__(self):
 		super().__init__()
 		
+		# Print this first to identify wrong paths
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
+		# Useless stuff
+		QtCore.QCoreApplication.setOrganizationName("bp")
+		QtCore.QCoreApplication.setOrganizationDomain("blitzprog.org")
+		QtCore.QCoreApplication.setApplicationName("bp Studio")
+		
+		# Init
 		self.developerFlag = False
 		self.tmpCount = 0
 		self.lastBlockPos = -1
@@ -712,7 +719,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Let's rock!
 		if self.codeEdit:
 			self.codeEdit.disableUpdatesFlag = True
-			self.codeEdit.isTextFile = True
 			#del self.codeEdit.highlighter
 			self.codeEdit.highlighter = CPPHighlighter(self.codeEdit.qdoc, self)
 			self.codeEdit.setPlainText(codeText)

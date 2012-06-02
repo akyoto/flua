@@ -23,6 +23,9 @@ class ModuleMenuActions:
 		if self.codeEdit is None or self.currentWorkspace.count() == 0 or self.codeEdit.isTextFile:
 			return
 		
+		if self.running > 0:
+			return
+		
 		self.running += 1
 		
 		# Make sure the XML is up 2 date

@@ -49,6 +49,9 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuA
 	def connectWithGitHub(self):
 		self.notImplemented()
 		
+	def viewSource(self):
+		self.notImplemented()
+		
 	def switchSyntax(self, index):
 		bpcUtils.currentSyntax = index
 		
@@ -56,7 +59,8 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuA
 		self.forEachCodeEditDo(lambda ce: ceList.append(ce))
 		
 		for ce in ceList:
-			ce.reload()
+			if not ce.isTextFile:
+				ce.reload()
 			#ce.updater.run()
 			#ce.updater.finished.emit()
 			#ce.compilerFinished()
