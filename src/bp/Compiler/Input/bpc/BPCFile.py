@@ -107,7 +107,7 @@ def addGenerics(line):
 #			print("Start: " + oldLine)
 #			print("End: " + line)
 	return line
-	
+
 def addBrackets(line):
 	bracketCounter = 0
 	char = ''
@@ -160,6 +160,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.importedFiles = []
 		self.nextLineIndented = False
 		self.savedNextNode = 0
+		self.lastAccessNode = None
 		self.idCount = 0
 		
 		pureFileName = stripAll(fileIn)
@@ -1437,3 +1438,4 @@ class BPCFile(ScopeController, Benchmarkable):
 		#	raise CompilerException("You forgot to open the chevron: '<' missing%s" % ([" %d times" % (chevronsBalance), ""][abs(chevronsBalance) == 1]))
 		
 		return line
+	

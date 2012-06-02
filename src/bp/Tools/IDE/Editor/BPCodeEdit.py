@@ -156,6 +156,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		
 			for acc in accessNodes:
 				accString = nodeToBPC(acc)
+				
 				if accString == expr:
 					try:
 						dataType = self.codeEdit.outFile.getExprDataType(acc)

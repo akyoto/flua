@@ -470,7 +470,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			savedNode = selectedNode
 			
-			if not savedNode:
+			if not savedNode or isTextNode(savedNode):
 				return
 			
 			if savedNode.hasAttribute("id"):

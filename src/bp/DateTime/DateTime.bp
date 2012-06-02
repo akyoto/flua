@@ -5,8 +5,9 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">\E</string>
-			<string id="bp_string_1">\E</string>
+			<string id="bp_string_0">%Y-%m-%d</string>
+			<string id="bp_string_1">%H:%M:%S</string>
+			<string id="bp_string_2">%Y-%m-%d\S%H:%M:%S</string>
 		</strings>
 	</header>
 	<code>
@@ -24,54 +25,219 @@
 		</target>
 		<extern depth="0" id="4">
 			<extern-function depth="1" id="5">
-				<name>bp_getCurrentDate</name>
-				<type>String</type>
+				<name>bp_now</name>
+				<type>TimeStamp</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
 			<extern-function depth="1" id="6">
-				<name>bp_getCurrentTime</name>
+				<name>bp_formatTimeStamp</name>
 				<type>String</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
+			<class depth="1" id="7">
+				<name>TimeStamp</name>
+				<code>
+					<function depth="2" id="8">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="9"/>
+						</code>
+					</function>
+				</code>
+				<meta/>
+			</class>
 		</extern>
+		<class depth="0" id="10">
+			<name>DateTime</name>
+			<code>
+				<function depth="1" id="11">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>timeStamp</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="12"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="13">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>formatString</value>
+								<value>String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>format</name>
+					<code>
+						<require depth="2" id="14">
+							<less depth="3" id="15">
+								<value>
+									<access>
+										<value>formatString</value>
+										<value>length</value>
+									</access>
+								</value>
+								<value>32</value>
+							</less>
+						</require>
+						<return depth="2" id="16">
+							<call>
+								<function>bp_formatTimeStamp</function>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>timeStamp</value>
+										</access>
+									</parameter>
+									<parameter>formatString</parameter>
+								</parameters>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="17">
+					<getter depth="2" id="18">
+						<name>date</name>
+						<code>
+							<return depth="3" id="19">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>format</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>bp_string_0</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="20">
+						<name>time</name>
+						<code>
+							<return depth="3" id="21">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>format</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>bp_string_1</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+				<casts depth="1" id="22">
+					<cast-definition depth="2" id="23">
+						<to>String</to>
+						<code>
+							<comment>\STODO:\SISO</comment>
+							<return depth="3" id="24">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>format</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>bp_string_2</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SReturns\Sa\SDateTime\Sobject\Sfor\Sthe\Scurrent\Slocal\Stime</comment>
+		<function depth="0" id="25">
+			<name>getCurrentDateTime</name>
+			<code>
+				<return depth="1" id="26">
+					<new>
+						<type>DateTime</type>
+						<parameters>
+							<parameter>
+								<call>
+									<function>bp_now</function>
+									<parameters/>
+								</call>
+							</parameter>
+						</parameters>
+					</new>
+				</return>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
-		<function depth="0" id="7">
+		<function depth="0" id="27">
 			<name>getCurrentDate</name>
 			<code>
-				<return depth="1" id="8">
-					<call>
-						<function>bp_getCurrentDate</function>
-						<parameters/>
-					</call>
+				<return depth="1" id="28">
+					<access>
+						<value>
+							<call>
+								<function>getCurrentDateTime</function>
+								<parameters/>
+							</call>
+						</value>
+						<value>date</value>
+					</access>
 				</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="29">
 			<name>getCurrentTime</name>
 			<code>
-				<return depth="1" id="10">
-					<call>
-						<function>bp_getCurrentTime</function>
-						<parameters/>
-					</call>
+				<return depth="1" id="30">
+					<access>
+						<value>
+							<call>
+								<function>getCurrentDateTime</function>
+								<parameters/>
+							</call>
+						</value>
+						<value>time</value>
+					</access>
 				</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="31">
 			<parameters>
 				<parameter>year</parameter>
 			</parameters>
 			<name>isLeapYear</name>
 			<code>
-				<return depth="1" id="12">
+				<return depth="1" id="32">
 					<and>
 						<value>
 							<equal>
@@ -115,29 +281,46 @@
 			</code>
 			<meta/>
 		</function>
-		<test depth="0" id="13">
-			<assert depth="1" id="14">
-				<not-equal>
-					<value>
-						<call>
-							<function>getCurrentDate</function>
-							<parameters/>
-						</call>
-					</value>
-					<value>bp_string_0</value>
-				</not-equal>
-			</assert>
-			<assert depth="1" id="15">
-				<not-equal>
-					<value>
-						<call>
-							<function>getCurrentTime</function>
-							<parameters/>
-						</call>
-					</value>
-					<value>bp_string_1</value>
-				</not-equal>
-			</assert>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="33">
+			<assign depth="1" id="34">
+				<value>now</value>
+				<value>
+					<call>
+						<function>getCurrentDateTime</function>
+						<parameters/>
+					</call>
+				</value>
+			</assign>
+			<call depth="1" id="35">
+				<function>print</function>
+				<parameters>
+					<parameter>now</parameter>
+				</parameters>
+			</call>
+			<call depth="1" id="36">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<access>
+							<value>now</value>
+							<value>date</value>
+						</access>
+					</parameter>
+				</parameters>
+			</call>
+			<call depth="1" id="37">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<access>
+							<value>now</value>
+							<value>time</value>
+						</access>
+					</parameter>
+				</parameters>
+			</call>
+			<meta/>
 		</test>
 	</code>
 </module>
