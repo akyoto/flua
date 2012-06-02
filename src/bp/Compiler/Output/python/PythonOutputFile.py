@@ -122,10 +122,13 @@ class PythonOutputFile(BaseOutputFile):
 	
 	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
 		# TODO: Is there another Python range object for that?
-		if operator == "<=":
-			toExpr += " + 1"
+		#if operator == "<=":
+		#	toExpr += " + 1"
 		
-		return "%sfor %s in range(%s, %s):\n%s%s" % (varDefs, iterExpr, fromExpr, toExpr, tabs, code)
+		# Simulate it by using a while loop
+		return "%swhile %s %s %s:\n%s%s%s\t%s += 1\n" % (varDefs, iterExpr, operator, toExpr, tabs, code, tabs, iterExpr)
+		
+		#return "%sfor %s in range(%s, %s):\n%s%s" % (varDefs, iterExpr, fromExpr, toExpr, tabs, code)
 		#return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
 	def buildVarDeclaration(self, typeName, name):
