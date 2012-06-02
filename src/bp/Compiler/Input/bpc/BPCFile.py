@@ -149,7 +149,6 @@ def addBrackets(line):
 # Classes
 ####################################################################
 class BPCFile(ScopeController, Benchmarkable):
-	
 	def __init__(self, compiler, fileIn, isMainFile):
 		ScopeController.__init__(self)
 		
@@ -251,6 +250,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			"try" : self.handleTry,
 			"while" : self.handleWhile,
 			"yield" : self.handleYield,
+			
+			# For Python support
+			"def" : self.handleFunction,
+			"class" : self.handleClass,
 		}
 		
 	#def __del__(self):
@@ -1069,6 +1072,13 @@ class BPCFile(ScopeController, Benchmarkable):
 		return node
 		
 	def handleFunction(self, line):
+		# Remove Python def keyword
+		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+		if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+			if not line.startswith("def "):
+				raise CompilerException("Missing 'def' keyword in function definition")
+			line = line[4:-1] # Remove 'def ' at the start and ')' at the end
+		
 		# Check for function
 		funcName = ""
 		pos = 0
@@ -1078,11 +1088,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		if pos is len(line):
 			funcName = line
-		elif line[pos] == ' ':
+		elif line[pos] in {' ', '('}:
 			funcName = line[:pos]
 		else:
-			whiteSpace = line.find(' ')
-			if whiteSpace is not -1:
+			if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+				whiteSpace = line.find('(')
+			else:
+				whiteSpace = line.find(' ')
+			
+			if whiteSpace != -1:
 				funcName = line[:whiteSpace]
 			else:
 				funcName = line
@@ -1115,7 +1129,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		expr = addGenerics(line[len(funcName)+1:])
 		if expr:
 			if isDefinitelyOperatorSign(expr[0]):
-				raise CompilerException("Parameter name missing: '%s' (expecting function definition)" % expr)
+				raise CompilerException("Parameter name missing: '%s' (expecting function definition for '%s')" % (expr, funcName))
 			params = self.parseExpr(expr)
 			paramsNode = self.parser.getParametersNode(params)
 			node.appendChild(paramsNode)
@@ -1131,6 +1145,13 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleClass(self, line):
 		self.inClass += 1
+		
+		# Remove Python class keyword
+		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+		if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+			if not line.startswith("class "):
+				raise CompilerException("Missing 'class' keyword in class definition")
+			line = line[6:]
 		
 		className = line
 		
@@ -1346,6 +1367,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif line[i] == ';':
 				# Ignore on C++
 				if bpcUtils.currentSyntax == SYNTAX_CPP:
+					line = line[:i]
+					break
+			elif line[i] == ':' and i == len(line) - 1:
+				# Ignore on Python
+				if bpcUtils.currentSyntax == SYNTAX_PYTHON:
 					line = line[:i]
 					break
 			elif line[i] == ' ' and not self.keyword:

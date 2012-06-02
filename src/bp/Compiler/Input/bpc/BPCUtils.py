@@ -40,7 +40,7 @@ from bp.Compiler.Input.bpc import *
 SYNTAX_BPC = 0
 SYNTAX_CPP = 1
 SYNTAX_RUBY = 2
-SYNTAX_PYTHON = 1337
+SYNTAX_PYTHON = 3
 currentSyntax = SYNTAX_BPC
 
 # Elements that simply wrap value nodes
@@ -245,7 +245,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if text.isspace():
 			return ""
 		elif text == "my":
-			return ["my", "this", "self"][currentSyntax]
+			return ["my", "this", "self", "self"][currentSyntax]
 		elif text.startswith("bp_string_"):
 			stringContent = ""
 			if node.parentNode:
@@ -404,6 +404,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "end\n"
 		elif currentSyntax == SYNTAX_CPP:
 			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}\n"
+		elif currentSyntax == SYNTAX_PYTHON:
+			return "def " + nodeToBPC(name, 0, conv) + "(" + paramsCode.strip() + "):\n" + nodeToBPC(code, tabLevel + 1, conv)
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
@@ -506,12 +508,16 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif className.startswith("Immutable"):
 			className = className[len("Immutable"):]
 		
+		# TODO: Inheritance
+		
 		if currentSyntax == SYNTAX_BPC:
 			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
 		elif currentSyntax == SYNTAX_RUBY:
 			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "end"
 		elif currentSyntax == SYNTAX_CPP:
 			return className + " {\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "}"
+		if currentSyntax == SYNTAX_PYTHON:
+			return "class " + className + ":\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
 	elif nodeName == "noop":
 		return "..."
 	# Single line
@@ -552,6 +558,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		if currentSyntax == SYNTAX_BPC:
 			return "%s%s%s\n%s" % (name, space, expr, code)
+		elif currentSyntax == SYNTAX_PYTHON:
+			return "%s%s%s:\n%s" % (name, space, expr, code)
 		elif currentSyntax == SYNTAX_RUBY:
 			if not name in {"if", "elsif", "else", "try", "catch"}:
 				return "%s%s%s\n%s%send\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
@@ -581,7 +589,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		
 		if currentSyntax == SYNTAX_BPC:
-			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip()# + "\n" + ("\t" * (tabLevel)) + "#Here"
+			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() # + "\n" + ("\t" * (tabLevel)) + "#Here"
+		elif currentSyntax == SYNTAX_PYTHON:
+			return xmlToBPCBlock[nodeName] + ":\n" + blockCode.rstrip()
 		elif currentSyntax == SYNTAX_CPP:
 			return xmlToBPCBlock[nodeName] + " {\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "}\n"
 		elif currentSyntax == SYNTAX_RUBY:

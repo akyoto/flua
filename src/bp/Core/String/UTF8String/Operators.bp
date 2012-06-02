@@ -8,11 +8,11 @@
 	</header>
 	<code>
 		<comment>\SUTF8String\Soperators</comment>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>UTF8String</name>
 			<code>
-				<operators depth="1">
-					<operator depth="2">
+				<operators depth="1" id="1">
+					<operator depth="2" id="2">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -23,7 +23,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="3">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -34,7 +34,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="4">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -51,7 +51,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="5">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -63,7 +63,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="6">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -80,7 +80,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="7">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -92,7 +92,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="8">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -109,7 +109,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="9">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -121,7 +121,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="10">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -141,7 +141,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="11">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -152,7 +152,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="12">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -163,7 +163,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="13">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -174,7 +174,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="14">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -185,7 +185,7 @@
 						</parameters>
 						<name>*</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="15">
 								<new>
 									<type>UTF8String</type>
 									<parameters/>
@@ -193,14 +193,14 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="16">
 						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
 						</parameters>
 						<name>[:]</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="17">
 								<call>
 									<function>
 										<access>
@@ -216,7 +216,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="18">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -227,7 +227,7 @@
 						</parameters>
 						<name>==</name>
 						<code>
-							<if-block depth="3">
+							<if-block depth="3" id="19">
 								<if>
 									<condition>
 										<not-equal>
@@ -246,11 +246,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4">false</return>
+										<return depth="4" id="20">false</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3">
+							<if-block depth="3" id="21">
 								<if>
 									<condition>
 										<equal>
@@ -269,11 +269,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4">true</return>
+										<return depth="4" id="22">true</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3">
+							<return depth="3" id="23">
 								<call>
 									<function>compareMem</function>
 									<parameters>
@@ -300,7 +300,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2">
+					<operator depth="2" id="24">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -311,7 +311,7 @@
 						</parameters>
 						<name>!=</name>
 						<code>
-							<if-block depth="3">
+							<if-block depth="3" id="25">
 								<if>
 									<condition>
 										<not-equal>
@@ -330,11 +330,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4">true</return>
+										<return depth="4" id="26">true</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3">
+							<if-block depth="3" id="27">
 								<if>
 									<condition>
 										<equal>
@@ -353,11 +353,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4">false</return>
+										<return depth="4" id="28">false</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3">
+							<return depth="3" id="29">
 								<not>
 									<value>
 										<call>
@@ -391,6 +391,7 @@
 					</operator>
 				</operators>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

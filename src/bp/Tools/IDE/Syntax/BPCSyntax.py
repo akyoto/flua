@@ -3,6 +3,7 @@ from bp.Tools.IDE import *
 from bp.Compiler.Utils import *
 from bp.Compiler.Config import *
 from bp.Compiler.Input.bpc import *
+import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
 
 class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the BPC language.
@@ -11,8 +12,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	keywords = [{}] * 97 + [
 		{'and', 'assert', 'atomic'},
 		{'break'},
-		{'class', 'continue', 'const', 'case', 'catch', 'compilerflags'},
-		{'define'},
+		{'class', 'continue', 'const', 'case', 'catch', 'class', 'compilerflags'},
+		{'define', 'def'},
 		{'elif', 'elsif', 'else', 'ensure', 'extern', 'extends'},
 		{'for', 'false'},
 		{'get'},
@@ -126,19 +127,25 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				
 				#print(ord(expr[0]))
 				#print(BPCHighlighter.keywords[ord(expr[0])])
-				
 				if (userData and userData.node):
 					node = userData.node
 					if userData.node.nodeType != Node.TEXT_NODE:
 						inClass = (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
 						if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
-							self.setFormat(i, h - i, style['class-' + userData.node.tagName])
-							i = h
-							continue
+							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
+								self.setFormat(i, h - i, style['class-' + userData.node.tagName])
+								i = h
+								continue
+							else:
+								pos = text.find("(")
+								#self.setFormat(i, h - i, style['keyword']) # def keyword
+								self.setFormat(h, pos - h, style['class-' + userData.node.tagName]) # class element
+							
 						elif userData.node.tagName == "class":
-							self.setFormat(i, h - i, style['class-name'])
-							i = h
-							continue
+							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
+								self.setFormat(i, h - i, style['class-name'])
+								i = h
+								continue
 						elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
 							# TODO: Optimize using bpIDE.processor
 							if isMetaDataTrue(getMetaData(node, "no-side-effects")):
