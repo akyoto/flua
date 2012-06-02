@@ -76,6 +76,7 @@ simpleBlocks = {
 	"shared" : [],
 	"const" : [],
 	"in" : [],
+	"atomic" : [],
 }
 
 def addGenerics(line):
@@ -181,6 +182,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inCasts = 0
 		self.inOperators = 0
 		self.inIterators = 0
+		self.inAtomic = 0
 		self.inRequire = 0
 		self.inEnsure = 0
 		self.inMaybe = 0
@@ -209,6 +211,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.adjustXMLTree = self.parser.adjustXMLTree
 		self.parseExprNoCache = self.parser.buildXMLTree
 		self.keywordToHandler = {
+			"atomic" : self.handleAtomic,
 			"assert" : self.handleAssert,
 			"break" : self.handleBreak,
 			"to" : self.handleCasts,
@@ -521,6 +524,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inOperators -= 1
 				elif nodeName == "iterators":
 					self.inIterators -= 1
+				elif nodeName == "atomic":
+					self.inAtomic -= 1
 				elif nodeName == "require":
 					self.inRequire -= 1
 				elif nodeName == "ensure":
@@ -874,6 +879,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node = self.doc.createElement("require")
 		self.inRequire += 1
+		
+		self.nextNode = node
+		return node
+		
+	def handleAtomic(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("atomic", line)
+		
+		node = self.doc.createElement("atomic")
+		self.inAtomic += 1
 		
 		self.nextNode = node
 		return node

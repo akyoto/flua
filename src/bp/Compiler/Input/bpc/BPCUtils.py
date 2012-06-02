@@ -91,6 +91,7 @@ xmlToBPCBlock = {
 	"else" : "else",
 	"private" : "private",
 	"shared" : "shared",
+	"atomic" : "atomic",
 	"define" : "define",
 	"const" : "const",
 	"compiler-flags" : "compilerflags",
@@ -164,6 +165,7 @@ autoNewlineBlock = {
 	"parallel",
 	"shared",
 	"in",
+	"atomic",
 	
 	"function",
 	"getter",

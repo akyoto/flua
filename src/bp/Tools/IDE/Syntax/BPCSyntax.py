@@ -9,7 +9,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""
 	# Python keywords
 	keywords = [{}] * 97 + [
-		{'and', 'assert'},
+		{'and', 'assert', 'atomic'},
 		{'break'},
 		{'class', 'continue', 'const', 'case', 'catch', 'compilerflags'},
 		{'define'},
@@ -40,7 +40,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	
 	# Keyword list
 	keywordList = {
-		'and', 'assert',
+		'and', 'assert', 'atomic',
 		'break',
 		'class', 'continue', 'const', 'case', 'catch', 'compilerflags',
 		'define',
