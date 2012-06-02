@@ -10,7 +10,7 @@
 		</strings>
 	</header>
 	<code>
-		<call depth="0">
+		<call depth="0" id="0">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -21,7 +21,7 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
 				<parameter>bp_string_1</parameter>

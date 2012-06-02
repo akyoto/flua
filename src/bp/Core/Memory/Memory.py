@@ -29,6 +29,9 @@ class BPMemPointer:
 	def __add__(self, offset):
 		return BPMemPointer(self.data, self.pos + offset)
 		
+	def __sub__(self, offset):
+		return BPMemPointer(self.data, self.pos - offset)
+		
 	def __getitem__(self, index):
 		return self.data[self.pos + index]
 	

@@ -121,6 +121,7 @@ class BaseOutputFile(ScopeController):
 		self.myself = ""
 		self.trySyntax = ""
 		self.catchSyntax = ""
+		self.throwSyntax = ""
 		self.returnSyntax = ""
 		self.memberAccessSyntax = ""
 		self.singleParameterSyntax = ""
@@ -246,10 +247,7 @@ class BaseOutputFile(ScopeController):
 			self.registerVariable(var)
 			
 			if self.inConst:
-				if self.getCurrentScope() == self.getTopLevelScope():
-					return ""
-				else:
-					return self.constAssignSyntax % (var.getFullPrototype(), value)
+				return self.buildConstAssignment(var, value)
 		
 		#else:
 		#	var = self.getVariableTypeAnywhere(variableName)
@@ -310,6 +308,8 @@ class BaseOutputFile(ScopeController):
 #			print("%s%s%s (%s)" % (op1, connector, op2, op1 + " is a '" + op1type + "'"))
 #			if (not op1type in nonPointerClasses) and (not isUnmanaged(op1type)) and (not connector == " == "):
 #				return self.exprPrefix + op1 + "->operator" + connector.replace(" ", "") + "(" + op2 + ")" + self.exprPostfix
+		
+		connector = self.transformBinaryOperator(connector)
 		
 		# Division by zero
 		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
@@ -1366,7 +1366,7 @@ class BaseOutputFile(ScopeController):
 		elif tagName == "catch":
 			return self.handleCatch(node)
 		elif tagName == "throw":
-			return "throw %s" % self.parseExpr(node.firstChild)
+			return self.throwSyntax % self.parseExpr(node.firstChild)
 		elif tagName == "namespace":
 			return self.handleNamespace(node)
 		elif tagName == "target":
@@ -1423,7 +1423,7 @@ class BaseOutputFile(ScopeController):
 		elif node.tagName == "compiler-flag":
 			return self.handleCompilerFlag(node)
 		elif tagName == "noop":
-			return ""
+			return self.buildNOOP()
 		
 		# Check parameterized blocks
 		if tagName in self.paramBlocks:
@@ -1787,7 +1787,7 @@ class BaseOutputFile(ScopeController):
 		if varName.startswith(self.memberAccessSyntax):
 			memberName = varName[len(self.memberAccessSyntax):]
 			self.currentClassImpl.addMember(self.createVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
-			return varName # ""
+			return self.buildMemberTypeDeclInConstructor(varName) # ""
 		
 		variableExists = self.variableExistsAnywhere(varName)
 		if variableExists:
@@ -1948,10 +1948,10 @@ class BaseOutputFile(ScopeController):
 			varObject = self.createVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(varObject)
 			
-			var = self.singleParameterSyntax % (self.adjustDataType(typeName), varName)
+			var = self.buildCatchVar(varName, self.adjustDataType(typeName))
 		
 		if not var:
-			var = "..."
+			var = self.buildEmptyCatchVar()
 		
 		# Code needs to be compiled AFTER THE EXCEPTION VARIABLE HAS BEEN REGISTERED
 		

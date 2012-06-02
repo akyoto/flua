@@ -76,6 +76,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.myself = "this"
 		self.trySyntax = "try {\n%s\n\t}"
 		self.catchSyntax = " catch (%s) {\n%s\n\t}"
+		self.throwSyntax = "throw %s"
 		self.returnSyntax = "return %s"
 		self.memberAccessSyntax = "this->"
 		self.singleParameterSyntax = "%s %s"
@@ -290,6 +291,27 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			c = self.compiler.inVarCounter
 			self.compiler.inVarCounter += 1
 			return "//{\n%s\t%s _tmp_var_%d = (%s);\n%s\t_tmp_var_%d->enter();\n%s%s\t_tmp_var_%d->exit();\n%s//}" % (tabs, exprType, c, expr, tabs, c, code, tabs, c, tabs)
+	
+	def buildCatchVar(self, varName, typeName):
+		return self.singleParameterSyntax % (typeName, varName)
+	
+	def buildEmptyCatchVar(self):
+		return "..."
+	
+	def buildNOOP(self):
+		return ""
+		
+	def buildMemberTypeDeclInConstructor(self, varName):
+		return varName
+	
+	def buildConstAssignment(self, var, value):
+		if self.getCurrentScope() == self.getTopLevelScope():
+			return ""
+		else:
+			return self.constAssignSyntax % (var.getFullPrototype(), value)
+	
+	def transformBinaryOperator(self, operator):
+		return operator
 	
 	def castToNativeNumeric(self, variableType, value):
 		return "static_cast< %s >( BigInt(%s).get_si() )" % (variableType, value)

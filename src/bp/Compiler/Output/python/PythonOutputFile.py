@@ -60,8 +60,9 @@ class PythonOutputFile(BaseOutputFile):
 		# Syntax
 		self.lineLimiter = "\n"
 		self.myself = "self"
-		self.trySyntax = "try\n%s\n\t"
-		self.catchSyntax = "except %s\n%s\n\t"
+		self.trySyntax = "try:\n%s"
+		self.catchSyntax = "except%s:\n%s"
+		self.throwSyntax = "raise %s"
 		self.returnSyntax = "return %s"
 		self.memberAccessSyntax = "self."
 		self.singleParameterSyntax = "%s"
@@ -80,6 +81,14 @@ class PythonOutputFile(BaseOutputFile):
 		for node in self.dependencies.childNodes:
 			if isElemNode(node) and node.tagName == "import":
 				self.header += self.handleImport(node)
+		
+		# Variables
+		for var in self.getTopLevelScope().variables.values():
+			if var.isConst:
+				self.varsHeader += var.getPrototype() + " = " + var.value + "\n"
+			elif not var.type == self.compiler.stringDataType:
+				self.varsHeader += var.getPrototype() + " = None\n"
+		self.varsHeader += "\n"
 		
 		# Strings
 		self.stringsHeader = "\n# Strings\n"
@@ -123,10 +132,13 @@ class PythonOutputFile(BaseOutputFile):
 		return "%s = None" % name
 	
 	def buildTypeDeclaration(self, typeName, varName):
-		return varName
+		return varName #"%s = None" % varName
 		
 	def buildTypeDeclarationNameOnly(self, varName):
 		return varName
+	
+	def buildMemberTypeDeclInConstructor(self, varName):
+		return varName #"%s = None" % varName
 	
 	def buildTemplateCall(self, op1, op2):
 		return op1 + "<" + op2 + ">"
@@ -184,8 +196,31 @@ class PythonOutputFile(BaseOutputFile):
 	def buildNegation(self, expr):
 		return "(not(%s))" % expr
 	
+	def buildCatchVar(self, varName, typeName):
+		return " %s as %s" % (typeName, varName)
+	
+	def buildEmptyCatchVar(self):
+		return ""
+	
+	def buildNOOP(self):
+		return "pass"
+	
+	def transformBinaryOperator(self, operator):
+		replacements = {
+			" && " : " and ",
+			" || " : " or ",
+		}
+		
+		if operator in replacements:
+			return replacements[operator]
+		else:
+			return operator
+	
 	def castToNativeNumeric(self, variableType, value):
 		return value
+	
+	def buildConstAssignment(self, var, value):
+		return "%s = %s" % (var.name, value)
 	
 	def writeClasses(self):
 		prefix = "BP"
@@ -235,8 +270,23 @@ class PythonOutputFile(BaseOutputFile):
 							pass
 						else:
 							pass
-						
-					self.classesHeader += "class %s:\n\tdef __init__(self):\n\t\tpass" % (finalClassName)
+					
+					# Inheritance
+					extends = ""
+					if finalClassName == "BPException":
+						extends = "(BaseException)"
+					elif classObj.extends:
+						classes = ', '.join(self.adjustDataType(c.name) for c in classObj.extends)
+						extends = "(%s)" % classes
+					
+					# Init all members as None
+					memberInit = []
+					for member in classImpl.members:
+						memberInit.append("\t\tself.")
+						memberInit.append(member)
+						memberInit.append(" = None\n")
+					
+					self.classesHeader += "class %s%s:\n\tdef __init__(self):\n%s\t\tpass" % (finalClassName, extends, ''.join(memberInit))
 					
 					# For debugging the GC add this commented line to the string:
 					# ~%s(){std::cout << \"Destroying %s\" << std::endl;}\n

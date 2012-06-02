@@ -77,6 +77,7 @@ class PythonFunctionImplementation(BaseFunctionImplementation):
 	# Constructor
 	def getConstructorCode(self):
 		return self.getFullCode() + "\t\treturn self\n"
+		
 		# TODO: Add parameters
 		#return "# %s\n\tdef %s(%s):\n%s" % (self.getFuncName(), "__init__", self.getParamString(), self.code)
 	
