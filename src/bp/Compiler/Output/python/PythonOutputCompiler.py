@@ -116,6 +116,9 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 						copyToStream.close()
 				
 				outStream.write("from %s import *\n" % (importPath))
+			
+			# Noop
+			outStream.write("def bp_noop(): pass\n")
 		
 	def getExePath(self):
 		return self.mainCppFile

@@ -73,6 +73,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.constAssignSyntax = "%s = %s"
 		self.elseSyntax = "else:\n%s%s"
 		self.ptrMemberAccessChar = "."
+		self.yieldSyntax = "__bp_yield_var = %s\n__bp_yield_code"
 	
 	def compile(self):
 		# Header
@@ -206,7 +207,8 @@ class PythonOutputFile(BaseOutputFile):
 		return ""
 	
 	def buildNOOP(self):
-		return "pass"
+		# DON'T USE 'pass'
+		return "bp_noop()"
 	
 	def transformBinaryOperator(self, operator):
 		replacements = {
@@ -224,6 +226,17 @@ class PythonOutputFile(BaseOutputFile):
 	
 	def buildConstAssignment(self, var, value):
 		return "%s = %s" % (var.name, value)
+	
+	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
+		hasVar = (exprNode.firstChild.tagName == "assign")
+		if hasVar:
+			# Left operator = Tmp variable
+			c = self.parseExpr(exprNode.firstChild.firstChild)
+			return "#{\n%s%s\n%s%s.enter()\n%s%s%s.exit()\n%s#}" % (tabs, expr, tabs, c, code, tabs, c, tabs)
+		else:
+			c = self.compiler.inVarCounter
+			self.compiler.inVarCounter += 1
+			return "#{\n%s_tmp_var_%d = (%s)\n%s_tmp_var_%d.enter()\n%s%s_tmp_var_%d.exit()\n%s#}" % (tabs, c, expr, tabs, c, code, tabs, c, tabs)
 	
 	def writeClasses(self):
 		prefix = "BP"

@@ -1016,9 +1016,9 @@ class BaseOutputFile(ScopeController):
 		self.implementFunction(exprType, "enter", [])
 		self.implementFunction(exprType, "exit", [])
 		
-		self.currentTabLevel += 1
+		#self.currentTabLevel += 1
 		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
-		self.currentTabLevel -= 1
+		#self.currentTabLevel -= 1
 		
 		# TODO: Check for enter/exit methods
 		
