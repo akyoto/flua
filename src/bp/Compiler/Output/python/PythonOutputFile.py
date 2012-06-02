@@ -292,7 +292,7 @@ class PythonOutputFile(BaseOutputFile):
 					if finalClassName == "BPException":
 						extends = "(BaseException)"
 					elif classObj.extends:
-						classes = ', '.join(self.adjustDataType(c.name) for c in classObj.extends)
+						classes = ', '.join(self.adjustDataType(c.classObj.name) for c in classObj.extends)
 						extends = "(%s)" % classes
 					
 					# Init all members as None

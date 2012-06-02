@@ -45,7 +45,6 @@ class BPConfiguration:
 		self.darkStyleEnabled = False
 		
 		self.appStyleSheet = """
-			QPlainTextEdit { background-color: #ffffff; }
 			#AutoCompleter {
 				border: none;
 				font-family: Ubuntu;
@@ -54,6 +53,19 @@ class BPConfiguration:
 			QPlainTextEdit, QTreeView, QListView {
 				background-color: #ffffff;
 				color: #272727;
+				border-radius: 7px;
+				border: 1px solid black;
+			}
+			
+			QPlainTextEdit {
+				border-top-left-radius: 0px;
+				background-color: #ffffff;
+			}
+			
+			#MessageView {
+				border-radius: 7px;
+				color: rgba(0, 0, 0, 65%);
+				background-color: rgba(255, 255, 255, 10%);
 			}
 		""" #% (self.theme['default-background'])
 		

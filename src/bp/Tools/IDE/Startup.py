@@ -313,7 +313,12 @@ class Startup:
 				'doc-selected' : QtGui.QColor("#000000"),
 				
 				'error-line' : QtGui.QColor("#ffddcc"),
-				'current-line' : None#QtGui.QColor("#fefefe")
+				'current-line' : None,
+				
+				'compile-log' : cf("#666666"),
+				'benchmark' : cf("#333333"),
+				'program-output' : cf('#10e010'),
+				'traceback' : cf("#333333"),
 			},
 			
 			# Dark theme
@@ -363,6 +368,11 @@ class Startup:
 				
 				'error-line' : QtGui.QColor("#f74727"),
 				'current-line' : QtGui.QColor("#303030"),
+				
+				'compile-log' : cf("#dddddd"),
+				'benchmark' : cf("#ffffcc"),
+				'program-output' : cf('#ffffff'),
+				'traceback' : cf("#ffa030"),
 			},
 		}
 		
