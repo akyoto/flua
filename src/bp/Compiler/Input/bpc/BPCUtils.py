@@ -463,14 +463,41 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			raise CompilerException("Missing <to> or <until> node")
 		
-		# TODO: CPP Syntax
-		return "for %s = %s %s %s\n%s" % (iterator, start, toUntil, end, loopCode)
+		exprStart = " "
+		blockStart = ""
+		blockEnd = ""
+		
+		if currentSyntax == SYNTAX_RUBY:
+			blockEnd = "end"
+		elif currentSyntax == SYNTAX_CPP:
+			exprStart = " ("
+			blockStart = ") {"
+			blockEnd = "}"
+		elif currentSyntax == SYNTAX_PYTHON:
+			blockStart = ":"
+		
+		forLoop = "for%s%s = %s %s %s%s\n%s%s%s" % (exprStart, iterator, start, toUntil, end, blockStart, loopCode, "\t" * tabLevel, blockEnd)
+			
+		return forLoop
 	elif nodeName == "foreach":
 		iterator = nodeToBPC(getElementByTagName(node, "iterator").firstChild, 0, conv)
 		coll = nodeToBPC(getElementByTagName(node, "collection").firstChild, 0, conv)
 		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
 		
-		return "for %s in %s\n%s" % (iterator, coll, loopCode)
+		exprStart = " "
+		blockStart = ""
+		blockEnd = ""
+		
+		if currentSyntax == SYNTAX_RUBY:
+			blockEnd = "end"
+		elif currentSyntax == SYNTAX_CPP:
+			exprStart = " ("
+			blockStart = ") {"
+			blockEnd = "}"
+		elif currentSyntax == SYNTAX_PYTHON:
+			blockStart = ":"
+		
+		return "for%s%s in %s%s\n%s%s%s" % (exprStart, iterator, coll, blockStart, loopCode, "\t" * tabLevel, blockEnd)
 	elif nodeName == "parameter":
 		if node.childNodes:
 			if len(node.childNodes) == 1:

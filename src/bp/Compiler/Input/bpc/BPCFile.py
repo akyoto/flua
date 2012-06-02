@@ -760,6 +760,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.nextLineIndented:
 			self.raiseBlockException("for", line)
 		
+		if line[3] == '(':
+			line = "for " + line[4:]
+		elif line[4] == '(':
+			line = "for " + line[5:]
+		
+		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+		if bpcUtils.currentSyntax == SYNTAX_CPP:
+			line = line[:-1] # Remove ')'
+		
 		node = self.doc.createElement("for")
 		
 		line += " "
