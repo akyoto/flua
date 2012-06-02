@@ -1,15 +1,11 @@
 #include <sys/stat.h>
-#include <unistd.h>
-#include <limits.h>
 #include <cstdio>
-#include <dirent.h>
 
 // We need bp modules
 #include <bp/Core/String/UTF8String/C++/UTF8String.hpp>
 
 // Typedef
 #define BPFileHandle FILE
-#define BPDirectoryHandle DIR
 
 // bp_fopen
 inline BPFileHandle* bp_fopen(BPUTF8String* path, BPUTF8String* mode) {
@@ -73,64 +69,4 @@ inline size_t bp_fileSize(BPUTF8String* fileName) {
 	if(stat(*fileName, &fileInfo))
 		return 0;
 	return fileInfo.st_size;
-}
-
-// bp_changeDir
-inline bool bp_changeDir(BPUTF8String* url) {
-	return !chdir(*url);
-}
-
-// bp_openDir
-inline BPDirectoryHandle* bp_openDir(BPUTF8String* url) {
-	return opendir(url->_data);
-}
-
-// bp_closeDir
-inline void bp_closeDir(BPDirectoryHandle* dir) {
-	closedir(dir);
-}
-
-// bp_getNextFile
-inline BPUTF8String* bp_getNextFile(BPDirectoryHandle* dir) {
-	struct dirent* ent = readdir(dir);
-	
-	if(ent == NULL)
-		return EMPTY_STRING;
-	
-	return _toString(ent->d_name);
-	//String tmp = ent->d_name;
-	//return tmp != "." && tmp != ".." ? tmp : GetNextFile();
-}
-
-// bp_getCurrentDir
-inline BPUTF8String* bp_getCurrentDir() {
-	char *temp  = new (UseGC) char[PATH_MAX];
-	
-	if(getcwd(temp, PATH_MAX) != NULL) {
-		return new BPUTF8String(temp);
-	}
-	
-	/*int error = errno;
-
-    switch ( error ) {
-        // EINVAL can't happen - size argument > 0
-
-        // PATH_MAX includes the terminating nul, 
-        // so ERANGE should not be returned
-
-        case EACCES:
-            throw std::runtime_error("Access denied");
-
-        case ENOMEM:
-            // I'm not sure whether this can happen or not 
-            throw std::runtime_error("Insufficient storage");
-
-        default: {
-            std::ostringstream str;
-            str << "Unrecognised error" << error;
-            throw std::runtime_error(str.str());
-        }
-    }*/
-	
-	return _toString("");
 }

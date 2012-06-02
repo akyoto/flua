@@ -12,10 +12,10 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>FileWriteStream</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="1">
 					<parameters>
 						<parameter>
 							<access>
@@ -26,7 +26,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="2">
 							<value>
 								<access>
 									<value>my</value>
@@ -48,7 +48,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2">
+						<assign depth="2" id="3">
 							<value>
 								<access>
 									<value>my</value>
@@ -57,7 +57,7 @@
 							</value>
 							<value>bp_string_1</value>
 						</assign>
-						<if-block depth="2">
+						<if-block depth="2" id="4">
 							<if>
 								<condition>
 									<not>
@@ -70,7 +70,7 @@
 									</not>
 								</condition>
 								<code>
-									<throw depth="3">
+									<throw depth="3" id="5">
 										<new>
 											<type>FileWriteException</type>
 											<parameters>
@@ -89,11 +89,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1">
-					<parameters/>
+				<function depth="1" id="6">
 					<name>finalize</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="7">
 							<function>
 								<access>
 									<value>my</value>
@@ -103,21 +102,17 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
-					<parameters/>
+				<function depth="1" id="8">
 					<name>enter</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="9"/>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
-					<parameters/>
+				<function depth="1" id="10">
 					<name>exit</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="11">
 							<function>
 								<access>
 									<value>my</value>
@@ -127,15 +122,14 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="12">
 					<parameters>
 						<parameter>data</parameter>
 					</parameters>
 					<name>write</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="13">
 							<function>bp_fwrite</function>
 							<parameters>
 								<parameter>
@@ -148,9 +142,8 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="14">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -161,7 +154,7 @@
 					</parameters>
 					<name>writeLine</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="15">
 							<function>
 								<access>
 									<value>my</value>
@@ -172,7 +165,7 @@
 								<parameter>line</parameter>
 							</parameters>
 						</call>
-						<call depth="2">
+						<call depth="2" id="16">
 							<function>
 								<access>
 									<value>my</value>
@@ -189,13 +182,11 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
-					<parameters/>
+				<function depth="1" id="17">
 					<name>flush</name>
 					<code>
-						<call depth="2">
+						<call depth="2" id="18">
 							<function>bp_fflush</function>
 							<parameters>
 								<parameter>
@@ -207,13 +198,11 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1">
-					<parameters/>
+				<function depth="1" id="19">
 					<name>close</name>
 					<code>
-						<if-block depth="2">
+						<if-block depth="2" id="20">
 							<if>
 								<condition>
 									<access>
@@ -222,7 +211,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="3">
+									<assign depth="3" id="21">
 										<value>success</value>
 										<value>
 											<call>
@@ -238,7 +227,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign depth="3">
+									<assign depth="3" id="22">
 										<value>
 											<access>
 												<value>my</value>
@@ -247,50 +236,45 @@
 										</value>
 										<value>0</value>
 									</assign>
-									<return depth="3">success</return>
+									<return depth="3" id="23">success</return>
 								</code>
 							</if>
 						</if-block>
-						<return depth="2">false</return>
+						<return depth="2" id="24">false</return>
 					</code>
-					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
-						<parameters/>
+				<get depth="1" id="25">
+					<getter depth="2" id="26">
 						<name>path</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="27">
 								<access>
 									<value>my</value>
 									<value>path</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
-					<getter depth="2">
-						<parameters/>
+					<getter depth="2" id="28">
 						<name>newline</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="29">
 								<access>
 									<value>my</value>
 									<value>newline</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
-				<set depth="1">
-					<setter depth="2">
+				<set depth="1" id="30">
+					<setter depth="2" id="31">
 						<parameters>
 							<parameter>newlineCharacter</parameter>
 						</parameters>
 						<name>newline</name>
 						<code>
-							<assign depth="3">
+							<assign depth="3" id="32">
 								<value>
 									<access>
 										<value>my</value>
@@ -300,7 +284,6 @@
 								<value>newlineCharacter</value>
 							</assign>
 						</code>
-						<meta/>
 					</setter>
 				</set>
 			</code>

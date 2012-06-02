@@ -77,7 +77,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="5">
 					<name>finalize</name>
@@ -98,7 +97,6 @@
 					<code>
 						<noop depth="2" id="8"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="9">
 					<name>exit</name>
@@ -171,7 +169,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="16">
 					<parameters>
@@ -210,7 +207,6 @@
 						</call>
 						<return depth="2" id="19">buffer</return>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="20">
 					<name>close</name>
@@ -255,10 +251,11 @@
 						</if-block>
 						<return depth="2" id="25">false</return>
 					</code>
-					<meta/>
 				</function>
 			</code>
-			<meta/>
+			<meta>
+				<ensure-destructor-call>true</ensure-destructor-call>
+			</meta>
 		</class>
 	</code>
 </module>

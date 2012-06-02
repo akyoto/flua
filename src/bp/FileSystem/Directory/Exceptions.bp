@@ -1,0 +1,49 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="0">
+			<name>AccessDeniedException</name>
+			<code>
+				<extends depth="1" id="1">
+					<extends-class depth="2" id="2">Exception</extends-class>
+				</extends>
+				<function depth="1" id="3">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>path</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="4"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
+						<name>path</name>
+						<code>
+							<return depth="3" id="7">
+								<access>
+									<value>my</value>
+									<value>path</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

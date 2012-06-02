@@ -8,13 +8,13 @@
 	</header>
 	<code>
 		<comment>\SBase\Sexception\Sclass</comment>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>Exception</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="1">
 					<name>init</name>
 					<code>
-						<noop depth="2">
+						<noop depth="2" id="2">
 							<meta/>
 						</noop>
 					</code>
@@ -24,17 +24,18 @@
 			<meta/>
 		</class>
 		<comment>\SDividing\Sa\Svalue\Sby\Szero\Scauses\Sthis\Sexception\Sto\Sbe\Sthrown</comment>
-		<class depth="0">
+		<class depth="0" id="3">
 			<name>DivisionByZeroException</name>
 			<code>
-				<extends depth="1">
-					<extends-class depth="2">Exception</extends-class>
+				<extends depth="1" id="4">
+					<extends-class depth="2" id="5">Exception</extends-class>
 				</extends>
-				<function depth="1">
+				<function depth="1" id="6">
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="7"/>
 					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta>

@@ -8,13 +8,13 @@
 	</header>
 	<code>
 		<comment>\SFile\Snot\Sfound</comment>
-		<class depth="0">
+		<class depth="0" id="0">
 			<name>FileNotFoundException</name>
 			<code>
-				<extends depth="1">
-					<extends-class depth="2">Exception</extends-class>
+				<extends depth="1" id="1">
+					<extends-class depth="2" id="2">Exception</extends-class>
 				</extends>
-				<function depth="1">
+				<function depth="1" id="3">
 					<parameters>
 						<parameter>
 							<access>
@@ -25,35 +25,32 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="4"/>
 					</code>
-					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
 						<name>path</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="7">
 								<access>
 									<value>my</value>
 									<value>path</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SFile\Scould\Snot\Sbe\Screated\Sor\Swritten\Sto</comment>
-		<class depth="0">
+		<class depth="0" id="8">
 			<name>FileWriteException</name>
 			<code>
-				<extends depth="1">
-					<extends-class depth="2">Exception</extends-class>
+				<extends depth="1" id="9">
+					<extends-class depth="2" id="10">Exception</extends-class>
 				</extends>
-				<function depth="1">
+				<function depth="1" id="11">
 					<parameters>
 						<parameter>
 							<access>
@@ -64,26 +61,23 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="12"/>
 					</code>
-					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="13">
+					<getter depth="2" id="14">
 						<name>path</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="15">
 								<access>
 									<value>my</value>
 									<value>path</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
-			<meta/>
 		</class>
 	</code>
 </module>
