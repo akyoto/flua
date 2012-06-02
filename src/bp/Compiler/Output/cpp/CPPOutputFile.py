@@ -367,18 +367,26 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 					# Add code to classes header
 					finalClassName = prefix + classObj.name + templatePostfix
 					
+					# Inheritance
+					extends = "public "
+					classes = ""
+					if classObj.extends:
+						classes = ', public '.join(self.adjustDataType(c.classObj.name).replace("*", "") for c in classObj.extends)
+						extends += classes
+					
 					# Memory management
 					if self.useGC:
 						# Ensure destructor call?
-						if classObj.ensureDestructorCall:
-							gcClass = "gc_cleanup"
-						else:
-							gcClass = "gc"
-						self.classesHeader += "class %s: public %s" % (finalClassName, gcClass)
-					elif self.useReferenceCounting:
-						self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName)
-					else:
-						self.classesHeader += "class %s" % (finalClassName)
+						if not classes:
+							if classObj.ensureDestructorCall:
+								extends += "gc_cleanup"
+							else:
+								extends += "gc"
+						self.classesHeader += "class %s: %s" % (finalClassName, extends)
+					#elif self.useReferenceCounting:
+					#	self.classesHeader += "class %s: public boost::enable_shared_from_this< %s >" % (finalClassName, finalClassName)
+					#else:
+					#	self.classesHeader += "class %s" % (finalClassName)
 					
 					# For debugging the GC add this commented line to the string:
 					# ~%s(){std::cout << \"Destroying %s\" << std::endl;}\n

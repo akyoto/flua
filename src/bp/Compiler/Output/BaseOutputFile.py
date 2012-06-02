@@ -426,7 +426,7 @@ class BaseOutputFile(ScopeController):
 	
 	def scanExtends(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
-		self.currentClass.setExtends([self.getClass(className) for className in pNames])
+		self.currentClass.setExtends([self.getClassImplementationByTypeName(className) for className in pNames])
 	
 	def scanClass(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -1583,8 +1583,8 @@ class BaseOutputFile(ScopeController):
 		
 		#print(funcName, "|", className, "|", key)
 		if not funcName in self.getClass(className).functions:
-			classObj = self.getClass(className)
-			tmpFunc = findFunctionInBaseClasses(classObj, funcName)
+			classImpl = self.getClassImplementationByTypeName(typeName)
+			tmpFunc, baseClassImpl = findFunctionInBaseClasses(classImpl, funcName)
 			
 			if not tmpFunc:
 				if not self.compiler.background:
@@ -1983,7 +1983,8 @@ class BaseOutputFile(ScopeController):
 		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
 			if not funcName in callerClass.functions:
 				# Check extended classes
-				func = findFunctionInBaseClasses(callerClass, funcName)
+				callerClassImpl = self.getClassImplementationByTypeName(callerType)
+				func, baseClassImpl = findFunctionInBaseClasses(callerClassImpl, funcName)
 				
 				if not func:
 					if funcName[0].islower():

@@ -1,17 +1,19 @@
 from bp.Compiler.Utils import *
 
-def findFunctionInBaseClasses(callerClass, funcName):
-	for classObj in callerClass.extends:
+def findFunctionInBaseClasses(callerClassImpl, funcName):
+	callerClass = callerClassImpl.classObj
+	for classImpl in callerClass.extends:
+		classObj = classImpl.classObj
 		debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))
 		if funcName in classObj.functions:
 			debug("Found function '%s' in base class '%s'" % (funcName, classObj.name))
-			return classObj.functions[funcName]
+			return classObj.functions[funcName], classImpl
 		
 		if classObj.extends:
 			func = findFunctionInBaseClasses(classObj, funcName)
 			if func:
-				return func
-	return None
+				return func, classImpl
+	return None, None
 
 class BaseClassImplementation:
 	
@@ -51,7 +53,7 @@ class BaseClassImplementation:
 			codeExists = 0
 			#debug(self.classObj.functions)
 			if not funcName in self.classObj.functions:
-				candidates = findFunctionInBaseClasses(self.classObj, funcName)
+				candidates, baseClassImpl = findFunctionInBaseClasses(self, funcName)
 				if not candidates:
 					if self.classObj.name:
 						print("\n * ".join(["Class '%s' has the following functions:" % self.classObj.name] + list(self.classObj.functions.keys())))
@@ -59,8 +61,18 @@ class BaseClassImplementation:
 						raise CompilerException("Function '%s.%s' has not been defined [Error code 5]" % (self.classObj.name, funcName))
 					else:
 						raise CompilerException("Function '%s' has not been defined [Error code 5]" % (funcName))
-			impl = self.createFunctionImplementation(self.getMatchingFunction(funcName, paramTypes), paramTypes)
-			self.addFuncImplementation(impl)
+			
+			func = self.getMatchingFunction(funcName, paramTypes)
+			
+			if func.classObj == self.classObj:
+				classImpl = self
+			else:
+				# We implemented it in the inherited class
+				classImpl = baseClassImpl
+			
+			impl = classImpl.createFunctionImplementation(func, paramTypes)
+			classImpl.addFuncImplementation(impl)
+			
 			return impl, codeExists
 		return self.funcImplementations[key], codeExists
 		
@@ -86,7 +98,7 @@ class BaseClassImplementation:
 	def getMatchingFunction(self, funcName, paramTypes):
 		#print("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
 		if not funcName in self.classObj.functions:
-			candidates = findFunctionInBaseClasses(self.classObj, funcName)
+			candidates, baseClassImpl = findFunctionInBaseClasses(self, funcName)
 		else:
 			candidates = self.classObj.functions[funcName]
 		#print(candidates[0].paramTypesByDefinition)

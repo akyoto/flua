@@ -86,9 +86,9 @@ class BaseClass(BaseNamespace):
 		self.extends = extends
 		
 		# Also implement base classes
-		if self.forceImplementation:
-			for classObj in self.extends:
-				classObj.requestDefaultImplementation()
+		#if self.forceImplementation:
+		#	for classObj in self.extends:
+		#		classObj.requestDefaultImplementation()
 	
 	def requestDefaultImplementation(self):
 		self.requestImplementation([], [])
