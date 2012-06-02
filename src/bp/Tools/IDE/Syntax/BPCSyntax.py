@@ -13,7 +13,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{'break'},
 		{'class', 'continue', 'const', 'case', 'catch', 'compilerflags'},
 		{'define'},
-		{'elif', 'else', 'ensure', 'extern', 'extends'},
+		{'elif', 'elsif', 'else', 'ensure', 'extern', 'extends'},
 		{'for', 'false'},
 		{'get'},
 		{},

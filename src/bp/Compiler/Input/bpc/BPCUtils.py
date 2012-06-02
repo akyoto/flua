@@ -347,6 +347,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				codeParts.append(childCode.rstrip())
 				#if childCode[-1] != "\n":
 				codeParts.append("\n")
+				
+				if currentSyntax == SYNTAX_RUBY:
+					codeParts.append(tabs + "end\n")
 			else:
 				if nodeName != "code" and nodeName != "extern":
 					codeParts.append(prefix)
@@ -550,7 +553,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if currentSyntax == SYNTAX_BPC:
 			return "%s%s%s\n%s" % (name, space, expr, code)
 		elif currentSyntax == SYNTAX_RUBY:
-			return "%s%s%s\n%s%send\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
+			if not name in {"if", "elsif", "else", "try", "catch"}:
+				return "%s%s%s\n%s%send\n" % (name, space, expr.strip(), code, ("\t" * (tabLevel)))
+			else:
+				return "%s%s%s\n%s" % (name, space, expr.strip(), code)
 		elif currentSyntax == SYNTAX_CPP:
 			if code.endswith("}"):
 				code += "\n"
@@ -579,7 +585,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_CPP:
 			return xmlToBPCBlock[nodeName] + " {\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "}\n"
 		elif currentSyntax == SYNTAX_RUBY:
-			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "end\n"
+			if not nodeName == "else":
+				return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "end\n"
+			else:
+				return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() + "\n" + ("\t" * (tabLevel)) + "\n"
 	elif nodeName == "not":
 		return "not " + nodeToBPC(node.firstChild, 0, conv)
 	elif nodeName == "meta":
