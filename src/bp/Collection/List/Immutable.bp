@@ -7,6 +7,7 @@
 		<strings/>
 	</header>
 	<code>
+		<comment>\STODO:\SImplement\Sthis.</comment>
 		<class depth="0" id="0">
 			<name>ImmutableList</name>
 			<code>
@@ -18,10 +19,8 @@
 					<code>
 						<noop depth="2" id="4"/>
 					</code>
-					<meta/>
 				</function>
 			</code>
-			<meta/>
 		</class>
 	</code>
 </module>

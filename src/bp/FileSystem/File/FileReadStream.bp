@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.FileSystem</import>
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>

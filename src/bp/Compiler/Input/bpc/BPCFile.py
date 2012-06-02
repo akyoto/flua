@@ -1411,7 +1411,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.keyword = line
 		
 		if bpcUtils.currentSyntax == SYNTAX_RUBY:
-			if self.keyword == "end":#line.endswith("end") and line[:-3].isspace():
+			if line == "end":#line.endswith("end") and line[:-3].isspace():
 				self.keyword = ""
 				return ""
 			elif self.keyword == "elsif":

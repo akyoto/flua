@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.FileSystem</import>
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>
@@ -49,9 +48,9 @@
 						<code>
 							<noop depth="3" id="10"/>
 						</code>
-						<meta/>
 					</function>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SSymbolizes\Sa\Sdirectory\Sin\Sthe\Sfile\Ssystem</comment>
@@ -163,9 +162,9 @@
 									<value>my</value>
 									<value>path</value>
 								</access>
+								<meta/>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 				<casts depth="1" id="28">
@@ -177,9 +176,9 @@
 									<value>my</value>
 									<value>path</value>
 								</access>
+								<meta/>
 							</return>
 						</code>
-						<meta/>
 					</cast-definition>
 				</casts>
 			</code>
@@ -209,9 +208,9 @@
 					<parameters>
 						<parameter>path</parameter>
 					</parameters>
+					<meta/>
 				</call>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

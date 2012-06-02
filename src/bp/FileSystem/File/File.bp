@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.FileSystem</import>
 			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
 		</dependencies>
@@ -81,9 +80,9 @@
 						<code>
 							<noop depth="3" id="16"/>
 						</code>
-						<meta/>
 					</function>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SImmutable\Sfile\Sobject</comment>

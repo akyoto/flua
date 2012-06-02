@@ -8,24 +8,24 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SThe\Snaive\Sapproach:</comment>
-		<class depth="0">
+		<comment>\STODO:\SImplement\Sthis.</comment>
+		<class depth="0" id="0">
 			<name>ImmutableArray</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="1">
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="2"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1">
+				<function depth="1" id="3">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="4"/>
 					</code>
 					<meta/>
 				</function>

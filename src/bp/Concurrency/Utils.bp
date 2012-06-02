@@ -7,14 +7,14 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">Utils.hpp</include>
+				<include depth="1" id="1">Utils.hpp</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
+		<extern depth="0" id="2">
+			<extern-function depth="1" id="3">
 				<name>bp_getCPUCount</name>
 				<type>Size</type>
 				<meta>
@@ -22,14 +22,14 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="4">
 				<name>bp_atomicAdd</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="5">
 				<name>bp_atomicSetFlag</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
@@ -37,23 +37,11 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
-		<function depth="0">
-			<name>getCPUCount</name>
-			<code>
-				<return depth="1">
-					<call>
-						<function>bp_getCPUCount</function>
-						<parameters/>
-					</call>
-				</return>
-			</code>
-		</function>
 		<comment>\SCounter\Sthat\Scan\Sbe\Sused\Sby\Sa\Sknown\Snumber\Sof\Sthreads,\Sthis\Sis\Sfaster\Sthan\Satomic\Sadd\Soperations</comment>
-		<class depth="0">
+		<class depth="0" id="6">
 			<name>AtomicCounter</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="7">
 					<parameters>
 						<parameter>
 							<access>
@@ -64,7 +52,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="8">
 							<value>
 								<access>
 									<value>my</value>
@@ -92,13 +80,13 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="9">
 					<parameters>
 						<parameter>threadId</parameter>
 					</parameters>
 					<name>increment</name>
 					<code>
-						<assign-add depth="2">
+						<assign-add depth="2" id="10">
 							<value>
 								<index>
 									<value>
@@ -114,14 +102,14 @@
 						</assign-add>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="11">
 					<name>currentValue</name>
 					<code>
-						<assign depth="2">
+						<assign depth="2" id="12">
 							<value>val</value>
 							<value>0</value>
 						</assign>
-						<for depth="2">
+						<for depth="2" id="13">
 							<iterator>i</iterator>
 							<from>0</from>
 							<until>
@@ -131,7 +119,7 @@
 								</access>
 							</until>
 							<code>
-								<assign-add depth="3">
+								<assign-add depth="3" id="14">
 									<value>val</value>
 									<value>
 										<index>
@@ -147,10 +135,23 @@
 								</assign-add>
 							</code>
 						</for>
-						<return depth="2">val</return>
+						<return depth="2" id="15">val</return>
 					</code>
 				</function>
 			</code>
 		</class>
+		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
+		<function depth="0" id="16">
+			<name>getCPUCount</name>
+			<code>
+				<return depth="1" id="17">
+					<call>
+						<function>bp_getCPUCount</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>
