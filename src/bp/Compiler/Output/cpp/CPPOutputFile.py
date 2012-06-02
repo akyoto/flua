@@ -207,8 +207,8 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		# Because we love hardcoding. We're removing the '\n' and ';' here.
 		code = code[:-2]
 		
-		resultingCode = iterImplCode.replace("this->", "_collection_%d->" % self.compiler.forEachVarCounter).replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code)
-		return "{\n" + tabs + self.adjustDataType(collExprType) + (" _collection_%d = " % self.compiler.forEachVarCounter) + collExpr + ";\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
+		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code)
+		return "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return self.adjustDataType(typeName) + " " + varName
