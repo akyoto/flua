@@ -114,7 +114,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#self.openFile(getModuleDir() + "playground/My playground.bp")
 		#self.moduleView.highlightModule("playground.My playground")
 		self.newFile()
-		self.codeEdit.setPlainText("import playground.Everything\n\n# Check bp.Examples for some beginner topics.\n")
+		self.codeEdit.setPlainText("""import playground.Everything
+
+# Check bp.Examples for some beginner topics.
+""")
 		cursor = self.codeEdit.textCursor()
 		cursor.movePosition(QtGui.QTextCursor.End)
 		self.codeEdit.setTextCursor(cursor)

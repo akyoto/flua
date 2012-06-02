@@ -226,9 +226,11 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#"-march=native",
 			#"-mtune=native",
 			
-			"-Wno-div-by-zero", # We check for div by zero
-			"-Wno-parentheses", # TODO: Check
 			"-Wall",
+			"-Wno-div-by-zero", # We check for div by zero
+			"-Wno-sign-compare", # Weird stuff
+			"-Wno-parentheses", # TODO: Check
+			
 			"-std=c++0x",
 			["-m32", "-m64"][self.is64Bit],
 		]
