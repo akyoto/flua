@@ -315,7 +315,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if bpcUtils.currentSyntax == SYNTAX_CPP and node.nodeValue == "this":
 				node.nodeValue = "my"
-			elif bpcUtils.currentSyntax == SYNTAX_PYTHON and node.nodeValue == "self":
+			elif bpcUtils.currentSyntax in {SYNTAX_RUBY, SYNTAX_PYTHON} and node.nodeValue == "self":
 				node.nodeValue = "my"
 		
 		for child in node.childNodes:
