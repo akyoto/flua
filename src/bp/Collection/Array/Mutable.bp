@@ -101,7 +101,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="8">
 					<name>finalize</name>
