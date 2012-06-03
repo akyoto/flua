@@ -163,6 +163,9 @@ class HelpMenuActions:
 	def reportBug(self):
 		QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://github.com/blitzprog/bp/issues/new", QtCore.QUrl.TolerantMode))
 	
+	def faqTabs(self):
+		QtGui.QDesktopServices.openUrl(QtCore.QUrl("http://lea.verou.me/2012/01/why-tabs-are-clearly-superior/", QtCore.QUrl.TolerantMode))
+	
 	def showIntroduction(self):
 		self.moduleView.highlightModule("bp.Examples.")
 		

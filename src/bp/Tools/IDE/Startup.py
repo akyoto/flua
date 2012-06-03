@@ -248,6 +248,7 @@ class Startup:
 		# FAQ
 		self.actionFAQUpdate.triggered.connect(self.faqUpdate)
 		self.actionFAQCompiling.triggered.connect(self.faqCompiling)
+		self.actionFAQTabs.triggered.connect(self.faqTabs)
 		
 	def initWorkspaces(self):
 		# Workspaces
@@ -375,7 +376,7 @@ class Startup:
 				'compile-log' : cf("#dddddd"),
 				'benchmark' : cf("#ffffcc"),
 				'program-output' : cf('#ffffcc'),
-				'traceback' : cf("#ffa030"),
+				'traceback' : cf("#ffffcc"),
 			},
 		}
 		

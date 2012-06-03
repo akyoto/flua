@@ -15,7 +15,11 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	def startWith(self, codeEdit):
 		self.codeEdit = codeEdit
 		if not self.codeEdit is None:
-			self.start()
+			if self.bpIDE.threaded:
+				self.start()
+			else:
+				self.run()
+				self.finished.emit()
 		
 	def queue(self, codeEdit):
 		self.ceQueue.append(codeEdit)

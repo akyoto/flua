@@ -139,10 +139,18 @@ class BPMetaDataWidget(QtGui.QWidget):
 		
 		# Is there any meta data options available for this or its parent node?
 		nodeName = self.node.tagName
+		
 		if not nodeName in metaDataForNodeName:
-			self.node = self.node.parentNode.parentNode
-			nodeName = self.node.tagName
-			if not nodeName in metaDataForNodeName:
+			# Enable/Disable parent node check
+			if 1:
+				tmpNode = self.node.parentNode.parentNode
+				nodeName = tmpNode.tagName
+				
+				if not nodeName in metaDataForNodeName:
+					return
+				
+				self.node = tmpNode
+			else:
 				return
 		
 		# Save
@@ -152,6 +160,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		metaNode = getElementByTagName(self.node, "meta")
 		if not metaNode:
 			metaNode = self.doc.createElement("meta")
+			print("Creating meta node for " + self.node.toxml() + " because it didn't exist yet.")
 			self.node.appendChild(metaNode)
 		
 		# New form layout

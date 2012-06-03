@@ -69,6 +69,7 @@
      </property>
      <addaction name="actionFAQUpdate"/>
      <addaction name="actionFAQCompiling"/>
+     <addaction name="actionFAQTabs"/>
     </widget>
     <addaction name="menuFAQ"/>
     <addaction name="actionIntroduction"/>
@@ -511,17 +512,22 @@
   </action>
   <action name="actionFAQUpdate">
    <property name="text">
-    <string>I can't update</string>
+    <string>Why does updating fail?</string>
    </property>
   </action>
   <action name="actionFAQCompiling">
    <property name="text">
-    <string>Compiling doesn't work</string>
+    <string>Why does the compiler not work?</string>
    </property>
   </action>
   <action name="actionViewSource">
    <property name="text">
     <string>View generated source code</string>
+   </property>
+  </action>
+  <action name="actionFAQTabs">
+   <property name="text">
+    <string>Why can't I use spaces instead of tabs?</string>
    </property>
   </action>
  </widget>

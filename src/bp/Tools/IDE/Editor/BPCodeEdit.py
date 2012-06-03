@@ -286,6 +286,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"in",
 			"switch",
 			"case",
+			"const",
 			"target",
 			"extends",
 			"pattern",
@@ -1024,9 +1025,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				if oldData:
 					oldNode = oldData.node
 					# Meta data
-					if oldNode:
+					if oldNode and oldNode.nodeType != Node.TEXT_NODE and oldNode.tagName in metaDataForNodeName:
 						metaNode = getElementByTagName(oldNode, "meta")
-						if metaNode and node:
+						if metaNode and node and node.tagName == oldNode.tagName:
 							node.appendChild(metaNode)
 					
 					#oldData.oldNode = oldData.node
@@ -1079,7 +1080,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.disableUpdatesFlag = True
 		
 		self.doc = parseString(xmlCode.encode("utf-8"))
-		
+		print(self.doc.toprettyxml())
 		self.setRoot(self.doc.documentElement)
 		
 	def goToLine(self, lineNum):

@@ -315,6 +315,13 @@ class BaseOutputFile(ScopeController):
 		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
 			self.addDivisionByZeroCheck(op2)
 		
+		if connector in {" + ", " - ", " * ", " / ", " \\ ", " & ", " | ", " && ", " || "}:
+			self.exprPrefix = "("
+			self.exprPostfix = ")"
+		else:
+			self.exprPrefix = ""
+			self.exprPostfix = ""
+		
 		# Float conversion if needed
 		if connector != " / ":
 			return self.binaryOperatorSyntax % (self.exprPrefix, op1, connector, op2, self.exprPostfix)

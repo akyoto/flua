@@ -41,7 +41,6 @@
 							</value>
 						</declare-type>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="6">
 					<parameters>
@@ -104,6 +103,7 @@
 							</assign>
 						</code>
 					</setter>
+					<meta/>
 				</set>
 			</code>
 			<meta>
@@ -209,11 +209,46 @@
 						</assign>
 					</code>
 				</function>
-				<iterators depth="1" id="25">
-					<iterator-type depth="2" id="26">
+				<get depth="1" id="25">
+					<getter depth="2" id="26">
+						<name>first</name>
+						<code>
+							<require depth="3" id="27">
+								<call depth="4" id="28">
+									<function>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>start</value>
+												</access>
+											</value>
+											<value>next</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</require>
+							<return depth="3" id="29">
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>start</value>
+										</access>
+									</value>
+									<value>next</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+				<iterators depth="1" id="30">
+					<iterator-type depth="2" id="31">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="27">
+							<assign depth="3" id="32">
 								<value>node</value>
 								<value>
 									<access>
@@ -222,7 +257,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="28">
+							<while depth="3" id="33">
 								<condition>
 									<access>
 										<value>node</value>
@@ -230,7 +265,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="4" id="29">
+									<assign depth="4" id="34">
 										<value>node</value>
 										<value>
 											<access>
@@ -239,7 +274,7 @@
 											</access>
 										</value>
 									</assign>
-									<yield depth="4" id="30">
+									<yield depth="4" id="35">
 										<access>
 											<value>node</value>
 											<value>value</value>
@@ -251,6 +286,9 @@
 					</iterator-type>
 				</iterators>
 			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
 		</class>
 	</code>
 </module>

@@ -55,6 +55,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Init
 		self.developerFlag = False
+		self.threaded = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
@@ -104,8 +105,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywordList))
-		
-		self.threaded = True
 		
 		# The beginning of the end.
 		self.initAll()
@@ -841,14 +840,4 @@ def main():
 	editor.config.saveSettings()
 	
 	print("--- EOP: %d ---" % exitCode)
-	sys.exit(exitCode)
-
-if __name__ == '__main__':
-	try:
-		#import cProfile
-		#cProfile.run("main()")#, "bp.prof")
-		main()
-	except SystemExit:
-		pass
-	except:
-		printTraceback()
+	#sys.exit(exitCode)

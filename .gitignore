@@ -14,4 +14,8 @@ src/bp/Tools/IDE/tmp/*
 src/bp/Tools/IDE/miscellaneous/scribble.txt
 src/bp/Tools/IDE/settings.ini
 src/playground/*
+include/cpp/musl/*
+include/cpp/stm/*
+libs/cpp/linux/x86/musl-*
+src/eurbach/
 .notepad++

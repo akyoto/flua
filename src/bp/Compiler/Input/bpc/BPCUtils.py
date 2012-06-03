@@ -198,6 +198,7 @@ class LineToNodeConverter:
 ####################################################################
 def nodeToBPCSaved(node, tabLevel, conv):
 	nodeName = node.tagName
+	print("NToBPC: " + nodeName)
 	
 	# First step
 	isInvalidNode = False

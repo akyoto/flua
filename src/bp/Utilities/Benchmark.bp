@@ -7,6 +7,10 @@
 		<strings>
 			<string id="bp_string_0">:\S</string>
 			<string id="bp_string_1">\Smicroseconds</string>
+			<string id="bp_string_2">200</string>
+			<string id="bp_string_3">200,000</string>
+			<string id="bp_string_4">200,000,000</string>
+			<string id="bp_string_5">,</string>
 		</strings>
 	</header>
 	<code>
@@ -41,12 +45,13 @@
 							</value>
 							<value>
 								<call>
-									<function>systemTimeMicro</function>
+									<function>systemTime</function>
 									<parameters/>
 								</call>
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="5">
 					<name>exit</name>
@@ -66,12 +71,7 @@
 							</value>
 						</assign>
 						<assign depth="2" id="7">
-							<value>
-								<access>
-									<value>my</value>
-									<value>runtime</value>
-								</access>
-							</value>
+							<value>duration</value>
 							<value>
 								<subtract>
 									<value>
@@ -89,7 +89,18 @@
 								</subtract>
 							</value>
 						</assign>
-						<call depth="2" id="8">
+						<assign depth="2" id="8">
+							<value>runtime</value>
+							<value>
+								<call>
+									<function>readableNumber</function>
+									<parameters>
+										<parameter>duration</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<call depth="2" id="9">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -107,12 +118,7 @@
 														<value>bp_string_0</value>
 													</add>
 												</value>
-												<value>
-													<access>
-														<value>my</value>
-														<value>runtime</value>
-													</access>
-												</value>
+												<value>runtime</value>
 											</add>
 										</value>
 										<value>bp_string_1</value>
@@ -126,5 +132,363 @@
 			</code>
 			<meta/>
 		</class>
+		<comment>\STurns\Sa\Spositive\Sinteger\Slike\S20000\Sinto\Sa\Sstring,\Se.g.\S&quot;20,000&quot;\Sor\S&quot;20.000&quot;</comment>
+		<comment>\STODO:\SImplement\Sthis\Sfor\Sother\Sdata\Stypes</comment>
+		<function depth="0" id="10">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>UInt32</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>readableNumber</name>
+			<code>
+				<test depth="1" id="11">
+					<assert depth="2" id="12">
+						<equal>
+							<value>
+								<call>
+									<function>readableNumber</function>
+									<parameters>
+										<parameter>200</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>bp_string_2</value>
+						</equal>
+					</assert>
+					<assert depth="2" id="13">
+						<equal>
+							<value>
+								<call>
+									<function>readableNumber</function>
+									<parameters>
+										<parameter>200000</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>bp_string_3</value>
+						</equal>
+					</assert>
+					<assert depth="2" id="14">
+						<equal>
+							<value>
+								<call>
+									<function>readableNumber</function>
+									<parameters>
+										<parameter>200000000</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>bp_string_4</value>
+						</equal>
+					</assert>
+				</test>
+				<assign depth="1" id="15">
+					<value>separator</value>
+					<value>bp_string_5</value>
+				</assign>
+				<assign depth="1" id="16">
+					<value>stri</value>
+					<value>
+						<new>
+							<type>String</type>
+							<parameters>
+								<parameter>x</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<if-block depth="1" id="17">
+					<if>
+						<condition>
+							<less-or-equal>
+								<value>
+									<access>
+										<value>stri</value>
+										<value>length</value>
+									</access>
+								</value>
+								<value>3</value>
+							</less-or-equal>
+						</condition>
+						<code>
+							<return depth="2" id="18">stri</return>
+						</code>
+					</if>
+					<else-if depth="1" id="19">
+						<condition>
+							<less-or-equal>
+								<value>
+									<access>
+										<value>stri</value>
+										<value>length</value>
+									</access>
+								</value>
+								<value>6</value>
+							</less-or-equal>
+						</condition>
+						<code>
+							<return depth="2" id="20">
+								<add>
+									<value>
+										<add>
+											<value>
+												<call>
+													<function>
+														<access>
+															<value>stri</value>
+															<value>left</value>
+														</access>
+													</function>
+													<parameters>
+														<parameter>
+															<subtract>
+																<value>
+																	<access>
+																		<value>stri</value>
+																		<value>length</value>
+																	</access>
+																</value>
+																<value>3</value>
+															</subtract>
+														</parameter>
+													</parameters>
+												</call>
+											</value>
+											<value>separator</value>
+										</add>
+									</value>
+									<value>
+										<call>
+											<function>
+												<access>
+													<value>stri</value>
+													<value>right</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>3</parameter>
+											</parameters>
+										</call>
+									</value>
+								</add>
+							</return>
+						</code>
+					</else-if>
+					<else-if depth="1" id="21">
+						<condition>
+							<less-or-equal>
+								<value>
+									<access>
+										<value>stri</value>
+										<value>length</value>
+									</access>
+								</value>
+								<value>9</value>
+							</less-or-equal>
+						</condition>
+						<code>
+							<return depth="2" id="22">
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>
+														<add>
+															<value>
+																<call>
+																	<function>
+																		<access>
+																			<value>stri</value>
+																			<value>left</value>
+																		</access>
+																	</function>
+																	<parameters>
+																		<parameter>
+																			<subtract>
+																				<value>
+																					<access>
+																						<value>stri</value>
+																						<value>length</value>
+																					</access>
+																				</value>
+																				<value>6</value>
+																			</subtract>
+																		</parameter>
+																	</parameters>
+																</call>
+															</value>
+															<value>separator</value>
+														</add>
+													</value>
+													<value>
+														<call>
+															<function>
+																<access>
+																	<value>stri</value>
+																	<value>mid</value>
+																</access>
+															</function>
+															<parameters>
+																<parameter>
+																	<subtract>
+																		<value>
+																			<access>
+																				<value>stri</value>
+																				<value>length</value>
+																			</access>
+																		</value>
+																		<value>3</value>
+																	</subtract>
+																</parameter>
+																<parameter>3</parameter>
+															</parameters>
+														</call>
+													</value>
+												</add>
+											</value>
+											<value>separator</value>
+										</add>
+									</value>
+									<value>
+										<call>
+											<function>
+												<access>
+													<value>stri</value>
+													<value>right</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>3</parameter>
+											</parameters>
+										</call>
+									</value>
+								</add>
+							</return>
+						</code>
+					</else-if>
+					<else depth="1" id="23">
+						<code>
+							<return depth="2" id="24">
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>
+														<add>
+															<value>
+																<add>
+																	<value>
+																		<add>
+																			<value>
+																				<call>
+																					<function>
+																						<access>
+																							<value>stri</value>
+																							<value>left</value>
+																						</access>
+																					</function>
+																					<parameters>
+																						<parameter>
+																							<subtract>
+																								<value>
+																									<access>
+																										<value>stri</value>
+																										<value>length</value>
+																									</access>
+																								</value>
+																								<value>9</value>
+																							</subtract>
+																						</parameter>
+																					</parameters>
+																				</call>
+																			</value>
+																			<value>separator</value>
+																		</add>
+																	</value>
+																	<value>
+																		<call>
+																			<function>
+																				<access>
+																					<value>stri</value>
+																					<value>mid</value>
+																				</access>
+																			</function>
+																			<parameters>
+																				<parameter>
+																					<subtract>
+																						<value>
+																							<access>
+																								<value>stri</value>
+																								<value>length</value>
+																							</access>
+																						</value>
+																						<value>6</value>
+																					</subtract>
+																				</parameter>
+																				<parameter>3</parameter>
+																			</parameters>
+																		</call>
+																	</value>
+																</add>
+															</value>
+															<value>separator</value>
+														</add>
+													</value>
+													<value>
+														<call>
+															<function>
+																<access>
+																	<value>stri</value>
+																	<value>mid</value>
+																</access>
+															</function>
+															<parameters>
+																<parameter>
+																	<subtract>
+																		<value>
+																			<access>
+																				<value>stri</value>
+																				<value>length</value>
+																			</access>
+																		</value>
+																		<value>3</value>
+																	</subtract>
+																</parameter>
+																<parameter>3</parameter>
+															</parameters>
+														</call>
+													</value>
+												</add>
+											</value>
+											<value>separator</value>
+										</add>
+									</value>
+									<value>
+										<call>
+											<function>
+												<access>
+													<value>stri</value>
+													<value>right</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>3</parameter>
+											</parameters>
+										</call>
+									</value>
+								</add>
+							</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>

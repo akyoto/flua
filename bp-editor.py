@@ -64,6 +64,11 @@ from bp.Tools.IDE.bp_ide import *
 os.chdir(scriptPath + "/src/bp/Tools/IDE/")
 
 if __name__ == "__main__":
-	main()
-	#import cProfile
-	#cProfile.run("main()", "bp.prof")
+	useProfiler = False
+	
+	if not useProfiler:
+		main()
+	else:
+		import cProfile
+		cProfile.run("main()", "/home/eduard/Projects/bp.prof")
+		os.system("pyprof2calltree -i /home/eduard/Projects/bp.prof -k")

@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="0">
 			<value>sample</value>
 			<value>
 				<new>
@@ -25,7 +25,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>
 				<access>
 					<value>sample</value>
@@ -34,7 +34,7 @@
 			</value>
 			<value>5</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>wrapper</value>
 			<value>
 				<new>
@@ -53,7 +53,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>
 				<access>
 					<value>wrapper</value>
@@ -62,7 +62,7 @@
 			</value>
 			<value>sample</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="4">
 			<value>inst</value>
 			<value>
 				<access>
@@ -71,7 +71,7 @@
 				</access>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="5">
 			<value>
 				<access>
 					<value>sample</value>
@@ -80,7 +80,7 @@
 			</value>
 			<value>7</value>
 		</assign>
-		<if-block depth="0">
+		<if-block depth="0" id="6">
 			<if>
 				<condition>
 					<equal>
@@ -94,7 +94,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="7">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_0</parameter>
@@ -103,7 +103,7 @@
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="8">
 			<if>
 				<condition>
 					<equal>
@@ -117,7 +117,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="9">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_1</parameter>
@@ -126,7 +126,7 @@
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="10">
 			<if>
 				<condition>
 					<equal>
@@ -135,7 +135,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="11">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_2</parameter>
@@ -144,16 +144,16 @@
 				</code>
 			</if>
 		</if-block>
-		<class depth="0">
+		<class depth="0" id="12">
 			<name>ElementHolder</name>
 			<code>
-				<template depth="1">
-					<parameter depth="2">TDataType</parameter>
+				<template depth="1" id="13">
+					<parameter depth="2" id="14">TDataType</parameter>
 				</template>
-				<function depth="1">
+				<function depth="1" id="15">
 					<name>init</name>
 					<code>
-						<declare-type depth="2">
+						<declare-type depth="2" id="16">
 							<value>
 								<access>
 									<value>my</value>
@@ -163,28 +163,30 @@
 							<value>TDataType</value>
 						</declare-type>
 					</code>
+					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="17">
+					<getter depth="2" id="18">
 						<name>value</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="19">
 								<access>
 									<value>my</value>
 									<value>value</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
-				<set depth="1">
-					<setter depth="2">
+				<set depth="1" id="20">
+					<setter depth="2" id="21">
 						<parameters>
 							<parameter>element</parameter>
 						</parameters>
 						<name>value</name>
 						<code>
-							<assign depth="3">
+							<assign depth="3" id="22">
 								<value>
 									<access>
 										<value>my</value>
@@ -194,9 +196,11 @@
 								<value>element</value>
 							</assign>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

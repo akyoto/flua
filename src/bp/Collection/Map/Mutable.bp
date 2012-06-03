@@ -1,0 +1,163 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">test</string>
+		</strings>
+	</header>
+	<code>
+		<target depth="0" id="0">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="1">Hash.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="2">
+			<extern-function depth="1" id="3">
+				<name>bp_hash</name>
+				<type>Int32</type>
+				<meta>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+		</extern>
+		<assign depth="0" id="4">
+			<value>TS</value>
+			<value>256</value>
+		</assign>
+		<comment>\SHash\Smap\S/\SHash\Stable</comment>
+		<class depth="0" id="5">
+			<name>MutableMap</name>
+			<code>
+				<template depth="1" id="6">
+					<parameter depth="2" id="7">TValue</parameter>
+				</template>
+				<function depth="1" id="8">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="9">
+							<value>
+								<access>
+									<value>my</value>
+									<value>table</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Array</value>
+											<value>TValue</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>TS</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="10">
+							<value>
+								<access>
+									<value>my</value>
+									<value>mask</value>
+								</access>
+							</value>
+							<value>
+								<subtract>
+									<value>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>table</value>
+												</access>
+											</value>
+											<value>allocatedElements</value>
+										</access>
+									</value>
+									<value>1</value>
+								</subtract>
+							</value>
+						</assign>
+					</code>
+				</function>
+				<operators depth="1" id="11">
+					<operator depth="2" id="12">
+						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code>
+							<return depth="3" id="13">
+								<index>
+									<value>
+										<access>
+											<value>my</value>
+											<value>table</value>
+										</access>
+									</value>
+									<value>
+										<bitwise-and>
+											<value>
+												<call>
+													<function>hash</function>
+													<parameters>
+														<parameter>index</parameter>
+													</parameters>
+												</call>
+											</value>
+											<value>
+												<access>
+													<value>my</value>
+													<value>mask</value>
+												</access>
+											</value>
+										</bitwise-and>
+									</value>
+								</index>
+							</return>
+						</code>
+					</operator>
+				</operators>
+			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
+		</class>
+		<function depth="0" id="14">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>hash</name>
+			<code>
+				<return depth="1" id="15">
+					<call>
+						<function>bp_hash</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<call depth="0" id="16">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<call>
+						<function>hash</function>
+						<parameters>
+							<parameter>bp_string_0</parameter>
+						</parameters>
+					</call>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>
