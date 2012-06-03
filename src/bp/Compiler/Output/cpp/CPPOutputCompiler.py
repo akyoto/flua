@@ -202,6 +202,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		if self.boehmGCEnabled:
 			if os.name == "posix":
+				#self.customCompilerFlags.append("-I" + fixPath("%sinclude/cpp/musl/" % (self.bpRoot)))
+				#self.customCompilerFlags.append("-specs")
+				#self.customCompilerFlags.append(fixPath(self.libsDir) + "musl-gcc.specs")
 				self.customCompilerFlags.append("-DGC_LINUX_THREADS")
 				self.customCompilerFlags.append("-pthread")
 		

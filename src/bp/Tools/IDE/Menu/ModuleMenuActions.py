@@ -6,7 +6,7 @@ class ModuleMenuActions:
 	def onRunModule(self):
 		self.runModule([])
 	
-	def runModuleTest(self):
+	def runModuleTests(self):
 		self.notImplemented()
 	
 	def runProfiler(self):

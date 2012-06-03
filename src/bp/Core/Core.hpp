@@ -28,6 +28,13 @@ inline time_t bp_systemTime() {
 	return ts.tv_sec * 1000 + (ts.tv_usec / 1000);
 }
 
+inline time_t bp_systemTimeMicro() {
+	timeval ts;
+	gettimeofday(&ts, NULL);
+	
+	return ts.tv_sec * 1000000 + ts.tv_usec;
+}
+
 /*inline clock_t bp_systemCPUClock() {
 	return clock();
 }*/

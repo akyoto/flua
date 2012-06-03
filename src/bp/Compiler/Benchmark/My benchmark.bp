@@ -3,10 +3,10 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Utilities</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Runtime:\S</string>
-			<string id="bp_string_1">\Sms</string>
+			<string id="bp_string_0">Some\Sweird\Sfor\Sloop</string>
 		</strings>
 	</header>
 	<code>
@@ -24,68 +24,41 @@
 					<value>a</value>
 					<value>
 						<add>
-							<value>i</value>
+							<value>
+								<add>
+									<value>i</value>
+									<value>a</value>
+								</add>
+							</value>
 							<value>1</value>
 						</add>
 					</value>
 				</assign-add>
 			</code>
-		</for>
-		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
-		<assign depth="0" id="3">
-			<value>start</value>
-			<value>
-				<call>
-					<function>systemTime</function>
-					<parameters/>
-				</call>
-			</value>
-		</assign>
-		<comment>\SDo\Ssomething.</comment>
-		<for depth="0" id="4">
-			<iterator>i</iterator>
-			<from>1</from>
-			<to>100000000</to>
-			<code>
-				<noop depth="1" id="5"/>
-			</code>
 			<meta/>
 		</for>
-		<comment>\SSo,\Show\Smuch\Stime\Sdid\Swe\Sactually\Sneed\Sto\Sdo\Sthis?</comment>
-		<assign depth="0" id="6">
-			<value>end</value>
-			<value>
-				<call>
-					<function>systemTime</function>
-					<parameters/>
-				</call>
-			</value>
-		</assign>
-		<assign depth="0" id="7">
-			<value>runtime</value>
-			<value>
-				<subtract>
-					<value>end</value>
-					<value>start</value>
-				</subtract>
-			</value>
-		</assign>
-		<comment>\SVariables\Sin\Sstrings.\SYes\Swe\Scan!</comment>
-		<call depth="0" id="8">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<add>
-						<value>
-							<add>
-								<value>bp_string_0</value>
-								<value>runtime</value>
-							</add>
-						</value>
-						<value>bp_string_1</value>
-					</add>
-				</parameter>
-			</parameters>
-		</call>
+		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
+		<in depth="0" id="3">
+			<expression>
+				<new>
+					<type>Benchmark</type>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</new>
+			</expression>
+			<code>
+				<for depth="1" id="4">
+					<iterator>i</iterator>
+					<from>1</from>
+					<to>100000000</to>
+					<code>
+						<noop depth="2" id="5"/>
+					</code>
+					<meta/>
+				</for>
+			</code>
+			<meta/>
+		</in>
 	</code>
 </module>

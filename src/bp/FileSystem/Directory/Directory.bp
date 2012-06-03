@@ -9,6 +9,8 @@
 			<string id="bp_string_0">.</string>
 			<string id="bp_string_1">..</string>
 			<string id="bp_string_2">\E</string>
+			<string id="bp_string_3">/home/</string>
+			<string id="bp_string_4">C:/Users/</string>
 		</strings>
 	</header>
 	<code>
@@ -50,7 +52,6 @@
 						</code>
 					</function>
 				</code>
-				<meta/>
 			</class>
 		</extern>
 		<comment>\SSymbolizes\Sa\Sdirectory\Sin\Sthe\Sfile\Ssystem</comment>
@@ -162,7 +163,6 @@
 									<value>my</value>
 									<value>path</value>
 								</access>
-								<meta/>
 							</return>
 						</code>
 					</getter>
@@ -176,7 +176,6 @@
 									<value>my</value>
 									<value>path</value>
 								</access>
-								<meta/>
 							</return>
 						</code>
 					</cast-definition>
@@ -208,9 +207,59 @@
 					<parameters>
 						<parameter>path</parameter>
 					</parameters>
-					<meta/>
 				</call>
 			</code>
 		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="35">
+			<target depth="1" id="36">
+				<name>Linux</name>
+				<code>
+					<foreach depth="2" id="37">
+						<iterator>x</iterator>
+						<collection>
+							<new>
+								<type>Directory</type>
+								<parameters>
+									<parameter>bp_string_3</parameter>
+								</parameters>
+							</new>
+						</collection>
+						<code>
+							<call depth="3" id="38">
+								<function>print</function>
+								<parameters>
+									<parameter>x</parameter>
+								</parameters>
+							</call>
+						</code>
+					</foreach>
+				</code>
+			</target>
+			<target depth="1" id="39">
+				<name>Windows</name>
+				<code>
+					<foreach depth="2" id="40">
+						<iterator>x</iterator>
+						<collection>
+							<new>
+								<type>Directory</type>
+								<parameters>
+									<parameter>bp_string_4</parameter>
+								</parameters>
+							</new>
+						</collection>
+						<code>
+							<call depth="3" id="41">
+								<function>print</function>
+								<parameters>
+									<parameter>x</parameter>
+								</parameters>
+							</call>
+						</code>
+					</foreach>
+				</code>
+			</target>
+		</test>
 	</code>
 </module>

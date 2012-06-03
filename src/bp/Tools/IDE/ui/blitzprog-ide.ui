@@ -50,7 +50,7 @@
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionRunOptimized"/>
-    <addaction name="actionRunModuleTest"/>
+    <addaction name="actionRunModuleTests"/>
     <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
     <addaction name="actionCleanAllTargets"/>
@@ -435,9 +435,9 @@
     <string>Run module test</string>
    </property>
   </action>
-  <action name="actionRunModuleTest">
+  <action name="actionRunModuleTests">
    <property name="text">
-    <string>Run module test</string>
+    <string>Run module tests</string>
    </property>
    <property name="shortcut">
     <string>F7</string>

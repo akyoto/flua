@@ -40,13 +40,20 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1" id="7">
+				<name>bp_systemTimeMicro</name>
+				<type>Int64</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="8">
 				<name>bp_swap</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="8">
+			<extern-function depth="1" id="9">
 				<name>bp_sizeOf</name>
 				<type>Size</type>
 				<meta>
@@ -60,13 +67,13 @@
 			</meta>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="10">
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
 			<name>sleep</name>
 			<code>
-				<call depth="1" id="10">
+				<call depth="1" id="11">
 					<function>bp_usleep</function>
 					<parameters>
 						<parameter>
@@ -80,14 +87,34 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds.</comment>
+		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
+		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
+		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
+		<function depth="0" id="12">
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+			<name>sizeOf</name>
+			<code>
+				<return depth="1" id="13">
+					<call>
+						<function>bp_sizeOf</function>
+						<parameters>
+							<parameter>a</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds\S(10\S^\S-3\Ssecs).</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="14">
 			<name>systemTime</name>
 			<code>
-				<test depth="1" id="12">
-					<assign depth="2" id="13">
+				<test depth="1" id="15">
+					<assign depth="2" id="16">
 						<value>start</value>
 						<value>
 							<call>
@@ -96,7 +123,7 @@
 							</call>
 						</value>
 					</assign>
-					<assign depth="2" id="14">
+					<assign depth="2" id="17">
 						<value>end</value>
 						<value>
 							<call>
@@ -105,7 +132,7 @@
 							</call>
 						</value>
 					</assign>
-					<assert depth="2" id="15">
+					<assert depth="2" id="18">
 						<greater-or-equal>
 							<value>
 								<subtract>
@@ -117,7 +144,7 @@
 						</greater-or-equal>
 					</assert>
 				</test>
-				<return depth="1" id="16">
+				<return depth="1" id="19">
 					<call>
 						<function>bp_systemTime</function>
 						<parameters/>
@@ -126,24 +153,50 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
-		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
-		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="17">
-			<parameters>
-				<parameter>a</parameter>
-			</parameters>
-			<name>sizeOf</name>
+		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
+		<comment>\SSee\S#systemTime</comment>
+		<function depth="0" id="20">
+			<name>systemTimeMicro</name>
 			<code>
-				<return depth="1" id="18">
+				<test depth="1" id="21">
+					<assign depth="2" id="22">
+						<value>start</value>
+						<value>
+							<call>
+								<function>systemTimeMicro</function>
+								<parameters/>
+							</call>
+						</value>
+					</assign>
+					<assign depth="2" id="23">
+						<value>end</value>
+						<value>
+							<call>
+								<function>systemTimeMicro</function>
+								<parameters/>
+							</call>
+						</value>
+					</assign>
+					<assert depth="2" id="24">
+						<greater-or-equal>
+							<value>
+								<subtract>
+									<value>end</value>
+									<value>start</value>
+								</subtract>
+							</value>
+							<value>0</value>
+						</greater-or-equal>
+					</assert>
+				</test>
+				<return depth="1" id="25">
 					<call>
-						<function>bp_sizeOf</function>
-						<parameters>
-							<parameter>a</parameter>
-						</parameters>
+						<function>bp_systemTimeMicro</function>
+						<parameters/>
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

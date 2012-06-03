@@ -1,0 +1,130 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">:\S</string>
+			<string id="bp_string_1">\Smicroseconds</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SThis\Sclass\Sallows\Syou\Sto\Squickly\Stest\Sthe\Sexecution\Stime\Sof\Sa\Sblock</comment>
+		<class depth="0" id="0">
+			<name>Benchmark</name>
+			<code>
+				<function depth="1" id="1">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>name</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="2"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="3">
+					<name>enter</name>
+					<code>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>start</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>systemTimeMicro</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</function>
+				<function depth="1" id="5">
+					<name>exit</name>
+					<code>
+						<assign depth="2" id="6">
+							<value>
+								<access>
+									<value>my</value>
+									<value>end</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>systemTimeMicro</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2" id="7">
+							<value>
+								<access>
+									<value>my</value>
+									<value>runtime</value>
+								</access>
+							</value>
+							<value>
+								<subtract>
+									<value>
+										<access>
+											<value>my</value>
+											<value>end</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>start</value>
+										</access>
+									</value>
+								</subtract>
+							</value>
+						</assign>
+						<call depth="2" id="8">
+							<function>print</function>
+							<parameters>
+								<parameter>
+									<add>
+										<value>
+											<add>
+												<value>
+													<add>
+														<value>
+															<access>
+																<value>my</value>
+																<value>name</value>
+															</access>
+														</value>
+														<value>bp_string_0</value>
+													</add>
+												</value>
+												<value>
+													<access>
+														<value>my</value>
+														<value>runtime</value>
+													</access>
+												</value>
+											</add>
+										</value>
+										<value>bp_string_1</value>
+									</add>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

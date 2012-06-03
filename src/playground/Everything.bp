@@ -4,13 +4,13 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Math</import>
-			<import>bp.Math.Constants</import>
 			<import>bp.Math.Geometry</import>
 			<import>bp.Math.Utils</import>
 			<import>bp.FileSystem</import>
 			<import>bp.DateTime</import>
 			<import>bp.Collection.Array</import>
 			<import>bp.Concurrency</import>
+			<import>bp.Utilities</import>
 		</dependencies>
 		<strings/>
 	</header>

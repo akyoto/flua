@@ -223,7 +223,7 @@ class Startup:
 		self.actionRun.triggered.connect(self.onRunModule)
 		self.actionRunOptimized.triggered.connect(self.runModuleOptimized)
 		self.actionRunProfiler.triggered.connect(self.runProfiler)
-		self.actionRunModuleTest.triggered.connect(self.runModuleTest)
+		self.actionRunModuleTests.triggered.connect(self.runModuleTests)
 		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
 		self.actionViewSource.triggered.connect(self.viewSource)
 		self.actionProperties.triggered.connect(self.showModuleProperties)
@@ -374,7 +374,7 @@ class Startup:
 				
 				'compile-log' : cf("#dddddd"),
 				'benchmark' : cf("#ffffcc"),
-				'program-output' : cf('#ffffff'),
+				'program-output' : cf('#ffffcc'),
 				'traceback' : cf("#ffa030"),
 			},
 		}
