@@ -160,7 +160,7 @@ class BPMetaDataWidget(QtGui.QWidget):
 		metaNode = getElementByTagName(self.node, "meta")
 		if not metaNode:
 			metaNode = self.doc.createElement("meta")
-			print("Creating meta node for " + self.node.toxml() + " because it didn't exist yet.")
+			#print("Creating meta node for " + self.node.toxml() + " because it didn't exist yet.")
 			self.node.appendChild(metaNode)
 		
 		# New form layout

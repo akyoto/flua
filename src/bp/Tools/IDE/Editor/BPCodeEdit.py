@@ -1067,8 +1067,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Set user data
 		lineToNodeLen = len(converter.lineToNode)
+		
 		for i in range(len(self.lines)):
-			if i < lineToNodeLen:
+			if i < lineToNodeLen and converter.lineToNode[i]:
+				#print(self.lines[i] + " >>> " + converter.lineToNode[i].toxml())
 				userData = BPLineInformation(converter.lineToNode[i])
 			else:
 				userData = BPLineInformation()
@@ -1080,7 +1082,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.disableUpdatesFlag = True
 		
 		self.doc = parseString(xmlCode.encode("utf-8"))
-		print(self.doc.toprettyxml())
+		#print(self.doc.toprettyxml())
+		
 		self.setRoot(self.doc.documentElement)
 		
 	def goToLine(self, lineNum):

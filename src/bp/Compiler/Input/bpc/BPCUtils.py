@@ -198,40 +198,63 @@ class LineToNodeConverter:
 ####################################################################
 def nodeToBPCSaved(node, tabLevel, conv):
 	nodeName = node.tagName
-	print("NToBPC: " + nodeName)
+	#print("NToBPC: " + nodeName)
 	
-	# First step
+	# First step: Identify nodes that aren't mapped to a specific
+	# line and are therefore invalid.
 	isInvalidNode = False
 	isInvalidNodeToCheckNewlines = False
+	
 	if (nodeName == "if-block" or nodeName == "try-block"):
 		isInvalidNode = True
+	
 	if (nodeName in elementsNoNewline):
 		isInvalidNodeToCheckNewlines = True
 	
 	if conv:
+		# Save the current length of the list
 		oldLen = len(conv.lineToNode)
+		
+		# Add the node to the list
 		if not isInvalidNode:
 			conv.add(node)
 	
-	# Second step
+	# Second step: Get the code that has been added by that node
 	codeAdded = nodeToBPC(node, tabLevel, conv)
 	
-	# e.g. import bp.Core
-	if not codeAdded:
-		if conv:
+	# Remove last node if it did not add any code, e.g. import bp.Core
+	if conv:
+		if not codeAdded:
+			#print("[LineConverter] Removing previously added node because it did not add any code: '%s'" % node.toxml())
 			conv.removeLast()
-		return codeAdded
-	
-	if conv and not isInvalidNodeToCheckNewlines:
-		newLen = len(conv.lineToNode)
-		codeLinesAdded = len(codeAdded.split("\n"))#codeAdded.count("\n") + 1
-		nodeLinesAdded = newLen - oldLen
-		#print(oldLen, newLen, "|", codeLinesAdded, "-", nodeLinesAdded, "=", codeLinesAdded - nodeLinesAdded, nodeName, isInvalidNode, isInvalidNodeToCheckNewlines, codeAdded)
+			return codeAdded
 		
-		if nodeLinesAdded < codeLinesAdded:
-			diff = codeLinesAdded - nodeLinesAdded
-			for i in range(0, diff):
-				conv.add(None)
+		if not isInvalidNodeToCheckNewlines:
+			newLen = len(conv.lineToNode)
+			codeLinesAdded = len(codeAdded.split("\n"))#codeAdded.count("\n") + 1
+			nodeLinesAdded = newLen - oldLen
+			
+			# Debug
+			if 0:
+				print(
+					oldLen,
+					newLen,
+					"|",
+					codeLinesAdded,
+					"-",
+					nodeLinesAdded,
+					"= " + str(codeLinesAdded - nodeLinesAdded) + " newlines added,",
+					"<%s>" % nodeName,
+					["Valid node.", "Invalid node."][isInvalidNode],
+					["Valid to check newlines.", "Invalid to check newlines."][isInvalidNodeToCheckNewlines],
+					"Code: " + codeAdded
+				)
+			
+			#if nodeLinesAdded < codeLinesAdded:
+			#	diff = codeLinesAdded - nodeLinesAdded
+			#	for i in range(0, diff):
+			#		print("[LineConverter] Filling space with empty nodes")
+			#		conv.add(None)
 	#else:
 	#	print("isInvalidNodeToCheckNewlines")
 	
@@ -309,22 +332,18 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			tabLevel += 1
 		
 		tabs = "\t" * tabLevel
+		tabbedNewline = tabs + "\n"
 		prefix = ""
 		previousLineType = 0
 		currentLineType = 1
 		
 		for child in node.childNodes:
-			if conv is not None:
-				childCode = nodeToBPCSaved(child, tabLevel, conv)
-			else:
-				childCode = nodeToBPC(child, tabLevel, conv)
-			
 			# Child name
 			childName = child.tagName
 			
 			# Line type
 			if childName in autoNewlineBlock:
-				if childName in {"require", "ensure", "maybe"} or childName == "test" and previousLineType == 3:
+				if childName in {"require", "ensure", "maybe"} or (childName == "test" and previousLineType == 3):
 					currentLineType = 3
 				else:
 					currentLineType = 2
@@ -337,10 +356,19 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			prefix = ""
 			if previousLineType:
 				if (currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0)) and currentLineType != 3:
-					prefix = tabs + "\n"
+					prefix = tabbedNewline
 			
 			# Set previous line type
 			previousLineType = currentLineType
+			
+			# Convert node
+			if conv is not None:
+				if prefix:
+					conv.add(None)
+				
+				childCode = nodeToBPCSaved(child, tabLevel, conv)
+			else:
+				childCode = nodeToBPC(child, tabLevel, conv)
 			
 			# Add code parts
 			if childName == "if-block" or childName == "try-block":
@@ -362,6 +390,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					
 					if childCode and not childCode[-1] == "\n":
 						codeParts.append(childCode.rstrip())
+						
 						if currentSyntax == SYNTAX_CPP:
 							if not childCode.endswith("}") and not currentLineType == 0:
 								codeParts.append("\n")
@@ -369,6 +398,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 							else:
 								codeParts.append("\n")
 						else:
+							# All syntaxes except C++
 							codeParts.append("\n")
 					else:
 						codeParts.append(childCode)
