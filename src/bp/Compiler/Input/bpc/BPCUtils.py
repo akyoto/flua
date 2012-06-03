@@ -229,6 +229,15 @@ def nodeToBPCSaved(node, tabLevel, conv):
 			conv.removeLast()
 			return codeAdded
 		
+		if conv:
+			# This syntax adds a newline, we need to keep track of it in the converter
+			if (
+					currentSyntax == SYNTAX_CPP and codeAdded.endswith("}\n")
+					or
+					currentSyntax == SYNTAX_RUBY and codeAdded.endswith("end\n")
+				):
+				conv.add(None)
+		
 		if not isInvalidNodeToCheckNewlines:
 			newLen = len(conv.lineToNode)
 			codeLinesAdded = len(codeAdded.split("\n"))#codeAdded.count("\n") + 1

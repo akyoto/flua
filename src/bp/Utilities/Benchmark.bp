@@ -31,7 +31,6 @@
 					<code>
 						<noop depth="2" id="2"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="3">
 					<name>enter</name>
@@ -51,7 +50,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="5">
 					<name>exit</name>
@@ -130,7 +128,6 @@
 					<meta/>
 				</function>
 			</code>
-			<meta/>
 		</class>
 		<comment>\STurns\Sa\Spositive\Sinteger\Slike\S20000\Sinto\Sa\Sstring,\Se.g.\S&quot;20,000&quot;\Sor\S&quot;20.000&quot;</comment>
 		<comment>\STODO:\SImplement\Sthis\Sfor\Sother\Sdata\Stypes</comment>
