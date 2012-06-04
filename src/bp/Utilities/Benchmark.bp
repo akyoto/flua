@@ -44,12 +44,13 @@
 							</value>
 							<value>
 								<call>
-									<function>systemTime</function>
+									<function>systemTimeMicro</function>
 									<parameters/>
 								</call>
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="5">
 					<name>exit</name>

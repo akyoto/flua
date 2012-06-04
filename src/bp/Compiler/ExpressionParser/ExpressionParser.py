@@ -442,7 +442,7 @@ class ExpressionParser:
 		expr = expr.replace(" and ", " && ")
 		expr = expr.replace(" or ", " || ")
 		expr = expr.replace(" is ", " == ")
-		#expr = expr.replace(" in ", " }= ")
+		expr = expr.replace(" in ", " }= ")
 		
 		#if expr.startswith("-"):
 			#print("------------- MINUS -----------")

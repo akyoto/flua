@@ -25,22 +25,28 @@
 			</extern-function>
 		</extern>
 		<const depth="0" id="4">
+			<comment>\SNeeds\Sto\Sbe\Sa\Spower\Sof\S2</comment>
 			<assign depth="1" id="5">
 				<value>DEFAULT_TABLE_SIZE</value>
 				<value>256</value>
 			</assign>
+			<comment>\SNeeds\Sto\Sbe\Sa\Sprime\Snumber</comment>
+			<assign depth="1" id="6">
+				<value>DEFAULT_STEP_SIZE</value>
+				<value>3</value>
+			</assign>
 		</const>
 		<comment>\SHash\Smap\S/\SHash\Stable</comment>
-		<class depth="0" id="6">
+		<class depth="0" id="7">
 			<name>MutableMap</name>
 			<code>
-				<template depth="1" id="7">
-					<parameter depth="2" id="8">TValue</parameter>
+				<template depth="1" id="8">
+					<parameter depth="2" id="9">TValue</parameter>
 				</template>
-				<function depth="1" id="9">
+				<function depth="1" id="10">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="10">
+						<assign depth="2" id="11">
 							<value>
 								<access>
 									<value>my</value>
@@ -61,7 +67,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign depth="2" id="12">
 							<value>
 								<access>
 									<value>my</value>
@@ -88,14 +94,14 @@
 					</code>
 					<meta/>
 				</function>
-				<operators depth="1" id="12">
-					<operator depth="2" id="13">
+				<operators depth="1" id="13">
+					<operator depth="2" id="14">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<return depth="3" id="14">
+							<return depth="3" id="15">
 								<index>
 									<value>
 										<access>
@@ -107,7 +113,7 @@
 										<bitwise-and>
 											<value>
 												<call>
-													<function>hash</function>
+													<function>hashCode</function>
 													<parameters>
 														<parameter>index</parameter>
 													</parameters>
@@ -124,6 +130,7 @@
 								</index>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 				</operators>
 			</code>
@@ -132,13 +139,13 @@
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>
-		<function depth="0" id="15">
+		<function depth="0" id="16">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>hash</name>
+			<name>hashCode</name>
 			<code>
-				<return depth="1" id="16">
+				<return depth="1" id="17">
 					<call>
 						<function>bp_hash</function>
 						<parameters>
