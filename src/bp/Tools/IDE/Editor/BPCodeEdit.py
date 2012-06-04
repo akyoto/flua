@@ -248,8 +248,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.horizontalScrollBar().setMaximumWidth(0)
 			self.bubble.horizontalScrollBar().setMaximumHeight(0)
 			self.bubble.horizontalScrollBar().hide()
-			self.bubble.verticalScrollBar().setMaximumWidth(0)
-			self.bubble.verticalScrollBar().setMaximumHeight(0)
+			
+			#self.bubble.verticalScrollBar().setStyleSheet("background: rgba(0,0,0,0%);")
+			#self.bubble.verticalScrollBar().setMaximumWidth(0)
+			#self.bubble.verticalScrollBar().setMaximumHeight(0)
 			self.bubble.verticalScrollBar().hide()
 			
 			self.bubble.setLineWrapMode(QtGui.QPlainTextEdit.WidgetWidth)
@@ -1165,6 +1167,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def adjustBubbleSize(self):
 		self.bubble.document().adjustSize()
 		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
+		
+		if self.bubble.y() + newHeight >= self.height():
+			newHeight = self.height() - self.bubble.y() - 7
+			self.bubble.verticalScrollBar().show()
+		else:
+			self.bubble.verticalScrollBar().hide()
 		
 		# min(self.bubbleWidth, self.bubble.document().size().width() + 24)
 		self.resizeBubble(self.bubbleWidth, newHeight)

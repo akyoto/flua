@@ -74,6 +74,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastShownOutputCompiler = None
 		self.currentNode = None
 		self.running = 0
+		self.maxBubbleCodeLength = 15 #lines
 		self.backgroundCompileIsUpToDate = False
 		self.backgroundCompilerRan = False
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
@@ -243,6 +244,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				
 				# Code
 				bpcCode = nodeToBPC(funcDefinitionNode)
+				#bpcCode = self.truncateBubbleCode(bpcCode)
 				bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
 				code.append(bpcCode)
 				
@@ -270,6 +272,15 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#try:
 		#	classImpl.getFuncImplementation()
 	
+	def truncateBubbleCode(self, bpcCode):
+		lines = bpcCode.split("\n")
+		codeLen = len(lines)
+		
+		if codeLen >= self.maxBubbleCodeLength:
+			return '\n'.join(lines[:self.maxBubbleCodeLength]) + "\n\n[...]\n"
+		
+		return bpcCode
+	
 	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile, shownFuncs):
 		# Don't show the same function twice
 		if realFuncDefNode in shownFuncs:
@@ -282,6 +293,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Code
 		bpcCode = nodeToBPC(realFuncDefNode)
+		#bpcCode = self.truncateBubbleCode(bpcCode)
 		bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
 		
 		# Add it
