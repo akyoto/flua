@@ -933,7 +933,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.bpIDE.backgroundCompileIsUpToDate = False
 		
-		if charsAdded or charsRemoved:
+		# Only invalidate the data if this code edit is not a code bubble
+		if (self.bubble) and (charsAdded or charsRemoved):
+			#print("%d chars added / %d chars removed!" % (charsAdded, charsRemoved))
 			self.bpIDE.backgroundCompilerRan = False
 		
 		if self.updater and not self.disableUpdatesFlag:

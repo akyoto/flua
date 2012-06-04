@@ -218,11 +218,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.outputCompiler = tmp
 	
 	# Old, old code...deprecated stuff, you know?
+	# But we need this in case we lack type data.
 	def bubbleAllFunctionVariants(self, code, call, shownFuncs, currentOutFile):
 		realFuncDefNode = None
 		
 		funcName = getCalledFuncName(call)
 		
+		# TODO: Don't depend on self.funcsDict, replace with outputCompiler data
 		if funcName in self.funcsDict:
 			for func in self.funcsDict[funcName].values():
 				funcDefinitionNode = func.instruction
@@ -345,11 +347,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				if code:
 					codeText = "\n".join(code)
 					lines = codeText.count("\n") + 1
+					
 					if lines > 1:
 						# Because of Master-of-Weirdness a.k.a. Qt we need to SHOW FIRST, THEN CALCULATE DOCUMENT SIZE
 						self.codeEdit.bubble.show()
 						self.codeEdit.bubble.setPlainText(codeText)
 						
+						# TODO: Can we optimize this a bit?
 						# DO THIS 2 TIMES ELSE YOUR HEIGHT WILL BE INVALID - GREETINGS FROM TROLLTECH
 						self.codeEdit.adjustBubbleSize()
 						self.codeEdit.adjustBubbleSize()
