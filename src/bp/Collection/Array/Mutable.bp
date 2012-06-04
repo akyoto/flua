@@ -101,6 +101,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="8">
 					<name>finalize</name>
@@ -540,9 +541,10 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2" id="53">
-						<name>allocatedElements</name>
+						<name>size</name>
 						<code>
 							<ensure depth="3" id="54">
 								<greater-or-equal depth="4" id="55">
@@ -567,6 +569,7 @@
 								</subtract>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 				<set depth="1" id="57">

@@ -130,7 +130,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				if (userData and userData.node):
 					node = userData.node
 					if userData.node.nodeType != Node.TEXT_NODE:
-						inClass = (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
+						inClass = node.parentNode.tagName != "module" and (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
 						if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
 							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
 								self.setFormat(i, h - i, style['class-' + userData.node.tagName])
