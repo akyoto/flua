@@ -338,10 +338,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 									continue
 							
 						except:
-							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
+							# Only show all function variants if code bubble is empty
+							if not code:
+								self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
 							continue
 					else:
-						self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
+						# Only show all function variants if code bubble is empty
+						if not code:
+							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
 						continue
 				
 				if code:
