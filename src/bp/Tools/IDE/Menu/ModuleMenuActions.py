@@ -33,10 +33,8 @@ class ModuleMenuActions:
 		
 		self.running += 1
 		
-		if "-ggdb" in compilerFlags:
-			debugMode = True
-		else:
-			debugMode = False
+		debugMode = ("-ggdb" in compilerFlags)
+		optimizeMode = ("-O3" in compilerFlags)
 		
 		# Make sure the XML is up 2 date
 		if self.codeEdit.updateQueue:
@@ -51,10 +49,16 @@ class ModuleMenuActions:
 			self.codeEdit.bubble.hide()
 		
 		self.codeEdit.save(msgStatusBar = False)
-		self.console.clearLog()
 		
 		if self.codeEdit:
 			self.codeEdit.msgView.clear()
+		
+		#self.console.log.setPlainText("")
+		self.console.compiler.setPlainText("")
+		self.console.output.setPlainText("")
+		
+		self.console.activate("Compiler")
+		self.console.watch(self.console.compiler)
 		
 		self.console.setMinimumHeight(220)
 		self.consoleDock.show()
@@ -73,7 +77,7 @@ class ModuleMenuActions:
 				#	os.remove(exePath)
 				
 				bpPostPFile = self.getCurrentPostProcessorFile()
-			
+				
 				# Generate
 				self.startBenchmark("%s Generator" % outputTarget)
 				self.outputCompiler.compile(bpPostPFile)
@@ -97,7 +101,7 @@ class ModuleMenuActions:
 			
 			exe = self.outputCompiler.getExePath()
 			
-			if "-O3" in compilerFlags:
+			if optimizeMode:
 				print("No optimizations active.")
 			elif debugMode:
 				print("Using debug mode.")
@@ -115,10 +119,11 @@ class ModuleMenuActions:
 				exeDir = extractDir(exe)
 				os.chdir(exeDir)
 				
+				self.console.activate("Output")
 				if not debugMode:
-					self.outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
+					self.outputCompiler.execute(exe, self.console.output.write, self.console.output.writeError)
 				else:
-					self.outputCompiler.debug(exe, self.console.log.write, self.console.log.writeError)
+					self.outputCompiler.debug(exe, self.console.output.write, self.console.output.writeError)
 			else:
 				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
 		except OutputCompilerException as e:
@@ -128,6 +133,8 @@ class ModuleMenuActions:
 		finally:
 			os.chdir(getIDERoot())
 			self.running -= 1
+			
+			self.console.watch(self.console.log)
 		
 		#cpp.compile(self.file, self.codeEdit.root)
 		

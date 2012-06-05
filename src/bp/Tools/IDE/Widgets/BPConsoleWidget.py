@@ -57,13 +57,16 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 	def writeError(self, stri):
 		self.emit(self.signal, stri)
 
-class BPConsoleWidget(QtGui.QStackedWidget):
+class BPConsoleWidget(QtGui.QTabWidget):
 	
 	def __init__(self, parent):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.realStdout = sys.stdout
 		self.realStderr = sys.stderr
+		self.setObjectName("BPConsoleWidget")
+		self.setDocumentMode(True)
+		self.names = ["Log", "Compiler", "Output"]
 		
 		#if os.name == "nt":
 		self.setMinimumWidth(450)
@@ -79,15 +82,12 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 			log = BPLogWidget(self)
 			log.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 			log.setReadOnly(True)
-			self.addWidget(log)
+			log.setObjectName(self.names[i])
+			self.addTab(log, self.names[i])
 		
 		self.log = self.widget(0)
-		self.compilerLog = self.widget(1)
-		self.outputLog = self.widget(2)
-		
-		self.log.setObjectName("Log")
-		self.compilerLog.setObjectName("CompilerLog")
-		self.outputLog.setObjectName("OutputLog")
+		self.compiler = self.widget(1)
+		self.output = self.widget(2)
 		
 		# Linux / g++ info
 		if 0:
@@ -110,8 +110,11 @@ class BPConsoleWidget(QtGui.QStackedWidget):
 		
 		#self.setLayout(vBox)
 		
-	def clearLog(self):
-		self.log.setPlainText("")
+	def activate(self, logName):
+		for i in range(len(self.names)):
+			if self.names[i] == logName:
+				self.setCurrentIndex(i)
+				return
 		
 	def watch(self, newLog):
 		sys.stdout = sys.stderr = newLog

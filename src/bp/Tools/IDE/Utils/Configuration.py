@@ -112,7 +112,12 @@ class BPConfiguration:
 				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 255), stop:1 rgba(39, 39, 39, 255));
 			}
 			
-			#Log {
+			#BPConsoleWidget QTabBar::tab:selected {
+				color: white;
+			}
+			
+			#Log, #Compiler, #Output {
+				font-family: Ubuntu Mono, Consolas; font-size: 11pt;
 				border-radius: 0px;
 			}
 			
