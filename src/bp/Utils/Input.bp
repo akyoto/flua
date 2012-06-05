@@ -35,13 +35,10 @@
 			<name>input</name>
 			<code>
 				<call depth="1" id="5">
-					<function>
-						<access>
-							<value>text</value>
-							<value>write</value>
-						</access>
-					</function>
-					<parameters/>
+					<function>print</function>
+					<parameters>
+						<parameter>text</parameter>
+					</parameters>
 				</call>
 				<return depth="1" id="6">
 					<call>
