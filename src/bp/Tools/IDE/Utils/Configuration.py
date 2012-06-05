@@ -67,6 +67,12 @@ class BPConfiguration:
 				color: rgba(0, 0, 0, 65%);
 				background-color: rgba(255, 255, 255, 10%);
 			}
+			
+			#Log, #Compiler, #Output {
+				font-family: Ubuntu Mono;
+				font-size: 11pt;
+				border-radius: 0px;
+			}
 		""" #% (self.theme['default-background'])
 		
 		self.dialogStyleSheet = """
@@ -117,7 +123,8 @@ class BPConfiguration:
 			}
 			
 			#Log, #Compiler, #Output {
-				font-family: Ubuntu Mono, Consolas; font-size: 11pt;
+				font-family: Ubuntu Mono;
+				font-size: 11pt;
 				border-radius: 0px;
 			}
 			

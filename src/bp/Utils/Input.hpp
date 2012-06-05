@@ -11,8 +11,7 @@ inline BPUTF8String* bp_input() {
 	
 	char* buf = new (UseGC) char[len];
 	
-	// +1 because of the '\0' char
-	memcpy(buf, c, len + 1);
+	memcpy(buf, c, len);
 	
 	return _toString(buf);
 }

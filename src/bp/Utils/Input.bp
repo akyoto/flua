@@ -27,7 +27,7 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<comment>\SWrites\Stext\Son\Sthe\Soutput\Sstream\Sand\Sreads\Sone\Sline\Sfrom\Sthe\Sinput\Sstream.</comment>
+		<comment>\SWrites\S#text\Son\Sthe\Soutput\Sstream\Sand\Sreads\Sone\Sline\Sfrom\Sthe\Sinput\Sstream.</comment>
 		<function depth="0" id="4">
 			<parameters>
 				<parameter>text</parameter>
