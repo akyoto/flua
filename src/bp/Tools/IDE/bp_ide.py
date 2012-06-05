@@ -76,7 +76,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.running = 0
 		self.maxBubbleCodeLength = 15 #lines
 		self.backgroundCompileIsUpToDate = False
-		self.backgroundCompilerRan = False
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
 		
 		# Timed
@@ -177,8 +176,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.updateCodeBubble(node)
 	
 	def onCompileTimeout(self):
-		# Don't do this if we're actually compiling
-		if self.running or self.backgroundCompilerRan:
+		# Don't do this if we're actually compiling or if we have nothing to compile
+		if self.running or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0 or self.codeEdit.ppOutstandingTasks > 0:
 			return
 		
 		# Create output compiler
@@ -199,13 +198,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#		self.codeEdit.msgView.updateView()
 		
 		# We love long variable names, don't we?
-		if self.outputCompilerThread.codeEdit:
-			self.outputCompilerThread.codeEdit.outFile = self.outputCompilerThread.outputCompiler.getMainFile()
+		ce = self.outputCompilerThread.codeEdit
+		if ce:
+			ce.outFile = self.outputCompilerThread.outputCompiler.getMainFile()
 			
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
 			
-		self.backgroundCompilerRan = True
+			# Adjust number of outstanding tasks
+			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
+			
+			if ce.backgroundCompilerOutstandingTasks < 0:
+				ce.backgroundCompilerOutstandingTasks = 0
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):
@@ -578,6 +582,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Exists?
 		if ppCodeEdit is None or ppCodeEdit.isTextFile:
 			return
+		
+		# Subtract number of tasks handled
+		ppCodeEdit.ppOutstandingTasks -= ppThread.numTasksHandled
+		if ppCodeEdit.ppOutstandingTasks < 0:
+			ppCodeEdit.ppOutstandingTasks = 0
 		
 		# Msg view
 		ppCodeEdit.msgView.updateViewPostProcessor()

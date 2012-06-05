@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>bp Studio 0.3.2 - Alpha version</string>
+   <string>bp Studio 0.3.3 - Alpha version</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -50,14 +50,13 @@
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionRunOptimized"/>
+    <addaction name="actionRunDebug"/>
     <addaction name="actionRunModuleTests"/>
-    <addaction name="actionRunProfiler"/>
     <addaction name="separator"/>
     <addaction name="actionCleanAllTargets"/>
     <addaction name="actionViewSource"/>
     <addaction name="separator"/>
     <addaction name="actionProperties"/>
-    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -287,7 +286,7 @@
     <string>Properties</string>
    </property>
    <property name="shortcut">
-    <string>F8</string>
+    <string>F9</string>
    </property>
   </action>
   <action name="actionCopy">
@@ -335,7 +334,7 @@
     <string>Preferences</string>
    </property>
    <property name="shortcut">
-    <string>F9</string>
+    <string>F10</string>
    </property>
   </action>
   <action name="actionAutoComplete">
@@ -405,9 +404,16 @@
     <string>F6</string>
    </property>
   </action>
-  <action name="actionRunProfiler">
+  <action name="actionRunDebug">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/docks/debugger.png</normaloff>../images/icons/docks/debugger.png</iconset>
+   </property>
    <property name="text">
-    <string>Run with profiler</string>
+    <string>Debug</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
   </action>
   <action name="actionToggleFullscreen">
@@ -441,7 +447,7 @@
     <string>Run module tests</string>
    </property>
    <property name="shortcut">
-    <string>F7</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="actionCleanAllTargets">
@@ -528,6 +534,11 @@
   <action name="actionFAQTabs">
    <property name="text">
     <string>Why can't I use spaces instead of tabs?</string>
+   </property>
+  </action>
+  <action name="actionDebug">
+   <property name="text">
+    <string>Debug</string>
    </property>
   </action>
  </widget>

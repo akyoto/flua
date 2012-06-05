@@ -9,11 +9,14 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.bpIDE = bpIDE
 		self.processor = bpIDE.processor
 		self.lastException = None
+		self.numTasksHandled = 0
 		self.ceQueue = collections.deque()
 		self.finished.connect(self.bpIDE.postProcessorFinished)
 		
 	def startWith(self, codeEdit):
 		self.codeEdit = codeEdit
+		self.numTasksHandled = codeEdit.ppOutstandingTasks
+		
 		if not self.codeEdit is None:
 			if self.bpIDE.threaded:
 				self.start()

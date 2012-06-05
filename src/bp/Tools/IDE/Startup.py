@@ -138,6 +138,8 @@ class Startup:
 			self.dockIcons[iconName] = QtGui.QIcon("images/icons/docks/%s.png" % normalizeName(iconName).lower())
 		
 	def initDocks(self):
+		self.setDockOptions(QtGui.QMainWindow.AnimatedDocks)# | QtGui.QMainWindow.AllowNestedDocks)
+		
 		# Console
 		self.console = BPConsoleWidget(self)
 		
@@ -222,7 +224,7 @@ class Startup:
 		# Module
 		self.actionRun.triggered.connect(self.onRunModule)
 		self.actionRunOptimized.triggered.connect(self.runModuleOptimized)
-		self.actionRunProfiler.triggered.connect(self.runProfiler)
+		self.actionRunDebug.triggered.connect(self.runDebug)
 		self.actionRunModuleTests.triggered.connect(self.runModuleTests)
 		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
 		self.actionViewSource.triggered.connect(self.viewSource)

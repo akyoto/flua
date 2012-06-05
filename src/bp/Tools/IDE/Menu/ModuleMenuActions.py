@@ -12,6 +12,11 @@ class ModuleMenuActions:
 	def runProfiler(self):
 		self.notImplemented()
 	
+	def runDebug(self):
+		self.runModule([
+			"-ggdb",
+		])
+	
 	def runModuleOptimized(self):
 		self.runModule([
 			"-O3",
@@ -27,6 +32,11 @@ class ModuleMenuActions:
 			return
 		
 		self.running += 1
+		
+		if "-ggdb" in compilerFlags:
+			debugMode = True
+		else:
+			debugMode = False
 		
 		# Make sure the XML is up 2 date
 		if self.codeEdit.updateQueue:
@@ -87,8 +97,10 @@ class ModuleMenuActions:
 			
 			exe = self.outputCompiler.getExePath()
 			
-			if not compilerFlags:
+			if "-O3" in compilerFlags:
 				print("No optimizations active.")
+			elif debugMode:
+				print("Using debug mode.")
 			else:
 				print("Using optimizations.")
 			
@@ -102,8 +114,11 @@ class ModuleMenuActions:
 				
 				exeDir = extractDir(exe)
 				os.chdir(exeDir)
-			
-				self.outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
+				
+				if not debugMode:
+					self.outputCompiler.execute(exe, self.console.log.write, self.console.log.writeError)
+				else:
+					self.outputCompiler.debug(exe, self.console.log.write, self.console.log.writeError)
 			else:
 				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
 		except OutputCompilerException as e:

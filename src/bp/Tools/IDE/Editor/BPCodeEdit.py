@@ -226,6 +226,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoCompleteOpenedAuto = True
 		self.reloading = False
 		self.outFile = None
+		self.backgroundCompilerOutstandingTasks = 0
+		self.ppOutstandingTasks = 0
 		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 3
@@ -938,7 +940,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Only invalidate the data if this code edit is not a code bubble
 		if (self.bubble) and (charsAdded or charsRemoved):
 			#print("%d chars added / %d chars removed!" % (charsAdded, charsRemoved))
-			self.bpIDE.backgroundCompilerRan = False
+			self.backgroundCompilerOutstandingTasks += 1
+			self.ppOutstandingTasks += 1
 		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()
