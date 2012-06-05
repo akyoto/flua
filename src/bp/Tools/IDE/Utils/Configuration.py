@@ -76,7 +76,7 @@ class BPConfiguration:
 		"""
 		
 		self.darkStyleSheet = """
-			/*QDockWidget QWidget {
+			/*QWidget {
 				background-color: #272727;
 				color: #eeeeee;
 			}*/
@@ -134,6 +134,12 @@ class BPConfiguration:
 			#DocBubble {
 				border-radius: 7px;
 				background-color: rgba(0, 0, 0, 10%);
+			}
+			
+			#AutoCompleter {
+				border: none;
+				font-family: Ubuntu;
+				font-size: 13px;
 			}
 			
 			QStatusBar, QLabel, QLineEdit, QComboBox {

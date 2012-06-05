@@ -11,6 +11,7 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		super().__init__(parent)
 		self.bpIDE = parent.bpIDE
 		self.highlighter = CLogHighlighter(self.document(), self.bpIDE)
+		self.inputEnabled = False
 		
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
@@ -27,6 +28,8 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		cursor.insertText(stri)
 		self.setTextCursor(cursor)
 		self.ensureCursorVisible()
+		
+		#self.bpIDE.console.realStdout.write(stri)
 		
 		if "Traceback (most recent call last):" in stri:
 			self.bpIDE.consoleDock.setMinimumHeight(200)
@@ -55,7 +58,19 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.emit(self.signal, stri)
 		
 	def writeError(self, stri):
-		self.emit(self.signal, stri)
+		self.emit(self.errorSignal, stri)
+		
+	def enableInput(self):
+		self.inputEnabled = True
+		
+	def keyPressEvent(self, event):
+		if self.inputEnabled:
+			data = event.text()
+			if data == '\r':
+				self.bpIDE.sendToRunningProgram('\n')
+			else:
+				self.bpIDE.sendToRunningProgram(data)
+		super().keyPressEvent(event)
 
 class BPConsoleWidget(QtGui.QTabWidget):
 	
@@ -81,7 +96,12 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		for i in range(3):
 			log = BPLogWidget(self)
 			log.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
-			log.setReadOnly(True)
+			
+			if not i == 2:
+				log.setReadOnly(True)
+			else:
+				log.enableInput()
+			
 			log.setObjectName(self.names[i])
 			self.addTab(log, self.names[i])
 		

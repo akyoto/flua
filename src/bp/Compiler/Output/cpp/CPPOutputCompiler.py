@@ -281,11 +281,12 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			print(" \\\n ".join(ccCmd))
 			
 			exitCode = startProcess(ccCmd, fhOut, fhErr)
-			self.endBenchmark()
 			
 			if exitCode:
-				fhOut("C++ compiler exception")
+				#fhOut("C++ compiler exception")
 				return exitCode
+			
+			self.endBenchmark()
 			
 			self.startBenchmark()
 			print("\nStarting linker:")
@@ -304,6 +305,17 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				os.chdir(currentPath)
 		
 		return 0
+	
+	def debug(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+		cmd = ["gdb", exe]
+		
+		try:
+			fhOut(str(cmd))
+			return startProcess(cmd, fhOut, fhErr)
+		except OSError:
+			print("Can't execute '%s'" % exe)
+			
+		return -1
 	
 	def getCompiledFiles(self):
 		return self.compiledFiles

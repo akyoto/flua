@@ -73,8 +73,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastShownNode = None
 		self.lastShownOutputCompiler = None
 		self.currentNode = None
+		self.runThread = None
 		self.running = 0
-		self.maxBubbleCodeLength = 15 #lines
+		self.compiling = 0
 		self.backgroundCompileIsUpToDate = False
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
 		
@@ -148,6 +149,20 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	#	
 	#	return super().eventFilter(obj, event)
 		
+	def sendToRunningProgram(self, data):
+		self.runThread.sendData(data)
+		
+	def programExited(self):
+		print("Program '%s' exited with exit code [%d]." % (stripAll(self.runThread.exe), self.runThread.exitCode))
+		
+		if self.running > 0:
+			self.running -= 1
+		
+		if self.codeEdit:
+			self.codeEdit.setFocus()
+			
+		os.chdir(getIDERoot())
+		
 	def bindFunctionToTimer(self, func, interval):
 		timer = QtCore.QTimer(self)
 		timer.timeout.connect(func)
@@ -177,7 +192,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def onCompileTimeout(self):
 		# Don't do this if we're actually compiling or if we have nothing to compile
-		if self.running or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0 or self.codeEdit.ppOutstandingTasks > 0:
+		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0 or self.codeEdit.ppOutstandingTasks > 0:
 			return
 		
 		# Create output compiler

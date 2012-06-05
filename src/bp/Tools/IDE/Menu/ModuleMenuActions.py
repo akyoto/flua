@@ -28,10 +28,10 @@ class ModuleMenuActions:
 		if self.codeEdit is None or self.currentWorkspace.count() == 0 or self.codeEdit.isTextFile:
 			return
 		
-		if self.running > 0:
+		if self.running > 0 or self.compiling > 0:
 			return
 		
-		self.running += 1
+		self.compiling += 1
 		
 		debugMode = ("-ggdb" in compilerFlags)
 		optimizeMode = ("-O3" in compilerFlags)
@@ -91,13 +91,14 @@ class ModuleMenuActions:
 			
 			# Build
 			self.startBenchmark("%s Build" % outputTarget)
-			exitCode = self.outputCompiler.build(compilerFlags)
-			print("-" * 80)
-			self.endBenchmark()
+			exitCode = self.outputCompiler.build(compilerFlags, fhOut = self.console.compiler.write, fhErr = self.console.compiler.writeError)
 			
 			if exitCode != 0:
-				print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
+				#print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
 				return
+			
+			print("-" * 80)
+			self.endBenchmark()
 			
 			exe = self.outputCompiler.getExePath()
 			
@@ -120,10 +121,9 @@ class ModuleMenuActions:
 				os.chdir(exeDir)
 				
 				self.console.activate("Output")
-				if not debugMode:
-					self.outputCompiler.execute(exe, self.console.output.write, self.console.output.writeError)
-				else:
-					self.outputCompiler.debug(exe, self.console.output.write, self.console.output.writeError)
+				self.console.output.setFocus()
+				
+				self.runThread.startWith(exe, debugMode)
 			else:
 				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
 		except OutputCompilerException as e:
@@ -131,8 +131,8 @@ class ModuleMenuActions:
 		except:
 			printTraceback()
 		finally:
-			os.chdir(getIDERoot())
-			self.running -= 1
+			if self.compiling > 0:
+				self.compiling -= 1
 			
 			self.console.watch(self.console.log)
 		

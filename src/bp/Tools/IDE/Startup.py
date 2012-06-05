@@ -325,6 +325,7 @@ class Startup:
 				'benchmark' : cf("#333333"),
 				'program-output' : cf('#10e010'),
 				'traceback' : cf("#333333"),
+				'compiler-error' : cf("#ff0000"),
 			},
 			
 			# Dark theme
@@ -375,10 +376,11 @@ class Startup:
 				'error-line' : QtGui.QColor("#f74727"),
 				'current-line' : QtGui.QColor("#303030"),
 				
-				'compile-log' : cf("#dddddd"),
+				'compile-log' : cf("#ffffff"),
 				'benchmark' : cf("#ffffcc"),
 				'program-output' : cf('#ffffcc'),
 				'traceback' : cf("#ffffcc"),
+				'compiler-error' : cf("#ff9000"),
 			},
 		}
 		
@@ -394,6 +396,7 @@ class Startup:
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.outputCompilerThread = BPOutputCompilerThread(self)
+		self.runThread = BPRunThread(self)
 		
 	def initToolBar(self):
 		pass

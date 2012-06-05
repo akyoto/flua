@@ -311,6 +311,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"parallel",
 			"shared",
 			"atomic",
+			"namespace",
 			
 			# A dirty hack so that C++ gets some auto indent
 			'inline',

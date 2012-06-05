@@ -87,10 +87,12 @@ class BaseOutputCompiler(Benchmarkable):
 		self.inVarCounter = 0
 		
 		# Optimization
-		if self.background:
-			self.disableOptimization()
-		else:
-			self.enableOptimization()
+		#if self.background:
+		#else:
+		#self.enableOptimization()
+		
+		# Disabled because string concat optimization is currently bugged
+		self.disableOptimization()
 	
 	# Abstract
 	def build(self, compilerFlags, fhOut, fhErr):
@@ -230,13 +232,15 @@ class BaseOutputCompiler(Benchmarkable):
 		#if self.mainClass.hasClassByName("UTF8String"):
 		#	self.stringDataType = "~UTF8String"
 	
-	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write, thread = None):
 		cmd = [exe]
 		
 		try:
-			startProcess(cmd, fhOut, fhErr)
+			return startProcess(cmd, fhOut, fhErr, thread)
 		except OSError:
 			print("Can't execute '%s'" % exe)
+			
+		return -1
 	
 	def getFileExecList(self):
 		return NotImplementedError()

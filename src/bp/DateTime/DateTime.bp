@@ -52,6 +52,7 @@
 				<meta/>
 			</class>
 		</extern>
+		<comment>\SRepresents\Sdate\Sand\Stime</comment>
 		<class depth="0" id="10">
 			<name>DateTime</name>
 			<code>

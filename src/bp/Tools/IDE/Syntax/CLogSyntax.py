@@ -15,6 +15,23 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 		"""
 		style = self.bpIDE.getCurrentTheme()
 		
+		if text.startswith("In file included from"):
+			self.setCurrentBlockState(3)
+			self.setFormat(0, len(text), style['traceback'])
+			return
+		
+		if self.previousBlockState() == 3 and text:
+			if not text[0] == "[": # Hacks.
+				self.setCurrentBlockState(3)
+				
+			self.setFormat(0, len(text), style['traceback'])
+			
+			pos = text.find("error: ")
+			if pos != -1:
+				self.setFormat(pos, len(text) - pos, style['compiler-error'])
+				
+			return
+		
 		if text.startswith("Traceback (most recent call last):"):
 			self.setCurrentBlockState(2)
 			self.setFormat(0, len(text), style['traceback'])
@@ -36,8 +53,8 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 			self.setFormat(0, len(text), style['comment']) # Changelog message
 		elif text.endswith("ms"):
 			self.setFormat(0, len(text), style['benchmark'])
-		elif text.startswith("Executing:") and self.currentBlockState() != 1:
-			self.setCurrentBlockState(1)
-			return
+		#elif text.startswith("Executing:") and self.currentBlockState() != 1:
+		#	self.setCurrentBlockState(1)
+		#	return
 		else:
 			self.setFormat(0, len(text), style['compile-log'])
