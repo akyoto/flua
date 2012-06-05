@@ -6,9 +6,7 @@
 			<import>FileReadStream</import>
 			<import>FileWriteStream</import>
 		</dependencies>
-		<strings>
-			<string id="bp_string_0">test.txt</string>
-		</strings>
+		<strings/>
 	</header>
 	<code>
 		<target depth="0" id="0">
@@ -405,54 +403,5 @@
 				</in>
 			</code>
 		</function>
-		<comment>\SUsage\Sexample\S(not\Sworking\Syet)</comment>
-		<test depth="0" id="59">
-			<assign depth="1" id="60">
-				<value>a</value>
-				<value>
-					<new>
-						<type>FileReadStream</type>
-						<parameters>
-							<parameter>bp_string_0</parameter>
-						</parameters>
-					</new>
-				</value>
-			</assign>
-			<while depth="1" id="61">
-				<condition>
-					<assign>
-						<value>line</value>
-						<value>
-							<call>
-								<function>
-									<access>
-										<value>a</value>
-										<value>readLine</value>
-									</access>
-								</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-				</condition>
-				<code>
-					<call depth="2" id="62">
-						<function>print</function>
-						<parameters>
-							<parameter>line</parameter>
-						</parameters>
-					</call>
-				</code>
-			</while>
-			<call depth="1" id="63">
-				<function>
-					<access>
-						<value>a</value>
-						<value>close</value>
-					</access>
-				</function>
-				<parameters/>
-			</call>
-		</test>
 	</code>
 </module>

@@ -1383,6 +1383,8 @@ class BaseOutputFile(ScopeController):
 		elif tagName == "ensure":
 			return ""
 		elif tagName == "test":
+			if self.isMainFile and node.parentNode.parentNode.tagName == "module":
+				return self.parseChilds(node, "\t" * self.currentTabLevel, self.lineLimiter)
 			return ""
 		elif tagName == "define":
 			return ""

@@ -1,0 +1,115 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">google.com</string>
+		</strings>
+	</header>
+	<code>
+		<target depth="0" id="0">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="1">Network.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="2">
+			<extern-function depth="1" id="3">
+				<name>bp_getHostIP</name>
+				<type>Int32</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>bp_intIPToString</name>
+				<type>String</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<class depth="0" id="5">
+			<name>IP</name>
+			<code>
+				<function depth="1" id="6">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>intIP</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="7"/>
+					</code>
+					<meta/>
+				</function>
+				<casts depth="1" id="8">
+					<cast-definition depth="2" id="9">
+						<to>String</to>
+						<code>
+							<return depth="3" id="10">
+								<call>
+									<function>bp_intIPToString</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>intIP</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</cast-definition>
+					<cast-definition depth="2" id="11">
+						<to>Int</to>
+						<code>
+							<return depth="3" id="12">
+								<access>
+									<value>my</value>
+									<value>intIP</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
+			</code>
+			<meta/>
+		</class>
+		<test depth="0" id="13">
+			<assign depth="1" id="14">
+				<value>ip</value>
+				<value>
+					<new>
+						<type>IP</type>
+						<parameters>
+							<parameter>
+								<call>
+									<function>bp_getHostIP</function>
+									<parameters>
+										<parameter>bp_string_0</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</new>
+				</value>
+			</assign>
+			<call depth="1" id="15">
+				<function>print</function>
+				<parameters>
+					<parameter>ip</parameter>
+				</parameters>
+			</call>
+		</test>
+	</code>
+</module>

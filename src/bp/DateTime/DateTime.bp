@@ -320,7 +320,6 @@
 					</parameter>
 				</parameters>
 			</call>
-			<meta/>
 		</test>
 	</code>
 </module>
