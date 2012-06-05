@@ -272,6 +272,7 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
 				<function depth="1" id="25">
@@ -837,12 +838,49 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="67">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>chars</value>
+								<value>UTF8String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>contains</name>
+					<code>
+						<return depth="2" id="68">
+							<not-equal>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>my</value>
+												<value>find</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>chars</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>
+									<negative>
+										<value>1</value>
+									</negative>
+								</value>
+							</not-equal>
+						</return>
+					</code>
+					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
-				<function depth="1" id="67">
+				<function depth="1" id="69">
 					<name>print</name>
 					<code>
-						<call depth="2" id="68">
+						<call depth="2" id="70">
 							<function>bp_write_xbytes</function>
 							<parameters>
 								<parameter>
@@ -859,23 +897,23 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="69">
+						<call depth="2" id="71">
 							<function>bp_write</function>
 							<parameters>
 								<parameter>bp_string_0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="70">
+						<call depth="2" id="72">
 							<function>bp_flush</function>
 							<parameters/>
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="71">
-					<getter depth="2" id="72">
+				<get depth="1" id="73">
+					<getter depth="2" id="74">
 						<name>data</name>
 						<code>
-							<return depth="3" id="73">
+							<return depth="3" id="75">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -883,33 +921,34 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="74">
+					<getter depth="2" id="76">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="75">
-								<greater-or-equal depth="4" id="76">
+							<ensure depth="3" id="77">
+								<greater-or-equal depth="4" id="78">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="77">
+							<return depth="3" id="79">
 								<access>
 									<value>my</value>
 									<value>length</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
-					<getter depth="2" id="78">
+					<getter depth="2" id="80">
 						<name>lengthInBytes</name>
 						<code>
-							<ensure depth="3" id="79">
-								<greater-or-equal depth="4" id="80">
+							<ensure depth="3" id="81">
+								<greater-or-equal depth="4" id="82">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="81">
+							<return depth="3" id="83">
 								<access>
 									<value>my</value>
 									<value>lengthInBytes</value>
@@ -918,8 +957,8 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="82">
-					<cast-definition depth="2" id="83">
+				<casts depth="1" id="84">
+					<cast-definition depth="2" id="85">
 						<to>
 							<unmanaged>
 								<value>
@@ -931,7 +970,7 @@
 							</unmanaged>
 						</to>
 						<code>
-							<return depth="3" id="84">
+							<return depth="3" id="86">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -939,16 +978,15 @@
 							</return>
 						</code>
 					</cast-definition>
-					<meta/>
 				</casts>
 			</code>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
-		<class depth="0" id="85">
+		<class depth="0" id="87">
 			<name>Int</name>
 			<code>
-				<operators depth="1" id="86">
-					<operator depth="2" id="87">
+				<operators depth="1" id="88">
+					<operator depth="2" id="89">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -959,7 +997,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3" id="88">
+							<return depth="3" id="90">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -974,7 +1012,7 @@
 			</code>
 		</class>
 		<comment>\SPrints\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="89">
+		<function depth="0" id="91">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -985,7 +1023,7 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="90">
+				<call depth="1" id="92">
 					<function>
 						<access>
 							<value>stri</value>
@@ -995,6 +1033,7 @@
 					<parameters/>
 				</call>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>
