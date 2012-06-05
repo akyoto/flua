@@ -45,6 +45,7 @@ class BPCCompiler:
 		self.modDir = fixPath(os.path.abspath(modDir)) + "/"
 		self.exprCache = dict()
 		self.textNodeCache = dict()
+		self.lastSpawnedFile = None
 		self.initExprParser()
 	
 	def getProjectDir(self):
@@ -84,6 +85,9 @@ class BPCCompiler:
 			myFile.compile(codeText)
 		except CompilerException as e:
 			raise InputCompilerException(str(e), myFile)
+		
+		self.lastSpawnedFile = myFile
+		
 		return myFile
 	
 	# TODO: Remove dirOut

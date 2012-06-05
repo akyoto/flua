@@ -48,9 +48,8 @@
 			</code>
 		</function>
 		<comment>\SHash\Smap\S/\SHash\Stable\Simplementation\Susing\Slinear\Sprobing,\Sno\Schaining.</comment>
-		<comment>\SCan\Sbe\Smade\Sfaster\Sbut\SI\Sjust\Swanted\Sto\Squickly\Simplement\Sthis.</comment>
 		<comment>\SNote\Sthat\Screating\Sit\S/\Sadding\Selements\Sfor\Shuge\Ssizes\S(&gt;1000000\Selements)</comment>
-		<comment>\Sis\Srelatively\Sslow\Sbut\Slookup\Sspeed\Sis\Sacceptable.</comment>
+		<comment>\Sis\Srelatively\Sslow\Sbut\Slookup\Sspeed\Sis\Squite\Sgood.</comment>
 		<comment>\STODO:\SOptimize,\Suse\Sa\Sdifferent\Salgorithm.</comment>
 		<class depth="0" id="8">
 			<name>MutableMap</name>

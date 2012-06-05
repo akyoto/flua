@@ -202,6 +202,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.maxLineIndex = -1
 		self.currentLineComment = ""
 		self.nodeToOriginalLine = dict()
+		self.nodeToOriginalLineNumber = dict()
 		self.nodes = list()
 		
 		# This is used for xml tags which have a "code" node
@@ -468,6 +469,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					
 					# Do NOT append it to the line number -> node converter
 					self.nodeToOriginalLine[currentComment] = self.lastLine
+					self.nodeToOriginalLine[currentComment] = self.lastLineCount
 				else:
 					currentComment = self.handleComment(self.currentLineComment, inline = False)
 					self.registerNode(currentComment)
@@ -601,6 +603,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if len(self.nodes) <= self.lastLineCount:
 			self.nodes.append(node)
 			self.nodeToOriginalLine[node] = self.lastLine
+			self.nodeToOriginalLineNumber[node] = self.lastLineCount
 		
 	def handleCase(self, line):
 		if not self.nextLineIndented:

@@ -181,7 +181,7 @@ class BaseOutputFile(ScopeController):
 				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
 				if isMemberAccess:
 					#print("Using setter for type '%s'" % (accessOp1type))
-					setFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
+					setFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
 				#pass
 				#variableType = self.getExprDataType(op1)
@@ -769,7 +769,9 @@ class BaseOutputFile(ScopeController):
 						return callerType[callerType.find('<')+1:-1]
 					
 					memberFunc = "get" + capitalize(memberName)
-					virtualGetCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)).documentElement
+					xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)
+					
+					virtualGetCall = self.cachedParseString(xmlCode).documentElement
 					
 					return self.getCallDataType(virtualGetCall)
 				
@@ -790,9 +792,9 @@ class BaseOutputFile(ScopeController):
 				sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
 				sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
 				memberFunc = "operatorSlice"
-				virtualSliceCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 				
-				return self.getCallDataType(virtualSliceCall)
+				xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)
+				return self.getCallDataType(self.cachedParseString(xmlCode).documentElement)
 			elif node.tagName == "not":
 				return "Bool"
 				#return self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -839,6 +841,24 @@ class BaseOutputFile(ScopeController):
 				return self.getCombinationResult(node.tagName, op1Type, op2Type)
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
+	
+	#def cachedCallType(self, xmlCode):
+	#	if xmlCode in self.compiler.virtualCallDataType:
+	#		print("USING CALL TYPE CACHE")
+	#		return self.compiler.virtualCallDataType[xmlCode]
+	#	else:
+	#		virtualCall = parseString(xmlCode).documentElement
+	#		typeName = self.getCallDataType(virtualCall)
+	#		self.compiler.virtualCallDataType[xmlCode] = typeName
+	#		return typeName
+	
+	def cachedParseString(self, xmlCode):
+		if xmlCode in self.compiler.parseStringCache:
+			return self.compiler.parseStringCache[xmlCode]
+		else:
+			tmpDoc = parseString(xmlCode)
+			self.compiler.parseStringCache[xmlCode] = tmpDoc
+			return tmpDoc
 	
 	def getFunctionCallInfo(self, node):
 		funcNameNode = getFuncNameNode(node)
@@ -1322,7 +1342,7 @@ class BaseOutputFile(ScopeController):
 			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
 				memberFunc = correctOperators(tagName)
 				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
-					virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
+					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 					
 					call = self.handleCall(virtualIndexCall)
 					return call
@@ -1339,7 +1359,7 @@ class BaseOutputFile(ScopeController):
 				return "%s[%s]" % (caller, index)
 			
 			memberFunc = "[]"
-			virtualIndexCall = parseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
+			virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 			
 			return self.handleCall(virtualIndexCall)
 		elif tagName == "class":
@@ -1420,7 +1440,7 @@ class BaseOutputFile(ScopeController):
 			sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
 			sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
 			memberFunc = "operatorSlice"
-			virtualSliceCall = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
+			virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 			
 			return self.handleCall(virtualSliceCall)
 		elif node.tagName == "unmanaged":
@@ -1487,7 +1507,7 @@ class BaseOutputFile(ScopeController):
 				#else:
 				op1xml = op1.toxml()
 				
-				getFunc = parseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
+				getFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
 				#print(getFunc.toprettyxml())
 				return self.handleCall(getFunc)
 		
@@ -1581,6 +1601,7 @@ class BaseOutputFile(ScopeController):
 		#	funcName = self.compiler.defines[funcName]
 		
 		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
+		
 		if key in self.compiler.funcImplCache:
 			return self.compiler.funcImplCache[key]
 		
@@ -1622,7 +1643,9 @@ class BaseOutputFile(ScopeController):
 		if className == "":
 			self.prototypesHeader += funcImpl.getPrototype()
 		
+		#if func and funcImpl and funcImpl.getReturnType() != "void":
 		self.compiler.funcImplCache[key] = funcImpl
+		
 		return funcImpl
 	
 	def implementLocalFunction(self, typeName, funcName, paramTypes):

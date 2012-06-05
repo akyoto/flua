@@ -103,16 +103,21 @@ class OutputCompilerException(CompilerException):
 		self.setMsg(value)
 		self.outFile = outFile
 		self.ppFile = ppFile
+		self.inpFile = self.ppFile.processor.inputCompiler.lastSpawnedFile
 		
 	def getFilePath(self):
 		return self.outFile.getFilePath()
 		
 	def getLineNumber(self):
-		# TODO: Implement getLineNumber
-		#if self.inpFile.nodeToOriginalLine:
-		#	return 5
-		#if self.ppFile:
-		#	return len(self.getLastParsedNode().tagName)
+		node = self.getLastParsedNode()
+		if node:
+			nodeToOriginalLineNumber = self.inpFile.nodeToOriginalLineNumber
+			while node and not node in nodeToOriginalLineNumber:
+				node = node.parentNode
+			
+			if node:
+				return self.inpFile.nodeToOriginalLineNumber[node]
+		
 		return -1
 		
 	def getLastParsedNode(self):

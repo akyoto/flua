@@ -217,6 +217,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		elif outputTarget.startswith("Python 3"):
 			tmp = PythonOutputCompiler(self.processor, background = temporary)
 		
+		# Take previous cache
+		if self.outputCompiler:
+			tmp.takeOverCache(self.outputCompiler)
+		
 		if temporary:
 			return tmp
 		else:

@@ -57,9 +57,25 @@ class BaseOutputCompiler(Benchmarkable):
 		self.includes = list()
 		self.specializedClasses = dict()
 		self.funcImplCache = dict()
+		self.parseStringCache = dict()
 		self.needToInitStringClass = False
 		self.assignNodes = list()
 		
+		# Main class
+		self.mainClass = self.createClass("", None)
+		self.mainClassImpl = self.mainClass.requestImplementation([], [])
+		
+		# Background compiler?
+		self.reset(background)
+		
+		# Expression parser
+		self.initExprParser()
+	
+	# Take cache from another compiler instance - BE CAREFUL, THIS COULD LEAD TO MEMORY LEAKS
+	def takeOverCache(self, o):
+		self.parseStringCache = o.parseStringCache
+		
+	def reset(self, background):
 		# Background compiler?
 		self.background = background
 		
@@ -70,15 +86,11 @@ class BaseOutputCompiler(Benchmarkable):
 		self.forEachVarCounter = 0
 		self.inVarCounter = 0
 		
-		# Main class
-		self.mainClass = self.createClass("", None)
-		self.mainClassImpl = self.mainClass.requestImplementation([], [])
-		
 		# Optimization
-		self.enableOptimization()
-		
-		# Expression parser
-		self.initExprParser()
+		if self.background:
+			self.disableOptimization()
+		else:
+			self.enableOptimization()
 	
 	# Abstract
 	def build(self, compilerFlags, fhOut, fhErr):
