@@ -109,7 +109,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<comment>\Sfrom\Sthe\Sposition\S#from\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -934,6 +933,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="76">
 					<getter depth="2" id="77">
@@ -1006,7 +1006,7 @@
 				</casts>
 			</code>
 			<meta>
-				<force-implementation>true</force-implementation>
+				<force-implementation>false</force-implementation>
 			</meta>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>

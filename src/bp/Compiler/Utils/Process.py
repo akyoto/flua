@@ -8,30 +8,7 @@ from bp.Compiler.Config import *
 
 ON_POSIX = 'posix' in sys.builtin_module_names
 
-def enqueue_output(out, queue):
-	line = bytearray()
-	while 1:
-		b = out.read(1)
-		
-		if not b:
-			break
-		
-		line += b
-		try:
-			decoded = line.decode("utf-8")
-		except:
-			continue
-		else:
-			queue.put(decoded)
-			del line[:]
-	
-	#for line in iter(line, b''):
-	#	queue.put(line)
-	
-	if out:
-		out.close()
-
-def startProcess(cmd, fhOut, fhErr, thread = None):
+def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	#fhOut = sys.stdout.write
 	#fhErr = sys.stderr.write
 	
@@ -53,7 +30,13 @@ def startProcess(cmd, fhOut, fhErr, thread = None):
 	
 	if thread:
 		thread.process = proc
-		
+	
+	if bytewise:
+		return handleProcessOutputBytewise(proc, fhOut, fhErr)
+	else:
+		return handleProcessOutputLinewise(proc, fhOut, fhErr)
+	
+def handleProcessOutputLinewise(proc, fhOut, fhErr):
 	linesThreshold = 2000
 	timeThreshold = 1.0 / 25 # seconds
 	lastWriteTime = 0
@@ -115,7 +98,30 @@ def startProcess(cmd, fhOut, fhErr, thread = None):
 		lastWriteTime = time.time()
 		lastErrWriteTime = time.time()
 	
-def disabled():
+def enqueue_output(out, queue):
+	line = bytearray()
+	while 1:
+		b = out.read(1)
+		
+		if not b:
+			break
+		
+		line += b
+		try:
+			decoded = line.decode("utf-8")
+		except:
+			continue
+		else:
+			queue.put(decoded)
+			del line[:]
+	
+	#for line in iter(line, b''):
+	#	queue.put(line)
+	
+	if out:
+		out.close()
+	
+def handleProcessOutputBytewise(proc, fhOut, fhErr):
 	q = Queue()
 	errQ = Queue()
 	
@@ -165,64 +171,3 @@ def disabled():
 			
 			if (exitCode is not None) and (not t.is_alive()) and (not tErr.is_alive()) and q.empty() and errQ.empty():
 				return exitCode
-
-#def disabled():
-	#timeThreshold = 1.0 / 10 # seconds
-	#start = 0
-	
-	#line = bytearray()
-	#lineError = bytearray()
-	#count = 0
-	
-	#while 1:
-		## Make the GUI feel more responsive
-		#QtGui.QApplication.instance().processEvents()
-		
-		#exitByTimeout = False
-		
-		## Stdout
-		#start = time.time()
-		#while 1:
-			#byte = proc.stdout.read(1)
-			
-			#if not byte:
-				#break
-				
-			#line += byte
-			#try:
-				#fhOut(line.decode("utf-8"))
-				#del line[:]
-				
-				#if time.time() - start > timeThreshold:
-					#exitByTimeout = True
-					#break
-			#except:
-				#continue
-		
-		#QtGui.QApplication.instance().processEvents()
-		
-		## Stderr
-		#start = time.time()
-		#while 1:
-			#byte = proc.stderr.read(1)
-			
-			#if not byte:
-				#break
-				
-			#lineError += byte
-			#try:
-				#fhErr(lineError.decode("utf-8"))
-				#del lineError[:]
-				
-				#if time.time() - start > timeThreshold:
-					#exitByTimeout = True
-					#break
-			#except:
-				#continue
-		#QtGui.QApplication.instance().processEvents()
-		
-		## Process terminated?
-		#exitCode = proc.poll()
-		
-		#if (exitCode is not None) and (not exitByTimeout):
-			#return exitCode

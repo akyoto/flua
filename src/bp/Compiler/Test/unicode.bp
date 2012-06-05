@@ -26,28 +26,28 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="0">
 			<value>utf8Test1</value>
 			<value>bp_string_0</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>utf8Test2</value>
 			<value>bp_string_1</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>utf8Test3</value>
 			<value>bp_string_2</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>utf8Test4</value>
 			<value>bp_string_3</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="4">
 			<value>errors</value>
 			<value>0</value>
 		</assign>
 		<comment>\SLength\Stest</comment>
-		<if-block depth="0">
+		<if-block depth="0" id="5">
 			<if>
 				<condition>
 					<not-equal>
@@ -61,14 +61,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="6">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="7">
 			<if>
 				<condition>
 					<not-equal>
@@ -82,14 +82,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="8">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="9">
 			<if>
 				<condition>
 					<not-equal>
@@ -103,14 +103,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="10">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="11">
 			<if>
 				<condition>
 					<not-equal>
@@ -124,14 +124,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="12">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="13">
 			<if>
 				<condition>
 					<not-equal>
@@ -145,14 +145,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="14">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="15">
 			<if>
 				<condition>
 					<not-equal>
@@ -166,14 +166,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="16">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="17">
 			<if>
 				<condition>
 					<not-equal>
@@ -187,14 +187,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="18">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="19">
 			<if>
 				<condition>
 					<not-equal>
@@ -208,7 +208,7 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="20">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
@@ -216,7 +216,7 @@
 			</if>
 		</if-block>
 		<comment>\SArray\Sof\SUTF-8\Sstrings</comment>
-		<assign depth="0">
+		<assign depth="0" id="21">
 			<value>utfArray</value>
 			<value>
 				<new>
@@ -230,7 +230,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="22">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -241,7 +241,7 @@
 				<parameter>bp_string_4</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="23">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -252,7 +252,7 @@
 				<parameter>bp_string_5</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="24">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -263,7 +263,7 @@
 				<parameter>bp_string_6</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="25">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -274,7 +274,7 @@
 				<parameter>bp_string_7</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="26">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -285,7 +285,7 @@
 				<parameter>bp_string_8</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="27">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -296,7 +296,7 @@
 				<parameter>bp_string_9</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="28">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -307,7 +307,7 @@
 				<parameter>bp_string_10</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="29">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -318,7 +318,7 @@
 				<parameter>bp_string_11</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="30">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -329,7 +329,7 @@
 				<parameter>bp_string_12</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="31">
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -340,11 +340,11 @@
 				<parameter>bp_string_13</parameter>
 			</parameters>
 		</call>
-		<assign depth="0">
+		<assign depth="0" id="32">
 			<value>cumulativeLength</value>
 			<value>0</value>
 		</assign>
-		<for depth="0">
+		<for depth="0" id="33">
 			<iterator>i</iterator>
 			<from>0</from>
 			<until>
@@ -354,7 +354,7 @@
 				</access>
 			</until>
 			<code>
-				<assign-add depth="1">
+				<assign-add depth="1" id="34">
 					<value>cumulativeLength</value>
 					<value>
 						<access>
@@ -370,7 +370,7 @@
 				</assign-add>
 			</code>
 		</for>
-		<if-block depth="0">
+		<if-block depth="0" id="35">
 			<if>
 				<condition>
 					<not-equal>
@@ -379,7 +379,7 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="36">
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
@@ -387,7 +387,7 @@
 			</if>
 		</if-block>
 		<comment>\SWorking?</comment>
-		<if-block depth="0">
+		<if-block depth="0" id="37">
 			<if>
 				<condition>
 					<greater>
@@ -396,7 +396,7 @@
 					</greater>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="38">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_14</parameter>
@@ -404,9 +404,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else depth="0" id="39">
 				<code>
-					<call depth="1">
+					<call depth="1" id="40">
 						<function>print</function>
 						<parameters>
 							<parameter>

@@ -2027,6 +2027,7 @@ class BaseOutputFile(ScopeController):
 				func = callerClass.functions[funcName]
 			
 			# Optimized string concatenation
+			# print "Aあいうえお|" + "Bあいうえお|" + "C|あいうえお"
 			if self.compiler.optimizeStringConcatenation:
 				if funcName == "operatorAdd" and callerType == "UTF8String" and paramTypes[0] in {"UTF8String", "Int"}:
 					# Check if above our node is an add node

@@ -306,12 +306,12 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		return 0
 	
-	def debug(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
-		cmd = ["gdb", exe]
+	def debug(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write, thread = None):
+		cmd = [getGCCCompilerPath() + "gdb", exe]
 		
 		try:
 			fhOut(str(cmd))
-			return startProcess(cmd, fhOut, fhErr)
+			return startProcess(cmd, fhOut, fhErr, thread, bytewise = True)
 		except OSError:
 			print("Can't execute '%s'" % exe)
 			

@@ -299,6 +299,7 @@ class BPConfiguration:
 		# Widgets with normal font
 		self.bpIDE.moduleView.setFont(font)
 		self.bpIDE.workspacesContainer.setFont(font)
+		self.bpIDE.fileView.setFont(font)
 		
 		# All docks
 		for dock in self.bpIDE.docks:

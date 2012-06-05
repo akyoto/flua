@@ -328,7 +328,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.completer = None
 		#self.completer.setWidget(self)
 		
-		#self.initLineNumberArea()
+		# Line numbers
+		#if self.bubble:
+		#	self.initLineNumberArea()
 	
 	def reload(self):
 		xmlCode = loadXMLFile(self.getFilePath())
@@ -1117,7 +1119,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.blockCountChanged.connect(self.updateLineNumberAreaWidth)
 		self.updateRequest.connect(self.updateLineNumberArea)
-		self.cursorPositionChanged.connect(self.highlightCurrentLine)
+		#self.cursorPositionChanged.connect(self.highlightCurrentLine)
 		
 		self.updateLineNumberAreaWidth(0)
 		#self.highlightLine()
@@ -1140,28 +1142,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				extraSelections.append(selection)
 			
 			self.setExtraSelections(extraSelections)
-		
-	def getLineNumberAreaWidth(self):
-		digits = 1
-		maxBlocks = max(1, self.blockCount())
-		while maxBlocks >= 10:
-			maxBlocks //= 10
-			digits += 1
-			
-		space = 3 + self.fontMetrics().width('9') * digits
-		return space
-		
-	def updateLineNumberArea(self, rect, dy):
-		if dy:
-			self.lineNumberArea.scroll(0, dy)
-		else:
-			self.lineNumberArea.update(0, rect.y(), self.lineNumberArea.width(), rect.height())
-			
-		if rect.contains(self.viewport().rect()):
-			self.updateLineNumberAreaWidth(0)
-		
-	def updateLineNumberAreaWidth(self, newBlockCount):
-		self.setViewportMargins(self.getLineNumberAreaWidth(), 0, 0, 0)
 		
 	def resizeEvent(self, event):
 		super().resizeEvent(event)
@@ -1210,25 +1190,66 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.bubble.setGeometry(offX, offY, width, height)
 		
+	def getLineNumberAreaWidth(self):
+		digits = 1
+		maxBlocks = max(1, self.blockCount())
+		while maxBlocks >= 10:
+			maxBlocks //= 10
+			digits += 1
+		
+		space = 24 + self.fontMetrics().width('9') * digits
+		return space
+		
+	def updateLineNumberArea(self, rect, dy):
+		if dy:
+			self.lineNumberArea.scroll(0, dy)
+		else:
+			self.lineNumberArea.update(0, rect.y(), self.lineNumberArea.width(), rect.height())
+			
+		if rect.contains(self.viewport().rect()):
+			self.updateLineNumberAreaWidth(0)
+		
+	def updateLineNumberAreaWidth(self, newBlockCount):
+		self.setViewportMargins(self.getLineNumberAreaWidth(), 0, 0, 0)
+		
 	def lineNumberAreaPaintEvent(self, event):
+		style = self.bpIDE.getCurrentTheme()
+		
 		painter = QtGui.QPainter(self.lineNumberArea)
-		painter.fillRect(event.rect(), QtCore.Qt.lightGray)
+		painter.fillRect(event.rect(), QtGui.QColor("#242424"))
+		
+		numberColor = QtGui.QColor("#777777")
+		
+		#if self.bubble:
+		#	topOffset = 0
+		#	heightOffset = 0
+		#else:
+		#	topOffset = 3
+		#	heightOffset = 2
 		
 		block = self.firstVisibleBlock()
 		blockNumber = block.blockNumber()
-		top = self.blockBoundingGeometry(block).translated(self.contentOffset()).top()
+		top = self.blockBoundingGeometry(block).translated(self.contentOffset()).top() #- topOffset
 		bottom = top + self.blockBoundingRect(block).height()
+		resultingHeight = self.fontMetrics().height() #+ heightOffset
+		resultingWidth = self.lineNumberArea.width()
+		
+		oldFont = self.font()
+		#self.setFont(self.lineNumberFont)
+		painter.setFont(oldFont)
 		
 		while block.isValid() and top <= event.rect().bottom():
 			if block.isVisible() and bottom >= event.rect().top():
 				number = str(blockNumber + 1)
-				painter.setPen(QtCore.Qt.black)
-				painter.drawText(0, top, self.lineNumberArea.width(), self.fontMetrics().height(), QtCore.Qt.AlignRight, number)
+				painter.setPen(numberColor)
+				#painter.drawText(0, top, resultingWidth, resultingHeight, QtCore.Qt.AlignHCenter, number)
 			
 			block = block.next()
 			top = bottom
 			bottom = top + int(self.blockBoundingRect(block).height())
 			blockNumber += 1
+			
+		self.setFont(oldFont)
 
 # Information stored per line
 class BPLineInformation(QtGui.QTextBlockUserData):

@@ -84,7 +84,7 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		self.names = ["Log", "Compiler", "Output"]
 		
 		#if os.name == "nt":
-		self.setMinimumWidth(450)
+		#self.setMinimumWidth(450)
 		#else:
 		#	self.setMinimumWidth(390)
 		
@@ -129,6 +129,9 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		#vBox.addWidget(self.log)
 		
 		#self.setLayout(vBox)
+		
+	def sizeHint(self):
+		return QtCore.QSize(450, 232)
 		
 	def activate(self, logName):
 		for i in range(len(self.names)):

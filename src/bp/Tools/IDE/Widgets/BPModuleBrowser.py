@@ -78,6 +78,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		self.reloadModuleDirectory(True)
 		
+	def sizeHint(self):
+		return QtCore.QSize(224, -1)
+		
 	# Context menu
 	def showContextMenu(self, pos):
 		self.selectedModItem = self.indexAt(pos).data(QtCore.Qt.UserRole + 1)

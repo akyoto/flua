@@ -14,6 +14,9 @@ class BPScribbleWidget(QtGui.QPlainTextEdit):
 		self.filePath = filePath
 		self.loadScribble()
 		
+	def minimumSizeHint(self):
+		return QtCore.QSize(400, 200)
+		
 	def loadScribble(self):
 		if os.path.isfile(self.filePath):
 			with codecs.open(self.filePath, "r", "utf-8") as inStream:
