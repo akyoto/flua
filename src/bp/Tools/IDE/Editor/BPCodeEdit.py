@@ -234,6 +234,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoSuggestionMinCompleteChars = 4
 		self.autoSuggestionMaxItemCount = 4
 		
+		self.enableACInstant = True
+		
+		# Bubbles!
 		if not isinstance(parent, BPCodeEdit):
 			# Doc bubble
 			self.bubble = BPCodeEdit(self.bpIDE, self)
@@ -473,37 +476,41 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			extra = (len(completion) - len(self.completer.completionPrefix()))
 			tc.movePosition(QtGui.QTextCursor.EndOfWord)
 			tc.insertText(completion[len(completion) - extra:])
-			
-		# Functions
-		# TODO: Optimize for dict search instead of list search
-		if completion in self.completer.bpcModel.functionList:
-			beforeCompletion = tc.block().text()[:-len(completion)]
-			functionHasParameters = False
-			
-			# At end of line?
-			if tc.block().text() == beforeCompletion + completion:
-				if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
-					tc.insertText(" ")
-				else:
-					tc.insertText("()")
-					tc.movePosition(QtGui.QTextCursor.Left)
-		# Expr blocks
-		#elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
-		#	pass#tc.insertText(" ")
-		# Blocks
-		elif completion in self.completer.bpcModel.classesList:
-			# Not exactly a perfect solution but works in most cases...
-			if tc.block().text()[-1] != ")":
+		
+		# Class members
+		if self.completer.memberListActivated():
+			if completion in self.completer.model().methodList:
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
-		elif completion in xmlToBPCBlock.values():
-			tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
+			self.completer.setModel(self.completer.bpcModel)
+		else:
+			# Functions
+			# TODO: Optimize for dict search instead of list search
+			if completion in self.completer.bpcModel.functionList:
+				beforeCompletion = tc.block().text()[:-len(completion)]
+				functionHasParameters = False
+				
+				# At end of line?
+				if tc.block().text() == beforeCompletion + completion:
+					if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
+						tc.insertText(" ")
+					else:
+						tc.insertText("()")
+						tc.movePosition(QtGui.QTextCursor.Left)
+			# Expr blocks
+			#elif completion in xmlToBPCExprBlock.keys() or completion in xmlToBPCSingleLineExpr.values():
+			#	pass#tc.insertText(" ")
+			# Blocks
+			elif completion in self.completer.bpcModel.classesList:
+				# Not exactly a perfect solution but works in most cases...
+				if tc.block().text()[-1] != ")":
+					tc.insertText("()")
+					tc.movePosition(QtGui.QTextCursor.Left)
+			elif completion in xmlToBPCBlock.values():
+				tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
 			
 		self.lastCompletionTime = time.time()
 		self.setTextCursor(tc)
-		
-		if self.completer.memberListActivated():
-			self.completer.setModel(self.completer.bpcModel)
 	
 	def textUnderCursor(self):
 		tc = self.textCursor()
@@ -551,12 +558,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if event.modifiers() == QtCore.Qt.ControlModifier:
 			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
-		
-		if event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
+		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
 		
 		# Auto Complete
-		if (not dontAutoComplete) and self.completer and self.bpIDE.codeEdit == self and (isShortcut or self.completer.popup().isVisible() or self.autoSuggestion):
+		if (not dontAutoComplete) and self.completer and self.bpIDE.codeEdit == self and (self.autoSuggestion or isShortcut or self.completer.popup().isVisible()):
 			if self.completer.popup().isVisible() and event.key() in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
@@ -575,8 +581,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			if ctrlOrShift and not event.text():
 				# ctrl or shift key on it's own
 				return
-			
-			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
 			
 			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
@@ -601,9 +605,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				charBeforeWord = ""
 			
+			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
+			
 			if charBeforeWord == ".":#(event.text() and event.text()[-1] == "."):
 				self.completer.activateMemberList()
-			elif (not isShortcut and (hasModifier or not event.text() or event.text()[-1] in eow)):
+			elif ((not isShortcut) and (hasModifier or (not event.text()) or event.text()[-1] in eow)):
 				if self.completer.memberListActivated():
 					self.completer.setModel(self.completer.bpcModel)
 				self.completer.popup().hide()
@@ -645,8 +651,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					return
 			
 			# Insert directly if it's just 1 possibility
-			enableACInstant = True
-			if enableACInstant and isShortcut:
+			if isShortcut and self.enableACInstant:
 				if self.completer.completionCount() == 1:
 					self.insertCompletion(self.completer.currentCompletion())
 					self.completer.popup().hide()
