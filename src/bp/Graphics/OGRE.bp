@@ -1,0 +1,31 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="0">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="1">OGRE.hpp</include>
+				<compiler-flags depth="1" id="2">
+					<compiler-flag depth="2" id="3">-lOgreMain</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+		<extern depth="0" id="4">
+			<extern-function depth="1" id="5">
+				<name>bp_ogreHelloWorld</name>
+			</extern-function>
+		</extern>
+		<test depth="0" id="6">
+			<call depth="1" id="7">
+				<function>bp_ogreHelloWorld</function>
+				<parameters/>
+			</call>
+		</test>
+	</code>
+</module>

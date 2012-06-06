@@ -70,6 +70,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.classesHeader = ""
 		self.actorClassesHeader = ""
 		self.prototypesHeader = "\n// Prototypes\n"
+		self.includesHeader = "\n// Includes\n"
 		
 		# Syntax
 		self.lineLimiter = ";\n"
@@ -109,6 +110,10 @@ class CPPOutputFile(BaseOutputFile):
 		self.body += "\t// Code\n"
 		self.body += self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.body += "}\n"
+		
+		# Includes
+		for incl, ifndef in self.includes:
+			self.includesHeader += "#ifndef %s\n#define %s\n#include <%s>\n#endif\n" % (ifndef, ifndef, incl)
 		
 		# Custom Threads
 		self.customThreadsString = '\n'.join(self.customThreads.values()) + '\n'
@@ -397,4 +402,4 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.customThreadsString + self.body + self.footer
+		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.customThreadsString + self.body + self.footer

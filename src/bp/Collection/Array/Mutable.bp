@@ -111,6 +111,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Sarray\Sand\Sresizes\Sit\Sif\Sthere\Sis\Snot\Senough\Sspace</comment>
 				<function depth="1" id="9">
@@ -531,7 +532,9 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
+						<meta>
+							<force-implementation>false</force-implementation>
+						</meta>
 					</getter>
 					<getter depth="2" id="52">
 						<name>size</name>
@@ -559,7 +562,9 @@
 								</subtract>
 							</return>
 						</code>
-						<meta/>
+						<meta>
+							<force-implementation>false</force-implementation>
+						</meta>
 					</getter>
 					<getter depth="2" id="56">
 						<name>data</name>
@@ -662,6 +667,7 @@
 			<meta>
 				<ensure-destructor-call>true</ensure-destructor-call>
 				<default-class-version>true</default-class-version>
+				<force-implementation>false</force-implementation>
 			</meta>
 		</class>
 		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>

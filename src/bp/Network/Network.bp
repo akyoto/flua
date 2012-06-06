@@ -5,7 +5,7 @@
 			<import>bp.Core</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">google.com</string>
+			<string id="bp_string_0">blitzprog.org</string>
 		</strings>
 	</header>
 	<code>

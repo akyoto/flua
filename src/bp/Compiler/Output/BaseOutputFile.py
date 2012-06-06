@@ -72,6 +72,7 @@ class BaseOutputFile(ScopeController):
 		self.localClasses = []
 		self.localFunctions = []
 		self.additionalCodePerLine = []
+		self.includes = []
 		
 		# Increment id
 		self.compiler.fileCounter += 1
@@ -406,6 +407,13 @@ class BaseOutputFile(ScopeController):
 				
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
 				definedAs = self.addMissingTemplateValues(definedAs)
+				
+				# Implement it
+				#if not definedAs in nonPointerClasses:
+				#	try:
+				#		self.getClassImplementationByTypeName(definedAs)
+				#	except:
+				#		pass
 				
 				#print("Defined: " + definedAs)
 				#print(name)
@@ -1225,6 +1233,18 @@ class BaseOutputFile(ScopeController):
 			#if not type and defaultValueType:
 			#	type = defaultValueType
 			
+			# Implement it
+			if not type in nonPointerClasses:
+				try:
+					#classImpl = self.getClassImplementationByTypeName(type)
+					#classImpl.requestFuncImplementation("init", [])
+					
+					# Default parameters for init
+					paramTypes, paramsString = self.addDefaultParameters(type, "init", [], "")
+					funcImpl = self.implementFunction(type, "init", paramTypes)
+				except:
+					pass
+			
 			pTypes.append(type)
 			pDefault.append(defaultValue)
 			pDefaultTypes.append(defaultValueType)
@@ -1412,7 +1432,10 @@ class BaseOutputFile(ScopeController):
 			return self.handleFlowTo(node)
 		elif tagName == "include":
 			fileName = node.childNodes[0].nodeValue
-			self.compiler.includes.append((self.dir + fileName)[len(self.compiler.modDir):]) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
+			incFile = (self.dir + fileName)[len(self.compiler.modDir):]
+			ifndef = normalizeModPath(incFile).replace(".", "_")
+			self.includes.append((incFile, ifndef)) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
+			self.compiler.includes.append((incFile, ifndef))
 			return ""
 		elif tagName == "const":
 			return self.handleConst(node)
@@ -1815,6 +1838,13 @@ class BaseOutputFile(ScopeController):
 		typeName = self.currentClassImpl.translateTemplateName(typeName)
 		varName = self.parseExpr(node.childNodes[0])
 		self.inTypeDeclaration -= 1
+		
+		# Implement it
+		#if not typeName in nonPointerClasses:
+		#	try:
+		#		self.getClassImplementationByTypeName(typeName)
+		#	except:
+		#		pass
 		
 		if varName.startswith(self.memberAccessSyntax):
 			memberName = varName[len(self.memberAccessSyntax):]

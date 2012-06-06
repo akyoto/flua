@@ -176,8 +176,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				outStream.write("// extern func %s;\n" % (externFunc))
 			
 			# Includes
-			for incl in self.includes:
-				outStream.write("#include <%s>\n" % (incl))
+			for incl, ifndef in self.includes:
+				outStream.write("#ifndef %s\n#define %s\n#include <%s>\n#endif\n\n" % (ifndef, ifndef, incl))
 			
 			outStream.write("\n#endif\n")
 	

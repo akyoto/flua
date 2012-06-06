@@ -7,25 +7,25 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">OpenGL.hpp</include>
-				<target depth="1">
+				<include depth="1" id="1">OpenGL.hpp</include>
+				<target depth="1" id="2">
 					<name>Windows</name>
 					<code>
-						<compiler-flags depth="2">
-							<compiler-flag depth="3">-lOpenGL32</compiler-flag>
-							<compiler-flag depth="3">-lglu32</compiler-flag>
+						<compiler-flags depth="2" id="3">
+							<compiler-flag depth="3" id="4">-lOpenGL32</compiler-flag>
+							<compiler-flag depth="3" id="5">-lglu32</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
-				<target depth="1">
+				<target depth="1" id="6">
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2">
-							<compiler-flag depth="3">-lGL</compiler-flag>
-							<compiler-flag depth="3">-lGLU</compiler-flag>
+						<compiler-flags depth="2" id="7">
+							<compiler-flag depth="3" id="8">-lGL</compiler-flag>
+							<compiler-flag depth="3" id="9">-lGLU</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

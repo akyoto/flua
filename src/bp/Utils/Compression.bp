@@ -45,6 +45,8 @@
 				</meta>
 			</extern-function>
 		</extern>
+		<comment>\SCompresses\Sa\Sstring\Sand\Sreturns\San\Sarray\Sof\Sbytes</comment>
+		<comment>\Scontaining\Sthe\Scompressed\Sdata.</comment>
 		<function depth="0" id="6">
 			<parameters>
 				<parameter>
@@ -106,6 +108,8 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SUncompresses\Sa\Scompressed\Sarray\Sof\Sbytes\Sand\Sreturns</comment>
+		<comment>\San\Sarray\Sof\Sbytes\Scontaining\Sthe\Soriginal\Sdata.</comment>
 		<function depth="0" id="10">
 			<parameters>
 				<parameter>
