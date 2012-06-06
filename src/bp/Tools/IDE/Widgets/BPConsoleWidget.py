@@ -131,7 +131,7 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		#self.setLayout(vBox)
 		
 	def minimumSizeHint(self):
-		return QtCore.QSize(450, 400)
+		return QtCore.QSize(450, 232)
 		
 	def activate(self, logName):
 		for i in range(len(self.names)):
