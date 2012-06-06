@@ -8,6 +8,7 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">\n</string>
+			<string id="bp_string_1">\n</string>
 		</strings>
 	</header>
 	<code>
@@ -109,7 +110,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<comment>\Sfrom\Sthe\Sposition\S#fromIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -140,17 +140,63 @@
 							<value>0</value>
 						</assign>
 						<assign depth="2" id="14">
-							<value>count</value>
-							<value>0</value>
-						</assign>
-						<assign depth="2" id="15">
 							<value>snapshot</value>
 							<value>0</value>
 						</assign>
-						<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\Sstrings</comment>
-						<for depth="2" id="16">
+						<assign depth="2" id="15">
+							<value>start</value>
+							<value>0</value>
+						</assign>
+						<assign depth="2" id="16">
+							<value>count</value>
+							<value>fromIndex</value>
+						</assign>
+						<for depth="2" id="17">
 							<iterator>i</iterator>
-							<from>fromIndex</from>
+							<from>0</from>
+							<until>
+								<call>
+									<function>min</function>
+									<parameters>
+										<parameter>fromIndex</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>length</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</until>
+							<code>
+								<assign-add depth="3" id="18">
+									<value>start</value>
+									<value>
+										<call>
+											<function>utf8ByteLength</function>
+											<parameters>
+												<parameter>
+													<index>
+														<value>
+															<access>
+																<value>my</value>
+																<value>data</value>
+															</access>
+														</value>
+														<value>start</value>
+													</index>
+												</parameter>
+											</parameters>
+										</call>
+									</value>
+								</assign-add>
+							</code>
+							<meta/>
+						</for>
+						<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\Sstrings</comment>
+						<for depth="2" id="19">
+							<iterator>i</iterator>
+							<from>start</from>
 							<until>
 								<access>
 									<value>my</value>
@@ -158,7 +204,7 @@
 								</access>
 							</until>
 							<code>
-								<if-block depth="3" id="17">
+								<if-block depth="3" id="20">
 									<if>
 										<condition>
 											<equal>
@@ -187,7 +233,7 @@
 											</equal>
 										</condition>
 										<code>
-											<if-block depth="4" id="18">
+											<if-block depth="4" id="21">
 												<if>
 													<condition>
 														<equal>
@@ -196,14 +242,14 @@
 														</equal>
 													</condition>
 													<code>
-														<assign depth="5" id="19">
+														<assign depth="5" id="22">
 															<value>snapshot</value>
 															<value>count</value>
 														</assign>
 													</code>
 												</if>
 											</if-block>
-											<if-block depth="4" id="20">
+											<if-block depth="4" id="23">
 												<if>
 													<condition>
 														<equal>
@@ -222,26 +268,26 @@
 														</equal>
 													</condition>
 													<code>
-														<return depth="5" id="21">snapshot</return>
+														<return depth="5" id="24">snapshot</return>
 													</code>
 												</if>
 											</if-block>
-											<assign-add depth="4" id="22">
+											<assign-add depth="4" id="25">
 												<value>matchedChars</value>
 												<value>1</value>
 											</assign-add>
 										</code>
 									</if>
-									<else depth="3" id="23">
+									<else depth="3" id="26">
 										<code>
-											<assign depth="4" id="24">
+											<assign depth="4" id="27">
 												<value>matchedChars</value>
 												<value>0</value>
 											</assign>
 										</code>
 									</else>
 								</if-block>
-								<if-block depth="3" id="25">
+								<if-block depth="3" id="28">
 									<if>
 										<condition>
 											<call>
@@ -262,7 +308,7 @@
 											</call>
 										</condition>
 										<code>
-											<assign-add depth="4" id="26">
+											<assign-add depth="4" id="29">
 												<value>count</value>
 												<value>1</value>
 											</assign-add>
@@ -272,7 +318,7 @@
 							</code>
 							<meta/>
 						</for>
-						<return depth="2" id="27">
+						<return depth="2" id="30">
 							<negative>
 								<value>1</value>
 							</negative>
@@ -281,7 +327,7 @@
 					<meta/>
 				</function>
 				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
-				<function depth="1" id="28">
+				<function depth="1" id="31">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -292,7 +338,7 @@
 					</parameters>
 					<name>until</name>
 					<code>
-						<assign depth="2" id="29">
+						<assign depth="2" id="32">
 							<value>pos</value>
 							<value>
 								<call>
@@ -308,7 +354,7 @@
 								</call>
 							</value>
 						</assign>
-						<return depth="2" id="30">
+						<return depth="2" id="33">
 							<call>
 								<function>
 									<access>
@@ -325,7 +371,7 @@
 					</code>
 				</function>
 				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
-				<function depth="1" id="31">
+				<function depth="1" id="34">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -336,11 +382,11 @@
 					</parameters>
 					<name>untilLast</name>
 					<code>
-						<noop depth="2" id="32"/>
+						<noop depth="2" id="35"/>
 					</code>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
-				<function depth="1" id="33">
+				<function depth="1" id="36">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -351,7 +397,7 @@
 					</parameters>
 					<name>from</name>
 					<code>
-						<assign depth="2" id="34">
+						<assign depth="2" id="37">
 							<value>pos</value>
 							<value>
 								<call>
@@ -367,7 +413,7 @@
 								</call>
 							</value>
 						</assign>
-						<return depth="2" id="35">
+						<return depth="2" id="38">
 							<call>
 								<function>
 									<access>
@@ -394,7 +440,7 @@
 					</code>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
-				<function depth="1" id="36">
+				<function depth="1" id="39">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -405,11 +451,11 @@
 					</parameters>
 					<name>fromLast</name>
 					<code>
-						<noop depth="2" id="37"/>
+						<noop depth="2" id="40"/>
 					</code>
 				</function>
 				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\Schars</comment>
-				<function depth="1" id="38">
+				<function depth="1" id="41">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -420,7 +466,7 @@
 					</parameters>
 					<name>after</name>
 					<code>
-						<assign depth="2" id="39">
+						<assign depth="2" id="42">
 							<value>pos</value>
 							<value>
 								<call>
@@ -436,7 +482,7 @@
 								</call>
 							</value>
 						</assign>
-						<if-block depth="2" id="40">
+						<if-block depth="2" id="43">
 							<if>
 								<condition>
 									<not-equal>
@@ -449,7 +495,7 @@
 									</not-equal>
 								</condition>
 								<code>
-									<return depth="3" id="41">
+									<return depth="3" id="44">
 										<call>
 											<function>
 												<access>
@@ -485,22 +531,22 @@
 									</return>
 								</code>
 							</if>
-							<else depth="2" id="42">
+							<else depth="2" id="45">
 								<code>
-									<return depth="3" id="43">EMPTY_STRING</return>
+									<return depth="3" id="46">EMPTY_STRING</return>
 								</code>
 							</else>
 						</if-block>
 					</code>
 				</function>
 				<comment>\SLeft\S#length\Scharacters</comment>
-				<function depth="1" id="44">
+				<function depth="1" id="47">
 					<parameters>
 						<parameter>length</parameter>
 					</parameters>
 					<name>left</name>
 					<code>
-						<return depth="2" id="45">
+						<return depth="2" id="48">
 							<call>
 								<function>
 									<access>
@@ -517,13 +563,13 @@
 					</code>
 				</function>
 				<comment>\SRight\S#length\Scharacters</comment>
-				<function depth="1" id="46">
+				<function depth="1" id="49">
 					<parameters>
 						<parameter>length</parameter>
 					</parameters>
 					<name>right</name>
 					<code>
-						<return depth="2" id="47">
+						<return depth="2" id="50">
 							<call>
 								<function>
 									<access>
@@ -550,7 +596,7 @@
 					</code>
 				</function>
 				<comment>\STODO:\SDelete\Scertain\Scharacters\Sfrom\Sa\Sstring</comment>
-				<function depth="1" id="48">
+				<function depth="1" id="51">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -561,7 +607,7 @@
 					</parameters>
 					<name>erase</name>
 					<code>
-						<assign depth="2" id="49">
+						<assign depth="2" id="52">
 							<value>pos</value>
 							<value>
 								<call>
@@ -577,7 +623,7 @@
 								</call>
 							</value>
 						</assign>
-						<return depth="2" id="50">
+						<return depth="2" id="53">
 							<new>
 								<type>UTF8String</type>
 								<parameters/>
@@ -585,7 +631,7 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="51">
+				<function depth="1" id="54">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -596,10 +642,10 @@
 					</parameters>
 					<name>eraseAll</name>
 					<code>
-						<noop depth="2" id="52"/>
+						<noop depth="2" id="55"/>
 					</code>
 				</function>
-				<function depth="1" id="53">
+				<function depth="1" id="56">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -610,11 +656,11 @@
 					</parameters>
 					<name>eraseLast</name>
 					<code>
-						<noop depth="2" id="54"/>
+						<noop depth="2" id="57"/>
 					</code>
 				</function>
 				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
-				<function depth="1" id="55">
+				<function depth="1" id="58">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -625,7 +671,7 @@
 					</parameters>
 					<name>eraseLeft</name>
 					<code>
-						<return depth="2" id="56">
+						<return depth="2" id="59">
 							<call>
 								<function>
 									<access>
@@ -652,7 +698,7 @@
 					</code>
 				</function>
 				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
-				<function depth="1" id="57">
+				<function depth="1" id="60">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -663,7 +709,7 @@
 					</parameters>
 					<name>eraseLeft</name>
 					<code>
-						<if-block depth="2" id="58">
+						<if-block depth="2" id="61">
 							<if>
 								<condition>
 									<call>
@@ -679,7 +725,7 @@
 									</call>
 								</condition>
 								<code>
-									<return depth="3" id="59">
+									<return depth="3" id="62">
 										<call>
 											<function>
 												<access>
@@ -699,16 +745,16 @@
 									</return>
 								</code>
 							</if>
-							<else depth="2" id="60">
+							<else depth="2" id="63">
 								<code>
-									<return depth="3" id="61">my</return>
+									<return depth="3" id="64">my</return>
 								</code>
 							</else>
 						</if-block>
 					</code>
 				</function>
 				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring\Sat\Sthe\Send</comment>
-				<function depth="1" id="62">
+				<function depth="1" id="65">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -719,7 +765,7 @@
 					</parameters>
 					<name>eraseRight</name>
 					<code>
-						<return depth="2" id="63">
+						<return depth="2" id="66">
 							<call>
 								<function>
 									<access>
@@ -746,7 +792,7 @@
 					</code>
 				</function>
 				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstringe\Sends\Swith\S#chars</comment>
-				<function depth="1" id="64">
+				<function depth="1" id="67">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -757,7 +803,7 @@
 					</parameters>
 					<name>eraseRight</name>
 					<code>
-						<if-block depth="2" id="65">
+						<if-block depth="2" id="68">
 							<if>
 								<condition>
 									<call>
@@ -773,7 +819,7 @@
 									</call>
 								</condition>
 								<code>
-									<return depth="3" id="66">
+									<return depth="3" id="69">
 										<call>
 											<function>
 												<access>
@@ -793,22 +839,22 @@
 									</return>
 								</code>
 							</if>
-							<else depth="2" id="67">
+							<else depth="2" id="70">
 								<code>
-									<return depth="3" id="68">my</return>
+									<return depth="3" id="71">my</return>
 								</code>
 							</else>
 						</if-block>
 					</code>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Swith\S#chars</comment>
-				<function depth="1" id="69">
+				<function depth="1" id="72">
 					<parameters>
 						<parameter>chars</parameter>
 					</parameters>
 					<name>startsWith</name>
 					<code>
-						<return depth="2" id="70">
+						<return depth="2" id="73">
 							<call>
 								<function>compareMem</function>
 								<parameters>
@@ -836,13 +882,13 @@
 					</code>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sends\Swith\S#chars</comment>
-				<function depth="1" id="71">
+				<function depth="1" id="74">
 					<parameters>
 						<parameter>chars</parameter>
 					</parameters>
 					<name>endsWith</name>
 					<code>
-						<return depth="2" id="72">
+						<return depth="2" id="75">
 							<call>
 								<function>compareMem</function>
 								<parameters>
@@ -889,7 +935,7 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="73">
+				<function depth="1" id="76">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -900,7 +946,7 @@
 					</parameters>
 					<name>contains</name>
 					<code>
-						<return depth="2" id="74">
+						<return depth="2" id="77">
 							<not-equal>
 								<value>
 									<call>
@@ -925,10 +971,10 @@
 					</code>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
-				<function depth="1" id="75">
+				<function depth="1" id="78">
 					<name>print</name>
 					<code>
-						<call depth="2" id="76">
+						<call depth="2" id="79">
 							<function>bp_writeXbytes</function>
 							<parameters>
 								<parameter>
@@ -945,23 +991,23 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="77">
+						<call depth="2" id="80">
 							<function>bp_write</function>
 							<parameters>
 								<parameter>bp_string_0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="78">
+						<call depth="2" id="81">
 							<function>bp_flush</function>
 							<parameters/>
 						</call>
 					</code>
 				</function>
 				<comment>\SWrites\Sthe\Sstring\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
-				<function depth="1" id="79">
+				<function depth="1" id="82">
 					<name>write</name>
 					<code>
-						<call depth="2" id="80">
+						<call depth="2" id="83">
 							<function>bp_writebytes</function>
 							<parameters>
 								<parameter>
@@ -978,17 +1024,49 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="81">
+						<call depth="2" id="84">
 							<function>bp_flush</function>
 							<parameters/>
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="82">
-					<getter depth="2" id="83">
+				<iterators depth="1" id="85">
+					<iterator-type depth="2" id="86">
+						<name>lines</name>
+						<code>
+							<assign depth="3" id="87">
+								<value>pos</value>
+								<value>0</value>
+							</assign>
+							<while depth="3" id="88">
+								<condition>1</condition>
+								<code>
+									<assign depth="4" id="89">
+										<value>pos</value>
+										<value>
+											<call>
+												<function>
+													<access>
+														<value>my</value>
+														<value>find</value>
+													</access>
+												</function>
+												<parameters>
+													<parameter>bp_string_1</parameter>
+												</parameters>
+											</call>
+										</value>
+									</assign>
+								</code>
+							</while>
+						</code>
+					</iterator-type>
+				</iterators>
+				<get depth="1" id="90">
+					<getter depth="2" id="91">
 						<name>data</name>
 						<code>
-							<return depth="3" id="84">
+							<return depth="3" id="92">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -996,16 +1074,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="85">
+					<getter depth="2" id="93">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="86">
-								<greater-or-equal depth="4" id="87">
+							<ensure depth="3" id="94">
+								<greater-or-equal depth="4" id="95">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="88">
+							<return depth="3" id="96">
 								<access>
 									<value>my</value>
 									<value>length</value>
@@ -1013,16 +1091,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="89">
+					<getter depth="2" id="97">
 						<name>lengthInBytes</name>
 						<code>
-							<ensure depth="3" id="90">
-								<greater-or-equal depth="4" id="91">
+							<ensure depth="3" id="98">
+								<greater-or-equal depth="4" id="99">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="92">
+							<return depth="3" id="100">
 								<access>
 									<value>my</value>
 									<value>lengthInBytes</value>
@@ -1031,8 +1109,8 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="93">
-					<cast-definition depth="2" id="94">
+				<casts depth="1" id="101">
+					<cast-definition depth="2" id="102">
 						<to>
 							<unmanaged>
 								<value>
@@ -1044,7 +1122,7 @@
 							</unmanaged>
 						</to>
 						<code>
-							<return depth="3" id="95">
+							<return depth="3" id="103">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -1059,11 +1137,11 @@
 			</meta>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
-		<class depth="0" id="96">
+		<class depth="0" id="104">
 			<name>Int</name>
 			<code>
-				<operators depth="1" id="97">
-					<operator depth="2" id="98">
+				<operators depth="1" id="105">
+					<operator depth="2" id="106">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -1074,7 +1152,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3" id="99">
+							<return depth="3" id="107">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -1087,30 +1165,117 @@
 					</operator>
 				</operators>
 			</code>
+			<meta/>
 		</class>
-		<comment>\SReturns\Swhether\S#byte\Sindicates\Sthe\Sbeginning\Sof\Sa\SUTF-8\Scharacter\Ssequence</comment>
-		<function depth="0" id="100">
+		<comment>\SReturns\Sthe\Slength\Sthe\S#startByte\Sis\Sindicating</comment>
+		<function depth="0" id="108">
 			<parameters>
-				<parameter>byte</parameter>
+				<parameter>
+					<declare-type>
+						<value>startByte</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>utf8ByteLength</name>
+			<code>
+				<if-block depth="1" id="109">
+					<if>
+						<condition>
+							<equal>
+								<value>
+									<bitwise-and>
+										<value>startByte</value>
+										<value>0x80</value>
+									</bitwise-and>
+								</value>
+								<value>0</value>
+							</equal>
+						</condition>
+						<code>
+							<return depth="2" id="110">1</return>
+						</code>
+					</if>
+					<else-if depth="1" id="111">
+						<condition>
+							<equal>
+								<value>
+									<bitwise-and>
+										<value>startByte</value>
+										<value>0xE0</value>
+									</bitwise-and>
+								</value>
+								<value>0xC0</value>
+							</equal>
+						</condition>
+						<code>
+							<return depth="2" id="112">2</return>
+						</code>
+					</else-if>
+					<else-if depth="1" id="113">
+						<condition>
+							<equal>
+								<value>
+									<bitwise-and>
+										<value>startByte</value>
+										<value>0xF0</value>
+									</bitwise-and>
+								</value>
+								<value>0xE0</value>
+							</equal>
+						</condition>
+						<code>
+							<return depth="2" id="114">3</return>
+						</code>
+					</else-if>
+					<else-if depth="1" id="115">
+						<condition>
+							<equal>
+								<value>
+									<bitwise-and>
+										<value>startByte</value>
+										<value>0xF8</value>
+									</bitwise-and>
+								</value>
+								<value>0xF0</value>
+							</equal>
+						</condition>
+						<code>
+							<return depth="2" id="116">4</return>
+						</code>
+					</else-if>
+				</if-block>
+				<return depth="1" id="117">0</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Swhether\S#byte\Sindicates\Sthe\Sbeginning\Sof\Sa\SUTF-8\Scharacter\Ssequence</comment>
+		<function depth="0" id="118">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>byte</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
 			</parameters>
 			<name>isUTF8StartByte</name>
 			<code>
-				<return depth="1" id="101">
+				<return depth="1" id="119">
 					<not-equal>
 						<value>
 							<bitwise-and>
 								<value>byte</value>
-								<value>0xc0</value>
+								<value>0xC0</value>
 							</bitwise-and>
 						</value>
 						<value>0x80</value>
 					</not-equal>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SPrints\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="102">
+		<function depth="0" id="120">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -1121,7 +1286,7 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="103">
+				<call depth="1" id="121">
 					<function>
 						<access>
 							<value>stri</value>
