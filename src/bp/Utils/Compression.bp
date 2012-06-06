@@ -217,19 +217,18 @@
 					</call>
 				</value>
 			</assign>
-			<call depth="1" id="19">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<new>
-							<type>String</type>
-							<parameters>
-								<parameter>original</parameter>
-							</parameters>
-						</new>
-					</parameter>
-				</parameters>
-			</call>
+			<foreach depth="1" id="19">
+				<iterator>x</iterator>
+				<collection>original</collection>
+				<code>
+					<call depth="2" id="20">
+						<function>bp_write</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</code>
+			</foreach>
 		</test>
 	</code>
 </module>
