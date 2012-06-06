@@ -118,12 +118,21 @@
 							</code>
 						</else>
 					</if-block>
+					<comment>\SMake\SGCC\Shappy.</comment>
+					<assign depth="1" id="10">
+						<value>url</value>
+						<value>desc</value>
+					</assign>
+					<assign depth="1" id="11">
+						<value>desc</value>
+						<value>url</value>
+					</assign>
 				</code>
 			</try>
-			<catch depth="0" id="10">
+			<catch depth="0" id="12">
 				<variable/>
 				<code>
-					<call depth="1" id="11">
+					<call depth="1" id="13">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_12</parameter>
