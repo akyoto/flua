@@ -69,7 +69,6 @@
 							<value>0</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SInteger</comment>
 				<function depth="1" id="5">
@@ -143,7 +142,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1" id="9">
@@ -294,7 +292,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S3\Sstrings</comment>
 				<function depth="1" id="15">
@@ -514,7 +511,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
 				<function depth="1" id="22">
@@ -1300,7 +1296,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
 				<function depth="1" id="52">

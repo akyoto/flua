@@ -11,6 +11,10 @@
 #include <linux/sockios.h>
 #include <cerrno>
 
+#ifdef WIN32
+#include <winsock2.h>
+#endif
+
 // bp
 #include <bp/Core/String/UTF8String/C++/UTF8String.hpp>
 

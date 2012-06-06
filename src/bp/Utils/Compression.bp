@@ -1,0 +1,235 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">This\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.</string>
+			<string id="bp_string_1">Compressed\Sfrom\S</string>
+			<string id="bp_string_2">\Sto\S</string>
+			<string id="bp_string_3">\Sbytes.</string>
+		</strings>
+	</header>
+	<code>
+		<target depth="0" id="0">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="1">Compression.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="2">
+			<extern-function depth="1" id="3">
+				<name>bp_compress</name>
+				<type>Array&lt;Byte&gt;</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>bp_uncompress</name>
+				<type>Array&lt;Byte&gt;</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>bp_compressMaxSize</name>
+				<type>Size</type>
+				<meta>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+		</extern>
+		<function depth="0" id="6">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>stri</value>
+						<value>UTF8String</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>compress</name>
+			<code>
+				<assign depth="1" id="7">
+					<value>bytes</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Array</value>
+									<value>Byte</value>
+								</template-call>
+							</type>
+							<parameters>
+								<parameter>
+									<call>
+										<function>bp_compressMaxSize</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>stri</value>
+													<value>lengthInBytes</value>
+												</access>
+											</parameter>
+										</parameters>
+									</call>
+								</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<call depth="1" id="8">
+					<function>bp_compress</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>stri</value>
+								<value>data</value>
+							</access>
+						</parameter>
+						<parameter>bytes</parameter>
+						<parameter>
+							<access>
+								<value>stri</value>
+								<value>lengthInBytes</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+				<return depth="1" id="9">bytes</return>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0" id="10">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>someBytes</value>
+						<value>
+							<template-call>
+								<value>Array</value>
+								<value>Byte</value>
+							</template-call>
+						</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>uncompress</name>
+			<code>
+				<assign depth="1" id="11">
+					<value>uncBytes</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Array</value>
+									<value>Byte</value>
+								</template-call>
+							</type>
+							<parameters>
+								<parameter>
+									<access>
+										<value>someBytes</value>
+										<value>size</value>
+									</access>
+								</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<call depth="1" id="12">
+					<function>bp_uncompress</function>
+					<parameters>
+						<parameter>someBytes</parameter>
+						<parameter>uncBytes</parameter>
+					</parameters>
+				</call>
+				<return depth="1" id="13">uncBytes</return>
+			</code>
+			<meta/>
+		</function>
+		<test depth="0" id="14">
+			<assign depth="1" id="15">
+				<value>text</value>
+				<value>bp_string_0</value>
+			</assign>
+			<assign depth="1" id="16">
+				<value>bytes</value>
+				<value>
+					<call>
+						<function>compress</function>
+						<parameters>
+							<parameter>text</parameter>
+						</parameters>
+					</call>
+				</value>
+			</assign>
+			<call depth="1" id="17">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<add>
+							<value>
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>bp_string_1</value>
+													<value>
+														<access>
+															<value>text</value>
+															<value>lengthInBytes</value>
+														</access>
+													</value>
+												</add>
+											</value>
+											<value>bp_string_2</value>
+										</add>
+									</value>
+									<value>
+										<access>
+											<value>bytes</value>
+											<value>length</value>
+										</access>
+									</value>
+								</add>
+							</value>
+							<value>bp_string_3</value>
+						</add>
+					</parameter>
+				</parameters>
+			</call>
+			<assign depth="1" id="18">
+				<value>original</value>
+				<value>
+					<call>
+						<function>uncompress</function>
+						<parameters>
+							<parameter>bytes</parameter>
+						</parameters>
+					</call>
+				</value>
+			</assign>
+			<call depth="1" id="19">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<new>
+							<type>String</type>
+							<parameters>
+								<parameter>original</parameter>
+							</parameters>
+						</new>
+					</parameter>
+				</parameters>
+			</call>
+		</test>
+	</code>
+</module>

@@ -1170,7 +1170,12 @@ class BPCFile(ScopeController, Benchmarkable):
 		node = self.doc.createElement("class")
 		
 		nameNode = self.doc.createElement("name")
-		nameNode.appendChild(self.doc.createTextNode(self.classPrefix + className))
+		
+		dirName = extractDir(self.file).split("/")[-2]
+		if className == dirName:
+			nameNode.appendChild(self.doc.createTextNode(self.classPrefix + className))
+		else:
+			nameNode.appendChild(self.doc.createTextNode(className))
 		#publicNode = self.doc.createElement("public")
 		#privateNode = self.doc.createElement("private")
 		code = self.doc.createElement("code")
