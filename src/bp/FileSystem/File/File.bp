@@ -53,6 +53,7 @@
 			<extern-function depth="1" id="9">
 				<name>bp_fwrite</name>
 				<type>Size</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="10">
 				<name>bp_fread</name>
@@ -364,6 +365,7 @@
 				</in>
 				<return depth="1" id="55">data</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
 		<function depth="0" id="56">

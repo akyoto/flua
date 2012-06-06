@@ -135,57 +135,44 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		relPos = pos - block.position()
 		leftOfCursor = text[:relPos]
 		
-		# Get what's in front of the dot
+		# Shortcut: String?
 		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
 			self.createClassMemberModel("UTF8String")
 			return
-		else:
-			expr = getLeftMemberAccess(text, relPos - 1)
 		
-		# Get the user data
-		accessNodes = None
-		userData = block.userData()
-		if userData and userData.node:
-			node = userData.node
-			
-			# Algorithm Recipe Book, Chapter 42:
-			# 1. Get all access nodes
-			# 2. nodeToBPC them
-			# 3. If the resulting string matches expr this is our node
-			accessNodes = findNodes(node, "access")
+		# Get what's in front of the dot
+		dotPos = leftOfCursor.rfind(".")
+		obj = getLeftMemberAccess(leftOfCursor, dotPos)
+		member = leftOfCursor[dotPos+1:]
 		
-			for acc in accessNodes:
-				accString = nodeToBPC(acc)
-				
-				if accString == expr:
-					try:
-						dataType = self.codeEdit.outFile.getExprDataType(acc)
-					except CompilerException:
-						# Return because this was the right node anyway (99.7% chance!)
-						return
-					
-					# We found the data type, let the party begin!
-					self.createClassMemberModel(dataType)
-					return
+		#print("Object: " + obj)
+		#print("Member: " + member)
 		
-		# Top level access? (99.7% of all times, this statistic is copyright protected)
-		if (not userData or not accessNodes) and expr.find(".") == -1:
+		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
-				textNode = self.codeEdit.doc.createTextNode(expr)
-				print(expr + "<")
-				dataType = self.codeEdit.outFile.getExprDataType(textNode) #getVariableTypeAnywhere()
+				bpcFile = self.codeEdit.bpcFile
+				prepdLine = bpcFile.prepareLine(obj)
+				node = bpcFile.parseExpr(prepdLine)
 			except CompilerException:
 				return
 			
-			# We found the data type, let the party begin!
-			self.createClassMemberModel(dataType)
-			return
+			try:
+				dataType = self.codeEdit.outFile.getExprDataType(node)			
+			except CompilerException as e:
+				print(str(e))
+				return
+			else:
+				try:
+					self.createClassMemberModel(dataType)
+				except:
+					print("No class information available for '%s'" % (dataType))
+				return
 
 def getLeftMemberAccess(expr, lastOccurence):
 	# Left operand
 	start = lastOccurence - 1
 	
-	while start >= 0 and (isVarChar(expr[start]) or expr[start] == "." or ((expr[start] == ')' or expr[start] == ']') and start == lastOccurence - 1)):
+	while start >= 0 and (expr[start] == "." or expr[start] == '"' or isVarChar(expr[start]) or expr[start] == ')' or expr[start] == ']'):
 		if expr[start] == ')' or expr[start] == ']':
 			bracketCounter = 1
 		else:
@@ -664,6 +651,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
 			
 			if popup.isHidden():
+				if not event.text():
+					return
+				
 				if isShortcut:
 					self.autoCompleteOpenedAuto = False
 				elif self.autoSuggestion:

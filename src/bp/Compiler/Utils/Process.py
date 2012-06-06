@@ -31,6 +31,9 @@ def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	if thread:
 		thread.process = proc
 	
+		# Call programStarted
+		thread.programStarted()
+	
 	if bytewise:
 		return handleProcessOutputBytewise(proc, fhOut, fhErr)
 	else:

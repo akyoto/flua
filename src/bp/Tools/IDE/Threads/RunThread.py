@@ -1,5 +1,6 @@
 from PyQt4 import QtGui, QtCore, uic
 from bp.Compiler import *
+from bp.Tools.IDE.Utils import *
 
 class BPRunThread(QtCore.QThread, Benchmarkable):
 	
@@ -7,9 +8,31 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		super().__init__(bpIDE)
 		Benchmarkable.__init__(self)
 		self.bpIDE = bpIDE
-		self.codeEdit = None
 		self.process = None
-		self.finished.connect(self.bpIDE.programExited)
+		self.debugMode = False
+		self.finished.connect(self.programExited)
+		
+	def programStarted(self):
+		print("Program '%s' started." % (stripAll(self.exe)))
+		
+		if self.debugMode:
+			self.sendDebugger("break main\n")
+			self.sendDebugger("run\n")
+			#self.sendDebugger("q\n")
+		
+	def programExited(self):
+		if self.exitCode != 0:
+			print("Program '%s' exited with exit code [%d]." % (stripAll(self.exe), self.exitCode))
+		else:
+			print("Program '%s' exited normally." % (stripAll(self.exe)))
+		
+		if self.bpIDE.running > 0:
+			self.bpIDE.running -= 1
+		
+		if self.bpIDE.codeEdit:
+			self.bpIDE.codeEdit.setFocus()
+		
+		os.chdir(getIDERoot())
 		
 	def startWith(self, exe, debugMode = False):
 		#self.codeEdit = self.bpIDE.codeEdit
@@ -24,6 +47,9 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		else:
 			self.run()
 			self.finished.emit()
+		
+	def sendDebugger(self, data):
+		self.sendData(data)
 		
 	def sendData(self, data):
 		if self.bpIDE.running:

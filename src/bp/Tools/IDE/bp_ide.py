@@ -152,17 +152,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def sendToRunningProgram(self, data):
 		self.runThread.sendData(data)
 		
-	def programExited(self):
-		print("Program '%s' exited with exit code [%d]." % (stripAll(self.runThread.exe), self.runThread.exitCode))
-		
-		if self.running > 0:
-			self.running -= 1
-		
-		if self.codeEdit:
-			self.codeEdit.setFocus()
-			
-		os.chdir(getIDERoot())
-		
 	def bindFunctionToTimer(self, func, interval):
 		timer = QtCore.QTimer(self)
 		timer.timeout.connect(func)

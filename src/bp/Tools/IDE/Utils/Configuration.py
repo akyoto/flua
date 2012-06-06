@@ -306,7 +306,7 @@ class BPConfiguration:
 			dock.setFont(font)
 		
 	def applyTabWidth(self, value):
-		self.tabWidth = valued
+		self.tabWidth = value
 		for workspace in self.bpIDE.workspaces:
 			for codeEdit in workspace.getCodeEditList():
 				codeEdit.setTabWidth(value)
