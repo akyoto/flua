@@ -158,6 +158,7 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="14">
 			<assign depth="1" id="15">
 				<value>text</value>

@@ -102,7 +102,7 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 			outStream.write("import ctypes\n")
 			
 			# Includes
-			for incl in self.includes:
+			for incl, ifndef in self.includes:
 				importPath = normalizeModPath(stripExt(incl)) + includePostfix
 				
 				copyFromPath = getModuleDir() + incl
@@ -126,13 +126,13 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 	def build(self, compilerFlags = [], fhOut = sys.stdout.write, fhErr = sys.stderr.write):
 		return 0
 		
-	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write):
+	def execute(self, exe, fhOut = sys.stdout.write, fhErr = sys.stderr.write, thread = None):
 		pythonInterpreter = getPython3Path() + getPython3CompilerName()
 		#print("Using %s" % pythonInterpreter)
 		cmd = [pythonInterpreter, exe]
 		
 		try:
-			startProcess(cmd, fhOut, fhErr)
+			return startProcess(cmd, fhOut, fhErr)
 		except OSError:
 			print("Can't execute '%s'" % exe)
 		

@@ -129,6 +129,7 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SInitialize\SOpenCL</comment>
 		<call depth="0" id="16">
 			<function>bp_initGPUCalculations</function>
 			<parameters/>

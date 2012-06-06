@@ -10,6 +10,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		self.bpIDE = bpIDE
 		self.process = None
 		self.debugMode = False
+		self.exitCode = -1
 		self.finished.connect(self.programExited)
 		
 	def programStarted(self):
@@ -65,7 +66,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 			runFunc = self.outputCompiler.execute
 		else:
 			runFunc = self.outputCompiler.debug
-			
+		
 		# Start the process
 		self.exitCode = runFunc(
 			exe = self.exe,

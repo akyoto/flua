@@ -68,7 +68,7 @@ class BaseClass(BaseNamespace):
 			
 			if func.isGetter(): #len(func) >= 4 and func.startswith("get") and func[3].isupper(): # Members
 				publicMembers.append(func.name)
-			elif func.isCast or func.isOperator() or func.isSetter():#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
+			elif func.isCast or func.isOperator() or func.isSetter() or func.isIterator:#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
 				continue
 			elif not func.name in {"init", "finalize"}:
 				publicFunctions.append(func.name)

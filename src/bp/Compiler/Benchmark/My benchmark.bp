@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Utilities</import>
+			<import>bp.Utils</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">Some\Sweird\Sfor\Sloop</string>
@@ -58,7 +58,6 @@
 					<meta/>
 				</for>
 			</code>
-			<meta/>
 		</in>
 	</code>
 </module>

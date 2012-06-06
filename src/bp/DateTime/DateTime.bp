@@ -43,6 +43,7 @@
 				<name>TimeStamp</name>
 				<code>
 					<function depth="2" id="8">
+						<parameters/>
 						<name>init</name>
 						<code>
 							<noop depth="3" id="9"/>
@@ -70,7 +71,6 @@
 					<code>
 						<noop depth="2" id="12"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="13">
 					<parameters>
@@ -109,10 +109,10 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<get depth="1" id="17">
 					<getter depth="2" id="18">
+						<parameters/>
 						<name>date</name>
 						<code>
 							<return depth="3" id="19">
@@ -129,9 +129,9 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="20">
+						<parameters/>
 						<name>time</name>
 						<code>
 							<return depth="3" id="21">
@@ -148,11 +148,11 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 				<casts depth="1" id="22">
 					<cast-definition depth="2" id="23">
+						<parameters/>
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SISO</comment>
@@ -170,14 +170,13 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</cast-definition>
 				</casts>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SReturns\Sa\SDateTime\Sobject\Sfor\Sthe\Scurrent\Slocal\Stime</comment>
 		<function depth="0" id="25">
+			<parameters/>
 			<name>getCurrentDateTime</name>
 			<code>
 				<return depth="1" id="26">
@@ -194,10 +193,10 @@
 					</new>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
 		<function depth="0" id="27">
+			<parameters/>
 			<name>getCurrentDate</name>
 			<code>
 				<return depth="1" id="28">
@@ -212,10 +211,10 @@
 					</access>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
 		<function depth="0" id="29">
+			<parameters/>
 			<name>getCurrentTime</name>
 			<code>
 				<return depth="1" id="30">
@@ -230,7 +229,6 @@
 					</access>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
 		<function depth="0" id="31">
@@ -281,7 +279,6 @@
 					</and>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="33">
