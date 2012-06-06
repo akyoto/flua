@@ -10,6 +10,7 @@
 			<import>bp.DateTime</import>
 			<import>bp.Collection</import>
 			<import>bp.Concurrency</import>
+			<import>bp.Network</import>
 			<import>bp.Utils</import>
 		</dependencies>
 		<strings/>

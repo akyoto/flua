@@ -31,6 +31,18 @@ class ModuleMenuActions:
 		if self.running > 0 or self.compiling > 0:
 			return
 		
+		# Console
+		#self.console.log.setPlainText("")
+		self.console.compiler.setPlainText("")
+		self.console.output.setPlainText("")
+		
+		self.console.activate("Compiler")
+		self.console.watch(self.console.compiler)
+		
+		self.console.setMinimumHeight(220)
+		self.consoleDock.show()
+		
+		# Set compiling flag
 		self.compiling += 1
 		
 		debugMode = ("-ggdb" in compilerFlags)
@@ -52,16 +64,6 @@ class ModuleMenuActions:
 		
 		if self.codeEdit:
 			self.codeEdit.msgView.clear()
-		
-		#self.console.log.setPlainText("")
-		self.console.compiler.setPlainText("")
-		self.console.output.setPlainText("")
-		
-		self.console.activate("Compiler")
-		self.console.watch(self.console.compiler)
-		
-		self.console.setMinimumHeight(220)
-		self.consoleDock.show()
 		
 		# Target dependant
 		outputTarget = self.targetSwitcher.currentText()

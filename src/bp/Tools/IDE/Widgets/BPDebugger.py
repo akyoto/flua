@@ -7,7 +7,7 @@ class BPDebugger(QtGui.QWidget):
 		self.ce = parent
 		self.bpIDE = bpIDE
 		self.setObjectName("Debugger")
-		self.hide() 
+		self.hide()
 		
 		#self.icon = QtGui.QIcon("images/icons/status/dialog-warning.png")
 		

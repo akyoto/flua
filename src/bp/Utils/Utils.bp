@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>Benchmark</import>
+			<import>Input</import>
 		</dependencies>
 		<strings/>
 	</header>

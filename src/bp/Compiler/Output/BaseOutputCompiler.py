@@ -87,12 +87,10 @@ class BaseOutputCompiler(Benchmarkable):
 		self.inVarCounter = 0
 		
 		# Optimization
-		#if self.background:
-		#else:
-		#self.enableOptimization()
-		
-		# Disabled because string concat optimization is currently bugged
-		self.disableOptimization()
+		if self.background:
+			self.disableOptimization()
+		else:
+			self.enableOptimization()
 	
 	# Abstract
 	def build(self, compilerFlags, fhOut, fhErr):

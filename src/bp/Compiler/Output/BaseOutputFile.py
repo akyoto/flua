@@ -2035,13 +2035,32 @@ class BaseOutputFile(ScopeController):
 					secondAddNode = op.firstChild.firstChild.firstChild
 					
 					if op and op.firstChild.tagName == "access" and tagName(secondAddNode) == "add":
-						string1 = secondAddNode.childNodes[0].firstChild
+						#print("PREPARING FOR REPLACEMENT")
+						
+						string1 = secondAddNode.childNodes[0].firstChild#.cloneNode(True)
 						string2 = secondAddNode.childNodes[1].firstChild
+						
 						if string1 and string2:
+							#print("OP:")
+							#print(op.toprettyxml())
+							#print("String 1: " + string1.toxml())
+							#print("String 2: " + string2.toxml())
+							#print(paramTypes)
+							#print(paramsString)
+							
 							# Add one more parameter to the operator
 							paramTypes = [self.getExprDataType(string2)] + paramTypes
 							paramsString = "%s, %s" % (self.parseExpr(string2), paramsString)
-							secondAddNode.parentNode.replaceChild(string1, secondAddNode)
+							
+							#print(paramTypes)
+							#print(paramsString)
+							#print(secondAddNode.toprettyxml())
+							
+							#secondAddNode.parentNode.replaceChild(string1, secondAddNode)
+							
+							#print("After:")
+							#print(secondAddNode.toprettyxml())
+							
 							caller = self.parseExpr(string1)
 							# Remove add node
 							

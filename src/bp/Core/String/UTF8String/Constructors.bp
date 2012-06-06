@@ -104,7 +104,6 @@
 									</parameters>
 								</new>
 							</value>
-							<meta/>
 						</assign>
 						<assign depth="2" id="7">
 							<value>
@@ -168,6 +167,30 @@
 							<value>
 								<access>
 									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<access>
+											<value>s1</value>
+											<value>length</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>s2</value>
+											<value>length</value>
+										</access>
+									</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2" id="11">
+							<value>
+								<access>
+									<value>my</value>
 									<value>lengthInBytes</value>
 								</access>
 							</value>
@@ -188,7 +211,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign depth="2" id="12">
 							<value>
 								<access>
 									<value>my</value>
@@ -214,7 +237,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="12">
+						<call depth="2" id="13">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -237,7 +260,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="13">
+						<call depth="2" id="14">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -270,31 +293,8 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="14">
-							<value>
-								<access>
-									<value>my</value>
-									<value>length</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>
-										<access>
-											<value>s1</value>
-											<value>length</value>
-										</access>
-									</value>
-									<value>
-										<access>
-											<value>s2</value>
-											<value>length</value>
-										</access>
-									</value>
-								</add>
-							</value>
-						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S3\Sstrings</comment>
 				<function depth="1" id="15">
@@ -321,6 +321,40 @@
 					<name>init</name>
 					<code>
 						<assign depth="2" id="16">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>
+										<add>
+											<value>
+												<access>
+													<value>s1</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>
+												<access>
+													<value>s2</value>
+													<value>length</value>
+												</access>
+											</value>
+										</add>
+									</value>
+									<value>
+										<access>
+											<value>s3</value>
+											<value>length</value>
+										</access>
+									</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2" id="17">
 							<value>
 								<access>
 									<value>my</value>
@@ -354,7 +388,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="18">
 							<value>
 								<access>
 									<value>my</value>
@@ -380,7 +414,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="18">
+						<call depth="2" id="19">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -403,7 +437,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="19">
+						<call depth="2" id="20">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -436,7 +470,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="20">
+						<call depth="2" id="21">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -479,41 +513,8 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="21">
-							<value>
-								<access>
-									<value>my</value>
-									<value>length</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>
-										<add>
-											<value>
-												<access>
-													<value>s1</value>
-													<value>length</value>
-												</access>
-											</value>
-											<value>
-												<access>
-													<value>s2</value>
-													<value>length</value>
-												</access>
-											</value>
-										</add>
-									</value>
-									<value>
-										<access>
-											<value>s3</value>
-											<value>length</value>
-										</access>
-									</value>
-								</add>
-							</value>
-						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
 				<function depth="1" id="22">
