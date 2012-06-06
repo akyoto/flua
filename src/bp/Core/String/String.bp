@@ -10,20 +10,20 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target depth="0" id="0">
 			<name>C++</name>
 			<code>
-				<include depth="1">String.hpp</include>
+				<include depth="1" id="1">String.hpp</include>
 			</code>
 		</target>
-		<target depth="0">
+		<target depth="0" id="2">
 			<name>Python3</name>
 			<code>
-				<include depth="1">String.py</include>
+				<include depth="1" id="3">String.py</include>
 			</code>
 		</target>
-		<extern depth="0">
-			<extern-function depth="1">
+		<extern depth="0" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_strlen</name>
 				<type>Size</type>
 				<meta>
@@ -31,23 +31,23 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
-				<name>bp_strlen_utf8</name>
+			<extern-function depth="1" id="6">
+				<name>bp_strlenUtf8</name>
 				<type>Size</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
-				<name>bp_strlen_utf8_xchars</name>
+			<extern-function depth="1" id="7">
+				<name>bp_strlenUtf8Xchars</name>
 				<type>Size</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
+			<extern-function depth="1" id="8">
 				<name>bp_insertInt</name>
 				<type>Size</type>
 				<meta>
@@ -55,16 +55,16 @@
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1">
-				<name>bp_utf8_slice</name>
+			<extern-function depth="1" id="9">
+				<name>bp_utf8Slice</name>
 				<meta>
 					<no-side-effects>false</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
 		</extern>
-		<define depth="0">
-			<assign depth="1">
+		<define depth="0" id="10">
+			<assign depth="1" id="11">
 				<value>String</value>
 				<value>UTF8String</value>
 			</assign>

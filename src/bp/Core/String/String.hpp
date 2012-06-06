@@ -8,7 +8,7 @@ inline size_t bp_strlen(T ptr) {
 }
 
 // TODO: Optimize
-inline size_t bp_strlen_utf8_xchars(char* _s, size_t _limit) {
+inline size_t bp_strlenUtf8Xchars(char* _s, size_t _limit) {
 	char *start = _s;
 	char b;
 	size_t count = 0;
@@ -24,7 +24,7 @@ inline size_t bp_strlen_utf8_xchars(char* _s, size_t _limit) {
 }
 
 // TODO: Optimize
-inline void bp_utf8_slice(
+inline void bp_utf8Slice(
 		char* &myData, 
 		size_t &myLen,
 		size_t &myLenInBytes,
@@ -60,7 +60,7 @@ inline void bp_utf8_slice(
 	myLenInBytes = _s - myData - 1;
 }
 
-inline size_t bp_strlen_utf8(char* _s) {
+inline size_t bp_strlenUtf8(char* _s) {
 	char b;
 	size_t count = 0;
 	

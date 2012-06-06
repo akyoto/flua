@@ -8,7 +8,7 @@ inline void bp_write(T var) {
 
 // write_xchars
 template <typename T>
-inline void bp_write_xbytes(T* ptr, size_t num) {
+inline void bp_writeXbytes(T* ptr, size_t num) {
 	for(T* end = ptr + num; ptr != end;)
 		std::cout << *ptr++;
 }

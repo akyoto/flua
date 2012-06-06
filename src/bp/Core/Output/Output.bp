@@ -35,7 +35,7 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1" id="7">
-				<name>bp_write_xbytes</name>
+				<name>bp_writeXbytes</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>

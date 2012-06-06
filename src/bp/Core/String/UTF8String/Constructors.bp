@@ -632,7 +632,7 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlenUtf8</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -645,6 +645,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger\S+\SUTF8String</comment>
 				<function depth="1" id="27">
@@ -829,7 +830,7 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlenUtf8</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1056,6 +1057,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SCString</comment>
 				<function depth="1" id="41">
@@ -1200,7 +1202,7 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlenUtf8</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1283,7 +1285,7 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlenUtf8</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1334,7 +1336,7 @@
 							<name>C++</name>
 							<code>
 								<call depth="3" id="54">
-									<function>bp_utf8_slice</function>
+									<function>bp_utf8Slice</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1365,7 +1367,7 @@
 							<name>Python3</name>
 							<code>
 								<call depth="3" id="56">
-									<function>bp_utf8_slice</function>
+									<function>bp_utf8Slice</function>
 									<parameters>
 										<parameter>my</parameter>
 										<parameter>bytes</parameter>
@@ -1376,6 +1378,7 @@
 							</code>
 						</target>
 					</code>
+					<meta/>
 				</function>
 			</code>
 		</class>

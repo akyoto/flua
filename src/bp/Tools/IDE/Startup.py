@@ -344,7 +344,7 @@ class Startup:
 				'disabled': cf('#cccccc', 'italic'),
 				'self': cf('#cccccc'),
 				'number': cf('#ff6020'),
-				'hex-number': cf('brown'),
+				'hex-number': cf('#ff6020'),
 				'preprocessor': cf('#00d000'),
 				'file-link': cf('#0000ff', 'bold'),
 				

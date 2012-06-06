@@ -3,7 +3,7 @@ import sys
 def bp_write(x):
 	sys.stdout.write(x)
 	
-def bp_write_xbytes(ptr, numBytes):
+def bp_writeXbytes(ptr, numBytes):
 	sys.stdout.write(bytes(ptr).decode("utf-8")[:numBytes])
 	
 def bp_writeln(x):

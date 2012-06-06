@@ -251,6 +251,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.bubble.setLineWrapMode(QtGui.QPlainTextEdit.WidgetWidth)
 			
 			self.bubbleMinMovePx = 50
+			self.bubble.setTabWidth(3)
 			
 			# Message view
 			self.msgView = BPMessageView(self, self.bpIDE)
