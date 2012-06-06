@@ -54,7 +54,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		QtCore.QCoreApplication.setApplicationName("bp Studio")
 		
 		# Init
-		self.developerFlag = False
+		self.developerFlag = os.path.exists("/home/eduard/Projects/bp/")
 		self.threaded = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1
@@ -68,6 +68,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.gitThread = None
 		self.geometryState = None
 		self.authorName = ""
+		self.previousScopes = None
 		self.lastCodeEdit = None
 		self.outputCompiler = None
 		self.lastShownNode = None
@@ -511,7 +512,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			savedNode = selectedNode
 			
-			if not savedNode or isTextNode(savedNode):
+			if not savedNode: #or isTextNode(savedNode):
 				return
 			
 			if savedNode.hasAttribute("id"):
@@ -534,15 +535,21 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 					#	self.codeEdit.outFile.restoreScopesForNode(selectedNode.parentNode)
 					#else:
 					self.codeEdit.outFile.restoreScopesForNodeId(savedNodeId)
-					#print("YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEES! ID: %s" % savedNodeId)
+					self.previousScopes = self.codeEdit.outFile.scopes
+					#print("YAY! ID: %s" % savedNodeId)
+					return
 					#self.codeEdit.outFile.debugScopes()
 				except:
 					pass#print("Could not find scope information for node %s" % tagName(savedNode))
 			else:
-				pass
-				#print("Scopes:")
+				pass#print("Scopes:")
 				#self.codeEdit.outFile.debugNodeToScope()
 				#self.codeEdit.outFile.debugScopes()
+		
+		# Okay we have a problem, but maybe we have old scope data?
+		if self.previousScopes and self.codeEdit.outFile:
+			#print("USING OLD SCOPE DATA")
+			self.codeEdit.outFile.restoreScopes(self.previousScopes)
 		
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())

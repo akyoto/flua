@@ -80,10 +80,14 @@ class ScopeController:
 	def saveScopes(self):
 		self.scopeBackups.append(list(self.scopes))
 	
-	def restoreScopes(self):
-		if len(self.scopeBackups) > 0:
-			self.scopes = self.scopeBackups.pop()
-			self.currentScope = self.scopes[-1]
+	def restoreScopes(self, scopes = []):
+		if not scopes:
+			if len(self.scopeBackups) > 0:
+				self.scopes = self.scopeBackups.pop()
+		else:
+			self.scopes = scopes
+		
+		self.currentScope = self.scopes[-1]
 		
 	#===========================================================================
 	# def updateScopes(self):

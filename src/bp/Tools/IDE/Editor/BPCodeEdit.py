@@ -123,9 +123,10 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		self.setModel(BPCClassMemberModel(self, classImpl))
 		
 	def activateMemberList(self):
-		if not self.codeEdit.outFile:
+		if not self.codeEdit.outFile or self.model() != self.bpcModel:
 			return
 		
+		bpIDE = self.codeEdit.bpIDE
 		tc = self.codeEdit.textCursor()
 		pos = tc.position()
 		block = tc.block()
@@ -157,6 +158,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 				return
 			
 			try:
+				bpIDE.restoreScopesOfNode(bpIDE.currentNode)
 				dataType = self.codeEdit.outFile.getExprDataType(node)			
 			except CompilerException as e:
 				print(str(e))
