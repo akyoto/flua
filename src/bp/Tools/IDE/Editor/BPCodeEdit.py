@@ -562,6 +562,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				event.ignore()
 				return
 			
+			if event.key() == QtCore.Qt.Key_Escape:
+				# TODO: Disable AC for this word
+				return
+			
 			# Has ctrl + space been pressed?
 			if (not self.completer or not isShortcut):
 				self.keyPressEvent(event, True)
