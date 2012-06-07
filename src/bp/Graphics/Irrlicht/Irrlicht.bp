@@ -255,10 +255,15 @@
 				<code>
 					<while depth="2" id="33">
 						<condition>
-							<access>
-								<value>app</value>
-								<value>running</value>
-							</access>
+							<call>
+								<function>
+									<access>
+										<value>app</value>
+										<value>run</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
 						</condition>
 						<code>
 							<call depth="3" id="34">

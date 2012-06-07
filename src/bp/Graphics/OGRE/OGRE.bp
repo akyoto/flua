@@ -7,22 +7,23 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">OGRE.hpp</include>
-				<compiler-flags depth="1" id="2">
-					<compiler-flag depth="2" id="3">-lOgreMain</compiler-flag>
+				<include depth="1" id="2">OGRE.hpp</include>
+				<compiler-flags depth="1" id="3">
+					<compiler-flag depth="2" id="4">-lOgreMain</compiler-flag>
 				</compiler-flags>
 			</code>
 		</target>
-		<extern depth="0" id="4">
-			<extern-function depth="1" id="5">
+		<extern depth="0" id="5">
+			<extern-function depth="1" id="6">
 				<name>bp_ogreHelloWorld</name>
+				<meta/>
 			</extern-function>
 		</extern>
-		<test depth="0" id="6">
-			<call depth="1" id="7">
+		<test depth="0" id="7">
+			<call depth="1" id="8">
 				<function>bp_ogreHelloWorld</function>
 				<parameters/>
 			</call>

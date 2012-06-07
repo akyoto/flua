@@ -1,4 +1,4 @@
-#include <irrlicht/irrlicht.h>
+#include "irrlicht/irrlicht.h"
 
 using namespace irr;
 using namespace core;
@@ -6,8 +6,6 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-
-#pragma comment(lib, "Irrlicht.lib")
 
 // Typedefs
 #define BPIrrlichtDevice IrrlichtDevice

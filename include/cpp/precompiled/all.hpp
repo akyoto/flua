@@ -44,6 +44,7 @@
 	#endif
 	
 	#include "../gc/gc_cpp.h"
+	#include <pthread.h>
 #endif
 
 #ifdef BP_USE_GMP

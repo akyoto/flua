@@ -14,23 +14,22 @@ def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	
 	envi = None
 	if os.name == "nt":
-		envi = {
-			"PATH" : getDLLDir()
-		}
+		if not getDLLDir() in os.environ["PATH"]:
+			os.environ["PATH"] = os.environ["PATH"] + ";" + getDLLDir()
 	
 	proc = subprocess.Popen(
 		cmd,
 		stdout = subprocess.PIPE,
 		stderr = subprocess.PIPE,
 		stdin = subprocess.PIPE,
-		env = envi,
+		env = os.environ,
 		#bufsize = 1,
 		close_fds = ON_POSIX
 	)
 	
 	if thread:
 		thread.process = proc
-	
+		
 		# Call programStarted
 		thread.programStarted()
 	

@@ -1,13 +1,13 @@
-#include <OGRE/OgreRoot.h>
-#include <OGRE/OgreCamera.h>
-#include <OGRE/OgreSceneManager.h>
-#include <OGRE/OgreRenderWindow.h>
+#include "OGRE/OgreRoot.h"
+#include "OGRE/OgreCamera.h"
+#include "OGRE/OgreSceneManager.h"
+#include "OGRE/OgreRenderWindow.h"
 
-#include <OGRE/OgreLogManager.h>
-#include <OGRE/OgreViewport.h>
-#include <OGRE/OgreEntity.h>
-#include <OGRE/OgreWindowEventUtilities.h>
-#include <OGRE/OgrePlugin.h>
+#include "OGRE/OgreLogManager.h"
+#include "OGRE/OgreViewport.h"
+#include "OGRE/OgreEntity.h"
+#include "OGRE/OgreWindowEventUtilities.h"
+#include "OGRE/OgrePlugin.h"
 
 class LowLevelOgre
 {
@@ -39,18 +39,20 @@ LowLevelOgre::~LowLevelOgre(void)
 bool LowLevelOgre::go(void)
 {
     // construct Ogre::Root : no plugins filename, no config filename, using a custom log filename
-    mRoot = new Ogre::Root("", "", "LowLevelOgre.log");
+    std::cout << "Creating Root." << std::endl;
+	mRoot = new Ogre::Root("", "", "LowLevelOgre.log");
 	
     // A list of required plugins
     Ogre::StringVector required_plugins;
     required_plugins.push_back("GL RenderSystem");
-    required_plugins.push_back("Octree & Terrain Scene Manager");
+    required_plugins.push_back("Octree Scene Manager");
 
     // List of plugins to load
     Ogre::StringVector plugins_toLoad;
     plugins_toLoad.push_back("RenderSystem_GL");
     plugins_toLoad.push_back("Plugin_OctreeSceneManager");
 	
+	std::cout << "Load plugins." << std::endl;
     // Load the OpenGL RenderSystem and the Octree SceneManager plugins
     for (Ogre::StringVector::iterator j = plugins_toLoad.begin(); j != plugins_toLoad.end(); j++)
     {
@@ -58,9 +60,10 @@ bool LowLevelOgre::go(void)
         mRoot->loadPlugin(*j + Ogre::String("_d"));
 #else
         mRoot->loadPlugin(*j);
-#endif;
+#endif
     }
 	
+	std::cout << "Check installation." << std::endl;
     // Check if the required plugins are installed and ready for use
     // If not: exit the application
     Ogre::Root::PluginInstanceList ip = mRoot->getInstalledPlugins();
@@ -72,26 +75,30 @@ bool LowLevelOgre::go(void)
         {
             if ((*k)->getName() == *j)
             {
+				std::cout << " - Found" << std::endl;
                 found = true;
                 break;
             }
         }
         if (!found)  // return false because a required plugin is not available
         {
+			std::cout << " - Not found" << std::endl;
             return false;
         }
     }
-
+	
 //-------------------------------------------------------------------------------------
-    // setup resources
+    std::cout << "Setup resources." << std::endl;
+	// setup resources
     // Only add the minimally required resource locations to load up the Ogre head mesh
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../../media/materials/programs", "FileSystem", "General");
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../../media/materials/scripts", "FileSystem", "General");
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../../media/materials/textures", "FileSystem", "General");
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("../../media/models", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("D:/Projects/OgreSDK_MinGW_v1-8-0/media/materials/programs", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("D:/Projects/OgreSDK_MinGW_v1-8-0/media/materials/scripts", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("D:/Projects/OgreSDK_MinGW_v1-8-0/media/materials/textures", "FileSystem", "General");
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation("D:/Projects/OgreSDK_MinGW_v1-8-0/media/models", "FileSystem", "General");
 
 //-------------------------------------------------------------------------------------
-    // configure
+    std::cout << "Configure." << std::endl;
+	// configure
     // Grab the OpenGL RenderSystem, or exit
     Ogre::RenderSystem* rs = mRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
     if(!(rs->getName() == "OpenGL Rendering Subsystem"))
@@ -104,11 +111,13 @@ bool LowLevelOgre::go(void)
     rs->setConfigOption("Video Mode", "800 x 600 @ 32-bit");
 
     mRoot->setRenderSystem(rs);
-
-    mWindow = mRoot->initialise(true, "LowLevelOgre Render Window");
+	
+	std::cout << "Init root." << std::endl;
+    mWindow = mRoot->initialise(true, "bp Render Window");
 //-------------------------------------------------------------------------------------
     // choose scenemanager
     // Get the SceneManager, in this case the OctreeSceneManager
+	std::cout << "Create scene manager." << std::endl;
     mSceneMgr = mRoot->createSceneManager("OctreeSceneManager", "DefaultSceneManager");
 //-------------------------------------------------------------------------------------
     // create camera
@@ -153,10 +162,10 @@ bool LowLevelOgre::go(void)
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
 //-------------------------------------------------------------------------------------
-
+	
+	std::cout << "Starting main loop!" << std::endl;
     //mRoot->startRendering();
-    while(true)
-    {
+    while(true) {
         // Pump window messages for nice behaviour
         Ogre::WindowEventUtilities::messagePump();
 
