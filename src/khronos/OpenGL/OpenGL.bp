@@ -3,30 +3,32 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>Definitions</import>
 			<import>Constants</import>
+			<import>Functions</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">OpenGL.hpp</include>
-				<target depth="1" id="2">
+				<include depth="1" id="2">OpenGL.hpp</include>
+				<target depth="1" id="3">
 					<name>Windows</name>
 					<code>
-						<compiler-flags depth="2" id="3">
-							<compiler-flag depth="3" id="4">-lOpenGL32</compiler-flag>
-							<compiler-flag depth="3" id="5">-lglu32</compiler-flag>
+						<compiler-flags depth="2" id="4">
+							<compiler-flag depth="3" id="5">-lOpenGL32</compiler-flag>
+							<compiler-flag depth="3" id="6">-lglu32</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
-				<target depth="1" id="6">
+				<target depth="1" id="7">
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2" id="7">
-							<compiler-flag depth="3" id="8">-lGL</compiler-flag>
-							<compiler-flag depth="3" id="9">-lGLU</compiler-flag>
+						<compiler-flags depth="2" id="8">
+							<compiler-flag depth="3" id="9">-lGL</compiler-flag>
+							<compiler-flag depth="3" id="10">-lGLU</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

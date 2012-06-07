@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>Thread</import>
 			<import>Utils</import>
 		</dependencies>
 		<strings/>

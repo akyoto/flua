@@ -1,0 +1,70 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<define depth="0" id="1">
+			<assign depth="1" id="2">
+				<value>GLenum</value>
+				<value>Int</value>
+			</assign>
+			<assign depth="1" id="3">
+				<value>GLboolean</value>
+				<value>Bool</value>
+			</assign>
+			<assign depth="1" id="4">
+				<value>GLbitfield</value>
+				<value>Int</value>
+			</assign>
+			<assign depth="1" id="5">
+				<value>GLbyte</value>
+				<value>Byte</value>
+			</assign>
+			<assign depth="1" id="6">
+				<value>GLint</value>
+				<value>Int</value>
+			</assign>
+			<assign depth="1" id="7">
+				<value>GLfloat</value>
+				<value>Float</value>
+			</assign>
+			<assign depth="1" id="8">
+				<value>GLclampf</value>
+				<value>Float</value>
+			</assign>
+			<assign depth="1" id="9">
+				<value>GLdouble</value>
+				<value>Float64</value>
+			</assign>
+			<assign depth="1" id="10">
+				<value>GLclampd</value>
+				<value>Float64</value>
+			</assign>
+			<comment>\STODO:\S...</comment>
+			<assign depth="1" id="11">
+				<value>GLshort</value>
+				<value>Int</value>
+			</assign>
+			<assign depth="1" id="12">
+				<value>GLubyte</value>
+				<value>UInt</value>
+			</assign>
+			<assign depth="1" id="13">
+				<value>GLushort</value>
+				<value>UInt</value>
+			</assign>
+			<assign depth="1" id="14">
+				<value>GLuint</value>
+				<value>UInt</value>
+			</assign>
+			<assign depth="1" id="15">
+				<value>GLsizei</value>
+				<value>Int</value>
+			</assign>
+		</define>
+	</code>
+</module>

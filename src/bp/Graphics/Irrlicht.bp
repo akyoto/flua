@@ -4,28 +4,285 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Hello\SWorld</string>
+		</strings>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Irrlicht.hpp</include>
-				<compiler-flags depth="1" id="2">
-					<compiler-flag depth="2" id="3">-lIrrlicht</compiler-flag>
+				<include depth="1" id="2">Irrlicht.hpp</include>
+				<compiler-flags depth="1" id="3">
+					<compiler-flag depth="2" id="4">-lIrrlicht</compiler-flag>
 				</compiler-flags>
 			</code>
 		</target>
-		<extern depth="0" id="4">
-			<extern-function depth="1" id="5">
-				<name>bp_irrHelloWorld</name>
+		<extern depth="0" id="5">
+			<extern-function depth="1" id="6">
+				<name>bp_createIrrDevice</name>
+				<type>IrrlichtDevice</type>
+				<meta/>
 			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>bp_closeIrrDevice</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="8">
+				<name>bp_cls</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="9">
+				<name>bp_flip</name>
+				<meta/>
+			</extern-function>
+			<comment>\SExternally\Sdefined\SIrrlicht\Sdevice</comment>
+			<class depth="1" id="10">
+				<name>IrrlichtDevice</name>
+				<code>
+					<function depth="2" id="11">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="12"/>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="13">
+						<name>run</name>
+						<code>
+							<declare-type depth="3" id="14">
+								<value>r</value>
+								<value>Bool</value>
+							</declare-type>
+							<return depth="3" id="15">r</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="16">
+						<name>drop</name>
+						<code>
+							<noop depth="3" id="17"/>
+						</code>
+						<meta/>
+					</function>
+				</code>
+				<meta/>
+			</class>
 		</extern>
-		<test depth="0" id="6">
-			<call depth="1" id="7">
-				<function>bp_irrHelloWorld</function>
-				<parameters/>
-			</call>
+		<comment>\SGraphicsWindow\Simplementation\Susing\SIrrlicht</comment>
+		<class depth="0" id="18">
+			<name>GraphicsWindow</name>
+			<code>
+				<function depth="1" id="19">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>title</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>width</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>height</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>depth</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>fullscreen</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="20">
+							<value>
+								<access>
+									<value>my</value>
+									<value>device</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_createIrrDevice</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>my</value>
+														<value>title</value>
+													</access>
+												</value>
+												<value>data</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>width</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>height</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>depth</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>fullscreen</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="21">
+					<name>cls</name>
+					<code>
+						<call depth="2" id="22">
+							<function>bp_cls</function>
+							<parameters/>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="23">
+					<name>flip</name>
+					<code>
+						<call depth="2" id="24">
+							<function>bp_flip</function>
+							<parameters/>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="25">
+					<name>enter</name>
+					<code>
+						<noop depth="2" id="26"/>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="27">
+					<name>exit</name>
+					<code>
+						<call depth="2" id="28">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>device</value>
+										</access>
+									</value>
+									<value>drop</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="29">
+					<name>run</name>
+					<code>
+						<return depth="2" id="30">
+							<call>
+								<function>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>device</value>
+											</access>
+										</value>
+										<value>run</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</return>
+					</code>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="31">
+			<in depth="1" id="32">
+				<expression>
+					<assign>
+						<value>app</value>
+						<value>
+							<new>
+								<type>GraphicsWindow</type>
+								<parameters>
+									<parameter>bp_string_0</parameter>
+									<parameter>640</parameter>
+									<parameter>480</parameter>
+									<parameter>32</parameter>
+									<parameter>false</parameter>
+								</parameters>
+							</new>
+						</value>
+					</assign>
+				</expression>
+				<code>
+					<while depth="2" id="33">
+						<condition>
+							<access>
+								<value>app</value>
+								<value>running</value>
+							</access>
+						</condition>
+						<code>
+							<call depth="3" id="34">
+								<function>
+									<access>
+										<value>app</value>
+										<value>cls</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+							<call depth="3" id="35">
+								<function>
+									<access>
+										<value>app</value>
+										<value>flip</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</code>
+					</while>
+				</code>
+			</in>
 		</test>
 	</code>
 </module>

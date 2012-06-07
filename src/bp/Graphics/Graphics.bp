@@ -3,10 +3,9 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>Irrlicht</import>
 		</dependencies>
 		<strings/>
 	</header>
-	<code>
-		<comment>\STODO:\SNothing\Shere,\Syet.</comment>
-	</code>
+	<code/>
 </module>
