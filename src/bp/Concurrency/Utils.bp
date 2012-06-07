@@ -63,7 +63,7 @@
 								<new>
 									<type>
 										<template-call>
-											<value>Array</value>
+											<value>MemPointer</value>
 											<value>Int</value>
 										</template-call>
 									</type>
@@ -79,6 +79,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="9">
 					<parameters>
@@ -101,6 +102,7 @@
 							<value>1</value>
 						</assign-add>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="11">
 					<name>currentValue</name>
@@ -134,11 +136,14 @@
 									</value>
 								</assign-add>
 							</code>
+							<meta/>
 						</for>
 						<return depth="2" id="15">val</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
 		<function depth="0" id="16">

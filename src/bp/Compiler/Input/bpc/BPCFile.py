@@ -160,7 +160,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.nextLineIndented = False
 		self.savedNextNode = 0
 		self.lastAccessNode = None
-		self.idCount = 0
+		self.idCount = 1
 		
 		pureFileName = stripAll(fileIn)
 		if pureFileName == "Mutable":

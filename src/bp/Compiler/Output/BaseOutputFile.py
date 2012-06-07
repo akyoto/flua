@@ -1941,6 +1941,7 @@ class BaseOutputFile(ScopeController):
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		
 		# Save scope
+		#self.debugScopes()
 		self.saveScopesForNode(node)
 		
 		self.popScope()

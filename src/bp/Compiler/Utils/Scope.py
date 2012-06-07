@@ -58,7 +58,7 @@ class ScopeController:
 	def saveScopesForNode(self, node):
 		#print("Saving node %s" % node.toxml())
 		nodeId = node.getAttribute("id")
-		if nodeId:
+		if nodeId is not None:
 			self.nodeIdToScope[nodeId] = list(self.scopes)
 		
 	def restoreScopesForNode(self, node):
