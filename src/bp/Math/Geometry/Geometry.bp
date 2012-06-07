@@ -9,14 +9,14 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Geometry.hpp</include>
+				<include depth="1" id="2">Geometry.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="2">
-			<extern-function depth="1" id="3">
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
 				<name>bp_sin</name>
 				<type>Float64</type>
 				<meta>
@@ -25,7 +25,7 @@
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_cos</name>
 				<type>Float64</type>
 				<meta>
@@ -34,7 +34,7 @@
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="5">
+			<extern-function depth="1" id="6">
 				<name>bp_atan2</name>
 				<type>Float64</type>
 				<meta>
@@ -44,13 +44,13 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<function depth="0" id="6">
+		<function depth="0" id="7">
 			<parameters>
 				<parameter>deg</parameter>
 			</parameters>
 			<name>degToRad</name>
 			<code>
-				<return depth="1" id="7">
+				<return depth="1" id="8">
 					<multiply>
 						<value>deg</value>
 						<value>DEG_TO_RAD</value>
@@ -58,13 +58,13 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="8">
+		<function depth="0" id="9">
 			<parameters>
 				<parameter>rad</parameter>
 			</parameters>
 			<name>radToDeg</name>
 			<code>
-				<return depth="1" id="9">
+				<return depth="1" id="10">
 					<multiply>
 						<value>rad</value>
 						<value>RAD_TO_DEG</value>
@@ -72,13 +72,13 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="10">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
 			<name>sin</name>
 			<code>
-				<return depth="1" id="11">
+				<return depth="1" id="12">
 					<call>
 						<function>bp_sin</function>
 						<parameters>
@@ -88,13 +88,13 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="12">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
 			<name>cos</name>
 			<code>
-				<return depth="1" id="13">
+				<return depth="1" id="14">
 					<call>
 						<function>bp_cos</function>
 						<parameters>
@@ -104,14 +104,14 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="14">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>x</parameter>
 				<parameter>y</parameter>
 			</parameters>
 			<name>aTan2</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="16">
 					<call>
 						<function>bp_atan2</function>
 						<parameters>
@@ -122,13 +122,13 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="16">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
 			<name>sinDegree</name>
 			<code>
-				<return depth="1" id="17">
+				<return depth="1" id="18">
 					<call>
 						<function>bp_sin</function>
 						<parameters>
@@ -145,13 +145,13 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="18">
+		<function depth="0" id="19">
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
 			<name>cosDegree</name>
 			<code>
-				<return depth="1" id="19">
+				<return depth="1" id="20">
 					<call>
 						<function>bp_cos</function>
 						<parameters>
@@ -168,7 +168,7 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="20">
+		<function depth="0" id="21">
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
@@ -177,7 +177,7 @@
 			</parameters>
 			<name>distanceSq</name>
 			<code>
-				<assign depth="1" id="21">
+				<assign depth="1" id="22">
 					<value>dX</value>
 					<value>
 						<subtract>
@@ -186,7 +186,7 @@
 						</subtract>
 					</value>
 				</assign>
-				<assign depth="1" id="22">
+				<assign depth="1" id="23">
 					<value>dY</value>
 					<value>
 						<subtract>
@@ -195,7 +195,7 @@
 						</subtract>
 					</value>
 				</assign>
-				<return depth="1" id="23">
+				<return depth="1" id="24">
 					<add>
 						<value>
 							<multiply>
@@ -213,7 +213,7 @@
 				</return>
 			</code>
 		</function>
-		<function depth="0" id="24">
+		<function depth="0" id="25">
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
@@ -222,7 +222,7 @@
 			</parameters>
 			<name>distance</name>
 			<code>
-				<return depth="1" id="25">
+				<return depth="1" id="26">
 					<call>
 						<function>sqr</function>
 						<parameters>

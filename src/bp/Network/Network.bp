@@ -9,21 +9,21 @@
 		</strings>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Network.hpp</include>
+				<include depth="1" id="2">Network.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="2">
-			<extern-function depth="1" id="3">
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
 				<name>bp_getHostIP</name>
 				<type>Int32</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_intIPToString</name>
 				<type>String</type>
 				<meta>
@@ -32,10 +32,10 @@
 				</meta>
 			</extern-function>
 		</extern>
-		<class depth="0" id="5">
+		<class depth="0" id="6">
 			<name>IP</name>
 			<code>
-				<function depth="1" id="6">
+				<function depth="1" id="7">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -51,11 +51,11 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop depth="2" id="8"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="8">
+				<function depth="1" id="9">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -66,7 +66,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="9">
+						<assign depth="2" id="10">
 							<value>
 								<access>
 									<value>my</value>
@@ -85,11 +85,11 @@
 					</code>
 					<meta/>
 				</function>
-				<casts depth="1" id="10">
-					<cast-definition depth="2" id="11">
+				<casts depth="1" id="11">
+					<cast-definition depth="2" id="12">
 						<to>String</to>
 						<code>
-							<return depth="3" id="12">
+							<return depth="3" id="13">
 								<call>
 									<function>bp_intIPToString</function>
 									<parameters>
@@ -105,10 +105,10 @@
 						</code>
 						<meta/>
 					</cast-definition>
-					<cast-definition depth="2" id="13">
+					<cast-definition depth="2" id="14">
 						<to>Int</to>
 						<code>
-							<return depth="3" id="14">
+							<return depth="3" id="15">
 								<access>
 									<value>my</value>
 									<value>addr</value>
@@ -121,8 +121,8 @@
 			</code>
 			<meta/>
 		</class>
-		<test depth="0" id="15">
-			<call depth="1" id="16">
+		<test depth="0" id="16">
+			<call depth="1" id="17">
 				<function>print</function>
 				<parameters>
 					<parameter>

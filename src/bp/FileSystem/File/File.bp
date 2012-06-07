@@ -9,75 +9,75 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">File.hpp</include>
+				<include depth="1" id="2">File.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="2">
-			<extern-function depth="1" id="3">
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
 				<name>bp_fileModificationTime</name>
 				<type>Int64</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_fileExists</name>
 				<type>Bool</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="5">
+			<extern-function depth="1" id="6">
 				<name>bp_fileSize</name>
 				<type>Size</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="6">
+			<extern-function depth="1" id="7">
 				<name>bp_deleteFile</name>
 				<type>Bool</type>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="7">
+			<extern-function depth="1" id="8">
 				<name>bp_renameFile</name>
 				<type>Bool</type>
 			</extern-function>
-			<extern-function depth="1" id="8">
+			<extern-function depth="1" id="9">
 				<name>bp_fopen</name>
 				<type>FileHandle</type>
 			</extern-function>
-			<extern-function depth="1" id="9">
+			<extern-function depth="1" id="10">
 				<name>bp_fwrite</name>
 				<type>Size</type>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="10">
+			<extern-function depth="1" id="11">
 				<name>bp_fread</name>
 				<type>Size</type>
 			</extern-function>
-			<extern-function depth="1" id="11">
+			<extern-function depth="1" id="12">
 				<name>bp_fclose</name>
 				<type>Bool</type>
 			</extern-function>
-			<extern-function depth="1" id="12">
+			<extern-function depth="1" id="13">
 				<name>bp_fflush</name>
 				<type>Bool</type>
 			</extern-function>
-			<extern-function depth="1" id="13">
+			<extern-function depth="1" id="14">
 				<name>bp_readLine</name>
 				<type>String</type>
 			</extern-function>
-			<class depth="1" id="14">
+			<class depth="1" id="15">
 				<name>FileHandle</name>
 				<code>
-					<function depth="2" id="15">
+					<function depth="2" id="16">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="16"/>
+							<noop depth="3" id="17"/>
 						</code>
 					</function>
 				</code>
@@ -85,10 +85,10 @@
 			</class>
 		</extern>
 		<comment>\SImmutable\Sfile\Sobject</comment>
-		<class depth="0" id="17">
+		<class depth="0" id="18">
 			<name>File</name>
 			<code>
-				<function depth="1" id="18">
+				<function depth="1" id="19">
 					<parameters>
 						<parameter>
 							<access>
@@ -99,14 +99,14 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="19"/>
+						<noop depth="2" id="20"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="20">
+				<function depth="1" id="21">
 					<name>createReadStream</name>
 					<code>
-						<return depth="2" id="21">
+						<return depth="2" id="22">
 							<new>
 								<type>FileReadStream</type>
 								<parameters>
@@ -122,10 +122,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="22">
+				<function depth="1" id="23">
 					<name>createWriteStream</name>
 					<code>
-						<return depth="2" id="23">
+						<return depth="2" id="24">
 							<new>
 								<type>FileWriteStream</type>
 								<parameters>
@@ -142,27 +142,27 @@
 					<meta/>
 				</function>
 				<comment>\STODO:\SImplement\Sit.</comment>
-				<function depth="1" id="24">
+				<function depth="1" id="25">
 					<parameters>
 						<parameter>otherPath</parameter>
 					</parameters>
 					<name>relativePathTo</name>
 					<code>
-						<noop depth="2" id="25"/>
+						<noop depth="2" id="26"/>
 					</code>
 				</function>
-				<get depth="1" id="26">
-					<getter depth="2" id="27">
+				<get depth="1" id="27">
+					<getter depth="2" id="28">
 						<name>creationTime</name>
 						<code>
-							<return depth="3" id="28">0</return>
+							<return depth="3" id="29">0</return>
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="29">
+					<getter depth="2" id="30">
 						<name>modificationTime</name>
 						<code>
-							<return depth="3" id="30">
+							<return depth="3" id="31">
 								<call>
 									<function>fileModificationTime</function>
 									<parameters>
@@ -178,10 +178,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="31">
+					<getter depth="2" id="32">
 						<name>exists</name>
 						<code>
-							<return depth="3" id="32">
+							<return depth="3" id="33">
 								<call>
 									<function>fileExists</function>
 									<parameters>
@@ -196,10 +196,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="33">
+					<getter depth="2" id="34">
 						<name>path</name>
 						<code>
-							<return depth="3" id="34">
+							<return depth="3" id="35">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -208,24 +208,24 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="35">
+					<getter depth="2" id="36">
 						<name>absolutePath</name>
 						<code>
-							<noop depth="3" id="36"/>
+							<noop depth="3" id="37"/>
 						</code>
 					</getter>
-					<getter depth="2" id="37">
+					<getter depth="2" id="38">
 						<name>relativePath</name>
 						<code>
-							<noop depth="3" id="38"/>
+							<noop depth="3" id="39"/>
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="39">
-					<cast-definition depth="2" id="40">
+				<casts depth="1" id="40">
+					<cast-definition depth="2" id="41">
 						<to>String</to>
 						<code>
-							<return depth="3" id="41">
+							<return depth="3" id="42">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -238,13 +238,13 @@
 			<meta/>
 		</class>
 		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="42">
+		<function depth="0" id="43">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>deleteFile</name>
 			<code>
-				<return depth="1" id="43">
+				<return depth="1" id="44">
 					<call>
 						<function>bp_deleteFile</function>
 						<parameters>
@@ -256,14 +256,14 @@
 			<meta/>
 		</function>
 		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="44">
+		<function depth="0" id="45">
 			<parameters>
 				<parameter>from</parameter>
 				<parameter>to</parameter>
 			</parameters>
 			<name>renameFile</name>
 			<code>
-				<return depth="1" id="45">
+				<return depth="1" id="46">
 					<call>
 						<function>bp_renameFile</function>
 						<parameters>
@@ -275,13 +275,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="46">
+		<function depth="0" id="47">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileExists</name>
 			<code>
-				<return depth="1" id="47">
+				<return depth="1" id="48">
 					<call>
 						<function>bp_fileExists</function>
 						<parameters>
@@ -292,13 +292,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sfile\Ssize\Sof\S#path\Sin\Sbytes</comment>
-		<function depth="0" id="48">
+		<function depth="0" id="49">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileSize</name>
 			<code>
-				<return depth="1" id="49">
+				<return depth="1" id="50">
 					<call>
 						<function>bp_fileSize</function>
 						<parameters>
@@ -309,13 +309,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Stime\Sstamp\Sthe\Sfile\Sat\Spath\Shas\Sbeen\Smodified\Slast</comment>
-		<function depth="0" id="50">
+		<function depth="0" id="51">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>fileModificationTime</name>
 			<code>
-				<return depth="1" id="51">
+				<return depth="1" id="52">
 					<call>
 						<function>bp_fileModificationTime</function>
 						<parameters>
@@ -326,13 +326,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path</comment>
-		<function depth="0" id="52">
+		<function depth="0" id="53">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>readFile</name>
 			<code>
-				<in depth="1" id="53">
+				<in depth="1" id="54">
 					<expression>
 						<assign>
 							<value>f</value>
@@ -347,7 +347,7 @@
 						</assign>
 					</expression>
 					<code>
-						<assign depth="2" id="54">
+						<assign depth="2" id="55">
 							<value>data</value>
 							<value>
 								<call>
@@ -363,19 +363,19 @@
 						</assign>
 					</code>
 				</in>
-				<return depth="1" id="55">data</return>
+				<return depth="1" id="56">data</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
-		<function depth="0" id="56">
+		<function depth="0" id="57">
 			<parameters>
 				<parameter>path</parameter>
 				<parameter>data</parameter>
 			</parameters>
 			<name>writeFile</name>
 			<code>
-				<in depth="1" id="57">
+				<in depth="1" id="58">
 					<expression>
 						<assign>
 							<value>f</value>
@@ -390,7 +390,7 @@
 						</assign>
 					</expression>
 					<code>
-						<call depth="2" id="58">
+						<call depth="2" id="59">
 							<function>
 								<access>
 									<value>f</value>

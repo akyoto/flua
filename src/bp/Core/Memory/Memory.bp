@@ -7,103 +7,103 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Memory.hpp</include>
+				<include depth="1" id="2">Memory.hpp</include>
 			</code>
 		</target>
-		<target depth="0" id="2">
+		<target depth="0" id="3">
 			<name>Python3</name>
 			<code>
-				<include depth="1" id="3">Memory.py</include>
+				<include depth="1" id="4">Memory.py</include>
 			</code>
 		</target>
-		<extern depth="0" id="4">
-			<extern-function depth="1" id="5">
+		<extern depth="0" id="5">
+			<extern-function depth="1" id="6">
 				<name>bp_copyMem</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="6">
+			<extern-function depth="1" id="7">
 				<name>bp_compareMem</name>
 				<type>Bool</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="7">
+			<extern-function depth="1" id="8">
 				<name>bp_setMem</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="8">
+			<extern-function depth="1" id="9">
 				<name>bp_gcCollect</name>
 				<meta>
 					<same-output-for-input>true</same-output-for-input>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<class depth="1" id="9">
+			<class depth="1" id="10">
 				<name>MemPointer</name>
 				<code>
-					<template depth="2" id="10">
-						<parameter depth="3" id="11">TDataType</parameter>
+					<template depth="2" id="11">
+						<parameter depth="3" id="12">TDataType</parameter>
 					</template>
-					<function depth="2" id="12">
+					<function depth="2" id="13">
 						<parameters>
 							<parameter>size</parameter>
 						</parameters>
 						<name>init</name>
 						<code>
-							<noop depth="3" id="13"/>
+							<noop depth="3" id="14"/>
 						</code>
 					</function>
-					<function depth="2" id="14">
+					<function depth="2" id="15">
 						<name>free</name>
 						<code>
-							<noop depth="3" id="15"/>
+							<noop depth="3" id="16"/>
 						</code>
 					</function>
-					<operators depth="2" id="16">
-						<operator depth="3" id="17">
+					<operators depth="2" id="17">
+						<operator depth="3" id="18">
 							<parameters>
 								<parameter>index</parameter>
 							</parameters>
 							<name>[]</name>
 							<code>
-								<declare-type depth="4" id="18">
+								<declare-type depth="4" id="19">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return depth="4" id="19">retValue</return>
+								<return depth="4" id="20">retValue</return>
 							</code>
 						</operator>
 					</operators>
-					<set depth="2" id="20">
-						<setter depth="3" id="21">
+					<set depth="2" id="21">
+						<setter depth="3" id="22">
 							<parameters>
 								<parameter>nValue</parameter>
 							</parameters>
 							<name>data</name>
 							<code>
-								<noop depth="4" id="22"/>
+								<noop depth="4" id="23"/>
 							</code>
 						</setter>
 					</set>
-					<get depth="2" id="23">
-						<getter depth="3" id="24">
+					<get depth="2" id="24">
+						<getter depth="3" id="25">
 							<name>data</name>
 							<code>
-								<declare-type depth="4" id="25">
+								<declare-type depth="4" id="26">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return depth="4" id="26">retValue</return>
+								<return depth="4" id="27">retValue</return>
 							</code>
 						</getter>
 					</get>
@@ -111,7 +111,7 @@
 			</class>
 		</extern>
 		<comment>\SCopies\S#size\Selements\Sfrom\S#source\Sto\S#dest</comment>
-		<function depth="0" id="27">
+		<function depth="0" id="28">
 			<parameters>
 				<parameter>source</parameter>
 				<parameter>dest</parameter>
@@ -119,7 +119,7 @@
 			</parameters>
 			<name>copyMem</name>
 			<code>
-				<call depth="1" id="28">
+				<call depth="1" id="29">
 					<function>bp_copyMem</function>
 					<parameters>
 						<parameter>source</parameter>
@@ -131,7 +131,7 @@
 		</function>
 		<comment>\SCompares\S#size\Selements\Sin\S#source\Sand\S#dest\Sand</comment>
 		<comment>\Sreturns\Strue\Sif\Sthey\Sare\Sequal</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="30">
 			<parameters>
 				<parameter>source</parameter>
 				<parameter>dest</parameter>
@@ -139,7 +139,7 @@
 			</parameters>
 			<name>compareMem</name>
 			<code>
-				<return depth="1" id="30">
+				<return depth="1" id="31">
 					<call>
 						<function>bp_compareMem</function>
 						<parameters>
@@ -153,7 +153,7 @@
 			<meta/>
 		</function>
 		<comment>\SWrites\S#value\Sto\S#size\Selements\Sin\S#dest</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="32">
 			<parameters>
 				<parameter>dest</parameter>
 				<parameter>value</parameter>
@@ -161,7 +161,7 @@
 			</parameters>
 			<name>setMem</name>
 			<code>
-				<call depth="1" id="32">
+				<call depth="1" id="33">
 					<function>bp_setMem</function>
 					<parameters>
 						<parameter>dest</parameter>
@@ -174,10 +174,10 @@
 		</function>
 		<comment>\SActivates\Sone\Sgarbage\Scollection\Scycle\Swhich\Sdoes\Snot</comment>
 		<comment>\Sguarantee\Sto\Sfree\Sup\Sunused\Smemory\Simmediately</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="34">
 			<name>gcCollect</name>
 			<code>
-				<call depth="1" id="34">
+				<call depth="1" id="35">
 					<function>bp_gcCollect</function>
 					<parameters/>
 				</call>
@@ -186,14 +186,14 @@
 		</function>
 		<comment>\SReturns\Sthe\Snext\Spower\Sof\S2\Sfor\S#x.\SThis\Sfunction\Sis\Sin\Sthe</comment>
 		<comment>\Smemory\Ssection\Sbecause\Sit\Sis\Sused\Squite\Soften\Sby\Sdata\Sstructures.</comment>
-		<function depth="0" id="35">
+		<function depth="0" id="36">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>getNextPowerOf2</name>
 			<code>
-				<test depth="1" id="36">
-					<assert depth="2" id="37">
+				<test depth="1" id="37">
+					<assert depth="2" id="38">
 						<equal>
 							<value>
 								<call>
@@ -206,7 +206,7 @@
 							<value>8</value>
 						</equal>
 					</assert>
-					<assert depth="2" id="38">
+					<assert depth="2" id="39">
 						<equal>
 							<value>
 								<call>
@@ -219,7 +219,7 @@
 							<value>256</value>
 						</equal>
 					</assert>
-					<assert depth="2" id="39">
+					<assert depth="2" id="40">
 						<equal>
 							<value>
 								<call>
@@ -233,11 +233,11 @@
 						</equal>
 					</assert>
 				</test>
-				<assign-subtract depth="1" id="40">
+				<assign-subtract depth="1" id="41">
 					<value>x</value>
 					<value>1</value>
 				</assign-subtract>
-				<assign depth="1" id="41">
+				<assign depth="1" id="42">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -251,7 +251,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="42">
+				<assign depth="1" id="43">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -265,7 +265,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="43">
+				<assign depth="1" id="44">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -279,7 +279,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="44">
+				<assign depth="1" id="45">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -293,7 +293,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="45">
+				<assign depth="1" id="46">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -307,7 +307,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<return depth="1" id="46">
+				<return depth="1" id="47">
 					<add>
 						<value>x</value>
 						<value>1</value>

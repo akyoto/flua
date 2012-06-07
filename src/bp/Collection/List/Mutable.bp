@@ -8,16 +8,16 @@
 	</header>
 	<code>
 		<comment>\SA\Snode\Scontaining\Sthe\Svalue\Sand\Sa\Spointer\Sto\Sthe\Snext\Snode</comment>
-		<class depth="0" id="0">
-			<name>MutableListNode</name>
+		<class depth="0" id="1">
+			<name>ListNode</name>
 			<code>
-				<template depth="1" id="1">
-					<parameter depth="2" id="2">TDataType</parameter>
+				<template depth="1" id="2">
+					<parameter depth="2" id="3">TDataType</parameter>
 				</template>
-				<function depth="1" id="3">
+				<function depth="1" id="4">
 					<name>init</name>
 					<code>
-						<declare-type depth="2" id="4">
+						<declare-type depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -26,7 +26,7 @@
 							</value>
 							<value>TDataType</value>
 						</declare-type>
-						<declare-type depth="2" id="5">
+						<declare-type depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
@@ -42,7 +42,7 @@
 						</declare-type>
 					</code>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="7">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -58,14 +58,14 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop depth="2" id="8"/>
 					</code>
 				</function>
-				<get depth="1" id="8">
-					<getter depth="2" id="9">
+				<get depth="1" id="9">
+					<getter depth="2" id="10">
 						<name>value</name>
 						<code>
-							<return depth="3" id="10">
+							<return depth="3" id="11">
 								<access>
 									<value>my</value>
 									<value>value</value>
@@ -73,10 +73,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="11">
+					<getter depth="2" id="12">
 						<name>next</name>
 						<code>
-							<return depth="3" id="12">
+							<return depth="3" id="13">
 								<access>
 									<value>my</value>
 									<value>next</value>
@@ -85,14 +85,14 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="13">
-					<setter depth="2" id="14">
+				<set depth="1" id="14">
+					<setter depth="2" id="15">
 						<parameters>
 							<parameter>node</parameter>
 						</parameters>
 						<name>next</name>
 						<code>
-							<assign depth="3" id="15">
+							<assign depth="3" id="16">
 								<value>
 									<access>
 										<value>my</value>
@@ -103,7 +103,6 @@
 							</assign>
 						</code>
 					</setter>
-					<meta/>
 				</set>
 			</code>
 			<meta>
@@ -111,16 +110,16 @@
 			</meta>
 		</class>
 		<comment>\SSingly\Slinked\Slist</comment>
-		<class depth="0" id="16">
+		<class depth="0" id="17">
 			<name>MutableList</name>
 			<code>
-				<template depth="1" id="17">
-					<parameter depth="2" id="18">TDataType</parameter>
+				<template depth="1" id="18">
+					<parameter depth="2" id="19">TDataType</parameter>
 				</template>
-				<function depth="1" id="19">
+				<function depth="1" id="20">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="20">
+						<assign depth="2" id="21">
 							<value>
 								<access>
 									<value>my</value>
@@ -139,7 +138,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="21">
+						<assign depth="2" id="22">
 							<value>
 								<access>
 									<value>my</value>
@@ -156,13 +155,13 @@
 					</code>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Slist</comment>
-				<function depth="1" id="22">
+				<function depth="1" id="23">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<assign depth="2" id="23">
+						<assign depth="2" id="24">
 							<value>
 								<access>
 									<value>
@@ -188,7 +187,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="24">
+						<assign depth="2" id="25">
 							<value>
 								<access>
 									<value>my</value>
@@ -209,12 +208,12 @@
 						</assign>
 					</code>
 				</function>
-				<get depth="1" id="25">
-					<getter depth="2" id="26">
+				<get depth="1" id="26">
+					<getter depth="2" id="27">
 						<name>first</name>
 						<code>
-							<require depth="3" id="27">
-								<call depth="4" id="28">
+							<require depth="3" id="28">
+								<call depth="4" id="29">
 									<function>
 										<access>
 											<value>
@@ -229,7 +228,7 @@
 									<parameters/>
 								</call>
 							</require>
-							<return depth="3" id="29">
+							<return depth="3" id="30">
 								<access>
 									<value>
 										<access>
@@ -241,14 +240,13 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
-				<iterators depth="1" id="30">
-					<iterator-type depth="2" id="31">
+				<iterators depth="1" id="31">
+					<iterator-type depth="2" id="32">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="32">
+							<assign depth="3" id="33">
 								<value>node</value>
 								<value>
 									<access>
@@ -257,7 +255,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="33">
+							<while depth="3" id="34">
 								<condition>
 									<access>
 										<value>node</value>
@@ -265,7 +263,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="4" id="34">
+									<assign depth="4" id="35">
 										<value>node</value>
 										<value>
 											<access>
@@ -274,7 +272,7 @@
 											</access>
 										</value>
 									</assign>
-									<yield depth="4" id="35">
+									<yield depth="4" id="36">
 										<access>
 											<value>node</value>
 											<value>value</value>
@@ -286,9 +284,6 @@
 					</iterator-type>
 				</iterators>
 			</code>
-			<meta>
-				<default-class-version>true</default-class-version>
-			</meta>
 		</class>
 	</code>
 </module>

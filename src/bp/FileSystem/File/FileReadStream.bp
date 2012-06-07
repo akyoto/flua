@@ -10,10 +10,10 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="0">
+		<class depth="0" id="1">
 			<name>FileReadStream</name>
 			<code>
-				<function depth="1" id="1">
+				<function depth="1" id="2">
 					<parameters>
 						<parameter>
 							<access>
@@ -24,7 +24,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="2">
+						<assign depth="2" id="3">
 							<value>
 								<access>
 									<value>my</value>
@@ -46,7 +46,7 @@
 								</call>
 							</value>
 						</assign>
-						<if-block depth="2" id="3">
+						<if-block depth="2" id="4">
 							<if>
 								<condition>
 									<not>
@@ -59,7 +59,7 @@
 									</not>
 								</condition>
 								<code>
-									<throw depth="3" id="4">
+									<throw depth="3" id="5">
 										<new>
 											<type>FileNotFoundException</type>
 											<parameters>
@@ -77,10 +77,10 @@
 						</if-block>
 					</code>
 				</function>
-				<function depth="1" id="5">
+				<function depth="1" id="6">
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="6">
+						<call depth="2" id="7">
 							<function>
 								<access>
 									<value>my</value>
@@ -91,16 +91,16 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="7">
+				<function depth="1" id="8">
 					<name>enter</name>
 					<code>
-						<noop depth="2" id="8"/>
+						<noop depth="2" id="9"/>
 					</code>
 				</function>
-				<function depth="1" id="9">
+				<function depth="1" id="10">
 					<name>exit</name>
 					<code>
-						<call depth="2" id="10">
+						<call depth="2" id="11">
 							<function>
 								<access>
 									<value>my</value>
@@ -111,10 +111,10 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="11">
+				<function depth="1" id="12">
 					<name>read</name>
 					<code>
-						<assign depth="2" id="12">
+						<assign depth="2" id="13">
 							<value>fSize</value>
 							<value>
 								<call>
@@ -130,7 +130,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="13">
+						<assign depth="2" id="14">
 							<value>buffer</value>
 							<value>
 								<new>
@@ -146,7 +146,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="14">
+						<call depth="2" id="15">
 							<function>bp_fread</function>
 							<parameters>
 								<parameter>
@@ -159,7 +159,7 @@
 								<parameter>fSize</parameter>
 							</parameters>
 						</call>
-						<return depth="2" id="15">
+						<return depth="2" id="16">
 							<new>
 								<type>String</type>
 								<parameters>
@@ -169,13 +169,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="16">
+				<function depth="1" id="17">
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
 					<name>read</name>
 					<code>
-						<assign depth="2" id="17">
+						<assign depth="2" id="18">
 							<value>buffer</value>
 							<value>
 								<new>
@@ -191,7 +191,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="18">
+						<call depth="2" id="19">
 							<function>bp_fread</function>
 							<parameters>
 								<parameter>
@@ -204,13 +204,13 @@
 								<parameter>numBytes</parameter>
 							</parameters>
 						</call>
-						<return depth="2" id="19">buffer</return>
+						<return depth="2" id="20">buffer</return>
 					</code>
 				</function>
-				<function depth="1" id="20">
+				<function depth="1" id="21">
 					<name>close</name>
 					<code>
-						<if-block depth="2" id="21">
+						<if-block depth="2" id="22">
 							<if>
 								<condition>
 									<access>
@@ -219,7 +219,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="3" id="22">
+									<assign depth="3" id="23">
 										<value>success</value>
 										<value>
 											<call>
@@ -235,7 +235,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign depth="3" id="23">
+									<assign depth="3" id="24">
 										<value>
 											<access>
 												<value>my</value>
@@ -244,11 +244,11 @@
 										</value>
 										<value>0</value>
 									</assign>
-									<return depth="3" id="24">success</return>
+									<return depth="3" id="25">success</return>
 								</code>
 							</if>
 						</if-block>
-						<return depth="2" id="25">false</return>
+						<return depth="2" id="26">false</return>
 					</code>
 				</function>
 			</code>

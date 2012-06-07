@@ -14,51 +14,51 @@
 		</strings>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Directory.hpp</include>
+				<include depth="1" id="2">Directory.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="2">
-			<extern-function depth="1" id="3">
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
 				<name>bp_getCurrentDir</name>
 				<type>String</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="4">
+			<extern-function depth="1" id="5">
 				<name>bp_changeDir</name>
 			</extern-function>
-			<extern-function depth="1" id="5">
+			<extern-function depth="1" id="6">
 				<name>bp_openDir</name>
 				<type>DirectoryHandle</type>
 			</extern-function>
-			<extern-function depth="1" id="6">
+			<extern-function depth="1" id="7">
 				<name>bp_closeDir</name>
 			</extern-function>
-			<extern-function depth="1" id="7">
+			<extern-function depth="1" id="8">
 				<name>bp_getNextFile</name>
 				<type>String</type>
 			</extern-function>
-			<class depth="1" id="8">
+			<class depth="1" id="9">
 				<name>DirectoryHandle</name>
 				<code>
-					<function depth="2" id="9">
+					<function depth="2" id="10">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="10"/>
+							<noop depth="3" id="11"/>
 						</code>
 					</function>
 				</code>
 			</class>
 		</extern>
 		<comment>\SSymbolizes\Sa\Sdirectory\Sin\Sthe\Sfile\Ssystem</comment>
-		<class depth="0" id="11">
+		<class depth="0" id="12">
 			<name>Directory</name>
 			<code>
-				<function depth="1" id="12">
+				<function depth="1" id="13">
 					<parameters>
 						<parameter>
 							<access>
@@ -69,15 +69,15 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="13"/>
+						<noop depth="2" id="14"/>
 					</code>
 					<meta/>
 				</function>
-				<iterators depth="1" id="14">
-					<iterator-type depth="2" id="15">
+				<iterators depth="1" id="15">
+					<iterator-type depth="2" id="16">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="16">
+							<assign depth="3" id="17">
 								<value>dirHandle</value>
 								<value>
 									<call>
@@ -93,10 +93,10 @@
 									</call>
 								</value>
 							</assign>
-							<while depth="3" id="17">
+							<while depth="3" id="18">
 								<condition>1</condition>
 								<code>
-									<assign depth="4" id="18">
+									<assign depth="4" id="19">
 										<value>nextFile</value>
 										<value>
 											<call>
@@ -107,7 +107,7 @@
 											</call>
 										</value>
 									</assign>
-									<if-block depth="4" id="19">
+									<if-block depth="4" id="20">
 										<if>
 											<condition>
 												<or>
@@ -126,10 +126,10 @@
 												</or>
 											</condition>
 											<code>
-												<continue depth="5" id="20"/>
+												<continue depth="5" id="21"/>
 											</code>
 										</if>
-										<else-if depth="4" id="21">
+										<else-if depth="4" id="22">
 											<condition>
 												<equal>
 													<value>nextFile</value>
@@ -137,14 +137,14 @@
 												</equal>
 											</condition>
 											<code>
-												<break depth="5" id="22"/>
+												<break depth="5" id="23"/>
 											</code>
 										</else-if>
 									</if-block>
-									<yield depth="4" id="23">nextFile</yield>
+									<yield depth="4" id="24">nextFile</yield>
 								</code>
 							</while>
-							<call depth="3" id="24">
+							<call depth="3" id="25">
 								<function>bp_closeDir</function>
 								<parameters>
 									<parameter>dirHandle</parameter>
@@ -152,13 +152,12 @@
 							</call>
 						</code>
 					</iterator-type>
-					<meta/>
 				</iterators>
-				<get depth="1" id="25">
-					<getter depth="2" id="26">
+				<get depth="1" id="26">
+					<getter depth="2" id="27">
 						<name>path</name>
 						<code>
-							<return depth="3" id="27">
+							<return depth="3" id="28">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -167,11 +166,11 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="28">
-					<cast-definition depth="2" id="29">
+				<casts depth="1" id="29">
+					<cast-definition depth="2" id="30">
 						<to>String</to>
 						<code>
-							<return depth="3" id="30">
+							<return depth="3" id="31">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -184,10 +183,10 @@
 			<meta/>
 		</class>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="32">
 			<name>getCurrentDir</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="33">
 					<call>
 						<function>bp_getCurrentDir</function>
 						<parameters/>
@@ -196,13 +195,13 @@
 			</code>
 		</function>
 		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="34">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>changeDir</name>
 			<code>
-				<call depth="1" id="34">
+				<call depth="1" id="35">
 					<function>bp_changeDir</function>
 					<parameters>
 						<parameter>path</parameter>
@@ -211,11 +210,11 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="35">
-			<target depth="1" id="36">
+		<test depth="0" id="36">
+			<target depth="1" id="37">
 				<name>Linux</name>
 				<code>
-					<foreach depth="2" id="37">
+					<foreach depth="2" id="38">
 						<iterator>x</iterator>
 						<collection>
 							<new>
@@ -226,7 +225,7 @@
 							</new>
 						</collection>
 						<code>
-							<call depth="3" id="38">
+							<call depth="3" id="39">
 								<function>print</function>
 								<parameters>
 									<parameter>x</parameter>
@@ -236,10 +235,10 @@
 					</foreach>
 				</code>
 			</target>
-			<target depth="1" id="39">
+			<target depth="1" id="40">
 				<name>Windows</name>
 				<code>
-					<foreach depth="2" id="40">
+					<foreach depth="2" id="41">
 						<iterator>x</iterator>
 						<collection>
 							<new>
@@ -250,7 +249,7 @@
 							</new>
 						</collection>
 						<code>
-							<call depth="3" id="41">
+							<call depth="3" id="42">
 								<function>print</function>
 								<parameters>
 									<parameter>x</parameter>

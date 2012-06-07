@@ -15,10 +15,10 @@
 	</header>
 	<code>
 		<comment>\SThis\Sclass\Sallows\Syou\Sto\Squickly\Stest\Sthe\Sexecution\Stime\Sof\Sa\Sblock</comment>
-		<class depth="0" id="0">
+		<class depth="0" id="1">
 			<name>Benchmark</name>
 			<code>
-				<function depth="1" id="1">
+				<function depth="1" id="2">
 					<parameters>
 						<parameter>
 							<access>
@@ -29,14 +29,14 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="2"/>
+						<noop depth="2" id="3"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="3">
+				<function depth="1" id="4">
 					<name>enter</name>
 					<code>
-						<assign depth="2" id="4">
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -53,10 +53,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="5">
+				<function depth="1" id="6">
 					<name>exit</name>
 					<code>
-						<assign depth="2" id="6">
+						<assign depth="2" id="7">
 							<value>
 								<access>
 									<value>my</value>
@@ -70,7 +70,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="7">
+						<assign depth="2" id="8">
 							<value>duration</value>
 							<value>
 								<subtract>
@@ -89,7 +89,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<assign depth="2" id="8">
+						<assign depth="2" id="9">
 							<value>runtime</value>
 							<value>
 								<call>
@@ -100,7 +100,7 @@
 								</call>
 							</value>
 						</assign>
-						<call depth="2" id="9">
+						<call depth="2" id="10">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -133,7 +133,7 @@
 		</class>
 		<comment>\STurns\Sa\Spositive\Sinteger\Slike\S20000\Sinto\Sa\Sstring,\Se.g.\S&quot;20,000&quot;\Sor\S&quot;20.000&quot;</comment>
 		<comment>\STODO:\SImplement\Sthis\Sfor\Sother\Sdata\Stypes</comment>
-		<function depth="0" id="10">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -144,8 +144,8 @@
 			</parameters>
 			<name>readableNumber</name>
 			<code>
-				<test depth="1" id="11">
-					<assert depth="2" id="12">
+				<test depth="1" id="12">
+					<assert depth="2" id="13">
 						<equal>
 							<value>
 								<call>
@@ -158,7 +158,7 @@
 							<value>bp_string_2</value>
 						</equal>
 					</assert>
-					<assert depth="2" id="13">
+					<assert depth="2" id="14">
 						<equal>
 							<value>
 								<call>
@@ -171,7 +171,7 @@
 							<value>bp_string_3</value>
 						</equal>
 					</assert>
-					<assert depth="2" id="14">
+					<assert depth="2" id="15">
 						<equal>
 							<value>
 								<call>
@@ -185,11 +185,11 @@
 						</equal>
 					</assert>
 				</test>
-				<assign depth="1" id="15">
+				<assign depth="1" id="16">
 					<value>separator</value>
 					<value>bp_string_5</value>
 				</assign>
-				<assign depth="1" id="16">
+				<assign depth="1" id="17">
 					<value>stri</value>
 					<value>
 						<new>
@@ -200,7 +200,7 @@
 						</new>
 					</value>
 				</assign>
-				<if-block depth="1" id="17">
+				<if-block depth="1" id="18">
 					<if>
 						<condition>
 							<less-or-equal>
@@ -214,10 +214,10 @@
 							</less-or-equal>
 						</condition>
 						<code>
-							<return depth="2" id="18">stri</return>
+							<return depth="2" id="19">stri</return>
 						</code>
 					</if>
-					<else-if depth="1" id="19">
+					<else-if depth="1" id="20">
 						<condition>
 							<less-or-equal>
 								<value>
@@ -230,7 +230,7 @@
 							</less-or-equal>
 						</condition>
 						<code>
-							<return depth="2" id="20">
+							<return depth="2" id="21">
 								<add>
 									<value>
 										<add>
@@ -277,7 +277,7 @@
 							</return>
 						</code>
 					</else-if>
-					<else-if depth="1" id="21">
+					<else-if depth="1" id="22">
 						<condition>
 							<less-or-equal>
 								<value>
@@ -290,7 +290,7 @@
 							</less-or-equal>
 						</condition>
 						<code>
-							<return depth="2" id="22">
+							<return depth="2" id="23">
 								<add>
 									<value>
 										<add>
@@ -370,9 +370,9 @@
 							</return>
 						</code>
 					</else-if>
-					<else depth="1" id="23">
+					<else depth="1" id="24">
 						<code>
-							<return depth="2" id="24">
+							<return depth="2" id="25">
 								<add>
 									<value>
 										<add>

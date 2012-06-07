@@ -10,20 +10,20 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0">
+		<class depth="0" id="1">
 			<name>Point</name>
 			<code>
-				<template depth="1">
-					<parameter depth="2">
+				<template depth="1" id="2">
+					<parameter depth="2" id="3">
 						<name>TX</name>
 						<default-value>Float</default-value>
 					</parameter>
-					<parameter depth="2">
+					<parameter depth="2" id="4">
 						<name>TY</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function depth="1">
+				<function depth="1" id="5">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -50,17 +50,17 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="6"/>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="7">
 					<parameters>
 						<parameter>offX</parameter>
 						<parameter>offY</parameter>
 					</parameters>
 					<name>move</name>
 					<code>
-						<assign-add depth="2">
+						<assign-add depth="2" id="8">
 							<value>
 								<access>
 									<value>my</value>
@@ -69,7 +69,7 @@
 							</value>
 							<value>offX</value>
 						</assign-add>
-						<assign-add depth="2">
+						<assign-add depth="2" id="9">
 							<value>
 								<access>
 									<value>my</value>
@@ -80,13 +80,13 @@
 						</assign-add>
 					</code>
 				</function>
-				<function depth="1">
+				<function depth="1" id="10">
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
 					<name>distanceTo</name>
 					<code>
-						<return depth="2">
+						<return depth="2" id="11">
 							<call>
 								<function>distance</function>
 								<parameters>
@@ -120,11 +120,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="12">
+					<getter depth="2" id="13">
 						<name>x</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="14">
 								<access>
 									<value>my</value>
 									<value>x</value>
@@ -132,10 +132,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2">
+					<getter depth="2" id="15">
 						<name>y</name>
 						<code>
-							<return depth="3">
+							<return depth="3" id="16">
 								<access>
 									<value>my</value>
 									<value>y</value>
@@ -144,14 +144,14 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1">
-					<setter depth="2">
+				<set depth="1" id="17">
+					<setter depth="2" id="18">
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
 						<name>x</name>
 						<code>
-							<assign depth="3">
+							<assign depth="3" id="19">
 								<value>
 									<access>
 										<value>my</value>
@@ -162,13 +162,13 @@
 							</assign>
 						</code>
 					</setter>
-					<setter depth="2">
+					<setter depth="2" id="20">
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
 						<name>y</name>
 						<code>
-							<assign depth="3">
+							<assign depth="3" id="21">
 								<value>
 									<access>
 										<value>my</value>
@@ -181,12 +181,12 @@
 						<meta/>
 					</setter>
 				</set>
-				<casts depth="1">
-					<cast-definition depth="2">
+				<casts depth="1" id="22">
+					<cast-definition depth="2" id="23">
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SImplement\SInt\S-&gt;\SString\Sautocast</comment>
-							<return depth="3">
+							<return depth="3" id="24">
 								<add>
 									<value>
 										<add>
