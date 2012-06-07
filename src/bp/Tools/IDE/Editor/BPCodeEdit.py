@@ -122,8 +122,14 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
 		self.setModel(BPCClassMemberModel(self, classImpl))
 		
+	def deactivateMemberList(self):
+		if self.model() != self.bpcModel:
+			self.setModel(self.bpcModel)
+		
 	def activateMemberList(self):
-		if not self.codeEdit.outFile or self.model() != self.bpcModel:
+		# DON'T USE "or self.model() != self.bpcModel" because it will make types
+		# stay here and they won't change.
+		if not self.codeEdit.outFile:
 			return
 		
 		bpIDE = self.codeEdit.bpIDE
@@ -137,17 +143,20 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		leftOfCursor = text[:relPos]
 		
 		# Shortcut: String?
-		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
-			self.createClassMemberModel("UTF8String")
-			return
+		#if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
+		#	self.createClassMemberModel("UTF8String")
+		#	return
 		
 		# Get what's in front of the dot
 		dotPos = leftOfCursor.rfind(".")
-		obj = getLeftMemberAccess(leftOfCursor, dotPos)
+		#print(leftOfCursor)
+		#print(dotPos)
+		
+		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		#print("Object: " + obj)
-		#print("Member: " + member)
+		print("Object: " + obj)
+		print("Member: " + member)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -168,6 +177,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 					self.createClassMemberModel(dataType)
 				except:
 					print("No class information available for '%s'" % (dataType))
+					self.deactivateMemberList()
 				return
 
 def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
@@ -473,7 +483,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			underCursor = self.textUnderCursor()
 			
 			if (underCursor) and (not isVarChar(underCursor[0])):
-				print(underCursor + "<=========")
+				#print(underCursor + "<=========")
 				
 				pointPos = underCursor.find(".")
 				if pointPos == -1:
@@ -617,16 +627,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
 			
-			if charBeforeWord == ".":#(event.text() and event.text()[-1] == "."):
+			if charBeforeWord == ".": #or (event.text() and event.text()[-1] == "."):
 				self.completer.activateMemberList()
 			elif ((not isShortcut) and (hasModifier or (not event.text()) or event.text()[-1] in eow)):
-				if self.completer.memberListActivated():
-					self.completer.setModel(self.completer.bpcModel)
+				self.completer.deactivateMemberList()
 				self.completer.popup().hide()
 				return
 			else:
-				if self.completer.memberListActivated():
-					self.completer.setModel(self.completer.bpcModel)
+				self.completer.deactivateMemberList()
 			
 			#if  and self.completer.memberListActivated():
 			#	self.completer.setModel(self.completer.bpcModel)
@@ -655,8 +663,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					)
 				)
 				if (not isShortcut) and autoCompleteAintWorthIt:
-					if self.completer.memberListActivated():
-						self.completer.setModel(self.completer.bpcModel)
+					self.completer.deactivateMemberList()
 					self.completer.popup().hide()
 					return
 			
@@ -681,8 +688,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				if not completionPrefix and not charBeforeWord == ".":
 					self.autoCompleteOpenedAuto = True
-					if self.completer.memberListActivated():
-						self.completer.setModel(self.completer.bpcModel)
+					self.completer.deactivateMemberList()
 					popup.hide()
 					return
 			
