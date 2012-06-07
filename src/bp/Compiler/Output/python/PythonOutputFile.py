@@ -228,7 +228,7 @@ class PythonOutputFile(BaseOutputFile):
 		return "%s = %s" % (var.name, value)
 	
 	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
-		hasVar = (exprNode.firstChild.tagName == "assign")
+		hasVar = (isElemNode(exprNode.firstChild) and exprNode.firstChild.tagName == "assign")
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)

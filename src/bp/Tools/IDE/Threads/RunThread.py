@@ -17,7 +17,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		print("Program '%s' started." % (stripAll(self.exe)))
 		
 		if self.debugMode:
-			self.sendDebugger("break main\n")
+			#self.sendDebugger("break main\n")
 			self.sendDebugger("run\n")
 			#self.sendDebugger("q\n")
 		

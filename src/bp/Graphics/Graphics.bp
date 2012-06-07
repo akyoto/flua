@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>Irrlicht</import>
+			<import>Flua</import>
 		</dependencies>
 		<strings/>
 	</header>

@@ -1,0 +1,46 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>public.OpenGL</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">FreeGLUT.hpp</include>
+				<compiler-flags depth="1" id="3">
+					<compiler-flag depth="2" id="4">-lglut</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+		<extern depth="0" id="5">
+			<extern-function depth="1" id="6">
+				<name>bp_createGLUTWindow</name>
+				<type>Int</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>glutWindowOpen</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="8">
+				<name>glutSwapBuffers</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="9">
+				<name>glutMainLoopEvent</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="10">
+				<name>glutSetWindowTitle</name>
+			</extern-function>
+		</extern>
+	</code>
+</module>

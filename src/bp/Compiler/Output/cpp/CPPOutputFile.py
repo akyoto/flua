@@ -287,7 +287,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
 		exprType = self.adjustDataType(exprType)
 		
-		hasVar = (exprNode.firstChild.tagName == "assign")
+		hasVar = (isElemNode(exprNode.firstChild) and exprNode.firstChild.tagName == "assign")
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)
