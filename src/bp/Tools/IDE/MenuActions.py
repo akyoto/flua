@@ -50,7 +50,17 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuA
 		self.notImplemented()
 		
 	def viewSource(self):
-		self.notImplemented()
+		if not self.codeEdit:
+			return
+		
+		filePath = self.getFilePath()
+		
+		# TODO: Remove hardcoded stuff...
+		sourceFile = extractDir(filePath) + "C++/" + stripAll(filePath) + ".hpp"
+		
+		if os.path.exists(sourceFile):
+			self.openFile(sourceFile)
+			return
 		
 	def switchSyntax(self, index):
 		bpcUtils.currentSyntax = index

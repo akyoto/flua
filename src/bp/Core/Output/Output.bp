@@ -28,7 +28,7 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1" id="6">
-				<name>bp_writeln</name>
+				<name>bp_writeLine</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
@@ -42,6 +42,13 @@
 				</meta>
 			</extern-function>
 			<extern-function depth="1" id="8">
+				<name>bp_writeXbytesLine</name>
+				<meta>
+					<same-output-for-input>true</same-output-for-input>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="9">
 				<name>bp_flush</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
@@ -50,7 +57,7 @@
 			</extern-function>
 		</extern>
 		<comment>\SPrints\Sthe\Sinteger\S#x\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="10">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -61,8 +68,8 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="10">
-					<function>bp_writeln</function>
+				<call depth="1" id="11">
+					<function>bp_writeLine</function>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
@@ -71,7 +78,7 @@
 			<meta/>
 		</function>
 		<comment>\SPrints\Sfloat\S#x\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="12">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -82,8 +89,8 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="12">
-					<function>bp_writeln</function>
+				<call depth="1" id="13">
+					<function>bp_writeLine</function>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
@@ -92,7 +99,7 @@
 			<meta/>
 		</function>
 		<comment>\SPrints\S64-bit\Sfloat\S#x\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="13">
+		<function depth="0" id="14">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -103,8 +110,8 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="14">
-					<function>bp_writeln</function>
+				<call depth="1" id="15">
+					<function>bp_writeLine</function>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
@@ -113,7 +120,7 @@
 			<meta/>
 		</function>
 		<comment>\SPrints\S&quot;true&quot;\Sif\S#x\Sis\Strue,\S&quot;false&quot;\Sotherwise</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="16">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -124,8 +131,24 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="16">
-					<function>bp_writeln</function>
+				<call depth="1" id="17">
+					<function>bp_writeLine</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SWrites\S#x\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
+		<function depth="0" id="18">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>write</name>
+			<code>
+				<call depth="1" id="19">
+					<function>bp_write</function>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>

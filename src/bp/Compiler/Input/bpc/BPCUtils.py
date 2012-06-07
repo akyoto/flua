@@ -555,7 +555,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return nodeToBPC(node.childNodes[0], 0, conv)
 		else:
 			return ""
-	elif nodeName == "extern-function":
+	elif nodeName == "extern-function" or nodeName == "extern-variable":
 		nameNode = getElementByTagName(node, "name")
 		typeNode = getElementByTagName(node, "type")
 		typeName = ""

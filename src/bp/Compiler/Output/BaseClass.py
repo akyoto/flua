@@ -133,6 +133,10 @@ class BaseClass(BaseNamespace):
 	def addExternFunction(self, name, type):
 		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
 		self.externFunctions[name] = type
+		
+	def addExternVariable(self, name, type):
+		debug("'%s' added extern variable '%s' of type '%s'" % (self.name, name, type))
+		self.externVariables[name] = type
 	
 	def setTemplateNames(self, names, defaultValues):
 		debug("'%s' set the template names %s" % (self.name, names))

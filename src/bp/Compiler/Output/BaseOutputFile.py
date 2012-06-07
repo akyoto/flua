@@ -46,7 +46,8 @@ enableOperatorOverloading = {
 }#{"add", "subtract", "multiply", "divide", "equal"}:
 
 replacedNodeValues = {
-	"from" : "_from",
+	"from" : "bp__from",
+	"char" : "bp__char",
 }
 
 ####################################################################
@@ -534,6 +535,23 @@ class BaseOutputFile(ScopeController):
 		type = self.prepareTypeName(type)
 		
 		self.compiler.mainClass.addExternFunction(name, type)
+		
+	def scanExternVariable(self, node):
+		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		types = node.getElementsByTagName("type")
+		typeName = "Int"
+		
+		if types:
+			typeName = types[0].childNodes[0].nodeValue
+		
+		# TODO: Remove hardcoded
+		if typeName == "CString":
+			typeName = "~MemPointer<Byte>"
+		
+		# Typedefs
+		typeName = self.prepareTypeName(typeName)
+		
+		self.compiler.mainClass.addExternVariable(name, typeName)
 	
 	def handleNew(self, node):
 		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0], True)
@@ -675,7 +693,7 @@ class BaseOutputFile(ScopeController):
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
-				if self.stringClassDefined:
+				if self.stringClassDefined: #or self.currentFunction.isIterator:
 					# All modules that import UTF8String have it defined
 					return "UTF8String"
 				else:
@@ -945,6 +963,9 @@ class BaseOutputFile(ScopeController):
 		
 		if name in self.compiler.mainClassImpl.members:
 			return self.compiler.mainClassImpl.members[name].type
+		
+		if name in self.compiler.mainClass.externVariables:
+			return self.compiler.mainClass.externVariables[name]
 		
 		#print(self.getTopLevelScope().variables)
 		if name in self.compiler.mainClass.classes:
@@ -1396,6 +1417,8 @@ class BaseOutputFile(ScopeController):
 			return ""
 		elif tagName == "extern-function":
 			return ""
+		elif tagName == "extern-variable":
+			return ""
 		elif tagName == "template":
 			return ""
 		elif tagName == "require":
@@ -1611,6 +1634,10 @@ class BaseOutputFile(ScopeController):
 					self.inExtends -= 1
 				elif node.tagName == "extern-function":
 					self.scanExternFunction(node)
+				elif node.tagName == "extern-variable":
+					self.scanExternVariable(node)
+				elif node.tagName == "const":
+					self.scanAhead(node)
 				elif node.tagName == "assign" and self.inDefine > 0:
 					self.scanDefine(node)
 	
@@ -1660,6 +1687,8 @@ class BaseOutputFile(ScopeController):
 		
 		# Implement
 		definedInFile.currentFunction = func
+		if func.isIterator:
+			definedInFile.stringClassDefined = True
 		funcImpl = definedInFile.implementLocalFunction(typeName, funcName, paramTypes)
 		
 		# Pop
@@ -1796,7 +1825,7 @@ class BaseOutputFile(ScopeController):
 		value = decodeCDATA(node.childNodes[0].nodeValue)
 		
 		# TODO: classExists(self.compiler.stringDataType)
-		if self.stringClassDefined:
+		if 1:#self.stringClassDefined or value == "\\n":
 			dataType = self.compiler.stringDataType
 			line = self.buildString(id, value)
 		else:
@@ -1884,12 +1913,19 @@ class BaseOutputFile(ScopeController):
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
+		iterName = "Default"
+		if isElemNode(collExprNode) and collExprNode.tagName == "access":
+			op2 = collExprNode.childNodes[1].firstChild
+			if isTextNode(op2):
+				iterName = capitalize(op2.nodeValue)
+				collExprNode = collExprNode.childNodes[0].firstChild
+		
 		iterExpr = self.parseExpr(iterExprNode)
 		collExpr = self.parseExpr(collExprNode)
 		
 		collExprType = self.getExprDataType(collExprNode)
 		
-		iteratorImpl = self.implementFunction(collExprType, "iteratorDefault", [])
+		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, [])
 		iteratorType = iteratorImpl.getYieldType()
 		iteratorValue = iteratorImpl.getYieldValue()
 		

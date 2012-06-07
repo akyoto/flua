@@ -1298,6 +1298,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
 				<function depth="1" id="52">
@@ -1377,6 +1378,103 @@
 								</call>
 							</code>
 						</target>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SInit\Sfrom\SC-String,\Sfrom\S#byteFrom\Sup\Sto\S#byteTo\Sbytes</comment>
+				<function depth="1" id="57">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>bytes</value>
+								<value>
+									<unmanaged>
+										<value>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</value>
+									</unmanaged>
+								</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>byteFrom</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>byteTo</value>
+								<value>Size</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>bytePos</value>
+								<value>Bool</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="58">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>bytes</value>
+									<value>byteFrom</value>
+								</add>
+							</value>
+						</assign>
+						<assign depth="2" id="59">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<subtract>
+									<value>byteTo</value>
+									<value>byteFrom</value>
+								</subtract>
+							</value>
+						</assign>
+						<assign depth="2" id="60">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_strlenUtf8Xchars</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>lengthInBytes</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
 					</code>
 					<meta/>
 				</function>

@@ -155,8 +155,8 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		print("Object: " + obj)
-		print("Member: " + member)
+		#print("Object: " + obj)
+		#print("Member: " + member)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:

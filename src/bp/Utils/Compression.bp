@@ -227,7 +227,7 @@
 				<collection>original</collection>
 				<code>
 					<call depth="2" id="20">
-						<function>bp_write</function>
+						<function>write</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>

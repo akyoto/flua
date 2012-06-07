@@ -587,8 +587,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif self.inCompilerFlags:
 				return self.handleCompilerFlag(line)
 			
-			if self.inExtern and not self.inClass:
-				return self.handleExternLine(line)
+			if self.inExtern and (not self.inClass):
+				if self.inConst:
+					return self.handleExternVariable(line)
+				else:
+					return self.handleExternLine(line)
 			
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
 				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
@@ -1016,6 +1019,28 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			name.appendChild(self.doc.createTextNode(funcName))
 			type.appendChild(self.doc.createTextNode(funcType))
+		
+		return node
+		
+	def handleExternVariable(self, line):
+		node = self.doc.createElement("extern-variable")
+		name = self.doc.createElement("name")
+		node.appendChild(name)
+		
+		pos = line.find(":")
+		
+		if pos == -1:
+			varName = line
+			varType = "Int"
+		else:
+			varName = line[:pos].rstrip()
+			varType = line[pos+1:].lstrip()
+		
+		type = self.doc.createElement("type")
+		node.appendChild(type)
+		
+		name.appendChild(self.doc.createTextNode(varName))
+		type.appendChild(self.doc.createTextNode(varType))
 		
 		return node
 		
