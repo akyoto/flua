@@ -1212,6 +1212,12 @@ class BaseOutputFile(ScopeController):
 					name = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
 				else:
 					name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
+				
+				if name.startswith(self.memberAccessSyntax):
+					member = name[len(self.memberAccessSyntax):]
+					#self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
+					name = "__" + member
+				
 				defaultValue = self.parseExpr(exprNode.childNodes[1].childNodes[0])
 				defaultValueType = self.getExprDataType(exprNode)
 				
