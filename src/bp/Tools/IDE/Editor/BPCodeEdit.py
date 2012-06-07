@@ -170,11 +170,11 @@ class BPCAutoCompleter(QtGui.QCompleter):
 					print("No class information available for '%s'" % (dataType))
 				return
 
-def getLeftMemberAccess(expr, lastOccurence):
+def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 	# Left operand
 	start = lastOccurence - 1
 	
-	while start >= 0 and (expr[start] == "." or expr[start] == '"' or isVarChar(expr[start]) or expr[start] == ')' or expr[start] == ']'):
+	while start >= 0 and ((allowPoint and expr[start] == ".") or expr[start] == '"' or isVarChar(expr[start]) or expr[start] == ')' or expr[start] == ']'):
 		if expr[start] == ')' or expr[start] == ']':
 			bracketCounter = 1
 		else:
@@ -468,11 +468,29 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			extra = (len(completion) - len(self.completer.completionPrefix()))
 			tc.movePosition(QtGui.QTextCursor.EndOfWord)
+			
+			# ) after completion
+			underCursor = self.textUnderCursor()
+			
+			if (underCursor) and (not isVarChar(underCursor[0])):
+				print(underCursor + "<=========")
+				
+				pointPos = underCursor.find(".")
+				if pointPos == -1:
+					nTimes = len(underCursor)
+				else:
+					nTimes = len(underCursor) - pointPos - 1
+				
+				tc.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, nTimes)
+			
 			tc.insertText(completion[len(completion) - extra:])
 		
 		# Class members
 		if self.completer.memberListActivated():
-			if completion in self.completer.model().methodList:
+			relPos = tc.positionInBlock()
+			textBlock = tc.block().text()
+			
+			if completion in self.completer.model().methodList and (relPos == len(textBlock) or textBlock[relPos] != "("):
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
 			self.completer.setModel(self.completer.bpcModel)
@@ -484,7 +502,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				functionHasParameters = False
 				
 				# At end of line?
-				if tc.block().text() == beforeCompletion + completion:
+				if tc.atBlockEnd(): #tc.block().text() == beforeCompletion + completion:
 					if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
 						tc.insertText(" ")
 					else:
@@ -581,19 +599,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
-			completionPrefix = self.textUnderCursor()
-			
 			# Get the text in the line
 			cursor = self.textCursor()
 			block = cursor.block()
 			text = block.text()
 			relPos = cursor.position() - block.position()
 			
-			# When the cursor is at a.| this return "."
-			#if relPos:
-			#	charBeforeCursor = text[relPos - 1]
-			#else:
-			#	charBeforeCursor = ""
+			#completionPrefix = self.textUnderCursor()
+			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
 			
 			# When the cursor is at a.member| this returns "."
 			b4pos = relPos - len(completionPrefix) - 1
