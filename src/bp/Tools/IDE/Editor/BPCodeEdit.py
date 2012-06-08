@@ -19,6 +19,9 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
 		self.memberIcon = QtGui.QIcon("images/icons/autocomplete/member.png")
 		
+	def memberExists(self, text):
+		return text in self.methodList or text in self.memberList
+		
 	def data(self, index, role):
 		if role == QtCore.Qt.DecorationRole:
 			text = super().data(index, QtCore.Qt.DisplayRole)
@@ -32,7 +35,7 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		return super().data(index, role)
 		
 # Auto Completion
-class BPCAutoCompleterModel(QtGui.QStringListModel):
+class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 	
 	def __init__(self, parent = None):
 		self.shortCuts = dict()
@@ -85,43 +88,45 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.updateStringList()
 		
 	def retrieveData(self, outComp):
+		self.startBenchmark("Updated AutoComplete list")
+		
 		self.functions = outComp.mainClass.functions
 		self.classes = outComp.mainClass.classes
 		self.externFuncs = outComp.mainClass.externFunctions
 		self.externVars = outComp.mainClass.externVariables
 		
-		modified = False
+		modified = 0
 		
 		if len(self.externFuncs) != self.externFuncsListLen:
 			self.externFuncsList = list(self.externFuncs)
 			self.externFuncsListLen = len(self.externFuncsList)
-			modified = True
+			modified += 1
 			
 		if len(self.externVars) != self.externVarsListLen:
 			self.externVarsList = list(self.externVars)
 			self.externVarsListLen = len(self.externVarsList)
-			modified = True
+			modified += 1
 			
 		if len(self.functions) != self.funcListLen:
 			self.functionList = list(self.functions)
 			self.funcListLen = len(self.functionList)
-			modified = True
+			modified += 1
 			
 		if len(self.classes) != self.classesListLen:
 			self.classesList = list(self.classes)
 			self.classesListLen = len(self.classesList)
-			modified = True
+			modified += 1
 			
 		if modified:
 			self.updateStringList()
+			self.endBenchmark()
 		
 	#def setShortCutDict(self, shortCuts):
 	#	self.shortCuts = shortCuts
 	#	self.shortCutList = list(shortCuts)
 	#	self.updateStringList()
-		
+	
 	def updateStringList(self):
-		print("Updating string list!")
 		#self.classesList.reverse()
 		self.setStringList(
 			self.classesList +
@@ -140,16 +145,17 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 			text = super().data(index, QtCore.Qt.DisplayRole)
 			
 			# TODO: Optimize for 'in' dict search instead of list search
-			if "Exception" in text:
-				return self.exceptionIcon
-			elif text in self.functions:
+			if text in self.functions:
 				return self.functionIcon
 			elif text in self.externFuncs:
 				return self.externFuncIcon
 			elif text in self.externVars:
 				return self.externVarIcon
 			elif text in self.classes:
-				return self.classIcon
+				if "Exception" in text:
+					return self.exceptionIcon
+				else:
+					return self.classIcon
 			elif text in self.shortCutList:
 				return self.shortcutFunctionIcon
 			elif text in self.keywordList:
@@ -168,10 +174,18 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 
 class BPCAutoCompleter(QtGui.QCompleter):
 	
+	# States
+	STATE_SEARCHING_SUGGESTION = 1
+	STATE_OPENED_AUTOMATICALLY = 2
+	STATE_OPENED_BY_USER = 3
+	
 	def __init__(self, parent = None):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 		self.popup().setObjectName("AutoCompleter")
+		
+	def memberExists(self, name):
+		return self.model().memberExists(name)
 		
 	def memberListActivated(self):
 		return self.model() != self.bpcModel
@@ -184,11 +198,11 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		if self.model() != self.bpcModel:
 			self.setModel(self.bpcModel)
 		
-	def activateMemberList(self):
+	def activateMemberList(self, cursorRelPos = -1):
 		# DON'T USE "or self.model() != self.bpcModel" because it will make types
 		# stay here and they won't change.
 		if not self.codeEdit.outFile:
-			return
+			return False
 		
 		bpIDE = self.codeEdit.bpIDE
 		tc = self.codeEdit.textCursor()
@@ -201,44 +215,49 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		leftOfCursor = text[:relPos]
 		
 		# Shortcut: String?
-		#if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
-		#	self.createClassMemberModel("UTF8String")
-		#	return
+		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
+			self.createClassMemberModel("UTF8String")
+			return True
 		
 		# Get what's in front of the dot
 		dotPos = leftOfCursor.rfind(".")
-		#print(leftOfCursor)
-		#print(dotPos)
 		
 		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		#print("Object: " + obj)
-		#print("Member: " + member)
-		#print(self.codeEdit.bpcFile)
-		#print(self.codeEdit.outFile)
+		print("\nActivating member list:")
+		print("Object: " + obj)
+		print("Member: " + member)
+		print(self.codeEdit.bpcFile)
+		print(self.codeEdit.outFile)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
 				bpcFile = self.codeEdit.bpcFile
 				prepdLine = bpcFile.prepareLine(obj)
 				node = bpcFile.parseExpr(prepdLine)
-			except CompilerException:
-				return
+			except CompilerException as e:
+				print(str(e))
+				return False
+			
+			print("Translated expression to XML:\n%s\nNow trying to determine its data type." % (node.toprettyxml()))
 			
 			try:
 				bpIDE.restoreScopesOfNode(bpIDE.currentNode)
-				dataType = self.codeEdit.outFile.getExprDataType(node)			
+				dataType = self.codeEdit.outFile.getExprDataType(node)
 			except CompilerException as e:
 				print(str(e))
-				return
+				return False
 			else:
 				try:
 					self.createClassMemberModel(dataType)
+					print("Created class member model for '%s'" % dataType)
+					return True
 				except:
 					print("No class information available for '%s'" % (dataType))
 					self.deactivateMemberList()
-				return
+		
+		return False
 
 def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 	# Left operand
@@ -282,7 +301,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)
 		self.lastCompletionTime = 0
-		self.autoCompleteOpenedAuto = True
+		self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 		self.reloading = False
 		self.outFile = None
 		self.backgroundCompilerOutstandingTasks = 0
@@ -550,7 +569,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					nTimes = len(underCursor)
 				else:
 					nTimes = len(underCursor) - pointPos - 1
-				
+				print(nTimes)
 				tc.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, nTimes)
 			
 			tc.insertText(completion[len(completion) - extra:])
@@ -592,6 +611,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 		self.lastCompletionTime = time.time()
 		self.setTextCursor(tc)
+		self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 	
 	def textUnderCursor(self):
 		tc = self.textCursor()
@@ -642,32 +662,47 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
 		
+		popup = self.completer.popup()
+		
 		# Auto Complete
-		if (not dontAutoComplete) and self.completer and self.bpIDE.codeEdit == self and (self.autoSuggestion or isShortcut or self.completer.popup().isVisible()):
-			if self.completer.popup().isVisible() and event.key() in (
+		if 		(
+					(not dontAutoComplete) and
+					self.completer and
+					self.bpIDE.codeEdit == self and
+					(self.autoSuggestion or isShortcut or popup.isVisible())
+				):
+			# Ignore certain keys for the editor when AC is open
+			eventKey = event.key()
+			if popup.isVisible() and eventKey in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
 					QtCore.Qt.Key_Escape,
 					QtCore.Qt.Key_Tab,
-					QtCore.Qt.Key_Backtab):
+					QtCore.Qt.Key_Backtab,
+					QtCore.Qt.Key_Escape):
+				
+				# Escape disables AC
+				if eventKey == QtCore.Qt.Key_Escape:
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				
 				event.ignore()
 				return
 			
-			if event.key() == QtCore.Qt.Key_Escape:
-				# TODO: Disable AC for this word
+			# Handle the key event normally
+			self.keyPressEvent(event, dontAutoComplete = True)
+			
+			if 	(
+					(
+						eventKey == QtCore.Qt.Key_Backspace and
+						self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION and
+						not self.completer.memberListActivated()
+					)
+					or
+					(
+					(not isShortcut) and (not event.text())
+					)
+				):
 				return
-			
-			# Handle the key event
-			if (not self.completer or not isShortcut):
-				self.keyPressEvent(event, True)
-			
-			## ctrl or shift key on it's own should not AC
-			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
-			if ctrlOrShift and not event.text():
-				return
-			
-			# Modifier pressed?
-			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
 			# Get the text in the line
 			cursor = self.textCursor()
@@ -675,9 +710,25 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			text = block.text()
 			relPos = cursor.position() - block.position()
 			
-			#completionPrefix = self.textUnderCursor()
+			# Get the completion prefix
 			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
 			completionPrefixLen = len(completionPrefix)
+			
+			# Did the user already type in the right member name?
+			if self.completer.memberListActivated() and self.completer.memberExists(completionPrefix):
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
+				self.completer.deactivateMemberList()
+				return
+			
+			# Set the prefix
+			if (
+					(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible() or event.text() == "." or self.completer.memberListActivated())
+					and
+					(completionPrefix != self.completer.completionPrefix())
+				):
+				self.completer.setCompletionPrefix(completionPrefix)
+				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			# When the cursor is at a.member| this returns "."
 			b4pos = relPos - completionPrefixLen - 1
@@ -686,78 +737,84 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				charBeforeWord = ""
 			
-			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
-			
-			if charBeforeWord == ".": #or (event.text() and event.text()[-1] == "."):
-				#if not self.completer.memberListActivated():
-				self.completer.activateMemberList()
-			elif ((not isShortcut) and (hasModifier or (not event.text()) or event.text()[-1] in eow)):
-				self.completer.deactivateMemberList()
-				self.completer.popup().hide()
-				return
+			# Member list
+			if charBeforeWord == ".":
+				if not self.completer.memberListActivated():
+					#print("OK:")
+					#print(completionPrefix)
+					#print(relPos)
+					#print(text)
+					#print(event.text())
+					if self.completer.activateMemberList(relPos):
+						self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_AUTOMATICALLY
+					else:
+						popup.hide()
+						self.completer.deactivateMemberList()
+						return
 			else:
 				self.completer.deactivateMemberList()
 			
-			#if  and self.completer.memberListActivated():
-			#	self.completer.setModel(self.completer.bpcModel)
-			#	self.completer.popup().hide()
-			#	return
-			
-			popup = self.completer.popup()
-			if (
-					(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible())
-					and
-					(completionPrefix != self.completer.completionPrefix())
-				):
-				self.completer.setCompletionPrefix(completionPrefix)
-				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
-			
-			if self.autoCompleteOpenedAuto:
-				autoCompleteAintWorthIt = (not self.completer.memberListActivated()) and (
-					(
-						completionPrefixLen < self.autoSuggestionMinChars
-					)
-					or
-					(
-						len(self.completer.currentCompletion()) - completionPrefixLen < self.autoSuggestionMinCompleteChars
-						and
-						not completionPrefix in self.completer.bpcModel.shortCuts
-					)
-					or
-					(
-						self.completer.completionCount() > self.autoSuggestionMaxItemCount
-					)
-				)
-				if (not isShortcut) and autoCompleteAintWorthIt:
-					self.completer.deactivateMemberList()
-					self.completer.popup().hide()
-					return
-			
-			# Insert directly if it's just 1 possibility
-			if isShortcut and self.enableACInstant:
-				if self.completer.completionCount() == 1:
+			# If we press Ctrl + Space we change the state
+			if isShortcut:
+				# Insert directly if it's just 1 possibility
+				if self.enableACInstant and self.completer.completionCount() == 1:
 					self.insertCompletion(self.completer.currentCompletion())
-					self.completer.popup().hide()
-					return
-			
-			if popup.isHidden():
-				if not event.text():
-					return
-				
-				if isShortcut:
-					self.autoCompleteOpenedAuto = False
-				elif self.autoSuggestion:
-					self.autoCompleteOpenedAuto = True
-			else:
-				if (not completionPrefix) and (not charBeforeWord == "."):
-					#self.autoCompleteOpenedAuto = True
-					self.completer.deactivateMemberList()
 					popup.hide()
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					return
+				else:
+					self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_BY_USER
+			
+			# Current state
+			if 	(
+					self.autoSuggestion
+					and
+					(
+						self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION or
+						self.autoCompleteState == BPCAutoCompleter.STATE_OPENED_AUTOMATICALLY
+					)
+				):
+				# Adding any text?
+				eventText = event.text()
+				
+				# Hide if necessary
+				if popup.isHidden() and (not eventText):
+					return
+				else:
+					if (not completionPrefix) and charBeforeWord != ".":
+						popup.hide()
+						return
+				
+				# Auto suggestion worth it?
+				if charBeforeWord != ".":
+					# (not self.completer.memberListActivated()) and 
+					autoCompleteAintWorthIt = (
+						(
+							completionPrefixLen < self.autoSuggestionMinChars
+						)
+						or
+						(
+							len(self.completer.currentCompletion()) - completionPrefixLen < self.autoSuggestionMinCompleteChars
+							and
+							not completionPrefix in self.completer.bpcModel.shortCuts
+						)
+						or
+						(
+							self.completer.completionCount() > self.autoSuggestionMaxItemCount
+						)
+					)
+					if autoCompleteAintWorthIt:
+						popup.hide()
+						return
+				
+				# Change state
+				self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_AUTOMATICALLY
+			elif self.autoCompleteState == BPCAutoCompleter.STATE_OPENED_BY_USER:
+				pass
 			
 			# pop it up!
 			cr = self.cursorRect()
-			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
+			cr.setWidth(popup.sizeHintForColumn(0) + popup.verticalScrollBar().sizeHint().width())
 			self.completer.complete(cr)
 			
 		# Unindent

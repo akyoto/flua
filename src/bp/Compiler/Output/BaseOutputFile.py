@@ -206,7 +206,13 @@ class BaseOutputFile(ScopeController):
 			return variableName
 		
 		# Parse value
-		value = self.parseExpr(node.childNodes[1].childNodes[0], False)
+		if len(node.childNodes) == 2:
+			if len(node.childNodes[1].childNodes) == 1:
+				value = self.parseExpr(node.childNodes[1].childNodes[0], False)
+			else:
+				raise CompilerException("Invalid assignment value for '%s'" % (variableName))
+		else:
+			raise CompilerException("Invalid assignment value for '%s'" % (variableName))
 		
 		# Parse value type
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])

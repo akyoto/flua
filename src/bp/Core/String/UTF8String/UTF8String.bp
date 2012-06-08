@@ -1103,6 +1103,7 @@
 						</return>
 					</code>
 				</function>
+				<comment>\SReturns\Strue\Sif\Sthe\Sstring\Scontains\S#chars,\Sotherwise\Sfalse</comment>
 				<function depth="1" id="88">
 					<parameters>
 						<parameter>
@@ -1137,6 +1138,7 @@
 							</not-equal>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="90">

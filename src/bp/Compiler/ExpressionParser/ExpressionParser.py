@@ -197,6 +197,13 @@ class ExpressionParser:
 														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandRight))
 												else:
 													break
+													
+									if op.text != "#" and operandRight == "()":
+										raise CompilerException("Invalid right operand in '%s'" % (expr))
+										
+									# TODO: Allow lists
+									if operandRight == "[]":
+										raise CompilerException("Invalid right operand in '%s'" % (expr))
 								
 								#if op.text != "(":
 								#	if (operandRight and operandRight[0].isdigit() and not operandRight.isdigit()):
