@@ -166,6 +166,8 @@ autoNewlineBlock = {
 	"shared",
 	"in",
 	"atomic",
+	"compiler-flags",
+	"const",
 	
 	"function",
 	"getter",
@@ -343,6 +345,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		tabs = "\t" * tabLevel
 		tabbedNewline = tabs + "\n"
 		prefix = ""
+		previousChildName = ""
 		previousLineType = 0
 		currentLineType = 1
 		
@@ -366,9 +369,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if previousLineType:
 				if (currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0)) and currentLineType != 3:
 					prefix = tabbedNewline
+			elif previousLineType == 0 and previousChildName == "comment" and currentLineType == 2 and childName in {"getter", "setter", "operator", "iterator-type"}:
+				prefix = "\n"
 			
 			# Set previous line type
 			previousLineType = currentLineType
+			previousChildName = childName
 			
 			# Convert node
 			if conv is not None:
@@ -397,7 +403,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					codeParts.append(prefix)
 					codeParts.append(tabs)
 					
-					if childCode and not childCode[-1] == "\n":
+					if childCode and (not childCode[-1] == "\n"):
 						codeParts.append(childCode.rstrip())
 						
 						if currentSyntax == SYNTAX_CPP:

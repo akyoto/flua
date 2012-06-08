@@ -559,7 +559,7 @@ class BPCFile(ScopeController, Benchmarkable):
 						self.currentNode = self.currentNode.parentNode.parentNode
 					else:
 						self.currentNode = self.currentNode.parentNode
-				elif self.currentNode.tagName in simpleBlocks:
+				elif self.currentNode.tagName in simpleBlocks and self.currentNode.tagName != "extern":
 					tagsAllowed = simpleBlocks[self.currentNode.tagName]
 					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
 						self.currentNode = self.currentNode.parentNode

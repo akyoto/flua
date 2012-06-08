@@ -1,0 +1,43 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>public.OpenGL</import>
+			<import>public.OpenGL.Constants</import>
+			<import>public.OpenGL.Definitions</import>
+			<import>public.OpenGL.Functions</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">GLEW.hpp</include>
+				<compiler-flags depth="1" id="3">
+					<compiler-flag depth="2" id="4">-lGLEW</compiler-flag>
+					<compiler-flag depth="2" id="5">-lXrandr</compiler-flag>
+				</compiler-flags>
+			</code>
+		</target>
+		<extern depth="0" id="6">
+			<const depth="1" id="7">
+				<extern-variable depth="2" id="8">
+					<name>GLEW_OK</name>
+					<type>Int</type>
+				</extern-variable>
+			</const>
+			<extern-function depth="1" id="9">
+				<name>glewInit</name>
+				<type>Int</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="10">
+				<name>glewGetErrorString</name>
+				<type>CString</type>
+				<meta/>
+			</extern-function>
+		</extern>
+	</code>
+</module>

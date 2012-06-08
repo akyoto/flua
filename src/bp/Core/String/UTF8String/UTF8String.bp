@@ -132,7 +132,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Susing\Sbyte\Sindices\Sfor\S#from\Sand\S#to</comment>
 				<function depth="1" id="13">
@@ -707,7 +706,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SLeft\S#length\Scharacters</comment>
 				<function depth="1" id="59">
@@ -800,7 +798,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="66">
 					<parameters>
@@ -1163,7 +1160,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SWrites\Sthe\Sstring\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
 				<function depth="1" id="92">
@@ -1505,7 +1501,6 @@
 					<parameters/>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SWrites\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
 		<function depth="0" id="137">

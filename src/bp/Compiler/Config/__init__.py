@@ -9,7 +9,8 @@ def getDLLDir():
 	if os.name == "nt":
 		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/windows/x86/DLLs"))
 	else:
-		return ""
+		# TODO: 64 bit
+		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/linux/x86/DLLs"))
 
 def getModuleDir():
 	return fixPath(os.path.abspath(configScriptPath + "../../../"))

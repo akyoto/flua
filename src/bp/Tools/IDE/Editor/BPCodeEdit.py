@@ -155,8 +155,10 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		#print("Object: " + obj)
-		#print("Member: " + member)
+		print("Object: " + obj)
+		print("Member: " + member)
+		print(self.codeEdit.bpcFile)
+		print(self.codeEdit.outFile)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -1017,9 +1019,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		return None
 		
 	def compilerFinished(self):
-		del self.bpcFile
-		self.bpcFile = self.updater.bpcFile
-		self.updater.bpcFile = None
+		if self.updater.bpcFile:
+			del self.bpcFile
+			self.bpcFile = self.updater.bpcFile
+			self.updater.bpcFile = None
 		
 		#self.disableUpdatesFlag = True
 		

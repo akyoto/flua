@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>public.OpenGL</import>
+			<import>public.GLEW</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -24,23 +24,40 @@
 				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="7">
+				<name>bp_initGLUT</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="8">
 				<name>glutWindowOpen</name>
 				<type>Bool</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="8">
+			<extern-function depth="1" id="9">
 				<name>glutSwapBuffers</name>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="9">
+			<extern-function depth="1" id="10">
 				<name>glutMainLoopEvent</name>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="10">
+			<extern-function depth="1" id="11">
 				<name>glutSetWindowTitle</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="12">
+				<name>glutShowWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="13">
+				<name>glutHideWindow</name>
+				<meta/>
 			</extern-function>
 		</extern>
+		<comment>\SInitialize\SGLUT</comment>
+		<call depth="0" id="14">
+			<function>bp_initGLUT</function>
+			<parameters/>
+		</call>
 	</code>
 </module>

@@ -506,6 +506,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
 		
 	def restoreScopesOfNode(self, selectedNode):
+		#self.codeEdit.outFile.debugNodeToScope()
 		if self.codeEdit.outFile and selectedNode:
 			#print("Before")
 			#self.codeEdit.outFile.debugScopes()

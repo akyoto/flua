@@ -13,9 +13,9 @@ def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	#fhErr = sys.stderr.write
 	
 	envi = None
-	if os.name == "nt":
-		if not getDLLDir() in os.environ["PATH"]:
-			os.environ["PATH"] = os.environ["PATH"] + ";" + getDLLDir()
+	#if os.name == "nt":
+	if not getDLLDir() in os.environ["PATH"]:
+		os.environ["PATH"] = getDLLDir() + ";" + os.environ["PATH"]
 	
 	proc = subprocess.Popen(
 		cmd,
