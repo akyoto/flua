@@ -383,9 +383,11 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		# Go through every line -> build the structure
 		for lineIndex in range(0, len(lines)):
-			line = lines[lineIndex].rstrip()
+			line = lines[lineIndex]
 			tabCount = countTabs(line)
-			line = line.lstrip()
+			#line = line.rstrip()
+			#line = line.lstrip()
+			line = line.strip()
 			
 			# Set last line for exception handling
 			self.lastLine = line
@@ -396,9 +398,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if not line and not self.currentLineComment:
 				# Function block error checking
-				if currentLine and isElemNode(currentLine) and currentLine.tagName == "function":
+				if currentLine and isElemNode(currentLine) and currentLine.tagName in functionNodeTagNames:
 					codeNode = getElementByTagName(currentLine, "code")
-					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1]) <= tabCount:
+					
+					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
 						raise CompilerException("If you need an empty function use '...' in the code block")
 				
 				# If we didn't add a comment, add an empty entry

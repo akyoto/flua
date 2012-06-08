@@ -6,11 +6,11 @@
 			<import>bp.Compiler.Test</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Hello\SWorld!</string>
+			<string id="bp_string_0">Hello\SWorld</string>
 		</strings>
 	</header>
 	<code>
-		<comment>\SPress\SF5\Sor\SF6\Sto\Ssee\Sif\Sbp\Sis\Sworking\Son\Syour\Scomputer!</comment>
+		<comment>\SPress\SF5\Sto\Ssee\Sif\Sbp\Sis\Srunning\Son\Syour\Scomputer!</comment>
 		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>

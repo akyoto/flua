@@ -1860,6 +1860,10 @@ class BaseOutputFile(ScopeController):
 		
 		op2 = self.prepareTypeName(op2)
 		
+		# Check whether the class really exists
+		if not op2 in nonPointerClasses:
+			self.getClassImplementationByTypeName(op2)
+		
 		return self.buildTemplateCall(op1, op2)
 		
 	def handleConst(self, node):

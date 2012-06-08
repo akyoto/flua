@@ -520,7 +520,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			if not savedNode: #or isTextNode(savedNode):
 				return
 			
-			if savedNode.hasAttribute("id"):
+			if savedNode.nodeType != Node.TEXT_NODE and savedNode.hasAttribute("id"):
 				savedNodeId = savedNode.getAttribute("id")
 			else:
 				savedNodeId = -1
