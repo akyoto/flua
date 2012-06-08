@@ -1861,7 +1861,7 @@ class BaseOutputFile(ScopeController):
 		op2 = self.prepareTypeName(op2)
 		
 		# Check whether the class really exists
-		if not op2 in nonPointerClasses:
+		if (not op2 in nonPointerClasses) and (not op2 == "MemPointer"):
 			self.getClassImplementationByTypeName(op2)
 		
 		return self.buildTemplateCall(op1, op2)

@@ -1,4 +1,14 @@
 // C++
+#ifdef WIN32
+
+#include <windows.h>
+#include <winsock2.h>
+#include <sys/types.h>
+#include <signal.h>
+#include <cerrno>
+
+#else
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -11,8 +21,6 @@
 #include <linux/sockios.h>
 #include <cerrno>
 
-#ifdef WIN32
-#include <winsock2.h>
 #endif
 
 // bp
