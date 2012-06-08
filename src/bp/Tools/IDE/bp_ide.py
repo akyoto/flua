@@ -210,6 +210,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
 			
+			# Update auto complete
+			if ce.completer:
+				ce.completer.bpcModel.retrieveData(self.outputCompilerThread.outputCompiler)
+			
 			# Adjust number of outstanding tasks
 			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
 			
@@ -608,25 +612,26 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		ppCodeEdit.msgView.updateViewPostProcessor()
 		
 		# Update auto completer data
-		self.classesDict = self.processor.getClassesDict()
-		self.funcsDict = self.processor.getFunctionsDict()
-		
-		if (
-				ppCodeEdit.completer
-				and
-				(
-					len(self.funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
-					or len(self.classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
-				)
-			):
-			funcsList = list(self.funcsDict)
-			classesList = list(self.classesDict)
+		if 0:
+			self.classesDict = self.processor.getClassesDict()
+			self.funcsDict = self.processor.getFunctionsDict()
 			
-			classesList.sort()
-			funcsList.sort()
-			
-			self.shortCuts = buildShortcutDict(funcsList)
-			ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
+			if (
+					ppCodeEdit.completer
+					and
+					(
+						len(self.funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
+						or len(self.classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
+					)
+				):
+				funcsList = list(self.funcsDict)
+				classesList = list(self.classesDict)
+				
+				classesList.sort()
+				funcsList.sort()
+				
+				self.shortCuts = buildShortcutDict(funcsList)
+				ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
 		
 		# After we parsed the functions, set the text and highlight the file
 		if ppCodeEdit.disableUpdatesFlag:

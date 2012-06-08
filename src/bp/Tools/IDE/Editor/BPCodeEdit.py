@@ -38,16 +38,31 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		self.shortCuts = dict()
 		self.shortCutList = list(self.shortCuts)
 		
+		self.functions = {}
 		self.functionList = []
+		
+		self.classes = {}
 		self.classesList = []
+		
 		self.keywordList = []
 		
 		self.funcListLen = 0
 		self.classesListLen = 0
 		
+		self.externFuncs = {}
+		self.externVars = {}
+		
+		self.externFuncsList = list(self.externFuncs)
+		self.externVarsList = list(self.externVars)
+		
+		self.externFuncsListLen = len(self.externFuncsList)
+		self.externVarsListLen = len(self.externVarsList)
+		
 		super().__init__([], parent)
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
+		self.externFuncIcon = QtGui.QIcon("images/icons/autocomplete/extern-function.png")
+		self.externVarIcon = QtGui.QIcon("images/icons/autocomplete/extern-variable.png")
 		self.classIcon = QtGui.QIcon("images/icons/autocomplete/class.png")
 		self.exceptionIcon = QtGui.QIcon("images/icons/autocomplete/exception.png")
 		self.shortcutFunctionIcon = QtGui.QIcon("images/icons/autocomplete/shortcut-function.png")
@@ -69,14 +84,53 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 		
 		self.updateStringList()
 		
+	def retrieveData(self, outComp):
+		self.functions = outComp.mainClass.functions
+		self.classes = outComp.mainClass.classes
+		self.externFuncs = outComp.mainClass.externFunctions
+		self.externVars = outComp.mainClass.externVariables
+		
+		modified = False
+		
+		if len(self.externFuncs) != self.externFuncsListLen:
+			self.externFuncsList = list(self.externFuncs)
+			self.externFuncsListLen = len(self.externFuncsList)
+			modified = True
+			
+		if len(self.externVars) != self.externVarsListLen:
+			self.externVarsList = list(self.externVars)
+			self.externVarsListLen = len(self.externVarsList)
+			modified = True
+			
+		if len(self.functions) != self.funcListLen:
+			self.functionList = list(self.functions)
+			self.funcListLen = len(self.functionList)
+			modified = True
+			
+		if len(self.classes) != self.classesListLen:
+			self.classesList = list(self.classes)
+			self.classesListLen = len(self.classesList)
+			modified = True
+			
+		if modified:
+			self.updateStringList()
+		
 	#def setShortCutDict(self, shortCuts):
 	#	self.shortCuts = shortCuts
 	#	self.shortCutList = list(shortCuts)
 	#	self.updateStringList()
 		
 	def updateStringList(self):
+		print("Updating string list!")
 		#self.classesList.reverse()
-		self.setStringList(self.classesList + self.functionList + self.keywordList + self.shortCutList)
+		self.setStringList(
+			self.classesList +
+			self.functionList +
+			self.keywordList +
+			self.externFuncsList +
+			self.externVarsList +
+			self.shortCutList
+		)
 		
 	def setMemberList(self, memberList):
 		self.memberList = memberList
@@ -88,9 +142,13 @@ class BPCAutoCompleterModel(QtGui.QStringListModel):
 			# TODO: Optimize for 'in' dict search instead of list search
 			if "Exception" in text:
 				return self.exceptionIcon
-			if text in self.functionList:
+			elif text in self.functions:
 				return self.functionIcon
-			elif text in self.classesList:
+			elif text in self.externFuncs:
+				return self.externFuncIcon
+			elif text in self.externVars:
+				return self.externVarIcon
+			elif text in self.classes:
 				return self.classIcon
 			elif text in self.shortCutList:
 				return self.shortcutFunctionIcon
@@ -155,10 +213,10 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		print("Object: " + obj)
-		print("Member: " + member)
-		print(self.codeEdit.bpcFile)
-		print(self.codeEdit.outFile)
+		#print("Object: " + obj)
+		#print("Member: " + member)
+		#print(self.codeEdit.bpcFile)
+		#print(self.codeEdit.outFile)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -599,16 +657,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				# TODO: Disable AC for this word
 				return
 			
-			# Has ctrl + space been pressed?
+			# Handle the key event
 			if (not self.completer or not isShortcut):
 				self.keyPressEvent(event, True)
 			
-			## ctrl or shift key on it's own??
+			## ctrl or shift key on it's own should not AC
 			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
 			if ctrlOrShift and not event.text():
-				# ctrl or shift key on it's own
 				return
 			
+			# Modifier pressed?
 			hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
 			# Get the text in the line
@@ -619,9 +677,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			#completionPrefix = self.textUnderCursor()
 			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
+			completionPrefixLen = len(completionPrefix)
 			
 			# When the cursor is at a.member| this returns "."
-			b4pos = relPos - len(completionPrefix) - 1
+			b4pos = relPos - completionPrefixLen - 1
 			if b4pos and text and abs(b4pos) < len(text):
 				charBeforeWord = text[b4pos]
 			else:
@@ -630,6 +689,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
 			
 			if charBeforeWord == ".": #or (event.text() and event.text()[-1] == "."):
+				#if not self.completer.memberListActivated():
 				self.completer.activateMemberList()
 			elif ((not isShortcut) and (hasModifier or (not event.text()) or event.text()[-1] in eow)):
 				self.completer.deactivateMemberList()
@@ -644,18 +704,22 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#	return
 			
 			popup = self.completer.popup()
-			if (completionPrefix != self.completer.completionPrefix()):
+			if (
+					(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible())
+					and
+					(completionPrefix != self.completer.completionPrefix())
+				):
 				self.completer.setCompletionPrefix(completionPrefix)
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			if self.autoCompleteOpenedAuto:
 				autoCompleteAintWorthIt = (not self.completer.memberListActivated()) and (
 					(
-						len(completionPrefix) < self.autoSuggestionMinChars
+						completionPrefixLen < self.autoSuggestionMinChars
 					)
 					or
 					(
-						len(self.completer.currentCompletion()) - len(completionPrefix) < self.autoSuggestionMinCompleteChars
+						len(self.completer.currentCompletion()) - completionPrefixLen < self.autoSuggestionMinCompleteChars
 						and
 						not completionPrefix in self.completer.bpcModel.shortCuts
 					)
@@ -676,9 +740,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					self.completer.popup().hide()
 					return
 			
-			cr = self.cursorRect()
-			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
-			
 			if popup.isHidden():
 				if not event.text():
 					return
@@ -688,16 +749,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				elif self.autoSuggestion:
 					self.autoCompleteOpenedAuto = True
 			else:
-				if not completionPrefix and not charBeforeWord == ".":
-					self.autoCompleteOpenedAuto = True
+				if (not completionPrefix) and (not charBeforeWord == "."):
+					#self.autoCompleteOpenedAuto = True
 					self.completer.deactivateMemberList()
 					popup.hide()
 					return
 			
-			self.completer.complete(cr) ## pop it up!
+			# pop it up!
+			cr = self.cursorRect()
+			cr.setWidth(self.completer.popup().sizeHintForColumn(0) + self.completer.popup().verticalScrollBar().sizeHint().width())
+			self.completer.complete(cr)
 			
-			#if isShortcut:
-			#	self.completer.popup().show()
 		# Unindent
 		elif event.key() == QtCore.Qt.Key_Backtab: # Seriously f*** *** whoever invented Backtab instead of shift modifier + tab
 			self.unIndentSelection()

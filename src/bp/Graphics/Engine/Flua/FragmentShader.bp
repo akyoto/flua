@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>Engine.Flua</import>
 		</dependencies>
 		<strings/>
 	</header>

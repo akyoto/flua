@@ -5,6 +5,8 @@
 			<import>bp.Core</import>
 			<import>public.GLEW</import>
 			<import>public.FreeGLUT</import>
+			<import>VertexShader</import>
+			<import>FragmentShader</import>
 		</dependencies>
 		<strings/>
 	</header>
