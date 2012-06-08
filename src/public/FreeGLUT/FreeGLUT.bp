@@ -12,50 +12,55 @@
 			<name>C++</name>
 			<code>
 				<include depth="1" id="2">FreeGLUT.hpp</include>
-				<compiler-flags depth="1" id="3">
-					<compiler-flag depth="2" id="4">-lglut</compiler-flag>
-				</compiler-flags>
+				<target depth="1" id="3">
+					<name>Linux</name>
+					<code>
+						<compiler-flags depth="2" id="4">
+							<compiler-flag depth="3" id="5">-lglut</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+				<target depth="1" id="6">
+					<name>Windows</name>
+					<code>
+						<compiler-flags depth="2" id="7">
+							<compiler-flag depth="3" id="8">-lfreeglut</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
 			</code>
 		</target>
-		<extern depth="0" id="5">
-			<extern-function depth="1" id="6">
+		<extern depth="0" id="9">
+			<extern-function depth="1" id="10">
 				<name>bp_createGLUTWindow</name>
 				<type>Int</type>
-				<meta/>
-			</extern-function>
-			<extern-function depth="1" id="7">
-				<name>bp_initGLUT</name>
-				<meta/>
-			</extern-function>
-			<extern-function depth="1" id="8">
-				<name>glutWindowOpen</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="9">
-				<name>glutSwapBuffers</name>
-				<meta/>
-			</extern-function>
-			<extern-function depth="1" id="10">
-				<name>glutMainLoopEvent</name>
-				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="11">
-				<name>glutSetWindowTitle</name>
-				<meta/>
+				<name>bp_initGLUT</name>
 			</extern-function>
 			<extern-function depth="1" id="12">
-				<name>glutShowWindow</name>
+				<name>glutWindowOpen</name>
+				<type>Bool</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="13">
+				<name>glutSwapBuffers</name>
+			</extern-function>
+			<extern-function depth="1" id="14">
+				<name>glutMainLoopEvent</name>
+			</extern-function>
+			<extern-function depth="1" id="15">
+				<name>glutSetWindowTitle</name>
+			</extern-function>
+			<extern-function depth="1" id="16">
+				<name>glutShowWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="17">
 				<name>glutHideWindow</name>
-				<meta/>
 			</extern-function>
 		</extern>
 		<comment>\SInitialize\SGLUT</comment>
-		<call depth="0" id="14">
+		<call depth="0" id="18">
 			<function>bp_initGLUT</function>
 			<parameters/>
 		</call>

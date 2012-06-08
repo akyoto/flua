@@ -17,8 +17,6 @@ src/playground/*
 include/cpp/musl/*
 include/cpp/stm/*
 include/cpp/boost/*
-libs/cpp/*
-
 libs/cpp/linux/x86/musl-*
 src/eurbach/
 .notepad++
