@@ -131,25 +131,29 @@
 			</catch>
 		</try-block>
 		<comment>\SMain\Sloop</comment>
-		<foreach depth="0" id="13">
-			<iterator>frame</iterator>
-			<collection>
+		<while depth="0" id="13">
+			<condition>
 				<access>
 					<value>win</value>
-					<value>frames</value>
+					<value>open</value>
 				</access>
-			</collection>
+			</condition>
 			<code>
-				<call depth="1" id="14">
-					<function>drawRect</function>
-					<parameters>
-						<parameter>0</parameter>
-						<parameter>0</parameter>
-						<parameter>640</parameter>
-						<parameter>480</parameter>
-					</parameters>
-				</call>
+				<in depth="1" id="14">
+					<expression>win</expression>
+					<code>
+						<call depth="2" id="15">
+							<function>drawRect</function>
+							<parameters>
+								<parameter>0</parameter>
+								<parameter>0</parameter>
+								<parameter>640</parameter>
+								<parameter>480</parameter>
+							</parameters>
+						</call>
+					</code>
+				</in>
 			</code>
-		</foreach>
+		</while>
 	</code>
 </module>

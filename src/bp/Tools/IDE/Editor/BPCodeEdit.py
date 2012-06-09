@@ -15,16 +15,15 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		self.methods = classImpl.classObj.functions
 		self.members = classImpl.classObj.properties
 		
-		self.methodList, self.memberList = classImpl.classObj.getPublicFunctionList()
-		#self.methodList = list(self.methods)
-		#self.memberList = list(self.members)
+		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList()
 		
-		resultingList = self.memberList + self.methodList
+		resultingList = self.memberList + self.methodList + self.iteratorList
 		resultingList.sort()
 		self.setStringList(resultingList)
 		
 		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
 		self.memberIcon = QtGui.QIcon("images/icons/autocomplete/member.png")
+		self.iteratorIcon = QtGui.QIcon("images/icons/autocomplete/iterator.png")
 		
 	def memberExists(self, text):
 		return text in self.methodList or text in self.memberList
@@ -38,6 +37,8 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 				return self.methodIcon
 			elif text in self.members:
 				return self.memberIcon
+			elif text in self.iteratorList:
+				return self.iteratorIcon
 		
 		return super().data(index, role)
 		
@@ -771,6 +772,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				self.completer.deactivateMemberList()
 				return
 			
+			# When the cursor is at a.member| this returns "."
+			b4pos = relPos - completionPrefixLen - 1
+			if b4pos and text and abs(b4pos) < len(text):
+				charBeforeWord = text[b4pos]
+				
+				# Ignore "..." no-op
+				if b4pos >= 2 and text[b4pos - 1] == "." and text[b4pos - 2] == ".":
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					popup.hide()
+					self.completer.deactivateMemberList()
+					print("IGNOREd")
+					return
+			else:
+				charBeforeWord = ""
+			
 			# Set the prefix later
 			gonnaSetPrefix = False
 			if (
@@ -784,19 +800,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				):
 				
 				# Backspace to 0 length would show a HUGE list unexpectedly
-				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace:
+				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace and charBeforeWord != ".":
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					popup.hide()
 					return
 				
 				gonnaSetPrefix = True
-			
-			# When the cursor is at a.member| this returns "."
-			b4pos = relPos - completionPrefixLen - 1
-			if b4pos and text and abs(b4pos) < len(text):
-				charBeforeWord = text[b4pos]
-			else:
-				charBeforeWord = ""
 			
 			# Member list
 			if charBeforeWord == ".":

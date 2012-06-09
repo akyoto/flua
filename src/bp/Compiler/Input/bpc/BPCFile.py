@@ -188,6 +188,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inMaybe = 0
 		self.inTest = 0
 		self.inConst = 0
+		self.inIfBlock = 0
+		self.inTryBlock = 0
 		self.inCompilerFlags = 0
 		
 		self.parser = self.compiler.parser
@@ -398,11 +400,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if not line and not self.currentLineComment:
 				# Function block error checking
-				if currentLine and isElemNode(currentLine) and currentLine.tagName in functionNodeTagNames:
+				if currentLine and isElemNode(currentLine) and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
 					codeNode = getElementByTagName(currentLine, "code")
 					
-					if len(codeNode.childNodes) == 0 and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
-						raise CompilerException("If you need an empty function use '...' in the code block")
+					if (not codeNode) or len(codeNode.childNodes) == 0: #and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
+						raise CompilerException("If you need an empty block use '...' inside the block")
 				
 				# If we didn't add a comment, add an empty entry
 				if len(self.nodes) <= self.lastLineCount:
@@ -555,17 +557,25 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inCase -= 1
 			
 			# XML elements with "code" tags need special treatment
-			if self.currentNode.parentNode != self.doc:
-				if self.currentNode.parentNode.tagName in blocks:
-					tagsAllowed = blocks[self.currentNode.parentNode.tagName]
+			parent = self.currentNode.parentNode
+			
+			if parent != self.doc:
+				if parent.tagName in blocks:
+					tagsAllowed = blocks[parent.tagName]
 					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
-						self.currentNode = self.currentNode.parentNode.parentNode
+						# Decrement if block stack counter
+						if parent.tagName == "if-block":
+							self.inIfBlock -= 1
+						elif parent.tagName == "try-block":
+							self.inTryBlock += 1
+						
+						self.currentNode = parent.parentNode
 					else:
-						self.currentNode = self.currentNode.parentNode
+						self.currentNode = parent
 				elif self.currentNode.tagName in simpleBlocks and self.currentNode.tagName != "extern":
 					tagsAllowed = simpleBlocks[self.currentNode.tagName]
 					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
-						self.currentNode = self.currentNode.parentNode
+						self.currentNode = parent
 			
 			atTab -= 1
 		
@@ -768,6 +778,9 @@ class BPCFile(ScopeController, Benchmarkable):
 	def handleFor(self, line):
 		if not self.nextLineIndented:
 			self.raiseBlockException("for", line)
+		
+		if len(line) < 5:
+			raise CompilerException("You need to specify an iterator in '%s'" % (line))
 		
 		if line[3] == '(':
 			line = "for " + line[4:]
@@ -1229,11 +1242,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node.appendChild(tryNode)
 		self.nextNode = code
+		self.inTryBlock += 1
 		return node
 	
 	def handleCatch(self, line):
 		if not self.nextLineIndented:
 			self.raiseBlockException("catch", line)
+		
+		if self.inTryBlock <= 0:
+			raise CompilerException("catch needs to be used directly after a try block")
 		
 		node = self.doc.createElement("catch")
 		exceptionType = self.doc.createElement("variable")
@@ -1281,6 +1298,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		node.appendChild(ifNode)
 		
 		self.nextNode = code
+		self.inIfBlock += 1
 		return node
 	
 	def handleElif(self, line):
@@ -1302,6 +1320,9 @@ class BPCFile(ScopeController, Benchmarkable):
 	def handleElse(self, line):
 		if not self.nextLineIndented:
 			self.raiseBlockException("else", line)
+		
+		if self.inIfBlock <= 0:
+			raise CompilerException("else can't be used without if or elif")
 		
 		node = self.doc.createElement("else")
 		code = self.doc.createElement("code")

@@ -233,7 +233,7 @@
 												<value>fd</value>
 											</access>
 										</value>
-										<value>0</value>
+										<value>null</value>
 									</assign>
 									<return depth="3" id="24">success</return>
 								</code>
@@ -241,6 +241,7 @@
 						</if-block>
 						<return depth="2" id="25">false</return>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="26">
 					<getter depth="2" id="27">

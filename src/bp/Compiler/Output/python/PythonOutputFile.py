@@ -210,6 +210,9 @@ class PythonOutputFile(BaseOutputFile):
 		# DON'T USE 'pass'
 		return "bp_noop()"
 	
+	def buildNull(self):
+		return "None"
+	
 	def transformBinaryOperator(self, operator):
 		replacements = {
 			" && " : " and ",

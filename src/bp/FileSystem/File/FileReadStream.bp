@@ -242,7 +242,7 @@
 												<value>fd</value>
 											</access>
 										</value>
-										<value>0</value>
+										<value>null</value>
 									</assign>
 									<return depth="3" id="25">success</return>
 								</code>

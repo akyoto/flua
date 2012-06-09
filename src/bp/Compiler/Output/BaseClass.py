@@ -60,19 +60,24 @@ class BaseClass(BaseNamespace):
 			self.forceImplementation = False
 			self.isDefaultVersion = False
 		
-	def getPublicFunctionList(self):
+	def getAutoCompleteList(self):
 		publicMembers = list()
 		publicFunctions = list()
+		publicIterators = list()
+		
 		for funcList in self.functions.values():
 			func = funcList[0]
 			
 			if func.isGetter(): #len(func) >= 4 and func.startswith("get") and func[3].isupper(): # Members
 				publicMembers.append(func.name)
-			elif func.isCast or func.isOperator() or func.isSetter() or func.isIterator:#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
+			elif func.isIterator:
+				publicIterators.append(func.name)
+			elif func.isCast or func.isOperator() or func.isSetter():#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators
 				continue
 			elif not func.name in {"init", "finalize"}:
 				publicFunctions.append(func.name)
-		return publicFunctions, publicMembers
+		
+		return publicFunctions, publicMembers, publicIterators
 		
 	def getFinalName(self):
 		if self.name.startswith("Mutable"):

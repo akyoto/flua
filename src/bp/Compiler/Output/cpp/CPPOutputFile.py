@@ -306,6 +306,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildNOOP(self):
 		return ""
 		
+	def buildNull(self):
+		return "NULL"
+		
 	def buildMemberTypeDeclInConstructor(self, varName):
 		return varName
 	

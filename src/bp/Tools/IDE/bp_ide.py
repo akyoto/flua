@@ -534,9 +534,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			savedNode = selectedNode
 			
-			if not savedNode: #or isTextNode(savedNode):
-				return
-			
 			if savedNode.nodeType != Node.TEXT_NODE and savedNode.hasAttribute("id"):
 				savedNodeId = savedNode.getAttribute("id")
 			else:
@@ -553,16 +550,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			if savedNode and not savedNode.tagName == "module":
 				try:
-					#if selectedNode.parentNode.tagName == "code":
-					#	self.codeEdit.outFile.restoreScopesForNode(selectedNode.parentNode)
-					#else:
 					self.codeEdit.outFile.restoreScopesForNodeId(savedNodeId)
-					self.previousScopes = self.codeEdit.outFile.scopes
 					#print("YAY! ID: %s" % savedNodeId)
 					return
-					#self.codeEdit.outFile.debugScopes()
 				except:
-					pass#print("Could not find scope information for node %s" % tagName(savedNode))
+					print("Could not find scope information for node %s" % tagName(savedNode))
+				else:
+					self.previousScopes = self.codeEdit.outFile.scopes
 			else:
 				pass#print("Scopes:")
 				#self.codeEdit.outFile.debugNodeToScope()
@@ -570,7 +564,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Okay we have a problem, but maybe we have old scope data?
 		if self.previousScopes and self.codeEdit.outFile:
-			#print("USING OLD SCOPE DATA")
+			print("USING OLD SCOPE DATA")
 			self.codeEdit.outFile.restoreScopes(self.previousScopes)
 		
 	def getModulePath(self, importedModule):

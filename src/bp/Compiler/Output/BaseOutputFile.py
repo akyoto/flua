@@ -709,8 +709,8 @@ class BaseOutputFile(ScopeController):
 				return "Bool"
 			elif node.nodeValue == "my":
 				return self.currentClassImpl.getName()
-			#elif node.nodeValue == "null":
-			#	return "~MemPointer<void>"
+			elif node.nodeValue == "null":
+				return "~MemPointer<void>"
 			else:
 				nodeName = node.nodeValue
 				if nodeName in replacedNodeValues:
@@ -1346,6 +1346,8 @@ class BaseOutputFile(ScopeController):
 					return self.buildTrue()
 				elif node.nodeValue == "false":
 					return self.buildFalse()
+				elif node.nodeValue == "null":
+					return self.buildNull()
 				elif node.nodeValue in replacedNodeValues:
 					nodeName = node.nodeValue
 					nodeName = replacedNodeValues[node.nodeValue]

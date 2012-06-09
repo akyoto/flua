@@ -44,21 +44,21 @@
 				<value>GLclampd</value>
 				<value>Float64</value>
 			</assign>
-			<comment>\STODO:\S...</comment>
 			<assign depth="1" id="11">
+				<value>GLuint</value>
+				<value>UInt</value>
+			</assign>
+			<comment>\STODO:\S...</comment>
+			<assign depth="1" id="12">
 				<value>GLshort</value>
 				<value>Int</value>
 			</assign>
-			<assign depth="1" id="12">
+			<assign depth="1" id="13">
 				<value>GLubyte</value>
 				<value>UInt</value>
 			</assign>
-			<assign depth="1" id="13">
-				<value>GLushort</value>
-				<value>UInt</value>
-			</assign>
 			<assign depth="1" id="14">
-				<value>GLuint</value>
+				<value>GLushort</value>
 				<value>UInt</value>
 			</assign>
 			<assign depth="1" id="15">
