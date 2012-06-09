@@ -718,6 +718,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Handle the key event normally
 			if not isShortcut:
 				self.keyPressEvent(event, dontAutoComplete = True)
+				
+				if eventKey == QtCore.Qt.Key_Enter:
+					return
 			
 			if 	(
 					(
