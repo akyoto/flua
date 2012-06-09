@@ -6,7 +6,7 @@
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">w</string>
+			<string id="bp_string_0">wb</string>
 			<string id="bp_string_1">\n</string>
 		</strings>
 	</header>

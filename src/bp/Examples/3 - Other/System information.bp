@@ -12,7 +12,7 @@
 	<code>
 		<comment>\SC++\Sbuilds\Scan\Saccess\Scertain\Sinformation\Sabout\Sthe\Ssystem.</comment>
 		<comment>\SThe\SJavaScript\Simplementation\Ssimply\Sreturns\Sa\Sdefault\Snumber\Sfor\Sthese\Sfunctions\S(e.g.\S0\Sor\S1)</comment>
-		<call depth="0" id="0">
+		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
 				<parameter>

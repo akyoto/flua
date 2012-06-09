@@ -782,7 +782,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					popup.hide()
 					self.completer.deactivateMemberList()
-					print("IGNOREd")
 					return
 			else:
 				charBeforeWord = ""

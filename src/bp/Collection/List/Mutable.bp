@@ -284,6 +284,9 @@
 					</iterator-type>
 				</iterators>
 			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
 		</class>
 	</code>
 </module>

@@ -13,7 +13,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>
 				<declare-type>
 					<value>a</value>
@@ -22,7 +22,7 @@
 			</value>
 			<value>20</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>
 				<declare-type>
 					<value>b</value>
@@ -31,7 +31,7 @@
 			</value>
 			<value>20</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>factOfA</value>
 			<value>
 				<call>
@@ -42,7 +42,7 @@
 				</call>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="4">
 			<value>factOfB</value>
 			<value>
 				<call>
@@ -54,7 +54,7 @@
 			</value>
 		</assign>
 		<comment>\SWrong\Svalue\Sbecause\Sa\Sstandard\SInt\Scan\Snot\Sstore\Sthis\Svalue</comment>
-		<call depth="0">
+		<call depth="0" id="5">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -76,7 +76,7 @@
 			</parameters>
 		</call>
 		<comment>\SCorrect\Svalue</comment>
-		<call depth="0">
+		<call depth="0" id="6">
 			<function>print</function>
 			<parameters>
 				<parameter>

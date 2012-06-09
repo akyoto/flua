@@ -1684,6 +1684,8 @@ class BaseOutputFile(ScopeController):
 				if not self.compiler.background:
 					print(className + " contains the following functions:")
 					print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
+					
+				# TODO: Check for an iterator used in the wrong place and show another exception
 				raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
 		
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)

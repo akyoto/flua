@@ -6,7 +6,7 @@
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">r</string>
+			<string id="bp_string_0">rb</string>
 		</strings>
 	</header>
 	<code>
@@ -76,6 +76,7 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="6">
 					<name>finalize</name>

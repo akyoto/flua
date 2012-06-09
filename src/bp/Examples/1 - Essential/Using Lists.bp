@@ -10,7 +10,7 @@
 	<code>
 		<comment>\SThe\Scurrent\Simplementation\Sis\Sa\Ssingly\Slinked\Slist\Sby\Sdefault.</comment>
 		<comment>\SFirst\Syou\Sneed\Sto\Screate\Sa\SList\Sobject\Sfor\Sthe\Sdata\Stype\Syou\Swant\Sto\Sstore:</comment>
-		<assign depth="0" id="0">
+		<assign depth="0" id="1">
 			<value>a</value>
 			<value>
 				<new>
@@ -25,7 +25,7 @@
 			</value>
 		</assign>
 		<comment>\SAfterwards\Sadd\Ssome\Svalues</comment>
-		<call depth="0" id="1">
+		<call depth="0" id="2">
 			<function>
 				<access>
 					<value>a</value>
@@ -36,7 +36,7 @@
 				<parameter>1</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="2">
+		<call depth="0" id="3">
 			<function>
 				<access>
 					<value>a</value>
@@ -47,7 +47,7 @@
 				<parameter>2</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="3">
+		<call depth="0" id="4">
 			<function>
 				<access>
 					<value>a</value>
@@ -59,11 +59,11 @@
 			</parameters>
 		</call>
 		<comment>\SNow\Swe\Scan\Siterate\Sover\Sall\Snode\Svalues</comment>
-		<foreach depth="0" id="4">
+		<foreach depth="0" id="5">
 			<iterator>x</iterator>
 			<collection>a</collection>
 			<code>
-				<call depth="1" id="5">
+				<call depth="1" id="6">
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>

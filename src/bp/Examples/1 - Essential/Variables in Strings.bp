@@ -10,11 +10,11 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="0">
+		<assign depth="0" id="1">
 			<value>age</value>
 			<value>20</value>
 		</assign>
-		<call depth="0" id="1">
+		<call depth="0" id="2">
 			<function>print</function>
 			<parameters>
 				<parameter>

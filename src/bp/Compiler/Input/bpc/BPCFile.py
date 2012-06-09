@@ -564,7 +564,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					tagsAllowed = blocks[parent.tagName]
 					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
 						# Decrement if block stack counter
-						if parent.tagName == "if-block":
+						if parent.tagName == "if-block" and self.currentNode.tagName == "else":
 							self.inIfBlock -= 1
 						elif parent.tagName == "try-block":
 							self.inTryBlock += 1
@@ -1249,8 +1249,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.nextLineIndented:
 			self.raiseBlockException("catch", line)
 		
-		if self.inTryBlock <= 0:
-			raise CompilerException("catch needs to be used directly after a try block")
+		#if self.inTryBlock <= 0:
+		#	raise CompilerException("catch needs to be used directly after a try block")
 		
 		node = self.doc.createElement("catch")
 		exceptionType = self.doc.createElement("variable")
@@ -1305,6 +1305,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.nextLineIndented:
 			self.raiseBlockException("elif", line)
 		
+		#if self.inIfBlock <= 0:
+		#	raise CompilerException("elif can't be used without an if block")
+		
 		node = self.doc.createElement("else-if")
 		condition = self.doc.createElement("condition")
 		code = self.doc.createElement("code")
@@ -1321,8 +1324,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.nextLineIndented:
 			self.raiseBlockException("else", line)
 		
-		if self.inIfBlock <= 0:
-			raise CompilerException("else can't be used without if or elif")
+		#if self.inIfBlock <= 0:
+		#	raise CompilerException("else can't be used without if or elif")
 		
 		node = self.doc.createElement("else")
 		code = self.doc.createElement("code")
