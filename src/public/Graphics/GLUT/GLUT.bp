@@ -1,0 +1,35 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Constants</import>
+			<import>Functions</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">GLUT.hpp</include>
+				<target depth="1" id="3">
+					<name>Linux</name>
+					<code>
+						<compiler-flags depth="2" id="4">
+							<compiler-flag depth="3" id="5">-lglut</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+				<target depth="1" id="6">
+					<name>Windows</name>
+					<code>
+						<compiler-flags depth="2" id="7">
+							<compiler-flag depth="3" id="8">-lfreeglut</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+			</code>
+		</target>
+	</code>
+</module>

@@ -1,0 +1,611 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<const depth="1" id="2">
+				<extern-variable depth="2" id="3">
+					<name>GLU_AUTO_LOAD_MATRIX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="4">
+					<name>GLU_BEGIN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="5">
+					<name>GLU_CCW</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="6">
+					<name>GLU_CULLING</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="7">
+					<name>GLU_CW</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="8">
+					<name>GLU_DISPLAY_MODE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="9">
+					<name>GLU_DOMAIN_DISTANCE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="10">
+					<name>GLU_EDGE_FLAG</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="11">
+					<name>GLU_END</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="12">
+					<name>GLU_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="13">
+					<name>GLU_EXTENSIONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="14">
+					<name>GLU_EXTERIOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="15">
+					<name>GLU_EXT_nurbs_tessellator</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="16">
+					<name>GLU_EXT_object_space_tess</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="17">
+					<name>GLU_FALSE GLU_TRUE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="18">
+					<name>GLU_FILL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="19">
+					<name>GLU_INSIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="20">
+					<name>GLU_INTERIOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="21">
+					<name>GLU_INVALID_ENUM</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="22">
+					<name>GLU_INVALID_OPERATION</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="23">
+					<name>GLU_INVALID_VALUE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="24">
+					<name>GLU_LINE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="25">
+					<name>GLU_MAP1_TRIM_2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="26">
+					<name>GLU_MAP1_TRIM_3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="27">
+					<name>GLU_NURBS_BEGIN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="28">
+					<name>GLU_NURBS_BEGIN_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="29">
+					<name>GLU_NURBS_BEGIN_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="30">
+					<name>GLU_NURBS_BEGIN_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="31">
+					<name>GLU_NURBS_COLOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="32">
+					<name>GLU_NURBS_COLOR_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="33">
+					<name>GLU_NURBS_COLOR_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="34">
+					<name>GLU_NURBS_COLOR_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="35">
+					<name>GLU_NURBS_END</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="36">
+					<name>GLU_NURBS_END_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="37">
+					<name>GLU_NURBS_END_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="38">
+					<name>GLU_NURBS_END_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="39">
+					<name>GLU_NURBS_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="40">
+					<name>GLU_NURBS_ERROR1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="41">
+					<name>GLU_NURBS_ERROR10</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="42">
+					<name>GLU_NURBS_ERROR11</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="43">
+					<name>GLU_NURBS_ERROR12</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="44">
+					<name>GLU_NURBS_ERROR13</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="45">
+					<name>GLU_NURBS_ERROR14</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="46">
+					<name>GLU_NURBS_ERROR15</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="47">
+					<name>GLU_NURBS_ERROR16</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="48">
+					<name>GLU_NURBS_ERROR17</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="49">
+					<name>GLU_NURBS_ERROR18</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="50">
+					<name>GLU_NURBS_ERROR19</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="51">
+					<name>GLU_NURBS_ERROR2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="52">
+					<name>GLU_NURBS_ERROR20</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="53">
+					<name>GLU_NURBS_ERROR21</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="54">
+					<name>GLU_NURBS_ERROR22</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="55">
+					<name>GLU_NURBS_ERROR23</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="56">
+					<name>GLU_NURBS_ERROR24</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="57">
+					<name>GLU_NURBS_ERROR25</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="58">
+					<name>GLU_NURBS_ERROR26</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="59">
+					<name>GLU_NURBS_ERROR27</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="60">
+					<name>GLU_NURBS_ERROR28</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="61">
+					<name>GLU_NURBS_ERROR29</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="62">
+					<name>GLU_NURBS_ERROR3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="63">
+					<name>GLU_NURBS_ERROR30</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="64">
+					<name>GLU_NURBS_ERROR31</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="65">
+					<name>GLU_NURBS_ERROR32</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="66">
+					<name>GLU_NURBS_ERROR33</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="67">
+					<name>GLU_NURBS_ERROR34</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="68">
+					<name>GLU_NURBS_ERROR35</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="69">
+					<name>GLU_NURBS_ERROR36</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="70">
+					<name>GLU_NURBS_ERROR37</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="71">
+					<name>GLU_NURBS_ERROR4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="72">
+					<name>GLU_NURBS_ERROR5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="73">
+					<name>GLU_NURBS_ERROR6</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="74">
+					<name>GLU_NURBS_ERROR7</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="75">
+					<name>GLU_NURBS_ERROR8</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="76">
+					<name>GLU_NURBS_ERROR9</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="77">
+					<name>GLU_NURBS_MODE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="78">
+					<name>GLU_NURBS_MODE_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="79">
+					<name>GLU_NURBS_NORMAL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="80">
+					<name>GLU_NURBS_NORMAL_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="81">
+					<name>GLU_NURBS_NORMAL_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="82">
+					<name>GLU_NURBS_NORMAL_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="83">
+					<name>GLU_NURBS_RENDERER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="84">
+					<name>GLU_NURBS_RENDERER_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="85">
+					<name>GLU_NURBS_TESSELLATOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="86">
+					<name>GLU_NURBS_TESSELLATOR_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="87">
+					<name>GLU_NURBS_TEXTURE_COORD</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="88">
+					<name>GLU_NURBS_TEXTURE_COORD_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="89">
+					<name>GLU_NURBS_TEX_COORD_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="90">
+					<name>GLU_NURBS_TEX_COORD_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="91">
+					<name>GLU_NURBS_VERTEX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="92">
+					<name>GLU_NURBS_VERTEX_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="93">
+					<name>GLU_NURBS_VERTEX_DATA_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="94">
+					<name>GLU_NURBS_VERTEX_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="95">
+					<name>GLU_OBJECT_PARAMETRIC_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="96">
+					<name>GLU_OBJECT_PARAMETRIC_ERROR_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="97">
+					<name>GLU_OBJECT_PATH_LENGTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="98">
+					<name>GLU_OBJECT_PATH_LENGTH_EXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="99">
+					<name>GLU_OUTLINE_PATCH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="100">
+					<name>GLU_OUTLINE_POLYGON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="101">
+					<name>GLU_OUTSIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="102">
+					<name>GLU_OUT_OF_MEMORY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="103">
+					<name>GLU_PARAMETRIC_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="104">
+					<name>GLU_PARAMETRIC_TOLERANCE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="105">
+					<name>GLU_PATH_LENGTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="106">
+					<name>GLU_POINT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="107">
+					<name>GLU_SAMPLING_METHOD</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="108">
+					<name>GLU_SAMPLING_TOLERANCE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="109">
+					<name>GLU_SILHOUETTE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="110">
+					<name>GLU_TESS_BEGIN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="111">
+					<name>GLU_TESS_BEGIN_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="112">
+					<name>GLU_TESS_BOUNDARY_ONLY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="113">
+					<name>GLU_TESS_COMBINE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="114">
+					<name>GLU_TESS_COMBINE_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="115">
+					<name>GLU_TESS_COORD_TOO_LARGE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="116">
+					<name>GLU_TESS_EDGE_FLAG</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="117">
+					<name>GLU_TESS_EDGE_FLAG_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="118">
+					<name>GLU_TESS_END</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="119">
+					<name>GLU_TESS_END_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="120">
+					<name>GLU_TESS_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="121">
+					<name>GLU_TESS_ERROR1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="122">
+					<name>GLU_TESS_ERROR2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="123">
+					<name>GLU_TESS_ERROR3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="124">
+					<name>GLU_TESS_ERROR4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="125">
+					<name>GLU_TESS_ERROR5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="126">
+					<name>GLU_TESS_ERROR6</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="127">
+					<name>GLU_TESS_ERROR7</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="128">
+					<name>GLU_TESS_ERROR8</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="129">
+					<name>GLU_TESS_ERROR_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="130">
+					<name>GLU_TESS_MISSING_BEGIN_CONTOUR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="131">
+					<name>GLU_TESS_MISSING_BEGIN_POLYGON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="132">
+					<name>GLU_TESS_MISSING_END_CONTOUR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="133">
+					<name>GLU_TESS_MISSING_END_POLYGON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="134">
+					<name>GLU_TESS_NEED_COMBINE_CALLBACK</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="135">
+					<name>GLU_TESS_TOLERANCE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="136">
+					<name>GLU_TESS_VERTEX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="137">
+					<name>GLU_TESS_VERTEX_DATA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="138">
+					<name>GLU_TESS_WINDING_ABS_GEQ_TWO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="139">
+					<name>GLU_TESS_WINDING_NEGATIVE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="140">
+					<name>GLU_TESS_WINDING_NONZERO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="141">
+					<name>GLU_TESS_WINDING_ODD</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="142">
+					<name>GLU_TESS_WINDING_POSITIVE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="143">
+					<name>GLU_TESS_WINDING_RULE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="144">
+					<name>GLU_UNKNOWN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="145">
+					<name>GLU_U_STEP</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="146">
+					<name>GLU_VERSION</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="147">
+					<name>GLU_VERSION_1_1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="148">
+					<name>GLU_VERSION_1_2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="149">
+					<name>GLU_VERSION_1_3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="150">
+					<name>GLU_VERTEX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="151">
+					<name>GLU_V_STEP</name>
+					<type>Int</type>
+				</extern-variable>
+			</const>
+		</extern>
+	</code>
+</module>

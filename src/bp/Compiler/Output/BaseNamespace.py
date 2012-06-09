@@ -34,6 +34,7 @@ class BaseNamespace:
 		self.namespaces = {}
 		self.classes = {}
 		self.functions = {}
+		self.properties = {}
 		self.externFunctions = {}
 		self.externVariables = {}
 		self.implementations = {}

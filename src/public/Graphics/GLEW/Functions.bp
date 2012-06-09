@@ -1,0 +1,34 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<extern-function depth="1" id="2">
+				<name>glewInit</name>
+				<type>Int</type>
+			</extern-function>
+			<extern-function depth="1" id="3">
+				<name>glewGetErrorString</name>
+				<type>CString</type>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>glewExperimental</name>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>glewGetExtension</name>
+			</extern-function>
+			<extern-function depth="1" id="6">
+				<name>glewGetString</name>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>glewIsSupported</name>
+				<meta/>
+			</extern-function>
+		</extern>
+	</code>
+</module>

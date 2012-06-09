@@ -81,7 +81,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
 		
 		# Timed
-		self.bindFunctionToTimer(self.showDependencies, 200)
+		self.bindFunctionToTimer(self.showDependencies, 150)
 		self.bindFunctionToTimer(self.onCompileTimeout, 500)
 		
 		# AC

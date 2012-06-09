@@ -1,0 +1,367 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<extern-function depth="1" id="2">
+				<name>glutWindowOpen</name>
+				<type>Bool</type>
+			</extern-function>
+			<extern-function depth="1" id="3">
+				<name>glutMainLoopEvent</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>glutAddMenuEntry</name>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>glutAddSubMenu</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="6">
+				<name>glutAttachMenu</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>glutBitmapCharacter</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="8">
+				<name>glutBitmapLength</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="9">
+				<name>glutBitmapWidth</name>
+			</extern-function>
+			<extern-function depth="1" id="10">
+				<name>glutButtonBoxFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="11">
+				<name>glutChangeToMenuEntry</name>
+			</extern-function>
+			<extern-function depth="1" id="12">
+				<name>glutChangeToSubMenu</name>
+			</extern-function>
+			<extern-function depth="1" id="13">
+				<name>glutCopyColormap</name>
+			</extern-function>
+			<extern-function depth="1" id="14">
+				<name>glutCreateSubWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="15">
+				<name>glutCreateWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="16">
+				<name>glutDestroyMenu</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="17">
+				<name>glutDestroyWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="18">
+				<name>glutDetachMenu</name>
+			</extern-function>
+			<extern-function depth="1" id="19">
+				<name>glutDeviceGet</name>
+			</extern-function>
+			<extern-function depth="1" id="20">
+				<name>glutDialsFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="21">
+				<name>glutDisplayFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="22">
+				<name>glutEnterGameMode</name>
+			</extern-function>
+			<extern-function depth="1" id="23">
+				<name>glutEntryFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="24">
+				<name>glutEstablishOverlay</name>
+			</extern-function>
+			<extern-function depth="1" id="25">
+				<name>glutForceJoystickFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="26">
+				<name>glutFullScreen</name>
+			</extern-function>
+			<extern-function depth="1" id="27">
+				<name>glutGameModeGet</name>
+			</extern-function>
+			<extern-function depth="1" id="28">
+				<name>glutGameModeString</name>
+			</extern-function>
+			<extern-function depth="1" id="29">
+				<name>glutGet</name>
+			</extern-function>
+			<extern-function depth="1" id="30">
+				<name>glutGetColor</name>
+			</extern-function>
+			<extern-function depth="1" id="31">
+				<name>glutGetMenu</name>
+			</extern-function>
+			<extern-function depth="1" id="32">
+				<name>glutGetModifiers</name>
+			</extern-function>
+			<extern-function depth="1" id="33">
+				<name>glutGetProcAddress</name>
+			</extern-function>
+			<extern-function depth="1" id="34">
+				<name>glutGetWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="35">
+				<name>glutHideOverlay</name>
+			</extern-function>
+			<extern-function depth="1" id="36">
+				<name>glutHideWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="37">
+				<name>glutIconifyWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="38">
+				<name>glutIdleFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="39">
+				<name>glutIgnoreKeyRepeat</name>
+			</extern-function>
+			<extern-function depth="1" id="40">
+				<name>glutInit</name>
+			</extern-function>
+			<extern-function depth="1" id="41">
+				<name>glutInitDisplayMode</name>
+			</extern-function>
+			<extern-function depth="1" id="42">
+				<name>glutInitDisplayString</name>
+			</extern-function>
+			<extern-function depth="1" id="43">
+				<name>glutInitWindowPosition</name>
+			</extern-function>
+			<extern-function depth="1" id="44">
+				<name>glutInitWindowSize</name>
+			</extern-function>
+			<extern-function depth="1" id="45">
+				<name>glutJoystickFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="46">
+				<name>glutKeyboardFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="47">
+				<name>glutKeyboardUpFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="48">
+				<name>glutLayerGet</name>
+			</extern-function>
+			<extern-function depth="1" id="49">
+				<name>glutLeaveGameMode</name>
+			</extern-function>
+			<extern-function depth="1" id="50">
+				<name>glutMainLoop</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="51">
+				<name>glutMenuStateFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="52">
+				<name>glutMenuStatusFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="53">
+				<name>glutMotionFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="54">
+				<name>glutMouseFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="55">
+				<name>glutOverlayDisplayFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="56">
+				<name>glutPassiveMotionFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="57">
+				<name>glutPopWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="58">
+				<name>glutPositionWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="59">
+				<name>glutPostOverlayRedisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="60">
+				<name>glutPostRedisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="61">
+				<name>glutPostWindowOverlayRedisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="62">
+				<name>glutPostWindowRedisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="63">
+				<name>glutPushWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="64">
+				<name>glutRemoveMenuItem</name>
+			</extern-function>
+			<extern-function depth="1" id="65">
+				<name>glutRemoveOverlay</name>
+			</extern-function>
+			<extern-function depth="1" id="66">
+				<name>glutReportErrors</name>
+			</extern-function>
+			<extern-function depth="1" id="67">
+				<name>glutReshapeFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="68">
+				<name>glutReshapeWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="69">
+				<name>glutSetColor</name>
+			</extern-function>
+			<extern-function depth="1" id="70">
+				<name>glutSetCursor</name>
+			</extern-function>
+			<extern-function depth="1" id="71">
+				<name>glutSetIconTitle</name>
+			</extern-function>
+			<extern-function depth="1" id="72">
+				<name>glutSetKeyRepeat</name>
+			</extern-function>
+			<extern-function depth="1" id="73">
+				<name>glutSetMenu</name>
+			</extern-function>
+			<extern-function depth="1" id="74">
+				<name>glutSetWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="75">
+				<name>glutSetWindowTitle</name>
+			</extern-function>
+			<extern-function depth="1" id="76">
+				<name>glutSetupVideoResizing</name>
+			</extern-function>
+			<extern-function depth="1" id="77">
+				<name>glutShowOverlay</name>
+			</extern-function>
+			<extern-function depth="1" id="78">
+				<name>glutShowWindow</name>
+			</extern-function>
+			<extern-function depth="1" id="79">
+				<name>glutSolidCone</name>
+			</extern-function>
+			<extern-function depth="1" id="80">
+				<name>glutSolidCube</name>
+			</extern-function>
+			<extern-function depth="1" id="81">
+				<name>glutSolidDodecahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="82">
+				<name>glutSolidIcosahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="83">
+				<name>glutSolidOctahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="84">
+				<name>glutSolidSphere</name>
+			</extern-function>
+			<extern-function depth="1" id="85">
+				<name>glutSolidTeapot</name>
+			</extern-function>
+			<extern-function depth="1" id="86">
+				<name>glutSolidTetrahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="87">
+				<name>glutSolidTorus</name>
+			</extern-function>
+			<extern-function depth="1" id="88">
+				<name>glutSpaceballButtonFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="89">
+				<name>glutSpaceballMotionFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="90">
+				<name>glutSpaceballRotateFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="91">
+				<name>glutSpecialFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="92">
+				<name>glutSpecialUpFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="93">
+				<name>glutStopVideoResizing</name>
+			</extern-function>
+			<extern-function depth="1" id="94">
+				<name>glutStrokeCharacter</name>
+			</extern-function>
+			<extern-function depth="1" id="95">
+				<name>glutStrokeLength</name>
+			</extern-function>
+			<extern-function depth="1" id="96">
+				<name>glutStrokeWidth</name>
+			</extern-function>
+			<extern-function depth="1" id="97">
+				<name>glutSwapBuffers</name>
+			</extern-function>
+			<extern-function depth="1" id="98">
+				<name>glutTabletButtonFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="99">
+				<name>glutTabletMotionFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="100">
+				<name>glutTimerFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="101">
+				<name>glutUseLayer</name>
+			</extern-function>
+			<extern-function depth="1" id="102">
+				<name>glutVideoPan</name>
+			</extern-function>
+			<extern-function depth="1" id="103">
+				<name>glutVideoResize</name>
+			</extern-function>
+			<extern-function depth="1" id="104">
+				<name>glutVideoResizeGet</name>
+			</extern-function>
+			<extern-function depth="1" id="105">
+				<name>glutVisibilityFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="106">
+				<name>glutWarpPointer</name>
+			</extern-function>
+			<extern-function depth="1" id="107">
+				<name>glutWindowStatusFunc</name>
+			</extern-function>
+			<extern-function depth="1" id="108">
+				<name>glutWireCone</name>
+			</extern-function>
+			<extern-function depth="1" id="109">
+				<name>glutWireCube</name>
+			</extern-function>
+			<extern-function depth="1" id="110">
+				<name>glutWireDodecahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="111">
+				<name>glutWireIcosahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="112">
+				<name>glutWireOctahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="113">
+				<name>glutWireSphere</name>
+			</extern-function>
+			<extern-function depth="1" id="114">
+				<name>glutWireTeapot</name>
+			</extern-function>
+			<extern-function depth="1" id="115">
+				<name>glutWireTetrahedron</name>
+			</extern-function>
+			<extern-function depth="1" id="116">
+				<name>glutWireTorus</name>
+				<meta/>
+			</extern-function>
+		</extern>
+	</code>
+</module>

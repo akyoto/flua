@@ -281,7 +281,6 @@
 								</assign-add>
 							</code>
 						</for>
-						<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\Sstrings</comment>
 						<for depth="2" id="25">
 							<iterator>i</iterator>
 							<from>start</from>
@@ -478,7 +477,7 @@
 						</return>
 					</code>
 				</function>
-				<comment>\SString\Suntil\Sa\Scertain\Sstring\Sappears</comment>
+				<comment>\SReturns\Sthe\Sleft\Spart\Sof\Sthe\Sstring\Suntil\S#chars\Sappears</comment>
 				<function depth="1" id="42">
 					<parameters>
 						<parameter>
@@ -522,7 +521,7 @@
 						</return>
 					</code>
 				</function>
-				<comment>\SString\Suntil\Slast\Soccurence\Sof\Sa\Scharacter</comment>
+				<comment>\SReturns\Sthe\Sleft\Spart\Sof\Sthe\Sstring\Suntil\Sthe\Slast\Soccurence\Sof\S#chars\Sappears</comment>
 				<function depth="1" id="45">
 					<parameters>
 						<parameter>
@@ -591,7 +590,7 @@
 						</return>
 					</code>
 				</function>
-				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\Schars</comment>
+				<comment>\SSubstring\Sfrom\Sthe\Slast\Soccurence\Sof\S#chars</comment>
 				<function depth="1" id="50">
 					<parameters>
 						<parameter>
@@ -606,7 +605,7 @@
 						<noop depth="2" id="51"/>
 					</code>
 				</function>
-				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\Schars</comment>
+				<comment>\SSubstring\Safter\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<function depth="1" id="52">
 					<parameters>
 						<parameter>
@@ -700,7 +699,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SLeft\S#length\Scharacters</comment>
 				<function depth="1" id="58">
@@ -807,6 +805,7 @@
 					<code>
 						<noop depth="2" id="66"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="67">
 					<parameters>
@@ -1097,7 +1096,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Sstring\Scontains\S#chars,\Sotherwise\Sfalse</comment>
 				<function depth="1" id="87">
@@ -1476,7 +1474,7 @@
 				</return>
 			</code>
 		</function>
-		<comment>\SPrints\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole</comment>
+		<comment>\SPrints\Sthe\SUTF-8\Sencoded\Sstring\S#stri\Son\Sthe\Sconsole</comment>
 		<function depth="0" id="134">
 			<parameters>
 				<parameter>
@@ -1499,7 +1497,7 @@
 				</call>
 			</code>
 		</function>
-		<comment>\SWrites\Sa\SUTF-8\Sencoded\Sstring\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
+		<comment>\SWrites\Sthe\SUTF-8\Sencoded\Sstring\S#stri\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
 		<function depth="0" id="136">
 			<parameters>
 				<parameter>

@@ -1,0 +1,21 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<define depth="0" id="1">
+			<assign depth="1" id="2">
+				<value>EGLenum</value>
+				<value>Int</value>
+			</assign>
+			<assign depth="1" id="3">
+				<value>EGLint</value>
+				<value>Int</value>
+			</assign>
+		</define>
+	</code>
+</module>

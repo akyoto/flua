@@ -1,0 +1,115 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<extern-function depth="1" id="2">
+				<name>eglBindAPI</name>
+			</extern-function>
+			<extern-function depth="1" id="3">
+				<name>eglBindTexImage</name>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>eglChooseConfig</name>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>eglCopyBuffers</name>
+			</extern-function>
+			<extern-function depth="1" id="6">
+				<name>eglCreateContext</name>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>eglCreatePbufferFromClientBuffer</name>
+			</extern-function>
+			<extern-function depth="1" id="8">
+				<name>eglCreatePbufferSurface</name>
+			</extern-function>
+			<extern-function depth="1" id="9">
+				<name>eglCreatePixmapSurface</name>
+			</extern-function>
+			<extern-function depth="1" id="10">
+				<name>eglCreateWindowSurface</name>
+			</extern-function>
+			<extern-function depth="1" id="11">
+				<name>eglDestroyContext</name>
+			</extern-function>
+			<extern-function depth="1" id="12">
+				<name>eglDestroySurface</name>
+			</extern-function>
+			<extern-function depth="1" id="13">
+				<name>eglGetConfigAttrib</name>
+			</extern-function>
+			<extern-function depth="1" id="14">
+				<name>eglGetConfigs</name>
+			</extern-function>
+			<extern-function depth="1" id="15">
+				<name>eglGetCurrentContext</name>
+			</extern-function>
+			<extern-function depth="1" id="16">
+				<name>eglGetCurrentDisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="17">
+				<name>eglGetCurrentSurface</name>
+			</extern-function>
+			<extern-function depth="1" id="18">
+				<name>eglGetDisplay</name>
+			</extern-function>
+			<extern-function depth="1" id="19">
+				<name>eglGetError</name>
+			</extern-function>
+			<extern-function depth="1" id="20">
+				<name>eglGetProcAddress</name>
+			</extern-function>
+			<extern-function depth="1" id="21">
+				<name>eglInitialize</name>
+			</extern-function>
+			<extern-function depth="1" id="22">
+				<name>eglMakeCurrent</name>
+			</extern-function>
+			<extern-function depth="1" id="23">
+				<name>eglQueryAPI</name>
+			</extern-function>
+			<extern-function depth="1" id="24">
+				<name>eglQueryContext</name>
+			</extern-function>
+			<extern-function depth="1" id="25">
+				<name>eglQueryString</name>
+			</extern-function>
+			<extern-function depth="1" id="26">
+				<name>eglQuerySurface</name>
+			</extern-function>
+			<extern-function depth="1" id="27">
+				<name>eglReleaseTexImage</name>
+			</extern-function>
+			<extern-function depth="1" id="28">
+				<name>eglReleaseThread</name>
+			</extern-function>
+			<extern-function depth="1" id="29">
+				<name>eglSurfaceAttrib</name>
+			</extern-function>
+			<extern-function depth="1" id="30">
+				<name>eglSwapBuffers</name>
+			</extern-function>
+			<extern-function depth="1" id="31">
+				<name>eglSwapInterval</name>
+			</extern-function>
+			<extern-function depth="1" id="32">
+				<name>eglTerminate</name>
+			</extern-function>
+			<extern-function depth="1" id="33">
+				<name>eglWaitClient</name>
+			</extern-function>
+			<extern-function depth="1" id="34">
+				<name>eglWaitGL</name>
+			</extern-function>
+			<extern-function depth="1" id="35">
+				<name>eglWaitNative</name>
+			</extern-function>
+		</extern>
+	</code>
+</module>

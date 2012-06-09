@@ -1,0 +1,34 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Constants</import>
+			<import>Functions</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<target depth="1" id="2">
+					<name>Windows</name>
+					<code>
+						<compiler-flags depth="2" id="3">
+							<compiler-flag depth="3" id="4">-lglu32</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+				<target depth="1" id="5">
+					<name>Linux</name>
+					<code>
+						<compiler-flags depth="2" id="6">
+							<compiler-flag depth="3" id="7">-lGLU</compiler-flag>
+						</compiler-flags>
+					</code>
+				</target>
+			</code>
+		</target>
+	</code>
+</module>

@@ -92,7 +92,15 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		"""Apply syntax highlighting to the given block of text.
 		"""
 		bpIDE = self.bpIDE
-		if not text or (bpIDE.codeEdit and bpIDE.codeEdit.disableUpdatesFlag):
+		ce = bpIDE.codeEdit
+		
+		if ce and ce.completer:
+			model = ce.completer.bpcModel
+			externFuncs = model.externFuncs
+		else:
+			externFuncs = {}
+		
+		if not text or (ce and ce.disableUpdatesFlag):
 			return
 		
 		style = bpIDE.getCurrentTheme()
@@ -146,7 +154,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 								self.setFormat(i, h - i, style['class-name'])
 								i = h
 								continue
-						elif userData.node.tagName == "extern-function" and expr.startswith("bp_"):
+						elif userData.node.tagName == "extern-function": #and expr.startswith("bp_"):
 							# TODO: Optimize using bpIDE.processor
 							if isMetaDataTrue(getMetaData(node, "no-side-effects")):
 								if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
@@ -186,7 +194,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])
-				elif expr.startswith("bp_"):
+				elif expr.startswith("bp_") or expr in externFuncs:
 					# Extern function call
 					if expr in bpIDE.processor.externFuncNameToMetaDict:
 						meta = bpIDE.processor.externFuncNameToMetaDict[expr]

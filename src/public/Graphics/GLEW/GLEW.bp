@@ -3,10 +3,8 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>public.OpenGL</import>
-			<import>public.OpenGL.Constants</import>
-			<import>public.OpenGL.Definitions</import>
-			<import>public.OpenGL.Functions</import>
+			<import>Constants</import>
+			<import>Functions</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -34,21 +32,5 @@
 				</target>
 			</code>
 		</target>
-		<extern depth="0" id="10">
-			<const depth="1" id="11">
-				<extern-variable depth="2" id="12">
-					<name>GLEW_OK</name>
-					<type>Int</type>
-				</extern-variable>
-			</const>
-			<extern-function depth="1" id="13">
-				<name>glewInit</name>
-				<type>Int</type>
-			</extern-function>
-			<extern-function depth="1" id="14">
-				<name>glewGetErrorString</name>
-				<type>CString</type>
-			</extern-function>
-		</extern>
 	</code>
 </module>

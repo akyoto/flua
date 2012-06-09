@@ -1,0 +1,13 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Definitions</import>
+			<import>Constants</import>
+			<import>Functions</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

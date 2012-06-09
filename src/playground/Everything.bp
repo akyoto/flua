@@ -11,6 +11,7 @@
 			<import>bp.Collection</import>
 			<import>bp.Concurrency</import>
 			<import>bp.Utils</import>
+			<import>bp.Graphics</import>
 		</dependencies>
 		<strings/>
 	</header>

@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>public.OpenCL</import>
+			<import>public.Concurrency.OpenCL</import>
 			<import>Exception</import>
 		</dependencies>
 		<strings/>

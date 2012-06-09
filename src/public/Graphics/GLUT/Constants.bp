@@ -1,0 +1,699 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<const depth="1" id="2">
+				<extern-variable depth="2" id="3">
+					<name>GLUT_ACCUM</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="4">
+					<name>GLUT_ACTIVE_ALT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="5">
+					<name>GLUT_ACTIVE_CTRL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="6">
+					<name>GLUT_ACTIVE_SHIFT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="7">
+					<name>GLUT_ALPHA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="8">
+					<name>GLUT_BITMAP_8_BY_13</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="9">
+					<name>GLUT_BITMAP_9_BY_15</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="10">
+					<name>GLUT_BITMAP_HELVETICA_10</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="11">
+					<name>GLUT_BITMAP_HELVETICA_12</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="12">
+					<name>GLUT_BITMAP_HELVETICA_18</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="13">
+					<name>GLUT_BITMAP_TIMES_ROMAN_10</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="14">
+					<name>GLUT_BITMAP_TIMES_ROMAN_24</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="15">
+					<name>GLUT_BLUE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="16">
+					<name>GLUT_CURSOR_BOTTOM_LEFT_CORNER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="17">
+					<name>GLUT_CURSOR_BOTTOM_RIGHT_CORNER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="18">
+					<name>GLUT_CURSOR_BOTTOM_SIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="19">
+					<name>GLUT_CURSOR_CROSSHAIR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="20">
+					<name>GLUT_CURSOR_CYCLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="21">
+					<name>GLUT_CURSOR_DESTROY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="22">
+					<name>GLUT_CURSOR_FULL_CROSSHAIR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="23">
+					<name>GLUT_CURSOR_HELP</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="24">
+					<name>GLUT_CURSOR_INFO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="25">
+					<name>GLUT_CURSOR_INHERIT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="26">
+					<name>GLUT_CURSOR_LEFT_ARROW</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="27">
+					<name>GLUT_CURSOR_LEFT_RIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="28">
+					<name>GLUT_CURSOR_LEFT_SIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="29">
+					<name>GLUT_CURSOR_NONE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="30">
+					<name>GLUT_CURSOR_RIGHT_ARROW</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="31">
+					<name>GLUT_CURSOR_RIGHT_SIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="32">
+					<name>GLUT_CURSOR_SPRAY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="33">
+					<name>GLUT_CURSOR_TEXT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="34">
+					<name>GLUT_CURSOR_TOP_LEFT_CORNER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="35">
+					<name>GLUT_CURSOR_TOP_RIGHT_CORNER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="36">
+					<name>GLUT_CURSOR_TOP_SIDE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="37">
+					<name>GLUT_CURSOR_UP_DOWN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="38">
+					<name>GLUT_CURSOR_WAIT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="39">
+					<name>GLUT_DEPTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="40">
+					<name>GLUT_DEVICE_IGNORE_KEY_REPEAT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="41">
+					<name>GLUT_DEVICE_KEY_REPEAT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="42">
+					<name>GLUT_DISPLAY_MODE_POSSIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="43">
+					<name>GLUT_DOUBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="44">
+					<name>GLUT_DOWN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="45">
+					<name>GLUT_ELAPSED_TIME</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="46">
+					<name>GLUT_ENTERED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="47">
+					<name>GLUT_FULLY_COVERED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="48">
+					<name>GLUT_FULLY_RETAINED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="49">
+					<name>GLUT_GAME_MODE_ACTIVE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="50">
+					<name>GLUT_GAME_MODE_DISPLAY_CHANGED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="51">
+					<name>GLUT_GAME_MODE_HEIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="52">
+					<name>GLUT_GAME_MODE_PIXEL_DEPTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="53">
+					<name>GLUT_GAME_MODE_POSSIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="54">
+					<name>GLUT_GAME_MODE_REFRESH_RATE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="55">
+					<name>GLUT_GAME_MODE_WIDTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="56">
+					<name>GLUT_GREEN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="57">
+					<name>GLUT_HAS_DIAL_AND_BUTTON_BOX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="58">
+					<name>GLUT_HAS_JOYSTICK</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="59">
+					<name>GLUT_HAS_KEYBOARD</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="60">
+					<name>GLUT_HAS_MOUSE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="61">
+					<name>GLUT_HAS_OVERLAY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="62">
+					<name>GLUT_HAS_SPACEBALL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="63">
+					<name>GLUT_HAS_TABLET</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="64">
+					<name>GLUT_HIDDEN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="65">
+					<name>GLUT_INDEX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="66">
+					<name>GLUT_INIT_DISPLAY_MODE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="67">
+					<name>GLUT_INIT_WINDOW_HEIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="68">
+					<name>GLUT_INIT_WINDOW_WIDTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="69">
+					<name>GLUT_INIT_WINDOW_X</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="70">
+					<name>GLUT_INIT_WINDOW_Y</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="71">
+					<name>GLUT_JOYSTICK_AXES</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="72">
+					<name>GLUT_JOYSTICK_BUTTONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="73">
+					<name>GLUT_JOYSTICK_BUTTON_A</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="74">
+					<name>GLUT_JOYSTICK_BUTTON_B</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="75">
+					<name>GLUT_JOYSTICK_BUTTON_C</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="76">
+					<name>GLUT_JOYSTICK_BUTTON_D</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="77">
+					<name>GLUT_JOYSTICK_POLL_RATE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="78">
+					<name>GLUT_KEY_DOWN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="79">
+					<name>GLUT_KEY_END</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="80">
+					<name>GLUT_KEY_F1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="81">
+					<name>GLUT_KEY_F10</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="82">
+					<name>GLUT_KEY_F11</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="83">
+					<name>GLUT_KEY_F12</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="84">
+					<name>GLUT_KEY_F2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="85">
+					<name>GLUT_KEY_F3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="86">
+					<name>GLUT_KEY_F4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="87">
+					<name>GLUT_KEY_F5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="88">
+					<name>GLUT_KEY_F6</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="89">
+					<name>GLUT_KEY_F7</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="90">
+					<name>GLUT_KEY_F8</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="91">
+					<name>GLUT_KEY_F9</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="92">
+					<name>GLUT_KEY_HOME</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="93">
+					<name>GLUT_KEY_INSERT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="94">
+					<name>GLUT_KEY_LEFT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="95">
+					<name>GLUT_KEY_PAGE_DOWN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="96">
+					<name>GLUT_KEY_PAGE_UP</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="97">
+					<name>GLUT_KEY_REPEAT_DEFAULT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="98">
+					<name>GLUT_KEY_REPEAT_OFF</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="99">
+					<name>GLUT_KEY_REPEAT_ON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="100">
+					<name>GLUT_KEY_RIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="101">
+					<name>GLUT_KEY_UP</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="102">
+					<name>GLUT_LAYER_IN_USE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="103">
+					<name>GLUT_LEFT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="104">
+					<name>GLUT_LEFT_BUTTON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="105">
+					<name>GLUT_LUMINANCE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="106">
+					<name>GLUT_MENU_IN_USE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="107">
+					<name>GLUT_MENU_NOT_IN_USE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="108">
+					<name>GLUT_MENU_NUM_ITEMS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="109">
+					<name>GLUT_MIDDLE_BUTTON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="110">
+					<name>GLUT_MULTISAMPLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="111">
+					<name>GLUT_NORMAL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="112">
+					<name>GLUT_NORMAL_DAMAGED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="113">
+					<name>GLUT_NOT_VISIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="114">
+					<name>GLUT_NUM_BUTTON_BOX_BUTTONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="115">
+					<name>GLUT_NUM_DIALS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="116">
+					<name>GLUT_NUM_MOUSE_BUTTONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="117">
+					<name>GLUT_NUM_SPACEBALL_BUTTONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="118">
+					<name>GLUT_NUM_TABLET_BUTTONS</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="119">
+					<name>GLUT_OVERLAY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="120">
+					<name>GLUT_OVERLAY_DAMAGED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="121">
+					<name>GLUT_OVERLAY_POSSIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="122">
+					<name>GLUT_OWNS_JOYSTICK</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="123">
+					<name>GLUT_PARTIALLY_RETAINED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="124">
+					<name>GLUT_RED</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="125">
+					<name>GLUT_RGB</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="126">
+					<name>GLUT_RGBA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="127">
+					<name>GLUT_RIGHT_BUTTON</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="128">
+					<name>GLUT_SCREEN_HEIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="129">
+					<name>GLUT_SCREEN_HEIGHT_MM</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="130">
+					<name>GLUT_SCREEN_WIDTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="131">
+					<name>GLUT_SCREEN_WIDTH_MM</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="132">
+					<name>GLUT_SINGLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="133">
+					<name>GLUT_STENCIL</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="134">
+					<name>GLUT_STEREO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="135">
+					<name>GLUT_STROKE_MONO_ROMAN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="136">
+					<name>GLUT_STROKE_ROMAN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="137">
+					<name>GLUT_TRANSPARENT_INDEX</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="138">
+					<name>GLUT_UP</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="139">
+					<name>GLUT_VIDEO_RESIZE_HEIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="140">
+					<name>GLUT_VIDEO_RESIZE_HEIGHT_DELTA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="141">
+					<name>GLUT_VIDEO_RESIZE_IN_USE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="142">
+					<name>GLUT_VIDEO_RESIZE_POSSIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="143">
+					<name>GLUT_VIDEO_RESIZE_WIDTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="144">
+					<name>GLUT_VIDEO_RESIZE_WIDTH_DELTA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="145">
+					<name>GLUT_VIDEO_RESIZE_X</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="146">
+					<name>GLUT_VIDEO_RESIZE_X_DELTA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="147">
+					<name>GLUT_VIDEO_RESIZE_Y</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="148">
+					<name>GLUT_VIDEO_RESIZE_Y_DELTA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="149">
+					<name>GLUT_VISIBLE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="150">
+					<name>GLUT_WINDOW_ACCUM_ALPHA_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="151">
+					<name>GLUT_WINDOW_ACCUM_BLUE_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="152">
+					<name>GLUT_WINDOW_ACCUM_GREEN_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="153">
+					<name>GLUT_WINDOW_ACCUM_RED_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="154">
+					<name>GLUT_WINDOW_ALPHA_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="155">
+					<name>GLUT_WINDOW_BLUE_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="156">
+					<name>GLUT_WINDOW_BUFFER_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="157">
+					<name>GLUT_WINDOW_COLORMAP_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="158">
+					<name>GLUT_WINDOW_CURSOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="159">
+					<name>GLUT_WINDOW_DEPTH_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="160">
+					<name>GLUT_WINDOW_DOUBLEBUFFER</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="161">
+					<name>GLUT_WINDOW_FORMAT_ID</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="162">
+					<name>GLUT_WINDOW_GREEN_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="163">
+					<name>GLUT_WINDOW_HEIGHT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="164">
+					<name>GLUT_WINDOW_NUM_CHILDREN</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="165">
+					<name>GLUT_WINDOW_NUM_SAMPLES</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="166">
+					<name>GLUT_WINDOW_PARENT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="167">
+					<name>GLUT_WINDOW_RED_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="168">
+					<name>GLUT_WINDOW_RGBA</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="169">
+					<name>GLUT_WINDOW_STENCIL_SIZE</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="170">
+					<name>GLUT_WINDOW_STEREO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="171">
+					<name>GLUT_WINDOW_WIDTH</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="172">
+					<name>GLUT_WINDOW_X</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="173">
+					<name>GLUT_WINDOW_Y</name>
+					<type>Int</type>
+				</extern-variable>
+			</const>
+		</extern>
+	</code>
+</module>

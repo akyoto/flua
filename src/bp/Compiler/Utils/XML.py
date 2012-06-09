@@ -93,7 +93,7 @@ def getNodeComments(node):
 		docs.insert(0, decodeCDATA(node.firstChild.nodeValue).strip())
 		
 	if docs:
-		doc = "# " + " ".join(docs)
+		doc = "# " + " ".join(docs).replace("#", "➘")
 		
 		#if doc[-1] != ".":
 		#	doc += "."

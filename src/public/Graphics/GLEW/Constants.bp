@@ -1,0 +1,1603 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<extern depth="0" id="1">
+			<const depth="1" id="2">
+				<extern-variable depth="2" id="3">
+					<name>GLEW_3DFX_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="4">
+					<name>GLEW_3DFX_tbuffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="5">
+					<name>GLEW_3DFX_texture_compression_FXT1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="6">
+					<name>GLEW_AMD_conservative_depth</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="7">
+					<name>GLEW_AMD_draw_buffers_blend</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="8">
+					<name>GLEW_AMD_performance_monitor</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="9">
+					<name>GLEW_AMD_seamless_cubemap_per_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="10">
+					<name>GLEW_AMD_shader_stencil_export</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="11">
+					<name>GLEW_AMD_texture_texture4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="12">
+					<name>GLEW_AMD_vertex_shader_tessellator</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="13">
+					<name>GLEW_APPLE_aux_depth_stencil</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="14">
+					<name>GLEW_APPLE_client_storage</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="15">
+					<name>GLEW_APPLE_element_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="16">
+					<name>GLEW_APPLE_fence</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="17">
+					<name>GLEW_APPLE_float_pixels</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="18">
+					<name>GLEW_APPLE_flush_buffer_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="19">
+					<name>GLEW_APPLE_object_purgeable</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="20">
+					<name>GLEW_APPLE_pixel_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="21">
+					<name>GLEW_APPLE_rgb_422</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="22">
+					<name>GLEW_APPLE_row_bytes</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="23">
+					<name>GLEW_APPLE_specular_vector</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="24">
+					<name>GLEW_APPLE_texture_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="25">
+					<name>GLEW_APPLE_transform_hint</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="26">
+					<name>GLEW_APPLE_vertex_array_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="27">
+					<name>GLEW_APPLE_vertex_array_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="28">
+					<name>GLEW_APPLE_vertex_program_evaluators</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="29">
+					<name>GLEW_APPLE_ycbcr_422</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="30">
+					<name>GLEW_ARB_blend_func_extended</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="31">
+					<name>GLEW_ARB_color_buffer_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="32">
+					<name>GLEW_ARB_compatibility</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="33">
+					<name>GLEW_ARB_copy_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="34">
+					<name>GLEW_ARB_depth_buffer_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="35">
+					<name>GLEW_ARB_depth_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="36">
+					<name>GLEW_ARB_depth_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="37">
+					<name>GLEW_ARB_draw_buffers</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="38">
+					<name>GLEW_ARB_draw_buffers_blend</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="39">
+					<name>GLEW_ARB_draw_elements_base_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="40">
+					<name>GLEW_ARB_draw_indirect</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="41">
+					<name>GLEW_ARB_draw_instanced</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="42">
+					<name>GLEW_ARB_explicit_attrib_location</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="43">
+					<name>GLEW_ARB_fragment_coord_conventions</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="44">
+					<name>GLEW_ARB_fragment_program</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="45">
+					<name>GLEW_ARB_fragment_program_shadow</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="46">
+					<name>GLEW_ARB_fragment_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="47">
+					<name>GLEW_ARB_framebuffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="48">
+					<name>GLEW_ARB_framebuffer_sRGB</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="49">
+					<name>GLEW_ARB_geometry_shader4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="50">
+					<name>GLEW_ARB_gpu_shader5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="51">
+					<name>GLEW_ARB_gpu_shader_fp64</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="52">
+					<name>GLEW_ARB_half_float_pixel</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="53">
+					<name>GLEW_ARB_half_float_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="54">
+					<name>GLEW_ARB_imaging</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="55">
+					<name>GLEW_ARB_instanced_arrays</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="56">
+					<name>GLEW_ARB_map_buffer_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="57">
+					<name>GLEW_ARB_matrix_palette</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="58">
+					<name>GLEW_ARB_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="59">
+					<name>GLEW_ARB_multitexture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="60">
+					<name>GLEW_ARB_occlusion_query</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="61">
+					<name>GLEW_ARB_occlusion_query2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="62">
+					<name>GLEW_ARB_pixel_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="63">
+					<name>GLEW_ARB_point_parameters</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="64">
+					<name>GLEW_ARB_point_sprite</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="65">
+					<name>GLEW_ARB_provoking_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="66">
+					<name>GLEW_ARB_sample_shading</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="67">
+					<name>GLEW_ARB_sampler_objects</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="68">
+					<name>GLEW_ARB_seamless_cube_map</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="69">
+					<name>GLEW_ARB_shader_bit_encoding</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="70">
+					<name>GLEW_ARB_shader_objects</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="71">
+					<name>GLEW_ARB_shader_subroutine</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="72">
+					<name>GLEW_ARB_shader_texture_lod</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="73">
+					<name>GLEW_ARB_shading_language_100</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="74">
+					<name>GLEW_ARB_shading_language_include</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="75">
+					<name>GLEW_ARB_shadow</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="76">
+					<name>GLEW_ARB_shadow_ambient</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="77">
+					<name>GLEW_ARB_sync</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="78">
+					<name>GLEW_ARB_tessellation_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="79">
+					<name>GLEW_ARB_texture_border_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="80">
+					<name>GLEW_ARB_texture_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="81">
+					<name>GLEW_ARB_texture_buffer_object_rgb32</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="82">
+					<name>GLEW_ARB_texture_compression</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="83">
+					<name>GLEW_ARB_texture_compression_bptc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="84">
+					<name>GLEW_ARB_texture_compression_rgtc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="85">
+					<name>GLEW_ARB_texture_cube_map</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="86">
+					<name>GLEW_ARB_texture_cube_map_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="87">
+					<name>GLEW_ARB_texture_env_add</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="88">
+					<name>GLEW_ARB_texture_env_combine</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="89">
+					<name>GLEW_ARB_texture_env_crossbar</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="90">
+					<name>GLEW_ARB_texture_env_dot3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="91">
+					<name>GLEW_ARB_texture_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="92">
+					<name>GLEW_ARB_texture_gather</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="93">
+					<name>GLEW_ARB_texture_mirrored_repeat</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="94">
+					<name>GLEW_ARB_texture_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="95">
+					<name>GLEW_ARB_texture_non_power_of_two</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="96">
+					<name>GLEW_ARB_texture_query_lod</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="97">
+					<name>GLEW_ARB_texture_rectangle</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="98">
+					<name>GLEW_ARB_texture_rg</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="99">
+					<name>GLEW_ARB_texture_rgb10_a2ui</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="100">
+					<name>GLEW_ARB_texture_swizzle</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="101">
+					<name>GLEW_ARB_timer_query</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="102">
+					<name>GLEW_ARB_transform_feedback2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="103">
+					<name>GLEW_ARB_transform_feedback3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="104">
+					<name>GLEW_ARB_transpose_matrix</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="105">
+					<name>GLEW_ARB_uniform_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="106">
+					<name>GLEW_ARB_vertex_array_bgra</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="107">
+					<name>GLEW_ARB_vertex_array_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="108">
+					<name>GLEW_ARB_vertex_blend</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="109">
+					<name>GLEW_ARB_vertex_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="110">
+					<name>GLEW_ARB_vertex_program</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="111">
+					<name>GLEW_ARB_vertex_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="112">
+					<name>GLEW_ARB_vertex_type_2_10_10_10_rev</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="113">
+					<name>GLEW_ARB_window_pos</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="114">
+					<name>GLEW_ATIX_point_sprites</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="115">
+					<name>GLEW_ATIX_texture_env_combine3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="116">
+					<name>GLEW_ATIX_texture_env_route</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="117">
+					<name>GLEW_ATIX_vertex_shader_output_point_size</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="118">
+					<name>GLEW_ATI_draw_buffers</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="119">
+					<name>GLEW_ATI_element_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="120">
+					<name>GLEW_ATI_envmap_bumpmap</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="121">
+					<name>GLEW_ATI_fragment_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="122">
+					<name>GLEW_ATI_map_object_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="123">
+					<name>GLEW_ATI_meminfo</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="124">
+					<name>GLEW_ATI_pn_triangles</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="125">
+					<name>GLEW_ATI_separate_stencil</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="126">
+					<name>GLEW_ATI_shader_texture_lod</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="127">
+					<name>GLEW_ATI_text_fragment_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="128">
+					<name>GLEW_ATI_texture_compression_3dc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="129">
+					<name>GLEW_ATI_texture_env_combine3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="130">
+					<name>GLEW_ATI_texture_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="131">
+					<name>GLEW_ATI_texture_mirror_once</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="132">
+					<name>GLEW_ATI_vertex_array_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="133">
+					<name>GLEW_ATI_vertex_attrib_array_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="134">
+					<name>GLEW_ATI_vertex_streams</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="135">
+					<name>GLEW_ERROR_GLX_VERSION_11_ONLY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="136">
+					<name>GLEW_ERROR_GL_VERSION_10_ONLY</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="137">
+					<name>GLEW_ERROR_NO_GL_VERSION</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="138">
+					<name>GLEW_EXT_422_pixels</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="139">
+					<name>GLEW_EXT_Cg_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="140">
+					<name>GLEW_EXT_abgr</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="141">
+					<name>GLEW_EXT_bgra</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="142">
+					<name>GLEW_EXT_bindable_uniform</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="143">
+					<name>GLEW_EXT_blend_color</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="144">
+					<name>GLEW_EXT_blend_equation_separate</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="145">
+					<name>GLEW_EXT_blend_func_separate</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="146">
+					<name>GLEW_EXT_blend_logic_op</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="147">
+					<name>GLEW_EXT_blend_minmax</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="148">
+					<name>GLEW_EXT_blend_subtract</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="149">
+					<name>GLEW_EXT_clip_volume_hint</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="150">
+					<name>GLEW_EXT_cmyka</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="151">
+					<name>GLEW_EXT_color_subtable</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="152">
+					<name>GLEW_EXT_compiled_vertex_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="153">
+					<name>GLEW_EXT_convolution</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="154">
+					<name>GLEW_EXT_coordinate_frame</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="155">
+					<name>GLEW_EXT_copy_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="156">
+					<name>GLEW_EXT_cull_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="157">
+					<name>GLEW_EXT_depth_bounds_test</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="158">
+					<name>GLEW_EXT_direct_state_access</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="159">
+					<name>GLEW_EXT_draw_buffers2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="160">
+					<name>GLEW_EXT_draw_instanced</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="161">
+					<name>GLEW_EXT_draw_range_elements</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="162">
+					<name>GLEW_EXT_fog_coord</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="163">
+					<name>GLEW_EXT_fragment_lighting</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="164">
+					<name>GLEW_EXT_framebuffer_blit</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="165">
+					<name>GLEW_EXT_framebuffer_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="166">
+					<name>GLEW_EXT_framebuffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="167">
+					<name>GLEW_EXT_framebuffer_sRGB</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="168">
+					<name>GLEW_EXT_geometry_shader4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="169">
+					<name>GLEW_EXT_gpu_program_parameters</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="170">
+					<name>GLEW_EXT_gpu_shader4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="171">
+					<name>GLEW_EXT_histogram</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="172">
+					<name>GLEW_EXT_index_array_formats</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="173">
+					<name>GLEW_EXT_index_func</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="174">
+					<name>GLEW_EXT_index_material</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="175">
+					<name>GLEW_EXT_index_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="176">
+					<name>GLEW_EXT_light_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="177">
+					<name>GLEW_EXT_misc_attribute</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="178">
+					<name>GLEW_EXT_multi_draw_arrays</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="179">
+					<name>GLEW_EXT_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="180">
+					<name>GLEW_EXT_packed_depth_stencil</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="181">
+					<name>GLEW_EXT_packed_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="182">
+					<name>GLEW_EXT_packed_pixels</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="183">
+					<name>GLEW_EXT_paletted_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="184">
+					<name>GLEW_EXT_pixel_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="185">
+					<name>GLEW_EXT_pixel_transform</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="186">
+					<name>GLEW_EXT_pixel_transform_color_table</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="187">
+					<name>GLEW_EXT_point_parameters</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="188">
+					<name>GLEW_EXT_polygon_offset</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="189">
+					<name>GLEW_EXT_provoking_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="190">
+					<name>GLEW_EXT_rescale_normal</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="191">
+					<name>GLEW_EXT_scene_marker</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="192">
+					<name>GLEW_EXT_secondary_color</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="193">
+					<name>GLEW_EXT_separate_shader_objects</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="194">
+					<name>GLEW_EXT_separate_specular_color</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="195">
+					<name>GLEW_EXT_shader_image_load_store</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="196">
+					<name>GLEW_EXT_shadow_funcs</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="197">
+					<name>GLEW_EXT_shared_texture_palette</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="198">
+					<name>GLEW_EXT_stencil_clear_tag</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="199">
+					<name>GLEW_EXT_stencil_two_side</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="200">
+					<name>GLEW_EXT_stencil_wrap</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="201">
+					<name>GLEW_EXT_subtexture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="202">
+					<name>GLEW_EXT_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="203">
+					<name>GLEW_EXT_texture3D</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="204">
+					<name>GLEW_EXT_texture_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="205">
+					<name>GLEW_EXT_texture_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="206">
+					<name>GLEW_EXT_texture_compression_dxt1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="207">
+					<name>GLEW_EXT_texture_compression_latc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="208">
+					<name>GLEW_EXT_texture_compression_rgtc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="209">
+					<name>GLEW_EXT_texture_compression_s3tc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="210">
+					<name>GLEW_EXT_texture_cube_map</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="211">
+					<name>GLEW_EXT_texture_edge_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="212">
+					<name>GLEW_EXT_texture_env</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="213">
+					<name>GLEW_EXT_texture_env_add</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="214">
+					<name>GLEW_EXT_texture_env_combine</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="215">
+					<name>GLEW_EXT_texture_env_dot3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="216">
+					<name>GLEW_EXT_texture_filter_anisotropic</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="217">
+					<name>GLEW_EXT_texture_integer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="218">
+					<name>GLEW_EXT_texture_lod_bias</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="219">
+					<name>GLEW_EXT_texture_mirror_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="220">
+					<name>GLEW_EXT_texture_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="221">
+					<name>GLEW_EXT_texture_perturb_normal</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="222">
+					<name>GLEW_EXT_texture_rectangle</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="223">
+					<name>GLEW_EXT_texture_sRGB</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="224">
+					<name>GLEW_EXT_texture_shared_exponent</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="225">
+					<name>GLEW_EXT_texture_snorm</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="226">
+					<name>GLEW_EXT_texture_swizzle</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="227">
+					<name>GLEW_EXT_timer_query</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="228">
+					<name>GLEW_EXT_transform_feedback</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="229">
+					<name>GLEW_EXT_vertex_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="230">
+					<name>GLEW_EXT_vertex_array_bgra</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="231">
+					<name>GLEW_EXT_vertex_attrib_64bit</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="232">
+					<name>GLEW_EXT_vertex_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="233">
+					<name>GLEW_EXT_vertex_weighting</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="234">
+					<name>GLEW_FUN_EXPORT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="235">
+					<name>GLEW_GREMEDY_frame_terminator</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="236">
+					<name>GLEW_GREMEDY_string_marker</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="237">
+					<name>GLEW_HP_convolution_border_modes</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="238">
+					<name>GLEW_HP_image_transform</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="239">
+					<name>GLEW_HP_occlusion_test</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="240">
+					<name>GLEW_HP_texture_lighting</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="241">
+					<name>GLEW_IBM_cull_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="242">
+					<name>GLEW_IBM_multimode_draw_arrays</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="243">
+					<name>GLEW_IBM_rasterpos_clip</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="244">
+					<name>GLEW_IBM_static_data</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="245">
+					<name>GLEW_IBM_texture_mirrored_repeat</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="246">
+					<name>GLEW_IBM_vertex_array_lists</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="247">
+					<name>GLEW_INGR_color_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="248">
+					<name>GLEW_INGR_interlace_read</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="249">
+					<name>GLEW_INTEL_parallel_arrays</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="250">
+					<name>GLEW_INTEL_texture_scissor</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="251">
+					<name>GLEW_KTX_buffer_region</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="252">
+					<name>GLEW_MESAX_texture_stack</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="253">
+					<name>GLEW_MESA_pack_invert</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="254">
+					<name>GLEW_MESA_resize_buffers</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="255">
+					<name>GLEW_MESA_window_pos</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="256">
+					<name>GLEW_MESA_ycbcr_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="257">
+					<name>GLEW_NO_ERROR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="258">
+					<name>GLEW_NV_blend_square</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="259">
+					<name>GLEW_NV_conditional_render</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="260">
+					<name>GLEW_NV_copy_depth_to_color</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="261">
+					<name>GLEW_NV_copy_image</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="262">
+					<name>GLEW_NV_depth_buffer_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="263">
+					<name>GLEW_NV_depth_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="264">
+					<name>GLEW_NV_depth_range_unclamped</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="265">
+					<name>GLEW_NV_evaluators</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="266">
+					<name>GLEW_NV_explicit_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="267">
+					<name>GLEW_NV_fence</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="268">
+					<name>GLEW_NV_float_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="269">
+					<name>GLEW_NV_fog_distance</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="270">
+					<name>GLEW_NV_fragment_program</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="271">
+					<name>GLEW_NV_fragment_program2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="272">
+					<name>GLEW_NV_fragment_program4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="273">
+					<name>GLEW_NV_fragment_program_option</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="274">
+					<name>GLEW_NV_framebuffer_multisample_coverage</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="275">
+					<name>GLEW_NV_geometry_program4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="276">
+					<name>GLEW_NV_geometry_shader4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="277">
+					<name>GLEW_NV_gpu_program4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="278">
+					<name>GLEW_NV_gpu_program5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="279">
+					<name>GLEW_NV_gpu_program_fp64</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="280">
+					<name>GLEW_NV_gpu_shader5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="281">
+					<name>GLEW_NV_half_float</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="282">
+					<name>GLEW_NV_light_max_exponent</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="283">
+					<name>GLEW_NV_multisample_filter_hint</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="284">
+					<name>GLEW_NV_occlusion_query</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="285">
+					<name>GLEW_NV_packed_depth_stencil</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="286">
+					<name>GLEW_NV_parameter_buffer_object</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="287">
+					<name>GLEW_NV_parameter_buffer_object2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="288">
+					<name>GLEW_NV_pixel_data_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="289">
+					<name>GLEW_NV_point_sprite</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="290">
+					<name>GLEW_NV_present_video</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="291">
+					<name>GLEW_NV_primitive_restart</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="292">
+					<name>GLEW_NV_register_combiners</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="293">
+					<name>GLEW_NV_register_combiners2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="294">
+					<name>GLEW_NV_shader_buffer_load</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="295">
+					<name>GLEW_NV_tessellation_program5</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="296">
+					<name>GLEW_NV_texgen_emboss</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="297">
+					<name>GLEW_NV_texgen_reflection</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="298">
+					<name>GLEW_NV_texture_barrier</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="299">
+					<name>GLEW_NV_texture_compression_vtc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="300">
+					<name>GLEW_NV_texture_env_combine4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="301">
+					<name>GLEW_NV_texture_expand_normal</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="302">
+					<name>GLEW_NV_texture_rectangle</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="303">
+					<name>GLEW_NV_texture_shader</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="304">
+					<name>GLEW_NV_texture_shader2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="305">
+					<name>GLEW_NV_texture_shader3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="306">
+					<name>GLEW_NV_transform_feedback</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="307">
+					<name>GLEW_NV_transform_feedback2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="308">
+					<name>GLEW_NV_vertex_array_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="309">
+					<name>GLEW_NV_vertex_array_range2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="310">
+					<name>GLEW_NV_vertex_attrib_integer_64bit</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="311">
+					<name>GLEW_NV_vertex_buffer_unified_memory</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="312">
+					<name>GLEW_NV_vertex_program</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="313">
+					<name>GLEW_NV_vertex_program1_1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="314">
+					<name>GLEW_NV_vertex_program2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="315">
+					<name>GLEW_NV_vertex_program2_option</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="316">
+					<name>GLEW_NV_vertex_program3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="317">
+					<name>GLEW_NV_vertex_program4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="318">
+					<name>GLEW_OES_byte_coordinates</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="319">
+					<name>GLEW_OES_compressed_paletted_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="320">
+					<name>GLEW_OES_read_format</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="321">
+					<name>GLEW_OES_single_precision</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="322">
+					<name>GLEW_OK</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="323">
+					<name>GLEW_OML_interlace</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="324">
+					<name>GLEW_OML_resample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="325">
+					<name>GLEW_OML_subsample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="326">
+					<name>GLEW_PGI_misc_hints</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="327">
+					<name>GLEW_PGI_vertex_hints</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="328">
+					<name>GLEW_REND_screen_coordinates</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="329">
+					<name>GLEW_S3_s3tc</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="330">
+					<name>GLEW_SGIS_color_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="331">
+					<name>GLEW_SGIS_detail_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="332">
+					<name>GLEW_SGIS_fog_function</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="333">
+					<name>GLEW_SGIS_generate_mipmap</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="334">
+					<name>GLEW_SGIS_multisample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="335">
+					<name>GLEW_SGIS_pixel_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="336">
+					<name>GLEW_SGIS_point_line_texgen</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="337">
+					<name>GLEW_SGIS_sharpen_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="338">
+					<name>GLEW_SGIS_texture4D</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="339">
+					<name>GLEW_SGIS_texture_border_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="340">
+					<name>GLEW_SGIS_texture_edge_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="341">
+					<name>GLEW_SGIS_texture_filter4</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="342">
+					<name>GLEW_SGIS_texture_lod</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="343">
+					<name>GLEW_SGIS_texture_select</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="344">
+					<name>GLEW_SGIX_async</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="345">
+					<name>GLEW_SGIX_async_histogram</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="346">
+					<name>GLEW_SGIX_async_pixel</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="347">
+					<name>GLEW_SGIX_blend_alpha_minmax</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="348">
+					<name>GLEW_SGIX_clipmap</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="349">
+					<name>GLEW_SGIX_convolution_accuracy</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="350">
+					<name>GLEW_SGIX_depth_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="351">
+					<name>GLEW_SGIX_flush_raster</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="352">
+					<name>GLEW_SGIX_fog_offset</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="353">
+					<name>GLEW_SGIX_fog_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="354">
+					<name>GLEW_SGIX_fragment_specular_lighting</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="355">
+					<name>GLEW_SGIX_framezoom</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="356">
+					<name>GLEW_SGIX_interlace</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="357">
+					<name>GLEW_SGIX_ir_instrument1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="358">
+					<name>GLEW_SGIX_list_priority</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="359">
+					<name>GLEW_SGIX_pixel_texture</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="360">
+					<name>GLEW_SGIX_pixel_texture_bits</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="361">
+					<name>GLEW_SGIX_reference_plane</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="362">
+					<name>GLEW_SGIX_resample</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="363">
+					<name>GLEW_SGIX_shadow</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="364">
+					<name>GLEW_SGIX_shadow_ambient</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="365">
+					<name>GLEW_SGIX_sprite</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="366">
+					<name>GLEW_SGIX_tag_sample_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="367">
+					<name>GLEW_SGIX_texture_add_env</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="368">
+					<name>GLEW_SGIX_texture_coordinate_clamp</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="369">
+					<name>GLEW_SGIX_texture_lod_bias</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="370">
+					<name>GLEW_SGIX_texture_multi_buffer</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="371">
+					<name>GLEW_SGIX_texture_range</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="372">
+					<name>GLEW_SGIX_texture_scale_bias</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="373">
+					<name>GLEW_SGIX_vertex_preclip</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="374">
+					<name>GLEW_SGIX_vertex_preclip_hint</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="375">
+					<name>GLEW_SGIX_ycrcb</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="376">
+					<name>GLEW_SGI_color_matrix</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="377">
+					<name>GLEW_SGI_color_table</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="378">
+					<name>GLEW_SGI_texture_color_table</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="379">
+					<name>GLEW_SUNX_constant_data</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="380">
+					<name>GLEW_SUN_convolution_border_modes</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="381">
+					<name>GLEW_SUN_global_alpha</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="382">
+					<name>GLEW_SUN_mesh_array</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="383">
+					<name>GLEW_SUN_read_video_pixels</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="384">
+					<name>GLEW_SUN_slice_accum</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="385">
+					<name>GLEW_SUN_triangle_list</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="386">
+					<name>GLEW_SUN_vertex</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="387">
+					<name>GLEW_VAR_EXPORT</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="388">
+					<name>GLEW_VERSION</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="389">
+					<name>GLEW_VERSION_3_0</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="390">
+					<name>GLEW_VERSION_3_1</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="391">
+					<name>GLEW_VERSION_3_2</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="392">
+					<name>GLEW_VERSION_3_3</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="393">
+					<name>GLEW_VERSION_4_0</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="394">
+					<name>GLEW_VERSION_MAJOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="395">
+					<name>GLEW_VERSION_MICRO</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="396">
+					<name>GLEW_VERSION_MINOR</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="397">
+					<name>GLEW_WIN_phong_shading</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="398">
+					<name>GLEW_WIN_specular_fog</name>
+					<type>Int</type>
+				</extern-variable>
+				<extern-variable depth="2" id="399">
+					<name>GLEW_WIN_swap_hint</name>
+					<type>Int</type>
+				</extern-variable>
+			</const>
+		</extern>
+	</code>
+</module>

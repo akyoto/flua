@@ -118,7 +118,12 @@ class BaseClass(BaseNamespace):
 			for iterFunc in self.functions[func.getName()]:
 				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
 					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
+		
 		self.functions[func.getName()].append(func)
+		
+		# Property setter/getter?
+		if func.isGetter() or func.isSetter():
+			self.properties[func.name] = func
 		
 	def hasFunction(self, name):
 		return name in self.functions

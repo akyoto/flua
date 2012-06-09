@@ -11,10 +11,17 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 	
 	def __init__(self, parent, classImpl):
 		super().__init__([], parent)
+		
+		self.methods = classImpl.classObj.functions
+		self.members = classImpl.classObj.properties
+		
 		self.methodList, self.memberList = classImpl.classObj.getPublicFunctionList()
-		self.memberList.sort()
-		self.methodList.sort()
-		self.setStringList(self.memberList + self.methodList)
+		#self.methodList = list(self.methods)
+		#self.memberList = list(self.members)
+		
+		resultingList = self.memberList + self.methodList
+		resultingList.sort()
+		self.setStringList(resultingList)
 		
 		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
 		self.memberIcon = QtGui.QIcon("images/icons/autocomplete/member.png")
@@ -27,9 +34,9 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 			text = super().data(index, QtCore.Qt.DisplayRole)
 			
 			# TODO: Optimize for 'in' dict search instead of list search
-			if text in self.methodList:
+			if text in self.methods:
 				return self.methodIcon
-			elif text in self.memberList:
+			elif text in self.members:
 				return self.memberIcon
 		
 		return super().data(index, role)
@@ -128,13 +135,19 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 	
 	def updateStringList(self):
 		#self.classesList.reverse()
-		self.setStringList(
+		
+		resultingList = (
 			self.classesList +
 			self.functionList +
 			self.keywordList +
 			self.externFuncsList +
 			self.externVarsList +
 			self.shortCutList
+		)
+		resultingList.sort()
+		
+		self.setStringList(
+			resultingList
 		)
 		
 	def setMemberList(self, memberList):
@@ -172,7 +185,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		
 		return super().data(index, role)
 
-class BPCAutoCompleter(QtGui.QCompleter):
+class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	
 	# States
 	STATE_SEARCHING_SUGGESTION = 1
@@ -182,6 +195,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 	def __init__(self, parent = None):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
+		self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
 		self.popup().setObjectName("AutoCompleter")
 		
 	def memberExists(self, name):
@@ -191,8 +205,15 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		return self.model() != self.bpcModel
 		
 	def createClassMemberModel(self, dataType):
+		
+		self.startBenchmark("Create class member model for '%s'" % dataType)
 		classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
-		self.setModel(BPCClassMemberModel(self, classImpl))
+		classMemberModel = BPCClassMemberModel(self, classImpl)
+		self.endBenchmark()
+		
+		self.startBenchmark("Setting new model")
+		self.setModel(classMemberModel)
+		self.endBenchmark()
 		
 	def deactivateMemberList(self):
 		if self.model() != self.bpcModel:
@@ -214,6 +235,11 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		relPos = pos - block.position()
 		leftOfCursor = text[:relPos]
 		
+		# Shortcut: Import?
+		if text.startswith("import "):
+			# TODO: Import model
+			return False
+		
 		# Shortcut: String?
 		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
 			self.createClassMemberModel("UTF8String")
@@ -228,8 +254,8 @@ class BPCAutoCompleter(QtGui.QCompleter):
 		print("\nActivating member list:")
 		print("Object: " + obj)
 		print("Member: " + member)
-		print(self.codeEdit.bpcFile)
-		print(self.codeEdit.outFile)
+		#print(self.codeEdit.bpcFile)
+		#print(self.codeEdit.outFile)
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -240,7 +266,7 @@ class BPCAutoCompleter(QtGui.QCompleter):
 				print(str(e))
 				return False
 			
-			print("Translated expression to XML:\n%s\nNow trying to determine its data type." % (node.toprettyxml()))
+			#print("Translated expression to XML:\n%s\nNow trying to determine its data type." % (node.toprettyxml()))
 			
 			try:
 				bpIDE.restoreScopesOfNode(bpIDE.currentNode)
@@ -251,10 +277,10 @@ class BPCAutoCompleter(QtGui.QCompleter):
 			else:
 				try:
 					self.createClassMemberModel(dataType)
-					print("Created class member model for '%s'" % dataType)
+					#print("Created class member model for '%s'" % dataType)
 					return True
-				except:
-					print("No class information available for '%s'" % (dataType))
+				except BaseException as e:
+					print("No class information available for '%s' (%s)" % (dataType, str(e)))
 					self.deactivateMemberList()
 		
 		return False
@@ -296,6 +322,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.hoveringFileName = ""
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
+		self.completer = None
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -309,7 +336,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 3
-		self.autoSuggestionMinCompleteChars = 4
+		self.autoSuggestionMinCompleteChars = 3
 		self.autoSuggestionMaxItemCount = 4
 		
 		self.enableACInstant = True
@@ -705,6 +732,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				):
 				return
 			
+			## ctrl or shift key on it's own should not AC
+			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
+			if ctrlOrShift and not event.text():
+				return
+
+			# Modifier pressed?
+			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
+			
 			# Get the text in the line
 			cursor = self.textCursor()
 			block = cursor.block()
@@ -722,14 +757,20 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				self.completer.deactivateMemberList()
 				return
 			
-			# Set the prefix
+			# Set the prefix later
+			gonnaSetPrefix = False
 			if (
-					(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible() or event.text() == "." or self.completer.memberListActivated())
-					and
-					(completionPrefix != self.completer.completionPrefix())
+					event.text() == "."
+					or
+					(
+						(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible() or self.completer.memberListActivated())
+						and
+						(completionPrefix != self.completer.completionPrefix())
+						and
+						(not completionPrefix[-1] in "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=")
+					)
 				):
-				self.completer.setCompletionPrefix(completionPrefix)
-				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
+				gonnaSetPrefix = True
 			
 			# When the cursor is at a.member| this returns "."
 			b4pos = relPos - completionPrefixLen - 1
@@ -754,6 +795,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						return
 			else:
 				self.completer.deactivateMemberList()
+			
+			# AFTER THE MEMBER LIST HAS BEEN EVENTUALLY CREATED set the prefix
+			if gonnaSetPrefix:
+				self.completer.setCompletionPrefix(completionPrefix)
+				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
 			# If we press Ctrl + Space we change the state
 			if isShortcut:
