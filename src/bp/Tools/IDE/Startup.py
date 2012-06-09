@@ -68,9 +68,9 @@ class Startup:
 		self.evalInfoLabel = QtGui.QLabel("")
 		self.lineNumberLabel.setMinimumWidth(100)
 		self.progressBar = QtGui.QProgressBar(self.statusBar)
-		self.progressBar.setTextVisible(False)
+		self.progressBar.setTextVisible(True)
 		#self.progressBar.setMinimumWidth(100)
-		self.progressBar.hide()
+		#self.progressBar.hide()
 		
 		#spacer1 = QtGui.QWidget(self.statusBar)
 		#spacer1.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -82,7 +82,6 @@ class Startup:
 		self.statusBar.addWidget(self.lineNumberLabel)
 		self.statusBar.addWidget(self.moduleInfoLabel)
 		self.statusBar.addWidget(self.evalInfoLabel)
-		self.statusBar.addPermanentWidget(self.progressBar, 0)
 		
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
@@ -94,9 +93,15 @@ class Startup:
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		
+		# Progress bar
+		self.statusBar.addPermanentWidget(self.progressBar, 1)
+		
 		# Search
 		self.searchEdit = BPSearchEdit(self)
 		self.replaceEdit = BPReplaceEdit(self)
+		
+		self.searchEdit.hide()
+		
 		self.statusBar.addPermanentWidget(self.searchEdit, 1)
 		self.statusBar.addPermanentWidget(self.replaceEdit, 1)
 		

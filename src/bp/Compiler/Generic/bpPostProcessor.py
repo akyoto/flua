@@ -396,6 +396,7 @@ class BPPostProcessor:
 		self.externFuncNameToMetaDict = dict()
 		self.classes = {}
 		self.mainFilePath = ""
+		#self.lastFilePath = ""
 		self.funcCount = 0
 	
 	def getFunctionCount(self):
@@ -492,6 +493,8 @@ class BPPostProcessor:
 		return
 		
 	def processFile(self, filePath):
+		#self.lastFilePath = filePath
+		
 		xmlCode = loadXMLFile(filePath)
 		root = parseString(xmlCode).documentElement
 		self.process(root, filePath)

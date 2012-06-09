@@ -80,10 +80,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.backgroundCompileIsUpToDate = False
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
 		
-		# Timed
-		self.bindFunctionToTimer(self.showDependencies, 150)
-		self.bindFunctionToTimer(self.onCompileTimeout, 500)
-		
 		# AC
 		self.shortCuts = dict()
 		self.funcsDict = dict()
@@ -110,6 +106,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# The beginning of the end.
 		self.initAll()
+		
+		# Timed
+		self.startTime = time.time()
+		
+		self.bindFunctionToTimer(self.showDependencies, 150)
+		self.bindFunctionToTimer(self.onCompileTimeout, 500)
+		self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
 		self.setCentralWidget(self.workspacesContainer)
@@ -157,6 +160,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		timer = QtCore.QTimer(self)
 		timer.timeout.connect(func)
 		timer.start(interval)
+		return timer
 		
 	def showDependencies(self):#, node, updateDependencyView = True):
 		node = self.currentNode
@@ -179,7 +183,20 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.metaData.updateView()
 		
 		self.updateCodeBubble(node)
-	
+		
+	def onProgressUpdate(self):
+		if self.lastFunctionCount == -1 and self.postProcessorThread:
+			val = time.time() - self.startTime
+			self.progressBar.setValue(min(100, val * 50))
+			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
+			
+			#self.progressBar.show()
+			#self.searchEdit.hide()
+		else:
+			self.firstStartUpdateTimer.stop()
+			self.progressBar.hide()
+			self.searchEdit.show()
+		
 	def onCompileTimeout(self):
 		# Don't do this if we're actually compiling or if we have nothing to compile
 		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0 or self.codeEdit.ppOutstandingTasks > 0:

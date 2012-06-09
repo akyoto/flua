@@ -6,6 +6,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	
 	def __init__(self, bpIDE):
 		super().__init__(bpIDE)
+		Benchmarkable.__init__(self)
 		self.bpIDE = bpIDE
 		self.processor = bpIDE.processor
 		self.lastException = None
