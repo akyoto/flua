@@ -525,7 +525,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			else:
 				savedNodeId = -1
 			
-			while savedNode.tagName != "module" and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
+			while (savedNode.nodeType == Node.TEXT_NODE or savedNode.tagName != "module") and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
 				#print("Trying: " + savedNode.getAttribute("id"))
 				savedNode = savedNode.parentNode
 				

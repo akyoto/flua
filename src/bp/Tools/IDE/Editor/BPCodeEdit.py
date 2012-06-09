@@ -767,7 +767,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						and
 						(completionPrefix != self.completer.completionPrefix())
 						and
-						(not completionPrefix[-1] in "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=")
+						(completionPrefixLen > 0 and not completionPrefix[-1] in "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=")
 					)
 				):
 				gonnaSetPrefix = True

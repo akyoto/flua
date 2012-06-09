@@ -192,7 +192,6 @@ class Startup:
 		
 		#self.xmlViewDock.show()
 		
-		
 		if not self.developerFlag:
 			self.dependenciesViewDock.hide()
 			self.xmlViewDock.hide()
