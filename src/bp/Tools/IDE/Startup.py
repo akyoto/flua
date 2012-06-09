@@ -330,6 +330,9 @@ class Startup:
 				'program-output' : cf('#10e010'),
 				'traceback' : cf("#333333"),
 				'compiler-error' : cf("#ff0000"),
+				
+				'c-datatypes' : cf('#aa11aa', useBold),
+				'c-main' : cf('#0000ff', useBold),
 			},
 			
 			# Dark theme
@@ -385,6 +388,9 @@ class Startup:
 				'program-output' : cf('#ffffcc'),
 				'traceback' : cf("#ffffcc"),
 				'compiler-error' : cf("#ff9000"),
+				
+				'c-datatypes' : cf('#ffff00', useBold),
+				'c-main' : cf('#00ffff', useBold),
 			},
 		}
 		

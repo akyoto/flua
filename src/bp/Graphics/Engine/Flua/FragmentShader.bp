@@ -3,8 +3,81 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Graphics.Engine.Flua</import>
 		</dependencies>
 		<strings/>
 	</header>
-	<code/>
+	<code>
+		<class depth="0" id="1">
+			<name>FragmentShader</name>
+			<code>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>filePath</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>content</value>
+							<value>
+								<call>
+									<function>readFile</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>filePath</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>bp_createShader</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>content</value>
+												<value>data</value>
+											</access>
+										</parameter>
+										<parameter>GL_FRAGMENT_SHADER</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
+						<name>handle</name>
+						<code>
+							<return depth="3" id="7">
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
 </module>

@@ -41,6 +41,7 @@ dataTypeDefinitions = {
 	"Int" : "int_fast32_t",
 	"Int32" : "int32_t",
 	"Int64" : "int64_t",
+	"UInt" : "uint32_t",
 	"UInt32" : "uint32_t",
 	"UInt64" : "uint64_t",
 	"Size" : "size_t",

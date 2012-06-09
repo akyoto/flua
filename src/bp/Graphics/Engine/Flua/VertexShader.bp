@@ -42,14 +42,19 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>shaderId</value>
+									<value>handle</value>
 								</access>
 							</value>
 							<value>
 								<call>
 									<function>bp_createShader</function>
 									<parameters>
-										<parameter>content</parameter>
+										<parameter>
+											<access>
+												<value>content</value>
+												<value>data</value>
+											</access>
+										</parameter>
 										<parameter>GL_VERTEX_SHADER</parameter>
 									</parameters>
 								</call>
@@ -58,6 +63,20 @@
 					</code>
 					<meta/>
 				</function>
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
+						<name>handle</name>
+						<code>
+							<return depth="3" id="7">
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
 			</code>
 			<meta/>
 		</class>

@@ -15,6 +15,7 @@ dataTypeWeights = {
 	"ConstChar" : 3,
 	"Short" : 4,
 	"Int" : 5,
+	"UInt" : 6,
 	"Size" : 6,
 	"Int32" : 7,
 	"UInt32" : 7,

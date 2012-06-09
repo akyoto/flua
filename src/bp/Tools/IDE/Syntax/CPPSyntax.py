@@ -145,9 +145,34 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue
-				elif expr in {'char', 'bool', 'void', 'int', 'float', 'double'}:
+				elif expr in {
+						# C
+						'char', 'bool', 'void', 'int', 'float', 'double', 'short',
+						
+						# GLSL
+						'vec2', 'vec3', 'vec4',
+						'bvec2', 'bvec3', 'bvec4',
+						'ivec2', 'ivec3', 'ivec4',
+						'mat2', 'mat3', 'mat4',
+						'sampler1D', 'sampler2D', 'sampler3D', 'samplerCube',
+						'sampler1DShadow', 'sampler2DShadow',
+						}:
 					# Quick hack
-					#self.setFormat(i, h - i, style['default'])
+					self.setFormat(i, h - i, style['c-datatypes'])
+					i = h
+					continue
+				elif expr in {
+						# GLSL
+						'in', 'out', 'inout',
+						
+						'attribute', 'uniform', 'varying',
+						}:
+					self.setFormat(i, h - i, style['keyword'])
+					i = h
+					continue
+				elif expr == "main":
+					# Quick hack
+					self.setFormat(i, h - i, style['c-main'])
 					i = h
 					continue
 				elif bpIDE.processor.getFirstDTreeByFunctionName(expr):

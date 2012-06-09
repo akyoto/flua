@@ -19,10 +19,37 @@ inline void bp_initGLUT() {
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
 }
 
+inline GLuint bp_createGLSLProgram(GLuint vs, GLuint fs) {
+	GLint link_ok = GL_FALSE;
+	
+	GLuint program = glCreateProgram();
+	glAttachShader(program, vs);
+	glAttachShader(program, fs);
+	glLinkProgram(program);
+	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
+	if (!link_ok) {
+		fprintf(stderr, "glLinkProgram:");
+		return 0;
+	}
+	
+	return program;
+}
+
+inline GLint bp_createGLSLProgramAttribute(GLuint program, char* attributeName) {
+	GLint attrib = glGetAttribLocation(program, attributeName);
+	
+	if (attrib == -1) {
+		fprintf(stderr, "Could not bind attribute %s\n", attributeName);
+		return 0;
+	}
+	
+	return attrib;
+}
+
 inline Int bp_createGLUTWindow(char* title, int width, int height, int depth, bool fullscreen = false) {
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2);
 	glutInitWindowSize(width, height);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_ALPHA | GLUT_RGB | GLUT_DEPTH);
 	
 	int winId = glutCreateWindow(title);
 	
