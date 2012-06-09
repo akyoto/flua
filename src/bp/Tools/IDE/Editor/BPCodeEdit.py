@@ -335,8 +335,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.ppOutstandingTasks = 0
 		
 		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 3
-		self.autoSuggestionMinCompleteChars = 3
+		self.autoSuggestionMinChars = 2
+		self.autoSuggestionTypedChars = 2
+		self.autoSuggestionMinCompleteChars = 4
 		self.autoSuggestionMaxItemCount = 4
 		
 		self.enableACInstant = True
@@ -719,9 +720,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			if not isShortcut:
 				self.keyPressEvent(event, dontAutoComplete = True)
 				
-				if eventKey == QtCore.Qt.Key_Enter:
+				if eventKey in (QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return):
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					return
 			
+			# 
 			if 	(
 					(
 						eventKey == QtCore.Qt.Key_Backspace and
@@ -739,7 +742,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
 			if ctrlOrShift and not event.text():
 				return
-
+			
 			# Modifier pressed?
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
@@ -748,6 +751,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			block = cursor.block()
 			text = block.text()
 			relPos = cursor.position() - block.position()
+			
+			# Check char format
+			#cursor.movePosition(QtGui.QTextCursor.StartOfWord)
+			#charFormat = cursor.charFormat()
+			#style = self.bpIDE.getCurrentTheme()
+			#
+			#if charFormat == style["comment"] or charFormat == style["string"]:
+			#	return
 			
 			# Get the completion prefix
 			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
@@ -766,13 +777,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					event.text() == "."
 					or
 					(
-						(completionPrefixLen >= self.autoSuggestionMinChars or isShortcut or popup.isVisible() or self.completer.memberListActivated())
+						((completionPrefixLen >= self.autoSuggestionMinChars and (not completionPrefix[-1] in "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=")) or isShortcut or popup.isVisible() or self.completer.memberListActivated())
 						and
 						(completionPrefix != self.completer.completionPrefix())
-						and
-						(completionPrefixLen > 0 and not completionPrefix[-1] in "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-=")
 					)
 				):
+				
+				# Backspace to 0 length would show a HUGE list unexpectedly
+				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace:
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					popup.hide()
+					return
+				
 				gonnaSetPrefix = True
 			
 			# When the cursor is at a.member| this returns "."

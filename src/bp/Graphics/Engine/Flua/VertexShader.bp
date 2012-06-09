@@ -23,6 +23,22 @@
 					<name>init</name>
 					<code>
 						<assign depth="2" id="3">
+							<value>content</value>
+							<value>
+								<call>
+									<function>readFile</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>filePath</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2" id="4">
 							<value>
 								<access>
 									<value>my</value>
@@ -33,17 +49,7 @@
 								<call>
 									<function>bp_createShader</function>
 									<parameters>
-										<parameter>
-											<access>
-												<value>
-													<access>
-														<value>my</value>
-														<value>filePath</value>
-													</access>
-												</value>
-												<value>data</value>
-											</access>
-										</parameter>
+										<parameter>content</parameter>
 										<parameter>GL_VERTEX_SHADER</parameter>
 									</parameters>
 								</call>

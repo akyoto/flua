@@ -43,15 +43,19 @@ class EditMenuActions:
 	
 	# Copy console log
 	def copy(self):
-		if self.console.log:
-			self.console.log.copy()
+		logWidget = self.console.getCurrentLog()
+		
+		if logWidget:
+			logWidget.copy()
 		elif self.codeEdit:
 			self.codeEdit.copy()
 		
 	# Cut console log
 	def cut(self):
-		if self.console.log:
-			self.console.log.copy() # Don't cut!
+		logWidget = self.console.getCurrentLog()
+		
+		if logWidget:
+			logWidget.copy() # Don't cut!
 		elif self.codeEdit:
 			self.codeEdit.cut()
 		

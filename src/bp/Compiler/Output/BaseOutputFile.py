@@ -2172,7 +2172,7 @@ class BaseOutputFile(ScopeController):
 					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
 					paramsString = ", ".join(params)
 				elif pFrom == "Int" and pTo == "Size":
-					print("WARNING")
+					compilerWarning("Cast from signed Integer to unsigned Size in '%s'" % nodeToBPC(node))
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()

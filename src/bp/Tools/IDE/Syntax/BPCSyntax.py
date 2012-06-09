@@ -164,7 +164,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							else:
 								self.setFormat(i, h - i, style['side-effects-extern-function'])
 							i = h
-							continue
+							return
 				
 				if expr in (BPCHighlighter.keywords[ascii]):
 					if expr == "target":

@@ -50,7 +50,7 @@ class FileMenuActions:
 				parent=self,
 				caption="Open File",
 				directory=openInDirectory,
-				filter="bp and related Files (*.bp *.hpp *.py);;bpc Files (*.bpc);;Any text file (*.*)")
+				filter="All Files (*.*);;GLSL Files (*.glsl);;bpc Files (*.bpc);;Any text file (*.*)")
 		
 		if fileName:
 			# File already opened in workspace?
@@ -128,7 +128,7 @@ class FileMenuActions:
 				parent=self,
 				caption="Save File",
 				directory=saveInDirectory,
-				filter="bp Files (*.bp)")
+				filter=["bp Files (*.bp)", "All Files (*.*)"][self.codeEdit.isTextFile])
 		
 		if filePath:
 			self.codeEdit.save(filePath)

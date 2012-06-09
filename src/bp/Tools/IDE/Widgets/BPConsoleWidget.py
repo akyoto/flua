@@ -139,6 +139,9 @@ class BPConsoleWidget(QtGui.QTabWidget):
 				self.setCurrentIndex(i)
 				return
 		
+	def getCurrentLog(self):
+		return self.widget(self.currentIndex())
+		
 	def watch(self, newLog):
 		sys.stdout = sys.stderr = newLog
 		
