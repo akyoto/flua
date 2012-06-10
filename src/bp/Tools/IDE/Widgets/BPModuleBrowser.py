@@ -19,7 +19,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.realPath = ""
 		self.name = name
 		self.subModules = dict()
-		self.setEditable(False)
+		self.setEditable(True)
 		self.isModule = False
 		self.selectedModItem = None
 		self.setData(self, QtCore.Qt.UserRole + 1)
@@ -42,7 +42,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		
 		# Top level modules
 		#if not self.realPath:
-
+		
 class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	
 	def __init__(self, parent, modDir):
@@ -71,11 +71,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			self)
 		self.modNewAction.triggered.connect(self.newModule)
 		
-		self.modRenameAction = QtGui.QAction(
-			QtGui.QIcon(getIDERoot() + "images/icons/modules/module_rename.png"),
-			"Rename module",
-			self)
-		self.modRenameAction.triggered.connect(self.renameModule)
+		#self.modRenameAction = QtGui.QAction(
+		#	QtGui.QIcon(getIDERoot() + "images/icons/modules/module_rename.png"),
+		#	"Rename module",
+		#	self)
+		#self.modRenameAction.triggered.connect(self.renameModule)
 		
 		self.modDeleteAction = QtGui.QAction(
 			QtGui.QIcon(getIDERoot() + "images/icons/modules/module_delete.png"),
@@ -99,6 +99,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def commitData(self, editor):
 		item = self.currentIndex().data(QtCore.Qt.UserRole + 1)
 		newName = editor.text()
+		
+		# Name changed?
+		if item.name == newName and newName != "":
+			return
+		
 		isDirOnly = False
 		
 		realPath = item.realPath
@@ -129,8 +134,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#	realDir = extractDir(realPath)
 		
 		if sharesName:
-			print(realPath)
-			print(newPath)
+			#print(realPath)
+			#print(newPath)
 			shutil.copytree(os.path.dirname(realPath), os.path.dirname(newPath))
 			shutil.move(os.path.dirname(newPath) + "/" + stripDir(realPath), newPath)
 			shutil.rmtree(os.path.dirname(realPath))
@@ -147,9 +152,14 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		item.name = newName
 		item.realPath = newPath
 		
+		pathParts = item.path.split(".")
+		if pathParts:
+			pathParts[-1] = newName
+		item.path = ".".join(pathParts)
+		
 		# We need to update children's paths
 		if sharesName or isDirOnly:
-			self.reloadModuleDirectory(item)
+			self.reloadModuleDirectory()
 		
 		super().commitData(editor)
 		
@@ -247,6 +257,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	# Module renaming
 	def renameModule(self, ignored):
+		# TODO: ...
 		item = self.selectedModItem
 		item.setEditable(True)
 		
@@ -294,28 +305,25 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 	# Reload all directories
 	def reloadModuleDirectory(self, rootItem = None, expand = True):
+		expandedList = []
 		if self.bpcModel:
-			#indices = self.bpcModel.persistentIndexList()
-			#expanded = []
+			# Save expanded state
+			indices = self.bpcModel.persistentIndexList()
 			
-			#for index in indices:
-			#	expanded.append((index.data(), self.isExpanded(index)))
-			#print(expanded)
-			if rootItem:
-				pass#rootItem.removeRows(0, rootItem.rowCount())
-			else:
-				self.bpcModel.removeRows(0, self.bpcModel.rowCount())
+			for index in indices:
+				expandedList.append((index.data(QtCore.Qt.UserRole + 1).path, self.isExpanded(index)))
+			
+			# Delete all existing rows
+			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
 		
-		if rootItem:
-			self.modules = rootItem
-		else:
-			self.modules = BPModuleItem("root")
-			self.modules.realPath = self.modDir
+		self.modules = BPModuleItem("root")
+		self.modules.realPath = self.modDir
 		
-		rootLen = len(self.modules.realPath)
+		rootPath = extractDir(self.modules.realPath)
+		rootLen = len(rootPath)
 		
 		self.startBenchmark("Load module directory")
-		for root, subFolders, files in os.walk(self.modules.realPath):
+		for root, subFolders, files in os.walk(rootPath):
 			if fixPath(root) == self.bpIDE.tmpPath:
 				continue
 			
@@ -344,7 +352,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#self.setModel(None)
 		self.buildTree(rootItem)
 		
-		if expand:
+		if expandedList:
+			for modPath, state in expandedList:
+				item = self.getModuleItemByName(modPath)
+				self.setExpanded(item.index(), state)
+		elif expand:
 			self.expandToDepth(0)
 		
 	def onItemClick(self, item):
@@ -377,7 +389,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def buildTree(self, rootItem = None):
 		if rootItem:
 			for namespace, mod in sorted(rootItem.subModules.items()):
-				self.buildTreeRec(mod, rootItem.parent(), rootItem.parent().path)
+				self.buildTreeRec(mod, rootItem, rootItem.path)
 		else:
 			for namespace, mod in sorted(self.modules.subModules.items()):
 				self.buildTreeRec(mod, self.bpcModel.invisibleRootItem(), "")
@@ -399,6 +411,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			parent.isModule = True
 			parent.setForeground(self.brushModule)
 			return
+		
+		#mod.setIcon(QtGui.QIcon("images/icons/autocomplete/function.png"))
 		
 		if not mod.hasChildren():
 			mod.isModule = True
