@@ -101,7 +101,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		newName = editor.text()
 		
 		# Name changed?
-		if item.name == newName and newName != "":
+		if item.name == newName and len(newName) >= 1:
 			return
 		
 		isDirOnly = False

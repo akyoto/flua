@@ -737,11 +737,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					(not isShortcut) and (not event.text())
 					)
 				):
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
 				return
 			
 			## ctrl or shift key on it's own should not AC
 			ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier, QtCore.Qt.ShiftModifier)
 			if ctrlOrShift and not event.text():
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
 				return
 			
 			# Modifier pressed?
