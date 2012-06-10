@@ -524,6 +524,16 @@ class ExpressionParser:
 					parent.insertBefore(self.doc.createTextNode(value1.nodeValue + "." + value2.nodeValue), node)
 					parent.removeChild(node)
 			# Slice operator
+			elif node.tagName == "declare-type":
+				value1 = node.childNodes[0].childNodes[0]
+				value2 = node.childNodes[1].childNodes[0]
+				
+				if value1.nodeType != Node.TEXT_NODE and not value1.tagName in {"access"}:
+					raise CompilerException("Invalid type declaration")
+				
+				if value2.nodeType != Node.TEXT_NODE and not value2.tagName in {"template-call", "unmanaged"}:
+					raise CompilerException("You can't call a function in a type defintion")
+			# Slice operator
 			elif node.tagName == "index":
 				value1 = node.childNodes[0].childNodes[0]
 				value2 = node.childNodes[1].childNodes[0]

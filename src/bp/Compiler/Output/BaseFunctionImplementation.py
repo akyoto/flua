@@ -23,7 +23,15 @@ class BaseFunctionImplementation:
 		self.returnTypes = []
 		self.yieldType = None
 		self.yieldValue = None
+		self.scope = None
+		self.variablesAtStart = []
 		self.func.implementations[self.name] = self
+		
+	def declareVariableAtStart(self, var):
+		self.variablesAtStart.append(var)
+		
+	def setScope(self, nScope):
+		self.scope = nScope
 		
 	def getReturnType(self):
 		heaviest = None

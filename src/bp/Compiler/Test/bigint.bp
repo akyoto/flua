@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>
 				<declare-type>
 					<value>bigA</value>
@@ -20,7 +20,7 @@
 			</value>
 			<value>20</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>
 				<declare-type>
 					<value>smallB</value>
@@ -34,7 +34,7 @@
 				</multiply>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>smallB</value>
 			<value>
 				<add>
@@ -48,7 +48,7 @@
 				</add>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="4">
 			<value>
 				<declare-type>
 					<value>resultA</value>
@@ -57,7 +57,7 @@
 			</value>
 			<value>2432902008176640000</value>
 		</assign>
-		<if-block depth="0">
+		<if-block depth="0" id="5">
 			<if>
 				<condition>
 					<and>
@@ -88,7 +88,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="6">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_0</parameter>
@@ -96,9 +96,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else depth="0" id="7">
 				<code>
-					<call depth="1">
+					<call depth="1" id="8">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_1</parameter>

@@ -26,6 +26,7 @@
 ####################################################################
 from xml.dom.minidom import *
 import codecs
+from bp.Compiler.Utils.Debug import *
 
 ####################################################################
 # Global
@@ -135,7 +136,10 @@ def getFuncNameNode(node):
 	if getElementByTagName(node, "function"):
 		return getElementByTagName(node, "function").childNodes[0]
 	else:
-		return getElementByTagName(node, "operator").childNodes[0]
+		if getElementByTagName(node, "operator"):
+			return getElementByTagName(node, "operator").childNodes[0]
+		else:
+			raise CompilerException("Invalid function call")
 
 def tagName(node):
 	if node is None:

@@ -1,4 +1,5 @@
 from PyQt4 import QtGui, QtCore
+import os
 
 class BPMessageView(QtGui.QListWidget):
 	
@@ -27,6 +28,9 @@ class BPMessageView(QtGui.QListWidget):
 		
 	def goToLineOfItem(self, item):
 		errorFilePath = item.data(QtCore.Qt.UserRole + 1)
+		if (not errorFilePath) or (not os.path.isfile(errorFilePath)):
+			return
+		
 		lineNum = item.data(QtCore.Qt.UserRole + 2)
 		if lineNum:
 			lineNum = int(lineNum)
@@ -41,8 +45,11 @@ class BPMessageView(QtGui.QListWidget):
 		
 	def addMessage(self, msg):
 		newItem = QtGui.QListWidgetItem(self.icon, msg)
-		newItem.setStatusTip(str(-1))
+		newItem.setData(QtCore.Qt.UserRole + 1, "")
+		newItem.setData(QtCore.Qt.UserRole + 2, -1)
 		self.addItem(newItem)
+		
+		self.updateView()
 		
 	def addLineBasedMessage(self, errorFilePath, lineNumber, msg):
 		awesomeHash = errorFilePath + str(lineNumber) + msg

@@ -252,7 +252,13 @@ class BaseOutputFile(ScopeController):
 		# Need to register it here? 2 stands for class members
 		if ((not variableExisted) or variableExisted == 2) and (not declaredInline):
 			var = self.createVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
-			self.registerVariable(var)
+			
+			# Check if we are in the top function level scope
+			if self.currentFunctionImpl and self.getCurrentScope() != self.currentFunctionImpl.scope:
+				self.registerVariableFuncScope(var)
+				variableExisted = True
+			else:
+				self.registerVariable(var)
 			
 			if self.inConst:
 				return self.buildConstAssignment(var, value)
@@ -870,9 +876,21 @@ class BaseOutputFile(ScopeController):
 				#if op1Type == "UTF8String" and op2Type in nonPointerClasses:
 				#	return "UTF8String"
 				
+				# Subtraction should lead to a signed version
+				if node.tagName == "subtract" and op1Type in nonPointerClasses and op2Type in nonPointerClasses:
+					return self.getSignedVersion(op1Type)
+				
 				return self.getCombinationResult(node.tagName, op1Type, op2Type)
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
+	
+	def getSignedVersion(self, typeName):
+		if typeName in {"Float", "Float32", "Float64"}:
+			return "Float"
+		elif typeName in {"BigInt"}:
+			return "BigInt"
+		else:
+			return "Int"
 	
 	#def cachedCallType(self, xmlCode):
 	#	if xmlCode in self.compiler.virtualCallDataType:
@@ -1025,6 +1043,11 @@ class BaseOutputFile(ScopeController):
 		self.getCurrentScope().variables[var.name] = var
 		
 		#self.currentClassImpl.addMember(var)
+		
+	def registerVariableFuncScope(self, var):
+		debug("Registered variable '" + var.name + "' of type '" + var.type + "' in function scope")
+		self.currentFunctionImpl.scope.variables[var.name] = var
+		self.currentFunctionImpl.declareVariableAtStart(var)
 	
 	def handleUnmanaged(self, node):
 		self.inUnmanaged += 1
@@ -1779,7 +1802,23 @@ class BaseOutputFile(ScopeController):
 			else:
 				self.currentTabLevel = 1
 			
-			funcImpl.setCode(funcStartCode + self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter))
+			# Set scope
+			funcImpl.setScope(self.getCurrentScope())
+			
+			# Here we parse the actual code node
+			funcImplCode = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+			
+			# Variables used in deepter scopes need to be initialized at the beginning
+			varsAtStart = []
+			for var in funcImpl.variablesAtStart:
+				varsAtStart.append("\t" * self.currentTabLevel)
+				varsAtStart.append(var.getPrototype())
+				varsAtStart.append(";\n")
+			varsAtStartCode = ''.join(varsAtStart)
+			#print(varsAtStartCode)
+			
+			# Set code
+			funcImpl.setCode(funcStartCode + varsAtStartCode + funcImplCode)
 			
 			self.currentTabLevel = oldTabLevel - 1
 			
@@ -1877,9 +1916,17 @@ class BaseOutputFile(ScopeController):
 		
 		return code
 	
+	def isInvalidType(self, typeNode):
+		return (not isTextNode(typeNode)) and (not typeNode.tagName in {"template-call", "unmanaged"})
+	
 	def handleTypeDeclaration(self, node, insertTypeName = True):
 		self.inTypeDeclaration += 1
-		typeName = self.parseExpr(node.childNodes[1], True)
+		
+		typeNode = node.childNodes[1]
+		if self.isInvalidType(typeNode.firstChild):
+			raise CompilerException("Invalid type definition in '%s'" % nodeToBPC(node))
+		
+		typeName = self.parseExpr(typeNode, True)
 		
 		# Typedefs
 		typeName = self.prepareTypeName(typeName)

@@ -767,6 +767,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			# Get the completion prefix
 			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
+			
+			if completionPrefix == "()":
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
+				return
+			
 			completionPrefixLen = len(completionPrefix)
 			
 			# Did the user already type in the right member name?

@@ -848,7 +848,12 @@ class BPPostProcessorFile:
 			if node.tagName == "assign" and isElemNode(op2) and op2.tagName == "template-call":
 				raise CompilerException("You forgot the brackets to initialize the object")
 		elif node.tagName == "call":
-			funcNameNode = getElementByTagName(node, "function").childNodes[0]
+			functionNode = getElementByTagName(node, "function")
+			
+			if not functionNode:
+				return CompilerException("Invalid function call")
+			
+			funcNameNode = functionNode.childNodes[0]
 			
 			funcName = ""
 			if isTextNode(funcNameNode):

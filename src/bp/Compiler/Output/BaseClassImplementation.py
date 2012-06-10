@@ -101,6 +101,10 @@ class BaseClassImplementation:
 			candidates, baseClassImpl = findFunctionInBaseClasses(self, funcName)
 		else:
 			candidates = self.classObj.functions[funcName]
+		
+		if candidates is None:
+			raise CompilerException("No matching function found: '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
+		
 		#print(candidates[0].paramTypesByDefinition)
 		winner = None
 		winnerScore = 0

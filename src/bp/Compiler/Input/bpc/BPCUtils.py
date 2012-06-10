@@ -739,7 +739,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	raise CompilerException("Can't turn '%s' into BPC code, unknown element tag" % (nodeName))
 
 def getCalledFuncName(node):
-	funcNameNode = getFuncNameNode(node)
+	try:
+		funcNameNode = getFuncNameNode(node)
+	except:
+		raise CompilerException("Invalid function call")
 	
 	caller = ""
 	if funcNameNode.nodeType == Node.TEXT_NODE:
