@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SAn\Sif\S/\Selif\S/\Selse\Sblock\Sis\Sbuilt\Slike\Sthis:</comment>
-		<if-block depth="0" id="0">
+		<if-block depth="0" id="1">
 			<if>
 				<condition>
 					<equal>
@@ -26,7 +26,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="1">
+					<call depth="1" id="2">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_0</parameter>
@@ -34,7 +34,7 @@
 					</call>
 				</code>
 			</if>
-			<else-if depth="0" id="2">
+			<else-if depth="0" id="3">
 				<condition>
 					<equal>
 						<value>
@@ -47,7 +47,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="3">
+					<call depth="1" id="4">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_1</parameter>
@@ -55,9 +55,9 @@
 					</call>
 				</code>
 			</else-if>
-			<else depth="0" id="4">
+			<else depth="0" id="5">
 				<code>
-					<call depth="1" id="5">
+					<call depth="1" id="6">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_2</parameter>

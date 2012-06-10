@@ -12,20 +12,20 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="0">
+		<class depth="0" id="1">
 			<name>MyAwesomeClass</name>
 			<code>
-				<function depth="1" id="1">
+				<function depth="1" id="2">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="2"/>
+						<noop depth="2" id="3"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="3">
+				<function depth="1" id="4">
 					<name>enter</name>
 					<code>
-						<call depth="2" id="4">
+						<call depth="2" id="5">
 							<function>print</function>
 							<parameters>
 								<parameter>bp_string_0</parameter>
@@ -34,10 +34,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="5">
+				<function depth="1" id="6">
 					<name>exit</name>
 					<code>
-						<call depth="2" id="6">
+						<call depth="2" id="7">
 							<function>print</function>
 							<parameters>
 								<parameter>bp_string_1</parameter>
@@ -46,13 +46,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="7">
+				<function depth="1" id="8">
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
 					<name>doSomething</name>
 					<code>
-						<call depth="2" id="8">
+						<call depth="2" id="9">
 							<function>print</function>
 							<parameters>
 								<parameter>msg</parameter>
@@ -67,7 +67,7 @@
 		<comment>\SLet's\Sassume\Syou\Soften\Sneed\Sto\Sinitialize\Ssomething\Sin\Sa\Sblock\Sand\Safterwards\Sremove\Sit.</comment>
 		<comment>\SYou\Scan\Srealize\Sthis\Susing\Sthe\S'in'\Skeyword.</comment>
 		<comment>\S'in'\Sautomatically\Scalls\Sthe\S.enter()\Sand\S.exit()\Smethods\Sfor\Sthe\Sobject\Syou\Sused:</comment>
-		<in depth="0" id="9">
+		<in depth="0" id="10">
 			<expression>
 				<new>
 					<type>MyAwesomeClass</type>
@@ -75,7 +75,7 @@
 				</new>
 			</expression>
 			<code>
-				<call depth="1" id="10">
+				<call depth="1" id="11">
 					<function>print</function>
 					<parameters>
 						<parameter>bp_string_2</parameter>
@@ -84,7 +84,7 @@
 			</code>
 		</in>
 		<comment>\STo\Suse\Sthe\Sobject\Sinstance\Sinside\Sthe\Sblock\Syou\Sneed\Sto\Sname\Sit:</comment>
-		<in depth="0" id="11">
+		<in depth="0" id="12">
 			<expression>
 				<assign>
 					<value>a</value>
@@ -97,7 +97,7 @@
 				</assign>
 			</expression>
 			<code>
-				<call depth="1" id="12">
+				<call depth="1" id="13">
 					<function>
 						<access>
 							<value>a</value>

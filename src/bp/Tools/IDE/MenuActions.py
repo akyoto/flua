@@ -69,7 +69,7 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuA
 		self.forEachCodeEditDo(lambda ce: ceList.append(ce))
 		
 		for ce in ceList:
-			if not ce.isTextFile:
+			if not ce.isTextFile and os.path.isfile(ce.getFilePath()):
 				ce.reload()
 			#ce.updater.run()
 			#ce.updater.finished.emit()
