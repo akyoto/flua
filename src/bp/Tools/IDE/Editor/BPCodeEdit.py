@@ -768,7 +768,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Get the completion prefix
 			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
 			
-			if completionPrefix == "()":
+			if "(" in completionPrefix or ")" in completionPrefix:
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
 				return

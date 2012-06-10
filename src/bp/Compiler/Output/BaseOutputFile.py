@@ -1808,7 +1808,7 @@ class BaseOutputFile(ScopeController):
 			# Here we parse the actual code node
 			funcImplCode = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 			
-			# Variables used in deepter scopes need to be initialized at the beginning
+			# Variables used in deeper scopes need to be initialized at the beginning
 			varsAtStart = []
 			for var in funcImpl.variablesAtStart:
 				varsAtStart.append("\t" * self.currentTabLevel)
