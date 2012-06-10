@@ -1403,6 +1403,21 @@ class BaseOutputFile(ScopeController):
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
+		# Assign-add for Strings
+		elif tagName == "assign-add":
+			# So damn hardcoded...
+			op1 = node.childNodes[0].firstChild
+			op2 = node.childNodes[1].firstChild
+			dataType = self.getExprDataType(op1)
+			
+			if dataType == "UTF8String":
+				lValue = self.parseExpr(op1)
+				#rValue = self.parseExpr(op2)
+				#return "%s = %s->operatorAdd__UTF8String(%s)" % (lValue, lValue, rValue)
+				memberFunc = "+"
+				virtualAddCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (op1.toxml(), memberFunc, op2.toxml())).documentElement
+				
+				return "%s = %s" % (lValue, self.handleCall(virtualAddCall))
 		elif tagName in enableOperatorOverloading:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])

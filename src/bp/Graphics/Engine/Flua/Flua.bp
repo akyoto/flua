@@ -236,6 +236,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="22">
 					<name>enter</name>
@@ -250,6 +251,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="24">
 					<name>exit</name>
@@ -479,7 +481,6 @@
 					<value>true</value>
 				</assign>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

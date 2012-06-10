@@ -13,23 +13,23 @@
 		<comment>\SNote\Sthat\Sthis\Sis\Sa\Srecently\Sdeveloped\Sfeature\Swhich\Sis\Scurrently\Shighly\Sexperimental.</comment>
 		<comment>\SNonetheless\Syou\Scan\Stry\Sand\Ssee\Sif\Sit\Sworks\Sfor\Syou,\Spress\SF5.</comment>
 		<comment>\SBase\Sclass</comment>
-		<class depth="0" id="0">
+		<class depth="0" id="1">
 			<name>MyBaseClass</name>
 			<code>
-				<function depth="1" id="1">
+				<function depth="1" id="2">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="2"/>
+						<noop depth="2" id="3"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="3">
+				<function depth="1" id="4">
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
 					<name>doSomething</name>
 					<code>
-						<return depth="2" id="4">
+						<return depth="2" id="5">
 							<multiply>
 								<value>x</value>
 								<value>2</value>
@@ -37,13 +37,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="5">
+				<function depth="1" id="6">
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
 					<name>doSomethingOverwritten</name>
 					<code>
-						<return depth="2" id="6">
+						<return depth="2" id="7">
 							<multiply>
 								<value>x</value>
 								<value>3</value>
@@ -56,25 +56,25 @@
 			<meta/>
 		</class>
 		<comment>\SDerived\Sclass</comment>
-		<class depth="0" id="7">
+		<class depth="0" id="8">
 			<name>MyDerivedClass</name>
 			<code>
-				<extends depth="1" id="8">
-					<extends-class depth="2" id="9">MyBaseClass</extends-class>
+				<extends depth="1" id="9">
+					<extends-class depth="2" id="10">MyBaseClass</extends-class>
 				</extends>
-				<function depth="1" id="10">
+				<function depth="1" id="11">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="11"/>
+						<noop depth="2" id="12"/>
 					</code>
 				</function>
-				<function depth="1" id="12">
+				<function depth="1" id="13">
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
 					<name>doSomethingOverwritten</name>
 					<code>
-						<return depth="2" id="13">
+						<return depth="2" id="14">
 							<multiply>
 								<value>x</value>
 								<value>4</value>
@@ -85,7 +85,7 @@
 			</code>
 		</class>
 		<comment>\STest\Sit</comment>
-		<assign depth="0" id="14">
+		<assign depth="0" id="15">
 			<value>obj</value>
 			<value>
 				<new>
@@ -95,7 +95,7 @@
 			</value>
 		</assign>
 		<comment>\SCall\San\Soverwritten\Smethod\Sof\SMyDerivedClass\Sand\Sa\Snormal\Sone\Sof\SMyBaseClass</comment>
-		<if-block depth="0" id="15">
+		<if-block depth="0" id="16">
 			<if>
 				<condition>
 					<and>
@@ -138,7 +138,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="16">
+					<call depth="1" id="17">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_0</parameter>
@@ -146,9 +146,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="17">
+			<else depth="0" id="18">
 				<code>
-					<call depth="1" id="18">
+					<call depth="1" id="19">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_1</parameter>

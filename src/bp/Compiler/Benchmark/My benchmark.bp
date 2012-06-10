@@ -48,9 +48,8 @@
 			<value>a</value>
 			<value>0</value>
 		</assign>
-		<return depth="0" id="6"/>
 		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion,\SF5\Sfor\Sunoptimized\Sversion</comment>
-		<in depth="0" id="7">
+		<in depth="0" id="6">
 			<expression>
 				<new>
 					<type>Benchmark</type>
@@ -60,12 +59,12 @@
 				</new>
 			</expression>
 			<code>
-				<for depth="1" id="8">
+				<for depth="1" id="7">
 					<iterator>i</iterator>
 					<from>1</from>
 					<to>2000000</to>
 					<code>
-						<call depth="2" id="9">
+						<call depth="2" id="8">
 							<function>
 								<access>
 									<value>t</value>

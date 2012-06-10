@@ -303,6 +303,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="23">
 					<name>removeLast</name>
@@ -763,7 +764,7 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen_utf8</function>
+									<function>bp_strlenUtf8</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -779,6 +780,7 @@
 					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

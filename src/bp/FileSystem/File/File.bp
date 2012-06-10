@@ -405,5 +405,30 @@
 				</in>
 			</code>
 		</function>
+		<comment>\SCopies\Sa\Sfile\Sfrom\Slocation\S#from\Sto\S#to,\Sboth\Sneed\Sto\Sbe\Sfile\Snames,\Snot\Sdirectories</comment>
+		<function depth="0" id="60">
+			<parameters>
+				<parameter>from</parameter>
+				<parameter>to</parameter>
+			</parameters>
+			<name>copyFile</name>
+			<code>
+				<call depth="1" id="61">
+					<function>writeFile</function>
+					<parameters>
+						<parameter>to</parameter>
+						<parameter>
+							<call>
+								<function>readFile</function>
+								<parameters>
+									<parameter>from</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>

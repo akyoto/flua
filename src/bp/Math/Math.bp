@@ -126,11 +126,21 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Sa\Srandom\Snumber\Sbetween\Sa\Sand\Sb</comment>
+		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0" id="18">
 			<parameters>
-				<parameter>a</parameter>
-				<parameter>b</parameter>
+				<parameter>
+					<declare-type>
+						<value>a</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+				<parameter>
+					<declare-type>
+						<value>b</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
 			</parameters>
 			<name>rand</name>
 			<code>

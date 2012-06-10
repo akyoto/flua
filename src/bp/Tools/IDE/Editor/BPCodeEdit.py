@@ -441,6 +441,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	self.initLineNumberArea()
 	
 	def reload(self):
+		self.save()
 		xmlCode = loadXMLFile(self.getFilePath())
 		
 		#self.clear()
