@@ -28,27 +28,15 @@
 				</new>
 			</value>
 		</assign>
-		<declare-type depth="0" id="2">
-			<value>vs</value>
-			<value>VertexShader</value>
-		</declare-type>
-		<declare-type depth="0" id="3">
-			<value>fs</value>
-			<value>FragmentShader</value>
-		</declare-type>
-		<declare-type depth="0" id="4">
-			<value>mat</value>
-			<value>Material</value>
-		</declare-type>
 		<comment>\SLoad\Sour\Sshaders</comment>
-		<try-block depth="0" id="5">
+		<try-block depth="0" id="2">
 			<try>
 				<code>
-					<assign depth="1" id="6">
+					<assign depth="1" id="3">
 						<value>fsRoot</value>
 						<value>bp_string_1</value>
 					</assign>
-					<assign depth="1" id="7">
+					<assign depth="1" id="4">
 						<value>vs</value>
 						<value>
 							<new>
@@ -64,7 +52,7 @@
 							</new>
 						</value>
 					</assign>
-					<assign depth="1" id="8">
+					<assign depth="1" id="5">
 						<value>fs</value>
 						<value>
 							<new>
@@ -80,7 +68,7 @@
 							</new>
 						</value>
 					</assign>
-					<assign depth="1" id="9">
+					<assign depth="1" id="6">
 						<value>mat</value>
 						<value>
 							<new>
@@ -92,7 +80,7 @@
 							</new>
 						</value>
 					</assign>
-					<call depth="1" id="10">
+					<call depth="1" id="7">
 						<function>
 							<access>
 								<value>mat</value>
@@ -103,7 +91,7 @@
 					</call>
 				</code>
 			</try>
-			<catch depth="0" id="11">
+			<catch depth="0" id="8">
 				<variable>
 					<declare-type>
 						<value>e</value>
@@ -111,7 +99,7 @@
 					</declare-type>
 				</variable>
 				<code>
-					<call depth="1" id="12">
+					<call depth="1" id="9">
 						<function>print</function>
 						<parameters>
 							<parameter>
@@ -131,7 +119,7 @@
 			</catch>
 		</try-block>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="13">
+		<while depth="0" id="10">
 			<condition>
 				<access>
 					<value>win</value>
@@ -139,10 +127,10 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="14">
+				<in depth="1" id="11">
 					<expression>win</expression>
 					<code>
-						<call depth="2" id="15">
+						<call depth="2" id="12">
 							<function>drawRect</function>
 							<parameters>
 								<parameter>0</parameter>
