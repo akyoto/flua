@@ -222,7 +222,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love long variable names, don't we?
 		ce = self.outputCompilerThread.codeEdit
 		if ce:
-			ce.outFile = self.outputCompilerThread.outputCompiler.getMainFile()
+			comp = self.outputCompilerThread.outputCompiler
+			ce.outFile = comp.getMainFile()
 			
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
@@ -623,9 +624,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		ppCodeEdit.msgView.updateViewPostProcessor()
 		
 		# Update auto completer data
+		self.funcsDict = self.processor.getFunctionsDict()
+		
+		# TODO: Replace this as we don't need it anymore
 		if 0:
 			self.classesDict = self.processor.getClassesDict()
-			self.funcsDict = self.processor.getFunctionsDict()
 			
 			if (
 					ppCodeEdit.completer

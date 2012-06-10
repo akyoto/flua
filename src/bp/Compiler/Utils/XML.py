@@ -136,10 +136,10 @@ def getFuncNameNode(node):
 	if getElementByTagName(node, "function"):
 		return getElementByTagName(node, "function").childNodes[0]
 	else:
-		if getElementByTagName(node, "operator"):
-			return getElementByTagName(node, "operator").childNodes[0]
-		else:
-			raise CompilerException("Invalid function call")
+		#if getElementByTagName(node, "operator"):
+		return getElementByTagName(node, "operator").childNodes[0]
+		#else:
+		#	raise CompilerException("Invalid function call")
 
 def tagName(node):
 	if node is None:

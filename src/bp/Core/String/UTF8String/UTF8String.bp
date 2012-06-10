@@ -502,16 +502,12 @@
 							</code>
 						</while>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReturns\Show\Soften\S#chars\Sappears\Sin\Sthe\Sstring</comment>
 				<function depth="1" id="40">
 					<parameters>
-						<parameter>
-							<declare-type>
-								<value>chars</value>
-								<value>UTF8String</value>
-							</declare-type>
-						</parameter>
+						<parameter>chars</parameter>
 					</parameters>
 					<name>count</name>
 					<code>
@@ -907,6 +903,7 @@
 							</negative>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sbyte\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\Sthe\Sbyte\S#char</comment>
 				<comment>\Sfrom\Sthe\Sbyte\Sposition\S#fromByteIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -1032,6 +1029,7 @@
 					<code>
 						<noop depth="2" id="86"/>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1" id="87">
