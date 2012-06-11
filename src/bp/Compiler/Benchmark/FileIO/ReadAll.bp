@@ -7,7 +7,7 @@
 			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">/usr/include/GL/gl.h</string>
+			<string id="bp_string_0">bp_decls.hpp</string>
 			<string id="bp_string_1">FileIO.ReadAll</string>
 		</strings>
 	</header>
@@ -17,7 +17,7 @@
 			<code>
 				<assign depth="1" id="2">
 					<value>n</value>
-					<value>3000</value>
+					<value>25000</value>
 				</assign>
 				<assign depth="1" id="3">
 					<value>testFile</value>
