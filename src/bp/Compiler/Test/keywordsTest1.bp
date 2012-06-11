@@ -587,7 +587,7 @@
 			<if>
 				<condition>
 					<less>
-						<value>y</value>
+						<value>yTest</value>
 						<value>20</value>
 					</less>
 				</condition>

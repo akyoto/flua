@@ -843,6 +843,8 @@ class BaseOutputFile(ScopeController):
 				return "~" + expr
 			elif node.tagName == "negative":
 				return self.getExprDataTypeClean(node.childNodes[0].childNodes[0])
+			elif node.tagName == "exists-in":
+				return "Bool"
 			elif len(node.childNodes) == 2: # Any binary operation
 				op1 = node.childNodes[0].childNodes[0]
 				op2 = node.childNodes[1].childNodes[0]
@@ -1403,6 +1405,15 @@ class BaseOutputFile(ScopeController):
 			return self.parseChilds(node, "", "")
 		elif tagName == "else":
 			return self.handleElse(node)
+		# exists-in
+		elif tagName == "exists-in":
+			op1 = node.childNodes[0].firstChild
+			op2 = node.childNodes[1].firstChild
+			
+			memberFunc = "contains"
+			virtualCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (op2.toxml(), memberFunc, op1.toxml())).documentElement
+			
+			return self.handleCall(virtualCall)
 		elif tagName == "parameters":
 			return self.parseChilds(node, "", ", ")[:-2]
 		elif tagName == "parameter":
@@ -1970,7 +1981,7 @@ class BaseOutputFile(ScopeController):
 			return self.buildMemberTypeDeclInConstructor(varName) # ""
 		
 		variableExists = self.variableExistsAnywhere(varName)
-		if variableExists:
+		if variableExists and (self.getVariableScope(varName) == self.getTopLevelScope()):
 			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
 			for item in self.scopes:
 				print(item.variables)

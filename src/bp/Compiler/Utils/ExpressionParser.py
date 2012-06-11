@@ -57,6 +57,7 @@ bpOperatorLevels = [
 	# Type declaration
 	[
 		Operator(":", "declare-type", Operator.BINARY),
+		Operator("}=", "exists-in", Operator.BINARY),
 	],
 	
 	# 3: Unary

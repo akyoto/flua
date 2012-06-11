@@ -12,28 +12,33 @@
 			<string id="bp_string_4">String\Soperations\SNOT\Sworking!</string>
 			<string id="bp_string_5">\E</string>
 			<string id="bp_string_6">\E</string>
-			<string id="bp_string_7">String\Soperations\Sworking!</string>
-			<string id="bp_string_8">String\Soperations\SNOT\Sworking!</string>
+			<string id="bp_string_7">a</string>
+			<string id="bp_string_8">abc</string>
+			<string id="bp_string_9">d</string>
+			<string id="bp_string_10">abc</string>
+			<string id="bp_string_11">おはよ</string>
+			<string id="bp_string_12">String\Soperations\Sworking!</string>
+			<string id="bp_string_13">String\Soperations\SNOT\Sworking!</string>
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>strErrors</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>stringTestA</value>
 			<value>bp_string_0</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="3">
 			<value>stringTestB</value>
 			<value>bp_string_1</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="4">
 			<value>stringTestC</value>
 			<value>bp_string_2</value>
 		</assign>
-		<if-block depth="0">
+		<if-block depth="0" id="5">
 			<if>
 				<condition>
 					<not>
@@ -100,14 +105,14 @@
 					</not>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="6">
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="7">
 			<if>
 				<condition>
 					<or>
@@ -130,14 +135,59 @@
 					</or>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="8">
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="9">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<and>
+								<value>
+									<exists-in>
+										<value>bp_string_7</value>
+										<value>bp_string_8</value>
+									</exists-in>
+								</value>
+								<value>
+									<not>
+										<value>
+											<exists-in>
+												<value>bp_string_9</value>
+												<value>bp_string_10</value>
+											</exists-in>
+										</value>
+									</not>
+								</value>
+							</and>
+						</value>
+						<value>
+							<exists-in>
+								<value>bp_string_11</value>
+								<value>stringTestA</value>
+							</exists-in>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<noop depth="1" id="10"/>
+				</code>
+			</if>
+			<else depth="0" id="11">
+				<code>
+					<assign-add depth="1" id="12">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</else>
+		</if-block>
+		<if-block depth="0" id="13">
 			<if>
 				<condition>
 					<greater>
@@ -146,20 +196,20 @@
 					</greater>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="14">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_7</parameter>
+							<parameter>bp_string_12</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else depth="0" id="15">
 				<code>
-					<call depth="1">
+					<call depth="1" id="16">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_8</parameter>
+							<parameter>bp_string_13</parameter>
 						</parameters>
 					</call>
 				</code>
