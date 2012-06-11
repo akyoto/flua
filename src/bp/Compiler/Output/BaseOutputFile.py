@@ -292,7 +292,7 @@ class BaseOutputFile(ScopeController):
 		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
-			#print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
+			print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
 			return self.declareUnmanagedSyntax % (var.getPrototype(), value)
 		elif self.getCurrentScope() == self.getTopLevelScope():
 			return self.assignSyntax % (variableName, value)
@@ -716,7 +716,7 @@ class BaseOutputFile(ScopeController):
 			elif node.nodeValue == "my":
 				return self.currentClassImpl.getName()
 			elif node.nodeValue == "null":
-				return "~MemPointer<void>"
+				return "MemPointer<void>"
 			else:
 				nodeName = node.nodeValue
 				if nodeName in replacedNodeValues:
@@ -1605,8 +1605,9 @@ class BaseOutputFile(ScopeController):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		
-		if op1.nodeType == Node.TEXT_NODE and op1.nodeValue in self.currentClass.namespaces:
-			return op1.nodeValue + "_" + self.parseExpr(op2)
+		if op1.nodeType == Node.TEXT_NODE:
+			if op1.nodeValue in self.currentClass.namespaces:
+				return op1.nodeValue + "_" + self.parseExpr(op2)
 		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)

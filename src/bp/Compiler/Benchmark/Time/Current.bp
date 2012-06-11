@@ -1,0 +1,67 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Utils</import>
+			<import>bp.DateTime</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Time.Now</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchCurrentTime</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>n</value>
+					<value>500000</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>
+						<declare-type>
+							<value>now</value>
+							<value>DateTime</value>
+						</declare-type>
+					</value>
+					<value>null</value>
+				</assign>
+				<in depth="1" id="4">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<for depth="2" id="5">
+							<iterator>i</iterator>
+							<from>1</from>
+							<to>n</to>
+							<code>
+								<assign depth="3" id="6">
+									<value>now</value>
+									<value>
+										<call>
+											<function>getCurrentDateTime</function>
+											<parameters/>
+										</call>
+									</value>
+								</assign>
+							</code>
+							<meta/>
+						</for>
+					</code>
+				</in>
+				<call depth="1" id="7">
+					<function>gcCollect</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

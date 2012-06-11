@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>keywordsTest1</import>
+			<import>keywordsTest</import>
 			<import>enterexit</import>
 			<import>math</import>
 			<import>generics</import>

@@ -1,0 +1,77 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Utils</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Hello\SSさしSさせSさすせそSさ</string>
+			<string id="bp_string_1">\E</string>
+			<string id="bp_string_2">Strings.Replace</string>
+			<string id="bp_string_3">せ</string>
+			<string id="bp_string_4">さ</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchReplace</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>n</value>
+					<value>2000000</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>t</value>
+					<value>bp_string_0</value>
+				</assign>
+				<assign depth="1" id="4">
+					<value>result</value>
+					<value>bp_string_1</value>
+				</assign>
+				<in depth="1" id="5">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>bp_string_2</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<for depth="2" id="6">
+							<iterator>i</iterator>
+							<from>1</from>
+							<to>n</to>
+							<code>
+								<assign depth="3" id="7">
+									<value>result</value>
+									<value>
+										<call>
+											<function>
+												<access>
+													<value>t</value>
+													<value>replace</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>bp_string_3</parameter>
+												<parameter>bp_string_4</parameter>
+											</parameters>
+										</call>
+									</value>
+								</assign>
+							</code>
+							<meta/>
+						</for>
+					</code>
+				</in>
+				<call depth="1" id="8">
+					<function>gcCollect</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

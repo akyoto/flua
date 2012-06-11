@@ -92,6 +92,7 @@
 								</new>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 					<operator depth="2" id="9">
 						<parameters>
@@ -180,29 +181,6 @@
 						<parameters>
 							<parameter>
 								<declare-type>
-									<value>stri</value>
-									<value>UTF8String</value>
-								</declare-type>
-							</parameter>
-						</parameters>
-						<name>+=</name>
-						<code>
-							<assign depth="3" id="16">
-								<value>my</value>
-								<value>
-									<add>
-										<value>my</value>
-										<value>stri</value>
-									</add>
-								</value>
-							</assign>
-						</code>
-						<meta/>
-					</operator>
-					<operator depth="2" id="17">
-						<parameters>
-							<parameter>
-								<declare-type>
 									<value>num</value>
 									<value>Int</value>
 								</declare-type>
@@ -210,22 +188,131 @@
 						</parameters>
 						<name>*</name>
 						<code>
-							<return depth="3" id="18">
+							<assign depth="3" id="16">
+								<value>mem</value>
+								<value>
+									<new>
+										<type>
+											<template-call>
+												<value>MemPointer</value>
+												<value>Byte</value>
+											</template-call>
+										</type>
+										<parameters>
+											<parameter>
+												<multiply>
+													<value>
+														<access>
+															<value>my</value>
+															<value>lengthInBytes</value>
+														</access>
+													</value>
+													<value>num</value>
+												</multiply>
+											</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<if-block depth="3" id="17">
+								<if>
+									<condition>
+										<equal>
+											<value>
+												<access>
+													<value>my</value>
+													<value>lengthInBytes</value>
+												</access>
+											</value>
+											<value>1</value>
+										</equal>
+									</condition>
+									<code>
+										<call depth="4" id="18">
+											<function>setMem</function>
+											<parameters>
+												<parameter>mem</parameter>
+												<parameter>
+													<access>
+														<value>
+															<access>
+																<value>my</value>
+																<value>data</value>
+															</access>
+														</value>
+														<value>data</value>
+													</access>
+												</parameter>
+												<parameter>num</parameter>
+											</parameters>
+										</call>
+									</code>
+								</if>
+								<else depth="3" id="19">
+									<code>
+										<for depth="4" id="20">
+											<iterator>i</iterator>
+											<from>0</from>
+											<until>num</until>
+											<code>
+												<call depth="5" id="21">
+													<function>copyMem</function>
+													<parameters>
+														<parameter>
+															<access>
+																<value>my</value>
+																<value>data</value>
+															</access>
+														</parameter>
+														<parameter>
+															<add>
+																<value>mem</value>
+																<value>
+																	<multiply>
+																		<value>i</value>
+																		<value>
+																			<access>
+																				<value>my</value>
+																				<value>lengthInBytes</value>
+																			</access>
+																		</value>
+																	</multiply>
+																</value>
+															</add>
+														</parameter>
+														<parameter>
+															<access>
+																<value>my</value>
+																<value>lengthInBytes</value>
+															</access>
+														</parameter>
+													</parameters>
+												</call>
+											</code>
+											<meta/>
+										</for>
+									</code>
+								</else>
+							</if-block>
+							<return depth="3" id="22">
 								<new>
 									<type>UTF8String</type>
-									<parameters/>
+									<parameters>
+										<parameter>mem</parameter>
+									</parameters>
 								</new>
 							</return>
 						</code>
+						<meta/>
 					</operator>
-					<operator depth="2" id="19">
+					<operator depth="2" id="23">
 						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
 						</parameters>
 						<name>[:]</name>
 						<code>
-							<return depth="3" id="20">
+							<return depth="3" id="24">
 								<call>
 									<function>
 										<access>
@@ -241,7 +328,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="21">
+					<operator depth="2" id="25">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -252,7 +339,7 @@
 						</parameters>
 						<name>==</name>
 						<code>
-							<if-block depth="3" id="22">
+							<if-block depth="3" id="26">
 								<if>
 									<condition>
 										<not-equal>
@@ -271,11 +358,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="23">false</return>
+										<return depth="4" id="27">false</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="24">
+							<if-block depth="3" id="28">
 								<if>
 									<condition>
 										<equal>
@@ -294,11 +381,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="25">true</return>
+										<return depth="4" id="29">true</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="26">
+							<return depth="3" id="30">
 								<call>
 									<function>compareMem</function>
 									<parameters>
@@ -325,7 +412,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="27">
+					<operator depth="2" id="31">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -336,7 +423,7 @@
 						</parameters>
 						<name>!=</name>
 						<code>
-							<if-block depth="3" id="28">
+							<if-block depth="3" id="32">
 								<if>
 									<condition>
 										<not-equal>
@@ -355,11 +442,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="29">true</return>
+										<return depth="4" id="33">true</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="30">
+							<if-block depth="3" id="34">
 								<if>
 									<condition>
 										<equal>
@@ -378,11 +465,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="31">false</return>
+										<return depth="4" id="35">false</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="32">
+							<return depth="3" id="36">
 								<not>
 									<value>
 										<call>
@@ -411,6 +498,29 @@
 									</value>
 								</not>
 							</return>
+						</code>
+					</operator>
+					<comment>\STODO:\SMake\Suse\Sof\Sthis</comment>
+					<operator depth="2" id="37">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>stri</value>
+									<value>UTF8String</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>+=</name>
+						<code>
+							<assign depth="3" id="38">
+								<value>my</value>
+								<value>
+									<add>
+										<value>my</value>
+										<value>stri</value>
+									</add>
+								</value>
+							</assign>
 						</code>
 					</operator>
 				</operators>

@@ -1,0 +1,66 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math.Utils</import>
+			<import>bp.Utils</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Math.Factorial</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchFactorial</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>
+						<declare-type>
+							<value>resFact</value>
+							<value>BigInt</value>
+						</declare-type>
+					</value>
+					<value>0</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>
+						<declare-type>
+							<value>bigA</value>
+							<value>BigInt</value>
+						</declare-type>
+					</value>
+					<value>50000</value>
+				</assign>
+				<in depth="1" id="4">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<assign depth="2" id="5">
+							<value>resFact</value>
+							<value>
+								<call>
+									<function>factorial</function>
+									<parameters>
+										<parameter>bigA</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</in>
+				<call depth="1" id="6">
+					<function>gcCollect</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

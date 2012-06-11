@@ -311,10 +311,13 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		parameters = nodeToBPC(getElementByTagName(node, "parameters"), 0, conv)
 		
 		#return "%s(%s)" % (funcName, parameters)
+		#print("%s(%s)" % (funcName, parameters))
 		
 		if node.parentNode.tagName == "code":
 			if parameters:
 				if currentSyntax == SYNTAX_BPC:
+					#print(funcName)
+					#print(parameters)
 					return "%s %s" % (funcName, parameters)
 				else:
 					return "%s(%s)" % (funcName, parameters)
@@ -327,8 +330,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		params = []
 		for param in node.childNodes:
 			paramCode = nodeToBPC(param, 0, conv)
-			if len(paramCode) >= 1 and paramCode[0] == '(' and paramCode[-1] == ')':
-				paramCode = paramCode[1:-1]
+			#if len(paramCode) >= 1 and paramCode[0] == '(' and paramCode[-1] == ')':
+			#	shorterCode = paramCode[1:-1]
+				
+				# Test if it is valid
+			#	if 0:#shorterCode.find("(") <= shorterCode.find(")"):
+			#		paramCode = shorterCode
 			params.append(paramCode)
 		return ", ".join(params)
 	#######################################################################
@@ -723,6 +730,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			operationAbove = node.parentNode.tagName
 		
+		# Translate
+		opSymbol = binaryOperatorTagToSymbol[nodeName]
+		if opSymbol in translateLogicalOperatorSign:
+			opSymbol = translateLogicalOperatorSign[opSymbol]
+		
 		if nodeName == "access":
 			space = ""
 			prefix = ""
@@ -731,10 +743,6 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif hasHigherPriority(operationAbove, nodeName):
 			prefix = "("
 			postfix = ")"
-		
-		opSymbol = binaryOperatorTagToSymbol[nodeName]
-		if opSymbol in translateLogicalOperatorSign:
-			opSymbol = translateLogicalOperatorSign[opSymbol]
 		
 		return ''.join([prefix, op1bpc, space, opSymbol, space, op2bpc, postfix])
 	

@@ -140,14 +140,35 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SWrites\S#x\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
+		<comment>\SPrints\SBigInt\S#x\Son\Sthe\Sconsole</comment>
 		<function depth="0" id="19">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>BigInt</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>print</name>
+			<code>
+				<call depth="1" id="20">
+					<function>bp_writeLine</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SWrites\S#x\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
+		<function depth="0" id="21">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>write</name>
 			<code>
-				<call depth="1" id="20">
+				<call depth="1" id="22">
 					<function>bp_write</function>
 					<parameters>
 						<parameter>x</parameter>

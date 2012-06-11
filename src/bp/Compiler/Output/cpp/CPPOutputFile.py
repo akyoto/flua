@@ -405,4 +405,4 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.classesHeader + self.functionsHeader + self.actorClassesHeader + self.customThreadsString + self.body + self.footer
+		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.classesHeader + self.customThreadsString + self.functionsHeader + self.actorClassesHeader + self.body + self.footer

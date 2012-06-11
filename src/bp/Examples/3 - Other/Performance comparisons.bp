@@ -1,0 +1,34 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SHere's\Sa\S_general_\Srule\Sof\Sthumb\Swhich\Sis\Strue\Sfor\Smost\Scases,</comment>
+		<comment>\Sbut\Sdon't\Squote\Sme\Son\Sthis.\SI\Sjust\Swant\Sto\Sgive\Syou\Sa\Srough\Sidea</comment>
+		<comment>\Sof\Show\Sfast\Sbp\Sis.</comment>
+		<comment>\S1.0\Smeans\Sthat\Sthis\Sis\Sthe\Sspeed\Sthe\Sother\Srelative\Snumbers\Sare\Sreferring\Sto.</comment>
+		<comment>\S2.0\Smeans\Sthat\Sit\Sneeds\Sdouble\Sthe\Stime,\S3.0\Striple\Setc.</comment>
+		<comment>\SA\Svalue\Slower\Sthan\S1\S(e.g.\S0.9)\Smeans\Sthat\Sit\SCAN\Sbe\Smade\Sfaster\Sthan</comment>
+		<comment>\Sthe\Slanguage\Swhich\Shas\S1.0\Sfor\Sthe\SUSUAL\SAPPROACH\STO\SA\SPROBLEM.</comment>
+		<comment>\SA\Sgiven\Sproblem\Scan\Sbe\Ssolved\Sin\Smultiple\Sways,\Sbut\Ssome\Sof\Sthem\Sare</comment>
+		<comment>\Smore\Sintuitive\Sthan\Sothers.\SIf\Sthe\Snumber\Sis\Slower\Sthan\S1.0\Sit\Smeans</comment>
+		<comment>\Swe\Sare\Scomparing\Sthe\Smost\Sintuitive\Ssolutions\Sto\Sa\Sproblem.</comment>
+		<comment>\S====================================================================</comment>
+		<comment>\S=\SString\Soperations\S=</comment>
+		<comment>\S\S\S*\SC++:\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S1.0</comment>
+		<comment>\S\S\S*\Sbp:\S\S\S\S\S\S\S\S\S\S\S\S\S\S0.9\S-\S1.1</comment>
+		<comment>\S\S\S*\SPython3:\S\S\S\S\S\S\S\S\S1.3\S-\S2.0</comment>
+		<comment>\S\S\S*\SRuby:\S\S\S\S\S\S\S\S\S\S\S\S1.5\S-\S4.0</comment>
+		<comment>\S====================================================================</comment>
+		<comment>\S=\SFile\SI/O\S=</comment>
+		<comment>\S\S\S*\SC++:\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S1.0</comment>
+		<comment>\S\S\S*\Sbp:\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S1.0</comment>
+		<comment>\S\S\S*\SPython3:\S\S\S\S\S\S\S\S\S\Sunknown</comment>
+		<comment>\S\S\S*\SRuby:\S\S\S\S\S\S\S\S\S\S\S\S\Sunknown</comment>
+		<comment>\S====================================================================</comment>
+	</code>
+</module>

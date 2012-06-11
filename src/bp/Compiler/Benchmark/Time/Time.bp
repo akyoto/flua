@@ -1,0 +1,22 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>Current</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchTime</name>
+			<code>
+				<call depth="1" id="2">
+					<function>benchCurrentTime</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

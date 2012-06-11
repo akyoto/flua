@@ -534,6 +534,8 @@
 													</if>
 													<else depth="5" id="52">
 														<code>
+															<comment>\SIF\Swe\Sever\Shave\Sa\Sreason\Sto\Sresize\Sthe\Stable</comment>
+															<comment>\Swe\Scan\Sassume\Sthat\Sthere\Swill\Sbe\SMUCH\SMORE\Sdata\Sincoming.</comment>
 															<call depth="6" id="53">
 																<function>
 																	<access>

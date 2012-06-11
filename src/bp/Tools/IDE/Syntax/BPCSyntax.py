@@ -197,6 +197,9 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						# Possible bug, but ignorable
 						if (len(text) >= 3 and text.lstrip()[:3] == "for") or text.lstrip()[:2] == "to":
 							self.setFormat(i, h - i, style['keyword'])
+					elif expr == "parallel":
+						if (len(text) >= 8 and text.lstrip()[:8] == "parallel"):
+							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])
 				elif expr.startswith("bp_") or expr in externFuncs:

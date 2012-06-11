@@ -69,6 +69,7 @@
 							<value>0</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SInteger</comment>
 				<function depth="1" id="6">
@@ -142,6 +143,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1" id="10">

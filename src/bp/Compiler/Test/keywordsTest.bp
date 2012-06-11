@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>keywordsTest2</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">#if\Sworking</string>
