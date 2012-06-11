@@ -413,7 +413,20 @@
 			</parameters>
 			<name>copyFile</name>
 			<code>
-				<call depth="1" id="61">
+				<if-block depth="1" id="61">
+					<if>
+						<condition>
+							<equal>
+								<value>from</value>
+								<value>to</value>
+							</equal>
+						</condition>
+						<code>
+							<return depth="2" id="62"/>
+						</code>
+					</if>
+				</if-block>
+				<call depth="1" id="63">
 					<function>writeFile</function>
 					<parameters>
 						<parameter>to</parameter>

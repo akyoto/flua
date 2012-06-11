@@ -6,18 +6,18 @@
 			<import>bp.Math.Geometry</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Function overloading NOT working!</string>
-			<string id="bp_string_1">Function overloading working!</string>
+			<string id="bp_string_0">Function\Soverloading\SNOT\Sworking!</string>
+			<string id="bp_string_1">Function\Soverloading\Sworking!</string>
 		</strings>
 	</header>
 	<code>
-		<function depth="0">
+		<function depth="0" id="1">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>testFunc</name>
 			<code>
-				<call depth="1">
+				<call depth="1" id="2">
 					<function>print</function>
 					<parameters>
 						<parameter>bp_string_0</parameter>
@@ -25,7 +25,7 @@
 				</call>
 			</code>
 		</function>
-		<function depth="0">
+		<function depth="0" id="3">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -36,15 +36,16 @@
 			</parameters>
 			<name>testFunc</name>
 			<code>
-				<call depth="1">
+				<call depth="1" id="4">
 					<function>print</function>
 					<parameters>
 						<parameter>bp_string_1</parameter>
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
-		<assign depth="0">
+		<assign depth="0" id="5">
 			<value>testA</value>
 			<value>
 				<new>
@@ -56,7 +57,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="6">
 			<function>testFunc</function>
 			<parameters>
 				<parameter>testA</parameter>

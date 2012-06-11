@@ -41,6 +41,7 @@
 							</value>
 						</declare-type>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="7">
 					<parameters>
@@ -60,6 +61,7 @@
 					<code>
 						<noop depth="2" id="8"/>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="9">
 					<getter depth="2" id="10">
@@ -207,14 +209,15 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="26">
 					<getter depth="2" id="27">
 						<name>first</name>
 						<code>
 							<require depth="3" id="28">
-								<call depth="4" id="29">
-									<function>
+								<not-equal depth="4" id="29">
+									<value>
 										<access>
 											<value>
 												<access>
@@ -224,9 +227,9 @@
 											</value>
 											<value>next</value>
 										</access>
-									</function>
-									<parameters/>
-								</call>
+									</value>
+									<value>null</value>
+								</not-equal>
 							</require>
 							<return depth="3" id="30">
 								<access>
@@ -240,6 +243,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 				<iterators depth="1" id="31">

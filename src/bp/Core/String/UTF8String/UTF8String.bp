@@ -502,7 +502,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Show\Soften\S#chars\Sappears\Sin\Sthe\Sstring</comment>
 				<function depth="1" id="40">
@@ -572,7 +571,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<comment>\Sfrom\Sthe\Sposition\S#fromIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -903,7 +901,6 @@
 							</negative>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sbyte\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\Sthe\Sbyte\S#char</comment>
 				<comment>\Sfrom\Sthe\Sbyte\Sposition\S#fromByteIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -1029,7 +1026,6 @@
 					<code>
 						<noop depth="2" id="86"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1" id="87">
@@ -1353,7 +1349,7 @@
 						</return>
 					</code>
 				</function>
-				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\Schars</comment>
+				<comment>\SDelete\S#chars\Sfrom\Sthe\Sstring\Sif\Sthe\Sstring\Sstarts\Swith\S#chars</comment>
 				<function depth="1" id="111">
 					<parameters>
 						<parameter>

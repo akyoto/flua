@@ -121,6 +121,7 @@
 			</code>
 			<meta/>
 		</class>
+		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="16">
 			<call depth="1" id="17">
 				<function>print</function>

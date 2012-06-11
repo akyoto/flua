@@ -994,21 +994,24 @@ class BaseOutputFile(ScopeController):
 		#print(self.getTopLevelScope().variables)
 		if name in self.compiler.mainClass.classes:
 			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
-		elif name in self.compiler.mainClass.functions:
+		
+		if name in self.compiler.mainClass.functions:
 			raise CompilerException("A function call can only return a value if you use parentheses: '" + name + "()'")
 		
 		raise CompilerException("Unknown variable: " + name)
 	
 	def variableExistsAnywhere(self, name):
+		if name in self.compiler.mainClassImpl.members:
+			return 3
+		
 		if self.variableExists(name):
 			return 1
-		elif name in self.currentClassImpl.members:
+		
+		if name in self.currentClassImpl.members:
 			return 2
-		elif name in self.compiler.mainClassImpl.members:
-			return 3
-		else:
-			#print(name + " doesn't exist")
-			return 0
+		
+		#print(name + " doesn't exist")
+		return 0
 	
 	def classExists(self, className):
 		if className == "":
@@ -1041,6 +1044,9 @@ class BaseOutputFile(ScopeController):
 		#var.name = self.getNamespacePrefix() + var.name
 		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
+		
+		if self.getCurrentScope() == self.getTopLevelScope():# and not self.currentFunctionImpl:
+			self.compiler.mainClassImpl.members[var.name] = var
 		
 		#self.currentClassImpl.addMember(var)
 		
@@ -1410,6 +1416,7 @@ class BaseOutputFile(ScopeController):
 			op2 = node.childNodes[1].firstChild
 			dataType = self.getExprDataType(op1)
 			
+			# TODO: Check whether the class has a += operator and if not, use this:
 			if dataType == "UTF8String":
 				lValue = self.parseExpr(op1)
 				#rValue = self.parseExpr(op2)
@@ -2258,10 +2265,14 @@ class BaseOutputFile(ScopeController):
 				self.compiler.customThreadsCount += 1
 				tabs = "\t" * self.currentTabLevel
 				return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
-				
+			
 			# Immutable used with mutable coding style
 			if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "code" and funcImpl.getReturnType() == callerType:
-				implicitAssignment = caller + " = "
+				pos = caller.find(self.ptrMemberAccessChar)
+				if pos == -1:
+					implicitAssignment = caller + " = "
+				else:
+					implicitAssignment = caller[:pos] + " = "
 			else:
 				implicitAssignment = ""
 				

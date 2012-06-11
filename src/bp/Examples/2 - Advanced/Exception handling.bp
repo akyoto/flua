@@ -11,11 +11,11 @@
 		</strings>
 	</header>
 	<code>
-		<try-block depth="0">
+		<try-block depth="0" id="1">
 			<try>
 				<code>
 					<comment>\SLet's\Stry\Sto\Sread\Sthe\Scontents\Sof\Sa\Stext\Sfile</comment>
-					<assign depth="1">
+					<assign depth="1" id="2">
 						<value>contents</value>
 						<value>
 							<call>
@@ -28,7 +28,7 @@
 					</assign>
 				</code>
 			</try>
-			<catch depth="0">
+			<catch depth="0" id="3">
 				<variable>
 					<declare-type>
 						<value>e</value>
@@ -39,7 +39,7 @@
 					<comment>\SWe\Ssave\Sexceptions\Sof\Stype\S'FileNotFoundException'\Sin\Sthe\Svariable\S'e'.</comment>
 					<comment>\SThis\Sexception\Sclass\Sdefines\Sa\Sproperty\S'path'\Swhich\Swe\Scan\Saccess</comment>
 					<comment>\Sto\Sknow\Swhich\Sfile\Sis\Smissing:</comment>
-					<call depth="1">
+					<call depth="1" id="4">
 						<function>print</function>
 						<parameters>
 							<parameter>

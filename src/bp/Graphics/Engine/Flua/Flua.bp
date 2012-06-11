@@ -3,10 +3,10 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.GLEW</import>
 			<import>public.Graphics.GLU</import>
 			<import>public.Graphics.GLUT</import>
+			<import>public.Graphics.OpenGL</import>
 			<import>bp.FileSystem</import>
 			<import>Material</import>
 		</dependencies>
@@ -242,6 +242,17 @@
 					<name>enter</name>
 					<code>
 						<call depth="2" id="23">
+							<function>glutSetWindow</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>windowId</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="24">
 							<function>
 								<access>
 									<value>my</value>
@@ -253,10 +264,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="24">
+				<function depth="1" id="25">
 					<name>exit</name>
 					<code>
-						<call depth="2" id="25">
+						<call depth="2" id="26">
 							<function>
 								<access>
 									<value>my</value>
@@ -265,7 +276,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<call depth="2" id="26">
+						<call depth="2" id="27">
 							<function>
 								<access>
 									<value>my</value>
@@ -276,21 +287,21 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="27">
+				<function depth="1" id="28">
 					<name>update</name>
 					<code>
-						<call depth="2" id="28">
+						<call depth="2" id="29">
 							<function>glutMainLoopEvent</function>
 							<parameters/>
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="29">
+				<get depth="1" id="30">
 					<comment>\SReturns\Strue\Sif\Sthe\Swindow\Sis\Sstill\Sopen,\Sfalse\Sotherwise</comment>
-					<getter depth="2" id="30">
+					<getter depth="2" id="31">
 						<name>open</name>
 						<code>
-							<return depth="3" id="31">
+							<return depth="3" id="32">
 								<call>
 									<function>glutWindowOpen</function>
 									<parameters/>
@@ -299,10 +310,10 @@
 						</code>
 					</getter>
 					<comment>\SReturns\Sthe\Scurrent\Swindow\Stitle</comment>
-					<getter depth="2" id="32">
+					<getter depth="2" id="33">
 						<name>title</name>
 						<code>
-							<return depth="3" id="33">
+							<return depth="3" id="34">
 								<access>
 									<value>my</value>
 									<value>title</value>
@@ -310,17 +321,17 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="34">
+					<getter depth="2" id="35">
 						<name>visible</name>
 						<code>
 							<comment>\STODO:\SImplement\Sthis.</comment>
-							<return depth="3" id="35">true</return>
+							<return depth="3" id="36">true</return>
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="36">
+				<set depth="1" id="37">
 					<comment>\SSets\Sthe\Snew\Swindow\Stitle</comment>
-					<setter depth="2" id="37">
+					<setter depth="2" id="38">
 						<parameters>
 							<parameter>
 								<access>
@@ -331,7 +342,7 @@
 						</parameters>
 						<name>title</name>
 						<code>
-							<call depth="3" id="38">
+							<call depth="3" id="39">
 								<function>glutSetWindowTitle</function>
 								<parameters>
 									<parameter>
@@ -350,25 +361,25 @@
 						</code>
 					</setter>
 					<comment>\SSets\Sthe\Svisibility\Sof\Sthe\Swindow</comment>
-					<setter depth="2" id="39">
+					<setter depth="2" id="40">
 						<parameters>
 							<parameter>isVisible</parameter>
 						</parameters>
 						<name>visible</name>
 						<code>
-							<if-block depth="3" id="40">
+							<if-block depth="3" id="41">
 								<if>
 									<condition>isVisible</condition>
 									<code>
-										<call depth="4" id="41">
+										<call depth="4" id="42">
 											<function>glutShowWindow</function>
 											<parameters/>
 										</call>
 									</code>
 								</if>
-								<else depth="3" id="42">
+								<else depth="3" id="43">
 									<code>
-										<call depth="4" id="43">
+										<call depth="4" id="44">
 											<function>glutHideWindow</function>
 											<parameters/>
 										</call>
@@ -378,15 +389,15 @@
 						</code>
 					</setter>
 				</set>
-				<iterators depth="1" id="44">
-					<iterator-type depth="2" id="45">
+				<iterators depth="1" id="45">
+					<iterator-type depth="2" id="46">
 						<name>frames</name>
 						<code>
-							<assign depth="3" id="46">
+							<assign depth="3" id="47">
 								<value>frameCounter</value>
 								<value>0</value>
 							</assign>
-							<while depth="3" id="47">
+							<while depth="3" id="48">
 								<condition>
 									<call>
 										<function>glutWindowOpen</function>
@@ -394,7 +405,7 @@
 									</call>
 								</condition>
 								<code>
-									<call depth="4" id="48">
+									<call depth="4" id="49">
 										<function>
 											<access>
 												<value>my</value>
@@ -403,8 +414,8 @@
 										</function>
 										<parameters/>
 									</call>
-									<yield depth="4" id="49">frameCounter</yield>
-									<call depth="4" id="50">
+									<yield depth="4" id="50">frameCounter</yield>
+									<call depth="4" id="51">
 										<function>
 											<access>
 												<value>my</value>
@@ -413,7 +424,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<assign-add depth="4" id="51">
+									<assign-add depth="4" id="52">
 										<value>frameCounter</value>
 										<value>1</value>
 									</assign-add>
@@ -425,10 +436,10 @@
 			</code>
 		</class>
 		<comment>\SInitializes\SFlua\Sgraphics\Sengine</comment>
-		<function depth="0" id="52">
+		<function depth="0" id="53">
 			<name>fluaInit</name>
 			<code>
-				<assign depth="1" id="53">
+				<assign depth="1" id="54">
 					<value>status</value>
 					<value>
 						<call>
@@ -437,7 +448,7 @@
 						</call>
 					</value>
 				</assign>
-				<if-block depth="1" id="54">
+				<if-block depth="1" id="55">
 					<if>
 						<condition>
 							<not-equal>
@@ -446,7 +457,7 @@
 							</not-equal>
 						</condition>
 						<code>
-							<call depth="2" id="55">
+							<call depth="2" id="56">
 								<function>bp_writeLine</function>
 								<parameters>
 									<parameter>
@@ -463,20 +474,20 @@
 					</if>
 				</if-block>
 				<comment>\SEnable\Salpha\Sblending</comment>
-				<call depth="1" id="56">
+				<call depth="1" id="57">
 					<function>glEnable</function>
 					<parameters>
 						<parameter>GL_BLEND</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="57">
+				<call depth="1" id="58">
 					<function>glBlendFunc</function>
 					<parameters>
 						<parameter>GL_SRC_ALPHA</parameter>
 						<parameter>GL_ONE_MINUS_SRC_ALPHA</parameter>
 					</parameters>
 				</call>
-				<assign depth="1" id="58">
+				<assign depth="1" id="59">
 					<value>fluaInitialized</value>
 					<value>true</value>
 				</assign>

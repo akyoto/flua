@@ -94,9 +94,14 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		bpIDE = self.bpIDE
 		ce = bpIDE.codeEdit
 		
-		if ce and ce.completer:
-			model = ce.completer.bpcModel
-			externFuncs = model.externFuncs
+		#if ce and ce.completer:
+		#	model = ce.completer.bpcModel
+		#	externFuncs = model.externFuncs
+		#else:
+		#	externFuncs = {}
+		
+		if bpIDE.outputCompiler:
+			externFuncs = bpIDE.outputCompiler.mainClass.externFunctions
 		else:
 			externFuncs = {}
 		
