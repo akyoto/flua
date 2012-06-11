@@ -250,11 +250,18 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		# Boehm GC
 		if self.boehmGCEnabled:
-			additionalLibs += [
-				"-lgccpp",
-				"-lgc",
-				"-lpthread"
-			]
+			if os.name == "nt":
+				additionalLibs += [
+					"-lgccpp.dll",
+					"-lgc.dll",
+					"-lpthread",
+				]
+			else:
+				additionalLibs += [
+					"-lgccpp",
+					"-lgc",
+					"-lpthread",
+				]
 		
 		if self.staticStdcppLinking:
 			staticRuntime = [

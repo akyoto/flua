@@ -28,22 +28,39 @@
 	//	-DUSE_LIBC_PRIVATES
 	//	-DPARALLEL_MARK
 	
+	// On Win32 use:
+	// --host=i686-pc-mingw32
+	
+	// Download of libatomic_ops and placement inside the boehm gc directory is needed
+	
+	// Use version 7.3
+	
 	// Boehm GC flags
-	#define GC_THREADS
+	#ifdef _WIN32
+		#define GC_WIN32_PTHREADS
+	#else
+		#define GC_THREADS
+	#endif
+	
 	#define GC_OPERATOR_NEW_ARRAY
 	#define PARALLEL_MARK
 	#define USE_LIBC_PRIVATE
 	
 	// PThreads
 	#ifndef _REENTRANT
-	#define _REENTRANT
+		#define _REENTRANT
 	#endif
 
 	#ifndef _MULTI_THREADED
-	#define _MULTI_THREADED
+		#define _MULTI_THREADED
 	#endif
 	
-	#include "../gc/gc_cpp.h"
+	#ifdef _WIN32
+		#include "../gc-7.3/gc_cpp.h"
+	#else
+		#include "../gc/gc_cpp.h"
+	#endif
+	
 	#include <pthread.h>
 #endif
 

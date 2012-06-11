@@ -66,10 +66,6 @@
 						</for>
 					</code>
 				</in>
-				<call depth="1" id="8">
-					<function>gcCollect</function>
-					<parameters/>
-				</call>
 			</code>
 			<meta/>
 		</function>

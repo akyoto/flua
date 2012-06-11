@@ -48,9 +48,5 @@
 			</code>
 			<meta/>
 		</for>
-		<call depth="0" id="5">
-			<function>gcCollect</function>
-			<parameters/>
-		</call>
 	</code>
 </module>
