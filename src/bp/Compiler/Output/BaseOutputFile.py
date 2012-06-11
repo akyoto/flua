@@ -292,7 +292,7 @@ class BaseOutputFile(ScopeController):
 		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
-			print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
+			#print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
 			return self.declareUnmanagedSyntax % (var.getPrototype(), value)
 		elif self.getCurrentScope() == self.getTopLevelScope():
 			return self.assignSyntax % (variableName, value)
