@@ -82,19 +82,19 @@
 								</code>
 							</else>
 						</if-block>
+						<call depth="2" id="14">
+							<function>print</function>
+							<parameters>
+								<parameter>
+									<multiply>
+										<value>bp_string_1</value>
+										<value>80</value>
+									</multiply>
+								</parameter>
+							</parameters>
+						</call>
 					</code>
 				</in>
-				<call depth="1" id="14">
-					<function>print</function>
-					<parameters>
-						<parameter>
-							<multiply>
-								<value>bp_string_1</value>
-								<value>80</value>
-							</multiply>
-						</parameter>
-					</parameters>
-				</call>
 			</code>
 			<meta/>
 		</function>
