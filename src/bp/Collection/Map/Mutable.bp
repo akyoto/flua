@@ -4,7 +4,9 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Key\Sdoes\Snot\Sexist</string>
+		</strings>
 	</header>
 	<code>
 		<target depth="0" id="1">
@@ -46,6 +48,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SHash\Smap\S/\SHash\Stable\Simplementation\Susing\Slinear\Sprobing,\Sno\Schaining.</comment>
 		<comment>\SNote\Sthat\Screating\Sit\S/\Sadding\Selements\Sfor\Shuge\Ssizes\S(&gt;1000000\Selements)</comment>
@@ -371,11 +374,11 @@
 						<meta/>
 					</getter>
 				</get>
-				<comment>\SRetrieves\San\Selement\Sfrom\Sthe\Shash\Smap</comment>
 				<operators depth="1" id="36">
+					<comment>\SRetrieves\Sthe\Ssaved\Svalue\Sfor\S#key\Sfrom\Sthe\Shash\Smap</comment>
 					<operator depth="2" id="37">
 						<parameters>
-							<parameter>index</parameter>
+							<parameter>key</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
@@ -385,7 +388,7 @@
 									<call>
 										<function>hashCode</function>
 										<parameters>
-											<parameter>index</parameter>
+											<parameter>key</parameter>
 										</parameters>
 									</call>
 								</value>
@@ -418,14 +421,10 @@
 									</index>
 								</value>
 							</assign>
-							<assign depth="3" id="41">
-								<value>collisions</value>
-								<value>0</value>
-							</assign>
-							<while depth="3" id="42">
+							<while depth="3" id="41">
 								<condition>1</condition>
 								<code>
-									<if-block depth="4" id="43">
+									<if-block depth="4" id="42">
 										<if>
 											<condition>
 												<equal>
@@ -435,7 +434,7 @@
 											</condition>
 											<code>
 												<comment>\SLookup</comment>
-												<return depth="5" id="44">
+												<return depth="5" id="43">
 													<index>
 														<value>
 															<access>
@@ -448,7 +447,144 @@
 												</return>
 											</code>
 										</if>
-										<else-if depth="4" id="45">
+										<else-if depth="4" id="44">
+											<condition>
+												<equal>
+													<value>storedHash</value>
+													<value>0</value>
+												</equal>
+											</condition>
+											<code>
+												<comment>\SKey\Sdoesn't\Sexist</comment>
+												<throw depth="5" id="45">bp_string_0</throw>
+											</code>
+										</else-if>
+										<else depth="4" id="46">
+											<code>
+												<assign depth="5" id="47">
+													<value>pos</value>
+													<value>
+														<bitwise-and>
+															<value>
+																<add>
+																	<value>pos</value>
+																	<value>DEFAULT_STEP_SIZE</value>
+																</add>
+															</value>
+															<value>
+																<access>
+																	<value>my</value>
+																	<value>mask</value>
+																</access>
+															</value>
+														</bitwise-and>
+													</value>
+												</assign>
+												<assign depth="5" id="48">
+													<value>storedHash</value>
+													<value>
+														<index>
+															<value>
+																<access>
+																	<value>my</value>
+																	<value>hashes</value>
+																</access>
+															</value>
+															<value>pos</value>
+														</index>
+													</value>
+												</assign>
+												<continue depth="5" id="49"/>
+											</code>
+										</else>
+									</if-block>
+								</code>
+							</while>
+						</code>
+						<meta/>
+					</operator>
+					<comment>\SCreates\Sa\Snew\S#key\S→\S#value\Spair\Sor\Ssets\Sthe\S#value\Sof\San\Sexisting\S#key</comment>
+					<operator depth="2" id="50">
+						<parameters>
+							<parameter>key</parameter>
+							<parameter>value</parameter>
+						</parameters>
+						<name>[]=</name>
+						<code>
+							<assign depth="3" id="51">
+								<value>hash</value>
+								<value>
+									<call>
+										<function>hashCode</function>
+										<parameters>
+											<parameter>key</parameter>
+										</parameters>
+									</call>
+								</value>
+							</assign>
+							<assign depth="3" id="52">
+								<value>pos</value>
+								<value>
+									<bitwise-and>
+										<value>hash</value>
+										<value>
+											<access>
+												<value>my</value>
+												<value>mask</value>
+											</access>
+										</value>
+									</bitwise-and>
+								</value>
+							</assign>
+							<assign depth="3" id="53">
+								<value>storedHash</value>
+								<value>
+									<index>
+										<value>
+											<access>
+												<value>my</value>
+												<value>hashes</value>
+											</access>
+										</value>
+										<value>pos</value>
+									</index>
+								</value>
+							</assign>
+							<assign depth="3" id="54">
+								<value>collisions</value>
+								<value>0</value>
+							</assign>
+							<while depth="3" id="55">
+								<condition>1</condition>
+								<code>
+									<if-block depth="4" id="56">
+										<if>
+											<condition>
+												<equal>
+													<value>storedHash</value>
+													<value>hash</value>
+												</equal>
+											</condition>
+											<code>
+												<comment>\SOverwrite\Sold</comment>
+												<assign depth="5" id="57">
+													<value>
+														<index>
+															<value>
+																<access>
+																	<value>my</value>
+																	<value>table</value>
+																</access>
+															</value>
+															<value>pos</value>
+														</index>
+													</value>
+													<value>value</value>
+												</assign>
+												<return depth="5" id="58"/>
+											</code>
+										</if>
+										<else-if depth="4" id="59">
 											<condition>
 												<equal>
 													<value>storedHash</value>
@@ -457,7 +593,7 @@
 											</condition>
 											<code>
 												<comment>\SStore\Swithout\Scollision</comment>
-												<assign depth="5" id="46">
+												<assign depth="5" id="60">
 													<value>
 														<index>
 															<value>
@@ -471,28 +607,32 @@
 													</value>
 													<value>hash</value>
 												</assign>
-												<return depth="5" id="47">
-													<index>
-														<value>
-															<access>
-																<value>my</value>
-																<value>table</value>
-															</access>
-														</value>
-														<value>pos</value>
-													</index>
-												</return>
+												<assign depth="5" id="61">
+													<value>
+														<index>
+															<value>
+																<access>
+																	<value>my</value>
+																	<value>table</value>
+																</access>
+															</value>
+															<value>pos</value>
+														</index>
+													</value>
+													<value>value</value>
+												</assign>
+												<return depth="5" id="62"/>
 											</code>
 										</else-if>
-										<else depth="4" id="48">
+										<else depth="4" id="63">
 											<code>
 												<comment>\SCollision</comment>
-												<assign-add depth="5" id="49">
+												<assign-add depth="5" id="64">
 													<value>collisions</value>
 													<value>1</value>
 												</assign-add>
 												<comment>\SWe\Savoid\Shigh\Sload\Sfactors</comment>
-												<if-block depth="5" id="50">
+												<if-block depth="5" id="65">
 													<if>
 														<condition>
 															<less>
@@ -511,7 +651,7 @@
 															</less>
 														</condition>
 														<code>
-															<assign depth="6" id="51">
+															<assign depth="6" id="66">
 																<value>pos</value>
 																<value>
 																	<bitwise-and>
@@ -532,11 +672,11 @@
 															</assign>
 														</code>
 													</if>
-													<else depth="5" id="52">
+													<else depth="5" id="67">
 														<code>
 															<comment>\SIF\Swe\Sever\Shave\Sa\Sreason\Sto\Sresize\Sthe\Stable</comment>
 															<comment>\Swe\Scan\Sassume\Sthat\Sthere\Swill\Sbe\SMUCH\SMORE\Sdata\Sincoming.</comment>
-															<call depth="6" id="53">
+															<call depth="6" id="68">
 																<function>
 																	<access>
 																		<value>my</value>
@@ -557,7 +697,7 @@
 																	</parameter>
 																</parameters>
 															</call>
-															<assign depth="6" id="54">
+															<assign depth="6" id="69">
 																<value>pos</value>
 																<value>
 																	<bitwise-and>
@@ -571,14 +711,14 @@
 																	</bitwise-and>
 																</value>
 															</assign>
-															<assign depth="6" id="55">
+															<assign depth="6" id="70">
 																<value>collisions</value>
 																<value>0</value>
 															</assign>
 														</code>
 													</else>
 												</if-block>
-												<assign depth="5" id="56">
+												<assign depth="5" id="71">
 													<value>storedHash</value>
 													<value>
 														<index>
@@ -592,14 +732,13 @@
 														</index>
 													</value>
 												</assign>
-												<continue depth="5" id="57"/>
+												<continue depth="5" id="72"/>
 											</code>
 										</else>
 									</if-block>
 								</code>
 							</while>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 			</code>

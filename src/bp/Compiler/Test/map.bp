@@ -22,7 +22,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="0">
+		<assign depth="0" id="1">
 			<value>website</value>
 			<value>
 				<new>
@@ -36,7 +36,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="1">
+		<assign depth="0" id="2">
 			<value>
 				<index>
 					<value>website</value>
@@ -45,7 +45,7 @@
 			</value>
 			<value>bp_string_1</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign depth="0" id="3">
 			<value>
 				<index>
 					<value>website</value>
@@ -54,10 +54,10 @@
 			</value>
 			<value>bp_string_3</value>
 		</assign>
-		<try-block depth="0" id="3">
+		<try-block depth="0" id="4">
 			<try>
 				<code>
-					<assign depth="1" id="4">
+					<assign depth="1" id="5">
 						<value>url</value>
 						<value>
 							<index>
@@ -66,7 +66,7 @@
 							</index>
 						</value>
 					</assign>
-					<assign depth="1" id="5">
+					<assign depth="1" id="6">
 						<value>desc</value>
 						<value>
 							<index>
@@ -75,7 +75,7 @@
 							</index>
 						</value>
 					</assign>
-					<if-block depth="1" id="6">
+					<if-block depth="1" id="7">
 						<if>
 							<condition>
 								<or>
@@ -104,12 +104,12 @@
 								</or>
 							</condition>
 							<code>
-								<throw depth="2" id="7">bp_string_10</throw>
+								<throw depth="2" id="8">bp_string_10</throw>
 							</code>
 						</if>
-						<else depth="1" id="8">
+						<else depth="1" id="9">
 							<code>
-								<call depth="2" id="9">
+								<call depth="2" id="10">
 									<function>print</function>
 									<parameters>
 										<parameter>bp_string_11</parameter>
@@ -119,20 +119,20 @@
 						</else>
 					</if-block>
 					<comment>\SMake\SGCC\Shappy.</comment>
-					<assign depth="1" id="10">
+					<assign depth="1" id="11">
 						<value>url</value>
 						<value>desc</value>
 					</assign>
-					<assign depth="1" id="11">
+					<assign depth="1" id="12">
 						<value>desc</value>
 						<value>url</value>
 					</assign>
 				</code>
 			</try>
-			<catch depth="0" id="12">
+			<catch depth="0" id="13">
 				<variable/>
 				<code>
-					<call depth="1" id="13">
+					<call depth="1" id="14">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_12</parameter>

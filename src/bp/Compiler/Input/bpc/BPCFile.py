@@ -128,6 +128,9 @@ def addBrackets(line):
 			raise CompilerException("You need to specify a function or property of '%s'" % (identifier))
 		else:
 			raise CompilerException("Invalid instruction: '%s'" % line)
+	# A simple array index without any other calls
+	elif char == ']':
+		return line
 	
 	rightOperand = line[i+1:]
 	if isDefinitelyOperatorSign(char):
@@ -181,6 +184,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inSetter = 0
 		self.inCasts = 0
 		self.inOperators = 0
+		self.inOperator = 0
 		self.inIterators = 0
 		self.inAtomic = 0
 		self.inRequire = 0
@@ -517,6 +521,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					parentNodeName = self.currentNode.parentNode.tagName
 					if parentNodeName == "class":
 						self.inClass -= 1
+					elif parentNodeName == "operator":
+						self.inOperator -= 1
 					elif parentNodeName == "function":
 						self.inFunction -= 1
 				elif nodeName == "extern":
@@ -585,6 +591,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			if node:
 				self.checkObjectCreation(node)
 			return node
+		elif (self.inOperators) and self.inOperator == 0:
+			print(line)
+			return self.handleFunction(line)
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:
 				return self.handleCase(line)
@@ -1165,6 +1174,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif self.inGetter:
 			node = self.doc.createElement("getter")
 		elif self.inOperators:
+			self.inOperator += 1
 			node = self.doc.createElement("operator")
 		elif self.inIterators:
 			node = self.doc.createElement("iterator-type")

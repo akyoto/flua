@@ -715,7 +715,11 @@ class BPPostProcessorFile:
 			self.getInstructionDependencies(tree, op2)
 			return
 		elif xmlNode.tagName == "call": # Ignore function name, only parse parameters
-			funcName = getElementByTagName(xmlNode, "function").childNodes[0].nodeValue
+			funcNode = getElementByTagName(xmlNode, "function")
+			if (not funcNode) or (not funcNode.childNodes):
+				raise CompilerException("Invalid function call")
+			
+			funcName = funcNode.childNodes[0].nodeValue
 			#if funcName:
 			#	tree.addFunctionCall(funcName)
 			
@@ -850,7 +854,7 @@ class BPPostProcessorFile:
 		elif node.tagName == "call":
 			functionNode = getElementByTagName(node, "function")
 			
-			if not functionNode:
+			if (not functionNode) or (not functionNode.childNodes):
 				return CompilerException("Invalid function call")
 			
 			funcNameNode = functionNode.childNodes[0]

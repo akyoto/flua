@@ -1027,7 +1027,6 @@
 					<code>
 						<noop depth="2" id="86"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1" id="87">
@@ -1958,13 +1957,47 @@
 				</function>
 				<iterators depth="1" id="155">
 					<iterator-type depth="2" id="156">
-						<name>lines</name>
+						<name>default</name>
 						<code>
 							<assign depth="3" id="157">
 								<value>pos</value>
 								<value>0</value>
 							</assign>
-							<assign depth="3" id="158">
+							<while depth="3" id="158">
+								<condition>
+									<less>
+										<value>pos</value>
+										<value>
+											<access>
+												<value>my</value>
+												<value>length</value>
+											</access>
+										</value>
+									</less>
+								</condition>
+								<code>
+									<yield depth="4" id="159">
+										<index>
+											<value>my</value>
+											<value>pos</value>
+										</index>
+									</yield>
+									<assign-add depth="4" id="160">
+										<value>pos</value>
+										<value>1</value>
+									</assign-add>
+								</code>
+							</while>
+						</code>
+					</iterator-type>
+					<iterator-type depth="2" id="161">
+						<name>lines</name>
+						<code>
+							<assign depth="3" id="162">
+								<value>pos</value>
+								<value>0</value>
+							</assign>
+							<assign depth="3" id="163">
 								<value>nextNewline</value>
 								<value>
 									<negative>
@@ -1972,10 +2005,10 @@
 									</negative>
 								</value>
 							</assign>
-							<while depth="3" id="159">
+							<while depth="3" id="164">
 								<condition>1</condition>
 								<code>
-									<assign depth="4" id="160">
+									<assign depth="4" id="165">
 										<value>nextNewline</value>
 										<value>
 											<call>
@@ -1992,7 +2025,7 @@
 											</call>
 										</value>
 									</assign>
-									<yield depth="4" id="161">
+									<yield depth="4" id="166">
 										<call>
 											<function>
 												<access>
@@ -2006,7 +2039,7 @@
 											</parameters>
 										</call>
 									</yield>
-									<if-block depth="4" id="162">
+									<if-block depth="4" id="167">
 										<if>
 											<condition>
 												<equal>
@@ -2019,11 +2052,11 @@
 												</equal>
 											</condition>
 											<code>
-												<break depth="5" id="163"/>
+												<break depth="5" id="168"/>
 											</code>
 										</if>
 									</if-block>
-									<assign depth="4" id="164">
+									<assign depth="4" id="169">
 										<value>pos</value>
 										<value>
 											<add>
@@ -2037,11 +2070,11 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="165">
-					<getter depth="2" id="166">
+				<get depth="1" id="170">
+					<getter depth="2" id="171">
 						<name>data</name>
 						<code>
-							<return depth="3" id="167">
+							<return depth="3" id="172">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -2049,16 +2082,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="168">
+					<getter depth="2" id="173">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="169">
-								<greater-or-equal depth="4" id="170">
+							<ensure depth="3" id="174">
+								<greater-or-equal depth="4" id="175">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="171">
+							<return depth="3" id="176">
 								<access>
 									<value>my</value>
 									<value>length</value>
@@ -2066,16 +2099,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="172">
+					<getter depth="2" id="177">
 						<name>lengthInBytes</name>
 						<code>
-							<ensure depth="3" id="173">
-								<greater-or-equal depth="4" id="174">
+							<ensure depth="3" id="178">
+								<greater-or-equal depth="4" id="179">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="175">
+							<return depth="3" id="180">
 								<access>
 									<value>my</value>
 									<value>lengthInBytes</value>
@@ -2084,8 +2117,8 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="176">
-					<cast-definition depth="2" id="177">
+				<casts depth="1" id="181">
+					<cast-definition depth="2" id="182">
 						<to>
 							<unmanaged>
 								<value>
@@ -2097,7 +2130,7 @@
 							</unmanaged>
 						</to>
 						<code>
-							<return depth="3" id="178">
+							<return depth="3" id="183">
 								<access>
 									<value>my</value>
 									<value>data</value>
@@ -2112,11 +2145,11 @@
 			</meta>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
-		<class depth="0" id="179">
+		<class depth="0" id="184">
 			<name>Int</name>
 			<code>
-				<operators depth="1" id="180">
-					<operator depth="2" id="181">
+				<operators depth="1" id="185">
+					<operator depth="2" id="186">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -2127,7 +2160,7 @@
 						</parameters>
 						<name>+</name>
 						<code>
-							<return depth="3" id="182">
+							<return depth="3" id="187">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -2142,7 +2175,7 @@
 			</code>
 		</class>
 		<comment>\SReturns\Sthe\Slength\Sthe\S#startByte\Sis\Sindicating</comment>
-		<function depth="0" id="183">
+		<function depth="0" id="188">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -2153,7 +2186,7 @@
 			</parameters>
 			<name>utf8ByteLength</name>
 			<code>
-				<if-block depth="1" id="184">
+				<if-block depth="1" id="189">
 					<if>
 						<condition>
 							<equal>
@@ -2167,10 +2200,10 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="185">1</return>
+							<return depth="2" id="190">1</return>
 						</code>
 					</if>
-					<else-if depth="1" id="186">
+					<else-if depth="1" id="191">
 						<condition>
 							<equal>
 								<value>
@@ -2183,10 +2216,10 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="187">2</return>
+							<return depth="2" id="192">2</return>
 						</code>
 					</else-if>
-					<else-if depth="1" id="188">
+					<else-if depth="1" id="193">
 						<condition>
 							<equal>
 								<value>
@@ -2199,10 +2232,10 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="189">3</return>
+							<return depth="2" id="194">3</return>
 						</code>
 					</else-if>
-					<else-if depth="1" id="190">
+					<else-if depth="1" id="195">
 						<condition>
 							<equal>
 								<value>
@@ -2215,15 +2248,15 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="191">4</return>
+							<return depth="2" id="196">4</return>
 						</code>
 					</else-if>
 				</if-block>
-				<return depth="1" id="192">0</return>
+				<return depth="1" id="197">0</return>
 			</code>
 		</function>
 		<comment>\SReturns\Swhether\S#byte\Sindicates\Sthe\Sbeginning\Sof\Sa\SUTF-8\Scharacter\Ssequence</comment>
-		<function depth="0" id="193">
+		<function depth="0" id="198">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -2234,7 +2267,7 @@
 			</parameters>
 			<name>isUTF8StartByte</name>
 			<code>
-				<return depth="1" id="194">
+				<return depth="1" id="199">
 					<not-equal>
 						<value>
 							<bitwise-and>
@@ -2248,7 +2281,7 @@
 			</code>
 		</function>
 		<comment>\SPrints\Sthe\SUTF-8\Sencoded\Sstring\S#stri\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="195">
+		<function depth="0" id="200">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -2259,7 +2292,7 @@
 			</parameters>
 			<name>print</name>
 			<code>
-				<call depth="1" id="196">
+				<call depth="1" id="201">
 					<function>
 						<access>
 							<value>stri</value>
@@ -2271,7 +2304,7 @@
 			</code>
 		</function>
 		<comment>\SWrites\Sthe\SUTF-8\Sencoded\Sstring\S#stri\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
-		<function depth="0" id="197">
+		<function depth="0" id="202">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -2282,7 +2315,7 @@
 			</parameters>
 			<name>write</name>
 			<code>
-				<call depth="1" id="198">
+				<call depth="1" id="203">
 					<function>
 						<access>
 							<value>stri</value>

@@ -153,6 +153,7 @@
 								</new>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 					<operator depth="2" id="13">
 						<parameters>
@@ -302,6 +303,7 @@
 													</parameters>
 												</call>
 											</code>
+											<meta/>
 										</for>
 									</code>
 								</else>
@@ -319,12 +321,40 @@
 					</operator>
 					<operator depth="2" id="25">
 						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code>
+							<return depth="3" id="26">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>mid</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>index</parameter>
+										<parameter>
+											<add>
+												<value>index</value>
+												<value>1</value>
+											</add>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="27">
+						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
 						</parameters>
 						<name>[:]</name>
 						<code>
-							<return depth="3" id="26">
+							<return depth="3" id="28">
 								<call>
 									<function>
 										<access>
@@ -340,7 +370,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="27">
+					<operator depth="2" id="29">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -351,7 +381,7 @@
 						</parameters>
 						<name>==</name>
 						<code>
-							<if-block depth="3" id="28">
+							<if-block depth="3" id="30">
 								<if>
 									<condition>
 										<not-equal>
@@ -370,11 +400,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="29">false</return>
+										<return depth="4" id="31">false</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="30">
+							<if-block depth="3" id="32">
 								<if>
 									<condition>
 										<equal>
@@ -393,11 +423,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="31">true</return>
+										<return depth="4" id="33">true</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="32">
+							<return depth="3" id="34">
 								<call>
 									<function>compareMem</function>
 									<parameters>
@@ -424,7 +454,7 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="33">
+					<operator depth="2" id="35">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -435,7 +465,7 @@
 						</parameters>
 						<name>!=</name>
 						<code>
-							<if-block depth="3" id="34">
+							<if-block depth="3" id="36">
 								<if>
 									<condition>
 										<not-equal>
@@ -454,11 +484,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="35">true</return>
+										<return depth="4" id="37">true</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="36">
+							<if-block depth="3" id="38">
 								<if>
 									<condition>
 										<equal>
@@ -477,11 +507,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="37">false</return>
+										<return depth="4" id="39">false</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="38">
+							<return depth="3" id="40">
 								<not>
 									<value>
 										<call>
@@ -513,7 +543,7 @@
 						</code>
 					</operator>
 					<comment>\STODO:\SMake\Suse\Sof\Sthis</comment>
-					<operator depth="2" id="39">
+					<operator depth="2" id="41">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -524,7 +554,7 @@
 						</parameters>
 						<name>+=</name>
 						<code>
-							<assign depth="3" id="40">
+							<assign depth="3" id="42">
 								<value>my</value>
 								<value>
 									<add>

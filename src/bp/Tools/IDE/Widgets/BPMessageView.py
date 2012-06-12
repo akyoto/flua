@@ -94,6 +94,8 @@ class BPMessageView(QtGui.QListWidget):
 		self.updateView()
 		
 	def updateViewPostProcessor(self):
+		self.clear()
+		
 		# Last post processor exception
 		pp = self.bpIDE.postProcessorThread
 		if pp and pp.lastException:

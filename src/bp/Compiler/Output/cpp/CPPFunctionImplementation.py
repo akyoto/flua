@@ -38,8 +38,8 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 		
 	def getReferenceString(self):
 		# TODO: Remove hardcoded stuff
-		if self.getFuncName() == "operatorIndex":
-			return "&"
+		#if self.getFuncName() == "operatorIndex":
+		#	return "&"
 		return ""
 		
 	def getPrototype(self):

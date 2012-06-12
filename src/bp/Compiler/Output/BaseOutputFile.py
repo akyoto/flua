@@ -189,7 +189,22 @@ class BaseOutputFile(ScopeController):
 				#variableType = self.getExprDataType(op1)
 				#variableClass = self.compiler.classes[removeGenerics(variableType)]
 			elif op1.tagName == "index":
-				return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
+				if self.getExprDataType(op1.childNodes[0].firstChild).startswith("MemPointer"):
+					return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
+				else:
+					memberFunc = "[]="
+					
+					obj = op1.childNodes[0].firstChild.toxml()
+					key = op1.childNodes[1].firstChild.toxml()
+					value = node.childNodes[1].childNodes[0].toxml()
+					
+					print(obj)
+					print(key)
+					print(value)
+					
+					xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (obj, memberFunc, key, value)
+					virtualSetIndexCall = self.cachedParseString(xmlCode).documentElement
+					return self.handleCall(virtualSetIndexCall)
 		
 		# Inline type declarations
 		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
