@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Collection.Array</import>
+			<import>bp.Collection.Vector</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">This\Sis\Sten\Spercent\Sluck,\Stwenty\Spercent\Sskill</string>
@@ -13,14 +13,14 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SArray\S/\SVector\Sof\Sintegers</comment>
+		<comment>\SVector\Sof\Sintegers</comment>
 		<assign depth="0" id="1">
-			<value>array</value>
+			<value>vec</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>Array</value>
+							<value>Vector</value>
 							<value>Int</value>
 						</template-call>
 					</type>
@@ -31,7 +31,7 @@
 		<call depth="0" id="2">
 			<function>
 				<access>
-					<value>array</value>
+					<value>vec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -42,7 +42,7 @@
 		<call depth="0" id="3">
 			<function>
 				<access>
-					<value>array</value>
+					<value>vec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -53,7 +53,7 @@
 		<call depth="0" id="4">
 			<function>
 				<access>
-					<value>array</value>
+					<value>vec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -61,10 +61,10 @@
 				<parameter>3</parameter>
 			</parameters>
 		</call>
-		<comment>\SWe\Scan\Snow\Siterate\Sover\Sthat\Sarray</comment>
+		<comment>\SWe\Scan\Snow\Siterate\Sover\Sthat\Svector</comment>
 		<foreach depth="0" id="5">
 			<iterator>x</iterator>
-			<collection>array</collection>
+			<collection>vec</collection>
 			<code>
 				<call depth="1" id="6">
 					<function>print</function>
@@ -79,14 +79,14 @@
 				</call>
 			</code>
 		</foreach>
-		<comment>\SYou\Scan\Screate\San\Sarray\Sof\Sany\Sdata\Stype:</comment>
+		<comment>\SYou\Scan\Screate\Sa\Svector\Sfor\Sany\Sdata\Stype:</comment>
 		<assign depth="0" id="7">
-			<value>myArray</value>
+			<value>myVec</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>Array</value>
+							<value>Vector</value>
 							<value>String</value>
 						</template-call>
 					</type>
@@ -97,7 +97,7 @@
 		<call depth="0" id="8">
 			<function>
 				<access>
-					<value>myArray</value>
+					<value>myVec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -108,7 +108,7 @@
 		<call depth="0" id="9">
 			<function>
 				<access>
-					<value>myArray</value>
+					<value>myVec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -119,7 +119,7 @@
 		<call depth="0" id="10">
 			<function>
 				<access>
-					<value>myArray</value>
+					<value>myVec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -130,7 +130,7 @@
 		<call depth="0" id="11">
 			<function>
 				<access>
-					<value>myArray</value>
+					<value>myVec</value>
 					<value>add</value>
 				</access>
 			</function>
@@ -138,10 +138,10 @@
 				<parameter>bp_string_3</parameter>
 			</parameters>
 		</call>
-		<comment>\SIterate\Sover\Sthe\Sarray\Scontents</comment>
+		<comment>\SIterate\Sover\Sthe\Svector\Scontents</comment>
 		<foreach depth="0" id="12">
 			<iterator>x</iterator>
-			<collection>myArray</collection>
+			<collection>myVec</collection>
 			<code>
 				<call depth="1" id="13">
 					<function>print</function>

@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Collection.Array</import>
+			<import>bp.Collection.Vector</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">あいうえお</string>
@@ -222,7 +222,7 @@
 				<new>
 					<type>
 						<template-call>
-							<value>Array</value>
+							<value>Vector</value>
 							<value>String</value>
 						</template-call>
 					</type>

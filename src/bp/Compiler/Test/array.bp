@@ -3,25 +3,25 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Collection.Array</import>
+			<import>bp.Collection.Vector</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Array\Smodule\SNOT\Sworking!</string>
-			<string id="bp_string_1">Array\Smodule\Sworking!</string>
+			<string id="bp_string_0">Vector\Smodule\SNOT\Sworking!</string>
+			<string id="bp_string_1">Vector\Smodule\Sworking!</string>
 		</strings>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign depth="0" id="1">
 			<value>errorCode</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="2">
 			<value>array</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>Array</value>
+							<value>Vector</value>
 							<value>Int</value>
 						</template-call>
 					</type>
@@ -29,7 +29,7 @@
 				</new>
 			</value>
 		</assign>
-		<if-block depth="0">
+		<if-block depth="0" id="3">
 			<if>
 				<condition>
 					<not-equal>
@@ -43,14 +43,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="4">
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<call depth="0">
+		<call depth="0" id="5">
 			<function>
 				<access>
 					<value>array</value>
@@ -61,7 +61,7 @@
 				<parameter>5</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="6">
 			<function>
 				<access>
 					<value>array</value>
@@ -72,7 +72,7 @@
 				<parameter>8</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="7">
 			<function>
 				<access>
 					<value>array</value>
@@ -83,7 +83,7 @@
 				<parameter>13</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0">
+		<if-block depth="0" id="8">
 			<if>
 				<condition>
 					<not-equal>
@@ -112,14 +112,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="9">
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="10">
 			<if>
 				<condition>
 					<not-equal>
@@ -133,23 +133,23 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="11">
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0">
+		<assign depth="0" id="12">
 			<value>array2</value>
 			<value>
 				<new>
 					<type>
 						<template-call>
-							<value>Array</value>
+							<value>Vector</value>
 							<value>
 								<template-call>
-									<value>Array</value>
+									<value>Vector</value>
 									<value>Int</value>
 								</template-call>
 							</value>
@@ -159,7 +159,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="13">
 			<function>
 				<access>
 					<value>array2</value>
@@ -170,7 +170,7 @@
 				<parameter>array</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0">
+		<if-block depth="0" id="14">
 			<if>
 				<condition>
 					<or>
@@ -244,18 +244,18 @@
 					</or>
 				</condition>
 				<code>
-					<assign-add depth="1">
+					<assign-add depth="1" id="15">
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="16">
 			<if>
 				<condition>errorCode</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="17">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_0</parameter>
@@ -263,9 +263,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else depth="0" id="18">
 				<code>
-					<call depth="1">
+					<call depth="1" id="19">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_1</parameter>

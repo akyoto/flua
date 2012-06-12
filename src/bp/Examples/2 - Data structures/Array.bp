@@ -1,0 +1,80 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Collection.Array</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SAn\Sarray\Sis\Sbasically\Sa\Sstatic\Sblock\Sof\Smemory.</comment>
+		<comment>\SA\Ssize\Sparameter\Sis\Srequired\Sfor\Sits\Screation:</comment>
+		<assign depth="0" id="1">
+			<value>a</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Array</value>
+							<value>Int</value>
+						</template-call>
+					</type>
+					<parameters>
+						<parameter>8</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SAfterwards\Sset\Ssome\Svalues</comment>
+		<assign depth="0" id="2">
+			<value>
+				<index>
+					<value>a</value>
+					<value>0</value>
+				</index>
+			</value>
+			<value>1</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>
+				<index>
+					<value>a</value>
+					<value>1</value>
+				</index>
+			</value>
+			<value>3</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>
+				<index>
+					<value>a</value>
+					<value>2</value>
+				</index>
+			</value>
+			<value>3</value>
+		</assign>
+		<assign depth="0" id="5">
+			<value>
+				<index>
+					<value>a</value>
+					<value>3</value>
+				</index>
+			</value>
+			<value>7</value>
+		</assign>
+		<comment>\SNow\Swe\Scan\Siterate\Sover\Sthe\Swhole\Sarray</comment>
+		<foreach depth="0" id="6">
+			<iterator>x</iterator>
+			<collection>a</collection>
+			<code>
+				<call depth="1" id="7">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
+	</code>
+</module>

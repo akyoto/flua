@@ -3,10 +3,8 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>Array</import>
-			<import>List</import>
-			<import>Map</import>
-			<import>Vector</import>
+			<import>Immutable</import>
+			<import>Mutable</import>
 		</dependencies>
 		<strings/>
 	</header>

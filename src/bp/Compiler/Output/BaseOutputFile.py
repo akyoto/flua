@@ -189,7 +189,8 @@ class BaseOutputFile(ScopeController):
 				#variableType = self.getExprDataType(op1)
 				#variableClass = self.compiler.classes[removeGenerics(variableType)]
 			elif op1.tagName == "index":
-				if self.getExprDataType(op1.childNodes[0].firstChild).startswith("MemPointer"):
+				indexCallerType = self.getExprDataType(op1.childNodes[0].firstChild)
+				if indexCallerType.startswith("MemPointer") or indexCallerType.startswith("~MemPointer"):
 					return self.parseExpr(node.childNodes[0]) + " = " + self.parseExpr(node.childNodes[1])
 				else:
 					memberFunc = "[]="
@@ -973,11 +974,10 @@ class BaseOutputFile(ScopeController):
 			
 			# TODO: Remove temporary fix
 			if operation == "index":
-				if operatorType1.startswith("Array<"):
-					return operatorType1[len("Array<"):-1]
-				else:
-					impl = self.implementFunction(operatorType1, "[]", [operatorType2])
-					return impl.getReturnType()
+				#if operatorType1.startswith("Array<"):
+				#	return operatorType1[len("Array<"):-1]
+				impl = self.implementFunction(operatorType1, "[]", [operatorType2])
+				return impl.getReturnType()
 			
 			custom = self.implementFunction(operatorType1, correctOperators(operation), [operatorType2])
 			if custom:

@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Core.Memory</import>
+			<import>bp.Math</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -18,20 +19,14 @@
 				<function depth="1" id="4">
 					<parameters>
 						<parameter>
-							<assign>
-								<value>
-									<declare-type>
-										<value>size</value>
-										<value>Size</value>
-									</declare-type>
-								</value>
-								<value>1024</value>
-							</assign>
+							<declare-type>
+								<value>size</value>
+								<value>Size</value>
+							</declare-type>
 						</parameter>
 					</parameters>
 					<name>init</name>
 					<code>
-						<comment>size\S=\SgetNextPowerOf2(size)</comment>
 						<assign depth="2" id="5">
 							<value>
 								<access>
@@ -61,42 +56,18 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>end</value>
-								</access>
-							</value>
-							<value>
-								<access>
-									<value>my</value>
-									<value>start</value>
-								</access>
-							</value>
-						</assign>
-						<assign depth="2" id="7">
-							<value>
-								<access>
-									<value>my</value>
-									<value>endOfStorage</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>
-										<access>
-											<value>my</value>
-											<value>start</value>
-										</access>
-									</value>
 									<value>size</value>
-								</add>
+								</access>
 							</value>
+							<value>size</value>
 						</assign>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="8">
+				<function depth="1" id="7">
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="9">
+						<call depth="2" id="8">
 							<function>
 								<access>
 									<value>
@@ -113,87 +84,8 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SAdds\San\S#element\Sto\Sthe\Sarray\Sand\Sresizes\Sit\Sif\Sthere\Sis\Snot\Senough\Sspace</comment>
-				<function depth="1" id="10">
-					<parameters>
-						<parameter>element</parameter>
-					</parameters>
-					<name>add</name>
-					<code>
-						<assign depth="2" id="11">
-							<value>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>end</value>
-										</access>
-									</value>
-									<value>data</value>
-								</access>
-							</value>
-							<value>element</value>
-						</assign>
-						<assign-add depth="2" id="12">
-							<value>
-								<access>
-									<value>my</value>
-									<value>end</value>
-								</access>
-							</value>
-							<value>1</value>
-						</assign-add>
-						<if-block depth="2" id="13">
-							<if>
-								<condition>
-									<equal>
-										<value>
-											<access>
-												<value>my</value>
-												<value>end</value>
-											</access>
-										</value>
-										<value>
-											<access>
-												<value>my</value>
-												<value>endOfStorage</value>
-											</access>
-										</value>
-									</equal>
-								</condition>
-								<code>
-									<call depth="3" id="14">
-										<function>
-											<access>
-												<value>my</value>
-												<value>reserve</value>
-											</access>
-										</function>
-										<parameters>
-											<parameter>
-												<multiply>
-													<value>
-														<call>
-															<function>
-																<access>
-																	<value>my</value>
-																	<value>getLength</value>
-																</access>
-															</function>
-															<parameters/>
-														</call>
-													</value>
-													<value>4</value>
-												</multiply>
-											</parameter>
-										</parameters>
-									</call>
-								</code>
-							</if>
-						</if-block>
-					</code>
-				</function>
-				<function depth="1" id="15">
+				<comment>\STODO:\SFix\Sthis</comment>
+				<function depth="1" id="9">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -202,23 +94,9 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>reserve</name>
+					<name>resize</name>
 					<code>
-						<assign depth="2" id="16">
-							<value>currentSize</value>
-							<value>
-								<call>
-									<function>
-										<access>
-											<value>my</value>
-											<value>getLength</value>
-										</access>
-									</function>
-									<parameters/>
-								</call>
-							</value>
-						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="10">
 							<value>newMem</value>
 							<value>
 								<unmanaged>
@@ -238,7 +116,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<call depth="2" id="18">
+						<call depth="2" id="11">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -248,10 +126,23 @@
 									</access>
 								</parameter>
 								<parameter>newMem</parameter>
-								<parameter>currentSize</parameter>
+								<parameter>
+									<call>
+										<function>min</function>
+										<parameters>
+											<parameter>newSize</parameter>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>size</value>
+												</access>
+											</parameter>
+										</parameters>
+									</call>
+								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="19">
+						<call depth="2" id="12">
 							<function>
 								<access>
 									<value>
@@ -265,21 +156,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<assign depth="2" id="20">
-							<value>
-								<access>
-									<value>my</value>
-									<value>end</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>newMem</value>
-									<value>currentSize</value>
-								</add>
-							</value>
-						</assign>
-						<assign depth="2" id="21">
+						<assign depth="2" id="13">
 							<value>
 								<access>
 									<value>my</value>
@@ -288,73 +165,22 @@
 							</value>
 							<value>newMem</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign depth="2" id="14">
 							<value>
 								<access>
 									<value>my</value>
-									<value>endOfStorage</value>
+									<value>size</value>
 								</access>
 							</value>
-							<value>
-								<add>
-									<value>newMem</value>
-									<value>newSize</value>
-								</add>
-							</value>
+							<value>newSize</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1" id="23">
-					<name>removeLast</name>
-					<code>
-						<require depth="2" id="24">
-							<greater depth="3" id="25">
-								<value>
-									<access>
-										<value>my</value>
-										<value>length</value>
-									</access>
-								</value>
-								<value>0</value>
-							</greater>
-						</require>
-						<if-block depth="2" id="26">
-							<if>
-								<condition>
-									<not-equal>
-										<value>
-											<access>
-												<value>my</value>
-												<value>end</value>
-											</access>
-										</value>
-										<value>
-											<access>
-												<value>my</value>
-												<value>start</value>
-											</access>
-										</value>
-									</not-equal>
-								</condition>
-								<code>
-									<assign-subtract depth="3" id="27">
-										<value>
-											<access>
-												<value>my</value>
-												<value>end</value>
-											</access>
-										</value>
-										<value>1</value>
-									</assign-subtract>
-								</code>
-							</if>
-						</if-block>
-					</code>
-				</function>
-				<function depth="1" id="28">
+				<function depth="1" id="15">
 					<name>reverse</name>
 					<code>
-						<assign depth="2" id="29">
+						<assign depth="2" id="16">
 							<value>startRev</value>
 							<value>
 								<access>
@@ -363,7 +189,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="30">
+						<assign depth="2" id="17">
 							<value>endRev</value>
 							<value>
 								<subtract>
@@ -377,7 +203,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<while depth="2" id="31">
+						<while depth="2" id="18">
 							<condition>
 								<greater>
 									<value>
@@ -390,7 +216,7 @@
 								</greater>
 							</condition>
 							<code>
-								<call depth="3" id="32">
+								<call depth="3" id="19">
 									<function>bp_swap</function>
 									<parameters>
 										<parameter>
@@ -407,41 +233,43 @@
 										</parameter>
 									</parameters>
 								</call>
-								<assign-add depth="3" id="33">
+								<assign-add depth="3" id="20">
 									<value>startRev</value>
 									<value>1</value>
 								</assign-add>
-								<assign-subtract depth="3" id="34">
+								<assign-subtract depth="3" id="21">
 									<value>endRev</value>
 									<value>1</value>
 								</assign-subtract>
 							</code>
 						</while>
 					</code>
+					<meta/>
 				</function>
-				<operators depth="1" id="35">
-					<operator depth="2" id="36">
+				<operators depth="1" id="22">
+					<comment>\SRetrieve\Sthe\Svalue\Sfrom\Sthe\Sarray\Sfor\Sthe\Sgiven\S#index</comment>
+					<operator depth="2" id="23">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<require depth="3" id="37">
-								<greater-or-equal depth="4" id="38">
+							<require depth="3" id="24">
+								<greater-or-equal depth="4" id="25">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="39">
+								<less depth="4" id="26">
 									<value>index</value>
 									<value>
 										<access>
 											<value>my</value>
-											<value>length</value>
+											<value>size</value>
 										</access>
 									</value>
 								</less>
 							</require>
-							<return depth="3" id="40">
+							<return depth="3" id="27">
 								<index>
 									<value>
 										<access>
@@ -454,30 +282,64 @@
 							</return>
 						</code>
 					</operator>
+					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
+					<operator depth="2" id="28">
+						<parameters>
+							<parameter>index</parameter>
+							<parameter>value</parameter>
+						</parameters>
+						<name>[]=</name>
+						<code>
+							<require depth="3" id="29">
+								<greater-or-equal depth="4" id="30">
+									<value>index</value>
+									<value>0</value>
+								</greater-or-equal>
+								<less depth="4" id="31">
+									<value>index</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>size</value>
+										</access>
+									</value>
+								</less>
+							</require>
+							<assign depth="3" id="32">
+								<value>
+									<index>
+										<value>
+											<access>
+												<value>my</value>
+												<value>start</value>
+											</access>
+										</value>
+										<value>index</value>
+									</index>
+								</value>
+								<value>value</value>
+							</assign>
+						</code>
+					</operator>
 				</operators>
-				<iterators depth="1" id="41">
-					<iterator-type depth="2" id="42">
+				<iterators depth="1" id="33">
+					<iterator-type depth="2" id="34">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="43">
+							<assign depth="3" id="35">
 								<value>pos</value>
 								<value>0</value>
 							</assign>
-							<assign depth="3" id="44">
+							<assign depth="3" id="36">
 								<value>end</value>
 								<value>
-									<call>
-										<function>
-											<access>
-												<value>my</value>
-												<value>getLength</value>
-											</access>
-										</function>
-										<parameters/>
-									</call>
+									<access>
+										<value>my</value>
+										<value>size</value>
+									</access>
 								</value>
 							</assign>
-							<while depth="3" id="45">
+							<while depth="3" id="37">
 								<condition>
 									<less>
 										<value>pos</value>
@@ -485,7 +347,7 @@
 									</less>
 								</condition>
 								<code>
-									<yield depth="4" id="46">
+									<yield depth="4" id="38">
 										<index>
 											<value>
 												<access>
@@ -496,7 +358,7 @@
 											<value>pos</value>
 										</index>
 									</yield>
-									<assign-add depth="4" id="47">
+									<assign-add depth="4" id="39">
 										<value>pos</value>
 										<value>1</value>
 									</assign-add>
@@ -505,65 +367,47 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="48">
-					<getter depth="2" id="49">
+				<get depth="1" id="40">
+					<getter depth="2" id="41">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="50">
-								<greater-or-equal depth="4" id="51">
+							<ensure depth="3" id="42">
+								<greater-or-equal depth="4" id="43">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="52">
-								<subtract>
-									<value>
-										<access>
-											<value>my</value>
-											<value>end</value>
-										</access>
-									</value>
-									<value>
-										<access>
-											<value>my</value>
-											<value>start</value>
-										</access>
-									</value>
-								</subtract>
+							<return depth="3" id="44">
+								<access>
+									<value>my</value>
+									<value>size</value>
+								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
-					<getter depth="2" id="53">
+					<getter depth="2" id="45">
 						<name>size</name>
 						<code>
-							<ensure depth="3" id="54">
-								<greater-or-equal depth="4" id="55">
+							<ensure depth="3" id="46">
+								<greater-or-equal depth="4" id="47">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="56">
-								<subtract>
-									<value>
-										<access>
-											<value>my</value>
-											<value>endOfStorage</value>
-										</access>
-									</value>
-									<value>
-										<access>
-											<value>my</value>
-											<value>start</value>
-										</access>
-									</value>
-								</subtract>
+							<return depth="3" id="48">
+								<access>
+									<value>my</value>
+									<value>size</value>
+								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
-					<getter depth="2" id="57">
+					<getter depth="2" id="49">
 						<name>data</name>
 						<code>
-							<return depth="3" id="58">
+							<return depth="3" id="50">
 								<access>
 									<value>my</value>
 									<value>start</value>
@@ -572,204 +416,12 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="59">
-					<setter depth="2" id="60">
-						<parameters>
-							<parameter>newLength</parameter>
-						</parameters>
-						<name>length</name>
-						<code>
-							<require depth="3" id="61">
-								<greater-or-equal depth="4" id="62">
-									<value>newLength</value>
-									<value>0</value>
-								</greater-or-equal>
-							</require>
-							<assign depth="3" id="63">
-								<value>
-									<access>
-										<value>my</value>
-										<value>end</value>
-									</access>
-								</value>
-								<value>
-									<add>
-										<value>
-											<access>
-												<value>my</value>
-												<value>start</value>
-											</access>
-										</value>
-										<value>newLength</value>
-									</add>
-								</value>
-							</assign>
-							<if-block depth="3" id="64">
-								<if>
-									<condition>
-										<greater-or-equal>
-											<value>
-												<access>
-													<value>my</value>
-													<value>end</value>
-												</access>
-											</value>
-											<value>
-												<access>
-													<value>my</value>
-													<value>endOfStorage</value>
-												</access>
-											</value>
-										</greater-or-equal>
-									</condition>
-									<code>
-										<call depth="4" id="65">
-											<function>
-												<access>
-													<value>my</value>
-													<value>reserve</value>
-												</access>
-											</function>
-											<parameters>
-												<parameter>
-													<multiply>
-														<value>
-															<call>
-																<function>
-																	<access>
-																		<value>my</value>
-																		<value>getLength</value>
-																	</access>
-																</function>
-																<parameters/>
-															</call>
-														</value>
-														<value>4</value>
-													</multiply>
-												</parameter>
-											</parameters>
-										</call>
-									</code>
-								</if>
-							</if-block>
-						</code>
-					</setter>
-				</set>
 			</code>
 			<meta>
 				<ensure-destructor-call>true</ensure-destructor-call>
 				<default-class-version>true</default-class-version>
 				<force-implementation>false</force-implementation>
 			</meta>
-		</class>
-		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>
-		<class depth="0" id="66">
-			<name>UTF8String</name>
-			<code>
-				<comment>\SInit\Sfrom\Sbyte\Sarray</comment>
-				<function depth="1" id="67">
-					<parameters>
-						<parameter>
-							<declare-type>
-								<value>bytes</value>
-								<value>
-									<template-call>
-										<value>Array</value>
-										<value>Byte</value>
-									</template-call>
-								</value>
-							</declare-type>
-						</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<assign depth="2" id="68">
-							<value>
-								<access>
-									<value>my</value>
-									<value>data</value>
-								</access>
-							</value>
-							<value>
-								<new>
-									<type>
-										<template-call>
-											<value>MemPointer</value>
-											<value>Byte</value>
-										</template-call>
-									</type>
-									<parameters>
-										<parameter>
-											<access>
-												<value>bytes</value>
-												<value>length</value>
-											</access>
-										</parameter>
-									</parameters>
-								</new>
-							</value>
-						</assign>
-						<call depth="2" id="69">
-							<function>copyMem</function>
-							<parameters>
-								<parameter>
-									<access>
-										<value>bytes</value>
-										<value>data</value>
-									</access>
-								</parameter>
-								<parameter>
-									<access>
-										<value>my</value>
-										<value>data</value>
-									</access>
-								</parameter>
-								<parameter>
-									<access>
-										<value>bytes</value>
-										<value>length</value>
-									</access>
-								</parameter>
-							</parameters>
-						</call>
-						<assign depth="2" id="70">
-							<value>
-								<access>
-									<value>my</value>
-									<value>lengthInBytes</value>
-								</access>
-							</value>
-							<value>
-								<access>
-									<value>bytes</value>
-									<value>length</value>
-								</access>
-							</value>
-						</assign>
-						<assign depth="2" id="71">
-							<value>
-								<access>
-									<value>my</value>
-									<value>length</value>
-								</access>
-							</value>
-							<value>
-								<call>
-									<function>bp_strlenUtf8</function>
-									<parameters>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>data</value>
-											</access>
-										</parameter>
-									</parameters>
-								</call>
-							</value>
-						</assign>
-					</code>
-				</function>
-			</code>
 		</class>
 	</code>
 </module>
