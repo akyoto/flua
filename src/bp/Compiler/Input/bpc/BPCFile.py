@@ -138,6 +138,9 @@ def addBrackets(line):
 			#print(line, "|", identifier, "|", rightOperand)
 			raise CompilerException("Invalid instruction: '%s'" % line)
 	
+	if rightOperand in "<-":
+		print(rightOperand, char, line)
+	
 	if i < len(line) - 1:
 		nextChar = rightOperand[0]
 		
@@ -1386,7 +1389,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return node
 	
-	def addString(self, stri, stringLimiter = '"'):
+	def addString(self, stri, stringLimiter):
 		# TODO: Add string to string list
 		identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
 		
@@ -1500,6 +1503,10 @@ class BPCFile(ScopeController, Benchmarkable):
 						i = h - 1
 						continue
 					h += 1
+				
+				# Byte representation must be 1 character long
+				if stringLimiter == "'" and h  - i != 2:
+					raise CompilerException("A character / byte representation needs to contain exactly 1 character")
 					
 				if paramAtEndOfString:
 					continue
@@ -1512,7 +1519,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				if i > 1 and mustNotBeNextToExpr(line[i - 1]):
 					raise CompilerException("Operator missing: %s ↓ %s" % (line[:i].strip(), line[i:h+1].strip()))
 				
-				identifier = self.addString(line[i+1:h])
+				identifier = self.addString(line[i+1:h], stringLimiter)
 				line = line[:i] + identifier + line[h+1:]
 				i += len(identifier) - 1
 			i += 1

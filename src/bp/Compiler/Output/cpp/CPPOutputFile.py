@@ -234,6 +234,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildString(self, id, value):
 		return id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 	
+	def buildStringAsByte(self, id, value):
+		return id + " = " + str(ord(value)) + ";\n"
+	
 	def buildUndefinedString(self, id, value):
 		return id + " = const_cast<Byte*>(\"" + value + "\");\n"
 	

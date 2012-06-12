@@ -68,6 +68,7 @@ class BaseOutputFile(ScopeController):
 		self.headerNode = getElementByTagName(self.root, "header")
 		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
 		self.strings = getElementByTagName(self.headerNode, "strings")
+		self.stringsAsBytes = dict()
 		
 		# Local
 		self.localClasses = []
@@ -722,8 +723,11 @@ class BaseOutputFile(ScopeController):
 				return "Float"
 			elif node.nodeValue.startswith("bp_string_"):
 				if self.stringClassDefined: #or self.currentFunction.isIterator:
-					# All modules that import UTF8String have it defined
-					return "UTF8String"
+					if node.nodeValue in self.stringsAsBytes:
+						return "Byte"
+					else:
+						# All modules that import UTF8String have it defined
+						return "UTF8String"
 				else:
 					# Modules who are compiled before that have to live with CStrings
 					return "~MemPointer<ConstChar>"
@@ -1925,15 +1929,25 @@ class BaseOutputFile(ScopeController):
 		return self.elseSyntax % (code, "\t" * self.currentTabLevel)
 	
 	def handleString(self, node):
-		id = self.id + "_" + node.getAttribute("id")
+		stringId = node.getAttribute("id")
+		id = self.id + "_" + stringId
 		value = decodeCDATA(node.childNodes[0].nodeValue)
 		
 		asByte = node.getAttribute("as-byte")
 		
-		# TODO: classExists(self.compiler.stringDataType)
-		if 1:#self.stringClassDefined or value == "\\n":
+		if asByte == "true":
+			dataType = "Byte"
+			line = self.buildStringAsByte(id, value)
+			self.stringsAsBytes[stringId] = True
+			print(self.stringsAsBytes)
+		else:
 			dataType = self.compiler.stringDataType
 			line = self.buildString(id, value)
+		
+		# TODO: classExists(self.compiler.stringDataType)
+		#if 1:#self.stringClassDefined or value == "\\n":
+		#	dataType = self.compiler.stringDataType
+		#	line = self.buildString(id, value)
 		#else:
 		#	dataType = "CString"
 		#	line = self.buildUndefinedString(id, value)

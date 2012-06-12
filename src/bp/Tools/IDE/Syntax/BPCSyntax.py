@@ -246,13 +246,13 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#else:
 				#	
 				i = h - 1
-			elif char == '"':
+			elif char == '"' or char == "'":
 				h = i + 1
-				while h < textLen and text[h] != '"':
+				while h < textLen and text[h] != char:
 					h += 1
 				
 				# TODO: WHY IS THIS CALL SO BUGGY ON WINDOWS?!
-				if h < textLen - 1 and text[h] == '"':
+				if h < textLen - 1 and text[h] == char:
 					self.setFormat(i, h - i + 1, style['string'])
 				
 				#print(i, h - i, style['string'])

@@ -153,6 +153,9 @@ class PythonOutputFile(BaseOutputFile):
 	def buildDivByZeroThrow(self, op):
 		return 'raise BPDivisionByZeroException()'
 	
+	def buildStringAsByte(self, id, value):
+		return id + " = " + str(ord(value)) + "\n"
+	
 	def buildString(self, id, value):
 		return id + " = BPUTF8String().init___MemPointer_Byte_(BPMemPointer(list(\"" + value + "\".encode('utf-8'))))\n"
 		#return id + " = BPUTF8String().init___MemPointer_Byte_(\"" + value + "\".encode('utf-8'))\n"

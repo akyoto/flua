@@ -9,7 +9,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SMutable\Sarray,\Scurrently\Sonly\Susable\Sfor\SC++\Stargets</comment>
+		<comment>\SMutable\Sarray</comment>
 		<class depth="0" id="1">
 			<name>MutableArray</name>
 			<code>
@@ -384,7 +384,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="45">
 						<name>size</name>
@@ -402,7 +401,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="49">
 						<name>data</name>

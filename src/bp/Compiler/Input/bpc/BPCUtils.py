@@ -293,7 +293,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					strings = getElementByTagName(header, "strings")
 					for child in strings.childNodes:
 						if child.nodeType != Node.TEXT_NODE and child.tagName == "string" and child.getAttribute("id") == text:
-							return '"%s"' % decodeCDATA(child.childNodes[0].nodeValue)#.strip()
+							if child.getAttribute("as-byte") == "true":
+								return "'%s'" % decodeCDATA(child.childNodes[0].nodeValue)
+							else:
+								return '"%s"' % decodeCDATA(child.childNodes[0].nodeValue)
 				except:
 					raise CompilerException("Can't find string value of '%s'" % (text))
 			return '""'

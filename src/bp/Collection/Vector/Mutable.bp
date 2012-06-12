@@ -8,7 +8,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SMutable\Sarray,\Scurrently\Sonly\Susable\Sfor\SC++\Stargets</comment>
+		<comment>\SMutable\Svector</comment>
 		<class depth="0" id="1">
 			<name>MutableVector</name>
 			<code>
