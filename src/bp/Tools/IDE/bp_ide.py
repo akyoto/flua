@@ -215,14 +215,22 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
 			if self.codeEdit and self.codeEdit.msgView.count() == 0:
 				self.displayOutputCompilerException(self.outputCompilerThread.lastException)
-		#else:
-		#	if self.codeEdit:
-		#		self.codeEdit.msgView.updateView()
+		
+		# The output compiler
+		comp = self.outputCompilerThread.outputCompiler
+		
+		# If the number of functions changed, rehighlight
+		if self.codeEdit:
+			newFuncCount = comp.getFunctionCount()
+			if self.lastCodeEdit == self.codeEdit and newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
+				self.codeEdit.rehighlightFunctionUsage()
+			
+			self.lastFunctionCount = newFuncCount
+			self.lastCodeEdit = self.codeEdit
 		
 		# We love long variable names, don't we?
 		ce = self.outputCompilerThread.codeEdit
 		if ce:
-			comp = self.outputCompilerThread.outputCompiler
 			ce.outFile = comp.getMainFile()
 			
 			# Restore the scopes if possible
@@ -655,19 +663,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if (not self.dependenciesViewDock.isHidden()):
 			self.dependencyView.updateView()
 		
-		# If the number of functions changed, rehighlight
-		if self.lastCodeEdit == self.codeEdit and self.processor.getFunctionCount() != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
-			ppCodeEdit.rehighlightFunctionUsage()
-		
-		self.lastFunctionCount = self.processor.getFunctionCount()
-		self.lastCodeEdit = self.codeEdit
-		
 		# If the function name changed, rehighlight
 		lineIndex = ppCodeEdit.getLineIndex()
 		selectedNode = ppCodeEdit.getNodeByLineIndex(lineIndex)
-		if tagName(selectedNode) == "function":
+		if tagName(selectedNode) in functionNodeTagNames:
 			selectedOldNode = ppCodeEdit.getOldNodeByLineIndex(lineIndex)
-			if tagName(selectedOldNode) == "function":
+			if tagName(selectedOldNode) in functionNodeTagNames:
 				nameNew = getElementByTagName(selectedNode, "name")
 				nameOld = getElementByTagName(selectedOldNode, "name")
 				

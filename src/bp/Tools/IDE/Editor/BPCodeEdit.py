@@ -9,13 +9,17 @@ import collections
 # Auto Completion for class members
 class BPCClassMemberModel(QtGui.QStringListModel):
 	
-	def __init__(self, parent, classImpl):
+	def __init__(self, parent, classImpl, private = False):
 		super().__init__([], parent)
 		
 		self.methods = classImpl.classObj.functions
 		self.members = classImpl.classObj.properties
 		
-		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList()
+		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList(private)
+		
+		#if private:
+		#	self.members = classImpl.members
+		#	self.memberList = list(classImpl.members)
 		
 		resultingList = self.memberList + self.methodList + self.iteratorList
 		resultingList.sort()
@@ -205,11 +209,11 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	def memberListActivated(self):
 		return self.model() != self.bpcModel
 		
-	def createClassMemberModel(self, dataType):
+	def createClassMemberModel(self, dataType, private = False):
 		
 		self.startBenchmark("Create class member model for '%s'" % dataType)
 		classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
-		classMemberModel = BPCClassMemberModel(self, classImpl)
+		classMemberModel = BPCClassMemberModel(self, classImpl, private)
 		self.endBenchmark()
 		
 		self.startBenchmark("Setting new model")
@@ -258,15 +262,18 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		#print(self.codeEdit.outFile)
 		
 		# Shortcut: my?
-		if obj in {"my", "self", "this"} and bpIDE.currentNode:
-			node = bpIDE.currentNode
-			while node and node.parentNode and not node.parentNode.tagName in {"class", "module"}:
-				node = node.parentNode
-			
-			if node and node.tagName == "class":
-				currentClass = getElementByTagName(node, "name").firstChild.nodeValue
-				self.createClassMemberModel(currentClass)
-				return True
+		if obj in {"my", "self", "this"}:
+			if bpIDE.currentNode:
+				node = bpIDE.currentNode
+				while node and node.parentNode and not node.tagName in {"class", "module"}:
+					node = node.parentNode
+				
+				if node and node.tagName == "class":
+					currentClass = getElementByTagName(node, "name").firstChild.nodeValue
+					self.createClassMemberModel(currentClass, private = True)
+					return True
+			else:
+				return False
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -353,9 +360,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.ppOutstandingTasks = 0
 		
 		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 2
-		self.autoSuggestionTypedChars = 2
-		self.autoSuggestionMinCompleteChars = 4
+		self.autoSuggestionMinChars = 3
+		#self.autoSuggestionTypedChars = 3
+		self.autoSuggestionMinCompleteChars = 5
 		self.autoSuggestionMaxItemCount = 4
 		
 		self.enableACInstant = True
@@ -917,6 +924,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					if autoCompleteAintWorthIt:
 						popup.hide()
 						return
+					#elif popup.isHidden():
+					#	# Ok so AC popup would be worth it...now check for how many characters the popup would be visible
+					#	if 	(
+					#			len(self.completer.currentCompletion()) <
+					#			(
+					#				self.autoSuggestionMinChars +
+					#				self.autoSuggestionMinCompleteChars +
+					#				self.autoSuggestionTypedChars
+					#			)
+					#		):
+					#		return
 				
 				# Change state
 				self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_AUTOMATICALLY

@@ -105,6 +105,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0" id="13">
 			<name>getCLPlatformCount</name>
@@ -116,6 +117,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sgraphics\Scards</comment>
 		<function depth="0" id="15">
@@ -134,5 +136,30 @@
 			<function>bp_initGPUCalculations</function>
 			<parameters/>
 		</call>
+		<comment>\STest</comment>
+		<test depth="0" id="18">
+			<call depth="1" id="19">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<call>
+							<function>getCLDeviceName</function>
+							<parameters/>
+						</call>
+					</parameter>
+				</parameters>
+			</call>
+			<call depth="1" id="20">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<call>
+							<function>getCLPlatformName</function>
+							<parameters/>
+						</call>
+					</parameter>
+				</parameters>
+			</call>
+		</test>
 	</code>
 </module>

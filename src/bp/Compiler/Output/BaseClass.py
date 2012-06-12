@@ -38,6 +38,7 @@ class BaseClass(BaseNamespace):
 	
 	def __init__(self, name, node):
 		super().__init__(name)
+		self.implementations = {}
 		self.templateNames = []
 		self.templateDefaultValues = []
 		self.parent = None
@@ -60,7 +61,7 @@ class BaseClass(BaseNamespace):
 			self.forceImplementation = False
 			self.isDefaultVersion = False
 		
-	def getAutoCompleteList(self):
+	def getAutoCompleteList(self, private = False):
 		publicMembers = list()
 		publicFunctions = list()
 		publicIterators = list()
@@ -69,7 +70,8 @@ class BaseClass(BaseNamespace):
 			func = funcList[0]
 			
 			if func.isGetter(): #len(func) >= 4 and func.startswith("get") and func[3].isupper(): # Members
-				publicMembers.append(func.name)
+				if not private:
+					publicMembers.append(func.name)
 			elif func.isIterator:
 				publicIterators.append(func.name)
 			elif func.isCast or func.isOperator() or func.isSetter():#len(func) >= 9 and func.startswith("operator") and func[8].isupper():# Operators

@@ -20,3 +20,6 @@ inline void bp_atomicSetFlag(T1 &ref, T2 value) {
 	asm volatile("":::"memory");
 	ref = value;
 }
+
+// CAS
+// _InterlockedCompareExchange

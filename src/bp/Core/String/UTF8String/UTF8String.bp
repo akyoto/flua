@@ -132,6 +132,7 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Susing\Sbyte\Sindices\Sfor\S#from\Sand\S#to</comment>
 				<function depth="1" id="13">
@@ -775,7 +776,6 @@
 									</if>
 								</if-block>
 							</code>
-							<meta/>
 						</for>
 						<return depth="2" id="66">
 							<negative>
@@ -1012,7 +1012,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sleft\Spart\Sof\Sthe\Sstring\Suntil\Sthe\Slast\Soccurence\Sof\S#chars\Sappears</comment>
 				<function depth="1" id="85">
@@ -1028,6 +1027,7 @@
 					<code>
 						<noop depth="2" id="86"/>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSubstring\Sfrom\Sthe\Spoint\Schars\Sappears</comment>
 				<function depth="1" id="87">
@@ -1624,7 +1624,6 @@
 							</not-equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPad\Sleft</comment>
 				<function depth="1" id="129">
@@ -1747,7 +1746,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPad\Sright</comment>
 				<function depth="1" id="138">
@@ -1907,7 +1905,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="150">

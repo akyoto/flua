@@ -71,6 +71,14 @@ class BaseOutputCompiler(Benchmarkable):
 		# Expression parser
 		self.initExprParser()
 	
+	def getFunctionCount(self):
+		count = len(self.mainClass.functions)
+		
+		for classObj in self.mainClass.classes.values():
+			count += len(classObj.functions)
+			
+		return count
+	
 	# Take cache from another compiler instance - BE CAREFUL, THIS COULD LEAD TO MEMORY LEAKS
 	def takeOverCache(self, o):
 		self.parseStringCache = o.parseStringCache

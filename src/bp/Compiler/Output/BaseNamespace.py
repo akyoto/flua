@@ -37,7 +37,6 @@ class BaseNamespace:
 		self.properties = {}
 		self.externFunctions = {}
 		self.externVariables = {}
-		self.implementations = {}
 	
 	def getPrefix(self):
 		return self.name + "_"
