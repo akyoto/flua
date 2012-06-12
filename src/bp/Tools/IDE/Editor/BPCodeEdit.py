@@ -359,6 +359,24 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.backgroundCompilerOutstandingTasks = 0
 		self.ppOutstandingTasks = 0
 		
+		self.autoReplace = {
+			# Simple data flow
+			"->" : "→",
+			"<-" : "←",
+			
+			# These need more than one version
+			# TODO: Not fully working yet, implement it.
+			#"-->" : "⇢",
+			#"-→" : "⇢",
+			
+			#"<--" : "⇠",
+			#"←-" : "⇠",
+			
+			#"<->" : "↔",
+			#"←>" : "↔",
+			#"<→" : "↔",
+		}
+		
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 3
 		#self.autoSuggestionTypedChars = 3
@@ -780,6 +798,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cursor = self.textCursor()
 			block = cursor.block()
 			text = block.text()
+			
+			# Data flow and other auto replace stuff
+			cursor.movePosition(QtGui.QTextCursor.Left)
+			cursor.select(QtGui.QTextCursor.WordUnderCursor)
+			
+			selText = cursor.selectedText()
+			if selText in self.autoReplace:
+				cursor.removeSelectedText()
+				cursor.insertText(self.autoReplace[selText])
+				self.setTextCursor(cursor)
 			
 			# Don't AC on comments
 			if text.lstrip().startswith("#"):

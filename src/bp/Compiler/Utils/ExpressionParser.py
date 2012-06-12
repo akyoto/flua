@@ -131,7 +131,16 @@ bpOperatorLevels = [
 		#	Operator("?", "ternary-condition", Operator.BINARY),
 		#	parser.addOperatorLevel(operators)
 	#],
-		
+	
+	# Data flow
+	[
+		Operator("⇢", "flow-delayed-to", Operator.BINARY),
+		Operator("⇠", "flow-delayed-from", Operator.BINARY),
+		Operator("←→", "flow-both", Operator.BINARY),
+		Operator("→", "flow-to", Operator.BINARY),
+		Operator("←", "flow-from", Operator.BINARY),
+	],
+	
 	# 16: Assign
 	[
 		Operator("+=", "assign-add", Operator.BINARY),
@@ -142,10 +151,6 @@ bpOperatorLevels = [
 		Operator(">>=", "assign-shift-right", Operator.BINARY),
 		#Operator("}=", "assign-each-in", Operator.BINARY),
 		Operator("=", "assign", Operator.BINARY),
-		Operator("-->", "flow-delayed-to", Operator.BINARY),
-		Operator("<--", "flow-delayed-from", Operator.BINARY),
-		Operator("->", "flow-to", Operator.BINARY),
-		Operator("<-", "flow-from", Operator.BINARY),
 	],
 	
 	# Comma

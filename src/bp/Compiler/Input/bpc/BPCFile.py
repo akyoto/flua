@@ -138,8 +138,9 @@ def addBrackets(line):
 			#print(line, "|", identifier, "|", rightOperand)
 			raise CompilerException("Invalid instruction: '%s'" % line)
 	
-	if rightOperand in "<-":
-		print(rightOperand, char, line)
+	# Don't make function calls out of data flow
+	if rightOperand.startswith("<-") or rightOperand.startswith("->") or rightOperand.startswith("<->"):
+		return line
 	
 	if i < len(line) - 1:
 		nextChar = rightOperand[0]
