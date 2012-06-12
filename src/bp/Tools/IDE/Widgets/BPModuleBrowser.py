@@ -327,6 +327,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if fixPath(root) == self.bpIDE.tmpPath:
 				continue
 			
+			if root.endswith("__pycache__"):
+				continue
+			
 			for file in files:
 				if file.endswith(".bp"):
 					lastDir = fixPath(root).split(OS_SLASH)[-2]

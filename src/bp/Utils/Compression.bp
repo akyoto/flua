@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Collection.Array</import>
+			<import>bp.Collection.Vector</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">This\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.</string>
@@ -22,7 +22,7 @@
 		<extern depth="0" id="3">
 			<extern-function depth="1" id="4">
 				<name>bp_compress</name>
-				<type>Array&lt;Byte&gt;</type>
+				<type>Vector&lt;Byte&gt;</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
@@ -30,7 +30,7 @@
 			</extern-function>
 			<extern-function depth="1" id="5">
 				<name>bp_uncompress</name>
-				<type>Array&lt;Byte&gt;</type>
+				<type>Vector&lt;Byte&gt;</type>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 					<same-output-for-input>true</same-output-for-input>
@@ -64,7 +64,7 @@
 						<new>
 							<type>
 								<template-call>
-									<value>Array</value>
+									<value>Vector</value>
 									<value>Byte</value>
 								</template-call>
 							</type>
@@ -117,7 +117,7 @@
 						<value>someBytes</value>
 						<value>
 							<template-call>
-								<value>Array</value>
+								<value>Vector</value>
 								<value>Byte</value>
 							</template-call>
 						</value>
@@ -132,7 +132,7 @@
 						<new>
 							<type>
 								<template-call>
-									<value>Array</value>
+									<value>Vector</value>
 									<value>Byte</value>
 								</template-call>
 							</type>
