@@ -30,7 +30,7 @@
 							<value>BigInt</value>
 						</declare-type>
 					</value>
-					<value>50000</value>
+					<value>70000</value>
 				</assign>
 				<in depth="1" id="4">
 					<expression>

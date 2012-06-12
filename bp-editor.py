@@ -64,7 +64,7 @@ from bp.Tools.IDE.bp_ide import *
 os.chdir(scriptPath + "/src/bp/Tools/IDE/")
 
 if __name__ == "__main__":
-	useProfiler = False
+	useProfiler = 0
 	
 	if not useProfiler:
 		main()

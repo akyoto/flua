@@ -241,7 +241,6 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			# TODO: Import model
 			return False
 		
-		# Shortcut: String?
 		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
 			self.createClassMemberModel("UTF8String")
 			return True
@@ -257,6 +256,17 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		print("Member: " + member)
 		#print(self.codeEdit.bpcFile)
 		#print(self.codeEdit.outFile)
+		
+		# Shortcut: my?
+		if obj in {"my", "self", "this"} and bpIDE.currentNode:
+			node = bpIDE.currentNode
+			while node and node.parentNode and not node.parentNode.tagName in {"class", "module"}:
+				node = node.parentNode
+			
+			if node and node.tagName == "class":
+				currentClass = getElementByTagName(node, "name").firstChild.nodeValue
+				self.createClassMemberModel(currentClass)
+				return True
 		
 		if self.codeEdit.bpcFile and self.codeEdit.outFile:
 			try:
@@ -756,6 +766,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			cursor = self.textCursor()
 			block = cursor.block()
 			text = block.text()
+			
+			# Don't AC on comments
+			if text.lstrip().startswith("#"):
+				if self.autoCompleteState != BPCAutoCompleter.STATE_SEARCHING_SUGGESTION:
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					popup.hide()
+				
+				return
+			
 			relPos = cursor.position() - block.position()
 			
 			# Check char format

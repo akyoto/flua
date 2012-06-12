@@ -16,7 +16,7 @@
 			<code>
 				<assign depth="1" id="2">
 					<value>n</value>
-					<value>500000</value>
+					<value>1000000</value>
 				</assign>
 				<assign depth="1" id="3">
 					<value>

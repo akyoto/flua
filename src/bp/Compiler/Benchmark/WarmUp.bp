@@ -4,49 +4,56 @@
 		<dependencies>
 			<import>bp.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="bp_string_0">Hello\SSさしSさせSさすせそSさ</string>
+			<string id="bp_string_1">\E</string>
+			<string id="bp_string_2">せ</string>
+			<string id="bp_string_3">さ</string>
+		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
-			<value>w</value>
-			<value>0</value>
-		</assign>
-		<comment>\SProcessor\Swarmup</comment>
-		<for depth="0" id="2">
-			<iterator>i</iterator>
-			<from>1</from>
-			<to>10000000</to>
+		<function depth="0" id="1">
+			<name>benchWarmUp</name>
 			<code>
-				<assign-add depth="1" id="3">
-					<value>w</value>
-					<value>
-						<add>
+				<assign depth="1" id="2">
+					<value>n</value>
+					<value>5000000</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>t</value>
+					<value>bp_string_0</value>
+				</assign>
+				<assign depth="1" id="4">
+					<value>result</value>
+					<value>bp_string_1</value>
+				</assign>
+				<for depth="1" id="5">
+					<iterator>i</iterator>
+					<from>1</from>
+					<to>n</to>
+					<code>
+						<assign depth="2" id="6">
+							<value>result</value>
 							<value>
-								<add>
-									<value>i</value>
-									<value>w</value>
-								</add>
+								<call>
+									<function>
+										<access>
+											<value>t</value>
+											<value>replace</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>bp_string_2</parameter>
+										<parameter>bp_string_3</parameter>
+									</parameters>
+								</call>
 							</value>
-							<value>1</value>
-						</add>
-					</value>
-				</assign-add>
-				<assign-add depth="1" id="4">
-					<value>w</value>
-					<value>
-						<add>
-							<value>
-								<add>
-									<value>i</value>
-									<value>w</value>
-								</add>
-							</value>
-							<value>1</value>
-						</add>
-					</value>
-				</assign-add>
+						</assign>
+					</code>
+					<meta/>
+				</for>
 			</code>
 			<meta/>
-		</for>
+		</function>
 	</code>
 </module>

@@ -24,7 +24,11 @@
 			</parameters>
 			<name>benchAll</name>
 			<code>
-				<in depth="1" id="2">
+				<call depth="1" id="2">
+					<function>benchWarmUp</function>
+					<parameters/>
+				</call>
+				<in depth="1" id="3">
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -34,25 +38,25 @@
 						</new>
 					</expression>
 					<code>
-						<if-block depth="2" id="3">
+						<if-block depth="2" id="4">
 							<if>
 								<condition>para</condition>
 								<code>
-									<parallel depth="3" id="4">
+									<parallel depth="3" id="5">
 										<code>
-											<call depth="4" id="5">
+											<call depth="4" id="6">
 												<function>benchFileIO</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="6">
+											<call depth="4" id="7">
 												<function>benchMath</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="7">
+											<call depth="4" id="8">
 												<function>benchStrings</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="8">
+											<call depth="4" id="9">
 												<function>benchTime</function>
 												<parameters/>
 											</call>
@@ -61,28 +65,28 @@
 									</parallel>
 								</code>
 							</if>
-							<else depth="2" id="9">
+							<else depth="2" id="10">
 								<code>
-									<call depth="3" id="10">
+									<call depth="3" id="11">
 										<function>benchFileIO</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="11">
+									<call depth="3" id="12">
 										<function>benchMath</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="12">
+									<call depth="3" id="13">
 										<function>benchStrings</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="13">
+									<call depth="3" id="14">
 										<function>benchTime</function>
 										<parameters/>
 									</call>
 								</code>
 							</else>
 						</if-block>
-						<call depth="2" id="14">
+						<call depth="2" id="15">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -99,7 +103,7 @@
 			<meta/>
 		</function>
 		<comment>\SRun\Sit!</comment>
-		<call depth="0" id="15">
+		<call depth="0" id="16">
 			<function>benchAll</function>
 			<parameters>
 				<parameter>
