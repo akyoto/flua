@@ -305,7 +305,14 @@ def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 			bracketCounter = 1
 		else:
 			bracketCounter = 0
-
+			
+		if expr[start] == '"':
+			start -= 1
+			while start >= 0 and expr[start] != '"':
+				start -= 1
+			start -= 1
+			continue
+		
 		# Move to last part of the bracket
 		while bracketCounter > 0 and start > 0:
 			start -= 1
