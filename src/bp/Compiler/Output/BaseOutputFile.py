@@ -199,9 +199,9 @@ class BaseOutputFile(ScopeController):
 					key = op1.childNodes[1].firstChild.toxml()
 					value = node.childNodes[1].childNodes[0].toxml()
 					
-					print(obj)
-					print(key)
-					print(value)
+					#print(obj)
+					#print(key)
+					#print(value)
 					
 					xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (obj, memberFunc, key, value)
 					virtualSetIndexCall = self.cachedParseString(xmlCode).documentElement
@@ -1928,13 +1928,15 @@ class BaseOutputFile(ScopeController):
 		id = self.id + "_" + node.getAttribute("id")
 		value = decodeCDATA(node.childNodes[0].nodeValue)
 		
+		asByte = node.getAttribute("as-byte")
+		
 		# TODO: classExists(self.compiler.stringDataType)
 		if 1:#self.stringClassDefined or value == "\\n":
 			dataType = self.compiler.stringDataType
 			line = self.buildString(id, value)
-		else:
-			dataType = "CString"
-			line = self.buildUndefinedString(id, value)
+		#else:
+		#	dataType = "CString"
+		#	line = self.buildUndefinedString(id, value)
 		
 		var = self.createVariable(id, dataType, value, False, False, True)
 		#self.currentClassImpl.addMember(var)

@@ -303,7 +303,6 @@
 													</parameters>
 												</call>
 											</code>
-											<meta/>
 										</for>
 									</code>
 								</else>
@@ -335,12 +334,7 @@
 									</function>
 									<parameters>
 										<parameter>index</parameter>
-										<parameter>
-											<add>
-												<value>index</value>
-												<value>1</value>
-											</add>
-										</parameter>
+										<parameter>1</parameter>
 									</parameters>
 								</call>
 							</return>

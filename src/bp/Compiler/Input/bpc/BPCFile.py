@@ -1386,13 +1386,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		return node
 	
-	def addString(self, stri):
+	def addString(self, stri, stringLimiter = '"'):
 		# TODO: Add string to string list
 		identifier = "bp_string_" + str(self.stringCount) #.zfill(9)
 		
 		# Create XML node
 		stringNode = self.doc.createElement("string")
 		stringNode.setAttribute("id", identifier)
+		if stringLimiter == "'":
+			stringNode.setAttribute("as-byte", "true")
 		stringNode.appendChild(self.doc.createTextNode(encodeCDATA(stri)))
 		self.strings.appendChild(stringNode)
 		
@@ -1461,13 +1463,15 @@ class BPCFile(ScopeController, Benchmarkable):
 			#	chevronsBalance -= 1
 			
 			# Remove strings
-			elif line[i] == '"':
+			elif line[i] == '"' or line[i] == "'":
+				stringLimiter = line[i]
+				
 				lineLen = len(line)
 				
 				paramAtEndOfString = False
 				
 				h = i + 1
-				while h < lineLen and line[h] != '"':
+				while h < lineLen and line[h] != stringLimiter:
 					# Variables in strings
 					if line[h] == '$' and line[h - 1] != '\\':
 						paramEnd = h + 1
@@ -1480,11 +1484,11 @@ class BPCFile(ScopeController, Benchmarkable):
 							paramEnd += 1
 						
 						paramName = line[h+1:paramEnd]
-						identifier = self.addString(line[i+1:h])
+						identifier = self.addString(line[i+1:h], stringLimiter)
 						
 						# TODO: Possible string concatenation optimization
 						rest = line[paramEnd:]
-						if rest and rest[0] == '"':
+						if rest and rest[0] == stringLimiter:
 							# Ignore empty string at the end
 							line = '%s%s+%s%s' % (line[:i], identifier, paramName, rest[1:])
 							paramAtEndOfString = True
