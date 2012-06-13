@@ -37,7 +37,7 @@ Afterwards download bp via git:
 And start it:
 
     ./bp-editor.py
-    
+
 The Linux version of bp (both the IDE and the standalone compiler) is slightly faster than the Windows one.
 
 Compiling dependencies manually:
@@ -46,7 +46,6 @@ If you are using Ubuntu 12.04 you don't need to do this. If you are using Ubuntu
 Install git, g++, Python 3 and these development packages via your package manager (Ubuntu 11.xx is used as an example):
 
     sudo apt-get install python3 git g++ build-essential python3-dev libqt4-dev
-    
 
 Afterwards:
 

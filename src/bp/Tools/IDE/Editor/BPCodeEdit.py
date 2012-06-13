@@ -328,7 +328,7 @@ def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 			elif expr[start] == '(' or expr[start] == '[':
 				bracketCounter -= 1
 		start -= 1
-
+	
 	return expr[start+1:lastOccurence]
 
 # Code Edit
@@ -795,9 +795,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
 			# Get the text in the line
+			oldCursor = self.textCursor()
 			cursor = self.textCursor()
 			block = cursor.block()
 			text = block.text()
+			relPos = cursor.positionInBlock() #cursor.position() - block.position()
 			
 			# Data flow and other auto replace stuff
 			cursor.movePosition(QtGui.QTextCursor.Left)
@@ -808,6 +810,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				cursor.removeSelectedText()
 				cursor.insertText(self.autoReplace[selText])
 				self.setTextCursor(cursor)
+			else:
+				self.setTextCursor(oldCursor)
 			
 			# Don't AC on comments
 			if text.lstrip().startswith("#"):
@@ -817,8 +821,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				
 				return
 			
-			relPos = cursor.position() - block.position()
-			
 			# Check char format
 			#cursor.movePosition(QtGui.QTextCursor.StartOfWord)
 			#charFormat = cursor.charFormat()
@@ -827,14 +829,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#if charFormat == style["comment"] or charFormat == style["string"]:
 			#	return
 			
+			# Debug
+			#print(relPos)
+			#print(text)
+			#print(text[:relPos])
+			
 			# Get the completion prefix
-			completionPrefix = getLeftMemberAccess(text, relPos, allowPoint = False)
-			
-			if "(" in completionPrefix or ")" in completionPrefix:
-				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-				popup.hide()
-				return
-			
+			completionPrefix = getLeftMemberAccess(text[:relPos], relPos, allowPoint = False)
 			completionPrefixLen = len(completionPrefix)
 			
 			# Did the user already type in the right member name?
@@ -857,6 +858,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					return
 			else:
 				charBeforeWord = ""
+			
+			if "()" in completionPrefix and charBeforeWord != ".":
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
+				return
 			
 			# Set the prefix later
 			gonnaSetPrefix = False
