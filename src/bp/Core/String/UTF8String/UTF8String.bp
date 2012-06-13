@@ -7,7 +7,10 @@
 			<import>bp.Core.Memory</import>
 			<import>bp.Math</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string as-byte="true" id="bp_string_0">\S</string>
+			<string as-byte="true" id="bp_string_1">\S</string>
+		</strings>
 	</header>
 	<code>
 		<assign depth="0" id="1">
@@ -132,7 +135,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring\Susing\Sbyte\Sindices\Sfor\S#from\Sand\S#to</comment>
 				<function depth="1" id="13">
@@ -1636,7 +1638,7 @@
 										<value>Byte</value>
 									</declare-type>
 								</value>
-								<value>32</value>
+								<value>bp_string_0</value>
 							</assign>
 						</parameter>
 					</parameters>
@@ -1745,6 +1747,7 @@
 							</new>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SPad\Sright</comment>
 				<function depth="1" id="138">
@@ -1758,7 +1761,7 @@
 										<value>Byte</value>
 									</declare-type>
 								</value>
-								<value>32</value>
+								<value>bp_string_1</value>
 							</assign>
 						</parameter>
 					</parameters>
@@ -1904,6 +1907,7 @@
 							</new>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="150">

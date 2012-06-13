@@ -34,7 +34,6 @@
 					<meta/>
 				</function>
 				<function depth="1" id="4">
-					<parameters/>
 					<name>enter</name>
 					<code>
 						<assign depth="2" id="5">
@@ -55,7 +54,6 @@
 					<meta/>
 				</function>
 				<function depth="1" id="6">
-					<parameters/>
 					<name>exit</name>
 					<code>
 						<assign depth="2" id="7">

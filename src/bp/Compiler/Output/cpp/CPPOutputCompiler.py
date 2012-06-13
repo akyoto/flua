@@ -203,11 +203,15 @@ class CPPOutputCompiler(BaseOutputCompiler):
 					
 					# Find the matching function for the return type
 					flowToFuncImpl = self.mainFile.implementFunction("", flowToFuncName, [returnType])
-				
-					outStream.write("typedef void (*%s)(%s);\n" % (funcImplName + "_listener_type", returnType))
+					flowToFuncImplName = flowToFuncImpl.getName()
+					
+#					outStream.write("""inline void %s_dataflow_wrapper(%s _ret) {
+#	%s(_ret);
+#}""" % (flowToFuncImplName, adjustDataTypeCPP(returnType), flowToFuncImplName))
+					outStream.write("typedef void (*%s)(%s);\n" % (funcImplName + "_listener_type", adjustDataTypeCPP(returnType)))
 					outStream.write("std::vector<%s_listener_type> %s_listeners;\n" % (funcImplName, funcImplName))
 					
-					activateFlowCode.append("%s_listeners.push_back(%s);\n" % (funcImplName, flowToFuncImpl.getName()))
+					activateFlowCode.append("%s_listeners.push_back(reinterpret_cast<%s_listener_type>(%s));\n" % (funcImplName, funcImplName, flowToFuncImplName))
 				
 				outStream.write("""inline %s %s__flow_to__%s() {
 	%s
