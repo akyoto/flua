@@ -52,7 +52,7 @@ Afterwards:
 
  * Download SIP source: http://www.riverbankcomputing.co.uk/software/sip/download
  * Compile SIP for Python 3.x
- * Download PyQt 4 source: href="http://www.riverbankcomputing.co.uk/software/pyqt/download
+ * Download PyQt 4 source: http://www.riverbankcomputing.co.uk/software/pyqt/download
  * Compile PyQt 4 for Python 3.x
  
 Compiling these libraries can be done via:
