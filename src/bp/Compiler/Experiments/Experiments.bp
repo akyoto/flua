@@ -8,7 +8,8 @@
 	</header>
 	<code>
 		<comment>\SCtrl\S+\SClick\Son\Sit</comment>
-		<include depth="0" id="0">Iteration.hpp</include>
-		<include depth="0" id="1">ExpressionHierarchy.hpp</include>
+		<include depth="0" id="1">Iteration.txt</include>
+		<include depth="0" id="2">ExpressionHierarchy.txt</include>
+		<include depth="0" id="3">DataFlow.txt</include>
 	</code>
 </module>

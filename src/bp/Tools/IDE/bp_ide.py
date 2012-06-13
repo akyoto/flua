@@ -187,7 +187,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onProgressUpdate(self):
 		if self.lastFunctionCount == -1 and self.postProcessorThread:
 			val = time.time() - self.startTime
-			self.progressBar.setValue(min(100, val * 50))
+			self.progressBar.setValue(min(100, val * 100))
 			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
 			
 			#self.progressBar.show()

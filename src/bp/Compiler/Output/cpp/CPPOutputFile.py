@@ -66,6 +66,7 @@ class CPPOutputFile(BaseOutputFile):
 		# Other code types
 		self.stringsHeader = "\t// Strings\n"
 		self.varsHeader = "\n// Variables\n"
+		self.dataFlowHeader = "\n// DataFlow variables\n"
 		self.functionsHeader = "// Functions\n"
 		self.classesHeader = ""
 		self.actorClassesHeader = ""
@@ -321,6 +322,53 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		else:
 			return self.constAssignSyntax % (var.getFullPrototype(), value)
 	
+	def buildFunctionDataFlowOnReturn(self, node, expr, funcImpl):
+		funcImplName = funcImpl.getName()
+		varName = funcImplName + "_return_value"
+		returnType = funcImpl.getReturnType()
+		
+		#self.getClassImplementationByTypeName("MutableVector<>")
+		
+		code = "{%s" % (self.buildLine(self.assignSyntax % (self.adjustDataType(returnType) + " " + varName, expr)))
+		code += self.buildDataFlowListenerIteration(funcImplName, varName)
+		code += self.returnSyntax % varName + ";}"
+		return code
+		
+	def buildLine(self, line):
+		return line + ";\n" + "\t" * self.currentTabLevel
+		
+	def buildDataFlowListenerIteration(self, listenersForObject, params):
+		paramType = "Int"
+		iterExpr = "_currentListener"
+		iterType = "std::vector<%s_listener_type>::iterator" % (listenersForObject)
+		collExpr = listenersForObject + "_listeners"
+		tabs = "\t" * self.currentTabLevel
+		code = self.buildLine("for(%s %s = %s.begin(); %s != %s.end(); ++%s ) {\n%s\t(*%s)(%s);\n%s}" % (
+			# Init
+			iterType,
+			iterExpr,
+			collExpr,
+			
+			# Condition
+			iterExpr,
+			collExpr,
+			
+			# Increment
+			iterExpr,
+			
+			# Tabs
+			tabs,
+			
+			# Execute
+			iterExpr,
+			params,
+			
+			# Tabs
+			tabs,
+		))
+		
+		return code
+	
 	def transformBinaryOperator(self, operator):
 		return operator
 	
@@ -408,4 +456,4 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.classesHeader + self.customThreadsString + self.functionsHeader + self.actorClassesHeader + self.body + self.footer
+		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.dataFlowHeader + self.classesHeader + self.customThreadsString + self.functionsHeader + self.actorClassesHeader + self.body + self.footer

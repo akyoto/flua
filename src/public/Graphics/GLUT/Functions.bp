@@ -11,6 +11,9 @@
 			<extern-function depth="1" id="2">
 				<name>glutWindowOpen</name>
 				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="3">
 				<name>glutMainLoopEvent</name>
@@ -98,21 +101,39 @@
 			</extern-function>
 			<extern-function depth="1" id="29">
 				<name>glutGet</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="30">
 				<name>glutGetColor</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="31">
 				<name>glutGetMenu</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="32">
 				<name>glutGetModifiers</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="33">
 				<name>glutGetProcAddress</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="34">
 				<name>glutGetWindow</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
 			</extern-function>
 			<extern-function depth="1" id="35">
 				<name>glutHideOverlay</name>

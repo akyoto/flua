@@ -1171,8 +1171,12 @@ class BaseOutputFile(ScopeController):
 			if retType == "void":
 				raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
 				
-			#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
-			return self.returnSyntax % expr
+			debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+			if self.currentFunction.hasDataFlow:
+				print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+				return self.buildFunctionDataFlowOnReturn(node, expr, self.currentFunctionImpl)
+			else:
+				return self.returnSyntax % expr
 		else:
 			retType = "void"
 			return "return"
@@ -1787,7 +1791,9 @@ class BaseOutputFile(ScopeController):
 		definedInFile.currentFunction = oldFunc
 		
 		if className == "":
-			self.prototypesHeader += funcImpl.getPrototype()
+			prototype = funcImpl.getPrototype()
+			self.prototypesHeader += prototype
+			self.compiler.prototypes.append(prototype)
 		
 		#if func and funcImpl and funcImpl.getReturnType() != "void":
 		self.compiler.funcImplCache[key] = funcImpl
@@ -2029,15 +2035,29 @@ class BaseOutputFile(ScopeController):
 			else:
 				return self.buildTypeDeclarationNameOnly(varName)
 	
+	def getFunction(self, name):
+		return self.compiler.mainClass.functions[name]
+	
 	def handleFlowTo(self, node):
 		op1 = node.childNodes[0].childNodes[0]
-		op2 = node.childNodes[0].childNodes[0]
+		op2 = node.childNodes[1].childNodes[0]
 		
 		op1Expr = self.parseExpr(op1)
 		op2Expr = self.parseExpr(op2)
 		
-		# TODO: Implement data flow
-		return op1Expr
+		code = []
+		funcList = self.getFunction(op1Expr)
+		for func in funcList:
+			func.setDataFlow(True)
+			funcName = func.getName()
+			
+			#listeners = func.getName() + "_listeners"
+			self.compiler.funcDataFlowRequests.append((func, op2Expr))
+			
+			code.append(self.buildLine("%s__flow_to__%s()" % (funcName, op2Expr)))
+		
+		#op1Type = self.getExprDataType(op1)
+		return ''.join(code)
 	
 	def handleForEach(self, node):
 		self.compiler.forEachVarCounter += 1

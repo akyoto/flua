@@ -398,7 +398,7 @@ class BPPostProcessor:
 		self.mainFilePath = ""
 		#self.lastFilePath = ""
 		self.funcCount = 0
-	
+		
 	def getFunctionCount(self):
 		return self.funcCount
 	

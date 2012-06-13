@@ -28,12 +28,17 @@ class BaseFunction:
 		else:
 			self.name = correctOperators(getElementByTagName(node, "name").childNodes[0].nodeValue)
 		
+		self.hasDataFlow = False
 		self.classObj = None
 		self.implementations = {}
 		self.paramNames = []
 		self.paramTypesByDefinition = []
 		self.paramDefaultValues = []
 		self.paramDefaultValueTypes = []
+		
+	def setDataFlow(self, state):
+		self.hasDataFlow = True
+		# TODO: Update available implementations
 		
 	def setForceImplementation(self, state):
 		self.forceImplementation = state

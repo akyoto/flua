@@ -60,6 +60,8 @@ class BaseOutputCompiler(Benchmarkable):
 		self.parseStringCache = dict()
 		self.needToInitStringClass = False
 		self.assignNodes = list()
+		self.funcDataFlowRequests = list()
+		self.prototypes = list()
 		
 		# Main class
 		self.mainClass = self.createClass("", None)

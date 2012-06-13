@@ -7,13 +7,13 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="0">
+		<class depth="0" id="1">
 			<name>DataFlowTest</name>
 			<code>
-				<function depth="1" id="1">
+				<function depth="1" id="2">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="2">
+						<assign depth="2" id="3">
 							<value>
 								<access>
 									<value>my</value>
@@ -22,7 +22,7 @@
 							</value>
 							<value>10</value>
 						</assign>
-						<assign depth="2" id="3">
+						<assign depth="2" id="4">
 							<value>
 								<access>
 									<value>my</value>
@@ -31,7 +31,7 @@
 							</value>
 							<value>20</value>
 						</assign>
-						<flow-to depth="2" id="4">
+						<flow-to depth="2" id="5">
 							<value>
 								<multiply>
 									<value>
@@ -53,11 +53,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="5">
-					<getter depth="2" id="6">
+				<get depth="1" id="6">
+					<getter depth="2" id="7">
 						<name>x</name>
 						<code>
-							<return depth="3" id="7">
+							<return depth="3" id="8">
 								<access>
 									<value>my</value>
 									<value>x</value>
@@ -65,21 +65,35 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="8">
+					<getter depth="2" id="9">
 						<name>y</name>
 						<code>
-							<return depth="3" id="9">
+							<return depth="3" id="10">
 								<access>
 									<value>my</value>
 									<value>y</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="11">
+						<name>z</name>
+						<code>
+							<return depth="3" id="12">
+								<access>
+									<value>my</value>
+									<value>z</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
 					</getter>
 				</get>
 			</code>
+			<meta/>
 		</class>
-		<assign depth="0" id="10">
+		<assign depth="0" id="13">
 			<value>a</value>
 			<value>
 				<new>
@@ -88,7 +102,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="11">
+		<call depth="0" id="14">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -99,7 +113,7 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="12">
+		<call depth="0" id="15">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -110,7 +124,7 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="13">
+		<call depth="0" id="16">
 			<function>print</function>
 			<parameters>
 				<parameter>

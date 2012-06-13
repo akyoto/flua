@@ -1,0 +1,7 @@
+sum a, b
+	retVal = a + b
+	for x in listeners
+		x(retVal)
+	return retVal
+	
+sum_flow_list.appendListener(print)

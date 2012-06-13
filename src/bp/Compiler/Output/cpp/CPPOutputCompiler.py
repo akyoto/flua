@@ -95,6 +95,14 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			except CompilerException as e:
 				raise OutputCompilerException(e.getMsg(), cppFile, None)
 		
+		# Implement all used data flow functions BEFORE we call getCode() on all files
+		for func, flowToFuncName in self.funcDataFlowRequests:
+			for funcImpl in func.implementations.values():
+				returnType = funcImpl.getReturnType()
+				
+				# Find the matching function for the return type
+				flowToFuncImpl = self.mainFile.implementFunction("", flowToFuncName, [returnType])
+		
 		# Write to files
 		for cppFile in cppFiles:
 			#fileOut = dirOut + stripExt(os.path.relpath(cppFile.file, self.projectDir)) + "-out.hpp"
@@ -171,13 +179,40 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#for implName, impl in self.mainClass.implementations[""].funcImplementations:
 			#	outStream.write("// func %s;\n" % (implName))
 			
+			# Prototypes
+			outStream.write('\n'.join(self.prototypes))
+			
 			# Extern functions
 			for externFunc in self.mainClass.externFunctions:
 				outStream.write("// extern func %s;\n" % (externFunc))
 			
 			# Includes
 			for incl, ifndef in self.includes:
-				outStream.write("#ifndef %s\n#define %s\n#include <%s>\n#endif\n\n" % (ifndef, ifndef, incl))
+				outStream.write("#ifndef %s\n\t#define   %s\n\t#include <%s>\n#endif\n\n" % (ifndef, ifndef, incl))
+				
+			# TODO: Change std::vector to BPVector
+			outStream.write("#include <vector>\n")
+			
+			# Data flow for functions
+			flowType = "void"
+			for func, flowToFuncName in self.funcDataFlowRequests:
+				activateFlowCode = []
+				for funcImpl in func.implementations.values():
+					funcImplName = funcImpl.getName()
+					returnType = funcImpl.getReturnType()
+					
+					# Find the matching function for the return type
+					flowToFuncImpl = self.mainFile.implementFunction("", flowToFuncName, [returnType])
+				
+					outStream.write("typedef void (*%s)(%s);\n" % (funcImplName + "_listener_type", returnType))
+					outStream.write("std::vector<%s_listener_type> %s_listeners;\n" % (funcImplName, funcImplName))
+					
+					activateFlowCode.append("%s_listeners.push_back(%s);\n" % (funcImplName, flowToFuncImpl.getName()))
+				
+				outStream.write("""inline %s %s__flow_to__%s() {
+	%s
+}
+""" % (flowType, func.getName(), flowToFuncName, ''.join(activateFlowCode)))
 			
 			outStream.write("\n#endif\n")
 	

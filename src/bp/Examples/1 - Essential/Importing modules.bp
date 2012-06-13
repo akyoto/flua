@@ -12,7 +12,7 @@
 	<code>
 		<comment>\SNothing\Seasier\Sthan\Sthat.</comment>
 		<comment>\SNow\Suse\Sa\Sfunction\Sof\Sthat\Smodule:</comment>
-		<call depth="0" id="0">
+		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -24,14 +24,14 @@
 			</parameters>
 		</call>
 		<comment>\SHow\Sabout\Sanother\Sone?</comment>
-		<call depth="0" id="1">
+		<call depth="0" id="2">
 			<function>changeDir</function>
 			<parameters>
 				<parameter>bp_string_0</parameter>
 			</parameters>
 		</call>
 		<comment>\SLet's\Scheck\Sif\Sit\Sworked</comment>
-		<call depth="0" id="2">
+		<call depth="0" id="3">
 			<function>print</function>
 			<parameters>
 				<parameter>
