@@ -76,6 +76,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		
 		self.boehmGCEnabled = True
 		self.gmpEnabled = True
+		self.tinySTMEnabled = False
 	
 	def createOutputFile(self, inpFile):
 		return CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
@@ -132,13 +133,19 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				fileOut = dirName + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
 				self.mainCppFile = fileOut
 				
-				gcInit = ""
+				initCode = ""
+				exitCode = ""
+				
 				if self.boehmGCEnabled:
-					gcInit = "\tGC_INIT();\n"
+					initCode += "\tGC_INIT();\n"
+				
+				if self.tinySTMEnabled:
+					initCode += "\tstm_init();\n"
+					exitCode += "\tstm_exit();\n"
 				
 				# Write main file
 				with open(fileOut, "w") as outStream:
-					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + gcInit + self.getFileExecList() + "\treturn 0;\n}\n")
+					outStream.write("#include <bp_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + initCode + self.getFileExecList() + exitCode + "\treturn 0;\n}\n")
 		
 		# Decls file
 		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))
@@ -152,6 +159,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			
 			if self.gmpEnabled:
 				outStream.write("#define BP_USE_GMP\n")
+			
+			if self.tinySTMEnabled:
+				outStream.write("#define BP_USE_TINYSTM\n")
 			
 			# Module import helper
 			#outStream.write("#define CPP_MODULE(x) <x.hpp>")
@@ -180,7 +190,8 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#	outStream.write("// func %s;\n" % (implName))
 			
 			# Prototypes
-			outStream.write('\n'.join(self.prototypes))
+			outStream.write("\n// Prototypes\n")
+			outStream.write(''.join(self.prototypes))
 			
 			# Extern functions
 			for externFunc in self.mainClass.externFunctions:
@@ -257,6 +268,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			"-I" + fixPath(self.modDir),
 			"-I" + fixPath("%sinclude/cpp/" % (self.bpRoot)),
 			"-I" + fixPath("%sinclude/cpp/gmp/" % (self.bpRoot)),
+			"-I" + fixPath("%sinclude/cpp/atomic_ops/" % (self.bpRoot)),
 			#"-L" + self.libsDir,
 		] + self.customCompilerFlags + compilerFlags + [
 			#"-pipe",
@@ -302,6 +314,13 @@ class CPPOutputCompiler(BaseOutputCompiler):
 					"-lpthread",
 				]
 		
+		# TinySTM?
+		if self.tinySTMEnabled:
+			additionalLibs += [
+				"-lstm",
+			]
+		
+		# Static linking?
 		if self.staticStdcppLinking:
 			staticRuntime = [
 				"-static-libgcc",

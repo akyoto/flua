@@ -734,14 +734,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
 		
-		popup = self.completer.popup()
+		if self.completer:
+			popup = self.completer.popup()
+		else:
+			popup = None
 		
 		# Auto Complete
 		if 		(
 					(not dontAutoComplete) and
 					self.completer and
 					self.bpIDE.codeEdit == self and
-					(self.autoSuggestion or isShortcut or popup.isVisible())
+					(self.autoSuggestion or isShortcut or (popup and popup.isVisible()))
 				):
 			# Ignore certain keys for the editor when AC is open
 			eventKey = event.key()

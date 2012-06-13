@@ -84,6 +84,10 @@
 	*/
 #endif
 
+#ifdef BP_USE_TINYSTM
+	#include <stm/stm.h>
+#endif
+
 #ifdef BP_USE_BOOST
 	#include "../boost/shared_ptr.hpp"
 	#include "../boost/enable_shared_from_this.hpp"

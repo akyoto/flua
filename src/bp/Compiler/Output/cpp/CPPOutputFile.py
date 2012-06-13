@@ -163,20 +163,31 @@ class CPPOutputFile(BaseOutputFile):
 		else:
 			initParams = ""
 		
-		func = """
+		if self.compiler.tinySTMEnabled:
+			initCode = "stm_init_thread();"
+			exitCode = "stm_exit_thread();"
+		else:
+			initCode = ""
+			exitCode = ""
+		
+		func = """// Thread
 typedef struct bp_thread_args_%s {
 	%s
 	inline bp_thread_args_%s(%s) %s {}
 } bp_thread_args_%s;
 
 void* bp_thread_func_%s(void *bp_arg_struct_void) {
+	%s
+	
 	bp_thread_args_%s *args = reinterpret_cast<bp_thread_args_%s*>(bp_arg_struct_void);
 	%s(%s);
 	if(args)
 		delete args;
+		
+	%s
 	return NULL;
 }
-""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), initParams, funcName, funcName, funcName, funcName, funcName, ', '.join(paramNames))
+""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), initParams, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
 		self.customThreads[funcName] = func
 		
 	def adjustDataType(self, typeName, adjustOuterAsWell = True):

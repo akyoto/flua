@@ -15,7 +15,6 @@ src/bp/Tools/IDE/miscellaneous/scribble.txt
 src/bp/Tools/IDE/settings.ini
 src/playground/*
 include/cpp/musl/*
-include/cpp/stm/*
 include/cpp/boost/*
 libs/cpp/linux/x86/musl-*
 src/eurbach/
