@@ -1173,7 +1173,7 @@ class BaseOutputFile(ScopeController):
 				
 			debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 			if self.currentFunction.hasDataFlow:
-				print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+				#print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 				return self.buildFunctionDataFlowOnReturn(node, expr, self.currentFunctionImpl)
 			else:
 				return self.returnSyntax % expr
