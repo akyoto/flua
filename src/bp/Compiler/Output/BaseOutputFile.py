@@ -1945,7 +1945,7 @@ class BaseOutputFile(ScopeController):
 			dataType = "Byte"
 			line = self.buildStringAsByte(id, value)
 			self.stringsAsBytes[stringId] = True
-			print(self.stringsAsBytes)
+			#print(self.stringsAsBytes)
 		else:
 			dataType = self.compiler.stringDataType
 			line = self.buildString(id, value)
