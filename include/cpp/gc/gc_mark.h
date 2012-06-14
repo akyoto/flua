@@ -56,7 +56,12 @@
 /* not count on the presence of a type descriptor, and must handle this */
 /* case correctly somehow.                                              */
 #define GC_PROC_BYTES 100
-struct GC_ms_entry;
+
+#ifdef GC_BUILD
+  struct GC_ms_entry;
+#else
+  struct GC_ms_entry { void *opaque; };
+#endif
 typedef struct GC_ms_entry * (*GC_mark_proc)(GC_word * /* addr */,
                                 struct GC_ms_entry * /* mark_stack_ptr */,
                                 struct GC_ms_entry * /* mark_stack_limit */,
@@ -164,14 +169,14 @@ GC_API void ** GC_CALL GC_new_free_list_inner(void);
 
 /* Return a new kind, as specified. */
 GC_API unsigned GC_CALL GC_new_kind(void ** /* free_list */,
-                                    GC_word /* mark_descriptor_template */,
-                                    int /* add_size_to_descriptor */,
-                                    int /* clear_new_objects */);
+                            GC_word /* mark_descriptor_template */,
+                            int /* add_size_to_descriptor */,
+                            int /* clear_new_objects */) GC_ATTR_NONNULL(1);
                 /* The last two parameters must be zero or one. */
 GC_API unsigned GC_CALL GC_new_kind_inner(void ** /* free_list */,
-                                    GC_word /* mark_descriptor_template */,
-                                    int /* add_size_to_descriptor */,
-                                    int /* clear_new_objects */);
+                            GC_word /* mark_descriptor_template */,
+                            int /* add_size_to_descriptor */,
+                            int /* clear_new_objects */) GC_ATTR_NONNULL(1);
 
 /* Return a new mark procedure identifier, suitable for use as  */
 /* the first argument in GC_MAKE_PROC.                          */
@@ -184,7 +189,8 @@ GC_API unsigned GC_CALL GC_new_proc_inner(GC_mark_proc);
 /* the descriptor is not correct.  Even in the single-threaded case,    */
 /* we need to be sure that cleared objects on a free list don't         */
 /* cause a GC crash if they are accidentally traced.                    */
-GC_API void * GC_CALL GC_generic_malloc(size_t /* lb */, int /* k */);
+GC_API GC_ATTR_MALLOC void * GC_CALL
+        GC_generic_malloc(size_t /* lb */, int /* k */);
 
 typedef void (GC_CALLBACK * GC_describe_type_fn)(void * /* p */,
                                                  char * /* out_buf */);
@@ -207,9 +213,10 @@ GC_API void GC_CALL GC_register_describe_type_fn(int /* kind */,
                                 /* to be used when printing objects     */
                                 /* of a particular kind.                */
 
-/* See gc.h for the description of these "inner" functions.             */
-GC_API size_t GC_CALL GC_get_heap_size_inner(void);
-GC_API size_t GC_CALL GC_get_free_bytes_inner(void);
+/* Clear some of the inaccessible part of the stack.  Returns its       */
+/* argument, so it can be used in a tail call position, hence clearing  */
+/* another frame.  Argument may be NULL.                                */
+GC_API void * GC_CALL GC_clear_stack(void *);
 
 /* Set and get the client notifier on collections.  The client function */
 /* is called at the start of every full GC (called with the allocation  */
@@ -218,10 +225,16 @@ GC_API size_t GC_CALL GC_get_free_bytes_inner(void);
 /* the callback should not, directly or indirectly, make any GC_ or     */
 /* potentially blocking calls.  In particular, it is not safe to        */
 /* allocate memory using the garbage collector from within the callback */
-/* function.                                                            */
+/* function.  Both the setter and getter acquire the GC lock.           */
 typedef void (GC_CALLBACK * GC_start_callback_proc)(void);
 GC_API void GC_CALL GC_set_start_callback(GC_start_callback_proc);
 GC_API GC_start_callback_proc GC_CALL GC_get_start_callback(void);
+
+/* Slow/general mark bit manipulation.  The caller must hold the        */
+/* allocation lock.  GC_is_marked returns 1 (TRUE) or 0.                */
+GC_API int GC_CALL GC_is_marked(const void *) GC_ATTR_NONNULL(1);
+GC_API void GC_CALL GC_clear_mark_bit(const void *) GC_ATTR_NONNULL(1);
+GC_API void GC_CALL GC_set_mark_bit(const void *) GC_ATTR_NONNULL(1);
 
 #ifdef __cplusplus
   } /* end of extern "C" */

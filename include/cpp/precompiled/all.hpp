@@ -22,11 +22,10 @@
 	//  --enable-threads=posix
 	//  --enable-thread-local-alloc
 	//  --enable-parallel-mark
-	// ./configure --enable-cplusplus --enable-threads=posix --enable-thread-local-alloc --enable-parallel-mark --prefix=~/boehmgc/ --CFLAGS=-DUSE_LIBC_PRIVATES-DPARALLEL_MARK
+	// ./configure --enable-cplusplus --enable-threads=posix --enable-thread-local-alloc --enable-parallel-mark --prefix=/home/eduard/boehmgc/
 
 	//compile with
-	//	-DUSE_LIBC_PRIVATES
-	//	-DPARALLEL_MARK
+	//	-DUSE_LIBC_PRIVATES -DPARALLEL_MARK
 	
 	// On Win32 use:
 	// --host=i686-pc-mingw32
@@ -55,12 +54,7 @@
 		#define _MULTI_THREADED
 	#endif
 	
-	#ifdef _WIN32
-		#include "../gc-7.3/gc_cpp.h"
-	#else
-		#include "../gc/gc_cpp.h"
-	#endif
-	
+	#include "../gc/gc_cpp.h"
 	#include <pthread.h>
 #endif
 
