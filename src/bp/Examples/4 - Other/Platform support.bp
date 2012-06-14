@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SLinux\S32\SBit\S\S\S-\Sis\Sfully\Ssupported.</comment>
+		<comment>\SLinux\S64\SBit\S\S\S-\Ssupport\Sis\Scurrently\Sexperimental.</comment>
+		<comment>\SWindows\S32\SBit\S-\Scurrently\Ssupports\Smost\Slibraries\Sexcept\Sfor\Smultithreaded\Sgarbage\Scollection.</comment>
+		<comment>\SWindows\S64\SBit\S-\Scurrently\Ssupports\Smost\Slibraries\Sexcept\Sfor\Smultithreaded\Sgarbage\Scollection.</comment>
+		<comment>\SMacOS\S32\SBit\S\S\S-\Snot\Stested,\Sis\Sthere\Sanyone\Swho\Swants\Sto\Srun\Sthis\Son\SMacOS?</comment>
+		<comment>\SMacOS\S64\SBit\S\S\S-\Snot\Stested,\Sis\Sthere\Sanyone\Swho\Swants\Sto\Srun\Sthis\Son\SMacOS?</comment>
+		<comment>\SAndroid\S\S\S\S\S\S\S\S-\Swill\Sbe\Scoming\Ssoon</comment>
+	</code>
+</module>
