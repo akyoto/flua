@@ -332,6 +332,16 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			
 			for file in files:
 				if file.endswith(".bp"):
+					
+					# If there is a directory with the same name, delete the file
+					if os.path.isdir(fixPath(root) + "/" + stripExt(file)):
+						try:
+							os.unlink(fixPath(root) + "/" + file)
+						except OSError:
+							pass
+						
+						continue
+					
 					lastDir = fixPath(root).split(OS_SLASH)[-2]
 					modName = file[:-3]
 					if modName == lastDir:

@@ -139,7 +139,7 @@ def addBrackets(line):
 			raise CompilerException("Invalid instruction: '%s'" % line)
 	
 	# Don't make function calls out of data flow
-	if rightOperand.startswith("<-") or rightOperand.startswith("->") or rightOperand.startswith("<->"):
+	if rightOperand.startswith("<-") or rightOperand.startswith("->") or rightOperand.startswith("<->") or rightOperand.startswith("→") or rightOperand.startswith("←"):
 		return line
 	
 	if i < len(line) - 1:
@@ -597,7 +597,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.checkObjectCreation(node)
 			return node
 		elif (self.inOperators) and self.inOperator == 0:
-			print(line)
+			#print(line)
 			return self.handleFunction(line)
 		elif self.nextLineIndented:
 			if self.inSwitch > 0:

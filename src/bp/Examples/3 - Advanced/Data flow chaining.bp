@@ -1,0 +1,176 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SDataflow\Schaining\Sis\Sthe\Scombination\Sof\Smore\Sthan\S2\Sfunctions.</comment>
+		<comment>\SThis\Sis\Show\Sthe\Sdata\Sflows\Sin\Sthis\Sexample\Scode:</comment>
+		<flow-to depth="0" id="1">
+			<value>
+				<flow-to>
+					<value>getWebcamImage</value>
+					<value>addFilters</value>
+				</flow-to>
+			</value>
+			<value>showOnScreen</value>
+		</flow-to>
+		<comment>\SThis\Sclass\Ssymbolizes\Sour\Simage\Sdata\Swhich\Sis\Sa\Ssimple\Sinteger\Sin\Sthis\Scase</comment>
+		<class depth="0" id="2">
+			<name>WebcamImage</name>
+			<code>
+				<function depth="1" id="3">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>rand</function>
+									<parameters>
+										<parameter>
+											<negative>
+												<value>100</value>
+											</negative>
+										</parameter>
+										<parameter>100</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</function>
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
+						<name>data</name>
+						<code>
+							<return depth="3" id="7">
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
+				<set depth="1" id="8">
+					<setter depth="2" id="9">
+						<parameters>
+							<parameter>newData</parameter>
+						</parameters>
+						<name>data</name>
+						<code>
+							<assign depth="3" id="10">
+								<value>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</value>
+								<value>newData</value>
+							</assign>
+						</code>
+					</setter>
+				</set>
+			</code>
+		</class>
+		<comment>\SCapture\Sone\Sframe</comment>
+		<function depth="0" id="11">
+			<name>getWebcamImage</name>
+			<code>
+				<return depth="1" id="12">
+					<new>
+						<type>WebcamImage</type>
+						<parameters/>
+					</new>
+				</return>
+			</code>
+		</function>
+		<comment>\SProcess\Simage</comment>
+		<function depth="0" id="13">
+			<parameters>
+				<parameter>image</parameter>
+			</parameters>
+			<name>addFilters</name>
+			<code>
+				<assign depth="1" id="14">
+					<value>source</value>
+					<value>
+						<access>
+							<value>image</value>
+							<value>data</value>
+						</access>
+					</value>
+				</assign>
+				<assign depth="1" id="15">
+					<value>
+						<access>
+							<value>image</value>
+							<value>data</value>
+						</access>
+					</value>
+					<value>
+						<add>
+							<value>source</value>
+							<value>
+								<call>
+									<function>rand</function>
+									<parameters>
+										<parameter>
+											<negative>
+												<value>100</value>
+											</negative>
+										</parameter>
+										<parameter>100</parameter>
+									</parameters>
+								</call>
+							</value>
+						</add>
+					</value>
+				</assign>
+				<return depth="1" id="16">image</return>
+			</code>
+		</function>
+		<comment>\SShow\Sit\Son\Sthe\Sscreen</comment>
+		<function depth="0" id="17">
+			<parameters>
+				<parameter>image</parameter>
+			</parameters>
+			<name>showOnScreen</name>
+			<code>
+				<call depth="1" id="18">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>image</value>
+								<value>data</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<comment>\STheoretically\Syou\Scan\Screate\Sa\Smain\Sloop\Snow.</comment>
+		<comment>\STo\Sdemonstrate\Sthe\Sdata\Sflow\SI'm\Sjust\Sgoing\Sto\Sdo\Sthis\S10\Stimes:</comment>
+		<for depth="0" id="19">
+			<iterator>i</iterator>
+			<from>1</from>
+			<to>10</to>
+			<code>
+				<call depth="1" id="20">
+					<function>getWebcamImage</function>
+					<parameters/>
+				</call>
+			</code>
+		</for>
+	</code>
+</module>

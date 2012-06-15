@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>bp.Graphics.Engine.Flua</import>
+			<import>bp.Graphics.Flua</import>
 			<import>bp.Collection.Vector</import>
 		</dependencies>
 		<strings/>

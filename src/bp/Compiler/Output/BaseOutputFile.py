@@ -2042,10 +2042,17 @@ class BaseOutputFile(ScopeController):
 		op1 = node.childNodes[0].childNodes[0]
 		op2 = node.childNodes[1].childNodes[0]
 		
-		op1Expr = self.parseExpr(op1)
+		code = []
+		
+		# If the left operator is a data flow expression take its right operator
+		if op1.nodeType != Node.TEXT_NODE and op1.tagName == "flow-to":
+			op1Expr = self.parseExpr(op1.childNodes[1].firstChild)
+			code.append(self.handleFlowTo(op1))
+		else:
+			op1Expr = self.parseExpr(op1)
+		
 		op2Expr = self.parseExpr(op2)
 		
-		code = []
 		funcList = self.getFunction(op1Expr)
 		for func in funcList:
 			func.setDataFlow(True)
