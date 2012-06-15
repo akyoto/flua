@@ -238,7 +238,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			initCode = ""
 			perIterationCode = ""
 		
-		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + perIterationCode)
+		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + ";" + perIterationCode)
 		
 		return "{\n%s%s%s%s;\n%s\n%s}" % (initCode, tabs, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"

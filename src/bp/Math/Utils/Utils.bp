@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>Range</import>
 		</dependencies>
 		<strings/>
 	</header>

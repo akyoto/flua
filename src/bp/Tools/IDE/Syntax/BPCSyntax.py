@@ -222,7 +222,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					
 					i = h
 					continue
-				elif expr == "my" or expr == "this" or expr == "self":
+				elif expr in {"my", "this", "self", "loop"}:
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue
