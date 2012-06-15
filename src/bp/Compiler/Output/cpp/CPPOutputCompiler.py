@@ -190,6 +190,10 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#	outStream.write("// func %s;\n" % (implName))
 			
 			# Prototypes
+			outStream.write("\n// Strings\n")
+			outStream.write(''.join(self.strings))
+			
+			# Prototypes
 			outStream.write("\n// Prototypes\n")
 			outStream.write(''.join(self.prototypes))
 			

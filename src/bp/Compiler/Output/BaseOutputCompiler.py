@@ -62,6 +62,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.assignNodes = list()
 		self.funcDataFlowRequests = list()
 		self.prototypes = list()
+		self.strings = list()
 		
 		# Main class
 		self.mainClass = self.createClass("", None)

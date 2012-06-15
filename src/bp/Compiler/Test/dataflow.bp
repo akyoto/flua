@@ -6,7 +6,7 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">Dataflow\Sfor\Sfunctions</string>
-			<string id="bp_string_1">\Sis\Sworking!</string>
+			<string id="bp_string_1">\Sworking!</string>
 		</strings>
 	</header>
 	<code>

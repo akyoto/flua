@@ -455,7 +455,7 @@
 												</equal>
 											</condition>
 											<code>
-												<comment>\SKey\Sdoesn't\Sexist</comment>
+												<comment>\STODO:\SKey\Sdoesn't\Sexist\Sexception</comment>
 												<throw depth="5" id="45">bp_string_0</throw>
 											</code>
 										</else-if>
@@ -501,7 +501,6 @@
 								</code>
 							</while>
 						</code>
-						<meta/>
 					</operator>
 					<comment>\SCreates\Sa\Snew\S#key\S→\S#value\Spair\Sor\Ssets\Sthe\S#value\Sof\San\Sexisting\S#key</comment>
 					<operator depth="2" id="50">

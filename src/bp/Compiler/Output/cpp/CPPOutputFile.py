@@ -123,8 +123,11 @@ class CPPOutputFile(BaseOutputFile):
 		for var in self.getTopLevelScope().variables.values():
 			if var.isConst:
 				self.varsHeader += "const " + var.getPrototype() + " = " + var.value + ";\n";
-			elif not isUnmanaged(var.type) or var.type == self.compiler.stringDataType:
-				self.varsHeader += var.getPrototype() + ";\n";
+			elif var.type == self.compiler.stringDataType:
+				self.compiler.strings.append(var.getPrototype())
+				self.compiler.strings.append(";\n")
+			elif not isUnmanaged(var.type):
+				self.varsHeader += var.getPrototype() + ";\n"
 				
 		self.varsHeader += "\n"
 	

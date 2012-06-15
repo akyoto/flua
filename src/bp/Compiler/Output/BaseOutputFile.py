@@ -1962,6 +1962,7 @@ class BaseOutputFile(ScopeController):
 		#self.currentClassImpl.addMember(var)
 		self.getTopLevelScope().variables[id] = var
 		self.compiler.stringCounter += 1
+		
 		return line
 	
 	def handleTemplateCall(self, node):
