@@ -361,8 +361,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.autoReplace = {
 			# Simple data flow
-			"->" : "→",
-			"<-" : "←",
+			#"->" : "→",
+			#"<-" : "←",
 			
 			# These need more than one version
 			# TODO: Not fully working yet, implement it.
