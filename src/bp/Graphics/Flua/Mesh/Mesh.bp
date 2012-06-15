@@ -1,0 +1,44 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Graphics.Engine.Flua</import>
+			<import>bp.Collection.Vector</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>Mesh</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>vertices</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>Float</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

@@ -1,0 +1,69 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Graphics.Flua</import>
+			<import>bp.Collection.Vector</import>
+			<import>Mesh.VertexBuffer</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>Mesh</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>vertices</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>Float</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<call depth="2" id="4">
+							<function>
+								<access>
+									<value>vertices</value>
+									<value>add</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>0.0</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="5">
+							<function>
+								<access>
+									<value>vertices</value>
+									<value>add</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>0.0</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="6">
+					<name>draw</name>
+					<code>
+						<noop depth="2" id="7"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

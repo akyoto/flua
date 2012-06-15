@@ -1,0 +1,100 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Graphics.Flua</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>Texture</name>
+			<code>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>filePath</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>flua_loadTexture</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>my</value>
+														<value>filePath</value>
+													</access>
+												</value>
+												<value>data</value>
+											</access>
+										</parameter>
+										<parameter>GL_RGB</parameter>
+										<parameter>GL_RGB</parameter>
+										<parameter>1</parameter>
+										<parameter>0</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="4">
+					<name>activate</name>
+					<code>
+						<call depth="2" id="5">
+							<function>glActiveTexture</function>
+							<parameters>
+								<parameter>GL_TEXTURE0</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="6">
+							<function>glBindTexture</function>
+							<parameters>
+								<parameter>GL_TEXTURE_2D</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>handle</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<comment>glUniform1i(uniform_texture1,\S0)</comment>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="7">
+					<getter depth="2" id="8">
+						<name>handle</name>
+						<code>
+							<return depth="3" id="9">
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

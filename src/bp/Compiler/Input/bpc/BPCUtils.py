@@ -361,7 +361,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		for child in node.childNodes:
 			# Child name
-			childName = child.tagName
+			if child.nodeType != Node.TEXT_NODE:
+				childName = child.tagName
+			else:
+				childName = ""
 			
 			# Line type
 			if childName in autoNewlineBlock:

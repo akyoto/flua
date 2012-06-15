@@ -1,0 +1,65 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>public.Graphics.GLEW</import>
+			<import>public.Graphics.GLU</import>
+			<import>public.Graphics.GLUT</import>
+			<import>public.Graphics.OpenGL</import>
+			<import>public.Graphics.FreeImage</import>
+			<import>bp.FileSystem</import>
+			<import>GraphicsWindow</import>
+			<import>Material</import>
+			<import>Texture</import>
+			<import>Mesh</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">Flua.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
+				<name>flua_createGLUTWindow</name>
+				<type>Int</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>flua_createShader</name>
+				<type>GLuint</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="6">
+				<name>flua_createGLSLProgram</name>
+				<type>GLuint</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>flua_createGLSLProgramAttribute</name>
+				<type>GLint</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="8">
+				<name>flua_loadTexture</name>
+				<type>GLuint</type>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="9">
+				<name>flua_createVBO</name>
+				<type>GLuint</type>
+			</extern-function>
+			<extern-function depth="1" id="10">
+				<name>flua_initGLUT</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="11">
+				<name>flua_printGLError</name>
+			</extern-function>
+		</extern>
+	</code>
+</module>

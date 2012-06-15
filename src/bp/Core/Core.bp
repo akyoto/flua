@@ -148,7 +148,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
@@ -193,7 +192,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

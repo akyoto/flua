@@ -902,10 +902,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						self.completer.deactivateMemberList()
 						return
 			else:
-				self.completer.deactivateMemberList()
+				if self.completer.memberListActivated():
+					self.completer.deactivateMemberList()
+					gonnaSetPrefix = False
 			
 			# AFTER THE MEMBER LIST HAS BEEN EVENTUALLY CREATED set the prefix
 			if gonnaSetPrefix:
+				print("SETTING PREFIX TO:%s" % completionPrefix)
 				self.completer.setCompletionPrefix(completionPrefix)
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			

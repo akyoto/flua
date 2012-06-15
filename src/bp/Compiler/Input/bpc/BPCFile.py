@@ -162,6 +162,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.compiler = compiler
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
+		print(fileIn, " -> ", self.dir)
 		self.stringCount = 0
 		self.importedFiles = []
 		self.nextLineIndented = False
@@ -1363,7 +1364,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif importedModule == "":
 			raise CompilerException("You need to specify which module you want to import")
 		else:
-			#print()
+			#print(importedModule, " = ", modulePath, "(1)", self.dir, "(2)", self.compiler.projectDir)
 			raise CompilerException("Module not found: " + importedModule)
 		
 		element = self.doc.createElement("import")
