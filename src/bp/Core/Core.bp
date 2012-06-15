@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>Startup</import>
 			<import>Memory</import>
 			<import>String</import>
 			<import>Output</import>

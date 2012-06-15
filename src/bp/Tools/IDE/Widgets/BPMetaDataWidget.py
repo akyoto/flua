@@ -195,8 +195,6 @@ class BPMetaDataWidget(QtGui.QWidget):
 			widget = None
 			if dataType == "SingleLine":
 				widget = BPMetaLineEdit(self, metaNode, metaTag, defaultValue, self.doc)
-				if defaultValue:
-					widget.setText(defaultValue)
 			elif dataType == "Bool":
 				widget = BPMetaCheckBox(self, metaNode, metaTag, defaultValue, self.doc)
 				if defaultValue == "true":

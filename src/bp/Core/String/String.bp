@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>CharTypes</import>
 			<import>UTF8String</import>
 			<import>UTF8String.Constructors</import>
 			<import>UTF8String.Operators</import>

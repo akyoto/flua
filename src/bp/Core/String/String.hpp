@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+
 #define _toString(x) (new (UseGC) BPUTF8String(const_cast<char*>(x)))
 
 template <typename T>

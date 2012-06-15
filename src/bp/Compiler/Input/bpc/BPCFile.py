@@ -162,7 +162,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.compiler = compiler
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
-		print(fileIn, " -> ", self.dir)
+		#print(fileIn, " -> ", self.dir)
+		
 		self.stringCount = 0
 		self.importedFiles = []
 		self.nextLineIndented = False

@@ -228,8 +228,20 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		# Because we love hardcoding. We're removing the '\n' and ';' here.
 		code = code[:-2]
 		
-		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code)
-		return "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
+		# loop.counter
+		if self.currentLoopUsesCounter > 0:
+			counterVar = "_bp_loop_counter_%d" % self.compiler.loopVarCounter
+			initCode = self.buildLine("%s\tsize_t %s = 0" % (tabs, counterVar))
+			perIterationCode = self.buildLine("\n\t%s%s++" % (tabs, counterVar))
+			self.currentLoopUsesCounter -= 1
+		else:
+			initCode = ""
+			perIterationCode = ""
+		
+		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + perIterationCode)
+		
+		return "{\n%s%s%s%s;\n%s\n%s}" % (initCode, tabs, typeInit, iterExpr, resultingCode, tabs)
+		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return self.adjustDataType(typeName) + " " + varName

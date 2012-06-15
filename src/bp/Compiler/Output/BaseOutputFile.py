@@ -105,6 +105,7 @@ class BaseOutputFile(ScopeController):
 		self.inExtends = 0
 		self.inParallel = 0
 		self.inShared = 0
+		self.currentLoopUsesCounter = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
 		
@@ -247,6 +248,10 @@ class BaseOutputFile(ScopeController):
 		# Member access?
 		if variableName.startswith(self.memberAccessSyntax):
 			memberName = variableName[len(self.memberAccessSyntax):]
+			
+			# TODO: Save it for the IDE
+			#self.currentClass.possibleMembers[memberName] = variableType
+			
 			isSelfMemberAccess = True
 		
 		if isSelfMemberAccess:
@@ -781,11 +786,15 @@ class BaseOutputFile(ScopeController):
 			elif node.tagName == "access":
 				caller = node.childNodes[0].childNodes[0]
 				
-				if caller.nodeType == Node.TEXT_NODE and caller.nodeValue in self.currentClass.namespaces:
-					#callerType = "bp_Namespace"
-					#callerClassName = "bp_Namespace"
-					varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
-					return self.getVariableTypeAnywhere(varName)
+				if caller.nodeType == Node.TEXT_NODE:
+					if caller.nodeValue == "loop":
+						return "Size"
+					
+					if caller.nodeValue in self.currentClass.namespaces:
+						#callerType = "bp_Namespace"
+						#callerClassName = "bp_Namespace"
+						varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
+						return self.getVariableTypeAnywhere(varName)
 				
 				callerType = self.getExprDataType(caller)
 				
@@ -1631,6 +1640,14 @@ class BaseOutputFile(ScopeController):
 		if op1.nodeType == Node.TEXT_NODE:
 			if op1.nodeValue in self.currentClass.namespaces:
 				return op1.nodeValue + "_" + self.parseExpr(op2)
+				
+			if op1.nodeValue == "loop":
+				if op2.nodeType != Node.TEXT_NODE or op2.nodeValue != "counter":
+					raise CompilerException("You probably meant 'loop.counter'")
+				
+				self.currentLoopUsesCounter += 1
+				self.compiler.loopVarCounter += 1
+				return "_bp_loop_counter_%d" % (self.compiler.loopVarCounter)
 		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)

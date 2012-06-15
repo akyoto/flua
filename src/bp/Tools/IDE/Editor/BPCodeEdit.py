@@ -18,8 +18,11 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList(private)
 		
 		#if private:
-		#	self.members = classImpl.members
-		#	self.memberList = list(classImpl.members)
+		#	className = classImpl.classObj.name
+		#	membersDict = parent.codeEdit.bpIDE.membersForClass
+		#	if className in membersDict:
+		#		self.members = membersDict[className] #classImpl.classObj.possibleMembers
+		#		self.memberList = list(self.members)
 		
 		resultingList = self.memberList + self.methodList + self.iteratorList
 		resultingList.sort()

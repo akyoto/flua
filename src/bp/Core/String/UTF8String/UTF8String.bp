@@ -105,7 +105,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSubstring</comment>
 				<function depth="1" id="11">
@@ -1747,7 +1746,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPad\Sright</comment>
 				<function depth="1" id="138">
@@ -1907,7 +1905,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="150">
@@ -2183,9 +2180,6 @@
 					</cast-definition>
 				</casts>
 			</code>
-			<meta>
-				<force-implementation>false</force-implementation>
-			</meta>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0" id="189">

@@ -1,0 +1,143 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">CharTypes.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="3">
+			<extern-function depth="1" id="4">
+				<name>bp_isAlnum</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="5">
+				<name>bp_isAlpha</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="6">
+				<name>bp_isDigit</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="7">
+				<name>bp_isSpace</name>
+				<type>Bool</type>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Salpha-numeric,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="8">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isAlnum</name>
+			<code>
+				<return depth="1" id="9">
+					<call>
+						<function>bp_isAlnum</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturn\Strue\Sif\S#x\Sis\San\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="10">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isAlpha</name>
+			<code>
+				<return depth="1" id="11">
+					<call>
+						<function>bp_isAlpha</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Sdigit,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="12">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isDigit</name>
+			<code>
+				<return depth="1" id="13">
+					<call>
+						<function>bp_isDigit</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Swhitespace\Scharacter,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="14">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isSpace</name>
+			<code>
+				<return depth="1" id="15">
+					<call>
+						<function>bp_isSpace</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>
