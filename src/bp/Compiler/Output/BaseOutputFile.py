@@ -249,7 +249,7 @@ class BaseOutputFile(ScopeController):
 		# Member access?
 		if variableName.startswith(self.memberAccessSyntax):
 			memberName = variableName[len(self.memberAccessSyntax):]
-			
+			memberName = self.fixMemberName(memberName)
 			# TODO: Save it for the IDE
 			#self.currentClass.possibleMembers[memberName] = variableType
 			
@@ -375,6 +375,13 @@ class BaseOutputFile(ScopeController):
 	def handleCompilerFlag(self, node):
 		return ""
 	
+	def fixMemberName(self, memberName):
+		pos = memberName.find(self.ptrMemberAccessChar)
+		if pos != -1:
+			return memberName[:pos]
+		
+		return memberName
+	
 	def getParameterDefinitions(self, pNode, types, defaultValueTypes):
 		if pNode is None:
 			return "", ""
@@ -416,6 +423,11 @@ class BaseOutputFile(ScopeController):
 			# TODO: ...
 			if name.startswith(self.memberAccessSyntax):
 				member = name[len(self.memberAccessSyntax):]
+				
+				#pos = member.find(self.ptrMemberAccessChar)
+				#if pos != -1:
+				#	member = member[:pos]
+				
 				self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
 				name = "__" + member
 				funcStartCode += "\t\t" + self.memberAccessSyntax + member + " = " + name + self.lineLimiter
@@ -1055,20 +1067,40 @@ class BaseOutputFile(ScopeController):
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
 		op1ClassName = extractClassName(op1Type)
-		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.classes[op1Type].functions.keys()))
+		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
 		
 		if not op1ClassName in self.compiler.mainClass.classes:
 			return False
 		
-		accessingGetter = ("get" + capitalize(op2.nodeValue)) in self.getClass(op1ClassName).functions
-		if isTextNode(op2) and (accessingGetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
-			#print(self.currentFunction.getName() + " -> " + varGetter)
-			#print(self.currentFunction.getName() == varGetter)
+		if op2.nodeValue == "vertices":
+			print("-" * 80)
+			print(op1Type)
+			print(op1ClassName)
+			print("OP1:")
+			print(op1.toprettyxml())
+			print("OP2:")
+			print(op2.toprettyxml())
+		
+		funcs = self.getClass(op1ClassName).functions
+		prop = capitalize(op2.nodeValue)
+		
+		accessingGetter = ("get" + prop) in funcs
+		accessingSetter = ("set" + prop) in funcs
+		
+		if isTextNode(op2) and (accessingGetter or accessingSetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
+			#print(self.currentFunction.getName() + " -> " + "get" + capitalize(op2.nodeValue))
+			#print(self.currentFunction.getName() == "get" + capitalize(op2.nodeValue))
 			
-			if not (isTextNode(op1) and op1.nodeValue == "my"):
+			primaryObject = op1
+			#while primaryObject.nodeType != Node.TEXT_NODE:
+			#	primaryObject = primaryObject.firstChild
+			
+			if not (isTextNode(op1) and (primaryObject.nodeValue == "my")):
 				# Make a virtual call
+				print("so true")
 				return True
 		
+		print("so false")
 		return False
 	
 	def registerVariable(self, var):

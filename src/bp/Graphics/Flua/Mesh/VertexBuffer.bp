@@ -94,6 +94,7 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<set depth="1" id="10">
 					<setter depth="2" id="11">
@@ -119,12 +120,10 @@
 								<parameters>
 									<parameter>GL_ARRAY_BUFFER</parameter>
 									<parameter>
-										<call>
-											<function>sizeOf</function>
-											<parameters>
-												<parameter>triangleVertices</parameter>
-											</parameters>
-										</call>
+										<access>
+											<value>triangleVertices</value>
+											<value>length</value>
+										</access>
 									</parameter>
 									<parameter>
 										<access>
@@ -148,6 +147,7 @@
 								</parameters>
 							</call>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>
