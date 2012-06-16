@@ -94,9 +94,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.stringCounter = 0
 		self.fileCounter = 0
 		self.forVarCounter = 0
-		self.forEachVarCounter = 0
 		self.inVarCounter = 0
-		self.loopVarCounter = 0
 		
 		# Optimization
 		if self.background:

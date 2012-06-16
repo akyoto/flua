@@ -288,6 +288,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			"-Wno-div-by-zero", # We check for div by zero
 			"-Wno-sign-compare", # Weird stuff
 			"-Wno-parentheses", # TODO: Check
+			"-Wno-unused-label", # We create unused labels in loops but that's fine
 			
 			"-std=c++0x",
 			["-m32", "-m64"][self.is64Bit],

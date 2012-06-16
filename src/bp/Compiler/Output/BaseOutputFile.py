@@ -1567,7 +1567,7 @@ class BaseOutputFile(ScopeController):
 		elif tagName == "break":
 			return "break"
 		elif tagName == "continue":
-			return "continue"
+			return self.buildContinue(node)
 		elif tagName == "parallel":
 			return self.handleParallel(node)
 		elif tagName == "shared":
@@ -1646,8 +1646,7 @@ class BaseOutputFile(ScopeController):
 					raise CompilerException("You probably meant 'loop.counter'")
 				
 				self.currentLoopUsesCounter += 1
-				self.compiler.loopVarCounter += 1
-				return "_bp_loop_counter_%d" % (self.compiler.loopVarCounter)
+				return "_bp_loop_counter_%d" % (self.compiler.forVarCounter)
 		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)
@@ -2085,7 +2084,7 @@ class BaseOutputFile(ScopeController):
 		return ''.join(code)
 	
 	def handleForEach(self, node):
-		self.compiler.forEachVarCounter += 1
+		self.compiler.forVarCounter += 1
 		
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]

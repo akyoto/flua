@@ -230,18 +230,33 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		
 		# loop.counter
 		if self.currentLoopUsesCounter > 0:
-			counterVar = "_bp_loop_counter_%d" % self.compiler.loopVarCounter
+			counterVar = "_bp_loop_counter_%d" % self.compiler.forVarCounter
 			initCode = self.buildLine("%s\tsize_t %s = 0" % (tabs, counterVar))
-			perIterationCode = self.buildLine("\n\t%s%s++" % (tabs, counterVar))
+			perIterationCode = ";" + self.buildLine("\n\t%s%s++" % (tabs, counterVar))
 			self.currentLoopUsesCounter -= 1
 		else:
 			initCode = ""
 			perIterationCode = ""
 		
-		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + ";" + perIterationCode)
+		continueJump = ";\n_continue_point_%d:\n" % self.compiler.forVarCounter
+		
+		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + continueJump + perIterationCode)
 		
 		return "{\n%s%s%s%s;\n%s\n%s}" % (initCode, tabs, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
+	
+	def buildContinue(self, node):
+		# Are we in a for or foreach loop?
+		parent = node.parentNode
+		while not parent.tagName in {"for", "while", "foreach", "module"}:
+			parent = parent.parentNode
+		
+		if parent.tagName in {"for", "while"}:
+			return "continue"
+		elif parent.tagName == "foreach":
+			return "goto _continue_point_%d" % self.compiler.forVarCounter
+		else:
+			raise CompilerException("Can't determine loop type in 'continue' statement")
 	
 	def buildTypeDeclaration(self, typeName, varName):
 		return self.adjustDataType(typeName) + " " + varName
