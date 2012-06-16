@@ -1072,14 +1072,14 @@ class BaseOutputFile(ScopeController):
 		if not op1ClassName in self.compiler.mainClass.classes:
 			return False
 		
-		if op2.nodeValue == "vertices":
-			print("-" * 80)
-			print(op1Type)
-			print(op1ClassName)
-			print("OP1:")
-			print(op1.toprettyxml())
-			print("OP2:")
-			print(op2.toprettyxml())
+		#if op2.nodeValue == "vertices":
+		#	print("-" * 80)
+		#	print(op1Type)
+		#	print(op1ClassName)
+		#	print("OP1:")
+		#	print(op1.toprettyxml())
+		#	print("OP2:")
+		#	print(op2.toprettyxml())
 		
 		funcs = self.getClass(op1ClassName).functions
 		prop = capitalize(op2.nodeValue)
@@ -1097,10 +1097,10 @@ class BaseOutputFile(ScopeController):
 			
 			if not (isTextNode(op1) and (primaryObject.nodeValue == "my")):
 				# Make a virtual call
-				print("so true")
+				#print("so true")
 				return True
 		
-		print("so false")
+		#print("so false")
 		return False
 	
 	def registerVariable(self, var):
