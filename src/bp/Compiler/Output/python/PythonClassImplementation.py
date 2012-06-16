@@ -21,20 +21,20 @@ class PythonClassImplementation(BaseClassImplementation):
 		if adjusted:
 			if self.templateValues:
 				for param in self.templateValues:
-					stri += adjustDataTypePY(param) + ", "
+					stri += adjustDataTypePY(param) + "__"
 				
 				if clean:
-					return ("< " + stri[:-2] + " >").replace(" ", "")
+					return ("_" + stri[:-2] + "_").replace(" ", "")
 				else:
-					return "< " + stri[:-2] + " >"
+					return "_" + stri[:-2] + "_"
 			else:
 				return ""
 		else:
 			if self.templateValues:
 				if clean:
-					return "<" + ",".join(self.templateValues) + ">"
+					return "_" + "__".join(self.templateValues) + "_"
 				else:
-					return "< " + ", ".join(self.templateValues) + " >"
+					return "_" + "__".join(self.templateValues) + "_"
 			else:
 				return ""
 

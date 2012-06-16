@@ -56,8 +56,45 @@ nonPointerTypes = dataTypeDefinitions
 ####################################################################
 # Functions
 ####################################################################
+#def adjustDataTypePY(type, adjustOuterAsWell = True):
+#	if type in nonPointerTypes:
+#		return type
+#	else:
+#		return "BP" + type.replace("<", "_").replace(">", "_").replace(", ", "__")
+		
 def adjustDataTypePY(type, adjustOuterAsWell = True):
-	if type in nonPointerTypes:
+	if type == "void" or type in nonPointerTypes:
 		return type
+	
+	#classPrefix = pointerType + "<" + standardClassPrefix
+	#classPostfix = ">"
+	#classPrefix = "BP_PTR_DECL(" + standardClassPrefix
+	#classPostfix = ")"
+	classPrefix = standardClassPrefix
+	classPostfix = ""
+	
+	pos = type.find('<')
+	if pos != -1:
+		params = splitParams(type[pos+1:-1])
+		paramsNew = []
+		for param in params:
+			paramsNew.append(adjustDataTypePY(param))
+		type = type[:pos] + "_" + "__".join(paramsNew) + "_"
+	
+	className = extractClassName(type)
+	
+	#if className == "MemPointer":
+	#	if paramsNew:
+	#		return paramsNew[0] + "*"
+	#	else:
+	#		raise CompilerException("You forgot to specify the data type of your MemPointer")
+	
+	if 1:#not isUnmanaged(type):
+		if adjustOuterAsWell:
+			type = classPrefix + type + classPostfix
+		else:
+			type = standardClassPrefix + type
 	else:
-		return "BP" + type
+		type = standardClassPrefix + removeUnmanaged(type)
+	
+	return type.replace("<", "_").replace(">", "_").replace(",  ", ",").replace(",", "__")

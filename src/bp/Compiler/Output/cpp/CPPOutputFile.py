@@ -90,6 +90,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.elseSyntax = " else {\n%s%s}"
 		self.ptrMemberAccessChar = "->"
 		self.yieldSyntax = "__bp_yield_var = %s;\n__bp_yield_code"
+		self.templateSyntax = "%s<%s>"
 		
 	def compile(self):
 		# Header

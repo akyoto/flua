@@ -199,7 +199,10 @@ class LineToNodeConverter:
 # Functions
 ####################################################################
 def nodeToBPCSaved(node, tabLevel, conv):
-	nodeName = node.tagName
+	if node.nodeType != Node.TEXT_NODE:
+		nodeName = node.tagName
+	else:
+		nodeName = ""
 	#print("NToBPC: " + nodeName)
 	
 	# First step: Identify nodes that aren't mapped to a specific
@@ -318,7 +321,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		if node.parentNode.tagName == "code":
 			if parameters:
-				if currentSyntax == SYNTAX_BPC:
+				if currentSyntax == SYNTAX_BPC and funcName.find(".") == -1:
 					#print(funcName)
 					#print(parameters)
 					return "%s %s" % (funcName, parameters)

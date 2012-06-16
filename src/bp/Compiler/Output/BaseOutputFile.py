@@ -139,6 +139,7 @@ class BaseOutputFile(ScopeController):
 		self.constAssignSyntax = ""
 		self.callSyntax = "%s(%s)"
 		self.externCallSyntax = self.callSyntax
+		self.templateSyntax = ""
 		
 		# Memory management
 		self.useGC = True
@@ -417,7 +418,7 @@ class BaseOutputFile(ScopeController):
 				member = name[len(self.memberAccessSyntax):]
 				self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
 				name = "__" + member
-				funcStartCode += "\t" * self.currentTabLevel + self.memberAccessSyntax + member + " = " + name + self.lineLimiter
+				funcStartCode += "\t\t" + self.memberAccessSyntax + member + " = " + name + self.lineLimiter
 			
 			if node.firstChild and node.firstChild.firstChild and tagName(node.childNodes[0].firstChild.firstChild) == "declare-type":
 				declNode = node.childNodes[0].firstChild.firstChild
@@ -1577,7 +1578,6 @@ class BaseOutputFile(ScopeController):
 		elif node.tagName == "template-call":
 			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
-			
 			if node.parentNode.tagName == "code":
 				self.handleTypeDeclaration(node)
 				return ""

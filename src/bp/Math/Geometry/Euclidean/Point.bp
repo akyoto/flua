@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Math.Geometry</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">\E</string>

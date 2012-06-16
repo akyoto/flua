@@ -268,7 +268,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		if obj in {"my", "self", "this"}:
 			if bpIDE.currentNode:
 				node = bpIDE.currentNode
-				while node and node.parentNode and not node.tagName in {"class", "module"}:
+				while node and node.parentNode and node.nodeType != Node.TEXT_NODE and (not node.tagName in {"class", "module"}):
 					node = node.parentNode
 				
 				if node and node.tagName == "class":
@@ -898,6 +898,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					#print(relPos)
 					#print(text)
 					#print(event.text())
+					
+					#OK:
+					#
+					#7
+					#				my.abc
+					#.
+					
+					if len(text) > relPos + 1:
+						firstCharAfterCursor = text[relPos + 1]
+						if isVarChar(firstCharAfterCursor):
+							return
+					
 					if self.completer.activateMemberList(relPos):
 						self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_AUTOMATICALLY
 					else:

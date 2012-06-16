@@ -74,6 +74,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.elseSyntax = "else:\n%s%s"
 		self.ptrMemberAccessChar = "."
 		self.yieldSyntax = "__bp_yield_var = %s\n__bp_yield_code"
+		self.templateSyntax = "%s<%s>"
 	
 	def compile(self):
 		# Header
@@ -145,7 +146,7 @@ class PythonOutputFile(BaseOutputFile):
 		return varName #"%s = None" % varName
 	
 	def buildTemplateCall(self, op1, op2):
-		return op1 + "<" + op2 + ">"
+		return self.templateSyntax % (op1, op2)
 	
 	def buildDivByZeroCheck(self, op):
 		return 'if (%s) == 0: raise BPDivisionByZeroException()' % op
@@ -209,6 +210,9 @@ class PythonOutputFile(BaseOutputFile):
 	def buildEmptyCatchVar(self):
 		return ""
 	
+	def buildContinue(self, node):
+		return "continue"
+	
 	def buildNOOP(self):
 		# DON'T USE 'pass'
 		return "bp_noop()"
@@ -271,16 +275,14 @@ class PythonOutputFile(BaseOutputFile):
 					code += "\t\n"
 					
 					# Templates
-					templatePrefix = ""
 					templatePostfix = ""
 					if classObj.templateNames:
-						templatePrefix += "template <>\n"
+						#templatePrefix += "template <>\n"
 						templatePostfix = classImpl.getTemplateValuesString(True)
 						#self.classesHeader += "template <typename %s>\n" % (", typename ".join(classObj.templateParams))
 					
 					# Comment
 					self.classesHeader += "# %s\n" % (prefix + classObj.name + templatePostfix)
-					self.classesHeader += templatePrefix
 					
 					# Add code to classes header
 					finalClassName = prefix + classObj.name + templatePostfix

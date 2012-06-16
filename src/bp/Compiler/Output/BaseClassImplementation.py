@@ -117,10 +117,11 @@ class BaseClassImplementation:
 		
 		if winner is None:
 			# Laziness to the maximum!
-			if not candidates[0].cppFile.compiler.background:
-				print("Candidates were:")
-				for func in candidates:
-					print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
+			#if not candidates[0].cppFile.compiler.background:
+			#	print("Candidates were:")
+			#	for func in candidates:
+			#		print(" * " + func.getName() + " " + str(func.paramTypesByDefinition).replace("''", "*").replace("'", ""))
+			
 			if self.getName():
 				calledFunc = "%s.%s" % (self.getName(), funcName)
 			else:

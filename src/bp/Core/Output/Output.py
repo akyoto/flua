@@ -6,6 +6,9 @@ def bp_write(x):
 def bp_writeXbytes(ptr, numBytes):
 	sys.stdout.write(bytes(ptr).decode("utf-8")[:numBytes])
 	
+def bp_writeXbytesLine(ptr, numBytes):
+	print(bytes(ptr).decode("utf-8")[:numBytes])
+	
 def bp_writeln(x):
 	if x == True:
 		print("true")
