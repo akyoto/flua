@@ -72,7 +72,12 @@ def handleProcessOutputLinewise(proc, fhOut, fhErr):
 		while 1:
 			errLine = proc.stderr.readline()
 			if errLine:
-				combinedLinesStderr.append(errLine.decode("utf-8"))
+				try:
+					decoded = errLine.decode("utf-8")
+				except:
+					decoded = str(errLine).replace("\xbb", '"').replace("\xba", '"')
+				
+				combinedLinesStderr.append(decoded)
 				combinedLinesStderrCount += 1
 
 				# For programs which produce too much output at once

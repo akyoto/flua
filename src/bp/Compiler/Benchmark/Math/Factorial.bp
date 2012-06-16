@@ -23,6 +23,7 @@
 					</value>
 					<value>0</value>
 				</assign>
+				<comment>\SA\Svalue\Saround\S50000\Swould\Smake\Sit\Scrash</comment>
 				<assign depth="1" id="3">
 					<value>
 						<declare-type>
@@ -30,7 +31,7 @@
 							<value>BigInt</value>
 						</declare-type>
 					</value>
-					<value>70000</value>
+					<value>50000</value>
 				</assign>
 				<in depth="1" id="4">
 					<expression>

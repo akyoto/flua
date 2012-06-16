@@ -17,7 +17,7 @@
 			<code>
 				<assign depth="1" id="2">
 					<value>n</value>
-					<value>50000</value>
+					<value>12000</value>
 				</assign>
 				<assign depth="1" id="3">
 					<value>testFile</value>
