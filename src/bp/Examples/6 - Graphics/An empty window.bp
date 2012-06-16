@@ -4,9 +4,10 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Graphics</import>
+			<import>bp.Math.Geometry</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Flua\SGraphics\SDemo</string>
+			<string id="bp_string_0">Empty\SFlua\SWindow</string>
 		</strings>
 	</header>
 	<code>
@@ -24,8 +25,20 @@
 				</new>
 			</value>
 		</assign>
+		<assign depth="0" id="2">
+			<value>r</value>
+			<value>0.0</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>g</value>
+			<value>0.0</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>b</value>
+			<value>0.0</value>
+		</assign>
 		<comment>\SMain\Sloop</comment>
-		<foreach depth="0" id="2">
+		<foreach depth="0" id="5">
 			<iterator>frame</iterator>
 			<collection>
 				<access>
@@ -34,22 +47,65 @@
 				</access>
 			</collection>
 			<code>
-				<assign depth="1" id="3">
+				<assign depth="1" id="6">
+					<value>g</value>
 					<value>
-						<access>
-							<value>win</value>
-							<value>title</value>
-						</access>
-					</value>
-					<value>
-						<new>
-							<type>String</type>
-							<parameters>
-								<parameter>frame</parameter>
-							</parameters>
-						</new>
+						<multiply>
+							<value>
+								<call>
+									<function>cos</function>
+									<parameters>
+										<parameter>
+											<multiply>
+												<value>frame</value>
+												<value>0.0005</value>
+											</multiply>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+							<value>0.5</value>
+						</multiply>
 					</value>
 				</assign>
+				<assign depth="1" id="7">
+					<value>b</value>
+					<value>
+						<call>
+							<function>sin</function>
+							<parameters>
+								<parameter>
+									<multiply>
+										<value>frame</value>
+										<value>0.0005</value>
+									</multiply>
+								</parameter>
+							</parameters>
+						</call>
+					</value>
+				</assign>
+				<assign depth="1" id="8">
+					<value>r</value>
+					<value>
+						<multiply>
+							<value>g</value>
+							<value>b</value>
+						</multiply>
+					</value>
+				</assign>
+				<call depth="1" id="9">
+					<function>
+						<access>
+							<value>win</value>
+							<value>cls</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>r</parameter>
+						<parameter>g</parameter>
+						<parameter>b</parameter>
+					</parameters>
+				</call>
 			</code>
 		</foreach>
 	</code>

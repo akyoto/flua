@@ -352,7 +352,7 @@ class BaseOutputFile(ScopeController):
 		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
 			self.addDivisionByZeroCheck(op2)
 		
-		if connector in {" + ", " - ", " * ", " / ", " \\ ", " & ", " | ", " && ", " || "}:
+		if connector in {" + ", " - ", " * ", " / ", " \\ ", " & ", " | ", " && ", " || ", " % "}:
 			self.exprPrefix = "("
 			self.exprPostfix = ")"
 		else:
