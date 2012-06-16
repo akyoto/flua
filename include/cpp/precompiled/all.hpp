@@ -54,7 +54,12 @@
 		#define _MULTI_THREADED
 	#endif
 	
-	#include "../gc/gc_cpp.h"
+	#ifdef _WIN32
+		#include "../gc-7.2/gc_cpp.h"
+	#else
+		#include "../gc-7.3/gc_cpp.h"
+	#endif
+	
 	#include <pthread.h>
 #endif
 

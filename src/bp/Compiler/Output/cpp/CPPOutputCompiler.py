@@ -70,7 +70,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.customThreadsCount = 0
 		
 		if os.name == "nt":
-			self.staticStdcppLinking = True
+			self.staticStdcppLinking = False#True
 		else:
 			self.staticStdcppLinking = False
 		
