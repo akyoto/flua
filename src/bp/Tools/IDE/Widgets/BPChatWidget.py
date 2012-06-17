@@ -49,17 +49,25 @@ class BPIRCConnectThread(QtCore.QThread):
 		
 		line = ""
 		while 1:
-			if self.socket.isReadable():
+			while self.socket.isReadable():
 				byteArray = self.socket.readLine()
 				
 				if byteArray:
 					line = str(byteArray, encoding='utf-8')
 					self.bpIDE.console.irc.write(line)
 					
+					# TODO: Replace this to avoid bugs
+					if line.find("433") != -1:
+						self.nickName = "bp_" + self.nickName
+						self.socket.write("/nick %s\r\n" % self.nickName)
+						self.socket.flush()
+					
 					if line.find("End of /MOTD") != -1 and not self.channelJoined:
 						self.joinChannel()
+				
+				QtCore.QThread.msleep(1)
 			
-			QtCore.QThread.msleep(10)
+			QtCore.QThread.msleep(100)
 
 # Adapted from: http://pastebin.com/HXebdsGW
 class BPChatWidget(QtGui.QWidget):
