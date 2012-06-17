@@ -546,6 +546,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		coll = nodeToBPC(getElementByTagName(node, "collection").firstChild, 0, conv)
 		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
 		
+		counterNode = getElementByTagName(node, "counter")
+		if counterNode:
+			counter = " counting " + nodeToBPC(counterNode.firstChild, 0, conv)
+		else:
+			counter = ""
+		
 		exprStart = " "
 		blockStart = ""
 		blockEnd = ""
@@ -559,7 +565,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_PYTHON:
 			blockStart = ":"
 		
-		return "for%s%s in %s%s\n%s%s%s" % (exprStart, iterator, coll, blockStart, loopCode, "\t" * tabLevel, blockEnd)
+		return "for%s%s in %s%s\n%s%s%s%s" % (exprStart, iterator, coll, counter, blockStart, loopCode, "\t" * tabLevel, blockEnd)
 	elif nodeName == "parameter":
 		if node.childNodes:
 			if len(node.childNodes) == 1:

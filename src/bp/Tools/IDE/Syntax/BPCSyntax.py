@@ -12,7 +12,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	keywords = [{}] * 97 + [
 		{'and', 'assert', 'atomic'},
 		{'break'},
-		{'class', 'continue', 'const', 'case', 'catch', 'class', 'compilerflags'},
+		{'class', 'continue', 'const', 'case', 'catch', 'class', 'compilerflags', 'counting'},
 		{'define', 'def'},
 		{'elif', 'elsif', 'else', 'ensure', 'extern', 'extends'},
 		{'for', 'false'},
@@ -193,7 +193,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						elif importType == 5 or importType == 6:
 							self.setFormat(h, j - h, style['global-module-import'])
 						h = j
-					elif expr == "until" or expr == "to":
+					elif expr in {"until", "to", "counting"}:
 						# Possible bug, but ignorable
 						if (len(text) >= 3 and text.lstrip()[:3] == "for") or text.lstrip()[:2] == "to":
 							self.setFormat(i, h - i, style['keyword'])
@@ -222,7 +222,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					
 					i = h
 					continue
-				elif expr in {"my", "this", "self", "loop"}:
+				elif expr in {"my", "this", "self"}:
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue

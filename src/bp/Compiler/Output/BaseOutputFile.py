@@ -105,7 +105,6 @@ class BaseOutputFile(ScopeController):
 		self.inExtends = 0
 		self.inParallel = 0
 		self.inShared = 0
-		self.currentLoopUsesCounter = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
 		
@@ -800,8 +799,8 @@ class BaseOutputFile(ScopeController):
 				caller = node.childNodes[0].childNodes[0]
 				
 				if caller.nodeType == Node.TEXT_NODE:
-					if caller.nodeValue == "loop":
-						return "Size"
+					#if caller.nodeValue == "loop":
+					#	return "Size"
 					
 					if caller.nodeValue in self.currentClass.namespaces:
 						#callerType = "bp_Namespace"
@@ -1673,12 +1672,12 @@ class BaseOutputFile(ScopeController):
 			if op1.nodeValue in self.currentClass.namespaces:
 				return op1.nodeValue + "_" + self.parseExpr(op2)
 				
-			if op1.nodeValue == "loop":
-				if op2.nodeType != Node.TEXT_NODE or op2.nodeValue != "counter":
-					raise CompilerException("You probably meant 'loop.counter'")
-				
-				self.currentLoopUsesCounter += 1
-				return "_bp_loop_counter_%d" % (self.compiler.forVarCounter)
+			#if op1.nodeValue == "loop":
+			#	if op2.nodeType != Node.TEXT_NODE or op2.nodeValue != "counter":
+			#		raise CompilerException("You probably meant 'loop.counter'")
+			#	
+			#	self.currentLoopUsesCounter += 1
+			#	return "_bp_loop_counter_%d" % (self.compiler.forVarCounter)
 		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)
@@ -2116,8 +2115,6 @@ class BaseOutputFile(ScopeController):
 		return ''.join(code)
 	
 	def handleForEach(self, node):
-		self.compiler.forVarCounter += 1
-		
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
@@ -2141,11 +2138,27 @@ class BaseOutputFile(ScopeController):
 			raise CompilerException("Iterator for '%s' doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
 		
 		self.pushScope()
+		
+		# Register iterator variable
 		var = self.createVariable(iterExpr, iteratorType, iteratorValue, False, False, False)
 		typeInit = ""
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = self.adjustDataType(var.type) + " "
+			
+		# Register counter variable (if available)
+		counterNode = getElementByTagName(node, "counter")
+		if counterNode:
+			counterVarName = self.parseExpr(counterNode.firstChild)
+			cVar = self.createVariable(counterVarName, "Size", "", False, False, False)
+			
+			if not self.variableExistsAnywhere(counterVarName):
+				self.getCurrentScope().variables[counterVarName] = cVar
+				counterTypeInit = self.adjustDataType(cVar.type) + " "
+		else:
+			counterVarName = ""
+			counterTypeInit = ""
+		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		
 		# Save scope
@@ -2165,7 +2178,11 @@ class BaseOutputFile(ScopeController):
 		# TODO: Generic
 		tabs = "\t" * self.currentTabLevel
 		iterImplCode = iteratorImpl.getCode()
-		return self.buildForEachLoop(var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs)
+		
+		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED
+		self.compiler.forVarCounter += 1
+		
+		return self.buildForEachLoop(var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit)
 	
 	def handleFor(self, node):
 		fromNodeContent = getElementByTagName(node, "from").childNodes[0]

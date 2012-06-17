@@ -811,6 +811,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		line += " "
 		pos = line.find(" to ")
 		posUntil = line.find(" until ")
+		posCounting = line.find(" counting ")
+		
 		if pos == -1 and posUntil == -1:
 			pos = line.find(" in ")
 			if pos == -1:
@@ -819,7 +821,13 @@ class BPCFile(ScopeController, Benchmarkable):
 				node.tagName = "foreach"
 				
 				iterName = line[4:pos].strip()
-				iterCollection = line[pos+len(" in "):].strip()
+				
+				if posCounting == -1:
+					iterCollection = line[pos+len(" in "):].strip()
+					counterVar = ""
+				else:
+					iterCollection = line[pos+len(" in "):posCounting].strip()
+					counterVar = line[posCounting + len(" counting "):]
 				
 				iterNameExpr = self.parseExpr(iterName)
 				iterCollectionExpr = self.parseExpr(iterCollection)
@@ -829,6 +837,13 @@ class BPCFile(ScopeController, Benchmarkable):
 				
 				collNode = self.doc.createElement("collection")
 				collNode.appendChild(iterCollectionExpr)
+				
+				if counterVar:
+					counterVarExpr = self.parseExpr(counterVar)
+					
+					counterNode = self.doc.createElement("counter")
+					counterNode.appendChild(counterVarExpr)
+					node.appendChild(counterNode)
 				
 				codeNode = self.doc.createElement("code")
 				

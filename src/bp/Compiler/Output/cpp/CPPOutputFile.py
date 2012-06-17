@@ -203,7 +203,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
 		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
-	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs):
+	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit):
 		# Fix tabs
 		numTabs = countTabs(iterImplCode) - len(tabs)
 		
@@ -230,11 +230,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		code = code[:-2]
 		
 		# loop.counter
-		if self.currentLoopUsesCounter > 0:
-			counterVar = "_bp_loop_counter_%d" % self.compiler.forVarCounter
-			initCode = self.buildLine("%s\tsize_t %s = 0" % (tabs, counterVar))
-			perIterationCode = ";" + self.buildLine("\n\t%s%s++" % (tabs, counterVar))
-			self.currentLoopUsesCounter -= 1
+		if counterVarName:
+			initCode = self.buildLine("%s\t%s%s = 0" % (tabs, counterTypeInit, counterVarName))
+			perIterationCode = ";" + self.buildLine("\n\t%s%s++" % (tabs, counterVarName))
 		else:
 			initCode = ""
 			perIterationCode = ""
