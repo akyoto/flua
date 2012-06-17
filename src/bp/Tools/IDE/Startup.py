@@ -128,15 +128,16 @@ class Startup:
 	def initDockIcons(self):
 		defaultIcon = QtGui.QIcon("images/icons/categories/applications-other.png")
 		self.dockIcons = {
-			"Modules" : None,
-			"Outline" : None,
-			"XML" : None,
-			"Files": None,
-			"Meta data": None,
-			"Dependencies": None,
-			"Scribble": None,
-			"Console" : None,
-			"Files": None,
+			"Modules"      : None,
+			"Outline"      : None,
+			"XML"          : None,
+			"Files"        : None,
+			"Meta data"    : None,
+			"Dependencies" : None,
+			"Scribble"     : None,
+			"Console"      : None,
+			"Files"        : None,
+			"Chat"         : None,
 		}
 		
 		for iconName in self.dockIcons.keys():
@@ -167,7 +168,7 @@ class Startup:
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
 		
 		# Chat
-		#self.chatWidget = BPChatWidget(self)
+		self.chatWidget = BPChatWidget(self)
 		
 		# Outline
 		self.outlineView = BPOutlineView(self)
@@ -176,7 +177,6 @@ class Startup:
 		self.metaData = BPMetaDataWidget(self)
 		
 		#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
-		#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
 		#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
 		
 		self.moduleViewDock = self.createDockWidget("Modules", self.moduleView, QtCore.Qt.LeftDockWidgetArea)
@@ -187,11 +187,13 @@ class Startup:
 		self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
+		self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
 		
 		self.outlineViewDock.hide()
 		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
+		self.chatViewDock.hide()
 		
 		#self.msgViewDock.hide()
 		

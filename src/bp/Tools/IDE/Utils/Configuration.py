@@ -192,6 +192,8 @@ class BPConfiguration:
 			ideConfig = "IDE"
 			editorConfig = "Editor"
 		
+		self.gitHubName = "Unknown"
+		
 		self.editorFontFamily = self.parser.get(editorConfig, "FontFamily")
 		self.editorFontSize = self.parser.getint(editorConfig, "FontSize")
 		self.tabWidth = self.parser.getint(editorConfig, "TabWidth")

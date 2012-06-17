@@ -55,6 +55,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Init
 		self.developerFlag = False#os.path.exists("/home/eduard/Projects/bp/")
+		self.developerFlagMain = os.path.exists("/home/eduard/Projects/bp/")
 		self.threaded = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1
@@ -78,7 +79,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.running = 0
 		self.compiling = 0
 		self.backgroundCompileIsUpToDate = False
-		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V"]	# TODO: Internationalization
+		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V", "G", "B"]	# TODO: Internationalization
 		
 		# AC
 		self.shortCuts = dict()
@@ -846,7 +847,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def createDockWidget(self, name, widget, area):
 		shortcut = self.dockShortcuts[len(self.docks)]
 		
-		newDock = QtGui.QDockWidget("%s (Alt + %s)" % (name, shortcut), self)
+		if name == "Chat":
+			# Temporarily hardcoded
+			dockName = "Instant Feedback"
+		else:
+			dockName = name
+		
+		newDock = QtGui.QDockWidget("%s (Alt + %s)" % (dockName, shortcut), self)
+		
 		#newDock.setFeatures(QtGui.QDockWidget.DockWidgetMovable | QtGui.QDockWidget.DockWidgetFloatable)
 		newDock.setWidget(widget)
 		newDock.setObjectName(name)
