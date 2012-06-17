@@ -48,6 +48,8 @@ enableOperatorOverloading = {
 replacedNodeValues = {
 	"from" : "bp__from",
 	"char" : "bp__char",
+	"int" : "bp__int",
+	"bool" : "bp_bool",
 }
 
 ####################################################################
@@ -169,6 +171,7 @@ class BaseOutputFile(ScopeController):
 	def handleAssign(self, node):
 		self.inAssignment += 1
 		isSelfMemberAccess = False
+		publicMemberAccess = False
 		
 		# Member access (setter)
 		op1 = node.childNodes[0].childNodes[0]
@@ -256,7 +259,7 @@ class BaseOutputFile(ScopeController):
 			
 			isSelfMemberAccess = True
 		
-		if isSelfMemberAccess:
+		if isSelfMemberAccess or publicMemberAccess:
 			var = self.createVariable(memberName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			#if not variableName in self.currentClass.members:
 			#	self.currentClass.addMember(var)
