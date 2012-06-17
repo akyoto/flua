@@ -1,5 +1,37 @@
+####################################################################
+# Header
+####################################################################
+# File:		Base class implementation
+# Author:   Eduard Urbach
+
+####################################################################
+# License
+####################################################################
+# (C) 2012  Eduard Urbach
+# 
+# This file is part of Blitzprog.
+# 
+# Blitzprog is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# Blitzprog is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with Blitzprog.  If not, see <http://www.gnu.org/licenses/>.
+
+####################################################################
+# Imports
+####################################################################
 from bp.Compiler.Utils import *
 
+####################################################################
+# Functions
+####################################################################
 def findFunctionInBaseClasses(callerClassImpl, funcName):
 	callerClass = callerClassImpl.classObj
 	for classImpl in callerClass.extends:
@@ -15,6 +47,9 @@ def findFunctionInBaseClasses(callerClassImpl, funcName):
 				return func, classImpl
 	return None, None
 
+####################################################################
+# Classes
+####################################################################
 class BaseClassImplementation:
 	
 	def __init__(self, classObj, templateValues):
@@ -43,6 +78,9 @@ class BaseClassImplementation:
 		
 	def addMember(self, var):
 		debug("'%s' added member '%s'" % (self.classObj.name, var.name))
+		if var.name.startswith("_"):
+			raise CompilerException("Member names starting with an underscore are not allowed")
+		
 		var.classImpl = self
 		self.members[var.name] = var
 		

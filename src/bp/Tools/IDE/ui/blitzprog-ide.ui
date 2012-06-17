@@ -397,6 +397,10 @@
    </property>
   </action>
   <action name="actionRunOptimized">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/actions/media-seek-forward.png</normaloff>../images/icons/actions/media-seek-forward.png</iconset>
+   </property>
    <property name="text">
     <string>Run optimized</string>
    </property>
@@ -443,6 +447,10 @@
    </property>
   </action>
   <action name="actionRunModuleTests">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/start-here.png</normaloff>../images/icons/places/start-here.png</iconset>
+   </property>
    <property name="text">
     <string>Run module tests</string>
    </property>
@@ -493,16 +501,28 @@
    </property>
   </action>
   <action name="actionReportBug">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/docks/debugger.png</normaloff>../images/icons/docks/debugger.png</iconset>
+   </property>
    <property name="text">
     <string>Submit a Bug Report</string>
    </property>
   </action>
   <action name="actionRepositoryList">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/apps/internet-web-browser.png</normaloff>../images/icons/apps/internet-web-browser.png</iconset>
+   </property>
    <property name="text">
     <string>Repository list</string>
    </property>
   </action>
   <action name="actionConnectWithGitHub">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/apps/github.png</normaloff>../images/icons/apps/github.png</iconset>
+   </property>
    <property name="text">
     <string>Connect with GitHub</string>
    </property>
@@ -527,6 +547,10 @@
    </property>
   </action>
   <action name="actionViewSource">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/mimetypes/text-x-generic.png</normaloff>../images/icons/mimetypes/text-x-generic.png</iconset>
+   </property>
    <property name="text">
     <string>View generated source code</string>
    </property>

@@ -77,6 +77,7 @@ simpleBlocks = {
 	"const" : [],
 	"in" : [],
 	"atomic" : [],
+	"public" : [],
 }
 
 def addGenerics(line):
@@ -201,6 +202,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inIfBlock = 0
 		self.inTryBlock = 0
 		self.inCompilerFlags = 0
+		self.inPublic = 0
 		
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
@@ -251,6 +253,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"operator" : self.handleOperatorBlock,
 			"parallel" : self.handleParallel,
 			"private" : self.handlePrivate,
+			"public" : self.handlePublic,
 			"require" : self.handleRequire,
 			"return" : self.handleReturn,
 			"set" : self.handleSet,
@@ -517,6 +520,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		del lines
 		
 	def tabBack(self, currentLine, prevTabCount, currentTabCount, countIns):
+		# TODO: Optimize using dict search for nodeName
 		atTab = prevTabCount
 		while atTab > currentTabCount:
 			if countIns:
@@ -545,6 +549,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inCasts = 0
 				elif nodeName == "operators":
 					self.inOperators -= 1
+				elif nodeName == "public":
+					self.inPublic -= 1
 				elif nodeName == "iterators":
 					self.inIterators -= 1
 				elif nodeName == "atomic":
@@ -610,10 +616,15 @@ class BPCFile(ScopeController, Benchmarkable):
 		else:
 			if self.inTemplate:
 				return self.handleTemplateParameter(line)
+			
 			if self.inExtends:
 				return self.handleExtendsParameter(line)
-			elif self.inCompilerFlags:
+			
+			if self.inCompilerFlags:
 				return self.handleCompilerFlag(line)
+			
+			if self.inPublic > 0:
+				return self.handlePublicMember(line)
 			
 			if self.inExtern and (not self.inClass):
 				if self.inConst:
@@ -685,6 +696,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node = self.doc.createElement("get")
 		
+		expr = line[len("get"):].strip()
+		if expr:
+			params = self.parseExpr(expr)
+			paramsNode = self.parser.getParametersNode(params)
+			paramsNode.tagName = "default-get"
+			node.appendChild(paramsNode)
+		
+		#code = self.doc.createElement("code")
+		#node.appendChild(code)
+		
 		self.inGetter = 1
 		self.nextNode = node
 		return node
@@ -694,6 +715,16 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.raiseBlockException("set", line)
 		
 		node = self.doc.createElement("set")
+		
+		expr = line[len("set"):].strip()
+		if expr:
+			params = self.parseExpr(expr)
+			paramsNode = self.parser.getParametersNode(params)
+			paramsNode.tagName = "default-set"
+			node.appendChild(paramsNode)
+		
+		#code = self.doc.createElement("code")
+		#node.appendChild(code)
 		
 		self.inSetter = 1
 		self.nextNode = node
@@ -917,6 +948,22 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node = self.doc.createElement("private")
 		self.nextNode = node
+		return node
+		
+	def handlePublic(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("public", line)
+		
+		node = self.doc.createElement("public")
+		
+		self.nextNode = node
+		self.inPublic += 1
+		return node
+		
+	def handlePublicMember(self, line):
+		node = self.doc.createElement("public-member")
+		node.appendChild(self.doc.createTextNode(line))
+		
 		return node
 		
 	def handleDefine(self, line):

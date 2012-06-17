@@ -182,11 +182,13 @@ class BaseOutputFile(ScopeController):
 				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data": #and isUnmanaged(accessOp1Type):
 					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
 				
-				isMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
+				isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
 				if isMemberAccess:
 					#print("Using setter for type '%s'" % (accessOp1type))
 					setFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
+				elif publicMemberAccess:
+					pass
 				#pass
 				#variableType = self.getExprDataType(op1)
 				#variableClass = self.compiler.classes[removeGenerics(variableType)]
@@ -375,6 +377,9 @@ class BaseOutputFile(ScopeController):
 		return ""
 	
 	def fixMemberName(self, memberName):
+		if memberName and memberName[0] == "_":
+			memberName = memberName[1:]
+		
 		pos = memberName.find(self.ptrMemberAccessChar)
 		if pos != -1:
 			return memberName[:pos]
@@ -422,6 +427,7 @@ class BaseOutputFile(ScopeController):
 			# TODO: ...
 			if name.startswith(self.memberAccessSyntax):
 				member = name[len(self.memberAccessSyntax):]
+				member = self.fixMemberName(member)
 				
 				#pos = member.find(self.ptrMemberAccessChar)
 				#if pos != -1:
@@ -479,6 +485,22 @@ class BaseOutputFile(ScopeController):
 			counter += 1
 		
 		return pList[:len(pList)-2], funcStartCode
+	
+	def scanPublicMember(self, node):
+		name = node.firstChild.nodeValue
+		#self.currentClass.addDefaultGetter(name)
+		#self.currentClass.addDefaultSetter(name)
+		self.currentClass.addPublicMember(name)
+	
+	#def scanDefaultGet(self, node):
+	#	for child in node.childNodes:
+	#		propertyName = child.firstChild.nodeValue
+	#		self.currentClass.addDefaultGetter(propertyName)
+			
+	#def scanDefaultSet(self, node):
+	#	for child in node.childNodes:
+	#		propertyName = child.firstChild.nodeValue
+	#		self.currentClass.addDefaultSetter(propertyName)
 	
 	def scanTemplate(self, node):
 		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
@@ -815,7 +837,10 @@ class BaseOutputFile(ScopeController):
 				
 				callerClassName = extractClassName(callerType)
 				memberName = node.childNodes[1].childNodes[0].nodeValue
+				memberName = self.fixMemberName(memberName)
+				
 				callerClass = self.getClass(callerClassName)
+				
 #				templateParams = self.getTemplateParams(removeUnmanaged(callerType), callerClassName, callerClass)
 #				print("getExprDataTypeClean:")
 #				print("Member: %s" % (memberName))
@@ -828,15 +853,19 @@ class BaseOutputFile(ScopeController):
 #				print("Picking implementation '" + callerClassImpl.getParamString() + "'")
 				callerClassImpl = self.getClassImplementationByTypeName(callerType)
 				
+				#if memberName in callerClass.publicMembers:
+				#	memberName = "_" + memberName
+				#print(callerClassImpl.members)
+				
 				if memberName in callerClassImpl.members:
 					#debug("Member '" + memberName + "' does exist")
 					memberType = callerClassImpl.members[memberName].type
-#					print(memberType)
-#					print(callerType)
-#					print(callerClassName)
-#					print(self.currentTemplateParams)
-#					print(templateParams)
-#					print("-----")
+					#print(memberName)
+					#print(memberType)
+					#print(callerType)
+					#print(callerClassName)
+					#print(templateParams)
+					#print("-----")
 					return self.currentClassImpl.translateTemplateName(memberType)
 				else:
 					pass
@@ -1069,7 +1098,7 @@ class BaseOutputFile(ScopeController):
 		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
 		
 		if not op1ClassName in self.compiler.mainClass.classes:
-			return False
+			return False, False
 		
 		#if op2.nodeValue == "vertices":
 		#	print("-" * 80)
@@ -1080,8 +1109,17 @@ class BaseOutputFile(ScopeController):
 		#	print("OP2:")
 		#	print(op2.toprettyxml())
 		
-		funcs = self.getClass(op1ClassName).functions
+		classObj = self.getClass(op1ClassName)
+		funcs = classObj.functions
 		prop = capitalize(op2.nodeValue)
+		
+		isPublicMember = classObj.hasPublicMember(op2.nodeValue)
+		#print(classObj.name)
+		#print(classObj.publicMembers)
+		#print(prop)
+		
+		if isPublicMember:
+			return False, True
 		
 		accessingGetter = ("get" + prop) in funcs
 		accessingSetter = ("set" + prop) in funcs
@@ -1097,10 +1135,10 @@ class BaseOutputFile(ScopeController):
 			if not (isTextNode(op1) and (primaryObject.nodeValue == "my")):
 				# Make a virtual call
 				#print("so true")
-				return True
+				return True, False
 		
 		#print("so false")
-		return False
+		return False, False
 	
 	def registerVariable(self, var):
 		#var.name = self.getNamespacePrefix() + var.name
@@ -1688,7 +1726,7 @@ class BaseOutputFile(ScopeController):
 					return "(*(%s))" % (self.parseExpr(op1))
 			# TODO: Optimize
 			# GET access
-			isMemberAccess = self.isMemberAccessFromOutside(op1, op2)
+			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 			if isMemberAccess:
 				#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.capitalize()))
 				#if isTextNode(op1) and op1.nodeValue == "my":
@@ -1699,6 +1737,9 @@ class BaseOutputFile(ScopeController):
 				getFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
 				#print(getFunc.toprettyxml())
 				return self.handleCall(getFunc)
+			elif publicMemberAccess:
+				# Public member access
+				return self.parseBinaryOperator(node, self.ptrMemberAccessChar + "_")
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	
@@ -1743,6 +1784,8 @@ class BaseOutputFile(ScopeController):
 					self.inCastDefinition += 1
 					result = self.scanFunction(node)
 					self.inCastDefinition -= 1
+				elif node.tagName == "public-member":
+					self.scanPublicMember(node)
 				elif node.tagName == "extern":
 					self.inExtern += 1
 					self.scanAhead(node)
@@ -1763,6 +1806,12 @@ class BaseOutputFile(ScopeController):
 					self.inDefine += 1
 					self.scanAhead(node)
 					self.inDefine -= 1
+				elif node.tagName == "public":
+					self.scanAhead(node)
+				#elif node.tagName == "default-get":
+				#	self.scanDefaultGet(node)
+				#elif node.tagName == "default-set":
+				#	self.scanDefaultSet(node)
 				elif node.tagName == "get" or node.tagName == "set":
 					self.scanAhead(node)
 				elif node.tagName == "template":
@@ -2063,6 +2112,8 @@ class BaseOutputFile(ScopeController):
 		
 		if varName.startswith(self.memberAccessSyntax):
 			memberName = varName[len(self.memberAccessSyntax):]
+			memberName = self.fixMemberName(memberName)
+			
 			self.currentClassImpl.addMember(self.createVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
 			return self.buildMemberTypeDeclInConstructor(varName) # ""
 		

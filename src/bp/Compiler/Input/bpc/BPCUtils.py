@@ -56,6 +56,7 @@ wrapperSingleElement = [
 	"variable",
 	"compiler-flag",
 	"expression",
+	"public-member",
 ]
 
 xmlToBPCSingleLineExpr = {
@@ -78,8 +79,8 @@ wrapperMultipleElements = {
 	
 	"operators" : "operator",
 	"iterators" : "iterator",
-	"set" : "set",
 	"get" : "get",
+	"set" : "set",
 	"casts" : "to",
 	
 	"extern" : "extern",
@@ -90,11 +91,11 @@ xmlToBPCBlock = {
 	"extends" : "extends",
 	"else" : "else",
 	"private" : "private",
-	"shared" : "shared",
 	"atomic" : "atomic",
 	"define" : "define",
 	"const" : "const",
 	"compiler-flags" : "compilerflags",
+	"public" : "public",
 	#"static" : "static"
 	
 	# TODO: Metadata
@@ -116,7 +117,8 @@ xmlToBPCExprBlock = {
 	"in" : ["in", "expression", "code"],
 	"catch" : ["catch", "variable", "code"],
 	"switch" : ["switch", "value", "case"],
-	"pattern" : ["pattern", "type", ""]
+	"pattern" : ["pattern", "type", ""],
+	"shared" : ["shared", "", "code"],
 }
 
 elementsNoNewline = [
@@ -332,7 +334,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			return "%s(%s)" % (funcName, parameters)
 	# Parameters
-	elif nodeName == "parameters" or nodeName == "values":
+	elif nodeName in {"parameters", "values", "default-get", "default-set"}:
 		params = []
 		for param in node.childNodes:
 			paramCode = nodeToBPC(param, 0, conv)
@@ -361,6 +363,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		previousChildName = ""
 		previousLineType = 0
 		currentLineType = 1
+		wrapperExpr = list()
 		
 		for child in node.childNodes:
 			# Child name
@@ -410,6 +413,8 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				
 				if currentSyntax == SYNTAX_RUBY:
 					codeParts.append(tabs + "end\n")
+			elif childName in {"default-get", "default-set"}:
+				wrapperExpr.append(child.firstChild.firstChild.nodeValue)
 			else:
 				if nodeName != "code" and nodeName != "extern":
 					codeParts.append(prefix)
@@ -435,14 +440,19 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 						codeParts.append(childCode)
 		
 		if isVisibleBlock:
+			if wrapperExpr:
+				wrapperExprString = " " + ', '.join(wrapperExpr)
+			else:
+				wrapperExprString = ""
+			
 			if currentSyntax == SYNTAX_BPC:
-				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts)
+				return "%s%s\n%s" % (wrapperMultipleElements[nodeName], wrapperExprString, ''.join(codeParts))
 			elif currentSyntax == SYNTAX_CPP:
-				return wrapperMultipleElements[nodeName] + " {\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "}\n"
+				return wrapperMultipleElements[nodeName] + wrapperExprString + " {\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "}\n"
 			elif currentSyntax == SYNTAX_RUBY:
-				return wrapperMultipleElements[nodeName] + "\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "end\n"
+				return wrapperMultipleElements[nodeName] + wrapperExprString + "\n" + ''.join(codeParts).rstrip() + "\n" + "\t" * (tabLevel - 1) + "end\n"
 			elif currentSyntax == SYNTAX_PYTHON:
-				return wrapperMultipleElements[nodeName] + ":\n" + ''.join(codeParts)
+				return wrapperMultipleElements[nodeName] + wrapperExprString + ":\n" + ''.join(codeParts)
 		
 		return ''.join(codeParts)
 	# Function definition
@@ -651,6 +661,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if currentSyntax == SYNTAX_RUBY and name == "elif":
 			name = "elsif"
 		
+		if not code:
+			code = "\t" * (tabLevel + 1) + "..."
+		
 		if currentSyntax == SYNTAX_BPC:
 			return "%s%s%s\n%s" % (name, space, expr, code)
 		elif currentSyntax == SYNTAX_PYTHON:
@@ -681,7 +694,6 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		#	blockCode = blockCode.rstrip() + "\n"
 		#else:
 		#blockCode = blockCode + "\t" * tabLevel
-		
 		
 		if currentSyntax == SYNTAX_BPC:
 			return xmlToBPCBlock[nodeName] + "\n" + blockCode.rstrip() # + "\n" + ("\t" * (tabLevel)) + "#Here"

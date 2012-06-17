@@ -41,6 +41,9 @@ class BaseClass(BaseNamespace):
 		self.implementations = {}
 		self.templateNames = []
 		self.templateDefaultValues = []
+		#self.defaultGetters = dict()
+		#self.defaultSetters = dict()
+		self.publicMembers = dict()
 		self.parent = None
 		self.isExtern = False
 		self.usesActorModel = False
@@ -60,6 +63,24 @@ class BaseClass(BaseNamespace):
 			self.ensureDestructorCall = False
 			self.forceImplementation = False
 			self.isDefaultVersion = False
+	
+	def addPublicMember(self, name):
+		self.publicMembers[name] = True
+		
+	def hasPublicMember(self, name):
+		return name in self.publicMembers
+		
+	#def addDefaultGetter(self, propertyName):
+	#	self.defaultGetters[propertyName] = True
+		
+	#def addDefaultSetter(self, propertyName):
+	#	self.defaultSetters[propertyName] = True
+		
+	#def hasDefaultGetter(self, propertyName):
+	#	return propertyName in self.defaultGetters
+		
+	#def hasDefaultSetter(self, propertyName):
+	#	return propertyName in self.defaultSetters
 		
 	def getAutoCompleteList(self, private = False):
 		publicMembers = list()
