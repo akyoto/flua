@@ -20,6 +20,7 @@ class BPChatWidget(QtGui.QWidget):
 			if not self.nickName:
 				self.nickName = os.getenv('USERNAME')
 		
+		self.nickName = self.nickName.replace(" ", "")
 		if not self.nickName:
 			self.nickName = "Guest" + str(random.randint(1, 1000)) + "_" + self.bpIDE.config.gitHubName
 		
