@@ -12,13 +12,17 @@ class BPChatWidget(QtGui.QWidget):
 		self.port = 6667
 		self.channel = "#blitzprog"
 		
-		if os.path.exists("/home/"):
+		if os.name == "nt":
+			self.nickName = os.environ.get("USERNAME")
+		elif os.path.exists("/home/"):
 			rootPath = "/home/"
 			for root, subFolders, files in os.walk(rootPath):
 				self.nickName = ";".join(subFolders)
 				break
-		else:
+		
+		if not self.nickName:
 			self.nickName = "Guest" + str(random.randint(1, 1000)) + "_" + self.bpIDE.config.gitHubName
+		
 		self.socket = None
 		
 		# TODO: Remove font
