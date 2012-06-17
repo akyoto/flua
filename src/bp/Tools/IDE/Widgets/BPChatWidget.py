@@ -1,7 +1,6 @@
 from PyQt4 import QtGui, QtCore, QtNetwork
 import random
 import os
-import pwd
 
 # Adapted from: http://pastebin.com/HXebdsGW
 class BPChatWidget(QtGui.QWidget):
@@ -16,6 +15,7 @@ class BPChatWidget(QtGui.QWidget):
 		if os.name == "nt":
 			self.nickName = os.environ.get("USERNAME")
 		else:
+			import pwd
 			self.nickName = pwd.getpwuid(os.getuid())[0]
 			if not self.nickName:
 				self.nickName = os.getenv('USERNAME')
@@ -28,7 +28,7 @@ class BPChatWidget(QtGui.QWidget):
 		# TODO: Remove font
 		self.setFont(self.bpIDE.config.standardFont)
 		
-		if 1:#not self.bpIDE.developerFlagMain:
+		if not self.bpIDE.developerFlagMain:
 			self.connectToServer()
 		
 	def connectToServer(self):
