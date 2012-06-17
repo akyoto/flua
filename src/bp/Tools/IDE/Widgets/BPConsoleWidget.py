@@ -81,7 +81,7 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		self.realStderr = sys.stderr
 		self.setObjectName("BPConsoleWidget")
 		self.setDocumentMode(True)
-		self.names = ["Log", "Compiler", "Output"]
+		self.names = ["Log", "IRC", "Compiler", "Output"]
 		
 		#if os.name == "nt":
 		#self.setMinimumWidth(450)
@@ -93,7 +93,7 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		# TODO: Remove font
 		#self.setFont(self.bpIDE.config.monospaceFont)
 		
-		for i in range(3):
+		for i in range(len(self.names)):
 			log = BPLogWidget(self)
 			log.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 			
@@ -106,8 +106,9 @@ class BPConsoleWidget(QtGui.QTabWidget):
 			self.addTab(log, self.names[i])
 		
 		self.log = self.widget(0)
-		self.compiler = self.widget(1)
-		self.output = self.widget(2)
+		self.irc = self.widget(1)
+		self.compiler = self.widget(2)
+		self.output = self.widget(3)
 		
 		# Linux / g++ info
 		if 0:
