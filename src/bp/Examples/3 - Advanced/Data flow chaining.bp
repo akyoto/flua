@@ -49,69 +49,33 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="5">
-					<getter depth="2" id="6">
-						<name>data</name>
-						<code>
-							<return depth="3" id="7">
-								<access>
-									<value>my</value>
-									<value>data</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-				</get>
-				<set depth="1" id="8">
-					<setter depth="2" id="9">
-						<parameters>
-							<parameter>newData</parameter>
-						</parameters>
-						<name>data</name>
-						<code>
-							<assign depth="3" id="10">
-								<value>
-									<access>
-										<value>my</value>
-										<value>data</value>
-									</access>
-								</value>
-								<value>newData</value>
-							</assign>
-						</code>
-					</setter>
-				</set>
+				<public depth="1" id="5">
+					<public-member depth="2" id="6">data</public-member>
+				</public>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SCapture\Sone\Sframe</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="7">
 			<name>getWebcamImage</name>
 			<code>
-				<return depth="1" id="12">
+				<return depth="1" id="8">
 					<new>
 						<type>WebcamImage</type>
 						<parameters/>
 					</new>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SProcess\Simage</comment>
-		<function depth="0" id="13">
+		<function depth="0" id="9">
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
 			<name>addFilters</name>
 			<code>
-				<assign depth="1" id="14">
-					<value>source</value>
-					<value>
-						<access>
-							<value>image</value>
-							<value>data</value>
-						</access>
-					</value>
-				</assign>
-				<assign depth="1" id="15">
+				<assign-add depth="1" id="10">
 					<value>
 						<access>
 							<value>image</value>
@@ -119,35 +83,31 @@
 						</access>
 					</value>
 					<value>
-						<add>
-							<value>source</value>
-							<value>
-								<call>
-									<function>rand</function>
-									<parameters>
-										<parameter>
-											<negative>
-												<value>100</value>
-											</negative>
-										</parameter>
-										<parameter>100</parameter>
-									</parameters>
-								</call>
-							</value>
-						</add>
+						<call>
+							<function>rand</function>
+							<parameters>
+								<parameter>
+									<negative>
+										<value>100</value>
+									</negative>
+								</parameter>
+								<parameter>100</parameter>
+							</parameters>
+						</call>
 					</value>
-				</assign>
-				<return depth="1" id="16">image</return>
+				</assign-add>
+				<return depth="1" id="11">image</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SShow\Sit\Son\Sthe\Sscreen</comment>
-		<function depth="0" id="17">
+		<function depth="0" id="12">
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
 			<name>showOnScreen</name>
 			<code>
-				<call depth="1" id="18">
+				<call depth="1" id="13">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -162,12 +122,12 @@
 		</function>
 		<comment>\STheoretically\Syou\Scan\Screate\Sa\Smain\Sloop\Snow.</comment>
 		<comment>\STo\Sdemonstrate\Sthe\Sdata\Sflow\SI'm\Sjust\Sgoing\Sto\Sdo\Sthis\S10\Stimes:</comment>
-		<for depth="0" id="19">
+		<for depth="0" id="14">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>10</to>
 			<code>
-				<call depth="1" id="20">
+				<call depth="1" id="15">
 					<function>getWebcamImage</function>
 					<parameters/>
 				</call>
