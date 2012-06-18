@@ -60,6 +60,8 @@ class BaseFunction:
 		else:
 			self.name = correctOperators(getElementByTagName(node, "name").childNodes[0].nodeValue)
 		
+		self.name = cppFile.getNamespacePrefix() + self.name
+		
 		self.hasDataFlow = False
 		self.classObj = None
 		self.implementations = {}

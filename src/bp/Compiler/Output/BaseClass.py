@@ -136,7 +136,7 @@ class BaseClass(BaseNamespace):
 		debug("'%s' added class '%s'" % (self.name, classObj.name))
 		classObj.parent = self
 		self.classes[classObj.name] = classObj
-		
+		5
 	def addFunction(self, func):
 		debug("'%s' added function '%s'" % (self.name, func.getName()))
 		func.classObj = self

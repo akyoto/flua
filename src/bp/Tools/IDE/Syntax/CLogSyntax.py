@@ -40,6 +40,12 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 		if self.previousBlockState() == 2 and text:
 			if text[0].isspace():
 				self.setCurrentBlockState(2)
+				
+				# Function in a traceback
+				if text.startswith("    "):
+					self.setFormat(0, len(text), style['function'])
+					return
+				
 			self.setFormat(0, len(text), style['traceback'])
 			return
 		

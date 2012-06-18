@@ -541,6 +541,15 @@ class BaseOutputFile(ScopeController):
 			self.popClass()
 		self.popScope()
 	
+	# Namespaces
+	def scanNamespace(self, node):
+		name = getElementByTagName(node, "name").firstChild.nodeValue
+		codeNode = getElementByTagName(node, "code")
+		
+		self.pushNamespace(name)
+		self.scanAhead(codeNode)
+		self.popNamespace()
+	
 	# Typedefs
 	def scanDefine(self, node):
 		defineWhat = self.parseExpr(node.firstChild.firstChild)
@@ -831,7 +840,14 @@ class BaseOutputFile(ScopeController):
 						#callerType = "bp_Namespace"
 						#callerClassName = "bp_Namespace"
 						varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
-						return self.getVariableTypeAnywhere(varName)
+						
+						try:
+							# Variables
+							return self.getVariableTypeAnywhere(varName)
+						except:
+							# Functions
+							virtualCall = self.makeXMLCall(varName)
+							return self.getCallDataType(virtualCall)
 				
 				callerType = self.getExprDataType(caller)
 				
@@ -879,11 +895,7 @@ class BaseOutputFile(ScopeController):
 					if callerClassName == "MemPointer" and memberName == "data":
 						return callerType[callerType.find('<')+1:-1]
 					
-					memberFunc = "get" + capitalize(memberName)
-					xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc)
-					
-					virtualGetCall = self.cachedParseString(xmlCode).documentElement
-					
+					virtualGetCall = self.makeXMLObjectCall(node.childNodes[0].childNodes[0].toxml(), "get" + capitalize(memberName)) 
 					return self.getCallDataType(virtualGetCall)
 				
 #				templatesUsed = (callerClassName != callerType)
@@ -959,6 +971,14 @@ class BaseOutputFile(ScopeController):
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	
+	def makeXMLCall(self, memberFunc):
+		xmlCode = "<call><function>%s</value></access></function><parameters/></call>" % (memberFunc)
+		return self.cachedParseString(xmlCode).documentElement
+	
+	def makeXMLObjectCall(self, caller, memberFunc):
+		xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (caller, memberFunc)
+		return self.cachedParseString(xmlCode).documentElement
+	
 	def getSignedVersion(self, typeName):
 		if typeName in {"Float", "Float32", "Float64"}:
 			return "Float"
@@ -994,10 +1014,15 @@ class BaseOutputFile(ScopeController):
 			funcName = funcNameNode.nodeValue
 		else:
 			#print("XML: " + funcNameNode.childNodes[0].childNodes[0].toxml())
-			callerType = self.getExprDataType(funcNameNode.childNodes[0].childNodes[0])
-			caller = self.parseExpr(funcNameNode.childNodes[0].childNodes[0])
-			funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
-			#print(callerType + "::" + funcName)
+			callerNode = funcNameNode.childNodes[0].childNodes[0]
+			
+			if callerNode.nodeValue in self.currentClass.namespaces:
+				funcName = callerNode.nodeValue + "_" + funcNameNode.childNodes[1].childNodes[0].nodeValue
+			else:
+				callerType = self.getExprDataType(callerNode)
+				caller = self.parseExpr(callerNode)
+				funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+				#print(callerType + "::" + funcName)
 		
 		return caller, callerType, correctOperators(funcName)
 	
@@ -1224,19 +1249,26 @@ class BaseOutputFile(ScopeController):
 		
 		#print("Namespace %s" % name)
 		
-		self.namespaceStack.append(name)
-		if not name in self.currentClass.namespaces:
-			print("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
-			self.currentClass.namespaces[name] = self.createNamespace(name)
-		else:
-			print("Namespace '%s' already exists!" % name)
+		self.pushNamespace(name)
 		
 		codeNode = getElementByTagName(node, "code")
 		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		
-		self.namespaceStack.pop()
+		self.popNamespace()
 		
 		return code
+	
+	def pushNamespace(self, name):
+		self.namespaceStack.append(name)
+		
+		if not name in self.currentClass.namespaces:
+			debug("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
+			self.currentClass.namespaces[name] = self.createNamespace(name)
+		else:
+			pass#print("Namespace '%s' already exists!" % name)
+		
+	def popNamespace(self):
+		self.namespaceStack.pop()
 	
 	def handleReturn(self, node):
 		# THIS STEP MUST BE EXECUTED BEFORE expr = ... IS CALLED!
@@ -1789,6 +1821,8 @@ class BaseOutputFile(ScopeController):
 					self.inCastDefinition -= 1
 				elif node.tagName == "public-member":
 					self.scanPublicMember(node)
+				elif node.tagName == "namespace":
+					self.scanNamespace(node)
 				elif node.tagName == "extern":
 					self.inExtern += 1
 					self.scanAhead(node)

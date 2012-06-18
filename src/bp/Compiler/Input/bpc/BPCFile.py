@@ -318,10 +318,15 @@ class BPCFile(ScopeController, Benchmarkable):
 			#print(node.toprettyxml())
 			#print(self.exprCache)
 			funcNameNode = funcNode.childNodes[0]
-			
+			print(funcNameNode.toxml())
 			# Template call
-			if not isTextNode(funcNameNode):
-				funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+			if (funcNameNode.nodeType != Node.TEXT_NODE):
+				# Namespaces
+				if funcNameNode.tagName == "access":
+					funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+				else:
+					funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue
+				
 				if funcName and funcName[0].isupper():
 					node.tagName = "new"
 					funcNode.tagName = "type"

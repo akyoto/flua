@@ -73,6 +73,17 @@
 					</parameter>
 				</parameters>
 			</call>
+			<call depth="1" id="16">
+				<function>print</function>
+				<parameters>
+					<parameter>
+						<access>
+							<value>Port</value>
+							<value>FTP</value>
+						</access>
+					</parameter>
+				</parameters>
+			</call>
 		</test>
 	</code>
 </module>
