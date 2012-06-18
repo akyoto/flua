@@ -232,6 +232,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="16">
 					<name>exit</name>
@@ -255,6 +256,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="19">
 					<name>update</name>

@@ -8,10 +8,10 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0">
+		<class depth="0" id="1">
 			<name>Vector3</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="2">
 					<parameters>
 						<parameter>
 							<assign>
@@ -21,7 +21,7 @@
 										<value>x</value>
 									</access>
 								</value>
-								<value>0</value>
+								<value>0.0</value>
 							</assign>
 						</parameter>
 						<parameter>
@@ -32,7 +32,7 @@
 										<value>y</value>
 									</access>
 								</value>
-								<value>0</value>
+								<value>0.0</value>
 							</assign>
 						</parameter>
 						<parameter>
@@ -43,59 +43,59 @@
 										<value>z</value>
 									</access>
 								</value>
-								<value>0</value>
+								<value>0.0</value>
 							</assign>
 						</parameter>
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="3"/>
 					</code>
 					<meta/>
 				</function>
-				<operators depth="1">
-					<operator depth="2">
+				<operators depth="1" id="4">
+					<operator depth="2" id="5">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<switch depth="3">
+							<switch depth="3" id="6">
 								<value>index</value>
-								<case depth="4">
+								<case depth="4" id="7">
 									<values>
 										<value>0</value>
 									</values>
 									<code>
-										<return depth="5">
+										<return depth="5" id="8">
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>x</value>
 											</access>
 										</return>
 									</code>
 								</case>
-								<case depth="4">
+								<case depth="4" id="9">
 									<values>
 										<value>1</value>
 									</values>
 									<code>
-										<return depth="5">
+										<return depth="5" id="10">
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>y</value>
 											</access>
 										</return>
 									</code>
 								</case>
-								<case depth="4">
+								<case depth="4" id="11">
 									<values>
 										<value>2</value>
 									</values>
 									<code>
-										<return depth="5">
+										<return depth="5" id="12">
 											<access>
-												<value>self</value>
+												<value>my</value>
 												<value>z</value>
 											</access>
 										</return>
@@ -106,11 +106,11 @@
 						<meta/>
 					</operator>
 				</operators>
-				<get depth="1">
-					<getter depth="2">
+				<get depth="1" id="13">
+					<getter depth="2" id="14">
 						<name>length</name>
 						<code>
-							<noop depth="3"/>
+							<noop depth="3" id="15"/>
 						</code>
 					</getter>
 				</get>

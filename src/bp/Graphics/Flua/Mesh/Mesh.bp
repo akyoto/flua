@@ -14,6 +14,7 @@
 			<name>Mesh</name>
 			<code>
 				<function depth="1" id="2">
+					<parameters/>
 					<name>init</name>
 					<code>
 						<comment>\SVertices</comment>
@@ -164,7 +165,9 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SSends\Svertices\Sto\Sthe\SVBO</comment>
 				<function depth="1" id="12">
+					<parameters/>
 					<name>updateVertices</name>
 					<code>
 						<assign depth="2" id="13">
@@ -186,12 +189,38 @@
 								</access>
 							</value>
 						</assign>
+						<assign depth="2" id="14">
+							<value>
+								<access>
+									<value>my</value>
+									<value>numVertices</value>
+								</access>
+							</value>
+							<value>
+								<divide>
+									<value>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>vertices</value>
+												</access>
+											</value>
+											<value>length</value>
+										</access>
+									</value>
+									<value>6</value>
+								</divide>
+							</value>
+						</assign>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1" id="14">
+				<function depth="1" id="15">
+					<parameters/>
 					<name>activate</name>
 					<code>
-						<call depth="2" id="15">
+						<call depth="2" id="16">
 							<function>
 								<access>
 									<value>
@@ -208,18 +237,39 @@
 					</code>
 					<meta/>
 				</function>
+				<function depth="1" id="17">
+					<parameters/>
+					<name>draw</name>
+					<code>
+						<call depth="2" id="18">
+							<function>glDrawArrays</function>
+							<parameters>
+								<parameter>GL_TRIANGLES</parameter>
+								<parameter>0</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>numVertices</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
 			</code>
 			<meta/>
 		</class>
 		<comment>\SSome\Ssimple\Sobjects</comment>
-		<namespace depth="0" id="16">
+		<namespace depth="0" id="19">
 			<name>Primitive</name>
 			<code>
 				<comment>\SCreates\Sa\Striangle\Smesh</comment>
-				<function depth="1" id="17">
+				<function depth="1" id="20">
+					<parameters/>
 					<name>createTriangle</name>
 					<code>
-						<assign depth="2" id="18">
+						<assign depth="2" id="21">
 							<value>obj</value>
 							<value>
 								<new>
@@ -229,7 +279,7 @@
 							</value>
 						</assign>
 						<comment>\S3\Svertices</comment>
-						<call depth="2" id="19">
+						<call depth="2" id="22">
 							<function>
 								<access>
 									<value>obj</value>
@@ -245,7 +295,7 @@
 								<parameter>0.0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="20">
+						<call depth="2" id="23">
 							<function>
 								<access>
 									<value>obj</value>
@@ -269,7 +319,7 @@
 								<parameter>1.0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="21">
+						<call depth="2" id="24">
 							<function>
 								<access>
 									<value>obj</value>
@@ -290,7 +340,7 @@
 							</parameters>
 						</call>
 						<comment>\SUpdate!</comment>
-						<call depth="2" id="22">
+						<call depth="2" id="25">
 							<function>
 								<access>
 									<value>obj</value>
@@ -299,7 +349,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<return depth="2" id="23">obj</return>
+						<return depth="2" id="26">obj</return>
 					</code>
 				</function>
 			</code>

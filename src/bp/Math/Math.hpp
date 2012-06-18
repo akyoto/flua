@@ -1,12 +1,12 @@
 #include <cmath>
 
 template <typename T>
-inline bool bp_isnan(T x) {
+inline bool bp_isNan(T x) {
 	return isnan(x);
 }
 
 template <typename T>
-inline bool bp_isinf(T x) {
+inline bool bp_isInf(T x) {
 	return isinf(x);
 }
 

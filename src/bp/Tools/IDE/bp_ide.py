@@ -179,7 +179,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if (not self.dependenciesViewDock.isHidden()):
 			self.dependencyView.updateView()
 		
-		self.xmlView.setNode(node)
+		self.xmlView.setNode(node)	
 		if not self.xmlViewDock.isHidden():
 			self.xmlView.updateView()
 			
@@ -189,10 +189,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.updateCodeBubble(node)
 		
-	def onProgressUpdate(self):
+	def onProgressUpdate(self):	
 		if self.lastFunctionCount == -1 and self.postProcessorThread:
 			val = time.time() - self.startTime
-			self.progressBar.setValue(min(100, val * 100))
+			self.progressBar.setValue(min(100, val * 45))
 			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
 			
 			#self.progressBar.show()

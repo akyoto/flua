@@ -31,6 +31,7 @@ from bp.Compiler.Output.BaseOutputFile import *
 from bp.Compiler.Output.python.PythonClass import *
 from bp.Compiler.Output.python.PythonFunction import *
 from bp.Compiler.Output.python.PythonVariable import *
+from bp.Compiler.Output.python.PythonNamespace import *
 from bp.Compiler.Output.python.PythonClassImplementation import *
 from bp.Compiler.Output.python.PythonFunctionImplementation import *
 

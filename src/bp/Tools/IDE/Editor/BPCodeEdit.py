@@ -381,10 +381,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		}
 		
 		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 3
+		self.autoSuggestionMinChars = 4
 		#self.autoSuggestionTypedChars = 3
-		self.autoSuggestionMinCompleteChars = 5
-		self.autoSuggestionMaxItemCount = 4
+		self.autoSuggestionMinCompleteChars = 3
+		self.autoSuggestionMaxItemCount = 3
 		
 		self.enableACInstant = True
 		
@@ -867,10 +867,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				charBeforeWord = ""
 			
-			if "()" in completionPrefix and charBeforeWord != ".":
-				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-				popup.hide()
-				return
+			if completionPrefix.endswith("()"):
+				if charBeforeWord != ".":
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					popup.hide()
+					return
 			
 			# Set the prefix later
 			gonnaSetPrefix = False
@@ -979,6 +980,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						)
 					)
 					if autoCompleteAintWorthIt:
+						self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 						popup.hide()
 						return
 					#elif popup.isHidden():
@@ -1124,6 +1126,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		selStartBlockPosition = self.qdoc.findBlock(selStart).position()
 		cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
 		cursor.insertText(tab)
+		
+		if selStart == selStartBlockPosition:
+			selStart -= tabLen
+		
 		selEnd += tabLen
 		
 		# All selected blocks
@@ -1163,7 +1169,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		line = cursor.block().text()
 		if line and line[0].isspace():
 			cursor.deleteChar()
-			selStart -= tabLen
+			if selStart != selStartBlockPosition:
+				selStart -= tabLen
 			selEnd -= tabLen
 		
 		# All selected blocks
