@@ -142,8 +142,40 @@
 				</return>
 			</code>
 		</function>
-		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
+		<comment>\SReturns\Sthe\Sabsolute\Svalue\Sof\S#x\S(positive)</comment>
 		<function depth="0" id="19">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>abs</name>
+			<code>
+				<if-block depth="1" id="20">
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>x</value>
+								<value>0</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<return depth="2" id="21">x</return>
+						</code>
+					</if>
+					<else depth="1" id="22">
+						<code>
+							<return depth="2" id="23">
+								<negative>
+									<value>x</value>
+								</negative>
+							</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
+		<function depth="0" id="24">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -160,17 +192,17 @@
 			</parameters>
 			<name>rand</name>
 			<code>
-				<ensure depth="1" id="20">
-					<greater-or-equal depth="2" id="21">
+				<ensure depth="1" id="25">
+					<greater-or-equal depth="2" id="26">
 						<value>result</value>
 						<value>a</value>
 					</greater-or-equal>
-					<less-or-equal depth="2" id="22">
+					<less-or-equal depth="2" id="27">
 						<value>result</value>
 						<value>b</value>
 					</less-or-equal>
 				</ensure>
-				<return depth="1" id="23">
+				<return depth="1" id="28">
 					<call>
 						<function>
 							<access>
@@ -187,14 +219,14 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
-		<function depth="0" id="24">
+		<function depth="0" id="29">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>min</name>
 			<code>
-				<if-block depth="1" id="25">
+				<if-block depth="1" id="30">
 					<if>
 						<condition>
 							<less>
@@ -203,26 +235,26 @@
 							</less>
 						</condition>
 						<code>
-							<return depth="2" id="26">a</return>
+							<return depth="2" id="31">a</return>
 						</code>
 					</if>
-					<else depth="1" id="27">
+					<else depth="1" id="32">
 						<code>
-							<return depth="2" id="28">b</return>
+							<return depth="2" id="33">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="34">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>max</name>
 			<code>
-				<if-block depth="1" id="30">
+				<if-block depth="1" id="35">
 					<if>
 						<condition>
 							<greater>
@@ -231,12 +263,12 @@
 							</greater>
 						</condition>
 						<code>
-							<return depth="2" id="31">a</return>
+							<return depth="2" id="36">a</return>
 						</code>
 					</if>
-					<else depth="1" id="32">
+					<else depth="1" id="37">
 						<code>
-							<return depth="2" id="33">b</return>
+							<return depth="2" id="38">b</return>
 						</code>
 					</else>
 				</if-block>

@@ -124,10 +124,22 @@
 								<parameters>
 									<parameter>GL_ARRAY_BUFFER</parameter>
 									<parameter>
-										<access>
-											<value>triangleVertices</value>
-											<value>length</value>
-										</access>
+										<multiply>
+											<value>
+												<access>
+													<value>triangleVertices</value>
+													<value>length</value>
+												</access>
+											</value>
+											<value>
+												<call>
+													<function>sizeOf</function>
+													<parameters>
+														<parameter>GL_FLOAT</parameter>
+													</parameters>
+												</call>
+											</value>
+										</multiply>
 									</parameter>
 									<parameter>
 										<access>

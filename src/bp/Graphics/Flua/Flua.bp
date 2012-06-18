@@ -8,6 +8,7 @@
 			<import>public.Graphics.GLUT</import>
 			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.FreeImage</import>
+			<import>public.Math.GLM</import>
 			<import>bp.FileSystem</import>
 			<import>GraphicsWindow</import>
 			<import>Material</import>
@@ -48,20 +49,25 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="9">
+						<name>createGLSLProgramUniform</name>
+						<type>GLint</type>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="10">
 						<name>loadTexture</name>
 						<type>GLuint</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="10">
+					<extern-function depth="2" id="11">
 						<name>createVBO</name>
 						<type>GLuint</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="11">
+					<extern-function depth="2" id="12">
 						<name>initGLUT</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="12">
+					<extern-function depth="2" id="13">
 						<name>printGLError</name>
 						<meta/>
 					</extern-function>

@@ -655,7 +655,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			relPos = tc.positionInBlock()
 			textBlock = tc.block().text()
 			
-			if completion in self.completer.model().methodList and (relPos == len(textBlock) or textBlock[relPos] != "("):
+			if completion in self.completer.model().methodList and ((relPos == len(textBlock) or textBlock[relPos] != "(")):
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
 			self.completer.setModel(self.completer.bpcModel)
@@ -679,7 +679,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Blocks
 			elif completion in self.completer.bpcModel.classesList:
 				# Not exactly a perfect solution but works in most cases...
-				if tc.block().text()[-1] != ")":
+				textBlock = tc.block().text()
+				if textBlock[-1] != ")" and (not textBlock.startswith("catch ")):
 					tc.insertText("()")
 					tc.movePosition(QtGui.QTextCursor.Left)
 			elif completion in xmlToBPCBlock.values():

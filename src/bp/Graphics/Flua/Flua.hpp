@@ -1,4 +1,9 @@
 #include <public/Graphics/GLUT/C++/GLUT.hpp>
+#define bp_glVertexAttribPointer(a, b, c, d, e, f) glVertexAttribPointer(a, b, c, d, e, reinterpret_cast<const GLvoid*>(f))
+
+// ----------------------------------------------------
+//  TODO: Replace all errors with exceptions
+// ----------------------------------------------------
 
 // Global
 bool flua_glutRunFlag = false;
@@ -39,7 +44,18 @@ inline GLint flua_createGLSLProgramAttribute(GLuint program, char* attributeName
 	GLint attrib = glGetAttribLocation(program, attributeName);
 	
 	if (attrib == -1) {
-		fprintf(stderr, "Could not bind attribute %s\n", attributeName);
+		fprintf(stderr, "Could not bind attribute '%s'\n", attributeName);
+		return 0;
+	}
+	
+	return attrib;
+}
+
+inline GLint flua_createGLSLProgramUniform(GLuint program, char* attributeName) {
+	GLint attrib = glGetUniformLocation(program, attributeName);
+	
+	if (attrib == -1) {
+		fprintf(stderr, "Could not bind uniform '%s'\n", attributeName);
 		return 0;
 	}
 	
@@ -87,17 +103,37 @@ GLuint flua_createShader(const GLchar* source, GLenum type) {
 	}
 	
 	GLuint res = glCreateShader(type);
-	const GLchar* sources[2] = {
-	#ifdef GL_ES_VERSION_2_0
+	const GLchar* sources[] = {
+#ifdef GL_ES_VERSION_2_0
 		"#version 100\n"
 		"#define GLES2\n",
-	#else
-	  "#version 120\n",
-	#endif
-	  source
+#else
+	  "#version 120\n"
+#endif
+		,
+	    // GLES2 precision specifiers
+#ifdef GL_ES_VERSION_2_0
+	    // Define default float precision for fragment shaders:
+	    (type == GL_FRAGMENT_SHADER) ?
+	    "#ifdef GL_FRAGMENT_PRECISION_HIGH\n"
+	    	"precision highp float;           \n"
+	    "#else                            \n"
+	    	"precision mediump float;         \n"
+	    "#endif                           \n"
+	    : ""
+	    // Note: OpenGL ES automatically defines this:
+	    // #define GL_ES
+#else
+	    // Ignore GLES 2 precision specifiers:
+	    "#define lowp   \n"
+	    "#define mediump\n"
+	    "#define highp  \n"
+#endif
+		,
+		source
 	};
 	
-	glShaderSource(res, 2, sources, NULL);
+	glShaderSource(res, 3, sources, NULL);
 	
 	glCompileShader(res);
 	GLint compileStatus = GL_FALSE;

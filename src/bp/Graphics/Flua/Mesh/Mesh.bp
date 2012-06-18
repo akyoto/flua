@@ -16,6 +16,7 @@
 				<function depth="1" id="2">
 					<name>init</name>
 					<code>
+						<comment>\SVertices</comment>
 						<assign depth="2" id="3">
 							<value>
 								<access>
@@ -35,38 +36,35 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="4">
-							<function>
+						<comment>\SVBO</comment>
+						<assign depth="2" id="4">
+							<value>
 								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
+									<value>my</value>
+									<value>vb</value>
 								</access>
-							</function>
-							<parameters>
-								<parameter>0.0</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="5">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>0.0</parameter>
-							</parameters>
-						</call>
+							</value>
+							<value>
+								<new>
+									<type>VertexBuffer</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="5">
+					<parameters>
+						<parameter>x</parameter>
+						<parameter>y</parameter>
+						<parameter>z</parameter>
+						<parameter>r</parameter>
+						<parameter>g</parameter>
+						<parameter>b</parameter>
+					</parameters>
+					<name>addVertex</name>
+					<code>
 						<call depth="2" id="6">
 							<function>
 								<access>
@@ -80,11 +78,7 @@
 								</access>
 							</function>
 							<parameters>
-								<parameter>
-									<negative>
-										<value>1.0</value>
-									</negative>
-								</parameter>
+								<parameter>x</parameter>
 							</parameters>
 						</call>
 						<call depth="2" id="7">
@@ -100,11 +94,7 @@
 								</access>
 							</function>
 							<parameters>
-								<parameter>
-									<negative>
-										<value>1.0</value>
-									</negative>
-								</parameter>
+								<parameter>y</parameter>
 							</parameters>
 						</call>
 						<call depth="2" id="8">
@@ -120,7 +110,7 @@
 								</access>
 							</function>
 							<parameters>
-								<parameter>1.0</parameter>
+								<parameter>z</parameter>
 							</parameters>
 						</call>
 						<call depth="2" id="9">
@@ -136,28 +126,48 @@
 								</access>
 							</function>
 							<parameters>
-								<parameter>
-									<negative>
-										<value>1.0</value>
-									</negative>
-								</parameter>
+								<parameter>r</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="10">
-							<value>
+						<call depth="2" id="10">
+							<function>
 								<access>
-									<value>my</value>
-									<value>vb</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>vertices</value>
+										</access>
+									</value>
+									<value>add</value>
 								</access>
-							</value>
-							<value>
-								<new>
-									<type>VertexBuffer</type>
-									<parameters/>
-								</new>
-							</value>
-						</assign>
-						<assign depth="2" id="11">
+							</function>
+							<parameters>
+								<parameter>g</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="11">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>vertices</value>
+										</access>
+									</value>
+									<value>add</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>b</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="12">
+					<name>updateVertices</name>
+					<code>
+						<assign depth="2" id="13">
 							<value>
 								<access>
 									<value>
@@ -177,10 +187,122 @@
 							</value>
 						</assign>
 					</code>
+				</function>
+				<function depth="1" id="14">
+					<name>activate</name>
+					<code>
+						<call depth="2" id="15">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>vb</value>
+										</access>
+									</value>
+									<value>activate</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
 					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
+		<comment>\SSome\Ssimple\Sobjects</comment>
+		<namespace depth="0" id="16">
+			<name>Primitive</name>
+			<code>
+				<comment>\SCreates\Sa\Striangle\Smesh</comment>
+				<function depth="1" id="17">
+					<name>createTriangle</name>
+					<code>
+						<assign depth="2" id="18">
+							<value>obj</value>
+							<value>
+								<new>
+									<type>Mesh</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<comment>\S3\Svertices</comment>
+						<call depth="2" id="19">
+							<function>
+								<access>
+									<value>obj</value>
+									<value>addVertex</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>0.0</parameter>
+								<parameter>0.8</parameter>
+								<parameter>0.0</parameter>
+								<parameter>1.0</parameter>
+								<parameter>0.0</parameter>
+								<parameter>0.0</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="20">
+							<function>
+								<access>
+									<value>obj</value>
+									<value>addVertex</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>
+									<negative>
+										<value>0.8</value>
+									</negative>
+								</parameter>
+								<parameter>
+									<negative>
+										<value>0.8</value>
+									</negative>
+								</parameter>
+								<parameter>0.0</parameter>
+								<parameter>0.0</parameter>
+								<parameter>0.0</parameter>
+								<parameter>1.0</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="21">
+							<function>
+								<access>
+									<value>obj</value>
+									<value>addVertex</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>0.8</parameter>
+								<parameter>
+									<negative>
+										<value>0.8</value>
+									</negative>
+								</parameter>
+								<parameter>0.0</parameter>
+								<parameter>0.0</parameter>
+								<parameter>1.0</parameter>
+								<parameter>0.0</parameter>
+							</parameters>
+						</call>
+						<comment>\SUpdate!</comment>
+						<call depth="2" id="22">
+							<function>
+								<access>
+									<value>obj</value>
+									<value>updateVertices</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+						<return depth="2" id="23">obj</return>
+					</code>
+				</function>
+			</code>
+		</namespace>
 	</code>
 </module>

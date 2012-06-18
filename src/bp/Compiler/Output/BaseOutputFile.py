@@ -2506,6 +2506,10 @@ class BaseOutputFile(ScopeController):
 			else:
 				return implicitAssignment + self.buildCall(caller, fullName, paramsString)
 		else:
+			# Temporary hack
+			if funcName == "glVertexAttribPointer":
+				funcName = "bp_" + funcName
+			
 			return self.externCallSyntax % (funcName, paramsString)
 	
 	def pushScope(self):

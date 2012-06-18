@@ -7,9 +7,9 @@
 			<import>Shader</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">coord2d</string>
-			<string id="bp_string_1">vColor</string>
-			<string id="bp_string_2">texCoord</string>
+			<string id="bp_string_0">coord3d</string>
+			<string id="bp_string_1">v_color</string>
+			<string id="bp_string_2">fade</string>
 		</strings>
 	</header>
 	<code>
@@ -140,11 +140,12 @@
 								</call>
 							</value>
 						</assign>
+						<comment>my.texCoordAttr\S=\Sflua.createGLSLProgramAttribute(my.program,\S&quot;texcoord&quot;.data)</comment>
 						<assign depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
-									<value>texCoordAttr</value>
+									<value>alphaAttr</value>
 								</access>
 							</value>
 							<value>
@@ -152,7 +153,7 @@
 									<function>
 										<access>
 											<value>flua</value>
-											<value>createGLSLProgramAttribute</value>
+											<value>createGLSLProgramUniform</value>
 										</access>
 									</function>
 									<parameters>
@@ -222,33 +223,98 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="12">
-							<function>glEnableVertexAttribArray</function>
+						<comment>glEnableVertexAttribArray\Smy.texCoordAttr</comment>
+						<comment>\SAttribute\Slocations</comment>
+						<assign depth="2" id="12">
+							<value>len</value>
+							<value>
+								<multiply>
+									<value>6</value>
+									<value>
+										<call>
+											<function>sizeOf</function>
+											<parameters>
+												<parameter>GL_FLOAT</parameter>
+											</parameters>
+										</call>
+									</value>
+								</multiply>
+							</value>
+						</assign>
+						<call depth="2" id="13">
+							<function>glVertexAttribPointer</function>
 							<parameters>
 								<parameter>
 									<access>
 										<value>my</value>
-										<value>texCoordAttr</value>
+										<value>attr</value>
+									</access>
+								</parameter>
+								<parameter>3</parameter>
+								<parameter>GL_FLOAT</parameter>
+								<parameter>GL_FALSE</parameter>
+								<parameter>len</parameter>
+								<parameter>0</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="14">
+							<function>glVertexAttribPointer</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>colorAttr</value>
+									</access>
+								</parameter>
+								<parameter>3</parameter>
+								<parameter>GL_FLOAT</parameter>
+								<parameter>GL_FALSE</parameter>
+								<parameter>len</parameter>
+								<parameter>
+									<multiply>
+										<value>3</value>
+										<value>
+											<call>
+												<function>sizeOf</function>
+												<parameters>
+													<parameter>GL_FLOAT</parameter>
+												</parameters>
+											</call>
+										</value>
+									</multiply>
+								</parameter>
+							</parameters>
+						</call>
+						<comment>glVertexAttribPointer\Smy.texCoordAttr,\S2,\SGL_FLOAT,\SGL_FALSE,\Slen,\S5</comment>
+						<comment>\SSet\Salpha</comment>
+						<call depth="2" id="15">
+							<function>glUniform1f</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>alphaAttr</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>alpha</value>
 									</access>
 								</parameter>
 							</parameters>
 						</call>
-						<comment>\SAttribute\Slocations</comment>
-						<comment>len\S=\S7\S*\SsizeOf(GL_FLOAT)</comment>
-						<comment>glVertexAttribPointer\Smy.attr,\S2,\SGL_FLOAT,\SGL_FALSE,\Slen,\SpVertices</comment>
-						<comment>glVertexAttribPointer\Smy.colorAttr,\S3,\SGL_FLOAT,\SGL_FALSE,\Slen,\SpVertices\S+\S2</comment>
-						<comment>glVertexAttribPointer\Smy.texCoordAttr,\S2,\SGL_FLOAT,\SGL_FALSE,\Slen,\SpVertices\S+\S5</comment>
 					</code>
 					<meta/>
 				</function>
-				<set depth="1" id="13">
-					<setter depth="2" id="14">
+				<set depth="1" id="16">
+					<setter depth="2" id="17">
 						<parameters>
 							<parameter>newAlpha</parameter>
 						</parameters>
 						<name>alpha</name>
 						<code>
-							<assign depth="3" id="15">
+							<assign depth="3" id="18">
 								<value>
 									<access>
 										<value>my</value>
@@ -258,13 +324,14 @@
 								<value>newAlpha</value>
 							</assign>
 						</code>
+						<meta/>
 					</setter>
 				</set>
-				<get depth="1" id="16">
-					<getter depth="2" id="17">
+				<get depth="1" id="19">
+					<getter depth="2" id="20">
 						<name>vertexShader</name>
 						<code>
-							<return depth="3" id="18">
+							<return depth="3" id="21">
 								<access>
 									<value>my</value>
 									<value>vertexShader</value>
@@ -272,41 +339,33 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="19">
+					<getter depth="2" id="22">
 						<name>fragmentShader</name>
 						<code>
-							<return depth="3" id="20">
+							<return depth="3" id="23">
 								<access>
 									<value>my</value>
 									<value>fragmentShader</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
-					<getter depth="2" id="21">
-						<name>coord2DAttribute</name>
-						<code>
-							<return depth="3" id="22">
-								<access>
-									<value>my</value>
-									<value>attr</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="23">
+					<getter depth="2" id="24">
 						<name>alpha</name>
 						<code>
-							<return depth="3" id="24">
+							<return depth="3" id="25">
 								<access>
 									<value>my</value>
 									<value>alpha</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

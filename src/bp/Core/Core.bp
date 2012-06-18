@@ -61,7 +61,10 @@
 					<extern-function depth="2" id="11">
 						<name>sizeOf</name>
 						<type>Size</type>
-						<meta/>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 				</code>
 			</namespace>
