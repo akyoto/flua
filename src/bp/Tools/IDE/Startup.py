@@ -168,7 +168,7 @@ class Startup:
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
 		
 		# Chat
-		self.chatWidget = BPChatWidget(self)
+		#self.chatWidget = BPChatWidget(self)
 		
 		# Outline
 		self.outlineView = BPOutlineView(self)

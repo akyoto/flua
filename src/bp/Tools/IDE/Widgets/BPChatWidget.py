@@ -80,7 +80,7 @@ class BPChatWidget(QtGui.QWidget):
 		# TODO: Remove font
 		self.setFont(self.bpIDE.config.standardFont)
 		
-		if 0:#not self.bpIDE.developerFlagMain:
+		if 1:#not self.bpIDE.developerFlagMain:
 			self.connectThread = BPIRCConnectThread(self.bpIDE)
 			self.connectThread.socket = self.socket
 			self.connectThread.start()
