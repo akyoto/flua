@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>File</import>
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>
@@ -34,7 +35,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_fopen</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>fopen</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -107,6 +113,7 @@
 					<code>
 						<noop depth="2" id="10"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="11">
 					<name>exit</name>
@@ -129,7 +136,12 @@
 					<name>write</name>
 					<code>
 						<call depth="2" id="14">
-							<function>bp_fwrite</function>
+							<function>
+								<access>
+									<value>bp</value>
+									<value>fwrite</value>
+								</access>
+							</function>
 							<parameters>
 								<parameter>
 									<access>
@@ -186,7 +198,12 @@
 					<name>flush</name>
 					<code>
 						<call depth="2" id="19">
-							<function>bp_fflush</function>
+							<function>
+								<access>
+									<value>bp</value>
+									<value>fflush</value>
+								</access>
+							</function>
 							<parameters>
 								<parameter>
 									<access>
@@ -214,7 +231,12 @@
 										<value>success</value>
 										<value>
 											<call>
-												<function>bp_fclose</function>
+												<function>
+													<access>
+														<value>bp</value>
+														<value>fclose</value>
+													</access>
+												</function>
 												<parameters>
 													<parameter>
 														<access>

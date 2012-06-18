@@ -96,6 +96,11 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		
 		style = bpIDE.getCurrentTheme()
 		
+		if bpIDE.outputCompiler:
+			externFuncs = bpIDE.outputCompiler.mainClass.externFunctions
+		else:
+			externFuncs = {}
+		
 		i = 0
 		text += " "
 		textLen = len(text)
@@ -112,7 +117,7 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				while h < textLen and (text[h].isalnum() or text[h] == '_'): #or (char =='~' and (text[h] == '<' or text[h] == '>'))):
 					h += 1
 				expr = text[i:h]
-				
+				print(expr)
 				# No highlighting for unicode
 				ascii = ord(char)
 				if ascii > 255:
@@ -121,8 +126,15 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				
 				if expr in (CPPHighlighter.keywords[ascii]):
 					self.setFormat(i, h - i, style['keyword'])
-				elif expr.startswith("bp_"):
+				elif expr in externFuncs:
 					# Extern function call
+					
+					# Temporary hack
+					if not expr in bpIDE.processor.externFuncNameToMetaDict:
+						pos = expr.find("_")
+						if pos != -1:
+							expr = expr[pos+1:]
+					
 					if expr in bpIDE.processor.externFuncNameToMetaDict:
 						meta = bpIDE.processor.externFuncNameToMetaDict[expr]
 						

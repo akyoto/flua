@@ -114,7 +114,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_insertInt</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>insertInt</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -604,7 +609,12 @@
 									</value>
 									<value>
 										<call>
-											<function>bp_insertInt</function>
+											<function>
+												<access>
+													<value>bp</value>
+													<value>insertInt</value>
+												</access>
+											</function>
 											<parameters>
 												<parameter>
 													<access>
@@ -634,7 +644,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlenUtf8</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -755,7 +770,12 @@
 									</value>
 									<value>
 										<call>
-											<function>bp_insertInt</function>
+											<function>
+												<access>
+													<value>bp</value>
+													<value>insertInt</value>
+												</access>
+											</function>
 											<parameters>
 												<parameter>
 													<access>
@@ -832,7 +852,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlenUtf8</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -971,7 +996,12 @@
 							<value>numLen</value>
 							<value>
 								<call>
-									<function>bp_insertInt</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>insertInt</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1092,7 +1122,12 @@
 							<value>cs2len</value>
 							<value>
 								<call>
-									<function>bp_strlen</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlen</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>cs2</parameter>
 									</parameters>
@@ -1204,7 +1239,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlenUtf8</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1271,7 +1311,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlen</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlen</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>bytes</parameter>
 									</parameters>
@@ -1287,7 +1332,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlenUtf8</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1339,7 +1389,12 @@
 							<name>C++</name>
 							<code>
 								<call depth="3" id="55">
-									<function>bp_utf8Slice</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>utf8Slice</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -1370,7 +1425,12 @@
 							<name>Python3</name>
 							<code>
 								<call depth="3" id="57">
-									<function>bp_utf8Slice</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>utf8Slice</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>my</parameter>
 										<parameter>bytes</parameter>
@@ -1459,7 +1519,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_strlenUtf8Xchars</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>strlenUtf8Xchars</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>

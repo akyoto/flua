@@ -32,7 +32,7 @@ metaDataForNodeName = {
 	"cast-definition" : functionMetaData,
 	
 	"extern-function" : [
-		("no-side-effects",           ["No significant side effects:", "Bool", "false", False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
+		("no-side-effects",           ["No side effects:", "Bool", "false", False, "<p>Sets the flag whether this extern function causes no side effects on the program when called multiple times in parallel. <strong>Ask yourself: Can this function be executed safely by 100 threads at the same time or would it have side effects?</strong> Unlike referential transparency the output is allowed to always be different for a given input.</p>"]),
 		("same-output-for-input",     ["Same output for a given input:", "Bool", "false", False, "<p>Sets the flag whether this extern function always returns the same output for a given input.</p>"]),
 		("thread-safe",               ["Thread safe:", "SingleLine", "Unknown", True, threadSafeToolTip]),
 		("referentially-transparent", ["Referentially transparent:", "SingleLine", "false", True, refTransparencyToolTip]),

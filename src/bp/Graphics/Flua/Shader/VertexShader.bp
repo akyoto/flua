@@ -47,7 +47,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createShader</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createShader</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>

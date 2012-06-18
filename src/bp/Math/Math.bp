@@ -15,73 +15,81 @@
 			</code>
 		</target>
 		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
-				<name>bp_log</name>
-				<type>Float64</type>
-				<meta>
-					<referentially-transparent>true</referentially-transparent>
-					<same-output-for-input>true</same-output-for-input>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="5">
-				<name>bp_log10</name>
-				<type>Float64</type>
-				<meta>
-					<referentially-transparent>true</referentially-transparent>
-					<same-output-for-input>true</same-output-for-input>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="6">
-				<name>bp_sqrt</name>
-				<type>Float64</type>
-				<meta>
-					<referentially-transparent>true</referentially-transparent>
-					<same-output-for-input>true</same-output-for-input>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="7">
-				<name>bp_rand</name>
-				<type>Int</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>log</name>
+						<type>Float64</type>
+						<meta>
+							<referentially-transparent>true</referentially-transparent>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>log10</name>
+						<type>Float64</type>
+						<meta>
+							<referentially-transparent>true</referentially-transparent>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>sqrt</name>
+						<type>Float64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>rand</name>
+						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
 		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
-		<function depth="0" id="8">
+		<function depth="0" id="9">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>sq</name>
 			<code>
-				<return depth="1" id="9">
+				<return depth="1" id="10">
 					<multiply>
 						<value>x</value>
 						<value>x</value>
 					</multiply>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
-		<function depth="0" id="10">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>sqr</name>
 			<code>
-				<require depth="1" id="11">
-					<greater-or-equal depth="2" id="12">
+				<require depth="1" id="12">
+					<greater-or-equal depth="2" id="13">
 						<value>x</value>
 						<value>0</value>
 					</greater-or-equal>
 				</require>
-				<return depth="1" id="13">
+				<return depth="1" id="14">
 					<call>
-						<function>bp_sqrt</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>sqrt</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
@@ -91,43 +99,51 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sln\Sof\S#x</comment>
-		<function depth="0" id="14">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>ln</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="16">
 					<call>
-						<function>bp_log</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>log</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Slg\Sof\S#x</comment>
-		<function depth="0" id="16">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>lg</name>
 			<code>
-				<return depth="1" id="17">
+				<return depth="1" id="18">
 					<call>
-						<function>bp_log10</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>log10</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
-		<function depth="0" id="18">
+		<function depth="0" id="19">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -144,19 +160,24 @@
 			</parameters>
 			<name>rand</name>
 			<code>
-				<ensure depth="1" id="19">
-					<greater-or-equal depth="2" id="20">
+				<ensure depth="1" id="20">
+					<greater-or-equal depth="2" id="21">
 						<value>result</value>
 						<value>a</value>
 					</greater-or-equal>
-					<less-or-equal depth="2" id="21">
+					<less-or-equal depth="2" id="22">
 						<value>result</value>
 						<value>b</value>
 					</less-or-equal>
 				</ensure>
-				<return depth="1" id="22">
+				<return depth="1" id="23">
 					<call>
-						<function>bp_rand</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>rand</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>a</parameter>
 							<parameter>b</parameter>
@@ -164,17 +185,16 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
-		<function depth="0" id="23">
+		<function depth="0" id="24">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>min</name>
 			<code>
-				<if-block depth="1" id="24">
+				<if-block depth="1" id="25">
 					<if>
 						<condition>
 							<less>
@@ -183,27 +203,26 @@
 							</less>
 						</condition>
 						<code>
-							<return depth="2" id="25">a</return>
+							<return depth="2" id="26">a</return>
 						</code>
 					</if>
-					<else depth="1" id="26">
+					<else depth="1" id="27">
 						<code>
-							<return depth="2" id="27">b</return>
+							<return depth="2" id="28">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="28">
+		<function depth="0" id="29">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>max</name>
 			<code>
-				<if-block depth="1" id="29">
+				<if-block depth="1" id="30">
 					<if>
 						<condition>
 							<greater>
@@ -212,12 +231,12 @@
 							</greater>
 						</condition>
 						<code>
-							<return depth="2" id="30">a</return>
+							<return depth="2" id="31">a</return>
 						</code>
 					</if>
-					<else depth="1" id="31">
+					<else depth="1" id="32">
 						<code>
-							<return depth="2" id="32">b</return>
+							<return depth="2" id="33">b</return>
 						</code>
 					</else>
 				</if-block>

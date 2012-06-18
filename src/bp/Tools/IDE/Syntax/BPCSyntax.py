@@ -114,6 +114,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		text += " "
 		textLen = len(text)
 		userData = self.currentBlockUserData()
+		expr = ""
+		previousExpr = ""
 		
 		#print("HIGHLIGHTING >%s< OF LENGTH %d" % (text, textLen))
 		#if self.updateCharFormatFlag:
@@ -130,6 +132,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				h = i + 1
 				while h < textLen and (text[h].isalnum() or text[h] == '_'): #or (char =='~' and (text[h] == '<' or text[h] == '>'))):
 					h += 1
+					
+				previousExpr = expr
 				expr = text[i:h]
 				
 				# No highlighting for unicode
@@ -202,7 +206,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])
-				elif expr.startswith("bp_") or expr in externFuncs:
+				elif expr in externFuncs or (("%s_%s" % (previousExpr, expr)) in externFuncs):
 					# Extern function call
 					if expr in bpIDE.processor.externFuncNameToMetaDict:
 						meta = bpIDE.processor.externFuncNameToMetaDict[expr]

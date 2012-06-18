@@ -21,44 +21,55 @@
 			</code>
 		</target>
 		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
-				<name>bp_getCurrentDir</name>
-				<type>String</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="5">
-				<name>bp_changeDir</name>
-			</extern-function>
-			<extern-function depth="1" id="6">
-				<name>bp_openDir</name>
-				<type>DirectoryHandle</type>
-			</extern-function>
-			<extern-function depth="1" id="7">
-				<name>bp_closeDir</name>
-			</extern-function>
-			<extern-function depth="1" id="8">
-				<name>bp_getNextFile</name>
-				<type>String</type>
-			</extern-function>
-			<class depth="1" id="9">
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>getCurrentDir</name>
+						<type>String</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>changeDir</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>openDir</name>
+						<type>DirectoryHandle</type>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>closeDir</name>
+						<meta>
+							<no-side-effects>false</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="9">
+						<name>getNextFile</name>
+						<type>String</type>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
+			<class depth="1" id="10">
 				<name>DirectoryHandle</name>
 				<code>
-					<function depth="2" id="10">
+					<function depth="2" id="11">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="11"/>
+							<noop depth="3" id="12"/>
 						</code>
 					</function>
 				</code>
 			</class>
 		</extern>
 		<comment>\SSymbolizes\Sa\Sdirectory\Sin\Sthe\Sfile\Ssystem</comment>
-		<class depth="0" id="12">
+		<class depth="0" id="13">
 			<name>Directory</name>
 			<code>
-				<function depth="1" id="13">
+				<function depth="1" id="14">
 					<parameters>
 						<parameter>
 							<access>
@@ -69,19 +80,23 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="14"/>
+						<noop depth="2" id="15"/>
 					</code>
-					<meta/>
 				</function>
-				<iterators depth="1" id="15">
-					<iterator-type depth="2" id="16">
+				<iterators depth="1" id="16">
+					<iterator-type depth="2" id="17">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="17">
+							<assign depth="3" id="18">
 								<value>dirHandle</value>
 								<value>
 									<call>
-										<function>bp_openDir</function>
+										<function>
+											<access>
+												<value>bp</value>
+												<value>openDir</value>
+											</access>
+										</function>
 										<parameters>
 											<parameter>
 												<access>
@@ -93,21 +108,26 @@
 									</call>
 								</value>
 							</assign>
-							<while depth="3" id="18">
+							<while depth="3" id="19">
 								<condition>1</condition>
 								<code>
-									<assign depth="4" id="19">
+									<assign depth="4" id="20">
 										<value>nextFile</value>
 										<value>
 											<call>
-												<function>bp_getNextFile</function>
+												<function>
+													<access>
+														<value>bp</value>
+														<value>getNextFile</value>
+													</access>
+												</function>
 												<parameters>
 													<parameter>dirHandle</parameter>
 												</parameters>
 											</call>
 										</value>
 									</assign>
-									<if-block depth="4" id="20">
+									<if-block depth="4" id="21">
 										<if>
 											<condition>
 												<or>
@@ -126,10 +146,10 @@
 												</or>
 											</condition>
 											<code>
-												<continue depth="5" id="21"/>
+												<continue depth="5" id="22"/>
 											</code>
 										</if>
-										<else-if depth="4" id="22">
+										<else-if depth="4" id="23">
 											<condition>
 												<equal>
 													<value>nextFile</value>
@@ -137,15 +157,20 @@
 												</equal>
 											</condition>
 											<code>
-												<break depth="5" id="23"/>
+												<break depth="5" id="24"/>
 											</code>
 										</else-if>
 									</if-block>
-									<yield depth="4" id="24">nextFile</yield>
+									<yield depth="4" id="25">nextFile</yield>
 								</code>
 							</while>
-							<call depth="3" id="25">
-								<function>bp_closeDir</function>
+							<call depth="3" id="26">
+								<function>
+									<access>
+										<value>bp</value>
+										<value>closeDir</value>
+									</access>
+								</function>
 								<parameters>
 									<parameter>dirHandle</parameter>
 								</parameters>
@@ -153,11 +178,11 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="26">
-					<getter depth="2" id="27">
+				<get depth="1" id="27">
+					<getter depth="2" id="28">
 						<name>path</name>
 						<code>
-							<return depth="3" id="28">
+							<return depth="3" id="29">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -166,11 +191,11 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="29">
-					<cast-definition depth="2" id="30">
+				<casts depth="1" id="30">
+					<cast-definition depth="2" id="31">
 						<to>String</to>
 						<code>
-							<return depth="3" id="31">
+							<return depth="3" id="32">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -180,29 +205,38 @@
 					</cast-definition>
 				</casts>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
-		<function depth="0" id="32">
+		<function depth="0" id="33">
 			<name>getCurrentDir</name>
 			<code>
-				<return depth="1" id="33">
+				<return depth="1" id="34">
 					<call>
-						<function>bp_getCurrentDir</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>getCurrentDir</value>
+							</access>
+						</function>
 						<parameters/>
 					</call>
 				</return>
 			</code>
 		</function>
 		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
-		<function depth="0" id="34">
+		<function depth="0" id="35">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>changeDir</name>
 			<code>
-				<call depth="1" id="35">
-					<function>bp_changeDir</function>
+				<call depth="1" id="36">
+					<function>
+						<access>
+							<value>bp</value>
+							<value>changeDir</value>
+						</access>
+					</function>
 					<parameters>
 						<parameter>path</parameter>
 					</parameters>
@@ -210,11 +244,11 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="36">
-			<target depth="1" id="37">
+		<test depth="0" id="37">
+			<target depth="1" id="38">
 				<name>Linux</name>
 				<code>
-					<foreach depth="2" id="38">
+					<foreach depth="2" id="39">
 						<iterator>x</iterator>
 						<collection>
 							<new>
@@ -225,7 +259,7 @@
 							</new>
 						</collection>
 						<code>
-							<call depth="3" id="39">
+							<call depth="3" id="40">
 								<function>print</function>
 								<parameters>
 									<parameter>x</parameter>
@@ -235,10 +269,10 @@
 					</foreach>
 				</code>
 			</target>
-			<target depth="1" id="40">
+			<target depth="1" id="41">
 				<name>Windows</name>
 				<code>
-					<foreach depth="2" id="41">
+					<foreach depth="2" id="42">
 						<iterator>x</iterator>
 						<collection>
 							<new>
@@ -249,7 +283,7 @@
 							</new>
 						</collection>
 						<code>
-							<call depth="3" id="42">
+							<call depth="3" id="43">
 								<function>print</function>
 								<parameters>
 									<parameter>x</parameter>

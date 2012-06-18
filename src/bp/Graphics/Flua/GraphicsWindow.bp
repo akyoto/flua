@@ -15,7 +15,12 @@
 		</assign>
 		<comment>\SInitialize\SGLUT</comment>
 		<call depth="0" id="2">
-			<function>flua_initGLUT</function>
+			<function>
+				<access>
+					<value>flua</value>
+					<value>initGLUT</value>
+				</access>
+			</function>
 			<parameters/>
 		</call>
 		<comment>\SGraphicsWindow\Simplementation\Susing\SGLUT</comment>
@@ -76,7 +81,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createGLUTWindow</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLUTWindow</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -139,6 +149,7 @@
 						<comment>glLoadIdentity()</comment>
 						<comment>glTranslatef(0.375,\S0.375,\S0)</comment>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SClears\Sthe\Sscreen\Swith\Sthe\Scolor\Sindicated\Sby\S#r,\S#g,\S#b\Sand\S#a</comment>
 				<function depth="1" id="8">
@@ -445,7 +456,12 @@
 						</condition>
 						<code>
 							<call depth="2" id="53">
-								<function>bp_writeLine</function>
+								<function>
+									<access>
+										<value>bp</value>
+										<value>writeLine</value>
+									</access>
+								</function>
 								<parameters>
 									<parameter>
 										<call>

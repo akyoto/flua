@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>File</import>
 			<import>Exceptions</import>
 		</dependencies>
 		<strings>
@@ -33,7 +34,12 @@
 							</value>
 							<value>
 								<call>
-									<function>bp_fopen</function>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>fopen</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -148,7 +154,12 @@
 							</value>
 						</assign>
 						<call depth="2" id="15">
-							<function>bp_fread</function>
+							<function>
+								<access>
+									<value>bp</value>
+									<value>fread</value>
+								</access>
+							</function>
 							<parameters>
 								<parameter>
 									<access>
@@ -193,7 +204,12 @@
 							</value>
 						</assign>
 						<call depth="2" id="19">
-							<function>bp_fread</function>
+							<function>
+								<access>
+									<value>bp</value>
+									<value>fread</value>
+								</access>
+							</function>
 							<parameters>
 								<parameter>
 									<access>
@@ -224,7 +240,12 @@
 										<value>success</value>
 										<value>
 											<call>
-												<function>bp_fclose</function>
+												<function>
+													<access>
+														<value>bp</value>
+														<value>fclose</value>
+													</access>
+												</function>
 												<parameters>
 													<parameter>
 														<access>

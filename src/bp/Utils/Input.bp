@@ -19,30 +19,38 @@
 			</code>
 		</target>
 		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
-				<name>bp_input</name>
-				<type>String</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>input</name>
+						<type>String</type>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
 		<comment>\SWrites\S#text\Son\Sthe\Soutput\Sstream\Sand\Sreads\Sone\Sline\Sfrom\Sthe\Sinput\Sstream.</comment>
-		<function depth="0" id="5">
+		<function depth="0" id="6">
 			<parameters>
 				<parameter>text</parameter>
 			</parameters>
 			<name>input</name>
 			<code>
-				<call depth="1" id="6">
+				<call depth="1" id="7">
 					<function>print</function>
 					<parameters>
 						<parameter>text</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="7">
+				<return depth="1" id="8">
 					<call>
-						<function>bp_input</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>input</value>
+							</access>
+						</function>
 						<parameters/>
 					</call>
 				</return>
@@ -50,8 +58,8 @@
 			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="8">
-			<assign depth="1" id="9">
+		<test depth="0" id="9">
+			<assign depth="1" id="10">
 				<value>a</value>
 				<value>
 					<call>
@@ -62,7 +70,7 @@
 					</call>
 				</value>
 			</assign>
-			<call depth="1" id="10">
+			<call depth="1" id="11">
 				<function>print</function>
 				<parameters>
 					<parameter>
@@ -78,7 +86,7 @@
 					</parameter>
 				</parameters>
 			</call>
-			<call depth="1" id="11">
+			<call depth="1" id="12">
 				<function>print</function>
 				<parameters>
 					<parameter>bp_string_3</parameter>

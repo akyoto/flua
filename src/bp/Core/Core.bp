@@ -26,53 +26,60 @@
 			</code>
 		</target>
 		<extern depth="0" id="5">
-			<extern-function depth="1" id="6">
-				<name>bp_usleep</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="7">
-				<name>bp_systemTime</name>
-				<type>Int64</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="8">
-				<name>bp_systemTimeMicro</name>
-				<type>Int64</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="9">
-				<name>bp_swap</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="10">
-				<name>bp_sizeOf</name>
-				<type>Size</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
+			<namespace depth="1" id="6">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="7">
+						<name>usleep</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>systemTime</name>
+						<type>Int64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="9">
+						<name>systemTimeMicro</name>
+						<type>Int64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="10">
+						<name>swap</name>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="11">
+						<name>sizeOf</name>
+						<type>Size</type>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="12">
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
 			<name>sleep</name>
 			<code>
-				<call depth="1" id="12">
-					<function>bp_usleep</function>
+				<call depth="1" id="13">
+					<function>
+						<access>
+							<value>bp</value>
+							<value>usleep</value>
+						</access>
+					</function>
 					<parameters>
 						<parameter>
 							<multiply>
@@ -88,31 +95,35 @@
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="13">
+		<function depth="0" id="14">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>sizeOf</name>
 			<code>
-				<return depth="1" id="14">
+				<return depth="1" id="15">
 					<call>
-						<function>bp_sizeOf</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>sizeOf</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>a</parameter>
 						</parameters>
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds\S(10\S^\S-3\Ssecs).</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="16">
 			<name>systemTime</name>
 			<code>
-				<test depth="1" id="16">
-					<assign depth="2" id="17">
+				<test depth="1" id="17">
+					<assign depth="2" id="18">
 						<value>start</value>
 						<value>
 							<call>
@@ -121,7 +132,7 @@
 							</call>
 						</value>
 					</assign>
-					<assign depth="2" id="18">
+					<assign depth="2" id="19">
 						<value>end</value>
 						<value>
 							<call>
@@ -130,7 +141,7 @@
 							</call>
 						</value>
 					</assign>
-					<assert depth="2" id="19">
+					<assert depth="2" id="20">
 						<greater-or-equal>
 							<value>
 								<subtract>
@@ -142,9 +153,14 @@
 						</greater-or-equal>
 					</assert>
 				</test>
-				<return depth="1" id="20">
+				<return depth="1" id="21">
 					<call>
-						<function>bp_systemTime</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>systemTime</value>
+							</access>
+						</function>
 						<parameters/>
 					</call>
 				</return>
@@ -152,11 +168,11 @@
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
-		<function depth="0" id="21">
+		<function depth="0" id="22">
 			<name>systemTimeMicro</name>
 			<code>
-				<test depth="1" id="22">
-					<assign depth="2" id="23">
+				<test depth="1" id="23">
+					<assign depth="2" id="24">
 						<value>start</value>
 						<value>
 							<call>
@@ -165,7 +181,7 @@
 							</call>
 						</value>
 					</assign>
-					<assign depth="2" id="24">
+					<assign depth="2" id="25">
 						<value>end</value>
 						<value>
 							<call>
@@ -174,7 +190,7 @@
 							</call>
 						</value>
 					</assign>
-					<assert depth="2" id="25">
+					<assert depth="2" id="26">
 						<greater-or-equal>
 							<value>
 								<subtract>
@@ -186,13 +202,19 @@
 						</greater-or-equal>
 					</assert>
 				</test>
-				<return depth="1" id="26">
+				<return depth="1" id="27">
 					<call>
-						<function>bp_systemTimeMicro</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>systemTimeMicro</value>
+							</access>
+						</function>
 						<parameters/>
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

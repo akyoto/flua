@@ -43,7 +43,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createGLSLProgram</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgram</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -80,7 +85,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createGLSLProgramAttribute</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgramAttribute</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -107,7 +117,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createGLSLProgramAttribute</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgramAttribute</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -134,7 +149,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createGLSLProgramAttribute</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgramAttribute</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>

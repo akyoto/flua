@@ -1138,6 +1138,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		cursor.endEditBlock()
 		self.setTextCursor(cursor)
+		
+		# Rehighlight
+		#self.rehighlightFunctionUsage()
 	
 	def unIndentSelection(self):
 		tab = "\t"
@@ -1177,6 +1180,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 		cursor.endEditBlock()
 		self.setTextCursor(cursor)
+		
+		# Rehighlight
+		#self.rehighlightFunctionUsage()
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])

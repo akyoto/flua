@@ -36,7 +36,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_createVBO</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createVBO</value>
+										</access>
+									</function>
 									<parameters/>
 								</call>
 							</value>
@@ -94,7 +99,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<set depth="1" id="10">
 					<setter depth="2" id="11">
@@ -147,7 +151,6 @@
 								</parameters>
 							</call>
 						</code>
-						<meta/>
 					</setter>
 				</set>
 			</code>

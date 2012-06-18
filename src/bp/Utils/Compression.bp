@@ -20,34 +20,36 @@
 			</code>
 		</target>
 		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
-				<name>bp_compress</name>
-				<type>Vector&lt;Byte&gt;</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="5">
-				<name>bp_uncompress</name>
-				<type>Vector&lt;Byte&gt;</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="6">
-				<name>bp_compressMaxSize</name>
-				<type>Size</type>
-				<meta>
-					<same-output-for-input>true</same-output-for-input>
-					<no-side-effects>true</no-side-effects>
-				</meta>
-			</extern-function>
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>compress</name>
+						<type>Vector&lt;Byte&gt;</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>uncompress</name>
+						<type>Vector&lt;Byte&gt;</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>compressMaxSize</name>
+						<type>Size</type>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
 		<comment>\SCompresses\Sa\Sstring\Sand\Sreturns\San\Sarray\Sof\Sbytes</comment>
 		<comment>\Scontaining\Sthe\Scompressed\Sdata.</comment>
-		<function depth="0" id="7">
+		<function depth="0" id="8">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -58,7 +60,7 @@
 			</parameters>
 			<name>compress</name>
 			<code>
-				<assign depth="1" id="8">
+				<assign depth="1" id="9">
 					<value>bytes</value>
 					<value>
 						<new>
@@ -86,8 +88,13 @@
 						</new>
 					</value>
 				</assign>
-				<call depth="1" id="9">
-					<function>bp_compress</function>
+				<call depth="1" id="10">
+					<function>
+						<access>
+							<value>bp</value>
+							<value>compress</value>
+						</access>
+					</function>
 					<parameters>
 						<parameter>
 							<access>
@@ -104,13 +111,12 @@
 						</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="10">bytes</return>
+				<return depth="1" id="11">bytes</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUncompresses\Sa\Scompressed\Sarray\Sof\Sbytes\Sand\Sreturns</comment>
 		<comment>\San\Sarray\Sof\Sbytes\Scontaining\Sthe\Soriginal\Sdata.</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="12">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -126,7 +132,7 @@
 			</parameters>
 			<name>uncompress</name>
 			<code>
-				<assign depth="1" id="12">
+				<assign depth="1" id="13">
 					<value>uncBytes</value>
 					<value>
 						<new>
@@ -147,24 +153,28 @@
 						</new>
 					</value>
 				</assign>
-				<call depth="1" id="13">
-					<function>bp_uncompress</function>
+				<call depth="1" id="14">
+					<function>
+						<access>
+							<value>bp</value>
+							<value>uncompress</value>
+						</access>
+					</function>
 					<parameters>
 						<parameter>someBytes</parameter>
 						<parameter>uncBytes</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="14">uncBytes</return>
+				<return depth="1" id="15">uncBytes</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="15">
-			<assign depth="1" id="16">
+		<test depth="0" id="16">
+			<assign depth="1" id="17">
 				<value>text</value>
 				<value>bp_string_0</value>
 			</assign>
-			<assign depth="1" id="17">
+			<assign depth="1" id="18">
 				<value>bytes</value>
 				<value>
 					<call>
@@ -175,7 +185,7 @@
 					</call>
 				</value>
 			</assign>
-			<call depth="1" id="18">
+			<call depth="1" id="19">
 				<function>print</function>
 				<parameters>
 					<parameter>
@@ -211,7 +221,7 @@
 					</parameter>
 				</parameters>
 			</call>
-			<assign depth="1" id="19">
+			<assign depth="1" id="20">
 				<value>original</value>
 				<value>
 					<call>
@@ -222,11 +232,11 @@
 					</call>
 				</value>
 			</assign>
-			<foreach depth="1" id="20">
+			<foreach depth="1" id="21">
 				<iterator>x</iterator>
 				<collection>original</collection>
 				<code>
-					<call depth="2" id="21">
+					<call depth="2" id="22">
 						<function>write</function>
 						<parameters>
 							<parameter>x</parameter>

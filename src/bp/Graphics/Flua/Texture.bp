@@ -31,7 +31,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua_loadTexture</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>loadTexture</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>

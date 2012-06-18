@@ -600,7 +600,7 @@ class BaseOutputFile(ScopeController):
 		func.assignNodes = findNodes(func.node, "assign")
 		
 	def scanExternFunction(self, node):
-		name = getElementByTagName(node, "name").childNodes[0].nodeValue
+		name = self.getNamespacePrefix() + getElementByTagName(node, "name").childNodes[0].nodeValue
 		types = node.getElementsByTagName("type")
 		type = "void"
 		
@@ -725,8 +725,9 @@ class BaseOutputFile(ScopeController):
 		
 		#if funcName == "distance":
 		#	debugStop()
-		#print(caller, callerType, funcName)
+		#print(caller, callerType, funcName, "<<<<<<<<<<")
 		if self.compiler.mainClass.hasExternFunction(funcName):
+			#print("EXTERN USAGE: " + funcName)
 			return self.compiler.mainClass.externFunctions[funcName]
 		else:
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)
@@ -836,7 +837,7 @@ class BaseOutputFile(ScopeController):
 					#if caller.nodeValue == "loop":
 					#	return "Size"
 					
-					if caller.nodeValue in self.currentClass.namespaces:
+					if caller.nodeValue in self.compiler.mainClass.namespaces:
 						#callerType = "bp_Namespace"
 						#callerClassName = "bp_Namespace"
 						varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
@@ -1016,7 +1017,7 @@ class BaseOutputFile(ScopeController):
 			#print("XML: " + funcNameNode.childNodes[0].childNodes[0].toxml())
 			callerNode = funcNameNode.childNodes[0].childNodes[0]
 			
-			if callerNode.nodeValue in self.currentClass.namespaces:
+			if callerNode.nodeValue in self.compiler.mainClass.namespaces:
 				funcName = callerNode.nodeValue + "_" + funcNameNode.childNodes[1].childNodes[0].nodeValue
 			else:
 				callerType = self.getExprDataType(callerNode)
@@ -1742,7 +1743,7 @@ class BaseOutputFile(ScopeController):
 		op2 = node.childNodes[1].childNodes[0]
 		
 		if op1.nodeType == Node.TEXT_NODE:
-			if op1.nodeValue in self.currentClass.namespaces:
+			if op1.nodeValue in self.compiler.mainClass.namespaces:
 				return op1.nodeValue + "_" + self.parseExpr(op2)
 				
 			#if op1.nodeValue == "loop":
@@ -2381,7 +2382,7 @@ class BaseOutputFile(ScopeController):
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
 		
-		debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
+		#debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 		
 		callerClassName = extractClassName(callerType)
 		#if callerClassName == "void":

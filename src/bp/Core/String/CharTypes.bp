@@ -14,41 +14,46 @@
 			</code>
 		</target>
 		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
-				<name>bp_isAlnum</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="5">
-				<name>bp_isAlpha</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="6">
-				<name>bp_isDigit</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="7">
-				<name>bp_isSpace</name>
-				<type>Bool</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>isAlnum</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>isAlpha</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>isDigit</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>isSpace</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Salpha-numeric,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="8">
+		<function depth="0" id="9">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -59,9 +64,14 @@
 			</parameters>
 			<name>isAlnum</name>
 			<code>
-				<return depth="1" id="9">
+				<return depth="1" id="10">
 					<call>
-						<function>bp_isAlnum</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isAlnum</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
@@ -71,7 +81,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\San\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="10">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -82,9 +92,14 @@
 			</parameters>
 			<name>isAlpha</name>
 			<code>
-				<return depth="1" id="11">
+				<return depth="1" id="12">
 					<call>
-						<function>bp_isAlpha</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isAlpha</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
@@ -94,7 +109,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Sdigit,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="12">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -105,9 +120,14 @@
 			</parameters>
 			<name>isDigit</name>
 			<code>
-				<return depth="1" id="13">
+				<return depth="1" id="14">
 					<call>
-						<function>bp_isDigit</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isDigit</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
@@ -117,7 +137,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Swhitespace\Scharacter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="14">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -128,9 +148,14 @@
 			</parameters>
 			<name>isSpace</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="16">
 					<call>
-						<function>bp_isSpace</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isSpace</value>
+							</access>
+						</function>
 						<parameters>
 							<parameter>x</parameter>
 						</parameters>
