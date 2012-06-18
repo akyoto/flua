@@ -57,10 +57,10 @@ class BPIRCConnectThread(QtCore.QThread):
 					self.bpIDE.console.irc.write(line)
 					
 					# TODO: Replace this to avoid bugs
-					if line.find("433") != -1:
-						self.nickName = "bp_" + self.nickName
-						self.socket.write("/nick %s\r\n" % self.nickName)
-						self.socket.flush()
+					#if line.find("433") != -1:
+					#	self.nickName = "bp_" + self.nickName
+					#	self.socket.write("/nick %s\r\n" % self.nickName)
+					#	self.socket.flush()
 					
 					if line.find("End of /MOTD") != -1 and not self.channelJoined:
 						self.joinChannel()
@@ -80,7 +80,7 @@ class BPChatWidget(QtGui.QWidget):
 		# TODO: Remove font
 		self.setFont(self.bpIDE.config.standardFont)
 		
-		if 1:#not self.bpIDE.developerFlagMain:
+		if 0:#not self.bpIDE.developerFlagMain:
 			self.connectThread = BPIRCConnectThread(self.bpIDE)
 			self.connectThread.socket = self.socket
 			self.connectThread.start()

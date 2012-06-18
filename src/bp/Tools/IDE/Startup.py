@@ -187,13 +187,13 @@ class Startup:
 		self.scribbleDock = self.createDockWidget("Scribble", self.scribble, QtCore.Qt.BottomDockWidgetArea)
 		self.xmlViewDock = self.createDockWidget("XML", self.xmlView, QtCore.Qt.RightDockWidgetArea)
 		self.fileViewDock = self.createDockWidget("Files", self.fileView, QtCore.Qt.RightDockWidgetArea)
-		self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
+		#self.chatViewDock = self.createDockWidget("Chat", self.chatWidget, QtCore.Qt.BottomDockWidgetArea)
 		
 		self.outlineViewDock.hide()
 		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
-		self.chatViewDock.hide()
+		#self.chatViewDock.hide()
 		
 		#self.msgViewDock.hide()
 		

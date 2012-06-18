@@ -81,7 +81,7 @@ class BPConsoleWidget(QtGui.QTabWidget):
 		self.realStderr = sys.stderr
 		self.setObjectName("BPConsoleWidget")
 		self.setDocumentMode(True)
-		self.names = ["Log", "IRC", "Compiler", "Output"]
+		self.names = ["Log", "Compiler", "Output"]
 		
 		#if os.name == "nt":
 		#self.setMinimumWidth(450)
@@ -106,9 +106,9 @@ class BPConsoleWidget(QtGui.QTabWidget):
 			self.addTab(log, self.names[i])
 		
 		self.log = self.widget(0)
-		self.irc = self.widget(1)
-		self.compiler = self.widget(2)
-		self.output = self.widget(3)
+		#self.irc = self.widget(1)
+		self.compiler = self.widget(1)
+		self.output = self.widget(2)
 		
 		# Linux / g++ info
 		if 0:
