@@ -7,156 +7,54 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="0">
+		<target depth="0" id="1">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="1">Utils.hpp</include>
+				<include depth="1" id="2">Utils.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="2">
-			<extern-function depth="1" id="3">
-				<name>bp_getCPUCount</name>
-				<type>Size</type>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="4">
-				<name>bp_atomicAdd</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
-			<extern-function depth="1" id="5">
-				<name>bp_atomicSetFlag</name>
-				<meta>
-					<no-side-effects>true</no-side-effects>
-					<same-output-for-input>true</same-output-for-input>
-				</meta>
-			</extern-function>
+		<extern depth="0" id="3">
+			<namespace depth="1" id="4">
+				<name>bp</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>getCPUCount</name>
+						<type>Size</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>atomicAdd</name>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>atomicSetFlag</name>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
 		</extern>
-		<comment>\SCounter\Sthat\Scan\Sbe\Sused\Sby\Sa\Sknown\Snumber\Sof\Sthreads,\Sthis\Sis\Sfaster\Sthan\Satomic\Sadd\Soperations</comment>
-		<class depth="0" id="6">
-			<name>AtomicCounter</name>
-			<code>
-				<function depth="1" id="7">
-					<parameters>
-						<parameter>
-							<access>
-								<value>my</value>
-								<value>size</value>
-							</access>
-						</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<assign depth="2" id="8">
-							<value>
-								<access>
-									<value>my</value>
-									<value>counter</value>
-								</access>
-							</value>
-							<value>
-								<new>
-									<type>
-										<template-call>
-											<value>MemPointer</value>
-											<value>Int</value>
-										</template-call>
-									</type>
-									<parameters>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>size</value>
-											</access>
-										</parameter>
-									</parameters>
-								</new>
-							</value>
-						</assign>
-					</code>
-					<meta/>
-				</function>
-				<function depth="1" id="9">
-					<parameters>
-						<parameter>threadId</parameter>
-					</parameters>
-					<name>increment</name>
-					<code>
-						<assign-add depth="2" id="10">
-							<value>
-								<index>
-									<value>
-										<access>
-											<value>my</value>
-											<value>counter</value>
-										</access>
-									</value>
-									<value>threadId</value>
-								</index>
-							</value>
-							<value>1</value>
-						</assign-add>
-					</code>
-					<meta/>
-				</function>
-				<function depth="1" id="11">
-					<name>currentValue</name>
-					<code>
-						<assign depth="2" id="12">
-							<value>val</value>
-							<value>0</value>
-						</assign>
-						<for depth="2" id="13">
-							<iterator>i</iterator>
-							<from>0</from>
-							<until>
-								<access>
-									<value>my</value>
-									<value>size</value>
-								</access>
-							</until>
-							<code>
-								<assign-add depth="3" id="14">
-									<value>val</value>
-									<value>
-										<index>
-											<value>
-												<access>
-													<value>my</value>
-													<value>counter</value>
-												</access>
-											</value>
-											<value>i</value>
-										</index>
-									</value>
-								</assign-add>
-							</code>
-							<meta/>
-						</for>
-						<return depth="2" id="15">val</return>
-					</code>
-					<meta/>
-				</function>
-			</code>
-			<meta/>
-		</class>
 		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
-		<function depth="0" id="16">
+		<function depth="0" id="8">
 			<name>getCPUCount</name>
 			<code>
-				<return depth="1" id="17">
+				<return depth="1" id="9">
 					<call>
-						<function>bp_getCPUCount</function>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>getCPUCount</value>
+							</access>
+						</function>
 						<parameters/>
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

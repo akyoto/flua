@@ -67,7 +67,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.stringsHeader = "\t// Strings\n"
 		self.varsHeader = "\n// Variables\n"
 		self.dataFlowHeader = "\n// DataFlow variables\n"
-		self.functionsHeader = "// Functions\n"
+		self.functionsHeader = "// Functions\n\n"
 		self.classesHeader = ""
 		self.actorClassesHeader = ""
 		self.prototypesHeader = "\n// Prototypes\n"
@@ -131,6 +131,8 @@ class CPPOutputFile(BaseOutputFile):
 				self.varsHeader += var.getPrototype() + ";\n"
 				
 		self.varsHeader += "\n"
+		
+		self.structsHeader = "// Structs\n%s\n" % '\n'.join(self.structs)
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
@@ -145,6 +147,33 @@ class CPPOutputFile(BaseOutputFile):
 		return CPPFunction(self, node)
 		
 	def buildThreadFunc(self, funcName, paramTypes):
+		if self.compiler.tinySTMEnabled:
+			initCode = "stm_init_thread();"
+			exitCode = "stm_exit_thread();"
+		else:
+			initCode = ""
+			exitCode = ""
+		
+		paramNames, struct = self.buildStruct("bp_thread_args_%s" % funcName, paramTypes)
+		
+		func = """%s
+
+// Thread function for '%s'
+void* bp_thread_func_%s(void *bp_arg_struct_void) {
+	%s
+	
+	bp_thread_args_%s *args = reinterpret_cast<bp_thread_args_%s*>(bp_arg_struct_void);
+	%s(%s);
+	if(args)
+		delete args;
+		
+	%s
+	return NULL;
+}
+""" % (struct, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
+		self.customThreads[funcName] = func
+		
+	def buildStruct(self, structName, paramTypes):
 		count = 0
 		params = []
 		paramNames = []
@@ -167,32 +196,12 @@ class CPPOutputFile(BaseOutputFile):
 		else:
 			initParams = ""
 		
-		if self.compiler.tinySTMEnabled:
-			initCode = "stm_init_thread();"
-			exitCode = "stm_exit_thread();"
-		else:
-			initCode = ""
-			exitCode = ""
-		
-		func = """// Thread
-typedef struct bp_thread_args_%s {
+		return paramNames, """
+// Struct '%s'
+typedef struct %s {
 	%s
-	inline bp_thread_args_%s(%s) %s {}
-} bp_thread_args_%s;
-
-void* bp_thread_func_%s(void *bp_arg_struct_void) {
-	%s
-	
-	bp_thread_args_%s *args = reinterpret_cast<bp_thread_args_%s*>(bp_arg_struct_void);
-	%s(%s);
-	if(args)
-		delete args;
-		
-	%s
-	return NULL;
-}
-""" % (funcName, ''.join(params), funcName, ', '.join(constructorList), initParams, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
-		self.customThreads[funcName] = func
+	inline %s(%s) %s {}
+} %s;""" % (structName, structName, ''.join(params), structName, ', '.join(constructorList), initParams, structName)
 		
 	def adjustDataType(self, typeName, adjustOuterAsWell = True):
 		return adjustDataTypeCPP(typeName, adjustOuterAsWell)
@@ -496,4 +505,18 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	def getCode(self):
 		self.writeFunctions()
 		self.writeClasses()
-		return self.header + self.prototypesHeader + self.includesHeader + self.varsHeader + self.dataFlowHeader + self.classesHeader + self.customThreadsString + self.functionsHeader + self.actorClassesHeader + self.body + self.footer
+		
+		return "%s%s%s%s%s%s%s%s%s%s%s%s" % (
+			self.header,
+			self.prototypesHeader,
+			self.includesHeader,
+			self.structsHeader,
+			self.varsHeader,
+			self.dataFlowHeader,
+			self.classesHeader,
+			self.customThreadsString,
+			self.functionsHeader,
+			self.actorClassesHeader,
+			self.body,
+			self.footer
+		)

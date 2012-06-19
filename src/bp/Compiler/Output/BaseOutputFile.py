@@ -109,6 +109,7 @@ class BaseOutputFile(ScopeController):
 		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
+		self.structs = []
 		self.onVariable = ""
 		
 		# TODO: Read from module meta data
@@ -352,7 +353,7 @@ class BaseOutputFile(ScopeController):
 		
 		# Casts
 		if variableExisted and variableType and variableType != valueType and not valueType in nonPointerClasses and not extractClassName(valueType) == "MemPointer":
-			debug("Need to cast %s to %s" % (valueType, variableType))
+			#debug("Need to cast %s to %s" % (valueType, variableType))
 			#if variableType in nonPointerClasses:
 			#	castType = "static_cast"
 			#else:
@@ -782,9 +783,9 @@ class BaseOutputFile(ScopeController):
 			
 			#raise CompilerException("Function '" + funcName + "' has not been defined  [Error code 4]")
 			
-			debug("Return types: " + str(funcImpl.returnTypes))
+			#debug("Return types: " + str(funcImpl.returnTypes))
 			#debug(self.compiler.funcImplCache)
-			debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
+			#debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
 			
 			return funcImpl.getReturnType()
 	
@@ -958,6 +959,8 @@ class BaseOutputFile(ScopeController):
 #						return memberType
 #				else:
 #					return memberType
+			elif node.tagName == "parameters":
+				return "Tuple<%s>" % ', '.join([self.getExprDataType(x.firstChild) for x in node.childNodes])
 			elif node.tagName == "slice":
 				#           slice.value       .range        .from/to
 				sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
@@ -1218,7 +1221,7 @@ class BaseOutputFile(ScopeController):
 	
 	def registerVariable(self, var):
 		#var.name = self.getNamespacePrefix() + var.name
-		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
+		#debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
 		
 		# Enable GMP when BigInt is used
@@ -1231,7 +1234,7 @@ class BaseOutputFile(ScopeController):
 		#self.currentClassImpl.addMember(var)
 		
 	def registerVariableFuncScope(self, var):
-		debug("Registered variable '" + var.name + "' of type '" + var.type + "' in function scope")
+		#debug("Registered variable '" + var.name + "' of type '" + var.type + "' in function scope")
 		self.currentFunctionImpl.scope.variables[var.name] = var
 		self.currentFunctionImpl.declareVariableAtStart(var)
 	
@@ -1338,7 +1341,7 @@ class BaseOutputFile(ScopeController):
 		self.namespaceStack.append(name)
 		
 		if not name in self.currentClass.namespaces:
-			debug("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
+			#debug("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
 			self.currentClass.namespaces[name] = self.createNamespace(name)
 		else:
 			pass#print("Namespace '%s' already exists!" % name)
@@ -1347,25 +1350,40 @@ class BaseOutputFile(ScopeController):
 		self.namespaceStack.pop()
 	
 	def handleReturn(self, node):
-		# THIS STEP MUST BE EXECUTED BEFORE expr = ... IS CALLED!
-		# Recursive functions first need their data type value
-		# THEN parseExpr -> implementFunction can be called
 		if node.childNodes:
+			# THIS STEP MUST BE EXECUTED BEFORE expr = ... IS CALLED!
+			# Recursive functions first need their data type value
+			# THEN parseExpr -> implementFunction can be called
 			retType = self.getExprDataType(node.childNodes[0])
 			
-			self.currentFunctionImpl.returnTypes.append(retType)
+			if self.currentFunctionImpl:
+				self.currentFunctionImpl.returnTypes.append(retType)
 			
-			# STEP 2
-			expr = self.parseExpr(node.childNodes[0], False)
-			
-			if retType == "void":
-				raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+			# Multiple return values
+			if node.firstChild.nodeType != Node.TEXT_NODE and node.firstChild.tagName == "parameters":
+				#typesAndValues = map(lambda x: (self.getExprDataType(x.firstChild), self.parseExpr(x.firstChild)), node.firstChild.childNodes)
+				paramTypes = [self.getExprDataType(x.firstChild) for x in node.firstChild.childNodes]
+				values = [self.parseExpr(x.firstChild) for x in node.firstChild.childNodes]
 				
-			debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
-			if self.currentFunction.hasDataFlow:
-				#print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
-				return self.buildFunctionDataFlowOnReturn(node, expr, self.currentFunctionImpl)
+				structName = "_bp_struct_%d" % self.compiler.structCounter
+				self.compiler.structCounter += 1
+				
+				paramNames, structCode = self.buildStruct(structName, paramTypes)
+				self.structs.append(structCode)
+				
+				return self.returnSyntax % (self.newObjectSyntax % (structName, ', '.join(values)))
 			else:
+				# STEP 2
+				expr = self.parseExpr(node.firstChild, False)
+				
+				if retType == "void":
+					raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+					
+				#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+				if self.currentFunction and self.currentFunction.hasDataFlow:
+					#print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+					return self.buildFunctionDataFlowOnReturn(node, expr, self.currentFunctionImpl)
+				
 				return self.returnSyntax % expr
 		else:
 			retType = "void"
@@ -2516,7 +2534,7 @@ class BaseOutputFile(ScopeController):
 				if pFrom != pTo and not canBeCastedTo(pFrom, pTo):
 					params = paramsString.split(",")
 					# TODO: self.buildCall(caller, fullName, paramsString)
-					debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
+					#debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
 					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
 					paramsString = ", ".join(params)
 				elif pFrom == "Int" and pTo == "Size":

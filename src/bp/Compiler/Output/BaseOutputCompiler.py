@@ -97,6 +97,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.forVarCounter = 0
 		self.inVarCounter = 0
 		self.onVarCounter = 0
+		self.structCounter = 0
 		
 		# Optimization
 		if self.background:

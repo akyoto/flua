@@ -12,5 +12,6 @@
 		<include depth="0" id="2">ExpressionHierarchy.txt</include>
 		<include depth="0" id="3">DataFlow.txt</include>
 		<include depth="0" id="4">MultiCalls.txt</include>
+		<include depth="0" id="5">Each.txt</include>
 	</code>
 </module>

@@ -1,0 +1,23 @@
+# Examples:
+
+# (1) Standard.
+print Directory("/").each
+
+# (2) DataFlow'ish.
+process -> print
+
+process x
+	return readFile(x)
+
+process(Directory("/").each)
+
+# (3) Awesome.
+print readFile(Directory("/").each)
+
+# (4) Wicked.
+print readFile(Directory("/").each).lines.each
+
+# (5) Arrays
+a = b.each + c.each
+
+# Explicitly multithreaded examples:
