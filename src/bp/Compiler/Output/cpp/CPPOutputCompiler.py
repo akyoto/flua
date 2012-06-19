@@ -75,7 +75,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			self.staticStdcppLinking = False
 		
 		self.boehmGCEnabled = True
-		self.gmpEnabled = True
+		self.gmpEnabled = False # will be enabled if BigInt is used
 		self.tinySTMEnabled = False
 	
 	def createOutputFile(self, inpFile):
@@ -157,9 +157,6 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				#outStream.write("#include <gc/gc.h>\n")
 				outStream.write("#define BP_USE_BOEHM_GC\n")
 			
-			if self.gmpEnabled:
-				outStream.write("#define BP_USE_GMP\n")
-			
 			if self.tinySTMEnabled:
 				outStream.write("#define BP_USE_TINYSTM\n")
 			
@@ -170,7 +167,16 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			# Include precompiled header
 			outStream.write("#include <precompiled/all.hpp>\n")
 			
+			# AFTER the precompiled header
+			if self.gmpEnabled:
+				outStream.write("#define BP_USE_GMP\n")
+				outStream.write("#include <gmpxx.h>\n")
+				outStream.write("#include <gmp.h>\n")
+			
 			for dataType, definition in dataTypeDefinitions.items():
+				if dataType == "BigInt" and not self.gmpEnabled:
+					continue
+				
 				outStream.write("typedef %s %s;\n" % (definition, dataType))
 			#outStream.write("typedef %s %s;\n" % ("CString", "String"))
 			
@@ -259,7 +265,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				#self.customCompilerFlags.append("-I" + fixPath("%sinclude/cpp/musl/" % (self.bpRoot)))
 				#self.customCompilerFlags.append("-specs")
 				#self.customCompilerFlags.append(fixPath(self.libsDir) + "musl-gcc.specs")
-				self.customCompilerFlags.append("-DGC_LINUX_THREADS")
+				#self.customCompilerFlags.append("-DGC_LINUX_THREADS")
 				self.customCompilerFlags.append("-pthread")
 		
 		# Compiler

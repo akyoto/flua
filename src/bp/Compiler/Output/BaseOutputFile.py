@@ -972,12 +972,12 @@ class BaseOutputFile(ScopeController):
 			
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	
-	def makeXMLCall(self, memberFunc):
-		xmlCode = "<call><function>%s</value></access></function><parameters/></call>" % (memberFunc)
+	def makeXMLCall(self, memberFunc, params = "<parameters/>"):
+		xmlCode = "<call><function>%s</value></access></function>%s</call>" % (memberFunc, params)
 		return self.cachedParseString(xmlCode).documentElement
 	
-	def makeXMLObjectCall(self, caller, memberFunc):
-		xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (caller, memberFunc)
+	def makeXMLObjectCall(self, caller, memberFunc, params = "<parameters/>"):
+		xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function>%s</call>" % (caller, memberFunc, params)
 		return self.cachedParseString(xmlCode).documentElement
 	
 	def getSignedVersion(self, typeName):
@@ -1173,6 +1173,10 @@ class BaseOutputFile(ScopeController):
 		#var.name = self.getNamespacePrefix() + var.name
 		debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var
+		
+		# Enable GMP when BigInt is used
+		if var.type == "BigInt":
+			self.compiler.gmpEnabled = True
 		
 		if self.getCurrentScope() == self.getTopLevelScope():# and not self.currentFunctionImpl:
 			self.compiler.mainClassImpl.members[var.name] = var

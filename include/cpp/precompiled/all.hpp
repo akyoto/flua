@@ -57,6 +57,7 @@
 	#ifdef _WIN32
 		#include "../gc-7.2/gc_cpp.h"
 	#else
+		#define GC_LINUX_THREADS
 		#include "../gc-7.3/gc_cpp.h"
 	#endif
 	
@@ -68,8 +69,10 @@
 	//  --enable-cxx
 	//  --enable-fat
 	// ./configure --enable-cxx --enable-fat
-	#include <gmpxx.h>
-	#include <gmp.h>
+	
+	// Included by the compiler:
+	// #include <gmpxx.h>
+	// #include <gmp.h>
 	
 	// === IMPORTANT ===
 	// MODIFICATION FOR GMP mpz_class:
