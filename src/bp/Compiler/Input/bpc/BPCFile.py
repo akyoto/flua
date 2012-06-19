@@ -161,6 +161,9 @@ class BPCFile(ScopeController, Benchmarkable):
 	def __init__(self, compiler, fileIn, isMainFile):
 		ScopeController.__init__(self)
 		
+		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
+		self.currentSyntax = bpcUtils.currentSyntax
+		
 		self.compiler = compiler
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
@@ -320,7 +323,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			#print(node.toprettyxml())
 			#print(self.exprCache)
 			funcNameNode = funcNode.childNodes[0]
-			print(funcNameNode.toxml())
+			#print(funcNameNode.toxml())
 			# Template call
 			if (funcNameNode.nodeType != Node.TEXT_NODE):
 				# Namespaces
@@ -337,11 +340,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				funcNode.tagName = "type"
 		# Correct nodes
 		elif node.nodeType == Node.TEXT_NODE:
-			import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
-			
-			if bpcUtils.currentSyntax == SYNTAX_CPP and node.nodeValue == "this":
+			if self.currentSyntax == SYNTAX_CPP and node.nodeValue == "this":
 				node.nodeValue = "my"
-			elif bpcUtils.currentSyntax in {SYNTAX_RUBY, SYNTAX_PYTHON} and node.nodeValue == "self":
+			elif self.currentSyntax in {SYNTAX_RUBY, SYNTAX_PYTHON} and node.nodeValue == "self":
 				node.nodeValue = "my"
 		
 		for child in node.childNodes:
@@ -855,8 +856,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif line[4] == '(':
 			line = "for " + line[5:]
 		
-		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
-		if bpcUtils.currentSyntax == SYNTAX_CPP:
+		if self.currentSyntax == SYNTAX_CPP:
 			line = line[:-1] # Remove ')'
 		
 		node = self.doc.createElement("for")
@@ -1225,8 +1225,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handleFunction(self, line):
 		# Remove Python def keyword
-		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
-		if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+		if self.currentSyntax == SYNTAX_PYTHON:
 			if not line.startswith("def "):
 				raise CompilerException("Missing 'def' keyword in function definition")
 			line = line[4:-1] # Remove 'def ' at the start and ')' at the end
@@ -1243,7 +1242,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		elif line[pos] in {' ', '('}:
 			funcName = line[:pos]
 		else:
-			if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+			if self.currentSyntax == SYNTAX_PYTHON:
 				whiteSpace = line.find('(')
 			else:
 				whiteSpace = line.find(' ')
@@ -1300,8 +1299,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inClass += 1
 		
 		# Remove Python class keyword
-		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
-		if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+		if self.currentSyntax == SYNTAX_PYTHON:
 			if not line.startswith("class "):
 				raise CompilerException("Missing 'class' keyword in class definition")
 			line = line[6:]
@@ -1493,8 +1491,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		return identifier
 	
 	def prepareLine(self, line):
-		import bp.Compiler.Input.bpc.BPCUtils as bpcUtils
-		
 		i = 0
 		roundBracketsBalance = 0 # ()
 		curlyBracketsBalance = 0 # {}
@@ -1523,26 +1519,26 @@ class BPCFile(ScopeController, Benchmarkable):
 				squareBracketsBalance -= 1
 			elif line[i] == '{':
 				# Ignore on C++
-				if bpcUtils.currentSyntax == SYNTAX_CPP:
+				if self.currentSyntax == SYNTAX_CPP:
 					line = line[:i].rstrip()
 					break
 				
 				curlyBracketsBalance += 1
 			elif line[i] == '}':
 				# Ignore on C++
-				if bpcUtils.currentSyntax == SYNTAX_CPP:
+				if self.currentSyntax == SYNTAX_CPP:
 					line = line[:i].rstrip()
 					break
 				
 				curlyBracketsBalance -= 1
 			elif line[i] == ';':
 				# Ignore on C++
-				if bpcUtils.currentSyntax == SYNTAX_CPP:
+				if self.currentSyntax == SYNTAX_CPP:
 					line = line[:i]
 					break
 			elif line[i] == ':' and i == len(line) - 1:
 				# Ignore on Python
-				if bpcUtils.currentSyntax == SYNTAX_PYTHON:
+				if self.currentSyntax == SYNTAX_PYTHON:
 					line = line[:i]
 					break
 			elif line[i] == ' ' and not self.keyword:
@@ -1614,7 +1610,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.keyword:
 			self.keyword = line
 		
-		if bpcUtils.currentSyntax == SYNTAX_RUBY:
+		if self.currentSyntax == SYNTAX_RUBY:
 			if line == "end":#line.endswith("end") and line[:-3].isspace():
 				self.keyword = ""
 				return ""
