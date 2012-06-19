@@ -121,6 +121,50 @@ class BaseOutputFile(ScopeController):
 		# String class
 		self.stringClassDefined = False
 		
+		# Element handlers
+		self.directMapping = {
+			"access" : self.handleAccess,
+			"assign" : self.handleAssign,
+			"call" : self.handleCall,
+			"new" : self.handleNew,
+			"else" : self.handleElse,
+			"try" : self.handleTry,
+			"catch" : self.handleCatch,
+			"namespace" : self.handleNamespace,
+			"target" : self.handleTarget,
+			"return" : self.handleReturn,
+			"yield" : self.handleYield,
+			"for" : self.handleFor,
+			"foreach" : self.handleForEach,
+			"flow-to" : self.handleFlowTo,
+			"const" : self.handleConst,
+			"continue" : self.buildContinue,
+			"parallel" : self.handleParallel,
+			"shared" : self.handleShared,
+			"in" : self.handleIn,
+			"on" : self.handleOn,
+			"unmanaged" : self.handleUnmanaged,
+			"compiler-flag" : self.handleCompilerFlag,
+			"template-call" : self.handleTemplateCall,
+			
+			# Ignored
+			"class" : None,
+			"function" : None,
+			"operator" : None,
+			"cast-definition" : None,
+			"get" : None,
+			"set" : None,
+			"extern" : None,
+			"operators" : None,
+			"iterators" : None,
+			"extern-function" : None,
+			"extern-variable" : None,
+			"template" : None,
+			"require" : None,
+			"ensure" : None,
+			"define" : None,
+		}
+		
 		# Syntax
 		self.lineLimiter = ""
 		self.myself = ""
@@ -1229,7 +1273,6 @@ class BaseOutputFile(ScopeController):
 		expr = self.parseExpr(exprNode.firstChild)
 		exprType = self.getExprDataType(exprNode.firstChild)
 		
-		
 		if exprType in nonPointerClasses:
 			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which '%s' lacks" % exprType)
 		
@@ -1247,6 +1290,9 @@ class BaseOutputFile(ScopeController):
 		# TODO: Check for enter/exit methods
 		
 		return self.buildInBlock(exprNode, expr, exprType, code, "\t" * self.currentTabLevel)
+	
+	def handleOn(self, node):
+		return ""
 	
 	def handleNamespace(self, node):
 		# TODO: Fully implement namespaces
@@ -1533,20 +1579,17 @@ class BaseOutputFile(ScopeController):
 		tagName = node.tagName
 		
 		# Check which kind of tag it is
-		if tagName == "value":
+		if tagName in self.directMapping:
+			func = self.directMapping[tagName]
+			
+			if func:
+				return func(node)
+			else:
+				return ""
+		elif tagName == "value":
 			return self.parseExpr(node.childNodes[0])
-		elif tagName == "access":
-			return self.handleAccess(node)
-		elif tagName == "assign":
-			return self.handleAssign(node)
-		elif tagName == "call":
-			return self.handleCall(node)
-		elif tagName == "new":
-			return self.handleNew(node)
 		elif tagName == "if-block" or tagName == "try-block":
 			return self.parseChilds(node, "", "")
-		elif tagName == "else":
-			return self.handleElse(node)
 		# exists-in
 		elif tagName == "exists-in":
 			op1 = node.childNodes[0].firstChild
@@ -1615,56 +1658,14 @@ class BaseOutputFile(ScopeController):
 			virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 			
 			return self.handleCall(virtualIndexCall)
-		elif tagName == "class":
-			return ""
-		elif tagName == "function" or tagName == "operator" or tagName == "cast-definition":
-			return ""
-		elif tagName == "get" or tagName == "set":
-			return ""
-		elif tagName == "extern":
-			return ""
-		elif tagName == "operators":
-			return ""
-		elif tagName == "iterators":
-			return ""
-		elif tagName == "extern-function":
-			return ""
-		elif tagName == "extern-variable":
-			return ""
-		elif tagName == "template":
-			return ""
-		elif tagName == "require":
-			return ""
-		elif tagName == "ensure":
-			return ""
 		elif tagName == "test":
 			if self.isMainFile and node.parentNode.parentNode.tagName == "module":
 				return self.parseChilds(node, "\t" * self.currentTabLevel, self.lineLimiter)
 			return ""
-		elif tagName == "define":
-			return ""
 		elif tagName == "not":
 			return self.buildNegation(self.parseExpr(node.firstChild))
-		elif tagName == "try":
-			return self.handleTry(node)
-		elif tagName == "catch":
-			return self.handleCatch(node)
 		elif tagName == "throw":
 			return self.throwSyntax % self.parseExpr(node.firstChild)
-		elif tagName == "namespace":
-			return self.handleNamespace(node)
-		elif tagName == "target":
-			return self.handleTarget(node)
-		elif tagName == "return":
-			return self.handleReturn(node)
-		elif tagName == "yield":
-			return self.handleYield(node)
-		elif tagName == "for":
-			return self.handleFor(node)
-		elif tagName == "foreach":
-			return self.handleForEach(node)
-		elif tagName == "flow-to":
-			return self.handleFlowTo(node)
 		elif tagName == "include":
 			fileName = node.childNodes[0].nodeValue
 			incFile = (self.dir + fileName)[len(self.compiler.modDir):]
@@ -1672,20 +1673,6 @@ class BaseOutputFile(ScopeController):
 			self.includes.append((incFile, ifndef)) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
 			self.compiler.includes.append((incFile, ifndef))
 			return ""
-		elif tagName == "const":
-			return self.handleConst(node)
-		elif tagName == "break":
-			return "break"
-		elif tagName == "continue":
-			return self.buildContinue(node)
-		elif tagName == "parallel":
-			return self.handleParallel(node)
-		elif tagName == "shared":
-			return self.handleShared(node)
-		elif tagName == "in":
-			return self.handleIn(node)
-		elif node.tagName == "template-call":
-			return self.handleTemplateCall(node)
 		elif node.tagName == "declare-type":
 			if node.parentNode.tagName == "code":
 				self.handleTypeDeclaration(node)
@@ -1702,12 +1689,10 @@ class BaseOutputFile(ScopeController):
 			virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 			
 			return self.handleCall(virtualSliceCall)
-		elif node.tagName == "unmanaged":
-			return self.handleUnmanaged(node)
 		elif node.tagName == "compiler-flags":
 			return self.parseChilds(node, "", "")
-		elif node.tagName == "compiler-flag":
-			return self.handleCompilerFlag(node)
+		elif tagName == "break":
+			return "break"
 		elif tagName == "noop":
 			return self.buildNOOP()
 		
@@ -1729,6 +1714,7 @@ class BaseOutputFile(ScopeController):
 			
 			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
+		# TODO: Optimize to dict search
 		# Check operators
 		for opLevel in self.compiler.parser.operatorLevels:
 			for op in opLevel.operators:

@@ -52,6 +52,7 @@ simpleBlocks = {
 	"for" : [],
 	"foreach" : [],
 	"in" : [],
+	"on" : [],
 	"switch" : [],
 	"case" : [],
 	"target" : [],
@@ -250,6 +251,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"maybe" : self.handleMaybe,
 			"namespace" : self.handleNamespace,
 			"..." : self.handleNOOP,
+			"on" : self.handleOn,
 			"operator" : self.handleOperatorBlock,
 			"parallel" : self.handleParallel,
 			"private" : self.handlePrivate,
@@ -804,6 +806,21 @@ class BPCFile(ScopeController, Benchmarkable):
 		expr = self.doc.createElement("expression")
 		code = self.doc.createElement("code")
 		expr.appendChild(self.parseExpr(line[len("in")+1:]))
+		
+		node.appendChild(expr)
+		node.appendChild(code)
+		
+		self.nextNode = code
+		return node
+		
+	def handleOn(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("on", line)
+		
+		node = self.doc.createElement("on")
+		expr = self.doc.createElement("expression")
+		code = self.doc.createElement("code")
+		expr.appendChild(self.parseExpr(line[len("on")+1:]))
 		
 		node.appendChild(expr)
 		node.appendChild(code)
