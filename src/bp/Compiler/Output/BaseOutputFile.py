@@ -442,11 +442,13 @@ class BaseOutputFile(ScopeController):
 		counter = 0
 		typesLen = len(types)
 		
+		parseExpr = self.parseExpr
+		
 		for node in pNode.childNodes:
 			#if isElemNode(node.childNodes[0]) and node.childNodes[0].tagName == "declare-type":
 			#	name = node.childNodes[0].childNodes[0].childNodes[0].nodeValue
 			#else:
-			name = self.parseExpr(node.childNodes[0])
+			name = parseExpr(node.childNodes[0])
 			#print("Name: " + name)
 			#print(node.toprettyxml())
 			
@@ -460,7 +462,7 @@ class BaseOutputFile(ScopeController):
 					defaultValueType = defaultValueTypes[counter]
 					adjustedDefaultValueType = self.adjustDataType(defaultValueType)
 					#print("Using default parameter of type %s translated to %s" % (defaultValueType, adjustedDefaultValueType))
-					self.getCurrentScope().variables[name] = self.createVariable(name, adjustedDefaultValueType, "", False, not adjustedDefaultValueType in nonPointerClasses, False)
+					self.registerVariable(self.createVariable(name, adjustedDefaultValueType, "", False, not adjustedDefaultValueType in nonPointerClasses, False))
 					pList += self.buildSingleParameter(adjustedDefaultValueType, name) + ", "
 					continue
 				
@@ -1365,7 +1367,7 @@ class BaseOutputFile(ScopeController):
 			#return "return"
 	
 	def handleParameters(self, pNode):
-		pList = ""
+		pList = []
 		pTypes = []
 		
 		# For slicing:
@@ -1381,17 +1383,24 @@ class BaseOutputFile(ScopeController):
 		#	</slice>
 		#</parameter>
 		
+		# Faster lookups
+		parseExpr = self.parseExpr
+		prepareTypeName = self.prepareTypeName
+		getExprDataType = self.getExprDataType
+		pTypesAppend = pTypes.append
+		pListAppend = pList.append
+		
 		for node in pNode.childNodes:
-			paramType = self.getExprDataType(node.childNodes[0])
+			paramType = getExprDataType(node.childNodes[0])
 			
 			# Typedefs
-			paramType = self.prepareTypeName(paramType)
+			paramType = prepareTypeName(paramType)
 			
 			#paramType = self.translateTemplateParam(paramType)
-			pList += self.parseExpr(node.childNodes[0]) + ", "
-			pTypes.append(paramType)
+			pListAppend(parseExpr(node.childNodes[0]))
+			pTypesAppend(paramType)
 		
-		return pList[:len(pList)-2], pTypes
+		return ", ".join(pList), pTypes
 	
 	def getClass(self, className):
 		if className == "":
@@ -1417,6 +1426,19 @@ class BaseOutputFile(ScopeController):
 		pDefault = []
 		pDefaultTypes = []
 		
+		# Faster lookups
+		pListAppend = pList.append
+		pTypesAppend = pTypes.append
+		pDefaultAppend = pDefault.append
+		pDefaultTypesAppend = pDefaultTypes.append
+		textNodeType = Node.TEXT_NODE
+		translateTemplateName = self.currentClassImpl.translateTemplateName
+		addMissingTemplateValues = self.addMissingTemplateValues
+		prepareTypeName = self.prepareTypeName
+		implementFunction = self.implementFunction
+		addDefaultParameters = self.addDefaultParameters
+		parseExpr = self.parseExpr
+		
 		for node in pNode.childNodes:
 			name = ""
 			type = ""
@@ -1425,7 +1447,7 @@ class BaseOutputFile(ScopeController):
 			
 			exprNode = node.childNodes[0]
 			
-			if isTextNode(exprNode):
+			if exprNode.nodeType == textNodeType:
 				name = exprNode.nodeValue
 			elif exprNode.tagName == "name":
 				name = exprNode.childNodes[0].nodeValue
@@ -1461,10 +1483,10 @@ class BaseOutputFile(ScopeController):
 					name = self.parseExpr(op1)
 				
 				typeNode = exprNode.childNodes[1].childNodes[0]
-				type = self.parseExpr(typeNode, True)
+				type = parseExpr(typeNode, True)
 				
 				# Typedefs
-				type = self.prepareTypeName(type)
+				#type = prepareTypeName(type)
 				
 				#if typeNode.childNodes and isElemNode(typeNode) and typeNode.tagName == "unmanaged":
 				#	type = "~" + type
@@ -1474,12 +1496,11 @@ class BaseOutputFile(ScopeController):
 			if name in replacedNodeValues:
 				name = replacedNodeValues[name]
 			
-			pList.append(name)
+			pListAppend(name)
 			
-			type = self.currentClassImpl.translateTemplateName(type)
-			type = self.addMissingTemplateValues(type)
-			
-			type = self.prepareTypeName(type)
+			type = translateTemplateName(type)
+			type = addMissingTemplateValues(type)
+			type = prepareTypeName(type)
 			
 			# Use default value type if not set
 			#if not type and defaultValueType:
@@ -1492,21 +1513,23 @@ class BaseOutputFile(ScopeController):
 					#classImpl.requestFuncImplementation("init", [])
 					
 					# Default parameters for init
-					paramTypes, paramsString = self.addDefaultParameters(type, "init", [], "")
-					funcImpl = self.implementFunction(type, "init", paramTypes)
+					paramTypes, paramsString = addDefaultParameters(type, "init", [], "")
+					funcImpl = implementFunction(type, "init", paramTypes)
 				except:
 					pass
 			
-			pTypes.append(type)
-			pDefault.append(defaultValue)
-			pDefaultTypes.append(defaultValueType)
+			pTypesAppend(type)
+			pDefaultAppend(defaultValue)
+			pDefaultTypesAppend(defaultValueType)
 		
 		return pList, pTypes, pDefault, pDefaultTypes
 	
 	def parseChilds(self, parent, prefix = "", postfix = ""):
 		lines = []
+		parseExpr = self.parseExpr
+		
 		for node in parent.childNodes:
-			line = self.parseExpr(node)
+			line = parseExpr(node)
 			
 			self.lastParsedNode.pop()
 			

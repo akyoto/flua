@@ -87,9 +87,11 @@ class ExpressionParser:
 	def buildCleanExpr(self, expr):
 		#self.recursionLevel += 1
 		
+		l = len
+		
 		#expr = expr.replace(" ", "")
 		# Identifier + Space + Identifier = Invalid instruction
-		exprLen = len(expr)
+		exprLen = l(expr)
 		for i in range(exprLen):
 			if expr[i] == ' ':
 				# TODO: Handle '([{' and ')]}' correctly
@@ -97,7 +99,7 @@ class ExpressionParser:
 					raise CompilerException("Operator missing: %s" % (expr[:i].strip() + " ↓ " + expr[i+1:].strip()))
 		
 		expr = expr.replace(" ", "")
-		exprLen = len(expr)
+		exprLen = l(expr)
 		i = 0
 		lastOccurence = 0
 		start = 0
@@ -237,13 +239,13 @@ class ExpressionParser:
 								if operandLeft and (operandRight and ((start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')')) or op.text == "("):
 									if op.text == "(":
 										newOpText = "#"
-										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + len(operandRight) + 1:])
+										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - l(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + l(operandRight) + 1:])
 									elif op.text == "[":
 										newOpText = "@"
-										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + len(operandRight) + 1:])
+										expr = "%s(%s)%s(%s)%s" % (expr[:lastOccurence - l(operandLeft)], operandLeft, newOpText, operandRight, expr[lastOccurence + op.textLen + l(operandRight) + 1:])
 									else:
-										expr = "%s(%s%s%s)%s" % (expr[:lastOccurence - len(operandLeft)], operandLeft, op.text, operandRight, expr[lastOccurence + op.textLen + len(operandRight):])
-									exprLen = len(expr)
+										expr = "%s(%s%s%s)%s" % (expr[:lastOccurence - l(operandLeft)], operandLeft, op.text, operandRight, expr[lastOccurence + op.textLen + l(operandRight):])
+									exprLen = l(expr)
 									#print(self.getDebugPrefix() + "    * Expression changed: " + expr)
 								#else:
 								#	pass
@@ -279,8 +281,8 @@ class ExpressionParser:
 								start = lastOccurence - 1
 								
 								if (start < 0 or expr[start] != '(') or (end >= exprLen or expr[end] != ')'):
-									expr = expr[:lastOccurence] + "(" + op.text + operandRight + ")" + expr[lastOccurence + op.textLen + len(operandRight):]
-									exprLen = len(expr)
+									expr = "%s(%s%s)%s" % (expr[:lastOccurence], op.text, operandRight, expr[lastOccurence + op.textLen + l(operandRight):])
+									exprLen = l(expr)
 									lastOccurence += 1
 									#print("EX.UNARY: " + expr)
 								else:
@@ -306,36 +308,43 @@ class ExpressionParser:
 	def buildOperation(self, expr):
 		#self.recursionLevel += 1
 		
+		# Local vars for faster lookup
+		l = len
+		getOperatorName = self.getOperatorName
+		buildOperation = self.buildOperation
+		createElement = self.doc.createElement
+		createTextNode = self.doc.createTextNode
+		
 		# Debug info
 		#print(self.getDebugPrefix() + " * buildOperation.dirty: " + expr)
 		
 		# Remove unnecessary brackets
 		bracketCounter = 0
-		i = len(expr)
-		while expr and expr[0] == '(' and expr[len(expr)-1] == ')' and bracketCounter == 0 and i == len(expr):
+		i = l(expr)
+		while expr and expr[0] == '(' and expr[l(expr)-1] == ')' and bracketCounter == 0 and i == l(expr):
 			bracketCounter = 1
 			i = 1
-			while i < len(expr) and (bracketCounter > 0 or expr[i] == ')'):
+			while i < l(expr) and (bracketCounter > 0 or expr[i] == ')'):
 				if expr[i] == '(':
 					bracketCounter += 1
 				elif expr[i] == ')':
 					bracketCounter -= 1
 				i += 1
 			
-			if bracketCounter == 0 and i == len(expr):
-				expr = expr[1:len(expr)-1]
+			if bracketCounter == 0 and i == l(expr):
+				expr = expr[1:l(expr)-1]
 				#print("NEW EXPR: " + expr)
 				
 				# In order to continue the loop: Adjust i
-				i = len(expr)
+				i = l(expr)
 				
 		#print("    * buildOperation.clean: " + expr)
 		
 		# Left operand
 		bracketCounter = 0
 		i = 0
-		while i < len(expr) and (isVarChar(expr[i]) or expr[i] == '('):
-			while i < len(expr) and (bracketCounter > 0 or expr[i] == '('):
+		while i < l(expr) and (isVarChar(expr[i]) or expr[i] == '('):
+			while i < l(expr) and (bracketCounter > 0 or expr[i] == '('):
 				if expr[i] == '(' or expr[i] == '[':
 					bracketCounter += 1
 				elif expr[i] == ')' or expr[i] == ']':
@@ -345,32 +354,32 @@ class ExpressionParser:
 				i += 1
 			i += 1
 		
-		if i == len(expr):
+		if i == l(expr):
 			#self.recursionLevel -= 1
-			return self.doc.createTextNode(expr)
+			return createTextNode(expr)
 		
 		leftOperand = expr[:i]
 		opIndex = i
 		
 		# Operator
 		opIndexEnd = opIndex
-		while opIndexEnd < len(expr) and not isVarChar(expr[opIndexEnd]) and not expr[opIndexEnd] == '(':
+		while opIndexEnd < l(expr) and not isVarChar(expr[opIndexEnd]) and not expr[opIndexEnd] == '(':
 			opIndexEnd += 1
 		operator = expr[opIndex:opIndexEnd]
 		
 		if leftOperand:
-			opName = self.getOperatorName(operator, Operator.BINARY)
+			opName = getOperatorName(operator, Operator.BINARY)
 		else:
-			opName = self.getOperatorName(operator, Operator.UNARY)
+			opName = getOperatorName(operator, Operator.UNARY)
 		
 		if not opName:
 			return self.doc.createTextNode(leftOperand)
 		
 		# Right operand
 		bracketCounter = 0
-		i = opIndex + len(operator)
-		while i < len(expr) and (isVarChar(expr[i]) or expr[i] == '('):
-			while bracketCounter > 0 or (i < len(expr) and expr[i] == '('):
+		i = opIndex + l(operator)
+		while i < l(expr) and (isVarChar(expr[i]) or expr[i] == '('):
+			while bracketCounter > 0 or (i < l(expr) and expr[i] == '('):
 				if expr[i] == '(':
 					bracketCounter += 1
 				elif expr[i] == ')':
@@ -380,20 +389,20 @@ class ExpressionParser:
 				i += 1
 			i += 1
 		
-		rightOperand = expr[opIndex+len(operator):i]
+		rightOperand = expr[opIndex+l(operator):i]
 		
 		leftOperandNode = None
 		rightOperandNode = None
 		
 		if leftOperand and leftOperand[0] == '(':
-			leftOperandNode = self.buildOperation(leftOperand[1:len(leftOperand)-1])
+			leftOperandNode = buildOperation(leftOperand[1:l(leftOperand)-1])
 		else:
-			leftOperandNode = self.doc.createTextNode(leftOperand)
+			leftOperandNode = createTextNode(leftOperand)
 			
 		if rightOperand and rightOperand[0] == '(':
-			rightOperandNode = self.buildOperation(rightOperand[1:len(rightOperand)-1])
+			rightOperandNode = buildOperation(rightOperand[1:l(rightOperand)-1])
 		else:
-			rightOperandNode = self.doc.createTextNode(rightOperand)
+			rightOperandNode = createTextNode(rightOperand)
 		
 		#print("---")
 		#print("OP: " + operator)
@@ -401,9 +410,9 @@ class ExpressionParser:
 		#print(rightOperand)
 		#print("---")
 		
-		node = self.doc.createElement(opName)
-		lNode = self.doc.createElement("value")
-		rNode = self.doc.createElement("value")
+		node = createElement(opName)
+		lNode = createElement("value")
+		rNode = createElement("value")
 		
 		# Unary operator
 		if leftOperand:
@@ -421,7 +430,7 @@ class ExpressionParser:
 #				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
 		
 		# Right operand missing
-		if len(rightOperand) == 0:
+		if l(rightOperand) == 0:
 			if operator == "=":
 				raise CompilerException("You need to assign a valid value to '%s'" % leftOperand)
 			raise CompilerException("Operator [" + operator + "] expects a second operator")
@@ -521,7 +530,7 @@ class ExpressionParser:
 				
 				if value1.nodeType == Node.TEXT_NODE and value2.nodeType == Node.TEXT_NODE and value1.nodeValue.isdigit() and value2.nodeValue.isdigit():
 					parent = node.parentNode
-					parent.insertBefore(self.doc.createTextNode(value1.nodeValue + "." + value2.nodeValue), node)
+					parent.insertBefore(self.doc.createTextNode("%s.%s" % (value1.nodeValue, value2.nodeValue)), node)
 					parent.removeChild(node)
 			# Slice operator
 			elif node.tagName == "declare-type":
@@ -568,8 +577,9 @@ class ExpressionParser:
 #					raise
 		
 		# Recursive
+		adjXMLTree = self.adjustXMLTree
 		for child in node.childNodes:
-			self.adjustXMLTree(child)
+			adjXMLTree(child)
 	
 	# Helper methods
 	def getParametersNode(self, params):

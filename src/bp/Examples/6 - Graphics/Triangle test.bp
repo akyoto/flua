@@ -28,7 +28,7 @@
 				</new>
 			</value>
 		</assign>
-		<comment>\SLoad</comment>
+		<comment>\SLoadr</comment>
 		<assign depth="0" id="2">
 			<value>fsRoot</value>
 			<value>bp_string_1</value>

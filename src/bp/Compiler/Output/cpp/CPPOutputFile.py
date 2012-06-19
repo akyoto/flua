@@ -114,8 +114,8 @@ class CPPOutputFile(BaseOutputFile):
 		self.body += "}\n"
 		
 		# Includes
-		for incl, ifndef in self.includes:
-			self.includesHeader += "#ifndef %s\n#define %s\n#include <%s>\n#endif\n" % (ifndef, ifndef, incl)
+		incls = ["#ifndef %s\n#define %s\n#include <%s>\n#endif\n" % (ifndef, ifndef, incl) for incl, ifndef in self.includes]
+		self.includesHeader += "".join(incls)
 		
 		# Custom Threads
 		self.customThreadsString = '\n'.join(self.customThreads.values()) + '\n'

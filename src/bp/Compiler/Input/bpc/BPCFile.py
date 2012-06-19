@@ -404,6 +404,12 @@ class BPCFile(ScopeController, Benchmarkable):
 		tabCount = 0
 		prevTabCount = 0
 		
+		# Local variables for faster lookups
+		prepareLine = self.prepareLine
+		processLine = self.processLine
+		registerNode = self.registerNode
+		tabBack = self.tabBack
+		
 		# Go through every line -> build the structure
 		for lineIndex in range(0, len(lines)):
 			line = lines[lineIndex]
@@ -417,7 +423,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.lastLineCount += 1
 			
 			# Remove strings, comments and check brackets
-			line = self.prepareLine(line)
+			line = prepareLine(line)
 			
 			if not line and not self.currentLineComment:
 				# Function block error checking
@@ -444,7 +450,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					raise CompilerException("You only need to indent once.")
 			
 			# TODO: Enable all unicode characters
-			line = line.replace("π", "pi")
+			#line = line.replace("π", "pi")
 			
 			# Remove whitespaces
 			line = line.replace("\t", " ")
@@ -453,7 +459,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if tabCount < prevTabCount:
 				savedCurrentNode = self.currentNode
-				self.tabBack(currentLine, prevTabCount, tabCount, True)
+				tabBack(currentLine, prevTabCount, tabCount, True)
 				self.currentNode = savedCurrentNode
 			
 			#print(self.lastLineCount, self.maxLineIndex, line, self.inClass, self.inFunction)
@@ -468,13 +474,13 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			# The actual compiling! Let's get it start-e-e-ed now!
 			if line:
-				currentLine = self.processLine(line)
+				currentLine = processLine(line)
 			else:
 				currentLine = None
 			
 			# Save the connection for debugging purposes
 			#if self.nodes and (currentLine == None or self.nodes[-1] != currentLine):
-			self.registerNode(currentLine)
+			registerNode(currentLine)
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -484,7 +490,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				else:
 					self.currentNode = self.lastNode
 			elif tabCount < prevTabCount:
-				self.tabBack(currentLine, prevTabCount, tabCount, False)
+				tabBack(currentLine, prevTabCount, tabCount, False)
 			
 			self.savedNextNode = self.nextNode
 			
@@ -498,7 +504,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.nodeToOriginalLine[currentComment] = self.lastLineCount
 				else:
 					currentComment = self.handleComment(self.currentLineComment, inline = False)
-					self.registerNode(currentComment)
+					registerNode(currentComment)
 					
 				# Append to current node
 				self.currentNode.appendChild(currentComment)
