@@ -1737,17 +1737,16 @@ class BaseOutputFile(ScopeController):
 			
 			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
-		# TODO: Optimize to dict search
 		# Check operators
-		for opLevel in self.compiler.parser.operatorLevels:
-			for op in opLevel.operators:
-				if tagName == op.name:
-					if op.type == Operator.BINARY:
-						if op.text == "\\":
-							return self.parseBinaryOperator(node, " / ", True)
-						return self.parseBinaryOperator(node, " " + op.text + " ", True)
-					elif op.type == Operator.UNARY:
-						return op.text + "(" + self.parseExpr(node.childNodes[0]) + ")"
+		if tagName in self.compiler.operators:
+			op = self.compiler.operators[tagName]
+			
+			if op.type == Operator.BINARY:
+				if op.text == "\\":
+					return self.parseBinaryOperator(node, " / ", True)
+				return self.parseBinaryOperator(node, " %s " % op.text, True)
+			elif op.type == Operator.UNARY:
+				return "%s(%s)" % (op.text, self.parseExpr(node.childNodes[0]))
 		
 		return ""
 	

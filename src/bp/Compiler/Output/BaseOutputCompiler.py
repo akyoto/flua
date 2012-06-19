@@ -63,6 +63,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.funcDataFlowRequests = list()
 		self.prototypes = list()
 		self.strings = list()
+		self.operators = dict()
 		
 		# Main class
 		self.mainClass = self.createClass("", None)
@@ -121,6 +122,11 @@ class BaseOutputCompiler(Benchmarkable):
 	# Other stuff
 	def initExprParser(self):
 		self.parser = getBPCExpressionParser()
+		
+		# Build a dictionary
+		for opLevel in self.parser.operatorLevels:
+			for op in opLevel.operators:
+				self.operators[op.name] = op
 	
 	def getProjectDir(self):
 		return self.projectDir
