@@ -109,6 +109,7 @@ class BaseOutputFile(ScopeController):
 		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
+		self.onVariable = ""
 		
 		# TODO: Read from module meta data
 		# Speed / Correctness
@@ -1294,7 +1295,29 @@ class BaseOutputFile(ScopeController):
 		return self.buildInBlock(exprNode, expr, exprType, code, "\t" * self.currentTabLevel)
 	
 	def handleOn(self, node):
-		return ""
+		exprNode = getElementByTagName(node, "expression").firstChild
+		codeNode = getElementByTagName(node, "code")
+		
+		# TODO: C++ independent
+		if exprNode.nodeType != Node.TEXT_NODE:
+			value = self.parseExpr(exprNode)
+			exprType = self.getExprDataType(exprNode)
+			
+			self.onVariable = "_bp_on_var_%d" % self.compiler.onVarCounter
+			self.compiler.onVarCounter += 1
+			
+			var = self.createVariable(self.onVariable, exprType, value, False, not exprType in nonPointerClasses, False)
+			self.registerVariable(var)
+			
+			code = "%s %s = %s;\n" % (self.adjustDataType(exprType), self.onVariable, value)
+		else:
+			self.onVariable = exprNode.nodeValue
+			code = "// on '%s'\n" % self.onVariable
+		
+		code += self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+		self.onVariable = ""
+		
+		return code
 	
 	def handleNamespace(self, node):
 		# TODO: Fully implement namespaces
@@ -2386,6 +2409,21 @@ class BaseOutputFile(ScopeController):
 		return self.catchSyntax % (var, code)
 	
 	def handleCall(self, node):
+		if self.onVariable:
+			funcNameNode = getFuncNameNode(node)
+			params = getElementByTagName(node, "parameters")
+			virtualCall = self.makeXMLObjectCall(self.onVariable, funcNameNode.toxml(), params.toxml())
+			
+			# Set parent node to make mutable behaviour for immutable types possible (some crazy cheating)
+			virtualCall.parentNode = node.parentNode
+			
+			saved = self.onVariable
+			self.onVariable = ""
+			code = self.handleCall(virtualCall)
+			self.onVariable = saved
+			
+			return code
+		
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		
 		# For casts
@@ -2504,7 +2542,7 @@ class BaseOutputFile(ScopeController):
 				return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
 			
 			# Immutable used with mutable coding style
-			if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "code" and funcImpl.getReturnType() == callerType:
+			if ((not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "code") and funcImpl.getReturnType() == callerType:
 				pos = caller.find(self.ptrMemberAccessChar)
 				if pos == -1:
 					implicitAssignment = caller + " = "

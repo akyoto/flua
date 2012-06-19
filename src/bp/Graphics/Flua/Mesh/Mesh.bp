@@ -65,110 +65,60 @@
 					</parameters>
 					<name>addVertex</name>
 					<code>
-						<call depth="2" id="6">
-							<function>
+						<on depth="2" id="6">
+							<expression>
 								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
+									<value>my</value>
+									<value>vertices</value>
 								</access>
-							</function>
-							<parameters>
-								<parameter>x</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="7">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>y</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="8">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>z</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="9">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>r</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="10">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>g</parameter>
-							</parameters>
-						</call>
-						<call depth="2" id="11">
-							<function>
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>vertices</value>
-										</access>
-									</value>
-									<value>add</value>
-								</access>
-							</function>
-							<parameters>
-								<parameter>b</parameter>
-							</parameters>
-						</call>
+							</expression>
+							<code>
+								<call depth="3" id="7">
+									<function>add</function>
+									<parameters>
+										<parameter>x</parameter>
+									</parameters>
+								</call>
+								<call depth="3" id="8">
+									<function>add</function>
+									<parameters>
+										<parameter>y</parameter>
+									</parameters>
+								</call>
+								<call depth="3" id="9">
+									<function>add</function>
+									<parameters>
+										<parameter>z</parameter>
+									</parameters>
+								</call>
+								<call depth="3" id="10">
+									<function>add</function>
+									<parameters>
+										<parameter>r</parameter>
+									</parameters>
+								</call>
+								<call depth="3" id="11">
+									<function>add</function>
+									<parameters>
+										<parameter>g</parameter>
+									</parameters>
+								</call>
+								<call depth="3" id="12">
+									<function>add</function>
+									<parameters>
+										<parameter>b</parameter>
+									</parameters>
+								</call>
+							</code>
+						</on>
 					</code>
 					<meta/>
 				</function>
 				<comment>\SSends\Svertices\Sto\Sthe\SVBO</comment>
-				<function depth="1" id="12">
+				<function depth="1" id="13">
 					<name>updateVertices</name>
 					<code>
-						<assign depth="2" id="13">
+						<assign depth="2" id="14">
 							<value>
 								<access>
 									<value>
@@ -187,7 +137,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="15">
 							<value>
 								<access>
 									<value>my</value>
@@ -212,12 +162,11 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="15">
+				<function depth="1" id="16">
 					<name>activate</name>
 					<code>
-						<call depth="2" id="16">
+						<call depth="2" id="17">
 							<function>
 								<access>
 									<value>
@@ -232,12 +181,11 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="17">
+				<function depth="1" id="18">
 					<name>draw</name>
 					<code>
-						<call depth="2" id="18">
+						<call depth="2" id="19">
 							<function>
 								<access>
 									<value>my</value>
@@ -246,7 +194,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<call depth="2" id="19">
+						<call depth="2" id="20">
 							<function>glDrawArrays</function>
 							<parameters>
 								<parameter>GL_TRIANGLES</parameter>
@@ -260,20 +208,19 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
 		<comment>\SSome\Ssimple\Sobjects</comment>
-		<namespace depth="0" id="20">
+		<namespace depth="0" id="21">
 			<name>Primitive</name>
 			<code>
 				<comment>\SCreates\Sa\Striangle\Smesh</comment>
-				<function depth="1" id="21">
+				<function depth="1" id="22">
 					<name>createTriangle</name>
 					<code>
-						<assign depth="2" id="22">
+						<assign depth="2" id="23">
 							<value>obj</value>
 							<value>
 								<new>
@@ -283,7 +230,7 @@
 							</value>
 						</assign>
 						<comment>\S3\Svertices</comment>
-						<call depth="2" id="23">
+						<call depth="2" id="24">
 							<function>
 								<access>
 									<value>obj</value>
@@ -299,7 +246,7 @@
 								<parameter>0.0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="24">
+						<call depth="2" id="25">
 							<function>
 								<access>
 									<value>obj</value>
@@ -323,7 +270,7 @@
 								<parameter>1.0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="25">
+						<call depth="2" id="26">
 							<function>
 								<access>
 									<value>obj</value>
@@ -344,7 +291,7 @@
 							</parameters>
 						</call>
 						<comment>\SUpdate!</comment>
-						<call depth="2" id="26">
+						<call depth="2" id="27">
 							<function>
 								<access>
 									<value>obj</value>
@@ -353,7 +300,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<return depth="2" id="27">obj</return>
+						<return depth="2" id="28">obj</return>
 					</code>
 				</function>
 			</code>

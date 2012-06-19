@@ -115,6 +115,7 @@ xmlToBPCExprBlock = {
 	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
 	"in" : ["in", "expression", "code"],
+	"on" : ["on", "expression", "code"],
 	"catch" : ["catch", "variable", "code"],
 	"switch" : ["switch", "value", "case"],
 	"pattern" : ["pattern", "type", ""],
@@ -170,6 +171,7 @@ autoNewlineBlock = {
 	"atomic",
 	"compiler-flags",
 	"const",
+	"on",
 	
 	"function",
 	"getter",

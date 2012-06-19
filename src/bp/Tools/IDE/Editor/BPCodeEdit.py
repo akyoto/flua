@@ -466,6 +466,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"atomic",
 			"namespace",
 			"public",
+			"on",
 			
 			# A dirty hack so that C++ gets some auto indent
 			'inline',
@@ -867,8 +868,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			else:
 				charBeforeWord = ""
 			
-			if completionPrefix.endswith("()"):
-				if charBeforeWord != ".":
+			if completionPrefix.endswith(")"):
+				if text and relPos > 0 and text[relPos - 1] != ".":
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					popup.hide()
 					return
