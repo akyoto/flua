@@ -22,9 +22,10 @@
 	//  --enable-threads=posix
 	//  --enable-thread-local-alloc
 	//  --enable-parallel-mark
+	
 	// ./configure --enable-cplusplus --enable-threads=posix --enable-thread-local-alloc --enable-parallel-mark --prefix=/home/eduard/boehmgc/
 
-	//compile with
+	// change the Makefile to compile with
 	//	-DUSE_LIBC_PRIVATES -DPARALLEL_MARK
 	
 	// On Win32 use:
@@ -32,7 +33,7 @@
 	
 	// Download of libatomic_ops and placement inside the boehm gc directory is needed
 	
-	// Use version 7.3
+	// Use version 7.3 or 7.2, whatever runs
 	
 	// Boehm GC flags
 	#ifdef _WIN32
@@ -65,9 +66,12 @@
 #endif
 
 #ifdef BP_USE_GMP
+	// Holy shit, the developers of GMP are retarded.
+	
 	// ./configure
 	//  --enable-cxx
 	//  --enable-fat
+	
 	// ./configure --enable-cxx --enable-fat
 	
 	// Included by the compiler:
