@@ -173,6 +173,9 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 """ % (struct, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
 		self.customThreads[funcName] = func
 		
+	def buildFloat(self, value):
+		return value + "f"
+		
 	def buildStruct(self, structName, paramTypes, isClass = False):
 		count = 0
 		params = []

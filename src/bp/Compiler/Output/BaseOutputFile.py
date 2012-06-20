@@ -310,6 +310,11 @@ class BaseOutputFile(ScopeController):
 		
 		# In parameter definition?
 		if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "parameter":
+			#print("----------")
+			#print(declaredInline)
+			#print(variableName)
+			#print(self.getNamespacePrefix())
+			#print("--xxx--")
 			return variableName
 		
 		# Parse value
@@ -492,7 +497,11 @@ class BaseOutputFile(ScopeController):
 			#if isElemNode(node.childNodes[0]) and node.childNodes[0].tagName == "declare-type":
 			#	name = node.childNodes[0].childNodes[0].childNodes[0].nodeValue
 			#else:
-			name = parseExpr(node.childNodes[0])
+			if node.firstChild.nodeType != Node.TEXT_NODE and node.firstChild.tagName == "parameter":
+				name = parseExpr(node.firstChild.firstChild)
+			else:
+				name = parseExpr(node.firstChild)
+			
 			#print("Name: " + name)
 			#print(node.toprettyxml())
 			
@@ -1550,7 +1559,9 @@ class BaseOutputFile(ScopeController):
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
 				if tagName(exprNode.childNodes[0].childNodes[0]) == "declare-type":
-					name = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
+					name2 = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
+					name, type = self.getTypeDeclInfo(exprNode.childNodes[0].childNodes[0])
+					#print(name, name2, name == name2)
 				else:
 					name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
 				
@@ -1562,22 +1573,13 @@ class BaseOutputFile(ScopeController):
 				defaultValue = self.parseExpr(exprNode.childNodes[1].childNodes[0])
 				defaultValueType = self.getExprDataType(exprNode)
 				
+				#if declTypeFlag:
+				#	exprNode = exprNode.childNodes[0].childNodes[0]
+				
 				# TODO: declare-type
 				#type = defaultValueType
 			elif exprNode.tagName == "declare-type":
-				op1 = exprNode.childNodes[0].childNodes[0]
-				if isElemNode(op1) and op1.tagName == "access":
-					accessingObject = self.parseExpr(op1.childNodes[0].childNodes[0])
-					accessingMember = self.parseExpr(op1.childNodes[1].childNodes[0])
-					if accessingObject == self.myself:
-						name = "__" + accessingMember
-					else:
-						raise CompilerException("'%s.%s' may not be used as a function parameter" % (accessingObject, accessingMember))
-				else:
-					name = self.parseExpr(op1)
-				
-				typeNode = exprNode.childNodes[1].childNodes[0]
-				type = parseExpr(typeNode, True)
+				name, type = self.getTypeDeclInfo(exprNode)
 				
 				# Typedefs
 				#type = prepareTypeName(type)
@@ -1617,6 +1619,23 @@ class BaseOutputFile(ScopeController):
 			pDefaultTypesAppend(defaultValueType)
 		
 		return pList, pTypes, pDefault, pDefaultTypes
+	
+	def getTypeDeclInfo(self, exprNode):
+		op1 = exprNode.childNodes[0].childNodes[0]
+		if isElemNode(op1) and op1.tagName == "access":
+			accessingObject = self.parseExpr(op1.childNodes[0].childNodes[0])
+			accessingMember = self.parseExpr(op1.childNodes[1].childNodes[0])
+			if accessingObject == self.myself:
+				name = "__" + accessingMember
+			else:
+				raise CompilerException("'%s.%s' may not be used as a function parameter" % (accessingObject, accessingMember))
+		else:
+			name = self.parseExpr(op1)
+		
+		typeNode = exprNode.childNodes[1].childNodes[0]
+		type = self.parseExpr(typeNode, True)
+		
+		return name, type
 	
 	def parseChilds(self, parent, prefix = "", postfix = ""):
 		lines = []
@@ -1678,6 +1697,8 @@ class BaseOutputFile(ScopeController):
 						return "(BigInt)(\"" + str(num) + "\")"
 					else:
 						return str(num)
+				elif "." in node.nodeValue:
+					return self.buildFloat(node.nodeValue)
 				elif node.nodeValue == "true":
 					return self.buildTrue()
 				elif node.nodeValue == "false":

@@ -5,6 +5,7 @@
 			<import>bp.Core</import>
 			<import>Point</import>
 			<import>Circle</import>
+			<import>Vector3</import>
 		</dependencies>
 		<strings/>
 	</header>

@@ -8,8 +8,9 @@ class BaseFunctionImplementation:
 		self.func = func
 		self.paramTypes = paramTypes
 		
-		for i in range(len(self.func.paramTypesByDefinition)):
+		for i in range(len(paramTypes)): #self.func.paramTypesByDefinition
 			byDef = self.func.paramTypesByDefinition[i]
+			
 			if byDef:
 				self.paramTypes[i] = self.classImpl.translateTemplateName(byDef)
 		
