@@ -10,14 +10,15 @@
 			<import>Math</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">All\Sbenchmarks</string>
-			<string id="bp_string_1">-</string>
-			<string id="bp_string_2">Use\Sparallel\Sexecution?\S[y/n]</string>
-			<string id="bp_string_3">y</string>
+			<string id="bp_string_0">Starting:</string>
+			<string id="bp_string_1">All\Sbenchmarks</string>
+			<string id="bp_string_2">-</string>
+			<string id="bp_string_3">Use\Sparallel\Sexecution?\S[y/n]</string>
+			<string id="bp_string_4">y</string>
 		</strings>
 	</header>
 	<code>
-		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion5</comment>
+		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion</comment>
 		<function depth="0" id="1">
 			<parameters>
 				<parameter>para</parameter>
@@ -28,35 +29,45 @@
 					<function>benchWarmUp</function>
 					<parameters/>
 				</call>
-				<in depth="1" id="3">
+				<call depth="1" id="3">
+					<function>benchWarmUp</function>
+					<parameters/>
+				</call>
+				<call depth="1" id="4">
+					<function>print</function>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</call>
+				<in depth="1" id="5">
 					<expression>
 						<new>
 							<type>Benchmark</type>
 							<parameters>
-								<parameter>bp_string_0</parameter>
+								<parameter>bp_string_1</parameter>
 							</parameters>
 						</new>
 					</expression>
 					<code>
-						<if-block depth="2" id="4">
+						<if-block depth="2" id="6">
 							<if>
 								<condition>para</condition>
 								<code>
-									<parallel depth="3" id="5">
+									<parallel depth="3" id="7">
 										<code>
-											<call depth="4" id="6">
+											<call depth="4" id="8">
 												<function>benchFileIO</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="7">
+											<call depth="4" id="9">
 												<function>benchMath</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="8">
+											<call depth="4" id="10">
 												<function>benchStrings</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="9">
+											<call depth="4" id="11">
 												<function>benchTime</function>
 												<parameters/>
 											</call>
@@ -65,33 +76,33 @@
 									</parallel>
 								</code>
 							</if>
-							<else depth="2" id="10">
+							<else depth="2" id="12">
 								<code>
-									<call depth="3" id="11">
+									<call depth="3" id="13">
 										<function>benchFileIO</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="12">
+									<call depth="3" id="14">
 										<function>benchMath</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="13">
+									<call depth="3" id="15">
 										<function>benchStrings</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="14">
+									<call depth="3" id="16">
 										<function>benchTime</function>
 										<parameters/>
 									</call>
 								</code>
 							</else>
 						</if-block>
-						<call depth="2" id="15">
+						<call depth="2" id="17">
 							<function>print</function>
 							<parameters>
 								<parameter>
 									<multiply>
-										<value>bp_string_1</value>
+										<value>bp_string_2</value>
 										<value>80</value>
 									</multiply>
 								</parameter>
@@ -103,7 +114,7 @@
 			<meta/>
 		</function>
 		<comment>\SRun\Sit!</comment>
-		<call depth="0" id="16">
+		<call depth="0" id="18">
 			<function>benchAll</function>
 			<parameters>
 				<parameter>
@@ -112,11 +123,11 @@
 							<call>
 								<function>input</function>
 								<parameters>
-									<parameter>bp_string_2</parameter>
+									<parameter>bp_string_3</parameter>
 								</parameters>
 							</call>
 						</value>
-						<value>bp_string_3</value>
+						<value>bp_string_4</value>
 					</equal>
 				</parameter>
 			</parameters>

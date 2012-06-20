@@ -49,11 +49,27 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
+					<extern-function depth="2" id="9">
+						<name>isUpper</name>
+						<type>Bool</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="10">
+						<name>isLower</name>
+						<type>Bool</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
 				</code>
 			</namespace>
 		</extern>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Salpha-numeric,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="11">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -64,7 +80,7 @@
 			</parameters>
 			<name>isAlnum</name>
 			<code>
-				<return depth="1" id="10">
+				<return depth="1" id="12">
 					<call>
 						<function>
 							<access>
@@ -81,7 +97,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\San\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="11">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -92,7 +108,7 @@
 			</parameters>
 			<name>isAlpha</name>
 			<code>
-				<return depth="1" id="12">
+				<return depth="1" id="14">
 					<call>
 						<function>
 							<access>
@@ -109,7 +125,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Sdigit,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="13">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -120,7 +136,7 @@
 			</parameters>
 			<name>isDigit</name>
 			<code>
-				<return depth="1" id="14">
+				<return depth="1" id="16">
 					<call>
 						<function>
 							<access>
@@ -137,7 +153,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Swhitespace\Scharacter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -148,12 +164,68 @@
 			</parameters>
 			<name>isSpace</name>
 			<code>
-				<return depth="1" id="16">
+				<return depth="1" id="18">
 					<call>
 						<function>
 							<access>
 								<value>bp</value>
 								<value>isSpace</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\San\Suppercase\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="19">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isUpper</name>
+			<code>
+				<return depth="1" id="20">
+					<call>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isUpper</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Slowercase\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="21">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isLower</name>
+			<code>
+				<return depth="1" id="22">
+					<call>
+						<function>
+							<access>
+								<value>bp</value>
+								<value>isLower</value>
 							</access>
 						</function>
 						<parameters>
