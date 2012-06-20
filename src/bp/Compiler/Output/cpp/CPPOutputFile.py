@@ -65,13 +65,13 @@ class CPPOutputFile(BaseOutputFile):
 		
 		# Other code types
 		self.stringsHeader = "\t// Strings\n"
-		self.varsHeader = "\n// Variables\n"
-		self.dataFlowHeader = "\n// DataFlow variables\n"
-		self.functionsHeader = "// Functions\n\n"
-		self.classesHeader = ""
-		self.actorClassesHeader = ""
-		self.prototypesHeader = "\n// Prototypes\n"
-		self.includesHeader = "\n// Includes\n"
+		self.varsHeader = "\n// Variables\n\n"
+		self.dataFlowHeader = "\n// DataFlow variables\n\n"
+		self.functionsHeader = "\n// Functions\n\n"
+		self.classesHeader = "\n// Classes\n\n"
+		#self.actorClassesHeader = ""
+		self.prototypesHeader = "\n// Prototypes\n\n"
+		self.includesHeader = "\n// Includes\n\n"
 		
 		# Syntax
 		self.lineLimiter = ";\n"
@@ -118,7 +118,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.includesHeader += "".join(incls)
 		
 		# Custom Threads
-		self.customThreadsString = '\n'.join(self.customThreads.values()) + '\n'
+		self.customThreadsString = '\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n'
 		
 		# Variables
 		for var in self.getTopLevelScope().variables.values():
@@ -130,9 +130,9 @@ class CPPOutputFile(BaseOutputFile):
 			elif not isUnmanaged(var.type):
 				self.varsHeader += var.getPrototype() + ";\n"
 				
-		self.varsHeader += "\n"
+		#self.varsHeader += "\n"
 		
-		self.structsHeader = "// Structs\n%s\n" % '\n'.join(self.structs)
+		self.structsHeader = "\n// Structs\n\n%s" % '\n'.join(self.structs)
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
@@ -344,11 +344,11 @@ typedef struct %s {
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)
-			return "//{\n%s\t%s;\n%s\t%s->enter();\n%s%s\t%s->exit();\n%s//}" % (tabs, expr, tabs, c, code, tabs, c, tabs)
+			return "//in {\n%s\t%s;\n%s\t%s->enter();\n%s%s\t%s->exit();\n%s//}" % (tabs, expr, tabs, c, code, tabs, c, tabs)
 		else:
 			c = self.compiler.inVarCounter
 			self.compiler.inVarCounter += 1
-			return "//{\n%s\t%s _tmp_var_%d = (%s);\n%s\t_tmp_var_%d->enter();\n%s%s\t_tmp_var_%d->exit();\n%s//}" % (tabs, exprType, c, expr, tabs, c, code, tabs, c, tabs)
+			return "//in {\n%s\t%s _tmp_var_%d = (%s);\n%s\t_tmp_var_%d->enter();\n%s%s\t_tmp_var_%d->exit();\n%s//}" % (tabs, exprType, c, expr, tabs, c, code, tabs, c, tabs)
 	
 	def buildCatchVar(self, varName, typeName):
 		return self.singleParameterSyntax % (typeName, varName)
@@ -506,7 +506,7 @@ typedef struct %s {
 		self.writeFunctions()
 		self.writeClasses()
 		
-		return "%s%s%s%s%s%s%s%s%s%s%s%s" % (
+		return "%s%s%s%s%s%s%s%s%s%s%s" % (
 			self.header,
 			self.prototypesHeader,
 			self.includesHeader,
@@ -516,7 +516,7 @@ typedef struct %s {
 			self.classesHeader,
 			self.customThreadsString,
 			self.functionsHeader,
-			self.actorClassesHeader,
+			#self.actorClassesHeader,
 			self.body,
 			self.footer
 		)
