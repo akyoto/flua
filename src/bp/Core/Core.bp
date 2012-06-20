@@ -126,35 +126,37 @@
 			<name>systemTime</name>
 			<code>
 				<test depth="1" id="17">
-					<assign depth="2" id="18">
-						<value>start</value>
-						<value>
-							<call>
-								<function>systemTime</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-					<assign depth="2" id="19">
-						<value>end</value>
-						<value>
-							<call>
-								<function>systemTime</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-					<assert depth="2" id="20">
-						<greater-or-equal>
+					<code>
+						<assign depth="2" id="18">
+							<value>start</value>
 							<value>
-								<subtract>
-									<value>end</value>
-									<value>start</value>
-								</subtract>
+								<call>
+									<function>systemTime</function>
+									<parameters/>
+								</call>
 							</value>
-							<value>0</value>
-						</greater-or-equal>
-					</assert>
+						</assign>
+						<assign depth="2" id="19">
+							<value>end</value>
+							<value>
+								<call>
+									<function>systemTime</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<assert depth="2" id="20">
+							<greater-or-equal>
+								<value>
+									<subtract>
+										<value>end</value>
+										<value>start</value>
+									</subtract>
+								</value>
+								<value>0</value>
+							</greater-or-equal>
+						</assert>
+					</code>
 				</test>
 				<return depth="1" id="21">
 					<call>
@@ -175,35 +177,37 @@
 			<name>systemTimeMicro</name>
 			<code>
 				<test depth="1" id="23">
-					<assign depth="2" id="24">
-						<value>start</value>
-						<value>
-							<call>
-								<function>systemTimeMicro</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-					<assign depth="2" id="25">
-						<value>end</value>
-						<value>
-							<call>
-								<function>systemTimeMicro</function>
-								<parameters/>
-							</call>
-						</value>
-					</assign>
-					<assert depth="2" id="26">
-						<greater-or-equal>
+					<code>
+						<assign depth="2" id="24">
+							<value>start</value>
 							<value>
-								<subtract>
-									<value>end</value>
-									<value>start</value>
-								</subtract>
+								<call>
+									<function>systemTimeMicro</function>
+									<parameters/>
+								</call>
 							</value>
-							<value>0</value>
-						</greater-or-equal>
-					</assert>
+						</assign>
+						<assign depth="2" id="25">
+							<value>end</value>
+							<value>
+								<call>
+									<function>systemTimeMicro</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<assert depth="2" id="26">
+							<greater-or-equal>
+								<value>
+									<subtract>
+										<value>end</value>
+										<value>start</value>
+									</subtract>
+								</value>
+								<value>0</value>
+							</greater-or-equal>
+						</assert>
+					</code>
 				</test>
 				<return depth="1" id="27">
 					<call>

@@ -1798,7 +1798,7 @@ class BaseOutputFile(ScopeController):
 			return self.handleCall(virtualIndexCall)
 		elif tagName == "test":
 			if self.isMainFile and node.parentNode.parentNode.tagName == "module":
-				return self.parseChilds(node, "\t" * self.currentTabLevel, self.lineLimiter)
+				return self.parseChilds(node.firstChild, "\t" * self.currentTabLevel, self.lineLimiter)
 			return ""
 		elif tagName == "not":
 			return self.buildNegation(self.parseExpr(node.firstChild))

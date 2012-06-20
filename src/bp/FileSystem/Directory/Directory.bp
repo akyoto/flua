@@ -61,6 +61,7 @@
 						<code>
 							<noop depth="3" id="12"/>
 						</code>
+						<meta/>
 					</function>
 				</code>
 			</class>
@@ -245,54 +246,56 @@
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="37">
-			<target depth="1" id="38">
-				<name>Linux</name>
-				<code>
-					<foreach depth="2" id="39">
-						<iterator>x</iterator>
-						<collection>
-							<new>
-								<type>Directory</type>
-								<parameters>
-									<parameter>bp_string_3</parameter>
-								</parameters>
-							</new>
-						</collection>
-						<code>
-							<call depth="3" id="40">
-								<function>print</function>
-								<parameters>
-									<parameter>x</parameter>
-								</parameters>
-							</call>
-						</code>
-					</foreach>
-				</code>
-			</target>
-			<target depth="1" id="41">
-				<name>Windows</name>
-				<code>
-					<foreach depth="2" id="42">
-						<iterator>x</iterator>
-						<collection>
-							<new>
-								<type>Directory</type>
-								<parameters>
-									<parameter>bp_string_4</parameter>
-								</parameters>
-							</new>
-						</collection>
-						<code>
-							<call depth="3" id="43">
-								<function>print</function>
-								<parameters>
-									<parameter>x</parameter>
-								</parameters>
-							</call>
-						</code>
-					</foreach>
-				</code>
-			</target>
+			<code>
+				<target depth="1" id="38">
+					<name>Linux</name>
+					<code>
+						<foreach depth="2" id="39">
+							<iterator>x</iterator>
+							<collection>
+								<new>
+									<type>Directory</type>
+									<parameters>
+										<parameter>bp_string_3</parameter>
+									</parameters>
+								</new>
+							</collection>
+							<code>
+								<call depth="3" id="40">
+									<function>print</function>
+									<parameters>
+										<parameter>x</parameter>
+									</parameters>
+								</call>
+							</code>
+						</foreach>
+					</code>
+				</target>
+				<target depth="1" id="41">
+					<name>Windows</name>
+					<code>
+						<foreach depth="2" id="42">
+							<iterator>x</iterator>
+							<collection>
+								<new>
+									<type>Directory</type>
+									<parameters>
+										<parameter>bp_string_4</parameter>
+									</parameters>
+								</new>
+							</collection>
+							<code>
+								<call depth="3" id="43">
+									<function>print</function>
+									<parameters>
+										<parameter>x</parameter>
+									</parameters>
+								</call>
+							</code>
+						</foreach>
+					</code>
+				</target>
+			</code>
 		</test>
 	</code>
 </module>

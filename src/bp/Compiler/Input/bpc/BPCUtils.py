@@ -101,8 +101,8 @@ xmlToBPCBlock = {
 	# TODO: Metadata
 	"require" : "require",
 	"ensure" : "ensure",
-	"maybe" : "maybe",
-	"test" : "test",
+	#"maybe" : "maybe",
+	#"test" : "test",
 }
 
 xmlToBPCExprBlock = {
@@ -120,6 +120,7 @@ xmlToBPCExprBlock = {
 	"switch" : ["switch", "value", "case"],
 	"pattern" : ["pattern", "type", ""],
 	"shared" : ["shared", "", "code"],
+	"test" : ["test", "", "code"],
 }
 
 elementsNoNewline = [

@@ -27,54 +27,50 @@
 						<value>0</value>
 					</greater>
 				</ensure>
-				<maybe depth="1" id="6">
-					<declare-type depth="2" id="7">
-						<value>result</value>
-						<value>BigInt</value>
-					</declare-type>
-				</maybe>
-				<test depth="1" id="8">
-					<assert depth="2" id="9">
-						<equal>
-							<value>
-								<call>
-									<function>factorial</function>
-									<parameters>
-										<parameter>0</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>1</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="10">
-						<equal>
-							<value>
-								<call>
-									<function>factorial</function>
-									<parameters>
-										<parameter>10</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>3628800</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="11">
-						<equal>
-							<value>
-								<call>
-									<function>factorial</function>
-									<parameters>
-										<parameter>20</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>2432902008176640000</value>
-						</equal>
-					</assert>
+				<test depth="1" id="6">
+					<code>
+						<assert depth="2" id="7">
+							<equal>
+								<value>
+									<call>
+										<function>factorial</function>
+										<parameters>
+											<parameter>0</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>1</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="8">
+							<equal>
+								<value>
+									<call>
+										<function>factorial</function>
+										<parameters>
+											<parameter>10</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>3628800</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="9">
+							<equal>
+								<value>
+									<call>
+										<function>factorial</function>
+										<parameters>
+											<parameter>20</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>2432902008176640000</value>
+							</equal>
+						</assert>
+					</code>
 				</test>
-				<if-block depth="1" id="12">
+				<if-block depth="1" id="10">
 					<if>
 						<condition>
 							<equal>
@@ -83,11 +79,11 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="13">1</return>
+							<return depth="2" id="11">1</return>
 						</code>
 					</if>
 				</if-block>
-				<return depth="1" id="14">
+				<return depth="1" id="12">
 					<multiply>
 						<value>n</value>
 						<value>
@@ -109,13 +105,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Spower\Sof\S2,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isPowerOf2</name>
 			<code>
-				<return depth="1" id="16">
+				<return depth="1" id="14">
 					<and>
 						<value>x</value>
 						<value>
@@ -136,16 +132,15 @@
 					</and>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sodd,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="17">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isOdd</name>
 			<code>
-				<return depth="1" id="18">
+				<return depth="1" id="16">
 					<not-equal>
 						<value>
 							<modulo>
@@ -157,16 +152,15 @@
 					</not-equal>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\Seven,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="19">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>isEven</name>
 			<code>
-				<return depth="1" id="20">
+				<return depth="1" id="18">
 					<equal>
 						<value>
 							<modulo>
@@ -178,7 +172,6 @@
 					</equal>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

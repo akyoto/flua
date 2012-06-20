@@ -217,45 +217,47 @@
 			<name>getNextPowerOf2</name>
 			<code>
 				<test depth="1" id="38">
-					<assert depth="2" id="39">
-						<equal>
-							<value>
-								<call>
-									<function>getNextPowerOf2</function>
-									<parameters>
-										<parameter>5</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>8</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="40">
-						<equal>
-							<value>
-								<call>
-									<function>getNextPowerOf2</function>
-									<parameters>
-										<parameter>224</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>256</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="41">
-						<equal>
-							<value>
-								<call>
-									<function>getNextPowerOf2</function>
-									<parameters>
-										<parameter>1024</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>1024</value>
-						</equal>
-					</assert>
+					<code>
+						<assert depth="2" id="39">
+							<equal>
+								<value>
+									<call>
+										<function>getNextPowerOf2</function>
+										<parameters>
+											<parameter>5</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>8</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="40">
+							<equal>
+								<value>
+									<call>
+										<function>getNextPowerOf2</function>
+										<parameters>
+											<parameter>224</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>256</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="41">
+							<equal>
+								<value>
+									<call>
+										<function>getNextPowerOf2</function>
+										<parameters>
+											<parameter>1024</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>1024</value>
+							</equal>
+						</assert>
+					</code>
 				</test>
 				<assign-subtract depth="1" id="42">
 					<value>x</value>

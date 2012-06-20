@@ -78,78 +78,55 @@
 					</code>
 					<meta/>
 				</function>
-				<operators depth="1" id="6">
-					<operator depth="2" id="7">
-						<parameters>
-							<parameter>index</parameter>
-						</parameters>
-						<name>[]</name>
-						<code>
-							<switch depth="3" id="8">
-								<value>index</value>
-								<case depth="4" id="9">
-									<values>
-										<value>0</value>
-									</values>
-									<code>
-										<return depth="5" id="10">
-											<access>
-												<value>my</value>
-												<value>x</value>
-											</access>
-										</return>
-									</code>
-								</case>
-								<case depth="4" id="11">
-									<values>
-										<value>1</value>
-									</values>
-									<code>
-										<return depth="5" id="12">
-											<access>
-												<value>my</value>
-												<value>y</value>
-											</access>
-										</return>
-									</code>
-								</case>
-								<case depth="4" id="13">
-									<values>
-										<value>2</value>
-									</values>
-									<code>
-										<return depth="5" id="14">
-											<access>
-												<value>my</value>
-												<value>z</value>
-											</access>
-										</return>
-									</code>
-								</case>
-							</switch>
-						</code>
-						<meta/>
-					</operator>
-				</operators>
-				<public depth="1" id="15">
-					<public-member depth="2" id="16">x</public-member>
-					<public-member depth="2" id="17">y</public-member>
-					<public-member depth="2" id="18">z</public-member>
+				<function depth="1" id="6">
+					<name>normalize</name>
+					<code>
+						<noop depth="2" id="7"/>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="8">
+					<public-member depth="2" id="9">x</public-member>
+					<public-member depth="2" id="10">y</public-member>
+					<public-member depth="2" id="11">z</public-member>
 				</public>
-				<get depth="1" id="19">
-					<getter depth="2" id="20">
+				<get depth="1" id="12">
+					<getter depth="2" id="13">
 						<name>length</name>
 						<code>
-							<noop depth="3" id="21"/>
+							<noop depth="3" id="14"/>
 						</code>
-						<meta/>
 					</getter>
 				</get>
-				<casts depth="1" id="22">
-					<cast-definition depth="2" id="23">
+				<set depth="1" id="15">
+					<setter depth="2" id="16">
+						<parameters>
+							<parameter>newLength</parameter>
+						</parameters>
+						<name>length</name>
+						<code>
+							<call depth="3" id="17">
+								<function>
+									<access>
+										<value>self</value>
+										<value>normalise</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+							<assign-multiply depth="3" id="18">
+								<value>self</value>
+								<value>newLength</value>
+							</assign-multiply>
+						</code>
+						<meta/>
+					</setter>
+				</set>
+				<casts depth="1" id="19">
+					<cast-definition depth="2" id="20">
 						<to>String</to>
 						<code>
-							<return depth="3" id="24">
+							<return depth="3" id="21">
 								<add>
 									<value>
 										<add>
@@ -196,12 +173,64 @@
 						<meta/>
 					</cast-definition>
 				</casts>
+				<operators depth="1" id="22">
+					<operator depth="2" id="23">
+						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code>
+							<switch depth="3" id="24">
+								<value>index</value>
+								<case depth="4" id="25">
+									<values>
+										<value>0</value>
+									</values>
+									<code>
+										<return depth="5" id="26">
+											<access>
+												<value>my</value>
+												<value>x</value>
+											</access>
+										</return>
+									</code>
+								</case>
+								<case depth="4" id="27">
+									<values>
+										<value>1</value>
+									</values>
+									<code>
+										<return depth="5" id="28">
+											<access>
+												<value>my</value>
+												<value>y</value>
+											</access>
+										</return>
+									</code>
+								</case>
+								<case depth="4" id="29">
+									<values>
+										<value>2</value>
+									</values>
+									<code>
+										<return depth="5" id="30">
+											<access>
+												<value>my</value>
+												<value>z</value>
+											</access>
+										</return>
+									</code>
+								</case>
+							</switch>
+						</code>
+					</operator>
+				</operators>
 			</code>
 			<meta/>
 		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="25">
-			<assign depth="1" id="26">
+		<test depth="0" id="31">
+			<assign depth="1" id="32">
 				<value>vec</value>
 				<value>
 					<new>
@@ -214,7 +243,7 @@
 					</new>
 				</value>
 			</assign>
-			<call depth="1" id="27">
+			<call depth="1" id="33">
 				<function>print</function>
 				<parameters>
 					<parameter>
@@ -225,7 +254,7 @@
 					</parameter>
 				</parameters>
 			</call>
-			<call depth="1" id="28">
+			<call depth="1" id="34">
 				<function>print</function>
 				<parameters>
 					<parameter>
@@ -236,7 +265,7 @@
 					</parameter>
 				</parameters>
 			</call>
-			<call depth="1" id="29">
+			<call depth="1" id="35">
 				<function>print</function>
 				<parameters>
 					<parameter>
@@ -248,10 +277,6 @@
 				</parameters>
 			</call>
 		</test>
-		<comment>\Tset</comment>
-		<comment>\T\Tlength\SnewLength</comment>
-		<comment>\T\T\Tself.normalise</comment>
-		<comment>\T\T\Tself\S*=\SnewLength</comment>
 		<comment>\T\T+=\Svalue\S:\SFloat</comment>
 		<comment>\T\T\Tself.[x,\Sy,\Sz]\S+=\Svalue</comment>
 		<comment>\T\T-=\Svalue\S:\SFloat</comment>

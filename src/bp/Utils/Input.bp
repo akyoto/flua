@@ -59,39 +59,41 @@
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="9">
-			<assign depth="1" id="10">
-				<value>a</value>
-				<value>
-					<call>
-						<function>input</function>
-						<parameters>
-							<parameter>bp_string_0</parameter>
-						</parameters>
-					</call>
-				</value>
-			</assign>
-			<call depth="1" id="11">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<add>
-							<value>
-								<add>
-									<value>bp_string_1</value>
-									<value>a</value>
-								</add>
-							</value>
-							<value>bp_string_2</value>
-						</add>
-					</parameter>
-				</parameters>
-			</call>
-			<call depth="1" id="12">
-				<function>print</function>
-				<parameters>
-					<parameter>bp_string_3</parameter>
-				</parameters>
-			</call>
+			<code>
+				<assign depth="1" id="10">
+					<value>a</value>
+					<value>
+						<call>
+							<function>input</function>
+							<parameters>
+								<parameter>bp_string_0</parameter>
+							</parameters>
+						</call>
+					</value>
+				</assign>
+				<call depth="1" id="11">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>
+									<add>
+										<value>bp_string_1</value>
+										<value>a</value>
+									</add>
+								</value>
+								<value>bp_string_2</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="12">
+					<function>print</function>
+					<parameters>
+						<parameter>bp_string_3</parameter>
+					</parameters>
+				</call>
+			</code>
 		</test>
 	</code>
 </module>

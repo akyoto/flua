@@ -677,7 +677,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				nameNew = getElementByTagName(selectedNode, "name")
 				nameOld = getElementByTagName(selectedOldNode, "name")
 				
-				if nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
+				if nameOld and nameNew and nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
 					ppCodeEdit.rehighlightFunctionUsage()
 		
 		#lineIndex = self.codeEdit.getLineIndex()

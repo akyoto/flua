@@ -170,80 +170,82 @@
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="16">
-			<assign depth="1" id="17">
-				<value>text</value>
-				<value>bp_string_0</value>
-			</assign>
-			<assign depth="1" id="18">
-				<value>bytes</value>
-				<value>
-					<call>
-						<function>compress</function>
-						<parameters>
-							<parameter>text</parameter>
-						</parameters>
-					</call>
-				</value>
-			</assign>
-			<call depth="1" id="19">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<add>
-							<value>
-								<add>
-									<value>
-										<add>
-											<value>
-												<add>
-													<value>bp_string_1</value>
-													<value>
-														<access>
-															<value>text</value>
-															<value>lengthInBytes</value>
-														</access>
-													</value>
-												</add>
-											</value>
-											<value>bp_string_2</value>
-										</add>
-									</value>
-									<value>
-										<access>
-											<value>bytes</value>
-											<value>length</value>
-										</access>
-									</value>
-								</add>
-							</value>
-							<value>bp_string_3</value>
-						</add>
-					</parameter>
-				</parameters>
-			</call>
-			<assign depth="1" id="20">
-				<value>original</value>
-				<value>
-					<call>
-						<function>uncompress</function>
-						<parameters>
-							<parameter>bytes</parameter>
-						</parameters>
-					</call>
-				</value>
-			</assign>
-			<foreach depth="1" id="21">
-				<iterator>x</iterator>
-				<collection>original</collection>
-				<code>
-					<call depth="2" id="22">
-						<function>write</function>
-						<parameters>
-							<parameter>x</parameter>
-						</parameters>
-					</call>
-				</code>
-			</foreach>
+			<code>
+				<assign depth="1" id="17">
+					<value>text</value>
+					<value>bp_string_0</value>
+				</assign>
+				<assign depth="1" id="18">
+					<value>bytes</value>
+					<value>
+						<call>
+							<function>compress</function>
+							<parameters>
+								<parameter>text</parameter>
+							</parameters>
+						</call>
+					</value>
+				</assign>
+				<call depth="1" id="19">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>
+									<add>
+										<value>
+											<add>
+												<value>
+													<add>
+														<value>bp_string_1</value>
+														<value>
+															<access>
+																<value>text</value>
+																<value>lengthInBytes</value>
+															</access>
+														</value>
+													</add>
+												</value>
+												<value>bp_string_2</value>
+											</add>
+										</value>
+										<value>
+											<access>
+												<value>bytes</value>
+												<value>length</value>
+											</access>
+										</value>
+									</add>
+								</value>
+								<value>bp_string_3</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+				<assign depth="1" id="20">
+					<value>original</value>
+					<value>
+						<call>
+							<function>uncompress</function>
+							<parameters>
+								<parameter>bytes</parameter>
+							</parameters>
+						</call>
+					</value>
+				</assign>
+				<foreach depth="1" id="21">
+					<iterator>x</iterator>
+					<collection>original</collection>
+					<code>
+						<call depth="2" id="22">
+							<function>write</function>
+							<parameters>
+								<parameter>x</parameter>
+							</parameters>
+						</call>
+					</code>
+				</foreach>
+			</code>
 		</test>
 	</code>
 </module>

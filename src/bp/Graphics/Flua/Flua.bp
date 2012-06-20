@@ -8,7 +8,6 @@
 			<import>public.Graphics.GLUT</import>
 			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.FreeImage</import>
-			<import>public.Math.GLM</import>
 			<import>bp.FileSystem</import>
 			<import>GraphicsWindow</import>
 			<import>Material</import>

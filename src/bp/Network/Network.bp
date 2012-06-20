@@ -3,9 +3,12 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>Exceptions</import>
+			<import>IP</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">blitzprog.org</string>
+			<string id="bp_string_1">Could\Snot\Sresolve\S</string>
 		</strings>
 	</header>
 	<code>
@@ -21,132 +24,92 @@
 				<code>
 					<extern-function depth="2" id="5">
 						<name>getHostIP</name>
-						<type>Int32</type>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>true</same-output-for-input>
-						</meta>
-					</extern-function>
-					<extern-function depth="2" id="6">
-						<name>intIPToString</name>
-						<type>String</type>
-						<meta/>
+						<type>IPInfo</type>
 					</extern-function>
 				</code>
 			</namespace>
+			<comment>\SExternally\Sdefined\SIPInfo</comment>
+			<class depth="1" id="6">
+				<name>IPInfo</name>
+				<code>
+					<function depth="2" id="7">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="8"/>
+						</code>
+					</function>
+					<casts depth="2" id="9">
+						<cast-definition depth="3" id="10">
+							<to>String</to>
+							<code>
+								<declare-type depth="4" id="11">
+									<value>decl</value>
+									<value>String</value>
+								</declare-type>
+								<return depth="4" id="12">decl</return>
+							</code>
+							<meta/>
+						</cast-definition>
+					</casts>
+				</code>
+			</class>
 		</extern>
-		<class depth="0" id="7">
-			<name>IP</name>
-			<code>
-				<function depth="1" id="8">
-					<parameters>
-						<parameter>
-							<declare-type>
-								<value>
-									<access>
-										<value>my</value>
-										<value>addr</value>
-									</access>
-								</value>
-								<value>Int</value>
-							</declare-type>
-						</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<noop depth="2" id="9"/>
-					</code>
-					<meta/>
-				</function>
-				<function depth="1" id="10">
-					<parameters>
-						<parameter>
-							<declare-type>
-								<value>hostName</value>
-								<value>String</value>
-							</declare-type>
-						</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<assign depth="2" id="11">
-							<value>
-								<access>
-									<value>my</value>
-									<value>addr</value>
-								</access>
-							</value>
-							<value>
-								<call>
-									<function>
-										<access>
-											<value>bp</value>
-											<value>getHostIP</value>
-										</access>
-									</function>
-									<parameters>
-										<parameter>hostName</parameter>
-									</parameters>
-								</call>
-							</value>
-						</assign>
-					</code>
-					<meta/>
-				</function>
-				<casts depth="1" id="12">
-					<cast-definition depth="2" id="13">
-						<to>String</to>
-						<code>
-							<return depth="3" id="14">
-								<call>
-									<function>
-										<access>
-											<value>bp</value>
-											<value>intIPToString</value>
-										</access>
-									</function>
-									<parameters>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>addr</value>
-											</access>
-										</parameter>
-									</parameters>
-								</call>
-							</return>
-						</code>
-						<meta/>
-					</cast-definition>
-					<cast-definition depth="2" id="15">
-						<to>Int</to>
-						<code>
-							<return depth="3" id="16">
-								<access>
-									<value>my</value>
-									<value>addr</value>
-								</access>
-							</return>
-						</code>
-					</cast-definition>
-				</casts>
-			</code>
-		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="17">
-			<call depth="1" id="18">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<new>
-							<type>IP</type>
-							<parameters>
-								<parameter>bp_string_0</parameter>
-							</parameters>
-						</new>
-					</parameter>
-				</parameters>
-			</call>
+		<test depth="0" id="13">
+			<code>
+				<try-block depth="1" id="14">
+					<try>
+						<code>
+							<assign depth="2" id="15">
+								<value>ip</value>
+								<value>
+									<new>
+										<type>IP</type>
+										<parameters>
+											<parameter>bp_string_0</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<call depth="2" id="16">
+								<function>
+									<access>
+										<value>ip</value>
+										<value>print</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</code>
+					</try>
+					<catch depth="1" id="17">
+						<variable>
+							<declare-type>
+								<value>e</value>
+								<value>ResolveHostIPException</value>
+							</declare-type>
+						</variable>
+						<code>
+							<call depth="2" id="18">
+								<function>print</function>
+								<parameters>
+									<parameter>
+										<add>
+											<value>bp_string_1</value>
+											<value>
+												<access>
+													<value>e</value>
+													<value>hostName</value>
+												</access>
+											</value>
+										</add>
+									</parameter>
+								</parameters>
+							</call>
+						</code>
+					</catch>
+				</try-block>
+			</code>
 		</test>
 	</code>
 </module>

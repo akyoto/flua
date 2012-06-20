@@ -79,6 +79,7 @@ simpleBlocks = {
 	"in" : [],
 	"atomic" : [],
 	"public" : [],
+	"test" : [],
 }
 
 def addGenerics(line):
@@ -257,7 +258,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"in" : self.handleIn,
 			"include" : self.handleInclude,
 			"iterator" : self.handleIteratorBlock,
-			"maybe" : self.handleMaybe,
+			#"maybe" : self.handleMaybe,
 			"namespace" : self.handleNamespace,
 			"..." : self.handleNOOP,
 			"on" : self.handleOn,
@@ -1049,24 +1050,27 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.nextNode = node
 		return node
 	
-	def handleMaybe(self, line):
-		if not self.nextLineIndented:
-			self.raiseBlockException("maybe", line)
-		
-		node = self.doc.createElement("maybe")
-		self.inMaybe += 1
-		
-		self.nextNode = node
-		return node
+	#def handleMaybe(self, line):
+	#	if not self.nextLineIndented:
+	#		self.raiseBlockException("maybe", line)
+	#	
+	#	node = self.doc.createElement("maybe")
+	#	self.inMaybe += 1
+	#	
+	#	self.nextNode = node
+	#	return node
 	
 	def handleTest(self, line):
 		if not self.nextLineIndented:
 			self.raiseBlockException("test", line)
 		
 		node = self.doc.createElement("test")
+		code = self.doc.createElement("code")
+		node.appendChild(code)
+		
 		self.inTest += 1
 		
-		self.nextNode = node
+		self.nextNode = code
 		return node
 		
 	def handleNOOP(self, line):

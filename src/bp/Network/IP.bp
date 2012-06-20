@@ -1,0 +1,95 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SIP\Srepresentation</comment>
+		<class depth="0" id="1">
+			<name>IP</name>
+			<code>
+				<comment>\STries\Sto\Slook\Sup\Shost\Saddress\Son\Sconstruction</comment>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>hostName</value>
+								<value>String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>addr</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>bp</value>
+											<value>getHostIP</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>hostName</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<if-block depth="2" id="4">
+							<if>
+								<condition>
+									<equal>
+										<value>
+											<access>
+												<value>my</value>
+												<value>addr</value>
+											</access>
+										</value>
+										<value>null</value>
+									</equal>
+								</condition>
+								<code>
+									<throw depth="3" id="5">
+										<new>
+											<type>ResolveHostIPException</type>
+											<parameters>
+												<parameter>hostName</parameter>
+											</parameters>
+										</new>
+									</throw>
+								</code>
+							</if>
+						</if-block>
+					</code>
+				</function>
+				<function depth="1" id="6">
+					<name>print</name>
+					<code>
+						<call depth="2" id="7">
+							<function>print</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>addr</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

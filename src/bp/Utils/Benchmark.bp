@@ -169,45 +169,47 @@
 			<name>readableNumber</name>
 			<code>
 				<test depth="1" id="12">
-					<assert depth="2" id="13">
-						<equal>
-							<value>
-								<call>
-									<function>readableNumber</function>
-									<parameters>
-										<parameter>200</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>bp_string_2</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="14">
-						<equal>
-							<value>
-								<call>
-									<function>readableNumber</function>
-									<parameters>
-										<parameter>200000</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>bp_string_3</value>
-						</equal>
-					</assert>
-					<assert depth="2" id="15">
-						<equal>
-							<value>
-								<call>
-									<function>readableNumber</function>
-									<parameters>
-										<parameter>200000000</parameter>
-									</parameters>
-								</call>
-							</value>
-							<value>bp_string_4</value>
-						</equal>
-					</assert>
+					<code>
+						<assert depth="2" id="13">
+							<equal>
+								<value>
+									<call>
+										<function>readableNumber</function>
+										<parameters>
+											<parameter>200</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>bp_string_2</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="14">
+							<equal>
+								<value>
+									<call>
+										<function>readableNumber</function>
+										<parameters>
+											<parameter>200000</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>bp_string_3</value>
+							</equal>
+						</assert>
+						<assert depth="2" id="15">
+							<equal>
+								<value>
+									<call>
+										<function>readableNumber</function>
+										<parameters>
+											<parameter>200000000</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>bp_string_4</value>
+							</equal>
+						</assert>
+					</code>
 				</test>
 				<assign depth="1" id="16">
 					<value>separator</value>
@@ -511,6 +513,7 @@
 					</else>
 				</if-block>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>
