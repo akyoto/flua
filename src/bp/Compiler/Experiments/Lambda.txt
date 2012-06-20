@@ -1,0 +1,29 @@
+# (1)
+func n
+	return x { x + n }
+
+button.onClick = { print "Clicked" }
+
+# (2.a)
+func n
+	return lambda x: x + n
+	
+button.onClick = lambda: print "Clicked"
+	
+# DRY. Good.
+
+# (2.b)
+func n
+	return function x: x + n
+	
+button.onClick = function: print "Clicked"
+
+# Slight modification of 2. More characters (...). Better readability.
+	
+# (3)
+func n
+	return f(x) = x + n
+	
+button.onClick = f() = print("Clicked")
+
+# Bad.

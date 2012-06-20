@@ -53,134 +53,15 @@
 					<code>
 						<noop depth="2" id="6"/>
 					</code>
+					<meta/>
 				</function>
-				<set depth="1" id="7">
-					<setter depth="2" id="8">
-						<parameters>
-							<parameter>nPoint</parameter>
-						</parameters>
-						<name>center</name>
-						<code>
-							<assign depth="3" id="9">
-								<value>
-									<access>
-										<value>my</value>
-										<value>center</value>
-									</access>
-								</value>
-								<value>nPoint</value>
-							</assign>
-						</code>
-					</setter>
-					<setter depth="2" id="10">
-						<parameters>
-							<parameter>nRadius</parameter>
-						</parameters>
-						<name>radius</name>
-						<code>
-							<assign depth="3" id="11">
-								<value>
-									<access>
-										<value>my</value>
-										<value>radius</value>
-									</access>
-								</value>
-								<value>nRadius</value>
-							</assign>
-						</code>
-					</setter>
-					<setter depth="2" id="12">
-						<parameters>
-							<parameter>nDiameter</parameter>
-						</parameters>
-						<name>diameter</name>
-						<code>
-							<assign depth="3" id="13">
-								<value>
-									<access>
-										<value>my</value>
-										<value>radius</value>
-									</access>
-								</value>
-								<value>
-									<divide>
-										<value>nDiameter</value>
-										<value>2</value>
-									</divide>
-								</value>
-							</assign>
-						</code>
-					</setter>
-				</set>
-				<get depth="1" id="14">
-					<getter depth="2" id="15">
-						<name>center</name>
-						<code>
-							<return depth="3" id="16">
-								<access>
-									<value>my</value>
-									<value>center</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="17">
-						<name>radius</name>
-						<code>
-							<return depth="3" id="18">
-								<access>
-									<value>my</value>
-									<value>radius</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="19">
-						<name>diameter</name>
-						<code>
-							<return depth="3" id="20">
-								<multiply>
-									<value>
-										<access>
-											<value>my</value>
-											<value>radius</value>
-										</access>
-									</value>
-									<value>2</value>
-								</multiply>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="21">
-						<name>perimeter</name>
-						<code>
-							<return depth="3" id="22">
-								<multiply>
-									<value>
-										<multiply>
-											<value>2</value>
-											<value>pi</value>
-										</multiply>
-									</value>
-									<value>
-										<access>
-											<value>my</value>
-											<value>radius</value>
-										</access>
-									</value>
-								</multiply>
-							</return>
-						</code>
-						<meta/>
-					</getter>
-				</get>
-				<function depth="1" id="23">
+				<function depth="1" id="7">
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
 					<name>contains</name>
 					<code>
-						<return depth="2" id="24">
+						<return depth="2" id="8">
 							<less-or-equal>
 								<value>
 									<call>
@@ -240,13 +121,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="25">
+				<function depth="1" id="9">
 					<parameters>
 						<parameter>circle</parameter>
 					</parameters>
 					<name>intersects</name>
 					<code>
-						<assign depth="2" id="26">
+						<assign depth="2" id="10">
 							<value>dist</value>
 							<value>
 								<call>
@@ -300,7 +181,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="27">
+						<assign depth="2" id="11">
 							<value>sumRadi</value>
 							<value>
 								<add>
@@ -319,7 +200,7 @@
 								</add>
 							</value>
 						</assign>
-						<return depth="2" id="28">
+						<return depth="2" id="12">
 							<less>
 								<value>dist</value>
 								<value>
@@ -333,7 +214,76 @@
 							</less>
 						</return>
 					</code>
+					<meta/>
 				</function>
+				<public depth="1" id="13">
+					<public-member depth="2" id="14">center</public-member>
+					<public-member depth="2" id="15">radius</public-member>
+				</public>
+				<set depth="1" id="16">
+					<setter depth="2" id="17">
+						<parameters>
+							<parameter>nDiameter</parameter>
+						</parameters>
+						<name>diameter</name>
+						<code>
+							<assign depth="3" id="18">
+								<value>
+									<access>
+										<value>my</value>
+										<value>radius</value>
+									</access>
+								</value>
+								<value>
+									<divide>
+										<value>nDiameter</value>
+										<value>2</value>
+									</divide>
+								</value>
+							</assign>
+						</code>
+					</setter>
+				</set>
+				<get depth="1" id="19">
+					<getter depth="2" id="20">
+						<name>diameter</name>
+						<code>
+							<return depth="3" id="21">
+								<multiply>
+									<value>
+										<access>
+											<value>my</value>
+											<value>radius</value>
+										</access>
+									</value>
+									<value>2</value>
+								</multiply>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2" id="22">
+						<name>perimeter</name>
+						<code>
+							<return depth="3" id="23">
+								<multiply>
+									<value>
+										<multiply>
+											<value>2</value>
+											<value>pi</value>
+										</multiply>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>radius</value>
+										</access>
+									</value>
+								</multiply>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
 			</code>
 			<meta/>
 		</class>

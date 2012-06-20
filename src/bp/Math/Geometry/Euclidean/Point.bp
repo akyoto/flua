@@ -121,73 +121,16 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="12">
-					<getter depth="2" id="13">
-						<name>x</name>
-						<code>
-							<return depth="3" id="14">
-								<access>
-									<value>my</value>
-									<value>x</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="15">
-						<name>y</name>
-						<code>
-							<return depth="3" id="16">
-								<access>
-									<value>my</value>
-									<value>y</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-				</get>
-				<set depth="1" id="17">
-					<setter depth="2" id="18">
-						<parameters>
-							<parameter>value</parameter>
-						</parameters>
-						<name>x</name>
-						<code>
-							<assign depth="3" id="19">
-								<value>
-									<access>
-										<value>my</value>
-										<value>x</value>
-									</access>
-								</value>
-								<value>value</value>
-							</assign>
-						</code>
-					</setter>
-					<setter depth="2" id="20">
-						<parameters>
-							<parameter>value</parameter>
-						</parameters>
-						<name>y</name>
-						<code>
-							<assign depth="3" id="21">
-								<value>
-									<access>
-										<value>my</value>
-										<value>y</value>
-									</access>
-								</value>
-								<value>value</value>
-							</assign>
-						</code>
-						<meta/>
-					</setter>
-				</set>
-				<casts depth="1" id="22">
-					<cast-definition depth="2" id="23">
+				<public depth="1" id="12">
+					<public-member depth="2" id="13">x</public-member>
+					<public-member depth="2" id="14">y</public-member>
+				</public>
+				<casts depth="1" id="15">
+					<cast-definition depth="2" id="16">
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SImplement\SInt\S-&gt;\SString\Sautocast</comment>
-							<return depth="3" id="24">
+							<return depth="3" id="17">
 								<add>
 									<value>
 										<add>
@@ -214,10 +157,10 @@
 								</add>
 							</return>
 						</code>
-						<meta/>
 					</cast-definition>
 				</casts>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>
