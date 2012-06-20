@@ -1,0 +1,62 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings>
+			<string id="bp_string_0">Hello</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SCreate\Sa\Sfunction:</comment>
+		<function depth="0" id="1">
+			<name>func</name>
+			<code>
+				<return depth="1" id="2">
+					<parameters>
+						<parameter>bp_string_0</parameter>
+						<parameter>4</parameter>
+						<parameter>5</parameter>
+					</parameters>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SChoose\Ssome\Svariables\Swhere\Sthe\Svalues\Sshould\Sbe\Sstored</comment>
+		<assign depth="0" id="3">
+			<value>
+				<parameters>
+					<parameter>a</parameter>
+					<parameter>b</parameter>
+					<parameter>c</parameter>
+				</parameters>
+			</value>
+			<value>
+				<call>
+					<function>func</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<comment>\SUse\Sthem</comment>
+		<call depth="0" id="4">
+			<function>print</function>
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="5">
+			<function>print</function>
+			<parameters>
+				<parameter>b</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="6">
+			<function>print</function>
+			<parameters>
+				<parameter>c</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>
