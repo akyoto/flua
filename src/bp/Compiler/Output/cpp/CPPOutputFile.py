@@ -132,7 +132,7 @@ class CPPOutputFile(BaseOutputFile):
 				
 		#self.varsHeader += "\n"
 		
-		self.structsHeader = "\n// Structs\n\n%s" % '\n'.join(self.structs)
+		self.structsHeader = "\n// Tuples\n\n%s" % '\n'.join(self.tuples.values())
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
@@ -173,7 +173,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 """ % (struct, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
 		self.customThreads[funcName] = func
 		
-	def buildStruct(self, structName, paramTypes):
+	def buildStruct(self, structName, paramTypes, isClass = False):
 		count = 0
 		params = []
 		paramNames = []
@@ -196,12 +196,24 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		else:
 			initParams = ""
 		
+		if isClass:
+			blockStart = "class"
+			blockEnd = ""
+			publicDecl = "public:"
+			constructorName = structName#[:structName.find("<")]
+		else:
+			blockStart = "typedef struct"
+			blockEnd = structName
+			publicDecl = ""
+			constructorName = structName
+		
 		return paramNames, """
 // Struct '%s'
-typedef struct %s {
+%s %s {
+%s
 	%s
 	inline %s(%s) %s {}
-} %s;""" % (structName, structName, ''.join(params), structName, ', '.join(constructorList), initParams, structName)
+} %s;""" % (structName, blockStart, structName, publicDecl, ''.join(params), constructorName, ', '.join(constructorList), initParams, blockEnd)
 		
 	def adjustDataType(self, typeName, adjustOuterAsWell = True):
 		return adjustDataTypeCPP(typeName, adjustOuterAsWell)

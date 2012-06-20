@@ -67,6 +67,10 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 	classPostfix = "*"
 	
 	pos = type.find('<')
+	
+	if type[:pos] == "Tuple":
+		return standardClassPrefix + type.replace("<", "_").replace(">", "_").replace(",", "_").replace(" ", "") + classPostfix
+	
 	if pos != -1:
 		params = splitParams(type[pos+1:-1])
 		paramsNew = []
@@ -89,6 +93,7 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 			type = standardClassPrefix + type
 	else:
 		type = standardClassPrefix + removeUnmanaged(type)
+	
 	return type.replace("<", "< ").replace(">", " >").replace("  ", " ")
 
 # Old version

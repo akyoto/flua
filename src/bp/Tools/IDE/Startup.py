@@ -110,6 +110,7 @@ class Startup:
 		self.targetSwitcher.setToolTip("Target language")
 		self.targetSwitcher.addItem("C++")
 		self.targetSwitcher.addItem("Python 3 (in development)")
+		self.targetSwitcher.addItem("HTML5 (not implemented)")
 		
 		self.statusBar.addPermanentWidget(self.targetSwitcher, 0)
 		

@@ -133,6 +133,12 @@ def addBrackets(line):
 	# A simple array index without any other calls
 	elif char == ']':
 		return line
+	# Multiple return values
+	elif char == ',':
+		# TODO: Do this properly instead of quick hacks.
+		pos = line.find("=")
+		params = line[:pos]
+		return "(%s)%s" % (params, line[pos:])
 	
 	rightOperand = line[i+1:]
 	if isDefinitelyOperatorSign(char):

@@ -27,12 +27,13 @@
 			<string id="bp_string_19">#throw\SNOT\Sworking</string>
 			<string id="bp_string_20">#static\Sworking</string>
 			<string id="bp_string_21">#private\Sworking</string>
-			<string id="bp_string_22">#return\Sworking</string>
-			<string id="bp_string_23">#const\Sworking</string>
-			<string id="bp_string_24">#break\Sworking</string>
-			<string id="bp_string_25">#break\SNOT\Sworking</string>
-			<string id="bp_string_26">#continue\Sworking</string>
-			<string id="bp_string_27">#continue\SNOT\Sworking</string>
+			<string id="bp_string_22">#on\Sworking</string>
+			<string id="bp_string_23">#return\Sworking</string>
+			<string id="bp_string_24">#const\Sworking</string>
+			<string id="bp_string_25">#break\Sworking</string>
+			<string id="bp_string_26">#break\SNOT\Sworking</string>
+			<string id="bp_string_27">#continue\Sworking</string>
+			<string id="bp_string_28">#continue\SNOT\Sworking</string>
 		</strings>
 	</header>
 	<code>
@@ -464,22 +465,39 @@
 						<noop depth="2" id="72"/>
 					</code>
 				</function>
-				<private depth="1" id="73">
-					<function depth="2" id="74">
+				<function depth="1" id="73">
+					<parameters>
+						<parameter>msg</parameter>
+					</parameters>
+					<name>testOn</name>
+					<code>
+						<call depth="2" id="74">
+							<function>print</function>
+							<parameters>
+								<parameter>msg</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<private depth="1" id="75">
+					<function depth="2" id="76">
 						<name>privateFunc</name>
 						<code>
-							<call depth="3" id="75">
+							<call depth="3" id="77">
 								<function>print</function>
 								<parameters>
 									<parameter>bp_string_21</parameter>
 								</parameters>
 							</call>
 						</code>
+						<meta/>
 					</function>
 				</private>
 			</code>
+			<meta/>
 		</class>
-		<assign depth="0" id="76">
+		<assign depth="0" id="78">
 			<value>obj</value>
 			<value>
 				<new>
@@ -488,13 +506,24 @@
 				</new>
 			</value>
 		</assign>
-		<function depth="0" id="77">
+		<on depth="0" id="79">
+			<expression>obj</expression>
+			<code>
+				<call depth="1" id="80">
+					<function>testOn</function>
+					<parameters>
+						<parameter>bp_string_22</parameter>
+					</parameters>
+				</call>
+			</code>
+		</on>
+		<function depth="0" id="81">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>halfOf</name>
 			<code>
-				<return depth="1" id="78">
+				<return depth="1" id="82">
 					<divide>
 						<value>a</value>
 						<value>2</value>
@@ -502,7 +531,7 @@
 				</return>
 			</code>
 		</function>
-		<if-block depth="0" id="79">
+		<if-block depth="0" id="83">
 			<if>
 				<condition>
 					<equal>
@@ -518,30 +547,6 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="80">
-						<function>print</function>
-						<parameters>
-							<parameter>bp_string_22</parameter>
-						</parameters>
-					</call>
-				</code>
-			</if>
-		</if-block>
-		<const depth="0" id="81">
-			<assign depth="1" id="82">
-				<value>myConst</value>
-				<value>13.0</value>
-			</assign>
-		</const>
-		<if-block depth="0" id="83">
-			<if>
-				<condition>
-					<equal>
-						<value>myConst</value>
-						<value>13.0</value>
-					</equal>
-				</condition>
-				<code>
 					<call depth="1" id="84">
 						<function>print</function>
 						<parameters>
@@ -551,11 +556,35 @@
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0" id="85">
+		<const depth="0" id="85">
+			<assign depth="1" id="86">
+				<value>myConst</value>
+				<value>13.0</value>
+			</assign>
+		</const>
+		<if-block depth="0" id="87">
+			<if>
+				<condition>
+					<equal>
+						<value>myConst</value>
+						<value>13.0</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="88">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_24</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<assign depth="0" id="89">
 			<value>yTest</value>
 			<value>0</value>
 		</assign>
-		<while depth="0" id="86">
+		<while depth="0" id="90">
 			<condition>
 				<less>
 					<value>yTest</value>
@@ -563,7 +592,7 @@
 				</less>
 			</condition>
 			<code>
-				<if-block depth="1" id="87">
+				<if-block depth="1" id="91">
 					<if>
 						<condition>
 							<greater>
@@ -572,17 +601,17 @@
 							</greater>
 						</condition>
 						<code>
-							<break depth="2" id="88"/>
+							<break depth="2" id="92"/>
 						</code>
 					</if>
 				</if-block>
-				<assign-add depth="1" id="89">
+				<assign-add depth="1" id="93">
 					<value>yTest</value>
 					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
-		<if-block depth="0" id="90">
+		<if-block depth="0" id="94">
 			<if>
 				<condition>
 					<less>
@@ -591,34 +620,34 @@
 					</less>
 				</condition>
 				<code>
-					<call depth="1" id="91">
-						<function>print</function>
-						<parameters>
-							<parameter>bp_string_24</parameter>
-						</parameters>
-					</call>
-				</code>
-			</if>
-			<else depth="0" id="92">
-				<code>
-					<call depth="1" id="93">
+					<call depth="1" id="95">
 						<function>print</function>
 						<parameters>
 							<parameter>bp_string_25</parameter>
 						</parameters>
 					</call>
 				</code>
+			</if>
+			<else depth="0" id="96">
+				<code>
+					<call depth="1" id="97">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_26</parameter>
+						</parameters>
+					</call>
+				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="94">
+		<assign depth="0" id="98">
 			<value>xTest</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="95">
+		<assign depth="0" id="99">
 			<value>yTest</value>
 			<value>0</value>
 		</assign>
-		<while depth="0" id="96">
+		<while depth="0" id="100">
 			<condition>
 				<less>
 					<value>xTest</value>
@@ -626,11 +655,11 @@
 				</less>
 			</condition>
 			<code>
-				<assign-add depth="1" id="97">
+				<assign-add depth="1" id="101">
 					<value>xTest</value>
 					<value>1</value>
 				</assign-add>
-				<if-block depth="1" id="98">
+				<if-block depth="1" id="102">
 					<if>
 						<condition>
 							<not-equal>
@@ -644,17 +673,17 @@
 							</not-equal>
 						</condition>
 						<code>
-							<continue depth="2" id="99"/>
+							<continue depth="2" id="103"/>
 						</code>
 					</if>
 				</if-block>
-				<assign-add depth="1" id="100">
+				<assign-add depth="1" id="104">
 					<value>yTest</value>
 					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
-		<if-block depth="0" id="101">
+		<if-block depth="0" id="105">
 			<if>
 				<condition>
 					<and>
@@ -673,20 +702,20 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="102">
+					<call depth="1" id="106">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_26</parameter>
+							<parameter>bp_string_27</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="103">
+			<else depth="0" id="107">
 				<code>
-					<call depth="1" id="104">
+					<call depth="1" id="108">
 						<function>print</function>
 						<parameters>
-							<parameter>bp_string_27</parameter>
+							<parameter>bp_string_28</parameter>
 						</parameters>
 					</call>
 				</code>

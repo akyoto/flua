@@ -195,6 +195,10 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			#for implName, impl in self.mainClass.implementations[""].funcImplementations:
 			#	outStream.write("// func %s;\n" % (implName))
 			
+			# Tuples
+			for typeId in self.tuples.keys():
+				outStream.write("class BPTuple_%s_;\n" % typeId)
+			
 			# Prototypes
 			outStream.write("\n// Strings\n")
 			outStream.write(''.join(self.strings))

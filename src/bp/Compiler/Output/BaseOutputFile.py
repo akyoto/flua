@@ -109,7 +109,8 @@ class BaseOutputFile(ScopeController):
 		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
-		self.structs = []
+		self.tuples = dict()
+		self.tupleTypes = dict()
 		self.onVariable = ""
 		
 		# TODO: Read from module meta data
@@ -259,6 +260,43 @@ class BaseOutputFile(ScopeController):
 					xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (obj, memberFunc, key, value)
 					virtualSetIndexCall = self.cachedParseString(xmlCode).documentElement
 					return self.handleCall(virtualSetIndexCall)
+			# Multiple return values
+			elif op1.tagName == "parameters":
+				#return "int a, b; {%s} = *(%s)" % (self.parseExpr(op1), self.parseExpr(node.childNodes[1].childNodes[0]))
+				
+				# Build N assigns
+				op2 = node.childNodes[1].childNodes[0]
+				op2Expr = self.parseExpr(op2)
+				valueType = self.getExprDataType(op2)
+				numAssignments = len(op1.childNodes)
+				tupleTypes = splitParams(valueType[valueType.find("<")+1:-1])
+				
+				if numAssignments != len(tupleTypes):
+					raise CompilerException("'%s' returns %d values while there are %d assignments" % (nodeToBPC(op2), len(tupleTypes), numAssignments))
+				
+				code = []
+				
+				code.append(self.buildLine("%s _bp_tuple_%d = %s" % (self.adjustDataType(valueType), self.compiler.tupleUnbindCounter, op2Expr)))
+				
+				for i in range(numAssignments):
+					varExpr = op1.childNodes[i].firstChild
+					varType = tupleTypes[i]
+					
+					#valueVar = self.createVariable("_bp_tuple_%d->_%d" % (self.compiler.tupleUnbindCounter, i), varType, varExpr, self.inConst, not varType in nonPointerClasses, False)
+					#self.registerVariable(valueVar)
+					
+					valueVar = "_bp_tuple_%d->_%d" % (self.compiler.tupleUnbindCounter, i)
+					
+					self.tupleTypes[valueVar] = varType
+					
+					virtualAssign = self.makeXMLAssign(varExpr.toxml(), valueVar)
+					code.append(self.buildLine(self.handleAssign(virtualAssign)))
+					
+				code.append(self.buildLine("delete _bp_tuple_%d" % self.compiler.tupleUnbindCounter))
+					
+				self.compiler.tupleUnbindCounter += 1
+				
+				return ''.join(code)
 		
 		# Inline type declarations
 		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
@@ -271,7 +309,7 @@ class BaseOutputFile(ScopeController):
 			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
 		
 		# In parameter definition?
-		if node.parentNode.tagName == "parameter":
+		if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "parameter":
 			return variableName
 		
 		# Parse value
@@ -285,8 +323,12 @@ class BaseOutputFile(ScopeController):
 		
 		# Parse value type
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
+		
 		if valueType == "void":
 			raise CompilerException("'%s' which is assigned to '%s' does not return a value" % (nodeToBPC(node.childNodes[1].childNodes[0]), variableName))
+		
+		#if valueType.startswith("Tuple<"):
+		#	raise CompilerException("'%s' returns multiple values, not just one" % (nodeToBPC(op2)))
 		
 		memberName = variableName
 		
@@ -839,8 +881,12 @@ class BaseOutputFile(ScopeController):
 				return "MemPointer<void>"
 			else:
 				nodeName = node.nodeValue
+				
 				if nodeName in replacedNodeValues:
 					nodeName = replacedNodeValues[nodeName]
+				
+				if node.nodeValue in self.tupleTypes:
+					return self.tupleTypes[node.nodeValue]
 				
 				return self.getVariableTypeAnywhere(nodeName)
 		else:
@@ -1028,6 +1074,10 @@ class BaseOutputFile(ScopeController):
 	
 	def makeXMLObjectCall(self, caller, memberFunc, params = "<parameters/>"):
 		xmlCode = "<call><function><access><value>%s</value><value>%s</value></access></function>%s</call>" % (caller, memberFunc, params)
+		return self.cachedParseString(xmlCode).documentElement
+		
+	def makeXMLAssign(self, op1, op2):
+		xmlCode = "<assign><value>%s</value><value>%s</value></assign>" % (op1, op2)
 		return self.cachedParseString(xmlCode).documentElement
 	
 	def getSignedVersion(self, typeName):
@@ -1365,11 +1415,14 @@ class BaseOutputFile(ScopeController):
 				paramTypes = [self.getExprDataType(x.firstChild) for x in node.firstChild.childNodes]
 				values = [self.parseExpr(x.firstChild) for x in node.firstChild.childNodes]
 				
-				structName = "_bp_struct_%d" % self.compiler.structCounter
-				self.compiler.structCounter += 1
+				typeId = "_".join(paramTypes)
 				
-				paramNames, structCode = self.buildStruct(structName, paramTypes)
-				self.structs.append(structCode)
+				structName = "BPTuple_%s_" % (typeId)
+				
+				paramNames, structCode = self.buildStruct(structName, paramTypes, True)
+				
+				self.tuples[typeId] = structCode
+				self.compiler.tuples[typeId] = True
 				
 				return self.returnSyntax % (self.newObjectSyntax % (structName, ', '.join(values)))
 			else:

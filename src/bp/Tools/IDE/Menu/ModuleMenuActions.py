@@ -104,12 +104,12 @@ class ModuleMenuActions:
 			
 			exe = self.outputCompiler.getExePath()
 			
-			if optimizeMode:
-				print("No optimizations active.")
-			elif debugMode:
+			if debugMode:
 				print("Using debug mode.")
-			else:
+			elif optimizeMode:
 				print("Using optimizations.")
+			else:
+				print("No optimizations active.")
 			
 			if exe:
 				# Windows DLLs
