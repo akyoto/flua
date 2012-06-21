@@ -5,6 +5,8 @@ from bp.Compiler.Output.DataTypes import *
 from bp.Compiler.Output.BaseClassImplementation import *
 from bp.Compiler.Output.BaseFunctionImplementation import *
 from bp.Compiler.Output.BaseOutputCompiler import *
+from bp.Compiler.Output.BaseOutputFileScan import *
+from bp.Compiler.Output.BaseOutputFileHandler import *
 from bp.Compiler.Output.BaseOutputFile import *
 
 from bp.Compiler.Output.cpp import *
