@@ -308,6 +308,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 				except:
 					raise CompilerException("Can't find string value of '%s'" % (text))
 			return '""'
+		elif text in {"_bp_slice_start", "_bp_slice_end"}:
+			return ""
+		
 		return text
 	
 	nodeName = node.tagName

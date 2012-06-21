@@ -25,6 +25,10 @@
 					<extern-function depth="2" id="5">
 						<name>getHostIP</name>
 						<type>IPInfo</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 				</code>
 			</namespace>

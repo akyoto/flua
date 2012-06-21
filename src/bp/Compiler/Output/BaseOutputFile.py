@@ -888,6 +888,8 @@ class BaseOutputFile(ScopeController):
 				return self.currentClassImpl.getName()
 			elif node.nodeValue == "null":
 				return "MemPointer<void>"
+			elif node.nodeValue in {"_bp_slice_start", "_bp_slice_end"}:
+				return "Size"
 			else:
 				nodeName = node.nodeValue
 				
@@ -1705,14 +1707,16 @@ class BaseOutputFile(ScopeController):
 					return self.buildFalse()
 				elif node.nodeValue == "null":
 					return self.buildNull()
+				#elif node.nodeValue == "_bp_slice_end":
+				#	declTypeNode = node.parentNode.parentNode
+				#	sliceNode = declTypeNode.parentNode.parentNode
+				#	sliceOn	
 				elif node.nodeValue in replacedNodeValues:
 					nodeName = node.nodeValue
 					nodeName = replacedNodeValues[node.nodeValue]
 					return nodeName
 				else:
 					return node.nodeValue
-				#else:
-				#	return node.nodeValue
 		
 		tagName = node.tagName
 		
@@ -1823,8 +1827,17 @@ class BaseOutputFile(ScopeController):
 			#           slice.value       .range        .from/to
 			sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
 			sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
+			
 			memberFunc = "operatorSlice"
-			virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
+			
+			if sliceFrom == "_bp_slice_start":
+				sliceFrom = "0"
+			
+			if sliceTo == "_bp_slice_end":
+				virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom)).documentElement
+			else:
+				# Call with 2 parameters
+				virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 			
 			return self.handleCall(virtualSliceCall)
 		elif node.tagName == "compiler-flags":

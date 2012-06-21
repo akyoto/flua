@@ -150,7 +150,7 @@ class ExpressionParser:
 									start -= 1
 
 								operandLeft = expr[start+1:lastOccurence]
-
+								
 								# Right operand
 								end = lastOccurence + op.textLen
 
@@ -187,6 +187,22 @@ class ExpressionParser:
 														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandLeft))
 												else:
 													break
+								# Array slicing?
+								else:
+									#print("OP LEFT MISSING:")
+									#print(operandLeft)
+									#print(operandRight)
+									#print(op.text)
+									#print(expr)
+									#print("----------")
+									if op.text == ':':
+										operandLeft = "_bp_slice_start"
+										expr = "%s%s%s" % (expr[:lastOccurence], operandLeft, expr[lastOccurence:])
+										exprLen = l(expr)
+										opLeftLen = l(operandLeft)
+										lastOccurence += opLeftLen
+										start = lastOccurence - opLeftLen
+										end += opLeftLen
 								
 								# Perform "no digits at the start of an identifier" check for the right operator
 								if operandRight:
@@ -285,18 +301,26 @@ class ExpressionParser:
 									exprLen = l(expr)
 									lastOccurence += 1
 									#print("EX.UNARY: " + expr)
-								else:
-									pass
+								#else:
+								#	pass
 									#print("EX.UNARY expression change denied: [" + op.text + "]")
 							else:
 								# If a binary version does not exist it means the operator has been used incorrectly
 								if not self.similarOperatorExists(op):
 									raise CompilerException("Syntax error concerning the unary operator [" + op.text + "]")
 						elif expr[lastOccurence + op.textLen] != '(' and expr[lastOccurence + op.textLen] != '[':
-							if self.similarOperatorExists(op):
-								pass
-							else:
-								raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + op.textLen] + "')")
+							if not self.similarOperatorExists(op):
+								#print(expr)
+								#print(expr[lastOccurence + op.textLen])
+								#print(op.text)
+								
+								# Array slicing for the right operator?
+								if expr[lastOccurence + op.textLen] == ')' and expr[lastOccurence - len(operandRight) + 1] == '@':
+									#print(operandLeft)
+									expr = "%s_bp_slice_end%s" % (expr[:lastOccurence + op.textLen], expr[lastOccurence + op.textLen:])
+									exprLen = l(expr)
+								else:
+									raise CompilerException("Operator [" + op.text + "] expects a valid expression (encountered '" + expr[lastOccurence + op.textLen] + "')")
 							#lastOccurence = expr.find(op.text, lastOccurence + op.textLen)
 						i += op.textLen
 				else:
@@ -459,6 +483,9 @@ class ExpressionParser:
 		expr = expr.replace(" or ", " || ")
 		expr = expr.replace(" is ", " == ")
 		expr = expr.replace(" in ", " }= ")
+		
+		# Copy
+		expr = expr.replace("[:]", "[_bp_slice_start:_bp_slice_end]")
 		
 		#if expr.startswith("-"):
 			#print("------------- MINUS -----------")
