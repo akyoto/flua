@@ -63,12 +63,16 @@ class BaseFunction:
 		self.name = cppFile.getNamespacePrefix() + self.name
 		
 		self.hasDataFlow = False
+		self.overwritten = False
 		self.classObj = None
 		self.implementations = {}
 		self.paramNames = []
 		self.paramTypesByDefinition = []
 		self.paramDefaultValues = []
 		self.paramDefaultValueTypes = []
+		
+	def setOverwritten(self, flag):
+		self.overwritten = flag
 		
 	def setDataFlow(self, state):
 		self.hasDataFlow = True
@@ -155,16 +159,25 @@ class BaseFunction:
 			#print(classImplA.classObj.hasCast(typeB))
 			#print("<----------------")
 			
+			# Exact match
 			if typeA == typeB:
-				score += 5
+				score += 6
+			# BigInt -> String
 			elif typeA == "BigInt" and (typeB == "MemPointer<Byte>" or typeB == "~MemPointer<Byte>"):
+				score += 5
+			# Inheritance: Derived class -> Base class
+			elif self.cppFile.isDerivedClass(typeA, typeB):
 				score += 4
+			# "I don't care about the type of A"
 			elif typeB == "":
 				score += 3
+			# A implemented a cast to B
 			elif classImplA and classImplA.classObj.hasCast(typeB):
 				score += 2
+			# A can be naturally casted to B
 			elif canBeCastedTo(typeA, typeB):
 				score += 1
+			# Does not match
 			else:
 				return 0
 			

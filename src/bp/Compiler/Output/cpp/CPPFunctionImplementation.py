@@ -46,6 +46,11 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 		return "inline %s %s(%s);\n" % (adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
 		
 	def getFullCode(self):
+		if self.func.overwritten:
+			inlineVirtual = "virtual"
+		else:
+			inlineVirtual = "inline"
+		
 		# TODO: Add parameters
 		if self.func.isCast:
 			castType = ""
@@ -54,8 +59,8 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 			else:
 				castType = adjustDataTypeCPP(self.name)
 			
-			funcIntern = "// BP Cast: %s\n\tinline %s to%s(%s) {\n%s\t}\n" % (self.func.name, castType, normalizeName(self.func.name), self.getParamString(), self.code)
-			funcCppComfort = "// C++ Cast: %s\n\tinline operator %s(%s) {\n%s\t}\n" % (self.func.name, castType, self.getParamString(), self.code)
+			funcIntern = "// BP Cast: %s\n\t%s %s to%s(%s) {\n%s\t}\n" % (self.func.name, inlineVirtual, castType, normalizeName(self.func.name), self.getParamString(), self.code)
+			funcCppComfort = "// C++ Cast: %s\n\t%s operator %s(%s) {\n%s\t}\n" % (self.func.name, inlineVirtual, castType, self.getParamString(), self.code)
 			
 			return funcIntern + "\n\t" + funcCppComfort
 		
@@ -70,7 +75,7 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 		else:
 			tabs = ""
 		
-		return "// %s\n%sinline %s %s(%s) {\n%s%s}\n" % (funcName, tabs, adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
+		return "// %s\n%s%s %s %s(%s) {\n%s%s}\n" % (funcName, tabs, inlineVirtual, adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
 	
 	# Constructor
 	def getConstructorCode(self):

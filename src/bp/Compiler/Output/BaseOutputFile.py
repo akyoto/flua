@@ -1906,6 +1906,24 @@ class BaseOutputFile(ScopeController):
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	
+	def isDerivedClass(self, typeA, typeB):
+		try:
+			typeAClassImpl = self.getClassImplementationByTypeName(typeA)
+			typeAClass = typeAClassImpl.classObj
+			
+			typeBClassImpl = self.getClassImplementationByTypeName(typeB)
+		except:
+			# Classes are not defined yet
+			return False
+		
+		#print(typeAClass.extends)
+		#print(">>>", typeAClass.name, typeBClassImpl.getName(), "->", typeBClassImpl in typeAClass.extends)
+		
+		if typeBClassImpl in typeAClass.extends:
+			return True
+		else:
+			return False
+	
 	def prepareTypeName(self, typeName):
 		#print("PREPARE: " + typeName)
 		while typeName in self.compiler.defines:
@@ -2536,18 +2554,26 @@ class BaseOutputFile(ScopeController):
 			return self.buildDeleteMemPointer(caller)
 		
 		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("bp_"):
+			# Check extended classes
+			callerClassImpl = self.getClassImplementationByTypeName(callerType)
+			funcInBase, baseClassImpl = findFunctionInBaseClasses(callerClassImpl, funcName)
+			
 			if not funcName in callerClass.functions:
-				# Check extended classes
-				callerClassImpl = self.getClassImplementationByTypeName(callerType)
-				func, baseClassImpl = findFunctionInBaseClasses(callerClassImpl, funcName)
-				
-				if not func:
+				if not funcInBase:
 					if funcName[0].islower():
 						raise CompilerException("Function '%s.%s' has not been defined [Error code 1]" % (callerType, funcName))
 					else:
 						raise CompilerException("Class '%s' has not been defined  [Error code 2]" % (funcName))
+				
+				func = funcInBase
 			else:
 				func = callerClass.functions[funcName]
+				
+				# Are we overwriting the implementation of the base class?
+				if funcInBase:
+					#print([x.getName() for x in func], [x.getName() for x in funcInBase])
+					for baseFunc in funcInBase:
+						baseFunc.setOverwritten(True)
 			
 			# Optimized string concatenation
 			# print "Aあいうえお|" + "Bあいうえお|" + "C|あいうえお"
@@ -2605,7 +2631,7 @@ class BaseOutputFile(ScopeController):
 				pFrom = previousParamTypes[i]
 				pTo = paramTypes[i]
 				
-				if pFrom != pTo and not canBeCastedTo(pFrom, pTo):
+				if pFrom != pTo and (not canBeCastedTo(pFrom, pTo)) and (not self.isDerivedClass(pFrom, pTo)):
 					params = paramsString.split(",")
 					# TODO: self.buildCall(caller, fullName, paramsString)
 					#debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
