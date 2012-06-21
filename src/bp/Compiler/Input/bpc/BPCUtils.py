@@ -159,6 +159,7 @@ autoNewlineBlock = {
 	"test",
 	"maybe",
 	"class",
+	"interface",
 	"template",
 	"get",
 	"set",
@@ -391,7 +392,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			
 			# Process line type
 			prefix = ""
-			if previousLineType:
+			if child.hasAttribute("implemented") and child.getAttribute("implemented") == "false":
+				pass
+			elif previousLineType:
 				if (currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0)) and currentLineType != 3:
 					prefix = tabbedNewline
 			elif previousLineType == 0 and previousChildName == "comment" and currentLineType == 2 and childName in {"getter", "setter", "operator", "iterator-type"}:
@@ -475,15 +478,32 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if paramsCode:
 				paramsCode = " " + paramsCode
 		
+		funcName = nodeToBPC(name, 0, conv)
+		
+		if node.hasAttribute("implemented") and node.getAttribute("implemented") == "false":
+			codeText = ""
+			implemented = False
+		else:
+			codeText = nodeToBPC(code, tabLevel + 1, conv)
+			implemented = True
+		
 		# Syntax
 		if currentSyntax == SYNTAX_BPC:
-			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv)
+			return "%s%s\n%s" % (funcName, paramsCode, codeText)
 		elif currentSyntax == SYNTAX_RUBY:
-			return nodeToBPC(name, 0, conv) + paramsCode + "\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "end\n"
+			if implemented:
+				endOfBlock = ("\t" * (tabLevel)) + "end\n"
+			else:
+				endOfBlock = ""
+			return funcName + paramsCode + "\n" + codeText + endOfBlock
 		elif currentSyntax == SYNTAX_CPP:
-			return nodeToBPC(name, 0, conv) + " (" + paramsCode.strip() + ") {\n" + nodeToBPC(code, tabLevel + 1, conv) + ("\t" * (tabLevel)) + "}\n"
+			if implemented:
+				endOfBlock = ("\t" * (tabLevel)) + "}\n"
+			else:
+				endOfBlock = ""
+			return funcName + " (" + paramsCode.strip() + ")" + ["", " {"][implemented] + "\n" + codeText + endOfBlock
 		elif currentSyntax == SYNTAX_PYTHON:
-			return "def " + nodeToBPC(name, 0, conv) + "(" + paramsCode.strip() + "):\n" + nodeToBPC(code, tabLevel + 1, conv)
+			return "def " + funcName + "(" + paramsCode.strip() + ")" + ["", ":"][implemented] + "\n" + codeText
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
@@ -609,7 +629,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			typeName = " : " + typeName
 		
 		return nodeToBPC(nameNode, 0, conv) + typeName
-	elif nodeName == "class":
+	elif nodeName == "class" or nodeName == "interface":
 		nameNode = getElementByTagName(node, "name")
 		codeNode = getElementByTagName(node, "code")
 		className = nodeToBPC(nameNode, 0, conv)
@@ -619,16 +639,22 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif className.startswith("Immutable"):
 			className = className[len("Immutable"):]
 		
-		# TODO: Inheritance
+		if nodeName == "interface":
+			keyword = "interface "
+		else:
+			if currentSyntax == SYNTAX_PYTHON:
+				keyword = "class "
+			else:
+				keyword = ""
 		
 		if currentSyntax == SYNTAX_BPC:
-			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
-		elif currentSyntax == SYNTAX_RUBY:
-			return className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "end"
-		elif currentSyntax == SYNTAX_CPP:
-			return className + " {\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "}"
+			return keyword + className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+		if currentSyntax == SYNTAX_RUBY:
+			return keyword + className + "\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "end"
+		if currentSyntax == SYNTAX_CPP:
+			return keyword + className + " {\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n" + ("\t" * (tabLevel)) + "}"
 		if currentSyntax == SYNTAX_PYTHON:
-			return "class " + className + ":\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
+			return keyword + className + ":\n" + nodeToBPC(codeNode, tabLevel + 1 ,conv).rstrip() + "\n"
 	elif nodeName == "noop":
 		return "..."
 	# Single line

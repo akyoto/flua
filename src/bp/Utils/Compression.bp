@@ -42,7 +42,10 @@
 					<extern-function depth="2" id="7">
 						<name>compressMaxSize</name>
 						<type>Size</type>
-						<meta/>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 				</code>
 			</namespace>
@@ -73,7 +76,12 @@
 							<parameters>
 								<parameter>
 									<call>
-										<function>bp_compressMaxSize</function>
+										<function>
+											<access>
+												<value>bp</value>
+												<value>compressMaxSize</value>
+											</access>
+										</function>
 										<parameters>
 											<parameter>
 												<access>
@@ -113,6 +121,7 @@
 				</call>
 				<return depth="1" id="11">bytes</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SUncompresses\Sa\Scompressed\Sarray\Sof\Sbytes\Sand\Sreturns</comment>
 		<comment>\San\Sarray\Sof\Sbytes\Scontaining\Sthe\Soriginal\Sdata.</comment>

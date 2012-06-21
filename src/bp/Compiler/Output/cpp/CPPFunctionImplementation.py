@@ -84,4 +84,9 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 	
 	# Destructor
 	def getDestructorCode(self):
-		return "// %s\n\tinline ~%s(%s) {\n%s\t}\n" % (self.getFuncName(), "BP" + self.func.classObj.name, self.getParamString(), self.code)
+		if self.classImpl.classObj.hasOverwrittenFunctions:
+			inlineVirtual = "virtual"
+		else:
+			inlineVirtual = "inline"
+		
+		return "// %s\n\t%s ~%s(%s) {\n%s\t}\n" % (self.getFuncName(), inlineVirtual, "BP" + self.func.classObj.name, self.getParamString(), self.code)

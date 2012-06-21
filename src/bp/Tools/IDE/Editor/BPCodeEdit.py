@@ -383,7 +383,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoSuggestion = True
 		self.autoSuggestionMinChars = 4
 		#self.autoSuggestionTypedChars = 3
-		self.autoSuggestionMinCompleteChars = 3
+		self.autoSuggestionMinCompleteChars = 2
 		self.autoSuggestionMaxItemCount = 3
 		
 		self.enableACInstant = True
@@ -467,6 +467,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"namespace",
 			"public",
 			"on",
+			"interface",
 			
 			# A dirty hack so that C++ gets some auto indent
 			'inline',
@@ -981,6 +982,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						)
 					)
 					if autoCompleteAintWorthIt:
+						#if len(self.completer.currentCompletion()) - completionPrefixLen < 2:
 						self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 						popup.hide()
 						return
@@ -1075,7 +1077,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1
 				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
-					tabLevel += 1
+					if node.hasAttribute("implemented"):
+						impl = node.getAttribute("implemented")
+						if impl == "true":
+							tabLevel += 1
+					else:
+						tabLevel += 1
 				elif keyword == "init" and tabLevel == 1:
 					tabLevel += 1
 				#else:

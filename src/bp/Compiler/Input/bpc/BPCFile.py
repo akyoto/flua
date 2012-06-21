@@ -76,10 +76,10 @@ simpleBlocks = {
 	"parallel" : [],
 	"shared" : [],
 	"const" : [],
-	"in" : [],
 	"atomic" : [],
 	"public" : [],
 	"test" : [],
+	"interface" : [],
 }
 
 def addGenerics(line):
@@ -214,6 +214,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inTryBlock = 0
 		self.inCompilerFlags = 0
 		self.inPublic = 0
+		self.inInterface = 0
 		
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
@@ -257,6 +258,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"import" : self.handleImport,
 			"in" : self.handleIn,
 			"include" : self.handleInclude,
+			"interface" : self.handleInterface,
 			"iterator" : self.handleIteratorBlock,
 			#"maybe" : self.handleMaybe,
 			"namespace" : self.handleNamespace,
@@ -437,7 +439,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				if currentLine and isElemNode(currentLine) and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
 					codeNode = getElementByTagName(currentLine, "code")
 					
-					if (not codeNode) or len(codeNode.childNodes) == 0: #and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
+					if (not self.inInterface) and ((not codeNode) or len(codeNode.childNodes) == 0): #and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
 						raise CompilerException("If you need an empty block use '...' inside the block")
 				
 				# If we didn't add a comment, add an empty entry
@@ -552,6 +554,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					parentNodeName = self.currentNode.parentNode.tagName
 					if parentNodeName == "class":
 						self.inClass -= 1
+					elif parentNodeName == "interface":
+						self.inInterface -= 1
 					elif parentNodeName == "operator":
 						self.inOperator -= 1
 					elif parentNodeName == "function":
@@ -652,6 +656,9 @@ class BPCFile(ScopeController, Benchmarkable):
 					return self.handleExternVariable(line)
 				else:
 					return self.handleExternLine(line)
+			
+			if self.inInterface:
+				return self.handleFunction(line)
 			
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
 				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
@@ -1291,6 +1298,12 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.inFunction += 1
 			node = self.doc.createElement("function")
 		
+		if self.inInterface:
+			if self.nextLineIndented:
+				node.setAttribute("implemented", "true")
+			else:
+				node.setAttribute("implemented", "false")
+		
 		if not self.inCasts:
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
@@ -1308,7 +1321,32 @@ class BPCFile(ScopeController, Benchmarkable):
 		node.appendChild(codeNode)
 		
 		#self.inFunction = True
-		self.nextNode = codeNode
+		
+		if not self.inInterface:
+			self.nextNode = codeNode
+		
+		return node
+		
+	def handleInterface(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("interface", line)
+		
+		self.inInterface += 1
+		
+		#pos = line.find(" interface")
+		interfaceName = line[len("interface "):]
+		
+		node = self.doc.createElement("interface")
+		
+		nameNode = self.doc.createElement("name")
+		nameNode.appendChild(self.doc.createTextNode(interfaceName))
+		
+		code = self.doc.createElement("code")
+		
+		node.appendChild(nameNode)
+		node.appendChild(code)
+		
+		self.nextNode = code
 		return node
 		
 	def handleClass(self, line):
@@ -1323,7 +1361,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		className = line
 		
 		node = self.doc.createElement("class")
-		
 		nameNode = self.doc.createElement("name")
 		
 		dirName = extractDir(self.file).split("/")[-2]

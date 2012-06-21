@@ -71,6 +71,10 @@
 				<value>String</value>
 				<value>UTF8String</value>
 			</assign>
+			<assign depth="1" id="14">
+				<value>URL</value>
+				<value>String</value>
+			</assign>
 		</define>
 	</code>
 </module>

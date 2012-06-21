@@ -29,6 +29,7 @@
 ####################################################################
 from bp.Compiler.Utils import *
 from bp.Compiler.Output.BaseNamespace import *
+from bp.Compiler.Output.DataTypes import *
 #from bp.Compiler.Output.BaseClassImplementation import *
 
 ####################################################################
@@ -49,6 +50,7 @@ class BaseClass(BaseNamespace):
 		self.usesActorModel = False
 		self.extends = []
 		self.node = node
+		self.hasOverwrittenFunctions = False
 		
 		if self.node:
 			self.ensureDestructorCall = isMetaDataTrueByTag(node, "ensure-destructor-call")
@@ -63,6 +65,10 @@ class BaseClass(BaseNamespace):
 			self.ensureDestructorCall = False
 			self.forceImplementation = False
 			self.isDefaultVersion = False
+	
+	def setOverwrittenFunctions(self, flag):
+		self.hasOverwrittenFunctions = flag
+		#self.ensureDestructorCall = True
 	
 	def addPublicMember(self, name):
 		self.publicMembers[name] = True
@@ -155,6 +161,9 @@ class BaseClass(BaseNamespace):
 		
 	def hasFunction(self, name):
 		return name in self.functions
+		
+	def hasOperator(self, name):
+		return correctOperators(name) in self.functions
 		
 	def hasExternFunction(self, name):
 		debug(self.externFunctions)

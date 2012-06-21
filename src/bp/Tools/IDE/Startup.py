@@ -86,10 +86,10 @@ class Startup:
 		# Syntax switcher
 		self.syntaxSwitcher = QtGui.QComboBox(self)
 		self.syntaxSwitcher.setToolTip("Syntax switcher")
-		self.syntaxSwitcher.addItem("BPC Syntax           ")
-		self.syntaxSwitcher.addItem("C++ Light            ")
-		self.syntaxSwitcher.addItem("Ruby (experimental)  ")
-		self.syntaxSwitcher.addItem("Python (experimental)")
+		self.syntaxSwitcher.addItem("BPC Syntax              ")
+		self.syntaxSwitcher.addItem("C++ Extended            ")
+		self.syntaxSwitcher.addItem("Ruby Extended           ")
+		self.syntaxSwitcher.addItem("Python Extended         ")
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		

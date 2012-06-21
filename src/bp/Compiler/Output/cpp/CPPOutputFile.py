@@ -453,6 +453,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		for classObj in self.localClasses:
 			if not classObj.isExtern:
 				for classImplId, classImpl in classObj.implementations.items():
+					destructorWritten = False
 					code = ""
 					
 					# Functions
@@ -461,10 +462,15 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 							code += "\t" + funcImpl.getConstructorCode() + "\n"
 						elif funcImpl.getFuncName() == "finalize":
 							code += "\t" + funcImpl.getDestructorCode() + "\n"
+							destructorWritten = True
 						elif funcImpl.func.isIterator:
 							continue
 						else:
 							code += "\t" + funcImpl.getFullCode() + "\n"
+					
+					# Virtual destructor
+					if classObj.hasOverwrittenFunctions and not destructorWritten:
+						code += "\tvirtual ~BP%s() {};\n" % classObj.name
 					
 					# Private members
 					# TODO: SET IT BACK TO PRIVATE AFTER FIXING FORCE INCLUSION

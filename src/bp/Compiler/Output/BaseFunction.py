@@ -73,6 +73,7 @@ class BaseFunction:
 		
 	def setOverwritten(self, flag):
 		self.overwritten = flag
+		self.classObj.setOverwrittenFunctions(True)
 		
 	def setDataFlow(self, state):
 		self.hasDataFlow = True

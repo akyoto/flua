@@ -40,10 +40,14 @@ INT32_MIN = -2147483648
 
 enableOperatorOverloading = {
 	"add",
+	"subtract",
+	"multiply",
+	"divide",
 	"equal",
 	"not-equal",
-	"multiply"
-}#{"add", "subtract", "multiply", "divide", "equal"}:
+	"assign-add",
+	"assign-substract",
+}
 
 replacedNodeValues = {
 	"from" : "bp__from",
@@ -1141,7 +1145,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			dataType = self.getExprDataType(op1)
 			
 			# TODO: Check whether the class has a += operator and if not, use this:
-			if dataType == "UTF8String":
+			if (not dataType in nonPointerClasses) and (not removeUnmanaged(dataType).startswith("MemPointer<")) and not self.getClass(extractClassName(dataType)).hasOperator("+="):
 				lValue = self.parseExpr(op1)
 				#rValue = self.parseExpr(op2)
 				#return "%s = %s->operatorAdd__UTF8String(%s)" % (lValue, lValue, rValue)

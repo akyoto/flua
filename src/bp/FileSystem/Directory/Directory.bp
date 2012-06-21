@@ -26,7 +26,7 @@
 				<code>
 					<extern-function depth="2" id="5">
 						<name>getCurrentDir</name>
-						<type>String</type>
+						<type>URL</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
