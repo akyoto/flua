@@ -39,6 +39,26 @@ class BaseOutputFileHandler:
 	
 	def handleAssign(self, node):
 		self.inAssignment += 1
+		
+		# 'on' block
+		#if self.onVariable:
+		#	funcNameNode = getFuncNameNode(node)
+		#	params = getElementByTagName(node, "parameters")
+		#	virtualAssign = self.makeXMLAssign(self.onVariable, funcNameNode.toxml(), params.toxml())
+		#	
+		#	# Set parent node (hacks!)
+		#	virtualAssign.parentNode = node.parentNode
+		#	
+		#	saved = self.onVariable
+		#	self.onVariable = ""
+		#	try:
+		#		code = self.handleAssign(virtualAssign)
+		#	except:
+		#		raise CompilerException("'%s' could not be set as a property of '%s'" % (nodeToBPC(node), saved))
+		#	self.onVariable = saved
+		#	
+		#	return code
+		
 		isSelfMemberAccess = False
 		publicMemberAccess = False
 		
@@ -855,7 +875,12 @@ class BaseOutputFileHandler:
 			
 			saved = self.onVariable
 			self.onVariable = ""
-			code = self.handleCall(virtualCall)
+			try:
+				code = self.handleCall(virtualCall)
+			except CompilerException:
+				raise
+			except:
+				raise CompilerException("'%s' could not be called as a method of '%s'" % (nodeToBPC(node), saved))
 			self.onVariable = saved
 			
 			return code

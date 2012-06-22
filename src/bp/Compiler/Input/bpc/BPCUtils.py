@@ -174,6 +174,7 @@ autoNewlineBlock = {
 	"compiler-flags",
 	"const",
 	"on",
+	"return",
 	
 	"function",
 	"getter",

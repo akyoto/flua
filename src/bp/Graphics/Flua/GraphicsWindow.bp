@@ -193,10 +193,16 @@
 						<call depth="2" id="10">
 							<function>glClear</function>
 							<parameters>
-								<parameter>GL_COLOR_BUFFER_BIT</parameter>
+								<parameter>
+									<bitwise-or>
+										<value>GL_COLOR_BUFFER_BIT</value>
+										<value>GL_DEPTH_BUFFER_BIT</value>
+									</bitwise-or>
+								</parameter>
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSwaps\Sthe\Sbuffers\Swhen\Susing\Sdouble\Sbuffering</comment>
 				<function depth="1" id="11">
@@ -266,6 +272,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="21">
 					<name>drawAll</name>
@@ -434,6 +441,7 @@
 					</iterator-type>
 				</iterators>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SInitializes\SFlua\Sgraphics\Sengine</comment>
 		<function depth="0" id="50">
@@ -486,17 +494,31 @@
 					</parameters>
 				</call>
 				<call depth="1" id="55">
+					<function>glEnable</function>
+					<parameters>
+						<parameter>GL_DEPTH_TEST</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="56">
+					<function>glEnable</function>
+					<parameters>
+						<parameter>GL_TEXTURE_2D</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="57">
 					<function>glBlendFunc</function>
 					<parameters>
 						<parameter>GL_SRC_ALPHA</parameter>
 						<parameter>GL_ONE_MINUS_SRC_ALPHA</parameter>
 					</parameters>
 				</call>
-				<assign depth="1" id="56">
+				<comment>\SIt's\Sinitialized...be\Shappy!</comment>
+				<assign depth="1" id="58">
 					<value>fluaInitialized</value>
 					<value>true</value>
 				</assign>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

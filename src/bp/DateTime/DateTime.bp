@@ -72,6 +72,7 @@
 					<code>
 						<noop depth="2" id="14"/>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<parameters>
@@ -291,43 +292,45 @@
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="35">
-			<assign depth="1" id="36">
-				<value>now</value>
-				<value>
-					<call>
-						<function>getCurrentDateTime</function>
-						<parameters/>
-					</call>
-				</value>
-			</assign>
-			<call depth="1" id="37">
-				<function>print</function>
-				<parameters>
-					<parameter>now</parameter>
-				</parameters>
-			</call>
-			<call depth="1" id="38">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<access>
-							<value>now</value>
-							<value>date</value>
-						</access>
-					</parameter>
-				</parameters>
-			</call>
-			<call depth="1" id="39">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<access>
-							<value>now</value>
-							<value>time</value>
-						</access>
-					</parameter>
-				</parameters>
-			</call>
+			<code>
+				<assign depth="1" id="36">
+					<value>now</value>
+					<value>
+						<call>
+							<function>getCurrentDateTime</function>
+							<parameters/>
+						</call>
+					</value>
+				</assign>
+				<call depth="1" id="37">
+					<function>print</function>
+					<parameters>
+						<parameter>now</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="38">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>now</value>
+								<value>date</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="39">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>now</value>
+								<value>time</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
 		</test>
 	</code>
 </module>

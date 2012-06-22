@@ -888,10 +888,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				):
 				
 				# Backspace to 0 length would show a HUGE list unexpectedly
-				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace and charBeforeWord != ".":
-					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-					popup.hide()
-					return
+				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace:
+					if charBeforeWord != "." or (text and relPos >= 1 and text[relPos - 1] == "."):
+						self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+						popup.hide()
+						return
 				
 				gonnaSetPrefix = True
 			

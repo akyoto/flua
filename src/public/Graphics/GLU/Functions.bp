@@ -31,6 +31,7 @@
 			</extern-function>
 			<extern-function depth="1" id="9">
 				<name>gluBuild2DMipmaps</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="10">
 				<name>gluBuild3DMipmapLevels</name>
@@ -64,119 +65,126 @@
 			</extern-function>
 			<extern-function depth="1" id="20">
 				<name>gluEndSurface</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="21">
 				<name>gluEndTrim</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="22">
-				<name>gluGetNurbsProperty</name>
+				<name>gluErrorString</name>
+				<type>CString</type>
 			</extern-function>
 			<extern-function depth="1" id="23">
-				<name>gluGetTessProperty</name>
+				<name>gluGetNurbsProperty</name>
 			</extern-function>
 			<extern-function depth="1" id="24">
-				<name>gluLoadSamplingMatrices</name>
+				<name>gluGetTessProperty</name>
 			</extern-function>
 			<extern-function depth="1" id="25">
-				<name>gluLookAt</name>
+				<name>gluLoadSamplingMatrices</name>
 			</extern-function>
 			<extern-function depth="1" id="26">
-				<name>gluNewNurbsRenderer</name>
+				<name>gluLookAt</name>
 			</extern-function>
 			<extern-function depth="1" id="27">
-				<name>gluNewQuadric</name>
+				<name>gluNewNurbsRenderer</name>
 			</extern-function>
 			<extern-function depth="1" id="28">
-				<name>gluNewTess</name>
+				<name>gluNewQuadric</name>
 			</extern-function>
 			<extern-function depth="1" id="29">
-				<name>gluNextContour</name>
+				<name>gluNewTess</name>
 			</extern-function>
 			<extern-function depth="1" id="30">
-				<name>gluNurbsCallback</name>
+				<name>gluNextContour</name>
 			</extern-function>
 			<extern-function depth="1" id="31">
-				<name>gluNurbsCallbackData</name>
+				<name>gluNurbsCallback</name>
 			</extern-function>
 			<extern-function depth="1" id="32">
-				<name>gluNurbsCallbackDataEXT</name>
+				<name>gluNurbsCallbackData</name>
 			</extern-function>
 			<extern-function depth="1" id="33">
-				<name>gluNurbsCurve</name>
+				<name>gluNurbsCallbackDataEXT</name>
 			</extern-function>
 			<extern-function depth="1" id="34">
-				<name>gluNurbsProperty</name>
+				<name>gluNurbsCurve</name>
 			</extern-function>
 			<extern-function depth="1" id="35">
-				<name>gluNurbsSurface</name>
+				<name>gluNurbsProperty</name>
 			</extern-function>
 			<extern-function depth="1" id="36">
-				<name>gluOrtho2D</name>
+				<name>gluNurbsSurface</name>
 			</extern-function>
 			<extern-function depth="1" id="37">
-				<name>gluPartialDisk</name>
+				<name>gluOrtho2D</name>
 			</extern-function>
 			<extern-function depth="1" id="38">
-				<name>gluPerspective</name>
+				<name>gluPartialDisk</name>
 			</extern-function>
 			<extern-function depth="1" id="39">
-				<name>gluPickMatrix</name>
+				<name>gluPerspective</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="40">
-				<name>gluProject</name>
+				<name>gluPickMatrix</name>
 			</extern-function>
 			<extern-function depth="1" id="41">
-				<name>gluPwlCurve</name>
+				<name>gluProject</name>
 			</extern-function>
 			<extern-function depth="1" id="42">
-				<name>gluQuadricCallback</name>
+				<name>gluPwlCurve</name>
 			</extern-function>
 			<extern-function depth="1" id="43">
-				<name>gluQuadricDrawStyle</name>
+				<name>gluQuadricCallback</name>
 			</extern-function>
 			<extern-function depth="1" id="44">
-				<name>gluQuadricNormals</name>
+				<name>gluQuadricDrawStyle</name>
 			</extern-function>
 			<extern-function depth="1" id="45">
-				<name>gluQuadricOrientation</name>
+				<name>gluQuadricNormals</name>
 			</extern-function>
 			<extern-function depth="1" id="46">
-				<name>gluQuadricTexture</name>
+				<name>gluQuadricOrientation</name>
 			</extern-function>
 			<extern-function depth="1" id="47">
-				<name>gluScaleImage</name>
+				<name>gluQuadricTexture</name>
 			</extern-function>
 			<extern-function depth="1" id="48">
-				<name>gluSphere</name>
+				<name>gluScaleImage</name>
 			</extern-function>
 			<extern-function depth="1" id="49">
-				<name>gluTessBeginContour</name>
+				<name>gluSphere</name>
 			</extern-function>
 			<extern-function depth="1" id="50">
-				<name>gluTessBeginPolygon</name>
+				<name>gluTessBeginContour</name>
 			</extern-function>
 			<extern-function depth="1" id="51">
-				<name>gluTessCallback</name>
+				<name>gluTessBeginPolygon</name>
 			</extern-function>
 			<extern-function depth="1" id="52">
-				<name>gluTessEndContour</name>
+				<name>gluTessCallback</name>
 			</extern-function>
 			<extern-function depth="1" id="53">
-				<name>gluTessEndPolygon</name>
+				<name>gluTessEndContour</name>
 			</extern-function>
 			<extern-function depth="1" id="54">
-				<name>gluTessNormal</name>
+				<name>gluTessEndPolygon</name>
 			</extern-function>
 			<extern-function depth="1" id="55">
-				<name>gluTessProperty</name>
+				<name>gluTessNormal</name>
 			</extern-function>
 			<extern-function depth="1" id="56">
-				<name>gluTessVertex</name>
+				<name>gluTessProperty</name>
 			</extern-function>
 			<extern-function depth="1" id="57">
-				<name>gluUnProject</name>
+				<name>gluTessVertex</name>
 			</extern-function>
 			<extern-function depth="1" id="58">
+				<name>gluUnProject</name>
+			</extern-function>
+			<extern-function depth="1" id="59">
 				<name>gluUnProject4</name>
 				<meta/>
 			</extern-function>

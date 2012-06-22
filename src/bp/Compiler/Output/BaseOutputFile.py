@@ -1287,6 +1287,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return False
 	
 	def prepareTypeName(self, typeName):
+		#if typeName is None:
+		#	return typeName
+		
 		#print("PREPARE: " + typeName)
 		while typeName in self.compiler.defines:
 			typeName = self.compiler.defines[typeName]

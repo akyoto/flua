@@ -75,6 +75,10 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, 
 	return winId;
 }
 
+inline BPUTF8String* flua_getLastGLError() {
+	return _toString(reinterpret_cast<const Byte*>(gluErrorString(glGetError())));
+}
+
 void flua_printGLError(GLuint object) {
 	GLint log_length = 0;
 	if (glIsShader(object))
@@ -154,20 +158,21 @@ inline GLuint flua_createBuffer() {
 	return newVBO;
 }
 
-inline void flua_testing(GLint transformAttr, int mode) {
-	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 30;  // 30° per second
-	glm::vec3 axis_z(mode == 1, 0, mode == 2);
+// TODO: Remove hardcoded values
+inline void flua_testing(GLint transformAttr) {
+	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
+	glm::vec3 axis_y(0.0, 1.0, 0.0);
+	glm::mat4 anim = \
+	 glm::rotate(glm::mat4(1.0f), angle*3.0f, glm::vec3(1, 0, 0)) *  // X axis
+	 glm::rotate(glm::mat4(1.0f), angle*2.0f, glm::vec3(0, 1, 0)) *  // Y axis
+	 glm::rotate(glm::mat4(1.0f), angle*4.0f, glm::vec3(0, 0, 1));   // Z axis
 	
-	glm::mat4 m_transform = glm::translate(
-		glm::mat4(1.0f),
-		glm::vec3(0.0, 0.0, 0.0)
-	) * glm::rotate(
-			glm::mat4(1.0f),
-			angle,
-			axis_z
-		);
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0));
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
+	glm::mat4 projection = glm::perspective(45.0f, 1.0f * 640 / 480, 0.1f, 10.0f);
+	glm::mat4 mvp = projection * view * model * anim;
 	
-	glUniformMatrix4fv(transformAttr, 1, GL_FALSE, glm::value_ptr(m_transform));
+	glUniformMatrix4fv(transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {
@@ -223,10 +228,17 @@ inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint 
 	glBindTexture(GL_TEXTURE_2D, gl_texID);
 	
 	//store the texture data for OpenGL use
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 	glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
 	
+	gluBuild2DMipmaps(GL_TEXTURE_2D, internal_format, width, height, image_format, GL_UNSIGNED_BYTE, bits);
+	
 	//Free FreeImage's copy of the data
-	FreeImage_Unload(dib);
+	#ifndef USING_GC
+		FreeImage_Unload(dib);
+	#endif
 	
 	//return success
 	return gl_texID;

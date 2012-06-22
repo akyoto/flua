@@ -42,6 +42,7 @@
 		#define GC_THREADS
 	#endif
 	
+	#define USING_GC
 	#define GC_OPERATOR_NEW_ARRAY
 	#define PARALLEL_MARK
 	#define USE_LIBC_PRIVATE

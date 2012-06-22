@@ -30,9 +30,11 @@
 			</extern-function>
 			<extern-function depth="1" id="8">
 				<name>glAddSwapHintRectWIN</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="9">
 				<name>glAlphaFragmentOp1ATI</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="10">
 				<name>glAlphaFragmentOp2ATI</name>
@@ -1569,6 +1571,7 @@
 			</extern-function>
 			<extern-function depth="1" id="521">
 				<name>glGenAsyncMarkersSGIX</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="522">
 				<name>glGenBuffers</name>
@@ -1668,6 +1671,7 @@
 			</extern-function>
 			<extern-function depth="1" id="554">
 				<name>glGetActiveAttrib</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="555">
 				<name>glGetActiveAttribARB</name>
@@ -1845,6 +1849,8 @@
 			</extern-function>
 			<extern-function depth="1" id="613">
 				<name>glGetError</name>
+				<type>Int</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="614">
 				<name>glGetFenceivNV</name>

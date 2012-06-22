@@ -49,7 +49,7 @@
 												<value>data</value>
 											</access>
 										</parameter>
-										<parameter>GL_RGB</parameter>
+										<parameter>GL_BGR</parameter>
 										<parameter>GL_RGB</parameter>
 										<parameter>1</parameter>
 										<parameter>0</parameter>
