@@ -148,10 +148,26 @@ GLuint flua_createShader(const GLchar* source, GLenum type) {
 	return res;
 }
 
-inline GLuint flua_createVBO() {
+inline GLuint flua_createBuffer() {
 	GLuint newVBO;
 	glGenBuffers(1, &newVBO);
 	return newVBO;
+}
+
+inline void flua_testing(GLint transformAttr, int mode) {
+	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 30;  // 30° per second
+	glm::vec3 axis_z(mode == 1, 0, mode == 2);
+	
+	glm::mat4 m_transform = glm::translate(
+		glm::mat4(1.0f),
+		glm::vec3(0.0, 0.0, 0.0)
+	) * glm::rotate(
+			glm::mat4(1.0f),
+			angle,
+			axis_z
+		);
+	
+	glUniformMatrix4fv(transformAttr, 1, GL_FALSE, glm::value_ptr(m_transform));
 }
 
 inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {

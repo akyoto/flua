@@ -51,19 +51,19 @@
 			<comment>\STODO:\S...</comment>
 			<assign depth="1" id="12">
 				<value>GLshort</value>
-				<value>Int</value>
+				<value>Int16</value>
 			</assign>
 			<assign depth="1" id="13">
 				<value>GLubyte</value>
-				<value>UInt</value>
+				<value>Byte</value>
 			</assign>
 			<assign depth="1" id="14">
 				<value>GLushort</value>
-				<value>UInt</value>
+				<value>UInt16</value>
 			</assign>
 			<assign depth="1" id="15">
 				<value>GLsizei</value>
-				<value>Int</value>
+				<value>Size</value>
 			</assign>
 		</define>
 	</code>

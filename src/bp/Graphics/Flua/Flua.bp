@@ -8,6 +8,7 @@
 			<import>public.Graphics.GLUT</import>
 			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.FreeImage</import>
+			<import>public.Math.GLM</import>
 			<import>bp.FileSystem</import>
 			<import>GraphicsWindow</import>
 			<import>Material</import>
@@ -58,7 +59,7 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="11">
-						<name>createVBO</name>
+						<name>createBuffer</name>
 						<type>GLuint</type>
 						<meta/>
 					</extern-function>
@@ -68,6 +69,10 @@
 					</extern-function>
 					<extern-function depth="2" id="13">
 						<name>printGLError</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="14">
+						<name>testing</name>
 						<meta/>
 					</extern-function>
 				</code>

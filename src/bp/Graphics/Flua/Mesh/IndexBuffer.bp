@@ -9,7 +9,7 @@
 	</header>
 	<code>
 		<class depth="0" id="1">
-			<name>VertexBuffer</name>
+			<name>IndexBuffer</name>
 			<code>
 				<function depth="1" id="2">
 					<parameters>
@@ -89,7 +89,7 @@
 						<call depth="2" id="9">
 							<function>glBindBuffer</function>
 							<parameters>
-								<parameter>GL_ARRAY_BUFFER</parameter>
+								<parameter>GL_ELEMENT_ARRAY_BUFFER</parameter>
 								<parameter>
 									<access>
 										<value>my</value>
@@ -99,18 +99,19 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<set depth="1" id="10">
 					<setter depth="2" id="11">
 						<parameters>
-							<parameter>triangleVertices</parameter>
+							<parameter>objIndices</parameter>
 						</parameters>
-						<name>vertices</name>
+						<name>indices</name>
 						<code>
 							<call depth="3" id="12">
 								<function>glBindBuffer</function>
 								<parameters>
-									<parameter>GL_ARRAY_BUFFER</parameter>
+									<parameter>GL_ELEMENT_ARRAY_BUFFER</parameter>
 									<parameter>
 										<access>
 											<value>my</value>
@@ -122,12 +123,12 @@
 							<call depth="3" id="13">
 								<function>glBufferData</function>
 								<parameters>
-									<parameter>GL_ARRAY_BUFFER</parameter>
+									<parameter>GL_ELEMENT_ARRAY_BUFFER</parameter>
 									<parameter>
 										<multiply>
 											<value>
 												<access>
-													<value>triangleVertices</value>
+													<value>objIndices</value>
 													<value>length</value>
 												</access>
 											</value>
@@ -135,7 +136,7 @@
 												<call>
 													<function>sizeOf</function>
 													<parameters>
-														<parameter>GL_FLOAT</parameter>
+														<parameter>GL_UNSIGNED_SHORT</parameter>
 													</parameters>
 												</call>
 											</value>
@@ -143,7 +144,7 @@
 									</parameter>
 									<parameter>
 										<access>
-											<value>triangleVertices</value>
+											<value>objIndices</value>
 											<value>data</value>
 										</access>
 									</parameter>
@@ -158,11 +159,12 @@
 							<call depth="3" id="14">
 								<function>glBindBuffer</function>
 								<parameters>
-									<parameter>GL_ARRAY_BUFFER</parameter>
+									<parameter>GL_ELEMENT_ARRAY_BUFFER</parameter>
 									<parameter>0</parameter>
 								</parameters>
 							</call>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>

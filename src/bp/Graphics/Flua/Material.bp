@@ -352,16 +352,27 @@
 						<meta/>
 					</getter>
 					<getter depth="2" id="24">
-						<name>alpha</name>
+						<name>program</name>
 						<code>
 							<return depth="3" id="25">
+								<access>
+									<value>my</value>
+									<value>program</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="26">
+						<name>alpha</name>
+						<code>
+							<return depth="3" id="27">
 								<access>
 									<value>my</value>
 									<value>alpha</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
