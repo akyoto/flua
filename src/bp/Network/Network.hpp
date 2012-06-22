@@ -27,6 +27,10 @@
 // bp
 #include <bp/Core/String/UTF8String/C++/UTF8String.hpp>
 
+// Macros
+#define castIPv4(x) reinterpret_cast<struct sockaddr_in *>(x)
+#define castIPv6(x) reinterpret_cast<struct sockaddr_in6 *>(x)
+
 inline BPUTF8String* bp_IPv4ToString(Int32 intIP) {
 	char* buf = new (UseGC) char[INET_ADDRSTRLEN];
 	inet_ntop(AF_INET, &intIP, buf, INET_ADDRSTRLEN);
@@ -46,10 +50,38 @@ class BPIPInfo: public gc {
 public:
 	inline BPUTF8String* toUTF8String() {
 		if(af == AF_INET) {
-			return bp_IPv4ToString(reinterpret_cast<struct sockaddr_in *>(addr)->sin_addr.s_addr);
+			return bp_IPv4ToString(castIPv4(addr)->sin_addr.s_addr);
 		} else {
-			return bp_IPv6ToString(reinterpret_cast<struct sockaddr_in6 *>(addr)->sin6_addr.s6_addr);
+			return bp_IPv6ToString(castIPv6(addr)->sin6_addr.s6_addr);
 		}
+	}
+	
+	inline int createTCPSocket() {
+		if(af == AF_INET6)
+			return socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
+		else
+			return socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	}
+	
+	inline int createUDPSocket() {
+		if(af == AF_INET6)
+			return socket(PF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+		else
+			return socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	}
+	
+	inline bool connect(int sock, short port) {
+		// Copy it for thread-safety
+		struct sockaddr localAddr = *addr;
+		
+		// Set port
+		if(af == AF_INET6)
+			castIPv6(&localAddr)->sin6_port = htons(port); // TODO: Is htons correct for IPv6?
+		else
+			castIPv4(&localAddr)->sin_port = htons(port);
+		
+		// Connect
+		return ::connect(sock, &localAddr, addrLen) != -1;
 	}
 	
 	// Members
@@ -71,7 +103,7 @@ inline bool genericResolve(const char* hostname, struct sockaddr** addr, socklen
 	if(error != 0)
 		return false;
 	
-	*addr = reinterpret_cast<struct sockaddr*>(GC_MALLOC(*addr_len = sizeof(result->ai_addrlen)));
+	*addr = reinterpret_cast<struct sockaddr*>(GC_MALLOC(*addr_len = result->ai_addrlen)); //sizeof(result->ai_addrlen)
 	memcpy(*addr, result->ai_addr, result->ai_addrlen);
 	*af = result->ai_family;
 	
@@ -91,11 +123,58 @@ inline BPIPInfo* bp_getHostIP(BPUTF8String* hostName) {
 	return ipInfo;
 }
 
-/*inline Int32 bp_getHostIPv4(BPUTF8String* hostName) {
-	hostent *host = gethostbyname(hostName->_data);
+#ifdef _WIN32
+
+#else
+
+// socketCanRead
+inline bool socketCanRead(int checkSocket, int timeoutMillis) {
+	// Socket set
+	fd_set fdsRead;
+	FD_ZERO(&fdsRead);
+	FD_SET(checkSocket, &fdsRead);
 	
-	if(host == NULL)
-		return 0;
+	// Timeout
+	struct timespec tsTimeout;
+	tsTimeout.tv_sec  = timeoutMillis / 1000;
+	tsTimeout.tv_nsec = (timeoutMillis % 1000) * 1000000;
 	
-	return (**(reinterpret_cast<struct in_addr **>(host->h_addr_list))).s_addr;
-}*/
+	// Mask
+	sigset_t signalMask;
+	sigfillset(&signalMask);
+	
+	int result = pselect(checkSocket + 1, &fdsRead, NULL, NULL, &tsTimeout, &signalMask);
+	
+	if(result == -1) {
+		std::cout << "pselect error: " << strerror(errno);
+	}
+	
+	return result == 1;
+}
+
+// socketCanWrite
+inline bool socketCanWrite(int checkSocket, int timeoutMillis) {
+	// Socket set
+	fd_set fdsWrite;
+	FD_ZERO(&fdsWrite);
+	FD_SET(checkSocket, &fdsWrite);
+	
+	// Timeout
+	struct timespec tsTimeout;
+	tsTimeout.tv_sec  = timeoutMillis / 1000;
+	tsTimeout.tv_nsec = (timeoutMillis % 1000) * 1000000;
+	
+	// Mask
+	sigset_t signalMask;
+	sigfillset(&signalMask);
+	
+	int result = pselect(checkSocket + 1, NULL, &fdsWrite, NULL, &tsTimeout, &signalMask);
+	
+	if(result == -1) {
+		std::cout << "pselect error: " << strerror(errno);
+	}
+	
+	return result == 1;
+}
+
+#endif

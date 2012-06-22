@@ -666,7 +666,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		raise CompilerException("Unknown data type for: " + node.toxml())
 	
 	def makeXMLCall(self, memberFunc, params = "<parameters/>"):
-		xmlCode = "<call><function>%s</value></access></function>%s</call>" % (memberFunc, params)
+		xmlCode = "<call><function>%s</function>%s</call>" % (memberFunc, params)
 		return self.cachedParseString(xmlCode).documentElement
 	
 	def makeXMLObjectCall(self, caller, memberFunc, params = "<parameters/>"):

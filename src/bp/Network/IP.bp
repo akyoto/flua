@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
+			<import>bp.Network</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -70,11 +71,63 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="6">
+					<name>createTCPSocket</name>
+					<code>
+						<return depth="2" id="7">
+							<call>
+								<function>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>addr</value>
+											</access>
+										</value>
+										<value>createTCPSocket</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="8">
+					<parameters>
+						<parameter>sock</parameter>
+						<parameter>port</parameter>
+					</parameters>
+					<name>connect</name>
+					<code>
+						<return depth="2" id="9">
+							<call>
+								<function>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>addr</value>
+											</access>
+										</value>
+										<value>connect</value>
+									</access>
+								</function>
+								<parameters>
+									<parameter>sock</parameter>
+									<parameter>port</parameter>
+								</parameters>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="10">
 					<name>print</name>
 					<code>
-						<call depth="2" id="7">
+						<call depth="2" id="11">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -86,7 +139,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
 			<meta/>

@@ -5,6 +5,8 @@
 			<import>bp.Core</import>
 			<import>Exceptions</import>
 			<import>IP</import>
+			<import>Port</import>
+			<import>TCPStream</import>
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">blitzprog.org</string>
@@ -41,30 +43,68 @@
 						<code>
 							<noop depth="3" id="8"/>
 						</code>
+						<meta/>
 					</function>
-					<casts depth="2" id="9">
-						<cast-definition depth="3" id="10">
+					<function depth="2" id="9">
+						<name>createTCPSocket</name>
+						<code>
+							<declare-type depth="3" id="10">
+								<value>decl</value>
+								<value>Int</value>
+							</declare-type>
+							<return depth="3" id="11">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="12">
+						<name>createUDPSocket</name>
+						<code>
+							<declare-type depth="3" id="13">
+								<value>decl</value>
+								<value>Int</value>
+							</declare-type>
+							<return depth="3" id="14">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="15">
+						<parameters>
+							<parameter>sock</parameter>
+							<parameter>port</parameter>
+						</parameters>
+						<name>connect</name>
+						<code>
+							<declare-type depth="3" id="16">
+								<value>decl</value>
+								<value>Bool</value>
+							</declare-type>
+							<return depth="3" id="17">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<casts depth="2" id="18">
+						<cast-definition depth="3" id="19">
 							<to>String</to>
 							<code>
-								<declare-type depth="4" id="11">
+								<declare-type depth="4" id="20">
 									<value>decl</value>
 									<value>String</value>
 								</declare-type>
-								<return depth="4" id="12">decl</return>
+								<return depth="4" id="21">decl</return>
 							</code>
-							<meta/>
 						</cast-definition>
 					</casts>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="13">
+		<test depth="0" id="22">
 			<code>
-				<try-block depth="1" id="14">
+				<try-block depth="1" id="23">
 					<try>
 						<code>
-							<assign depth="2" id="15">
+							<assign depth="2" id="24">
 								<value>ip</value>
 								<value>
 									<new>
@@ -75,7 +115,7 @@
 									</new>
 								</value>
 							</assign>
-							<call depth="2" id="16">
+							<call depth="2" id="25">
 								<function>
 									<access>
 										<value>ip</value>
@@ -84,9 +124,42 @@
 								</function>
 								<parameters/>
 							</call>
+							<assign depth="2" id="26">
+								<value>stream</value>
+								<value>
+									<new>
+										<type>TCPStream</type>
+										<parameters>
+											<parameter>ip</parameter>
+											<parameter>
+												<access>
+													<value>Port</value>
+													<value>HTTP</value>
+												</access>
+											</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<call depth="2" id="27">
+								<function>print</function>
+								<parameters>
+									<parameter>
+										<call>
+											<function>
+												<access>
+													<value>stream</value>
+													<value>connect</value>
+												</access>
+											</function>
+											<parameters/>
+										</call>
+									</parameter>
+								</parameters>
+							</call>
 						</code>
 					</try>
-					<catch depth="1" id="17">
+					<catch depth="1" id="28">
 						<variable>
 							<declare-type>
 								<value>e</value>
@@ -94,7 +167,7 @@
 							</declare-type>
 						</variable>
 						<code>
-							<call depth="2" id="18">
+							<call depth="2" id="29">
 								<function>print</function>
 								<parameters>
 									<parameter>
