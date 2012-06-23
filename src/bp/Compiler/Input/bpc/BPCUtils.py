@@ -602,7 +602,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_PYTHON:
 			blockStart = ":"
 		
-		return "for%s%s in %s%s\n%s%s%s%s" % (exprStart, iterator, coll, counter, blockStart, loopCode, "\t" * tabLevel, blockEnd)
+		return "for%s%s in %s%s%s\n%s%s%s" % (exprStart, iterator, coll, counter, blockStart, loopCode, "\t" * tabLevel, blockEnd)
 	elif nodeName == "parameter":
 		if node.childNodes:
 			if len(node.childNodes) == 1:
