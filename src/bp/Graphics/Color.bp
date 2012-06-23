@@ -1,0 +1,83 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>ColorRGBA</name>
+			<code>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>red</value>
+									</access>
+								</value>
+								<value>1.0</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>green</value>
+									</access>
+								</value>
+								<value>1.0</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>blue</value>
+									</access>
+								</value>
+								<value>1.0</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>alpha</value>
+									</access>
+								</value>
+								<value>1.0</value>
+							</assign>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="3"/>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">red</public-member>
+					<public-member depth="2" id="6">green</public-member>
+					<public-member depth="2" id="7">blue</public-member>
+					<public-member depth="2" id="8">alpha</public-member>
+				</public>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SDefault</comment>
+		<define depth="0" id="9">
+			<assign depth="1" id="10">
+				<value>Color</value>
+				<value>ColorRGBA</value>
+			</assign>
+		</define>
+	</code>
+</module>

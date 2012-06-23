@@ -9,6 +9,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		Benchmarkable.__init__(self)
 		self.bpIDE = bpIDE
 		self.processor = bpIDE.processor
+		self.ppFile = None
 		self.lastException = None
 		self.numTasksHandled = 0
 		self.ceQueue = collections.deque()
