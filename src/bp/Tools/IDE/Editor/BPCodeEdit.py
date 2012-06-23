@@ -493,6 +493,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		xmlCode = loadXMLFile(self.getFilePath())
 		
 		#self.clear()
+		self.disableUpdatesFlag = True
 		self.setPlainText("")
 		self.openingFile = True
 		self.reloading = True

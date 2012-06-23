@@ -1305,7 +1305,6 @@
 					<code>
 						<noop depth="2" id="107"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SDelete\S#characterCount\Scharacters\Sfrom\Sthe\Sstring</comment>
 				<function depth="1" id="108">
@@ -1618,7 +1617,6 @@
 							</not-equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Ssame\Sstring\Swith\Sall\Scharacters\Sbeing\Slower-case</comment>
 				<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\S/\SUTF-8</comment>
@@ -1683,7 +1681,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Ssame\Sstring\Swith\Sall\Scharacters\Sbeing\Slower-case</comment>
 				<comment>\STODO:\SMake\Sit\Swork\Swith\SUnicode\S/\SUTF-8</comment>
@@ -1748,7 +1745,6 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPad\Sleft</comment>
 				<function depth="1" id="138">

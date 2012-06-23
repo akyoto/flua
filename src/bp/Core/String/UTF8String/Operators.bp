@@ -398,7 +398,6 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 					<operator depth="2" id="31">
 						<parameters>
@@ -422,7 +421,6 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 					<operator depth="2" id="33">
 						<parameters>
