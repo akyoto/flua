@@ -76,6 +76,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.lastShownOutputCompiler = None
 		self.currentNode = None
 		self.runThread = None
+		self.somethingModified = True
+		self.codeEditLastRun = None
 		self.running = 0
 		self.compiling = 0
 		self.backgroundCompileIsUpToDate = False

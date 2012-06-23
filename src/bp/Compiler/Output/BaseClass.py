@@ -89,7 +89,7 @@ class BaseClass(BaseNamespace):
 	#	return propertyName in self.defaultSetters
 		
 	def getAutoCompleteList(self, private = False):
-		publicMembers = list()
+		publicMembers = list(self.publicMembers.keys())
 		publicFunctions = list()
 		publicIterators = list()
 		

@@ -38,6 +38,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
+						<comment>\SShader\Sinfo</comment>
 						<assign depth="2" id="3">
 							<value>
 								<access>
@@ -240,6 +241,7 @@
 								</call>
 							</value>
 						</assign>
+						<comment>\SColor</comment>
 						<assign depth="2" id="9">
 							<value>
 								<access>
@@ -276,6 +278,7 @@
 							</value>
 							<value>1.0</value>
 						</assign>
+						<comment>\STexture</comment>
 						<assign depth="2" id="13">
 							<value>
 								<declare-type>
@@ -463,44 +466,68 @@
 							</parameters>
 						</call>
 						<comment>\SSet\Stexture</comment>
-						<call depth="2" id="24">
-							<function>glUniform1i</function>
-							<parameters>
-								<parameter>
+						<if-block depth="2" id="24">
+							<if>
+								<condition>
 									<access>
 										<value>my</value>
-										<value>texAttr</value>
+										<value>texture</value>
 									</access>
-								</parameter>
-								<parameter>0</parameter>
-							</parameters>
-						</call>
+								</condition>
+								<code>
+									<call depth="3" id="25">
+										<function>
+											<access>
+												<value>
+													<access>
+														<value>my</value>
+														<value>texture</value>
+													</access>
+												</value>
+												<value>activate</value>
+											</access>
+										</function>
+										<parameters/>
+									</call>
+									<call depth="3" id="26">
+										<function>glUniform1i</function>
+										<parameters>
+											<parameter>
+												<access>
+													<value>my</value>
+													<value>texAttr</value>
+												</access>
+											</parameter>
+											<parameter>0</parameter>
+										</parameters>
+									</call>
+								</code>
+							</if>
+						</if-block>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="25">
-					<public-member depth="2" id="26">red</public-member>
-					<public-member depth="2" id="27">green</public-member>
-					<public-member depth="2" id="28">blue</public-member>
-					<public-member depth="2" id="29">alpha</public-member>
+				<public depth="1" id="27">
+					<public-member depth="2" id="28">red</public-member>
+					<public-member depth="2" id="29">green</public-member>
+					<public-member depth="2" id="30">blue</public-member>
+					<public-member depth="2" id="31">alpha</public-member>
 				</public>
-				<get depth="1" id="30">
-					<getter depth="2" id="31">
+				<get depth="1" id="32">
+					<getter depth="2" id="33">
 						<name>vertexShader</name>
 						<code>
-							<return depth="3" id="32">
+							<return depth="3" id="34">
 								<access>
 									<value>my</value>
 									<value>vertexShader</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
-					<getter depth="2" id="33">
+					<getter depth="2" id="35">
 						<name>fragmentShader</name>
 						<code>
-							<return depth="3" id="34">
+							<return depth="3" id="36">
 								<access>
 									<value>my</value>
 									<value>fragmentShader</value>
@@ -508,27 +535,26 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="35">
+					<getter depth="2" id="37">
 						<name>program</name>
 						<code>
-							<return depth="3" id="36">
+							<return depth="3" id="38">
 								<access>
 									<value>my</value>
 									<value>program</value>
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
-				<set depth="1" id="37">
-					<setter depth="2" id="38">
+				<set depth="1" id="39">
+					<setter depth="2" id="40">
 						<parameters>
 							<parameter>newTex</parameter>
 						</parameters>
 						<name>texture</name>
 						<code>
-							<assign depth="3" id="39">
+							<assign depth="3" id="41">
 								<value>
 									<access>
 										<value>my</value>

@@ -14,6 +14,7 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		
 		self.methods = classImpl.classObj.functions
 		self.members = classImpl.classObj.properties
+		self.publicMembers = classImpl.classObj.publicMembers
 		
 		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList(private)
 		
@@ -42,7 +43,7 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 			# TODO: Optimize for 'in' dict search instead of list search
 			if text in self.methods:
 				return self.methodIcon
-			elif text in self.members:
+			elif text in self.members or text in self.publicMembers:
 				return self.memberIcon
 			elif text in self.iteratorList:
 				return self.iteratorIcon
@@ -874,6 +875,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				if text and relPos > 0 and text[relPos - 1] != ".":
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					popup.hide()
+					self.completer.deactivateMemberList()
 					return
 			
 			# Set the prefix later
@@ -1290,6 +1292,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#print(self.disableUpdatesFlag)
 		
 		self.bpIDE.backgroundCompileIsUpToDate = False
+		self.bpIDE.somethingModified = True
 		
 		# Only invalidate the data if this code edit is not a code bubble
 		if (self.bubble) and (charsAdded or charsRemoved):
@@ -1505,7 +1508,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
 		
 		if self.bubble.y() + newHeight >= self.height():
-			newHeight = self.height() - self.bubble.y() - 7
+			newHeight = self.height() - self.bubble.y() - 14
 			self.bubble.verticalScrollBar().show()
 		else:
 			self.bubble.verticalScrollBar().hide()
@@ -1514,7 +1517,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.resizeBubble(self.bubbleWidth, newHeight)
 	
 	def resizeBubble(self, width = -1, height = -1):
-		margin = 7
+		margin = 14
 		
 		if width == -1:
 			width = self.bubbleWidth

@@ -60,9 +60,8 @@ class ModuleMenuActions:
 		if self.codeEdit.bubble:
 			self.codeEdit.bubble.hide()
 		
-		self.codeEdit.save(msgStatusBar = False)
-		
-		if self.codeEdit:
+		if self.somethingModified or self.codeEdit != self.codeEditLastRun:
+			self.codeEdit.save(msgStatusBar = False)
 			self.codeEdit.msgView.clear()
 		
 		# Target dependant
@@ -70,37 +69,38 @@ class ModuleMenuActions:
 		
 		#print(self.processor.getCompiledFilesList())
 		try:
-			if not self.backgroundCompileIsUpToDate:
-				self.createOutputCompiler(outputTarget)
+			if self.somethingModified or self.codeEdit != self.codeEditLastRun:
+				if not self.backgroundCompileIsUpToDate:
+					self.createOutputCompiler(outputTarget)
+					
+					#exePath = cpp.getExePath().replace("/", "\\")
+					#if exePath and os.path.isfile(exePath):
+					#	print("Removing %s" % exePath)
+					#	os.remove(exePath)
+					
+					bpPostPFile = self.getCurrentPostProcessorFile()
+					
+					# Generate
+					self.startBenchmark("%s Generator" % outputTarget)
+					self.outputCompiler.compile(bpPostPFile)
+					self.outputCompiler.writeToFS()
+					self.endBenchmark()
+				else:
+					# Information is up to date, just write it to the disk
+					self.startBenchmark("%s Generator (write files to disk)" % outputTarget)
+					self.outputCompiler.writeToFS()
+					self.endBenchmark()
 				
-				#exePath = cpp.getExePath().replace("/", "\\")
-				#if exePath and os.path.isfile(exePath):
-				#	print("Removing %s" % exePath)
-				#	os.remove(exePath)
+				# Build
+				self.startBenchmark("%s Build" % outputTarget)
+				exitCode = self.outputCompiler.build(compilerFlags, fhOut = self.console.compiler.write, fhErr = self.console.compiler.writeError)
 				
-				bpPostPFile = self.getCurrentPostProcessorFile()
+				if exitCode != 0:
+					#print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
+					return
 				
-				# Generate
-				self.startBenchmark("%s Generator" % outputTarget)
-				self.outputCompiler.compile(bpPostPFile)
-				self.outputCompiler.writeToFS()
+				print("-" * 80)
 				self.endBenchmark()
-			else:
-				# Information is up to date, just write it to the disk
-				self.startBenchmark("%s Generator (write files to disk)" % outputTarget)
-				self.outputCompiler.writeToFS()
-				self.endBenchmark()
-			
-			# Build
-			self.startBenchmark("%s Build" % outputTarget)
-			exitCode = self.outputCompiler.build(compilerFlags, fhOut = self.console.compiler.write, fhErr = self.console.compiler.writeError)
-			
-			if exitCode != 0:
-				#print("%s compiler error (see other console window, exit code %d)" % (outputTarget, exitCode))
-				return
-			
-			print("-" * 80)
-			self.endBenchmark()
 			
 			exe = self.outputCompiler.getExePath()
 			
@@ -136,6 +136,8 @@ class ModuleMenuActions:
 			if self.compiling > 0:
 				self.compiling -= 1
 			
+			self.codeEditLastRun = self.codeEdit
+			self.somethingModified = False
 			self.console.watch(self.console.log)
 		
 		#cpp.compile(self.file, self.codeEdit.root)
