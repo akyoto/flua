@@ -598,7 +598,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def runPostProcessor(self, codeEdit):
 		# TODO: Less cpu usage
-		if self.threaded:
+		if self.threaded and not codeEdit.reloading:
 			if not self.postProcessorThread.isRunning():
 				self.postProcessorThread.startWith(codeEdit)
 			else:

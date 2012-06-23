@@ -113,7 +113,6 @@
 					<code>
 						<noop depth="2" id="10"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="11">
 					<name>exit</name>
@@ -263,6 +262,7 @@
 						</if-block>
 						<return depth="2" id="25">false</return>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="26">
 					<getter depth="2" id="27">

@@ -1,5 +1,6 @@
-#include <public/Graphics/GLUT/C++/GLUT.hpp>
 #define bp_glVertexAttribPointer(a, b, c, d, e, f) glVertexAttribPointer(a, b, c, d, e, reinterpret_cast<const GLvoid*>(f))
+
+#include <public/Graphics/GLUT/C++/GLUT.hpp>
 
 // ----------------------------------------------------
 //  TODO: Replace all errors with exceptions
@@ -10,12 +11,19 @@ bool flua_glutRunFlag = false;
 
 // glGetString(GL_VERSION)
 
-void flua_closeFunc() {
+void flua_onClose() {
 	flua_glutRunFlag = false;
 }
 
 inline bool glutWindowOpen() {
 	return flua_glutRunFlag;
+}
+
+inline void flua_onReshape(int width, int height) {
+	/*fluaActiveWindow->_width = width;
+	fluaActiveWindow->_height = height;*/
+	
+	glViewport(0, 0, width, height);
 }
 
 inline void flua_initGLUT() {
@@ -69,7 +77,8 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, 
 	
 	int winId = glutCreateWindow(title);
 	
-	glutCloseFunc(flua_closeFunc);
+	glutReshapeFunc(flua_onReshape);
+	glutCloseFunc(flua_onClose);
 	flua_glutRunFlag = true;
 	
 	return winId;
@@ -169,7 +178,7 @@ inline void flua_testing(GLint transformAttr) {
 	
 	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0));
 	glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f * 640 / 480, 0.1f, 10.0f);
+	glm::mat4 projection = glm::perspective(45.0f, 1.0f * glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10.0f);
 	glm::mat4 mvp = projection * view * model * anim;
 	
 	glUniformMatrix4fv(transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));

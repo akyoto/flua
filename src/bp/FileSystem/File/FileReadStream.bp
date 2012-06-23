@@ -223,6 +223,7 @@
 						</call>
 						<return depth="2" id="20">buffer</return>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="21">
 					<name>close</name>

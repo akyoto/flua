@@ -72,23 +72,27 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="14">
+						<name>setWindow</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="15">
 						<name>getLastGLError</name>
 						<type>String</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="15">
+					<extern-function depth="2" id="16">
 						<name>testing</name>
 						<meta/>
 					</extern-function>
 				</code>
 			</namespace>
 		</extern>
-		<function depth="0" id="16">
+		<function depth="0" id="17">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="17">
+				<return depth="1" id="18">
 					<call>
 						<function>
 							<access>
