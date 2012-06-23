@@ -194,7 +194,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onProgressUpdate(self):	
 		if self.lastFunctionCount == -1 and self.postProcessorThread:
 			val = time.time() - self.startTime
-			self.progressBar.setValue(min(100, val * 45))
+			self.progressBar.setValue(min(100, val * 40))
 			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
 			
 			#self.progressBar.show()
@@ -206,8 +206,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def onCompileTimeout(self):
 		# Don't do this if we're actually compiling or if we have nothing to compile
-		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0 or self.codeEdit.ppOutstandingTasks > 0:
+		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0:
 			return
+		
+		if self.codeEdit.ppOutstandingTasks > 0:
+			if 0:#(
+				#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
+				#	or
+				#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
+				#):
+				pass
+			else:
+				return
 		
 		# Create output compiler
 		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
@@ -229,7 +239,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# If the number of functions changed, rehighlight
 		if self.codeEdit:
 			newFuncCount = comp.getFunctionCount()
-			if self.lastCodeEdit == self.codeEdit and newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile()):
+			
+			if self.lastCodeEdit == self.codeEdit and self.needsRehighlight(newFuncCount):
 				self.codeEdit.rehighlightFunctionUsage()
 			
 			self.lastFunctionCount = newFuncCount
@@ -252,6 +263,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			if ce.backgroundCompilerOutstandingTasks < 0:
 				ce.backgroundCompilerOutstandingTasks = 0
+	
+	def needsRehighlight(self, newFuncCount):
+		return newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile())
 	
 	def createOutputCompiler(self, outputTarget, temporary = False):
 		if outputTarget.startswith("C++"):
@@ -536,6 +550,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			# Check that line
 			self.currentNode = selectedNode
+			
 			#self.showDependencies(selectedNode, updateDependencyView)
 			
 			# Clear all highlights
@@ -543,7 +558,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
 		
 	def restoreScopesOfNode(self, selectedNode):
-		#self.codeEdit.outFile.debugNodeToScope()
+		if not selectedNode:
+			selectedNode = self.lastShownNode
+		
 		if self.codeEdit.outFile and selectedNode:
 			#print("Before")
 			#self.codeEdit.outFile.debugScopes()
@@ -609,6 +626,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#raise "Not implemented in single-threaded mode"
 			ppThread = BPPostProcessorThread(self)
 			ppThread.codeEdit = codeEdit
+			ppThread.numTasksHandled = codeEdit.ppOutstandingTasks
 			ppThread.run()
 			self.postProcessorFinished(ppThread)
 		

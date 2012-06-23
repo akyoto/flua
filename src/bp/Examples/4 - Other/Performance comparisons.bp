@@ -29,5 +29,8 @@
 		<comment>\STime.Now:\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S1,372,276\Smicroseconds</comment>
 		<comment>\S--------------------------------------------------------------------------------</comment>
 		<comment>\SAll\Sbenchmarks:\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S7,444,330\Smicroseconds</comment>
+		<comment>\S--------------------------------------------------------------------------------</comment>
+		<comment>\SIMPORTANT\SNOTE:\SFor\SC++\Soutput\Stargets\Sinlining\Sis\Spretty\Sgood\Sso\Syou\Sshould\Snot</comment>
+		<comment>\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\Shesitate\Sto\Suse\Sfunction\Scalls,\Sthey'll\Sget\Sinlined\Sanyway.</comment>
 	</code>
 </module>

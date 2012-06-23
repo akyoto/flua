@@ -76,6 +76,8 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
+		<comment>\Ssee\S#sinDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
 		<function depth="0" id="12">
 			<parameters>
 				<parameter>radian</parameter>
@@ -96,6 +98,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0" id="14">
 			<parameters>

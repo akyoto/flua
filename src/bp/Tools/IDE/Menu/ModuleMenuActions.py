@@ -132,12 +132,14 @@ class ModuleMenuActions:
 			self.displayOutputCompilerException(e)
 		except:
 			printTraceback()
+		else:
+			# Success
+			self.codeEditLastRun = self.codeEdit
+			self.somethingModified = False
 		finally:
 			if self.compiling > 0:
 				self.compiling -= 1
 			
-			self.codeEditLastRun = self.codeEdit
-			self.somethingModified = False
 			self.console.watch(self.console.log)
 		
 		#cpp.compile(self.file, self.codeEdit.root)
