@@ -12,7 +12,6 @@
 			<string id="bp_string_2">Shader/1-VS.glsl</string>
 			<string id="bp_string_3">Shader/1-FS.glsl</string>
 			<string id="bp_string_4">Textures/1-Tiles.png</string>
-			<string id="bp_string_5">Could\Snot\Sfind\S</string>
 		</strings>
 	</header>
 	<code>
@@ -24,115 +23,71 @@
 					<type>GraphicsWindow</type>
 					<parameters>
 						<parameter>bp_string_0</parameter>
-						<parameter>640</parameter>
-						<parameter>480</parameter>
+						<parameter>800</parameter>
+						<parameter>600</parameter>
 					</parameters>
 				</new>
 			</value>
 		</assign>
-		<declare-type depth="0" id="2">
-			<value>vs</value>
-			<value>VertexShader</value>
-		</declare-type>
-		<declare-type depth="0" id="3">
-			<value>fs</value>
-			<value>FragmentShader</value>
-		</declare-type>
-		<declare-type depth="0" id="4">
-			<value>tex</value>
-			<value>Texture</value>
-		</declare-type>
 		<comment>\SLoad</comment>
-		<try-block depth="0" id="5">
-			<try>
-				<code>
-					<assign depth="1" id="6">
-						<value>fsRoot</value>
-						<value>bp_string_1</value>
-					</assign>
-					<assign depth="1" id="7">
-						<value>vs</value>
-						<value>
-							<new>
-								<type>VertexShader</type>
-								<parameters>
-									<parameter>
-										<add>
-											<value>fsRoot</value>
-											<value>bp_string_2</value>
-										</add>
-									</parameter>
-								</parameters>
-							</new>
-						</value>
-					</assign>
-					<assign depth="1" id="8">
-						<value>fs</value>
-						<value>
-							<new>
-								<type>FragmentShader</type>
-								<parameters>
-									<parameter>
-										<add>
-											<value>fsRoot</value>
-											<value>bp_string_3</value>
-										</add>
-									</parameter>
-								</parameters>
-							</new>
-						</value>
-					</assign>
-					<assign depth="1" id="9">
-						<value>tex</value>
-						<value>
-							<new>
-								<type>Texture</type>
-								<parameters>
-									<parameter>
-										<add>
-											<value>fsRoot</value>
-											<value>bp_string_4</value>
-										</add>
-									</parameter>
-								</parameters>
-							</new>
-						</value>
-					</assign>
-				</code>
-			</try>
-			<catch depth="0" id="10">
-				<variable>
-					<declare-type>
-						<value>e</value>
-						<value>FileNotFoundException</value>
-					</declare-type>
-				</variable>
-				<code>
-					<call depth="1" id="11">
-						<function>print</function>
-						<parameters>
-							<parameter>
-								<add>
-									<value>bp_string_5</value>
-									<value>
-										<access>
-											<value>e</value>
-											<value>path</value>
-										</access>
-									</value>
-								</add>
-							</parameter>
-						</parameters>
-					</call>
-				</code>
-			</catch>
-		</try-block>
-		<comment>\SActivate\Sthe\Smaterial</comment>
-		<assign depth="0" id="12">
-			<value>mat</value>
+		<assign depth="0" id="2">
+			<value>fsRoot</value>
+			<value>bp_string_1</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>vs</value>
 			<value>
 				<new>
-					<type>Material</type>
+					<type>VertexShader</type>
+					<parameters>
+						<parameter>
+							<add>
+								<value>fsRoot</value>
+								<value>bp_string_2</value>
+							</add>
+						</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>fs</value>
+			<value>
+				<new>
+					<type>FragmentShader</type>
+					<parameters>
+						<parameter>
+							<add>
+								<value>fsRoot</value>
+								<value>bp_string_3</value>
+							</add>
+						</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="5">
+			<value>tex1</value>
+			<value>
+				<new>
+					<type>Texture</type>
+					<parameters>
+						<parameter>
+							<add>
+								<value>fsRoot</value>
+								<value>bp_string_4</value>
+							</add>
+						</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SMix\Sit!</comment>
+		<assign depth="0" id="6">
+			<value>composed</value>
+			<value>
+				<new>
+					<type>Shader</type>
 					<parameters>
 						<parameter>vs</parameter>
 						<parameter>fs</parameter>
@@ -140,17 +95,29 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="13">
+		<assign depth="0" id="7">
+			<value>mat</value>
+			<value>
+				<new>
+					<type>Material</type>
+					<parameters>
+						<parameter>composed</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SOur\Smaterial\Sshould\Shave\Sa\Stexture</comment>
+		<assign depth="0" id="8">
 			<value>
 				<access>
 					<value>mat</value>
 					<value>texture</value>
 				</access>
 			</value>
-			<value>tex</value>
+			<value>tex1</value>
 		</assign>
-		<comment>\SCreate\Sa\Scube</comment>
-		<assign depth="0" id="14">
+		<comment>\SWhat\Sdo\Swe\Swant\Sto\Smap\Sour\Smaterial\Sto...?\SErr,\Sa\Scube\Swill\Sdo!</comment>
+		<assign depth="0" id="9">
 			<value>mesh</value>
 			<value>
 				<call>
@@ -164,26 +131,8 @@
 				</call>
 			</value>
 		</assign>
-		<call depth="0" id="15">
-			<function>
-				<access>
-					<value>mesh</value>
-					<value>activate</value>
-				</access>
-			</function>
-			<parameters/>
-		</call>
-		<call depth="0" id="16">
-			<function>
-				<access>
-					<value>tex</value>
-					<value>activate</value>
-				</access>
-			</function>
-			<parameters/>
-		</call>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="17">
+		<while depth="0" id="10">
 			<condition>
 				<access>
 					<value>win</value>
@@ -191,11 +140,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="18">
+				<in depth="1" id="11">
 					<expression>win</expression>
 					<code>
-						<comment>\SGray\Sbackground</comment>
-						<call depth="2" id="19">
+						<comment>\SBackground</comment>
+						<call depth="2" id="12">
 							<function>
 								<access>
 									<value>win</value>
@@ -203,16 +152,25 @@
 								</access>
 							</function>
 							<parameters>
-								<parameter>0.5</parameter>
-								<parameter>0.5</parameter>
-								<parameter>0.5</parameter>
+								<parameter>0.65</parameter>
+								<parameter>0.65</parameter>
+								<parameter>0.65</parameter>
 							</parameters>
 						</call>
-						<comment>\SLet's\Sapply\Ssome\Scolor\Sto\Sthe\Smaterial</comment>
-						<assign depth="2" id="20">
+						<comment>\SColor\Sfor\Sthe\Smaterial\Sof\Sthe\Scube</comment>
+						<assign depth="2" id="13">
+							<value>color</value>
 							<value>
 								<access>
 									<value>mat</value>
+									<value>color</value>
+								</access>
+							</value>
+						</assign>
+						<assign depth="2" id="14">
+							<value>
+								<access>
+									<value>color</value>
 									<value>red</value>
 								</access>
 							</value>
@@ -247,10 +205,10 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="21">
+						<assign depth="2" id="15">
 							<value>
 								<access>
-									<value>mat</value>
+									<value>color</value>
 									<value>green</value>
 								</access>
 							</value>
@@ -285,10 +243,10 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign depth="2" id="16">
 							<value>
 								<access>
-									<value>mat</value>
+									<value>color</value>
 									<value>blue</value>
 								</access>
 							</value>
@@ -323,10 +281,10 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="23">
+						<assign depth="2" id="17">
 							<value>
 								<access>
-									<value>mat</value>
+									<value>color</value>
 									<value>alpha</value>
 								</access>
 							</value>
@@ -361,7 +319,17 @@
 								</call>
 							</value>
 						</assign>
-						<call depth="2" id="24">
+						<comment>\SActivate</comment>
+						<call depth="2" id="18">
+							<function>
+								<access>
+									<value>mesh</value>
+									<value>activate</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+						<call depth="2" id="19">
 							<function>
 								<access>
 									<value>mat</value>
@@ -370,8 +338,8 @@
 							</function>
 							<parameters/>
 						</call>
-						<comment>\SDraw\Sit</comment>
-						<call depth="2" id="25">
+						<comment>\SDraw</comment>
+						<call depth="2" id="20">
 							<function>
 								<access>
 									<value>mesh</value>
