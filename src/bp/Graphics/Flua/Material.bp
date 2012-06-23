@@ -10,8 +10,10 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">coord3d</string>
-			<string id="bp_string_1">texcoord</string>
-			<string id="bp_string_2">mytexture</string>
+			<string id="bp_string_1">f_color</string>
+			<string id="bp_string_2">texcoord</string>
+			<string id="bp_string_3">mytexture</string>
+			<string id="bp_string_4">mvp</string>
 		</strings>
 	</header>
 	<code>
@@ -110,12 +112,11 @@
 								</call>
 							</value>
 						</assign>
-						<comment>my.colorAttr\S=\Sflua.createGLSLProgramUniform(my.program,\S&quot;f_color&quot;.data)</comment>
 						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
-									<value>texCoordAttr</value>
+									<value>colorAttr</value>
 								</access>
 							</value>
 							<value>
@@ -123,7 +124,7 @@
 									<function>
 										<access>
 											<value>flua</value>
-											<value>createGLSLProgramAttribute</value>
+											<value>createGLSLProgramUniform</value>
 										</access>
 									</function>
 									<parameters>
@@ -147,7 +148,7 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>texAttr</value>
+									<value>texCoordAttr</value>
 								</access>
 							</value>
 							<value>
@@ -155,7 +156,7 @@
 									<function>
 										<access>
 											<value>flua</value>
-											<value>createGLSLProgramUniform</value>
+											<value>createGLSLProgramAttribute</value>
 										</access>
 									</function>
 									<parameters>
@@ -179,25 +180,71 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>red</value>
+									<value>texAttr</value>
 								</access>
 							</value>
-							<value>1.0</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgramUniform</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>program</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>bp_string_3</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
 						</assign>
 						<assign depth="2" id="8">
 							<value>
 								<access>
 									<value>my</value>
-									<value>green</value>
+									<value>mvpAttr</value>
 								</access>
 							</value>
-							<value>1.0</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>createGLSLProgramUniform</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>program</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>bp_string_4</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
 						</assign>
 						<assign depth="2" id="9">
 							<value>
 								<access>
 									<value>my</value>
-									<value>blue</value>
+									<value>red</value>
 								</access>
 							</value>
 							<value>1.0</value>
@@ -206,12 +253,30 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>alpha</value>
+									<value>green</value>
 								</access>
 							</value>
 							<value>1.0</value>
 						</assign>
 						<assign depth="2" id="11">
+							<value>
+								<access>
+									<value>my</value>
+									<value>blue</value>
+								</access>
+							</value>
+							<value>1.0</value>
+						</assign>
+						<assign depth="2" id="12">
+							<value>
+								<access>
+									<value>my</value>
+									<value>alpha</value>
+								</access>
+							</value>
+							<value>1.0</value>
+						</assign>
+						<assign depth="2" id="13">
 							<value>
 								<declare-type>
 									<value>
@@ -228,12 +293,17 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="12">
+				<function depth="1" id="14">
 					<name>activate</name>
 					<code>
 						<comment>\SShader</comment>
-						<call depth="2" id="13">
-							<function>glUseProgram</function>
+						<call depth="2" id="15">
+							<function>
+								<access>
+									<value>flua</value>
+									<value>setActiveProgram</value>
+								</access>
+							</function>
 							<parameters>
 								<parameter>
 									<access>
@@ -243,8 +313,25 @@
 								</parameter>
 							</parameters>
 						</call>
+						<call depth="2" id="16">
+							<function>
+								<access>
+									<value>flua</value>
+									<value>setTransform</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>mvpAttr</value>
+									</access>
+								</parameter>
+								<parameter>45</parameter>
+							</parameters>
+						</call>
 						<comment>\SAttributes</comment>
-						<call depth="2" id="14">
+						<call depth="2" id="17">
 							<function>glEnableVertexAttribArray</function>
 							<parameters>
 								<parameter>
@@ -255,8 +342,18 @@
 								</parameter>
 							</parameters>
 						</call>
-						<comment>glEnableVertexAttribArray\Smy.colorAttr</comment>
-						<call depth="2" id="15">
+						<call depth="2" id="18">
+							<function>glEnableVertexAttribArray</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>colorAttr</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="19">
 							<function>glEnableVertexAttribArray</function>
 							<parameters>
 								<parameter>
@@ -268,7 +365,7 @@
 							</parameters>
 						</call>
 						<comment>\SAttribute\Slocations</comment>
-						<assign depth="2" id="16">
+						<assign depth="2" id="20">
 							<value>len</value>
 							<value>
 								<multiply>
@@ -284,7 +381,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<call depth="2" id="17">
+						<call depth="2" id="21">
 							<function>glVertexAttribPointer</function>
 							<parameters>
 								<parameter>
@@ -301,7 +398,7 @@
 							</parameters>
 						</call>
 						<comment>glVertexAttribPointer\Smy.colorAttr,\S3,\SGL_FLOAT,\SGL_FALSE,\Slen,\S3\S*\SsizeOf(GL_FLOAT)</comment>
-						<call depth="2" id="18">
+						<call depth="2" id="22">
 							<function>glVertexAttribPointer</function>
 							<parameters>
 								<parameter>
@@ -330,9 +427,43 @@
 							</parameters>
 						</call>
 						<comment>\SSet\Scolor</comment>
-						<comment>glUniform4f\Smy.colorAttr,\Smy.red,\Smy.green,\Smy.blue,\Smy.alpha</comment>
+						<call depth="2" id="23">
+							<function>glUniform4f</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>colorAttr</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>red</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>green</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>blue</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>alpha</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
 						<comment>\SSet\Stexture</comment>
-						<call depth="2" id="19">
+						<call depth="2" id="24">
 							<function>glUniform1i</function>
 							<parameters>
 								<parameter>
@@ -347,17 +478,17 @@
 					</code>
 					<meta/>
 				</function>
-				<public depth="1" id="20">
-					<public-member depth="2" id="21">red</public-member>
-					<public-member depth="2" id="22">green</public-member>
-					<public-member depth="2" id="23">blue</public-member>
-					<public-member depth="2" id="24">alpha</public-member>
+				<public depth="1" id="25">
+					<public-member depth="2" id="26">red</public-member>
+					<public-member depth="2" id="27">green</public-member>
+					<public-member depth="2" id="28">blue</public-member>
+					<public-member depth="2" id="29">alpha</public-member>
 				</public>
-				<get depth="1" id="25">
-					<getter depth="2" id="26">
+				<get depth="1" id="30">
+					<getter depth="2" id="31">
 						<name>vertexShader</name>
 						<code>
-							<return depth="3" id="27">
+							<return depth="3" id="32">
 								<access>
 									<value>my</value>
 									<value>vertexShader</value>
@@ -366,10 +497,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="28">
+					<getter depth="2" id="33">
 						<name>fragmentShader</name>
 						<code>
-							<return depth="3" id="29">
+							<return depth="3" id="34">
 								<access>
 									<value>my</value>
 									<value>fragmentShader</value>
@@ -377,10 +508,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="30">
+					<getter depth="2" id="35">
 						<name>program</name>
 						<code>
-							<return depth="3" id="31">
+							<return depth="3" id="36">
 								<access>
 									<value>my</value>
 									<value>program</value>
@@ -390,14 +521,14 @@
 						<meta/>
 					</getter>
 				</get>
-				<set depth="1" id="32">
-					<setter depth="2" id="33">
+				<set depth="1" id="37">
+					<setter depth="2" id="38">
 						<parameters>
 							<parameter>newTex</parameter>
 						</parameters>
 						<name>texture</name>
 						<code>
-							<assign depth="3" id="34">
+							<assign depth="3" id="39">
 								<value>
 									<access>
 										<value>my</value>
@@ -407,7 +538,6 @@
 								<value>newTex</value>
 							</assign>
 						</code>
-						<meta/>
 					</setter>
 				</set>
 			</code>

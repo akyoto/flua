@@ -511,6 +511,12 @@
 					</parameters>
 				</call>
 				<call depth="1" id="60">
+					<function>glDisable</function>
+					<parameters>
+						<parameter>GL_CULL_FACE</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="61">
 					<function>glBlendFunc</function>
 					<parameters>
 						<parameter>GL_SRC_ALPHA</parameter>
@@ -518,23 +524,24 @@
 					</parameters>
 				</call>
 				<comment>\SIt's\Sinitialized...be\Shappy!</comment>
-				<assign depth="1" id="61">
+				<assign depth="1" id="62">
 					<value>fluaInitialized</value>
 					<value>true</value>
 				</assign>
 			</code>
+			<meta/>
 		</function>
-		<function depth="0" id="62">
+		<function depth="0" id="63">
 			<parameters>
 				<parameter>gfxWindow</parameter>
 			</parameters>
 			<name>fluaSetWindow</name>
 			<code>
-				<assign depth="1" id="63">
+				<assign depth="1" id="64">
 					<value>fluaActiveWindow</value>
 					<value>gfxWindow</value>
 				</assign>
-				<call depth="1" id="64">
+				<call depth="1" id="65">
 					<function>glutSetWindow</function>
 					<parameters>
 						<parameter>

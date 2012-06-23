@@ -167,8 +167,12 @@ inline GLuint flua_createBuffer() {
 	return newVBO;
 }
 
+inline void flua_setActiveProgram(GLint program) {
+	glUseProgram(program);
+}
+
 // TODO: Remove hardcoded values
-inline void flua_testing(GLint transformAttr) {
+inline void flua_setTransform(GLint flua_transformAttr, float fov) {
 	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
 	glm::vec3 axis_y(0.0, 1.0, 0.0);
 	glm::mat4 anim = \
@@ -178,10 +182,10 @@ inline void flua_testing(GLint transformAttr) {
 	
 	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0));
 	glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f * glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10.0f);
+	glm::mat4 projection = glm::perspective(fov, 1.0f * glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10.0f);
 	glm::mat4 mvp = projection * view * model * anim;
 	
-	glUniformMatrix4fv(transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {

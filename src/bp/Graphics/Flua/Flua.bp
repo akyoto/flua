@@ -83,16 +83,20 @@
 						</meta>
 					</extern-function>
 					<extern-function depth="2" id="16">
-						<name>testing</name>
+						<name>setActiveProgram</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="17">
+						<name>setTransform</name>
 						<meta/>
 					</extern-function>
 				</code>
 			</namespace>
 		</extern>
-		<function depth="0" id="17">
+		<function depth="0" id="18">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="18">
+				<return depth="1" id="19">
 					<call>
 						<function>
 							<access>
