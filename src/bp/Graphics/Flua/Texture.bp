@@ -4,6 +4,7 @@
 		<dependencies>
 			<import>bp.Core</import>
 			<import>bp.Graphics.Flua</import>
+			<import>bp.FileSystem</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -22,7 +23,43 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<if-block depth="2" id="3">
+							<if>
+								<condition>
+									<not>
+										<value>
+											<call>
+												<function>fileExists</function>
+												<parameters>
+													<parameter>
+														<access>
+															<value>my</value>
+															<value>filePath</value>
+														</access>
+													</parameter>
+												</parameters>
+											</call>
+										</value>
+									</not>
+								</condition>
+								<code>
+									<throw depth="3" id="4">
+										<new>
+											<type>FileNotFoundException</type>
+											<parameters>
+												<parameter>
+													<access>
+														<value>my</value>
+														<value>filePath</value>
+													</access>
+												</parameter>
+											</parameters>
+										</new>
+									</throw>
+								</code>
+							</if>
+						</if-block>
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -60,16 +97,16 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="4">
+				<function depth="1" id="6">
 					<name>activate</name>
 					<code>
-						<call depth="2" id="5">
+						<call depth="2" id="7">
 							<function>glActiveTexture</function>
 							<parameters>
 								<parameter>GL_TEXTURE0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="6">
+						<call depth="2" id="8">
 							<function>glBindTexture</function>
 							<parameters>
 								<parameter>GL_TEXTURE_2D</parameter>
@@ -83,13 +120,12 @@
 						</call>
 						<comment>glUniform1i(uniform_texture1,\S0)</comment>
 					</code>
-					<meta/>
 				</function>
-				<get depth="1" id="7">
-					<getter depth="2" id="8">
+				<get depth="1" id="9">
+					<getter depth="2" id="10">
 						<name>handle</name>
 						<code>
-							<return depth="3" id="9">
+							<return depth="3" id="11">
 								<access>
 									<value>my</value>
 									<value>handle</value>

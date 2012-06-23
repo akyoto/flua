@@ -1,0 +1,42 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>SceneNode</import>
+			<import>Camera</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>Scene</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>root</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>SceneNode</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">root</public-member>
+				</public>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

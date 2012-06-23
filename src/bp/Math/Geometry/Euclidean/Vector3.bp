@@ -230,52 +230,17 @@
 		</class>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="31">
-			<assign depth="1" id="32">
-				<value>vec</value>
-				<value>
-					<new>
-						<type>Vector3</type>
-						<parameters>
-							<parameter>1</parameter>
-							<parameter>2</parameter>
-							<parameter>3</parameter>
-						</parameters>
-					</new>
-				</value>
-			</assign>
-			<call depth="1" id="33">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<access>
-							<value>vec</value>
-							<value>x</value>
-						</access>
-					</parameter>
-				</parameters>
-			</call>
-			<call depth="1" id="34">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<access>
-							<value>vec</value>
-							<value>y</value>
-						</access>
-					</parameter>
-				</parameters>
-			</call>
-			<call depth="1" id="35">
-				<function>print</function>
-				<parameters>
-					<parameter>
-						<access>
-							<value>vec</value>
-							<value>z</value>
-						</access>
-					</parameter>
-				</parameters>
-			</call>
+			<code>
+				<assign depth="1" id="32">
+					<value>vec</value>
+					<value>
+						<new>
+							<type>Vector3</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+			</code>
 		</test>
 		<comment>\T\T+=\Svalue\S:\SFloat</comment>
 		<comment>\T\T\Tself.[x,\Sy,\Sz]\S+=\Svalue</comment>

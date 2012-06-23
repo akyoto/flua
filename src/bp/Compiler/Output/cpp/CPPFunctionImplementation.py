@@ -18,6 +18,8 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 			else:
 				# Default values
 				paramType = self.func.paramDefaultValueTypes[i]
+			
+			paramType = self.classImpl.translateTemplateName(paramType)
 			stri += "%s %s, " % (adjustDataTypeCPP(paramType), paramNames[i])
 		return stri[:-2]
 		

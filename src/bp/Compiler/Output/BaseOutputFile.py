@@ -1428,7 +1428,16 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			if typeName: #and not self.variableExistsAnywhere("my"):
 				# TODO: removeUnmanaged(typeName) ? yes/no?
 				self.registerVariable(self.createVariable("my", typeName, "", False, True, False))
-			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes, funcImpl.func.getParamDefaultValueTypes())
+			
+			defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
+			
+			#print(defaultValueTypes)
+			#defaultValueTypes = [self.currentClassImpl.translateTemplateName(x) for x in defaultValueTypes]
+			#print("after: ")
+			#print(defaultValueTypes)
+			#print("---")
+			
+			parameters, funcStartCode = self.getParameterDefinitions(getElementByTagName(funcNode, "parameters"), paramTypes, defaultValueTypes) #[self.currentClassImpl.translateTemplateName(x) for x in funcImpl.func.getParamDefaultValueTypes()]
 			
 			#  * self.currentTabLevel
 			oldTabLevel = self.currentTabLevel

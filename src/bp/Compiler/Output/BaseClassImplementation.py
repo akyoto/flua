@@ -68,9 +68,15 @@ class BaseClassImplementation:
 		
 	def translateTemplateName(self, dataType):
 		templateNames = self.classObj.templateNames
+		
+		#print(templateNames)
+		#print(self.templateValues)
+		templateValuesLen = len(self.templateValues)
+		
 		for i in range(len(templateNames)):
+			#print(dataType, templateNames[i], i, templateValuesLen, self.classObj.templateDefaultValues)
 			if dataType == templateNames[i]:
-				if i < len(self.templateValues):
+				if i < templateValuesLen:
 					return self.templateValues[i]
 				else:
 					return self.classObj.templateDefaultValues[i]

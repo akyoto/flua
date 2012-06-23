@@ -145,6 +145,10 @@ class BaseFunction:
 			
 			typeA = calledTypes[i]
 			typeB = self.paramTypesByDefinition[i]
+			
+			# TODO: Is this one the correct classImpl for typeA?
+			typeA = classImpl.translateTemplateName(typeA)
+			
 			typeB = classImpl.translateTemplateName(typeB)
 			
 			if typeA in nonPointerClasses:
