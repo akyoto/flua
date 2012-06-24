@@ -784,6 +784,8 @@ class BaseOutputFileHandler:
 		# Register iterator variable
 		var = self.createVariable(iterExpr, iteratorType, iteratorValue, False, False, False)
 		typeInit = ""
+		
+		# We ignore global variables - THIS...IS...SPAR...ERR...LOCALSCOPE!
 		if 1:#not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = self.adjustDataType(var.type) + " "

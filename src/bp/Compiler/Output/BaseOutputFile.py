@@ -782,7 +782,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				impl = self.implementFunction(operatorType1, "[]", [operatorType2])
 				return impl.getReturnType()
 			
-			custom = self.implementFunction(operatorType1, correctOperators(operation), [operatorType2])
+			custom = self.implementFunction(operatorType1, correctOperatorsTagName(operation), [operatorType2])
 			if custom:
 				return custom.getReturnType()
 			
@@ -1202,7 +1202,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif callerClassName == "MemPointer": #and isUnmanaged(callerType):
 				pass#return "(%s + %s)" % (caller, op2)
 			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
-				memberFunc = correctOperators(tagName)
+				memberFunc = correctOperatorsTagName(tagName)
 				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
 					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 					

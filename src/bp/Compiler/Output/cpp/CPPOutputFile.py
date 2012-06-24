@@ -246,6 +246,16 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)
 		
+		# Performance optimization:
+		# Do we need a temporary variable to hold the collExpr value?
+		# TODO: We might ignore this for "this", "self", "my" etc.
+		if collExpr.find("->") != -1:
+			newCollExpr = "_bp_tmp_coll_%d" % self.compiler.forVarCounter
+			collInitCode = self.buildLine("%s %s = %s" % (self.adjustDataType(collExprType), newCollExpr, collExpr))
+			collExpr = newCollExpr
+		else:
+			collInitCode = ""
+		
 		# Do this BEFORE fixing member names
 		iterImplCode = iterImplCode.replace("this->", collExpr + "->")
 		
@@ -272,7 +282,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		
 		resultingCode = iterImplCode.replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + continueJump + perIterationCode)
 		
-		return "{\n%s%s%s%s;\n%s\n%s}" % (initCode, tabs, typeInit, iterExpr, resultingCode, tabs)
+		return "{\n%s%s%s%s%s;\n%s\n%s}" % (initCode, tabs, collInitCode, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildContinue(self, node):
