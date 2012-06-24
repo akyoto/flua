@@ -97,6 +97,9 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, 
 	
 	int winId = glutCreateWindow(title);
 	
+	// Force first call (not called automatically on Windows)
+	flua_onReshape(width, height);
+	
 	glutMotionFunc(flua_onMouseMove);
 	glutPassiveMotionFunc(flua_onMouseMove);
 	glutReshapeFunc(flua_onReshape);
