@@ -122,6 +122,14 @@ def correctOperators(sign):
 		return "operatorEqual"
 	elif sign == "!=":# or sign == "not-equal":
 		return "operatorNotEqual"
+	elif sign == "+=":
+		return "operatorAssignAdd"
+	elif sign == "-=":
+		return "operatorAssignSubtract"
+	elif sign == "*=":
+		return "operatorAssignMultiply"
+	elif sign == "/=":
+		return "operatorAssignDivide"
 	
 	return sign
 	
@@ -146,5 +154,13 @@ def correctOperatorsTagName(sign):
 		return "operatorEqual"
 	elif sign == "not-equal":
 		return "operatorNotEqual"
+	elif sign == "assign-add":
+		return "operatorAssignAdd"
+	elif sign == "assign-subtract":
+		return "operatorAssignSubtract"
+	elif sign == "assign-multiply":
+		return "operatorAssignMultiply"
+	elif sign == "assign-divide":
+		return "operatorAssignDivide"
 	
 	return sign

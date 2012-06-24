@@ -287,6 +287,7 @@ class BaseOutputFileHandler:
 			if callerClassName == "MemPointer" and isTextNode(op2):
 				if op2.nodeValue == "data":
 					return "(*(%s))" % (self.parseExpr(op1))
+			
 			# TODO: Optimize
 			# GET access
 			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
@@ -938,6 +939,15 @@ class BaseOutputFileHandler:
 		
 		# For casts
 		funcName = self.prepareTypeName(funcName)
+		
+		# DAU protection
+		if self.currentClassImpl != self.compiler.mainClassImpl:
+			#print(self.currentClassImpl.members)
+			#print(caller)
+			if caller in self.currentClassImpl.members:
+				# TODO: Replace 'my'
+				bpc = nodeToBPC(node)
+				raise CompilerException("Did you mean %s.%s instead of %s? %s is a member of %s" % ("my", bpc, bpc, caller, self.currentClassImpl.getFullName()))
 		
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)

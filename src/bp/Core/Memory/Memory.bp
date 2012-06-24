@@ -26,8 +26,8 @@
 					<extern-function depth="2" id="7">
 						<name>copyMem</name>
 						<meta>
-							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>false</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
 						</meta>
 					</extern-function>
 					<extern-function depth="2" id="8">
@@ -40,8 +40,8 @@
 					<extern-function depth="2" id="9">
 						<name>setMem</name>
 						<meta>
-							<same-output-for-input>true</same-output-for-input>
-							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
+							<no-side-effects>false</no-side-effects>
 						</meta>
 					</extern-function>
 					<extern-function depth="2" id="10">

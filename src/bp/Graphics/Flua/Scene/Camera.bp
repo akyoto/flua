@@ -38,13 +38,35 @@
 						<noop depth="2" id="5"/>
 						<comment>SceneNode.init(my.parent)</comment>
 					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="6">
+					<name>activate</name>
+					<code>
+						<call depth="2" id="7">
+							<function>
+								<access>
+									<value>flua</value>
+									<value>setCamera</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>0</parameter>
+								<parameter>0</parameter>
+								<parameter>0</parameter>
+								<parameter>0</parameter>
+								<parameter>0</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta/>
 		</class>
-		<test depth="0" id="6">
+		<test depth="0" id="8">
 			<code>
-				<assign depth="1" id="7">
+				<assign depth="1" id="9">
 					<value>cam</value>
 					<value>
 						<new>

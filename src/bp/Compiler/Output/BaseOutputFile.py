@@ -47,6 +47,8 @@ enableOperatorOverloading = {
 	"not-equal",
 	"assign-add",
 	"assign-substract",
+	"assign-multiply",
+	"assign-divide",
 }
 
 replacedNodeValues = {
@@ -477,7 +479,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif node.nodeValue == "true" or node.nodeValue == "false":
 				return "Bool"
 			elif node.nodeValue == "my":
-				return self.currentClassImpl.getName()
+				return self.currentClassImpl.getFullName()
 			elif node.nodeValue == "null":
 				return "MemPointer<void>"
 			elif node.nodeValue in {"_bp_slice_start", "_bp_slice_end"}:
@@ -490,6 +492,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				
 				if node.nodeValue in self.tupleTypes:
 					return self.tupleTypes[node.nodeValue]
+				
+				#translatedName = self.currentClassImpl.translateTemplateName(nodeName)
+				#if translatedName != nodeName:
+				#	return "Size"
 				
 				return self.getVariableTypeAnywhere(nodeName)
 		else:
@@ -573,11 +579,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if not callerClassImpl.hasConstructorImplementation():
 					#print("XML:", node.toxml())
 					#print("Implementing init default for '%s'" % (callerType))
-					paramTypes = callerClassImpl.classObj.functions["init"][0].paramTypesByDefinition
-					#print("paramTypes:", paramTypes)
-					#callerClassImpl.requestFuncImplementation("init", paramTypes)
-					self.implementFunction(callerType, "init", paramTypes)
-					#print("Implemented.")
+					allFuncs = callerClassImpl.classObj.functions
+					
+					if "init" in allFuncs:
+						initVariants = allFuncs["init"]
+						paramTypes = initVariants[0].paramTypesByDefinition
+						#print("paramTypes:", paramTypes)
+						#callerClassImpl.requestFuncImplementation("init", paramTypes)
+						self.implementFunction(callerType, "init", paramTypes)
+						#print("Implemented.")
+					else:
+						raise CompilerException("'%s' is missing an 'init' constructor" % callerType)
 					
 				#print("Member list:")
 				#for member in callerClassImpl.members.keys():

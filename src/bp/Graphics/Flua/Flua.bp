@@ -9,6 +9,7 @@
 			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.FreeImage</import>
 			<import>public.Math.GLM</import>
+			<import>bp.Math.Geometry</import>
 			<import>bp.FileSystem</import>
 			<import>GraphicsWindow</import>
 			<import>Material</import>
@@ -84,20 +85,39 @@
 						</meta>
 					</extern-function>
 					<extern-function depth="2" id="16">
+						<name>getMouseX</name>
+						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="17">
+						<name>getMouseY</name>
+						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="18">
 						<name>setActiveProgram</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="17">
+					<extern-function depth="2" id="19">
 						<name>setTransform</name>
 						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="20">
+						<name>setCamera</name>
 					</extern-function>
 				</code>
 			</namespace>
 		</extern>
-		<function depth="0" id="18">
+		<function depth="0" id="21">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="19">
+				<return depth="1" id="22">
 					<call>
 						<function>
 							<access>
@@ -110,6 +130,43 @@
 				</return>
 			</code>
 			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
+		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
+		<function depth="0" id="23">
+			<name>getMouseX</name>
+			<code>
+				<return depth="1" id="24">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getMouseX</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
+		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
+		<function depth="0" id="25">
+			<name>getMouseY</name>
+			<code>
+				<return depth="1" id="26">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getMouseY</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
 		</function>
 	</code>
 </module>

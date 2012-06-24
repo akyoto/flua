@@ -950,11 +950,16 @@ class BPCFile(ScopeController, Benchmarkable):
 				toParam = line[pos+len(" until "):]
 				toExpr = self.parseExpr(toParam)
 			
-			iterNode = self.doc.createElement("iterator")
-			iterNode.appendChild(initExpr.childNodes[0].childNodes[0])
-			
-			fromNode = self.doc.createElement("from")
-			fromNode.appendChild(initExpr.childNodes[1].childNodes[0])
+			if initExpr.childNodes:
+				if initExpr.childNodes[0].childNodes:
+					iterNode = self.doc.createElement("iterator")
+					iterNode.appendChild(initExpr.childNodes[0].childNodes[0])
+				
+				if initExpr.childNodes[1].childNodes:
+					fromNode = self.doc.createElement("from")
+					fromNode.appendChild(initExpr.childNodes[1].childNodes[0])
+			else:
+				raise CompilerException("Incorrect iterator assignment: %s" % (initCode))
 			
 			if toUsed:
 				toNode = self.doc.createElement("to")

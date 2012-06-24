@@ -6,8 +6,17 @@
 //  TODO: Replace all errors with exceptions
 // ----------------------------------------------------
 
+glm::mat4
+	flua_viewMatrix,
+	flua_projectionMatrix,
+	flua_viewAndProjectionMatrix;
+
+float flua_fovAngle = 45.0f;
+
 // Global
 bool flua_glutRunFlag = false;
+int flua_mouseX = 0;
+int flua_mouseY = 0;
 
 // glGetString(GL_VERSION)
 
@@ -15,14 +24,25 @@ void flua_onClose() {
 	flua_glutRunFlag = false;
 }
 
+void flua_onMouseMove(int x, int y) {
+	flua_mouseX = x;
+	flua_mouseY = y;
+}
+
+inline int flua_getMouseX() {
+	return flua_mouseX;
+}
+
+inline int flua_getMouseY() {
+	return flua_mouseY;
+}
+
 inline bool glutWindowOpen() {
 	return flua_glutRunFlag;
 }
 
 inline void flua_onReshape(int width, int height) {
-	/*fluaActiveWindow->_width = width;
-	fluaActiveWindow->_height = height;*/
-	
+	flua_projectionMatrix = glm::perspective(flua_fovAngle, 1.0f * width / height, 0.1f, 1000.0f);
 	glViewport(0, 0, width, height);
 }
 
@@ -77,6 +97,8 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, 
 	
 	int winId = glutCreateWindow(title);
 	
+	glutMotionFunc(flua_onMouseMove);
+	glutPassiveMotionFunc(flua_onMouseMove);
 	glutReshapeFunc(flua_onReshape);
 	glutCloseFunc(flua_onClose);
 	flua_glutRunFlag = true;
@@ -90,6 +112,7 @@ inline BPUTF8String* flua_getLastGLError() {
 
 void flua_printGLError(GLuint object) {
 	GLint log_length = 0;
+	
 	if (glIsShader(object))
 		glGetShaderiv(object, GL_INFO_LOG_LENGTH, &log_length);
 	else if (glIsProgram(object))
@@ -171,19 +194,35 @@ inline void flua_setActiveProgram(GLint program) {
 	glUseProgram(program);
 }
 
+inline void flua_setCamera(float x, float y, float z, float camAngleX, float camAngleY) {
+	glm::vec3 lookat(0, 0, 0);
+	
+	lookat.x = sinf(camAngleX) * cosf(camAngleY);
+	lookat.y = sinf(camAngleY);
+	lookat.z = -cosf(camAngleX) * cosf(camAngleY);
+	
+	glm::vec3 camPos(x, y, z);
+	glm::vec3 camUp(0.0, 1.0, 0.0);
+	
+	flua_viewMatrix = glm::lookAt(camPos, camPos + lookat, camUp);
+	flua_viewAndProjectionMatrix = flua_projectionMatrix * flua_viewMatrix;
+}
+
 // TODO: Remove hardcoded values
-inline void flua_setTransform(GLint flua_transformAttr, float fov) {
+inline void flua_setTransform(
+		GLint flua_transformAttr,
+		float x, float y, float z)
+{
 	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
 	glm::vec3 axis_y(0.0, 1.0, 0.0);
 	glm::mat4 anim = \
-	 glm::rotate(glm::mat4(1.0f), angle*3.0f, glm::vec3(1, 0, 0)) *  // X axis
-	 glm::rotate(glm::mat4(1.0f), angle*2.0f, glm::vec3(0, 1, 0)) *  // Y axis
-	 glm::rotate(glm::mat4(1.0f), angle*4.0f, glm::vec3(0, 0, 1));   // Z axis
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) *  // X axis
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) *  // Y axis
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1));   // Z axis
 	
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, -4.0));
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0, 2.0, 0.0), glm::vec3(0.0, 0.0, -4.0), glm::vec3(0.0, 1.0, 0.0));
-	glm::mat4 projection = glm::perspective(fov, 1.0f * glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10.0f);
-	glm::mat4 mvp = projection * view * model * anim;
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, -z));
+	
+	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
 	
 	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }

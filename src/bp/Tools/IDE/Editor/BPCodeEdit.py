@@ -1518,12 +1518,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if self.bubble:
 			self.resizeBubble()
 	
+	BUBBLE_MARGIN = 18
+	BUBBLE_MARGIN_HALF = BUBBLE_MARGIN / 2
+	
 	def adjustBubbleSize(self):
 		self.bubble.document().adjustSize()
-		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height()) + 7
+		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height()) + BPCodeEdit.BUBBLE_MARGIN_HALF
 		
 		if self.bubble.y() + newHeight >= self.height():
-			newHeight = self.height() - self.bubble.y() - 14
+			newHeight = self.height() - self.bubble.y() - BPCodeEdit.BUBBLE_MARGIN
 			self.bubble.verticalScrollBar().show()
 		else:
 			self.bubble.verticalScrollBar().hide()
@@ -1532,7 +1535,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.resizeBubble(self.bubbleWidth, newHeight)
 	
 	def resizeBubble(self, width = -1, height = -1):
-		margin = 14
+		margin = BPCodeEdit.BUBBLE_MARGIN
 		
 		if width == -1:
 			width = self.bubbleWidth

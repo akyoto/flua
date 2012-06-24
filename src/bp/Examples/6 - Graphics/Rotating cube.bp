@@ -106,8 +106,34 @@
 				</new>
 			</value>
 		</assign>
-		<comment>\SOur\Smaterial\Sshould\Shave\Sa\Stexture</comment>
+		<comment>\SScene</comment>
 		<assign depth="0" id="8">
+			<value>scene</value>
+			<value>
+				<new>
+					<type>Scene</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="9">
+			<value>cam</value>
+			<value>
+				<new>
+					<type>Camera</type>
+					<parameters>
+						<parameter>
+							<access>
+								<value>scene</value>
+								<value>root</value>
+							</access>
+						</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SOur\Smaterial\Sshould\Shave\Sa\Stexture</comment>
+		<assign depth="0" id="10">
 			<value>
 				<access>
 					<value>mat</value>
@@ -117,8 +143,29 @@
 			<value>tex1</value>
 		</assign>
 		<comment>\SWhat\Sdo\Swe\Swant\Sto\Smap\Sour\Smaterial\Sto...?\SErr,\Sa\Scube\Swill\Sdo!</comment>
-		<assign depth="0" id="9">
-			<value>mesh</value>
+		<assign depth="0" id="11">
+			<value>cube</value>
+			<value>
+				<new>
+					<type>SceneNode</type>
+					<parameters>
+						<parameter>
+							<access>
+								<value>scene</value>
+								<value>root</value>
+							</access>
+						</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="12">
+			<value>
+				<access>
+					<value>cube</value>
+					<value>mesh</value>
+				</access>
+			</value>
 			<value>
 				<call>
 					<function>
@@ -131,8 +178,31 @@
 				</call>
 			</value>
 		</assign>
+		<assign depth="0" id="13">
+			<value>
+				<access>
+					<value>cube</value>
+					<value>material</value>
+				</access>
+			</value>
+			<value>mat</value>
+		</assign>
+		<assign depth="0" id="14">
+			<value>
+				<access>
+					<value>
+						<access>
+							<value>cube</value>
+							<value>position</value>
+						</access>
+					</value>
+					<value>z</value>
+				</access>
+			</value>
+			<value>5</value>
+		</assign>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="10">
+		<while depth="0" id="15">
 			<condition>
 				<access>
 					<value>win</value>
@@ -140,11 +210,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="11">
+				<in depth="1" id="16">
 					<expression>win</expression>
 					<code>
 						<comment>\SBackground</comment>
-						<call depth="2" id="12">
+						<call depth="2" id="17">
 							<function>
 								<access>
 									<value>win</value>
@@ -158,7 +228,7 @@
 							</parameters>
 						</call>
 						<comment>\SColor\Sfor\Sthe\Smaterial\Sof\Sthe\Scube</comment>
-						<assign depth="2" id="13">
+						<assign depth="2" id="18">
 							<value>color</value>
 							<value>
 								<access>
@@ -167,7 +237,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="19">
 							<value>
 								<access>
 									<value>color</value>
@@ -205,7 +275,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="15">
+						<assign depth="2" id="20">
 							<value>
 								<access>
 									<value>color</value>
@@ -243,7 +313,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="16">
+						<assign depth="2" id="21">
 							<value>
 								<access>
 									<value>color</value>
@@ -281,7 +351,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="22">
 							<value>
 								<access>
 									<value>color</value>
@@ -320,30 +390,21 @@
 							</value>
 						</assign>
 						<comment>\SActivate</comment>
-						<call depth="2" id="18">
+						<call depth="2" id="23">
 							<function>
 								<access>
-									<value>mesh</value>
-									<value>activate</value>
-								</access>
-							</function>
-							<parameters/>
-						</call>
-						<call depth="2" id="19">
-							<function>
-								<access>
-									<value>mat</value>
+									<value>cam</value>
 									<value>activate</value>
 								</access>
 							</function>
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="20">
+						<call depth="2" id="24">
 							<function>
 								<access>
-									<value>mesh</value>
-									<value>draw</value>
+									<value>scene</value>
+									<value>render</value>
 								</access>
 							</function>
 							<parameters/>
