@@ -1,0 +1,33 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SWelcome\Sto\Sthe\Sbp\Sprogramming\Slanguage!\SIt\Sis\Sa\Slanguage\Sthat\Sis\Scurrently</comment>
+		<comment>\Sin\Sdevelopment\Sand\Saims\Sto\Scombine\Sall\Spowerful\Sfeatures\Sin\Scurrent\Slanguages.</comment>
+		<comment>\SOn\Stop\Sof\Sthat\Sit\Sis\Ssyntaxless,\Sone\Scan\Swrite\Sadditional\Ssyntax\Smodules</comment>
+		<comment>\Sto\Ssupport\Sviewing\Sand\Sediting\Syour\Scode\Sin\Sthe\Ssyntax\Syou\Sprefer.</comment>
+		<comment>\SYou\Scan\Sprogram\Sin\Sa\Sfunctional,\Sobject-oriented\Sor\Simperative\Sstyle\S-\Sthat's\Sup\Sto\Syou.</comment>
+		<comment>\SI\Srecommend\Syou\Sto\Smix\Sfunctional\Sand\Sobject-oriented\Sprogramming\Sfor\Sgame\Sdevelopment.</comment>
+		<comment>\SFunctional\Sprogramming\Shas\Sbecome\Svery\Simportant\Snowadays\Sand\Syou\Swill\Sdo\Syourself</comment>
+		<comment>\Sa\Sfavour\Slearning\Sit.</comment>
+		<comment>\S---------------------------------------------</comment>
+		<comment>\Sbp\Scan\Sbe\Sseen\Sas\Sa\Scode\Sgenerator\Spipeline.</comment>
+		<comment>\S---------------------------------------------</comment>
+		<comment>\S[Syntax\S1]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[C++]</comment>
+		<comment>\S[Syntax\S2]\S-------&gt;\S[XML]\S-------&gt;\S[Python\S3]</comment>
+		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[HTML5]</comment>
+		<comment>\S---------------------------------------------</comment>
+		<comment>\SCurrently\Sthere\Sis\Sone\Ssyntax\Smodule\Scalled\S&quot;BPC&quot;\Swhich\Shas\S4\Ssub-syntaxes\S(in\Syour\Sstatus\Sbar).</comment>
+		<comment>\SThe\Sonly\Savailable\Soutput\Starget\Sat\Sthe\Stime\Sof\Swriting\Sthis\Sis\SC++.\SPython\S3\Sand\SHTML5</comment>
+		<comment>\Saren't\Sworking\Syet.</comment>
+		<comment>\Sbp\Salso\Sintroduces\Sthe\S(old)\Sconcept\Sof\Sdata\Sflow\Sprogramming\Swhich\Ssimply\Smeans\Syou\Scan\Sdescribe</comment>
+		<comment>\Show\Sdata\Sis\Sgoing\Schange\Sinstead\Sof\Smanually\Schanging\Sit\Syourself.\SYou\Scan\Sdescribe\Show\Sone</comment>
+		<comment>\Svariable\Srelates\Sto\Sanother\Sand\Sthat\Srelation\Swill\Sbe\Skept\Sup\Sto\Sdate\Sall\Sthe\Stime\Swithout</comment>
+		<comment>\Syou\Shaving\Sto\Scode\Sanything\S(except\Sfor\Sdeclaring\Sthe\Srelations).</comment>
+	</code>
+</module>

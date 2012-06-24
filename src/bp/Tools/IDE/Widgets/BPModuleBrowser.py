@@ -164,7 +164,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		super().commitData(editor)
 		
 	def sizeHint(self):
-		return QtCore.QSize(224, -1)
+		return QtCore.QSize(280, -1)
 		
 	# Context menu
 	def showContextMenu(self, pos):

@@ -351,46 +351,9 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
-							<value>
-								<access>
-									<value>color</value>
-									<value>alpha</value>
-								</access>
-							</value>
-							<value>
-								<call>
-									<function>abs</function>
-									<parameters>
-										<parameter>
-											<call>
-												<function>sin</function>
-												<parameters>
-													<parameter>
-														<add>
-															<value>
-																<multiply>
-																	<value>
-																		<call>
-																			<function>systemTime</function>
-																			<parameters/>
-																		</call>
-																	</value>
-																	<value>0.0005</value>
-																</multiply>
-															</value>
-															<value>4</value>
-														</add>
-													</parameter>
-												</parameters>
-											</call>
-										</parameter>
-									</parameters>
-								</call>
-							</value>
-						</assign>
+						<comment>color.alpha\S=\Sabs(sin(systemTime()\S*\S0.0005\S+\S4))</comment>
 						<comment>\SActivate</comment>
-						<call depth="2" id="23">
+						<call depth="2" id="22">
 							<function>
 								<access>
 									<value>cam</value>
@@ -400,7 +363,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="24">
+						<call depth="2" id="23">
 							<function>
 								<access>
 									<value>scene</value>
