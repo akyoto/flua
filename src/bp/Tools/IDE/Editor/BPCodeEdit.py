@@ -1520,7 +1520,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def adjustBubbleSize(self):
 		self.bubble.document().adjustSize()
-		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height())
+		newHeight = (self.bubble.document().size().height()) * (self.bubble.fontMetrics().height()) + 7
 		
 		if self.bubble.y() + newHeight >= self.height():
 			newHeight = self.height() - self.bubble.y() - 14
