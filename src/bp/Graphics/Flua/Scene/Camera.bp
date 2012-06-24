@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>SceneNode</import>
+			<import>Node</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -15,13 +15,45 @@
 					<extends-class depth="2" id="3">SceneNode</extends-class>
 				</extends>
 				<function depth="1" id="4">
+					<parameters>
+						<parameter>
+							<assign>
+								<value>
+									<declare-type>
+										<value>
+											<access>
+												<value>my</value>
+												<value>parent</value>
+											</access>
+										</value>
+										<value>SceneNode</value>
+									</declare-type>
+								</value>
+								<value>null</value>
+							</assign>
+						</parameter>
+					</parameters>
 					<name>init</name>
 					<code>
 						<noop depth="2" id="5"/>
+						<comment>SceneNode.init(my.parent)</comment>
 					</code>
 				</function>
 			</code>
 			<meta/>
 		</class>
+		<test depth="0" id="6">
+			<code>
+				<assign depth="1" id="7">
+					<value>cam</value>
+					<value>
+						<new>
+							<type>Camera</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+			</code>
+		</test>
 	</code>
 </module>

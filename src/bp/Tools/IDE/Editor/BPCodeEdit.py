@@ -216,13 +216,21 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	def createClassMemberModel(self, dataType, private = False):
 		
 		self.startBenchmark("Create class member model for '%s'" % dataType)
-		classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
+		
+		try:
+			classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
+		except BaseException as e:
+			print(str(e))
+			return False
+		
 		classMemberModel = BPCClassMemberModel(self, classImpl, private)
 		self.endBenchmark()
 		
 		self.startBenchmark("Setting new model")
 		self.setModel(classMemberModel)
 		self.endBenchmark()
+		
+		return True
 		
 	def deactivateMemberList(self):
 		if self.model() != self.bpcModel:
@@ -250,8 +258,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			return False
 		
 		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
-			self.createClassMemberModel("UTF8String")
-			return True
+			return self.createClassMemberModel("UTF8String")
 		
 		# Get what's in front of the dot
 		dotPos = leftOfCursor.rfind(".")
@@ -274,8 +281,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 				
 				if node and node.tagName == "class":
 					currentClass = getElementByTagName(node, "name").firstChild.nodeValue
-					self.createClassMemberModel(currentClass, private = True)
-					return True
+					return self.createClassMemberModel(currentClass, private = True)
 			else:
 				return False
 		
@@ -298,9 +304,8 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 				return False
 			else:
 				try:
-					self.createClassMemberModel(dataType)
+					return self.createClassMemberModel(dataType)
 					#print("Created class member model for '%s'" % dataType)
-					return True
 				except BaseException as e:
 					print("No class information available for '%s' (%s)" % (dataType, str(e)))
 					self.deactivateMemberList()
@@ -311,8 +316,11 @@ def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 	# Left operand
 	start = lastOccurence - 1
 	
-	while start >= 0 and ((allowPoint and expr[start] == ".") or expr[start] == '"' or isVarChar(expr[start]) or expr[start] == ')' or expr[start] == ']'):
-		if expr[start] == ')' or expr[start] == ']':
+	leftBrackets = "([<"
+	rightBrackets = ")]>"
+	
+	while start >= 0 and ((allowPoint and expr[start] == ".") or expr[start] == '"' or isVarChar(expr[start]) or expr[start] in rightBrackets):
+		if expr[start] in rightBrackets:
 			bracketCounter = 1
 		else:
 			bracketCounter = 0
@@ -327,9 +335,9 @@ def getLeftMemberAccess(expr, lastOccurence, allowPoint = True):
 		# Move to last part of the bracket
 		while bracketCounter > 0 and start > 0:
 			start -= 1
-			if expr[start] == ')' or expr[start] == ']':
+			if expr[start] in rightBrackets:
 				bracketCounter += 1
-			elif expr[start] == '(' or expr[start] == '[':
+			elif expr[start] in leftBrackets:
 				bracketCounter -= 1
 		start -= 1
 	
@@ -806,6 +814,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Modifier pressed?
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
+			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-="
+			if event.text()[-1] in eow:
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
+				self.completer.deactivateMemberList()
+				return
+			
 			# Get the text in the line
 			oldCursor = self.textCursor()
 			cursor = self.textCursor()
@@ -863,7 +878,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				charBeforeWord = text[b4pos]
 				
 				# Ignore "..." no-op
-				if b4pos >= 2 and text[b4pos - 1] == "." and text[b4pos - 2] == ".":
+				if (b4pos >= 2 and text[b4pos - 1] == "." and text[b4pos - 2] == "."):
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 					popup.hide()
 					self.completer.deactivateMemberList()

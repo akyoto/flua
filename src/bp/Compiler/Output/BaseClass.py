@@ -139,12 +139,12 @@ class BaseClass(BaseNamespace):
 		return self.implementations[key]
 		
 	def addClass(self, classObj):
-		debug("'%s' added class '%s'" % (self.name, classObj.name))
+		#debug("'%s' added class '%s'" % (self.name, classObj.name))
 		classObj.parent = self
 		self.classes[classObj.name] = classObj
-		5
+		
 	def addFunction(self, func):
-		debug("'%s' added function '%s'" % (self.name, func.getName()))
+		#debug("'%s' added function '%s'" % (self.name, func.getName()))
 		func.classObj = self
 		if not func.getName() in self.functions:
 			self.functions[func.getName()] = []
@@ -165,22 +165,25 @@ class BaseClass(BaseNamespace):
 	def hasOperator(self, name):
 		return correctOperators(name) in self.functions
 		
+	def hasIterator(self, name):
+		return ("iterator" + capitalize(name)) in self.functions
+		
 	def hasExternFunction(self, name):
-		debug(self.externFunctions)
+		#debug(self.externFunctions)
 		return name in self.externFunctions
 		
 	def hasCast(self, typeName):
 		return typeName in self.functions
 		
 	def addExternFunction(self, name, type):
-		debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
+		#debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
 		self.externFunctions[name] = type
 		
 	def addExternVariable(self, name, type):
-		debug("'%s' added extern variable '%s' of type '%s'" % (self.name, name, type))
+		#debug("'%s' added extern variable '%s' of type '%s'" % (self.name, name, type))
 		self.externVariables[name] = type
 	
 	def setTemplateNames(self, names, defaultValues):
-		debug("'%s' set the template names %s" % (self.name, names))
+		#debug("'%s' set the template names %s" % (self.name, names))
 		self.templateNames = names
 		self.templateDefaultValues = defaultValues

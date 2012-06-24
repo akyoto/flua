@@ -75,7 +75,7 @@ class BaseOutputFileHandler:
 					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
 				
 				isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
-				if isMemberAccess:
+				if isMemberAccess and not accessOp1.nodeValue == "my":
 					#print("Using setter for type '%s'" % (accessOp1type))
 					setFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
@@ -188,13 +188,13 @@ class BaseOutputFileHandler:
 		# Member access?
 		if variableName.startswith(self.memberAccessSyntax):
 			memberName = variableName[len(self.memberAccessSyntax):]
-			memberName = self.fixMemberName(memberName)
 			# TODO: Save it for the IDE
 			#self.currentClass.possibleMembers[memberName] = variableType
 			
 			isSelfMemberAccess = True
 		
 		if isSelfMemberAccess or publicMemberAccess:
+			memberName = self.fixMemberName(memberName)
 			var = self.createVariable(memberName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			#if not variableName in self.currentClass.members:
 			#	self.currentClass.addMember(var)
@@ -354,6 +354,44 @@ class BaseOutputFileHandler:
 		paramTypes, paramsString = self.addDefaultParameters(typeName, "init", paramTypes, paramsString)
 		
 		funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		
+		# We also need to implement 'init' for all types used in the template.
+		# This is needed because we need the information about their members before
+		# iterators get implemented.
+		#pos = typeName.find("<")
+		#if pos != -1:
+		#	templateTypes = splitParams(typeName[pos+1:-1])
+		#	for t in templateTypes:
+		#		if t in nonPointerClasses:
+		#			continue
+				
+				#t = self.prepareTypeName(t)
+				
+		#		print("Trying " + t)
+				
+				#tClassImpl = self.getClassImplementationByTypeName(t)
+				#for tFunc in tClassImpl.classObj.functions["init"]:
+				#	print(tFunc.getName())
+				#	tPTypes = tFunc.paramTypesByDefinition
+				#	for i in range(len(tPTypes)):
+				#		if not tPTypes[i]:
+				#			tPTypes[i] = tFunc.paramDefaultValueTypes[i]
+				#	self.implementFunction(t, tFunc.getName(), self.addDefaultParameters(t, tFunc.getName(), tPTypes, "")[0])
+				
+				#self.implementations = {}
+				#self.paramNames = []
+				#self.paramTypesByDefinition = []
+				#self.paramDefaultValues = []
+				#self.paramDefaultValueTypes = []
+				
+		#		try:
+		#			pTypes, pString = self.addDefaultParameters(t, "init", [], "")
+		#			funcImpl = self.implementFunction(t, "init", pTypes)
+		#			print("Success.")
+		#		except:
+		#			raise
+				#finally:
+				#	continue
 		
 		if "finalize" in classObj.functions:
 			destructorImpl = self.implementFunction(typeName, "finalize", [])
@@ -721,13 +759,17 @@ class BaseOutputFileHandler:
 		iterName = "Default"
 		if isElemNode(collExprNode) and collExprNode.tagName == "access":
 			op2 = collExprNode.childNodes[1].firstChild
+			
 			if isTextNode(op2):
-				iterName = capitalize(op2.nodeValue)
-				collExprNode = collExprNode.childNodes[0].firstChild
+				op1Type = self.getExprDataType(collExprNode.childNodes[0].firstChild)
+				op1Class = self.getClass(extractClassName(op1Type))
+				
+				if op1Class.hasIterator(op2.nodeValue):
+					iterName = capitalize(op2.nodeValue)
+					collExprNode = collExprNode.childNodes[0].firstChild
 		
 		iterExpr = self.parseExpr(iterExprNode)
 		collExpr = self.parseExpr(collExprNode)
-		
 		collExprType = self.getExprDataType(collExprNode)
 		
 		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, [])
@@ -742,7 +784,7 @@ class BaseOutputFileHandler:
 		# Register iterator variable
 		var = self.createVariable(iterExpr, iteratorType, iteratorValue, False, False, False)
 		typeInit = ""
-		if not self.variableExistsAnywhere(iterExpr):
+		if 1:#not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = self.adjustDataType(var.type) + " "
 			
@@ -781,6 +823,11 @@ class BaseOutputFileHandler:
 		
 		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED
 		self.compiler.forVarCounter += 1
+		
+		#print(code)
+		#print("--ITER--")
+		#print(iterImplCode)
+		#print("--END ITER--")
 		
 		return self.buildForEachLoop(var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit)
 	

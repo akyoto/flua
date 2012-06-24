@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>bp.Core</import>
-			<import>SceneNode</import>
+			<import>Node</import>
 			<import>Camera</import>
 		</dependencies>
 		<strings/>
@@ -32,8 +32,39 @@
 					</code>
 					<meta/>
 				</function>
-				<public depth="1" id="4">
-					<public-member depth="2" id="5">root</public-member>
+				<function depth="1" id="4">
+					<name>render</name>
+					<code>
+						<foreach depth="2" id="5">
+							<iterator>node</iterator>
+							<collection>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>root</value>
+										</access>
+									</value>
+									<value>childNodes</value>
+								</access>
+							</collection>
+							<code>
+								<call depth="3" id="6">
+									<function>
+										<access>
+											<value>node</value>
+											<value>render</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</code>
+						</foreach>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="7">
+					<public-member depth="2" id="8">root</public-member>
 				</public>
 			</code>
 			<meta/>

@@ -54,7 +54,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		QtCore.QCoreApplication.setApplicationName("bp Studio")
 		
 		# Init
-		self.developerFlag = False#os.path.exists("/home/eduard/Projects/bp/")
+		self.developerFlag = True#os.path.exists("/home/eduard/Projects/bp/")
 		self.developerFlagMain = os.path.exists("/home/eduard/Projects/bp/")
 		self.threaded = True
 		self.tmpCount = 0

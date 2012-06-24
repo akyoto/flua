@@ -156,6 +156,7 @@ class BaseOutputCompiler(Benchmarkable):
 		return self.mainFile
 	
 	def tryGettingVariableTypesInUnimplementedFunctions(self):
+		# TODO: This ain't really working...
 		for funcList in self.mainClass.functions.values():
 			func = funcList[0]
 			

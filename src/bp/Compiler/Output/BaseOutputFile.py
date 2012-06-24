@@ -103,6 +103,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.inUnmanaged = 0
 		self.inOperators = 0
 		self.inIterators = 0
+		self.inIterator = 0
 		self.inCasts = 0
 		self.inOperator = 0
 		self.inTypeDeclaration = 0
@@ -269,8 +270,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if memberName and memberName[0] == "_":
 			memberName = memberName[1:]
 		
+		#print("Fixing: " + memberName)
+		
 		pos = memberName.find(self.ptrMemberAccessChar)
 		if pos != -1:
+			#print("Fixed: " + memberName[:pos])
 			return memberName[:pos]
 		
 		return memberName
@@ -331,6 +335,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
 				name = "__" + member
 				funcStartCode += "\t\t" + self.memberAccessSyntax + member + " = " + name + self.lineLimiter
+			#else:
+			#	print("Not a member: " + name)
 			
 			if node.firstChild and node.firstChild.firstChild and tagName(node.childNodes[0].firstChild.firstChild) == "declare-type":
 				declNode = node.childNodes[0].firstChild.firstChild
@@ -553,20 +559,37 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				callerClass = self.getClass(callerClassName)
 				
 #				templateParams = self.getTemplateParams(removeUnmanaged(callerType), callerClassName, callerClass)
-#				print("getExprDataTypeClean:")
-#				print("Member: %s" % (memberName))
-#				print("callerType: " + callerType)
-#				print("callerClassName: " + callerClassName)
-#				print("templateParams: " + str(templateParams))
+				#print("getExprDataTypeClean:")
+				#print("Member: %s" % (memberName))
+				#print("callerType: " + callerType)
+				#print("callerClassName: " + callerClassName)
+				#print("templateParams: " + str(templateParams))
 #				callerClassImpl = callerClass.implementations["_".join(templateParams.values())]
-#				print("Class implementations: " + str(callerClass.implementations))
-#				callerClass.debugMembers()
+				#print("Class implementations: " + str(callerClass.implementations))
+				
 #				print("Picking implementation '" + callerClassImpl.getParamString() + "'")
 				callerClassImpl = self.getClassImplementationByTypeName(callerType)
 				
+				if not callerClassImpl.hasConstructorImplementation():
+					#print("XML:", node.toxml())
+					#print("Implementing init default for '%s'" % (callerType))
+					paramTypes = callerClassImpl.classObj.functions["init"][0].paramTypesByDefinition
+					#print("paramTypes:", paramTypes)
+					#callerClassImpl.requestFuncImplementation("init", paramTypes)
+					self.implementFunction(callerType, "init", paramTypes)
+					#print("Implemented.")
+					
+				#print("Member list:")
+				#for member in callerClassImpl.members.keys():
+				#	print(" -> " + member)
+				
 				#if memberName in callerClass.publicMembers:
 				#	memberName = "_" + memberName
-				#print(callerClassImpl.members)
+					
+					#print("impl.members:", callerClassImpl.members)
+					#print("class.properties:", callerClassImpl.classObj.properties)
+					#print("class.publicMembers:", callerClassImpl.classObj.publicMembers)
+					#print("<<")
 				
 				if memberName in callerClassImpl.members:
 					#debug("Member '" + memberName + "' does exist")
@@ -836,6 +859,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#	print(op2.toprettyxml())
 		
 		classObj = self.getClass(op1ClassName)
+		
 		funcs = classObj.functions
 		prop = capitalize(op2.nodeValue)
 		
@@ -847,6 +871,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if isPublicMember:
 			return False, True
 		
+		# TODO: Does that always work? -- Seems to work fine so far.
+		if not op2.nodeValue in classObj.properties:
+			return False, False
+		
 		accessingGetter = ("get" + prop) in funcs
 		accessingSetter = ("set" + prop) in funcs
 		
@@ -854,11 +882,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#print(self.currentFunction.getName() + " -> " + "get" + capitalize(op2.nodeValue))
 			#print(self.currentFunction.getName() == "get" + capitalize(op2.nodeValue))
 			
-			primaryObject = op1
+			#primaryObject = op1
 			#while primaryObject.nodeType != Node.TEXT_NODE:
 			#	primaryObject = primaryObject.firstChild
 			
-			if not (isTextNode(op1) and (primaryObject.nodeValue == "my")):
+			if not (isTextNode(op1) and (op1.nodeValue == "my")):
 				# Make a virtual call
 				#print("so true")
 				return True, False
@@ -905,6 +933,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		elif className in self.compiler.mainClass.classes:
 			return self.compiler.mainClass.classes[className]
 		else:
+			#if not self.compiler.background:
+			#	print("The following first class classes were defined:")
+			#	for x in self.compiler.mainClass.classes.keys():
+			#		print(x)
+			#	print("-" * 80)
+			
 			raise CompilerException("Class '%s' has not been defined  [Error code 3]" % (className))
 		
 	def getClassImplementationByTypeName(self, typeName, initTypes = []):
@@ -1383,6 +1417,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		oldGetter = self.inGetter
 		oldSetter = self.inSetter
 		oldOperator = self.inOperator
+		oldIterator = self.inIterator
 		oldCastDefinition = self.inCastDefinition
 		oldImpl = self.currentClassImpl
 		oldClass = self.currentClass
@@ -1394,6 +1429,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.currentClass = self.getClass(className)
 		self.currentClassImpl = self.getClassImplementationByTypeName(typeName)
 		
+		# TODO: This isn't really being used anymore, do we need this?
 		node = self.currentFunction.node
 		if node.tagName == "getter":
 			self.inGetter += 1
@@ -1401,6 +1437,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			self.inSetter += 1
 		elif node.tagName == "operator":
 			self.inOperator += 1
+		elif node.tagName == "iterator-type":
+			self.inIterator += 1
 		elif node.tagName == "cast-definition":
 			self.inCastDefinition += 1
 		
@@ -1479,6 +1517,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.inGetter = oldGetter
 		self.inSetter = oldSetter
 		self.inOperator = oldOperator
+		self.inIterator = oldIterator
 		self.inCastDefinition = oldCastDefinition
 		self.currentClass = oldClass
 		self.currentClassImpl = oldImpl

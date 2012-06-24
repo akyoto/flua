@@ -199,7 +199,7 @@ class BaseOutputFileScan:
 		newFunc.paramTypesByDefinition = paramTypesByDefinition
 		newFunc.paramDefaultValues = paramDefaultValues
 		newFunc.paramDefaultValueTypes = paramDefaultValueTypes
-		#debug("Types:" + str(newFunc.paramTypesByDefintion))
+		#debug("Types:" + str(newFunc.paramTypesByDefinition))
 		self.currentClass.addFunction(newFunc)
 		
 		if self.currentClass.name == "":
@@ -211,6 +211,16 @@ class BaseOutputFileScan:
 		# Save variables for the IDE
 		if self.compiler.background:
 			self.tryGettingVariableTypes(newFunc)
+		
+		# TODO: Needs to handle declare-type as well
+		#if name == "init":
+		#	for x in newFunc.assignNodes:
+		#		#print(x.toxml())
+		#		accessNode = x.firstChild.firstChild
+		#		if accessNode.nodeType == Node.ELEMENT_NODE and accessNode.tagName == "access":
+		#			if accessNode.firstChild.firstChild.nodeValue == "my":
+		#				memberName = accessNode.childNodes[1].firstChild.nodeValue
+		#				self.currentClass.possibleMembers memberName
 		
 	def tryGettingVariableTypes(self, func):
 		func.assignNodes = findNodes(func.node, "assign")

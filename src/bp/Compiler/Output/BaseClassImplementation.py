@@ -36,9 +36,9 @@ def findFunctionInBaseClasses(callerClassImpl, funcName):
 	callerClass = callerClassImpl.classObj
 	for classImpl in callerClass.extends:
 		classObj = classImpl.classObj
-		debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))
+		#debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))
 		if funcName in classObj.functions:
-			debug("Found function '%s' in base class '%s'" % (funcName, classObj.name))
+			#debug("Found function '%s' in base class '%s'" % (funcName, classObj.name))
 			return classObj.functions[funcName], classImpl
 		
 		if classObj.extends:
@@ -57,8 +57,12 @@ class BaseClassImplementation:
 		self.templateValues = templateValues
 		self.members = {}
 		self.funcImplementations = {}
+		self.hasConstructorImpl = False
 		
-		debug("'%s' added class implementation %s" % (self.classObj.name, templateValues))
+		#debug("'%s' added class implementation %s" % (self.classObj.name, templateValues))
+		
+	def hasConstructorImplementation(self):
+		return self.hasConstructorImpl
 		
 	def getName(self):
 		return ""
@@ -82,8 +86,14 @@ class BaseClassImplementation:
 					return self.classObj.templateDefaultValues[i]
 		return dataType
 		
+	def getFullName(self):
+		if self.templateValues:
+			return "%s<%s>" % (self.classObj.name, ", ".join(self.templateValues))
+		else:
+			return self.classObj.name
+		
 	def addMember(self, var):
-		debug("'%s' added member '%s'" % (self.classObj.name, var.name))
+		#debug("'%s' added member '%s'" % (self.getFullName(), var.name))
 		if var.name.startswith("_"):
 			raise CompilerException("Member names starting with an underscore are not allowed")
 		
@@ -93,6 +103,7 @@ class BaseClassImplementation:
 	def requestFuncImplementation(self, funcName, paramTypes):
 		codeExists = 1
 		key = funcName + buildPostfix(paramTypes)
+		
 		if not key in self.funcImplementations:
 			codeExists = 0
 			#debug(self.classObj.functions)
@@ -117,7 +128,13 @@ class BaseClassImplementation:
 			impl = classImpl.createFunctionImplementation(func, paramTypes)
 			classImpl.addFuncImplementation(impl)
 			
+			# Constructors
+			if funcName == "init":
+				self.hasConstructorImpl = True
+			
 			return impl, codeExists
+		
+		# Return existing one
 		return self.funcImplementations[key], codeExists
 		
 	def getFuncImplementation(self, funcName, paramTypes):
@@ -130,7 +147,7 @@ class BaseClassImplementation:
 #		return "<" + ", ".join(self.templateValues) + ">"
 		
 	def addFuncImplementation(self, impl):
-		debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
+		#debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
 		self.funcImplementations[impl.name] = impl
 		
 	def getCandidates(self, funcName):
@@ -154,7 +171,7 @@ class BaseClassImplementation:
 		winnerScore = 0
 		for func in candidates:
 			score = func.getMatchingScore(paramTypes, self)
-			#debug("Candidate: %s with score '%s'" % (func.paramTypesByDefinition, score))
+			#debug("Candidate: %s (types by definition) with score '%s'" % (func.paramTypesByDefinition, score))
 			if score > winnerScore:
 				winner = func
 				winnerScore = score

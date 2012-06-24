@@ -1,0 +1,223 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math.Geometry</import>
+			<import>bp.Graphics.Flua.Mesh</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>SceneNode</name>
+			<code>
+				<comment>\SProvide\Sa\Sdefault\Sconstructor</comment>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<declare-type>
+									<value>
+										<access>
+											<value>my</value>
+											<value>parent</value>
+										</access>
+									</value>
+									<value>SceneNode</value>
+								</declare-type>
+							</value>
+							<value>null</value>
+						</assign>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>position</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>Vector3</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="5">
+							<value>
+								<access>
+									<value>my</value>
+									<value>childNodes</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>SceneNode</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>2</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="6">
+							<value>
+								<access>
+									<value>my</value>
+									<value>meshes</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>Mesh</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>4</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SConstructs\Sa\Snode\Swith\Sthe\Sgiven\S#parent</comment>
+				<function depth="1" id="7">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>
+									<access>
+										<value>my</value>
+										<value>parent</value>
+									</access>
+								</value>
+								<value>SceneNode</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="8">
+							<value>
+								<access>
+									<value>my</value>
+									<value>position</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>Vector3</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="9">
+							<value>
+								<access>
+									<value>my</value>
+									<value>childNodes</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>SceneNode</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>2</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="10">
+							<value>
+								<access>
+									<value>my</value>
+									<value>meshes</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>Mesh</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>4</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="11">
+					<name>render</name>
+					<code>
+						<foreach depth="2" id="12">
+							<iterator>node</iterator>
+							<collection>
+								<access>
+									<value>my</value>
+									<value>childNodes</value>
+								</access>
+							</collection>
+							<code>
+								<call depth="3" id="13">
+									<function>
+										<access>
+											<value>node</value>
+											<value>render</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</code>
+						</foreach>
+						<foreach depth="2" id="14">
+							<iterator>mesh</iterator>
+							<collection>
+								<access>
+									<value>my</value>
+									<value>meshes</value>
+								</access>
+							</collection>
+							<code>
+								<call depth="3" id="15">
+									<function>
+										<access>
+											<value>mesh</value>
+											<value>draw</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</code>
+						</foreach>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="16">
+					<public-member depth="2" id="17">parent</public-member>
+					<public-member depth="2" id="18">position</public-member>
+					<public-member depth="2" id="19">childNodes</public-member>
+					<public-member depth="2" id="20">meshes</public-member>
+				</public>
+			</code>
+		</class>
+	</code>
+</module>

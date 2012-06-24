@@ -246,9 +246,16 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)
 		
+		# Do this BEFORE fixing member names
+		iterImplCode = iterImplCode.replace("this->", collExpr + "->")
+		
 		# Fix member names
 		for member in classImpl.members.values():
-			iterImplCode = iterImplCode.replace("this->" + member.name, collExpr + "->_" + member.name)
+			old = "%s->%s" % (collExpr, member.name)
+			new = "%s->_%s" % (collExpr, member.name)
+			
+			#debug("Replacing '%s' with '%s'" % (old, new))
+			iterImplCode = iterImplCode.replace(old, new)
 		
 		# Because we love hardcoding. We're removing the '\n' and ';' here.
 		code = code[:-2]
@@ -263,7 +270,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		
 		continueJump = ";\n_continue_point_%d:\n" % self.compiler.forVarCounter
 		
-		resultingCode = iterImplCode.replace("this->", collExpr + "->").replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + continueJump + perIterationCode)
+		resultingCode = iterImplCode.replace("__bp_yield_var", iterExpr).replace("__bp_yield_code", code + continueJump + perIterationCode)
 		
 		return "{\n%s%s%s%s;\n%s\n%s}" % (initCode, tabs, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
