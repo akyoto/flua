@@ -131,7 +131,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.newFile()
 			self.codeEdit.setPlainText("""import playground.Everything
 
-# Check bp.Examples for some beginner topics.
+# Check bp.Documentation in the module browser on the left for some beginner topics.
 """)
 		else:
 			self.openFile(getModuleDir() + "eurbach/Namespaces.bp")
