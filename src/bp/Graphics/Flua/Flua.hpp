@@ -14,6 +14,7 @@ glm::mat4
 float flua_fovAngle = 45.0f;
 
 // Global
+GLint flua_currentProgram;
 bool flua_glutRunFlag = false;
 int flua_mouseX = 0;
 int flua_mouseY = 0;
@@ -50,6 +51,47 @@ inline void flua_initGLUT() {
 	int argc = 0;
 	glutInit(&argc, NULL);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+}
+
+inline void flua_setActiveProgram(GLint program) {
+	if(program == flua_currentProgram)
+		return;
+	
+	glUseProgram(program);
+	flua_currentProgram = program;
+}
+
+inline void flua_setCamera(float x, float y, float z, float camAngleX, float camAngleY) {
+	glm::vec3 lookat(0, 0, 0);
+	
+	lookat.x = sinf(camAngleX) * cosf(camAngleY);
+	lookat.y = sinf(camAngleY);
+	lookat.z = -cosf(camAngleX) * cosf(camAngleY);
+	
+	glm::vec3 camPos(x, y, z);
+	glm::vec3 camUp(0.0, 1.0, 0.0);
+	
+	flua_viewMatrix = glm::lookAt(camPos, camPos + lookat, camUp);
+	flua_viewAndProjectionMatrix = flua_projectionMatrix * flua_viewMatrix;
+}
+
+// TODO: Remove hardcoded values
+inline void flua_setTransform(
+		GLint flua_transformAttr,
+		float x, float y, float z)
+{
+	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
+	glm::vec3 axis_y(0.0, 1.0, 0.0);
+	glm::mat4 anim = \
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) *  // X axis
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) *  // Y axis
+	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1));   // Z axis
+	
+	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, -z));
+	
+	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
+	
+	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 inline GLuint flua_createGLSLProgram(GLuint vs, GLuint fs) {
@@ -191,43 +233,6 @@ inline GLuint flua_createBuffer() {
 	GLuint newVBO;
 	glGenBuffers(1, &newVBO);
 	return newVBO;
-}
-
-inline void flua_setActiveProgram(GLint program) {
-	glUseProgram(program);
-}
-
-inline void flua_setCamera(float x, float y, float z, float camAngleX, float camAngleY) {
-	glm::vec3 lookat(0, 0, 0);
-	
-	lookat.x = sinf(camAngleX) * cosf(camAngleY);
-	lookat.y = sinf(camAngleY);
-	lookat.z = -cosf(camAngleX) * cosf(camAngleY);
-	
-	glm::vec3 camPos(x, y, z);
-	glm::vec3 camUp(0.0, 1.0, 0.0);
-	
-	flua_viewMatrix = glm::lookAt(camPos, camPos + lookat, camUp);
-	flua_viewAndProjectionMatrix = flua_projectionMatrix * flua_viewMatrix;
-}
-
-// TODO: Remove hardcoded values
-inline void flua_setTransform(
-		GLint flua_transformAttr,
-		float x, float y, float z)
-{
-	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
-	glm::vec3 axis_y(0.0, 1.0, 0.0);
-	glm::mat4 anim = \
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) *  // X axis
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) *  // Y axis
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1));   // Z axis
-	
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, -z));
-	
-	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
-	
-	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {
