@@ -600,7 +600,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				
 				#debug("Member list:")
 				#for member in callerClassImpl.members.keys():
-				#	debug(" -> " + member)
+				#	debug(" * " + member)
 				
 				#if memberName in callerClass.publicMembers:
 				#	memberName = "_" + memberName
@@ -717,6 +717,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 	def makeXMLAssign(self, op1, op2):
 		xmlCode = "<assign><value>%s</value><value>%s</value></assign>" % (op1, op2)
+		return self.cachedParseString(xmlCode).documentElement
+		
+	def makeXMLAccess(self, op1, op2):
+		xmlCode = "<access><value>%s</value><value>%s</value></access>" % (op1, op2)
 		return self.cachedParseString(xmlCode).documentElement
 	
 	def getSignedVersion(self, typeName):
@@ -863,7 +867,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
 		op1ClassName = extractClassName(op1Type)
-		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
+		#debug(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
 		
 		# Are we accessing a member of a class that's not even defined?
 		if not op1ClassName in self.compiler.mainClass.classes:
@@ -872,14 +876,14 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if not op2.nodeValue:
 			return False, False
 		
-		#if op2.nodeValue == "vertices":
-		#	print("-" * 80)
-		#	print(op1Type)
-		#	print(op1ClassName)
-		#	print("OP1:")
-		#	print(op1.toprettyxml())
-		#	print("OP2:")
-		#	print(op2.toprettyxml())
+		#if 1:#op2.nodeValue == "vertices":
+		#	debug("-" * 80)
+		#	debug(op1Type)
+		#	debug(op1ClassName)
+		#	debug("OP1:")
+		#	debug(op1.toprettyxml())
+		#	debug("OP2:")
+		#	debug(op2.toprettyxml())
 		
 		classObj = self.getClass(op1ClassName)
 		
@@ -888,9 +892,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		isPublicMember = classObj.hasPublicMember(op2.nodeValue)
 		
-		#print(classObj.name)
-		#print(classObj.publicMembers)
-		#print(prop)
+		#debug(classObj.name)
+		#debug(classObj.publicMembers)
+		#debug(classObj.properties)
+		#debug(op2.nodeValue)
+		#debug(prop)
+		#debug(isPublicMember)
 		
 		if isPublicMember:
 			return False, True

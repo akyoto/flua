@@ -1,18 +1,18 @@
 #include <cstring>
 
 template <typename TSource, typename TDest, typename sizeType>
-inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numBytes) {
-	return static_cast<TDest*>(memcpy(dest, source, numBytes * sizeof(TSource)));
+inline TDest *bp_copyMem(TSource *source, TDest *dest, const sizeType numElements) {
+	return static_cast<TDest*>(memcpy(dest, source, numElements * sizeof(TSource)));
 }
 
 template <typename TSource, typename TDest, typename sizeType>
-inline bool bp_compareMem(TSource *source, TDest *dest, const sizeType numBytes) {
-	return memcmp(dest, source, numBytes * sizeof(TSource)) == 0;
+inline bool bp_compareMem(TSource *source, TDest *dest, const sizeType numElements) {
+	return memcmp(dest, source, numElements * sizeof(TSource)) == 0;
 }
 
 template <typename TDest, typename TValue, typename sizeType>
-inline void bp_setMem(TDest *dest, TValue value, const sizeType numBytes) {
-	memset(dest, value, numBytes * sizeof(TDest));
+inline void bp_setMem(TDest *dest, TValue value, const sizeType numElements) {
+	memset(dest, value, numElements * sizeof(TDest));
 }
 
 /* Old, don't use it.

@@ -156,7 +156,7 @@ class BaseClass(BaseNamespace):
 				cumulativeMembers += list(classImpl.classObj.publicMembers.items())
 				
 			self.publicMembers = dict(list(self.publicMembers.items()) + cumulativeMembers)
-			print(self.publicMembers)
+			#print(self.publicMembers)
 		
 		# Also implement base classes
 		#if self.forceImplementation:

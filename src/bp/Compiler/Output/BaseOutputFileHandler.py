@@ -41,29 +41,56 @@ class BaseOutputFileHandler:
 		self.inAssignment += 1
 		
 		# 'on' block
-		#if self.onVariable:
-		#	funcNameNode = getFuncNameNode(node)
-		#	params = getElementByTagName(node, "parameters")
-		#	virtualAssign = self.makeXMLAssign(self.onVariable, funcNameNode.toxml(), params.toxml())
-		#	
-		#	# Set parent node (hacks!)
-		#	virtualAssign.parentNode = node.parentNode
-		#	
-		#	saved = self.onVariable
-		#	self.onVariable = ""
-		#	try:
-		#		code = self.handleAssign(virtualAssign)
-		#	except:
-		#		raise CompilerException("'%s' could not be set as a property of '%s'" % (nodeToBPC(node), saved))
-		#	self.onVariable = saved
-		#	
-		#	return code
+		if self.onVariable:
+			op1 = node.firstChild.firstChild
+			op2 = node.childNodes[1].firstChild
+			
+			# OP1 = OP2
+			# a.x = 5
+			
+			# a.x -> op1
+			# a   -> innerOp1
+			
+			innerOp1 = getLeftMostOperatorNode(op1)
+			#innerOp2 = innerOp1.parentNode.parentNode.childNodes[1].firstChild
+			
+			# Prefix the on variable
+			op1XML = ">%s<" % op1.toxml()
+			
+			# Not really safe
+			innerOp1XML = innerOp1.toxml()
+			
+			replaced = ">%s<" % innerOp1XML
+			virtualAccess = "><access><value>%s</value><value>%s</value></access><" % (self.onVariable, innerOp1XML)
+			op1ModifiedXML = op1XML.replace(replaced, virtualAccess)[1:-1]
+			
+			#print(replaced, " -> ", virtualAccess)
+			#print(op1XML)
+			#print(op1ModifiedXML)
+			
+			virtualAssign = self.makeXMLAssign(op1ModifiedXML, op2.toxml())
+			
+			# Set parent node (hacks!)
+			virtualAssign.parentNode = node.parentNode
+			
+			saved = self.onVariable
+			self.onVariable = ""
+			try:
+				code = self.handleAssign(virtualAssign)
+			except:
+				raise CompilerException("'%s' could not be set as a property of '%s'" % (nodeToBPC(node), saved))
+			self.onVariable = saved
+			
+			return code
 		
 		isSelfMemberAccess = False
 		publicMemberAccess = False
 		
 		# Member access (setter)
 		op1 = node.childNodes[0].childNodes[0]
+		#debug("OP1: " + op1.toxml())
+		#debug(isTextNode(op1))
+		
 		if not isTextNode(op1):
 			if op1.tagName == "access":
 				accessOp1 = op1.childNodes[0].childNodes[0]
@@ -73,6 +100,10 @@ class BaseOutputFileHandler:
 				accessOp1Type = self.getExprDataType(accessOp1)
 				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data": #and isUnmanaged(accessOp1Type):
 					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
+				
+				#debug(accessOp1)
+				#debug(".")
+				#debug(accessOp2)
 				
 				isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
 				if isMemberAccess and not accessOp1.nodeValue == "my":
@@ -199,13 +230,14 @@ class BaseOutputFileHandler:
 			#if not variableName in self.currentClass.members:
 			#	self.currentClass.addMember(var)
 			
-			if not memberName in self.currentClassImpl.members:
+			if (not memberName in self.currentClassImpl.members):
 				self.currentClassImpl.addMember(var)
 			
 			variableExisted = True
 		else:
-			#print("Checking whether '%s' exists:" % variableName)
+			#debug("Checking whether '%s' exists:" % variableName)
 			variableExisted = self.variableExistsAnywhere(variableName)
+			#debug(variableExisted)
 			
 			# If it exists as a member we do not care about it
 			if variableExisted == 2:
@@ -217,7 +249,7 @@ class BaseOutputFileHandler:
 			
 			# Check if we are in the top function level scope
 			if self.currentFunctionImpl and self.getCurrentScope() != self.currentFunctionImpl.scope: #and isTextNode(op1):
-				print(var.getPrototype() + "<<")
+				#print(var.getPrototype() + "<<")
 				self.registerVariableFuncScope(var)
 				variableExisted = True
 			else:
@@ -253,6 +285,8 @@ class BaseOutputFileHandler:
 		#if isSelfMemberAccess:
 		#	variableName = "%s_%s" % (self.memberAccessSyntax, memberName)
 		
+		#print(self.assignSyntax % (variableName, value))
+		
 		# Unmanaged types
 		if isUnmanaged(valueType) and not variableExisted:
 			#print(variableName, " : ", variableType, " ||| ", value, " : ", valueType)
@@ -263,7 +297,10 @@ class BaseOutputFileHandler:
 			return self.assignSyntax % (variableName, value)
 		elif declaredInline:
 			return self.assignSyntax % (variableName, value) #+ ";//Declared inline"
+		#elif publicMemberAccess:
+		#	return self.assignSyntax % (variableName, value)
 		else:
+			#print(self.assignFirstTimeSyntax % (var.getPrototype(), value))
 			return self.assignFirstTimeSyntax % (var.getPrototype(), value)
 	
 	def handleAccess(self, node):
@@ -287,6 +324,10 @@ class BaseOutputFileHandler:
 			
 			# GET access - are we accessing a member outside the class?
 			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
+			
+			#debug(op1.toxml())
+			#debug(op2.toxml())
+			#debug(publicMemberAccess)
 			
 			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:

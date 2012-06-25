@@ -149,6 +149,15 @@ def tagName(node):
 	else:
 		return node.tagName
 
+def getLeftMostOperatorNode(node):
+	if (not node) or (not node.childNodes):
+		return node
+	
+	while node.firstChild:
+		node = node.firstChild
+		
+	return node
+
 def loadXMLFile(fileName):
 	with codecs.open(fileName, "r", "utf-8") as inStream:
 		xmlCode = inStream.read()

@@ -411,12 +411,16 @@
 							</function>
 							<parameters/>
 						</call>
+						<call depth="2" id="38">
+							<function>gcCollect</function>
+							<parameters/>
+						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="38">
+						<assign-add depth="2" id="39">
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="39">
+						<if-block depth="2" id="40">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -430,19 +434,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="40">
+									<assign depth="3" id="41">
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="41">
+									<assign depth="3" id="42">
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="42">
+									<assign depth="3" id="43">
 										<value>lastFrameRender</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="43">
+									<assign depth="3" id="44">
 										<value>
 											<access>
 												<value>win</value>
@@ -474,10 +478,10 @@
 			</code>
 		</while>
 		<comment>\SGame\Slogic\Sin\Sanother\Sthread</comment>
-		<function depth="0" id="44">
+		<function depth="0" id="45">
 			<name>update</name>
 			<code>
-				<while depth="1" id="45">
+				<while depth="1" id="46">
 					<condition>
 						<access>
 							<value>win</value>
@@ -485,25 +489,8 @@
 						</access>
 					</condition>
 					<code>
-						<comment>\SWait\Sfor\Sthe\SGO\Ssignal</comment>
-						<while depth="2" id="46">
-							<condition>
-								<less>
-									<value>frameCounter</value>
-									<value>updateCounter</value>
-								</less>
-							</condition>
-							<code>
-								<call depth="3" id="47">
-									<function>sleep</function>
-									<parameters>
-										<parameter>1</parameter>
-									</parameters>
-								</call>
-							</code>
-						</while>
 						<comment>\STime</comment>
-						<assign depth="2" id="48">
+						<assign depth="2" id="47">
 							<value>ms</value>
 							<value>
 								<subtract>
@@ -517,8 +504,25 @@
 								</subtract>
 							</value>
 						</assign>
+						<comment>\SWait\Sfor\Sthe\SGO\Ssignal</comment>
+						<while depth="2" id="48">
+							<condition>
+								<less>
+									<value>frameCounter</value>
+									<value>updateCounter</value>
+								</less>
+							</condition>
+							<code>
+								<call depth="3" id="49">
+									<function>sleep</function>
+									<parameters>
+										<parameter>1</parameter>
+									</parameters>
+								</call>
+							</code>
+						</while>
 						<comment>\SPlay\Saround\Swith\Sthe\Scubes</comment>
-						<foreach depth="2" id="49">
+						<foreach depth="2" id="50">
 							<counter>i</counter>
 							<iterator>cube</iterator>
 							<collection>
@@ -533,7 +537,7 @@
 								</access>
 							</collection>
 							<code>
-								<assign depth="3" id="50">
+								<assign depth="3" id="51">
 									<value>
 										<access>
 											<value>
@@ -569,7 +573,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="51">
+								<assign depth="3" id="52">
 									<value>val</value>
 									<value>
 										<add>
@@ -582,13 +586,13 @@
 											<value>
 												<multiply>
 													<value>i</value>
-													<value>0.1</value>
+													<value>0.01</value>
 												</multiply>
 											</value>
 										</add>
 									</value>
 								</assign>
-								<assign depth="3" id="52">
+								<assign depth="3" id="53">
 									<value>c</value>
 									<value>
 										<access>
@@ -602,7 +606,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="53">
+								<assign depth="3" id="54">
 									<value>
 										<access>
 											<value>c</value>
@@ -618,7 +622,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="54">
+								<assign depth="3" id="55">
 									<value>
 										<access>
 											<value>c</value>
@@ -639,7 +643,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="55">
+								<assign depth="3" id="56">
 									<value>
 										<access>
 											<value>c</value>
@@ -660,7 +664,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="56">
+								<assign depth="3" id="57">
 									<value>
 										<access>
 											<value>c</value>
@@ -684,7 +688,7 @@
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<assign depth="2" id="57">
+						<assign depth="2" id="58">
 							<value>
 								<access>
 									<value>
@@ -713,7 +717,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<assign depth="2" id="58">
+						<assign depth="2" id="59">
 							<value>
 								<access>
 									<value>
@@ -747,15 +751,15 @@
 							</value>
 						</assign>
 						<comment>\SCount\Supdates</comment>
-						<assign-add depth="2" id="59">
+						<assign-add depth="2" id="60">
 							<value>updates</value>
 							<value>1</value>
 						</assign-add>
-						<assign-add depth="2" id="60">
+						<assign-add depth="2" id="61">
 							<value>updateCounter</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="61">
+						<if-block depth="2" id="62">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -769,15 +773,15 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="62">
+									<assign depth="3" id="63">
 										<value>ups</value>
 										<value>updates</value>
 									</assign>
-									<assign depth="3" id="63">
+									<assign depth="3" id="64">
 										<value>updates</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="64">
+									<assign depth="3" id="65">
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
@@ -789,13 +793,13 @@
 			</code>
 			<meta/>
 		</function>
-		<function depth="0" id="65">
+		<function depth="0" id="66">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>absSin</name>
 			<code>
-				<return depth="1" id="66">
+				<return depth="1" id="67">
 					<call>
 						<function>abs</function>
 						<parameters>
@@ -811,7 +815,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>
