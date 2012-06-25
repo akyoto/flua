@@ -30,7 +30,7 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{'sizeof', 'switch', 'struct'},
 		{'try', 'typename', 'typedef', 'template', 'throw', 'true'},
 		{'until'},
-		{'virtual'},
+		{'virtual', 'volatile'},
 		{'while'},
 		{},
 		{},
@@ -56,7 +56,7 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'sizeof', 'switch', 'struct',
 		'try', 'typename', 'typedef', 'template', 'throw', 'true',
 		'until',
-		'void', 'virtual',
+		'void', 'virtual', 'volatile',
 		'while',
 	}
 	

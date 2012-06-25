@@ -7,4 +7,4 @@ class CPPVariable(BaseVariable):
 		super().__init__(name, type, value, isConst, isPointer, isPublic)
 		
 	def getPrototype(self):
-		return adjustDataTypeCPP(self.type, True) + " " + self.name
+		return "%s %s" % (adjustDataTypeCPP(self.type, True), self.name)

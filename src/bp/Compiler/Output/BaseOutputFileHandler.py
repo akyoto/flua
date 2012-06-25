@@ -216,7 +216,8 @@ class BaseOutputFileHandler:
 			var = self.createVariable(variableName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
 			
 			# Check if we are in the top function level scope
-			if self.currentFunctionImpl and self.getCurrentScope() != self.currentFunctionImpl.scope:
+			if self.currentFunctionImpl and self.getCurrentScope() != self.currentFunctionImpl.scope: #and isTextNode(op1):
+				print(var.getPrototype() + "<<")
 				self.registerVariableFuncScope(var)
 				variableExisted = True
 			else:

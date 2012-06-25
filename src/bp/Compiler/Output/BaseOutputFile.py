@@ -919,6 +919,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		return False, False
 	
 	def registerVariable(self, var):
+		if self.inShared:
+			var.isShared = True
+		
 		#var.name = self.getNamespacePrefix() + var.name
 		#debug("Registered variable '" + var.name + "' of type '" + var.type + "'")
 		self.getCurrentScope().variables[var.name] = var

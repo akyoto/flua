@@ -11,6 +11,13 @@ glm::mat4
 	flua_projectionMatrix,
 	flua_viewAndProjectionMatrix;
 
+glm::vec3
+	flua_xAxis(1, 0, 0),
+	flua_yAxis(1, 0, 0),
+	flua_zAxis(1, 0, 0);
+
+glm::mat4 flua_identityMatrix(1.0f);
+
 float flua_fovAngle = 45.0f;
 
 // Global
@@ -83,12 +90,11 @@ inline void flua_setTransform(
 	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
 	glm::vec3 axis_y(0.0, 1.0, 0.0);
 	glm::mat4 anim = \
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) *  // X axis
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) *  // Y axis
-	 glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1));   // Z axis
+	 glm::rotate(flua_identityMatrix, angle, flua_xAxis) *  // X axis
+	 glm::rotate(flua_identityMatrix, angle, flua_yAxis) *  // Y axis
+	 glm::rotate(flua_identityMatrix, angle, flua_zAxis);   // Z axis
 	
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, -z));
-	
+	glm::mat4 model = glm::translate(flua_identityMatrix, glm::vec3(x, y, -z));
 	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
 	
 	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -101,6 +107,7 @@ inline GLuint flua_createGLSLProgram(GLuint vs, GLuint fs) {
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
+	
 	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
 	if (!link_ok) {
 		fprintf(stderr, "glLinkProgram:");

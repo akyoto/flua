@@ -122,13 +122,18 @@ class CPPOutputFile(BaseOutputFile):
 		
 		# Variables
 		for var in self.getTopLevelScope().variables.values():
+			if var.isShared:
+				prefix = "volatile "
+			else:
+				prefix = ""
+			
 			if var.isConst:
-				self.varsHeader += "const " + var.getPrototype() + " = " + var.value + ";\n";
+				self.varsHeader += prefix + "const " + var.getPrototype() + " = " + var.value + ";\n";
 			elif var.type == self.compiler.stringDataType:
 				self.compiler.strings.append(var.getPrototype())
 				self.compiler.strings.append(";\n")
 			elif not isUnmanaged(var.type):
-				self.varsHeader += var.getPrototype() + ";\n"
+				self.varsHeader += prefix + var.getPrototype() + ";\n"
 				
 		#self.varsHeader += "\n"
 		

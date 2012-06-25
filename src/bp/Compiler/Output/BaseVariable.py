@@ -7,6 +7,7 @@ class BaseVariable:
 		self.isConst = isConst
 		self.isPointer = isPointer
 		self.isPublic = isPublic
+		self.isShared = False
 		self.classImpl = None
 		
 	def getPrototype(self):
