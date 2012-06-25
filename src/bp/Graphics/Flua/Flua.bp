@@ -56,18 +56,15 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="10">
-						<name>loadTexture</name>
-						<type>GLuint</type>
-						<meta/>
-					</extern-function>
-					<extern-function depth="2" id="11">
 						<name>createBuffer</name>
 						<type>GLuint</type>
-						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="11">
+						<name>loadTexture</name>
+						<type>GLuint</type>
 					</extern-function>
 					<extern-function depth="2" id="12">
 						<name>initGLUT</name>
-						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="13">
 						<name>printGLError</name>
@@ -78,38 +75,38 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="15">
+						<name>setActiveProgram</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="16">
+						<name>setTransform</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="17">
+						<name>setCamera</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="18">
 						<name>getLastGLError</name>
 						<type>String</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="16">
+					<extern-function depth="2" id="19">
 						<name>getMouseX</name>
 						<type>Int</type>
 						<meta>
-							<no-side-effects>true</no-side-effects>
 							<same-output-for-input>false</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="17">
+					<extern-function depth="2" id="20">
 						<name>getMouseY</name>
 						<type>Int</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>false</same-output-for-input>
 						</meta>
-					</extern-function>
-					<extern-function depth="2" id="18">
-						<name>setActiveProgram</name>
-						<meta/>
-					</extern-function>
-					<extern-function depth="2" id="19">
-						<name>setTransform</name>
-						<meta/>
-					</extern-function>
-					<extern-function depth="2" id="20">
-						<name>setCamera</name>
 					</extern-function>
 				</code>
 			</namespace>
@@ -129,7 +126,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
@@ -148,7 +144,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>

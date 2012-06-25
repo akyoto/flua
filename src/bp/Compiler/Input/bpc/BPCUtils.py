@@ -205,6 +205,11 @@ class LineToNodeConverter:
 ####################################################################
 # Functions
 ####################################################################
+# Returns whether the 2 lines have something in common
+def haveSomethingInCommon(line1, line2, child1 = None, child2 = None):
+	if line1.startswith("import ") and line2.startswith("import "):
+		return line1.split(".")[0] == line2.split(".")[0]
+
 def nodeToBPCSaved(node, tabLevel, conv):
 	if node.nodeType != Node.TEXT_NODE:
 		nodeName = node.tagName
@@ -525,11 +530,29 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		return nodeToBPC(depNode, 0, conv)
 	elif nodeName == "dependencies":
 		deps = ""
+		lastLine = ""
+		hadSomethingInCommon = False
+		
 		for child in node.childNodes:
 			if child.nodeType != Node.TEXT_NODE and child.tagName == "import":
 				importCode = nodeToBPCSaved(child, 0, conv)
+				
+				if lastLine:
+					if hadSomethingInCommon and not haveSomethingInCommon(importCode, lastLine):
+						deps += "\n"
+						hadSomethingInCommon = False
+						
+						# Keep line converter up to date
+						if conv:
+							conv.add(None)
+					else:
+						if haveSomethingInCommon(importCode, lastLine):
+							hadSomethingInCommon = True
+				
 				if importCode:
 					deps += importCode + "\n"
+					
+				lastLine = importCode
 					
 		if deps:
 			if conv:

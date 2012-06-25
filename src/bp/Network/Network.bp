@@ -92,6 +92,7 @@
 								</declare-type>
 								<return depth="4" id="21">decl</return>
 							</code>
+							<meta/>
 						</cast-definition>
 					</casts>
 				</code>
