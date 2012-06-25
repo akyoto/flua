@@ -7,7 +7,8 @@
 		</dependencies>
 		<strings>
 			<string id="bp_string_0">DoesNotExist.txt</string>
-			<string id="bp_string_1">File\Snot\Sfound:\S</string>
+			<string id="bp_string_1">Done!</string>
+			<string id="bp_string_2">File\Snot\Sfound:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -26,9 +27,17 @@
 							</call>
 						</value>
 					</assign>
+					<comment>\SWe\Swill\Snever\Sreach\Sthis\Spart\Sof\Sthe\Scode\Sunless</comment>
+					<comment>\Sthe\Sfile\Sactually\Sexists.</comment>
+					<call depth="1" id="3">
+						<function>print</function>
+						<parameters>
+							<parameter>bp_string_1</parameter>
+						</parameters>
+					</call>
 				</code>
 			</try>
-			<catch depth="0" id="3">
+			<catch depth="0" id="4">
 				<variable>
 					<declare-type>
 						<value>e</value>
@@ -39,12 +48,12 @@
 					<comment>\SWe\Ssave\Sexceptions\Sof\Stype\S'FileNotFoundException'\Sin\Sthe\Svariable\S'e'.</comment>
 					<comment>\SThis\Sexception\Sclass\Sdefines\Sa\Sproperty\S'path'\Swhich\Swe\Scan\Saccess</comment>
 					<comment>\Sto\Sknow\Swhich\Sfile\Sis\Smissing:</comment>
-					<call depth="1" id="4">
+					<call depth="1" id="5">
 						<function>print</function>
 						<parameters>
 							<parameter>
 								<add>
-									<value>bp_string_1</value>
+									<value>bp_string_2</value>
 									<value>
 										<access>
 											<value>e</value>

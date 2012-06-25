@@ -7,11 +7,14 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SA\Ssimple\Swhile\S&lt;condition&gt;\Sloop</comment>
+		<comment>\SA\Ssimple\Swhile\S&lt;condition&gt;\Sloop.</comment>
+		<comment>\SLet's\Suse\S'a'\Sas\San\Sinteger:</comment>
 		<assign depth="0" id="1">
 			<value>a</value>
 			<value>0</value>
 		</assign>
+		<comment>\SAs\Slong\Sas\S'a'\Sis\Ssmaller\Sthan\S10</comment>
+		<comment>\Sthe\Sloop\Sbody\Swill\Sbe\Sexecuted.</comment>
 		<while depth="0" id="2">
 			<condition>
 				<less>
@@ -26,6 +29,7 @@
 				</assign-add>
 			</code>
 		</while>
+		<comment>\S10</comment>
 		<call depth="0" id="4">
 			<function>print</function>
 			<parameters>

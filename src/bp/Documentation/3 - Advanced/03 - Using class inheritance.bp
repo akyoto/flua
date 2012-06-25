@@ -10,8 +10,6 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SNote\Sthat\Sthis\Sis\Sa\Srecently\Sdeveloped\Sfeature\Swhich\Sis\Scurrently\Shighly\Sexperimental.</comment>
-		<comment>\SNonetheless\Syou\Scan\Stry\Sand\Ssee\Sif\Sit\Sworks\Sfor\Syou,\Spress\SF5.</comment>
 		<comment>\SBase\Sclass</comment>
 		<class depth="0" id="1">
 			<name>MyBaseClass</name>

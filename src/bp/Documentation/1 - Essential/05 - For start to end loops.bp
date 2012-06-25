@@ -7,8 +7,10 @@
 		<strings/>
 	</header>
 	<code>
+		<comment>\S---------------------------</comment>
 		<comment>\SPress\SF5\Sto\Srun\Sthis.</comment>
-		<comment>\Sfor\Siterator\S=\Sstart\Sto\Send</comment>
+		<comment>\S---------------------------</comment>
+		<comment>\Sfor\Svariable\S=\Sstart\Sto\Send</comment>
 		<for depth="0" id="1">
 			<iterator>i</iterator>
 			<from>1</from>
@@ -21,6 +23,9 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</for>
+		<comment>\SBy\Swriting\S'to'\Syou're\Ssaying\Sthat\Sthe</comment>
+		<comment>\Sfollowing\Snumber\Sshall\Sbe\Sprocessed\Sas\Swell.</comment>
 	</code>
 </module>

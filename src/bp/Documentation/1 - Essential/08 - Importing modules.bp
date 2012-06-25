@@ -11,6 +11,9 @@
 	</header>
 	<code>
 		<comment>\SNothing\Seasier\Sthan\Sthat.</comment>
+		<comment>\S'import'\Sstatements\Sare\Snot\Spart\Sof\Syour\Scode,</comment>
+		<comment>\Sthey\Sexist\Sin\Sthe\Smodule\Sheader\Sonly.\STherefore</comment>
+		<comment>\Syou\Scan\Snot\Sexecute\Sany\Scommands\Sbefore\S'import'.</comment>
 		<comment>\SNow\Suse\Sa\Sfunction\Sof\Sthat\Smodule:</comment>
 		<call depth="0" id="1">
 			<function>print</function>

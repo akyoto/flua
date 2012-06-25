@@ -26,6 +26,7 @@
 				</new>
 			</value>
 		</assign>
+		<comment>\SAdd\Ssome\Svalues\Sto\Sthe\Slist:</comment>
 		<call depth="0" id="2">
 			<function>
 				<access>

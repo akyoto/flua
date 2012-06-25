@@ -9,7 +9,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SCreate\Sa\Sfunction:</comment>
+		<comment>\SCreate\Sa\Sfunction\Swhich\Sreturns\Ssome\Svalues:</comment>
 		<function depth="0" id="1">
 			<name>func</name>
 			<code>
@@ -23,7 +23,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SChoose\Ssome\Svariables\Swhere\Sthe\Svalues\Sshould\Sbe\Sstored</comment>
+		<comment>\SChoose\Ssome\Svariables\Swhere\Sthe\Svalues\Sshould\Sbe\Sstored:</comment>
 		<assign depth="0" id="3">
 			<value>
 				<parameters>
@@ -39,7 +39,7 @@
 				</call>
 			</value>
 		</assign>
-		<comment>\SUse\Sthem</comment>
+		<comment>\SUse\Sthem:</comment>
 		<call depth="0" id="4">
 			<function>print</function>
 			<parameters>

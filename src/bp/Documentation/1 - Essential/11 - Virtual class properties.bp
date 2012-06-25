@@ -7,7 +7,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SIt's\Sjust\Sa\Sbuzzword.\SA\Svirtual\Sclass\Sproperty\Sis\Snothing\Smore\Sthan</comment>
+		<comment>\SIt's\Sreally\Sjust\Sa\Sbuzzword.\SA\Svirtual\Sclass\Sproperty\Sis\Snothing\Smore\Sthan</comment>
 		<comment>\Sa\Sclass\Sproperty\Swhich\Sdoesn't\Sreally\Sexist\Sin\Smemory\Sbut\Scan\Sbe\Saccessed</comment>
 		<comment>\Slike\Sany\Sother\Sproperty\Sof\Sthe\Sclass.</comment>
 		<class depth="0" id="1">
@@ -89,5 +89,7 @@
 				</parameter>
 			</parameters>
 		</call>
+		<comment>\SI\Sstrongly\Sencourage\Syou\Sto\Suse\Sthem\Sif\Syou\Scan\Sanswer</comment>
+		<comment>\Sthe\Squestion\S&quot;Is\Sthat\Sa\Sproperty\Sof\Sthis\Sclass?&quot;\Swith\S&quot;Yes&quot;.</comment>
 	</code>
 </module>

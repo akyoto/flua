@@ -13,6 +13,7 @@
 		</strings>
 	</header>
 	<code>
+		<comment>\SLet's\Suse\Sa\Snormal\Sand\Sa\Sbig\Sinteger</comment>
 		<assign depth="0" id="1">
 			<value>
 				<declare-type>
@@ -31,6 +32,7 @@
 			</value>
 			<value>20</value>
 		</assign>
+		<comment>\SNow\Scompute\Sthe\Sfactorial\Sfor\Sthose\Svalues</comment>
 		<assign depth="0" id="3">
 			<value>factOfA</value>
 			<value>
