@@ -20,7 +20,10 @@
 		<comment>\SThe\Sdifference\Sbetween\Sthis\Sexample\Sand\S&quot;04\S-\SParallel\Smain\Sloop&quot;</comment>
 		<comment>\Sis\Sthat\Sthe\Supdate\Sthread\Sis\Sonly\Sallowed\Sto\Sstart\Sthe\Snext\Sframe</comment>
 		<comment>\Swhen\Sthe\Sscene\Sis\Sbeing\Srendered.\SNote\Sthat\Sthis\Sresults\Sin\San</comment>
-		<comment>\Soverall\Shigher\Sframerate.</comment>
+		<comment>\Soverall\Shigher\Sframerate.\SIt\Sis\Snot\S&quot;100%\Scorrect&quot;\Sbecause\Supdate()</comment>
+		<comment>\Smight\Sslightly\Schange\Sthe\Scoordinates\Swhile\Srendering,\Showever\Sthis</comment>
+		<comment>\Scan\Sbe\Signored\Shere\Sbecause\S2\Ssuccessive\Sframes\Sare\Svery\Ssimilar\Sto</comment>
+		<comment>\Seach\Sother.</comment>
 		<assign depth="0" id="1">
 			<value>win</value>
 			<value>
@@ -349,7 +352,6 @@
 					</value>
 				</assign>
 			</code>
-			<meta/>
 		</for>
 		<comment>\SGame\Slogic\Sin\Sa\Sseparate\Sthread</comment>
 		<parallel depth="0" id="30">
@@ -791,7 +793,6 @@
 					</code>
 				</while>
 			</code>
-			<meta/>
 		</function>
 		<function depth="0" id="66">
 			<parameters>
