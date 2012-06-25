@@ -286,12 +286,9 @@
 			</code>
 			<meta/>
 		</for>
+		<comment>\SVariables</comment>
 		<assign depth="0" id="19">
-			<value>frames</value>
-			<value>0</value>
-		</assign>
-		<assign depth="0" id="20">
-			<value>lastFrameUpdate</value>
+			<value>programStart</value>
 			<value>
 				<call>
 					<function>systemTime</function>
@@ -299,12 +296,20 @@
 				</call>
 			</value>
 		</assign>
+		<assign depth="0" id="20">
+			<value>lastFrameUpdate</value>
+			<value>0</value>
+		</assign>
 		<assign depth="0" id="21">
+			<value>frames</value>
+			<value>0</value>
+		</assign>
+		<assign depth="0" id="22">
 			<value>fps</value>
 			<value>0</value>
 		</assign>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="22">
+		<while depth="0" id="23">
 			<condition>
 				<access>
 					<value>win</value>
@@ -312,11 +317,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="23">
+				<in depth="1" id="24">
 					<expression>win</expression>
 					<code>
 						<comment>\SBackground</comment>
-						<call depth="2" id="24">
+						<call depth="2" id="25">
 							<function>
 								<access>
 									<value>win</value>
@@ -330,17 +335,22 @@
 							</parameters>
 						</call>
 						<comment>\STime</comment>
-						<assign depth="2" id="25">
+						<assign depth="2" id="26">
 							<value>ms</value>
 							<value>
-								<call>
-									<function>systemTime</function>
-									<parameters/>
-								</call>
+								<subtract>
+									<value>
+										<call>
+											<function>systemTime</function>
+											<parameters/>
+										</call>
+									</value>
+									<value>programStart</value>
+								</subtract>
 							</value>
 						</assign>
 						<comment>\SPlay\Saround\Swith\Sthe\Scubes</comment>
-						<foreach depth="2" id="26">
+						<foreach depth="2" id="27">
 							<counter>i</counter>
 							<iterator>cube</iterator>
 							<collection>
@@ -355,7 +365,7 @@
 								</access>
 							</collection>
 							<code>
-								<assign depth="3" id="27">
+								<assign depth="3" id="28">
 									<value>
 										<access>
 											<value>
@@ -391,7 +401,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="28">
+								<assign depth="3" id="29">
 									<value>
 										<access>
 											<value>
@@ -439,7 +449,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="29">
+								<assign depth="3" id="30">
 									<value>
 										<access>
 											<value>
@@ -492,7 +502,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="30">
+								<assign depth="3" id="31">
 									<value>
 										<access>
 											<value>
@@ -545,7 +555,7 @@
 										</call>
 									</value>
 								</assign>
-								<assign depth="3" id="31">
+								<assign depth="3" id="32">
 									<value>
 										<access>
 											<value>
@@ -601,7 +611,7 @@
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<assign depth="2" id="32">
+						<assign depth="2" id="33">
 							<value>
 								<access>
 									<value>
@@ -630,7 +640,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<assign depth="2" id="33">
+						<assign depth="2" id="34">
 							<value>
 								<access>
 									<value>
@@ -663,7 +673,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<call depth="2" id="34">
+						<call depth="2" id="35">
 							<function>
 								<access>
 									<value>cam</value>
@@ -673,7 +683,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="35">
+						<call depth="2" id="36">
 							<function>
 								<access>
 									<value>scene</value>
@@ -683,11 +693,11 @@
 							<parameters/>
 						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="36">
+						<assign-add depth="2" id="37">
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="37">
+						<if-block depth="2" id="38">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -701,19 +711,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="38">
+									<assign depth="3" id="39">
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="39">
+									<assign depth="3" id="40">
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="40">
+									<assign depth="3" id="41">
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="41">
+									<assign depth="3" id="42">
 										<value>
 											<access>
 												<value>win</value>
