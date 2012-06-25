@@ -33,6 +33,26 @@ from bp.Compiler.Output.DataTypes import *
 #from bp.Compiler.Output.BaseClassImplementation import *
 
 ####################################################################
+# Functions
+####################################################################
+def findPublicMemberInBaseClasses(callerClass, funcName):
+	for classImpl in callerClass.extends:
+		classObj = classImpl.classObj
+		
+		#debug("Checking base class '%s' for public member '%s'" % (classObj.name, funcName))
+		if classObj.hasPublicMember(funcName):
+			#debug("Found public member '%s' in base class '%s'" % (funcName, classObj.name))
+			return classObj.publicMembers[funcName], classImpl
+		
+		if classObj.extends:
+			func, impl = findPublicMemberInBaseClasses(classObj, funcName)
+			
+			if func:
+				return func, impl
+	
+	return None, None
+
+####################################################################
 # Classes
 ####################################################################
 class BaseClass(BaseNamespace):
@@ -74,7 +94,14 @@ class BaseClass(BaseNamespace):
 		self.publicMembers[name] = True
 		
 	def hasPublicMember(self, name):
-		return name in self.publicMembers
+		#debug("Checking '%s' for public member '%s'" % (self.getFinalName(), name))
+		exists = name in self.publicMembers
+		
+		# Check base classes
+		if not exists:
+			exists, impl = findPublicMemberInBaseClasses(self, name)
+		
+		return exists
 		
 	#def addDefaultGetter(self, propertyName):
 	#	self.defaultGetters[propertyName] = True

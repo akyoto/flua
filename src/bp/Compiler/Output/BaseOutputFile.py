@@ -576,6 +576,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 #				print("Picking implementation '" + callerClassImpl.getParamString() + "'")
 				callerClassImpl = self.getClassImplementationByTypeName(callerType)
 				
+				found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
+				if found:
+					#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
+					
+					callerType = baseImpl.getFullName()
+					callerClassImpl = baseImpl
+				
 				if not callerClassImpl.hasConstructorImplementation():
 					#print("XML:", node.toxml())
 					#print("Implementing init default for '%s'" % (callerType))
@@ -590,10 +597,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						#print("Implemented.")
 					else:
 						raise CompilerException("'%s' is missing an 'init' constructor" % callerType)
-					
-				#print("Member list:")
+				
+				#debug("Member list:")
 				#for member in callerClassImpl.members.keys():
-				#	print(" -> " + member)
+				#	debug(" -> " + member)
 				
 				#if memberName in callerClass.publicMembers:
 				#	memberName = "_" + memberName
@@ -858,6 +865,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		op1ClassName = extractClassName(op1Type)
 		#print(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
 		
+		# Are we accessing a member of a class that's not even defined?
 		if not op1ClassName in self.compiler.mainClass.classes:
 			return False, False
 		
@@ -876,6 +884,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		prop = capitalize(op2.nodeValue)
 		
 		isPublicMember = classObj.hasPublicMember(op2.nodeValue)
+		
 		#print(classObj.name)
 		#print(classObj.publicMembers)
 		#print(prop)

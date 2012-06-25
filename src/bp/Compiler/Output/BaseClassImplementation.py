@@ -42,9 +42,11 @@ def findFunctionInBaseClasses(callerClassImpl, funcName):
 			return classObj.functions[funcName], classImpl
 		
 		if classObj.extends:
-			func = findFunctionInBaseClasses(classObj, funcName)
+			func, impl = findFunctionInBaseClasses(classObj, funcName)
+			
 			if func:
-				return func, classImpl
+				return func, impl
+	
 	return None, None
 
 ####################################################################

@@ -272,25 +272,22 @@ class BaseOutputFileHandler:
 		if op1.nodeType == Node.TEXT_NODE:
 			if op1.nodeValue in self.compiler.mainClass.namespaces:
 				return op1.nodeValue + "_" + self.parseExpr(op2)
-				
-			#if op1.nodeValue == "loop":
-			#	if op2.nodeType != Node.TEXT_NODE or op2.nodeValue != "counter":
-			#		raise CompilerException("You probably meant 'loop.counter'")
-			#	
-			#	self.currentLoopUsesCounter += 1
-			#	return "_bp_loop_counter_%d" % (self.compiler.forVarCounter)
 		
 		callerType = self.getExprDataType(op1)
 		callerClassName = extractClassName(callerType)
 		
+		# Class exists?
 		if callerClassName in self.compiler.mainClass.classes:
+			
+			# MemPointer dereferencing is a special case
 			if callerClassName == "MemPointer" and isTextNode(op2):
 				if op2.nodeValue == "data":
 					return "(*(%s))" % (self.parseExpr(op1))
 			
-			# TODO: Optimize
-			# GET access
+			# GET access - are we accessing a member outside the class?
 			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
+			
+			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:
 				#print("Replacing ACCESS with CALL: %s.%s" % (op1.toxml(), "get" + op2.nodeValue.capitalize()))
 				#if isTextNode(op1) and op1.nodeValue == "my":
@@ -301,8 +298,8 @@ class BaseOutputFileHandler:
 				getFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
 				#print(getFunc.toprettyxml())
 				return self.handleCall(getFunc)
+			# Or maybe it's just a direct public member access?
 			elif publicMemberAccess:
-				# Public member access
 				return self.parseBinaryOperator(node, self.ptrMemberAccessChar + "_")
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
