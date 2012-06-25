@@ -21,7 +21,7 @@
 										<value>isDynamic</value>
 									</access>
 								</value>
-								<value>true</value>
+								<value>false</value>
 							</assign>
 						</parameter>
 					</parameters>
