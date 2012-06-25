@@ -75,10 +75,19 @@ class BaseOutputFileHandler:
 			
 			saved = self.onVariable
 			self.onVariable = ""
+			
 			try:
+				# For improved debug messages
+				#self.lastParsedNode.append(node)
+				
 				code = self.handleAssign(virtualAssign)
+				
+				#self.lastParsedNode.pop()
+			except CompilerException:
+				raise
 			except:
 				raise CompilerException("'%s' could not be set as a property of '%s'" % (nodeToBPC(node), saved))
+			
 			self.onVariable = saved
 			
 			return code
@@ -328,6 +337,7 @@ class BaseOutputFileHandler:
 			#debug(op1.toxml())
 			#debug(op2.toxml())
 			#debug(publicMemberAccess)
+			callerClassImpl = self.getClassImplementationByTypeName(callerType)
 			
 			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:
@@ -343,6 +353,11 @@ class BaseOutputFileHandler:
 			# Or maybe it's just a direct public member access?
 			elif publicMemberAccess:
 				return self.parseBinaryOperator(node, self.ptrMemberAccessChar + "_")
+			elif self.currentClassImpl != callerClassImpl:
+				if op2.nodeValue in callerClassImpl.members:
+					raise CompilerException("The property '%s' of class '%s' is not public and has no get function" % (nodeToBPC(op2), callerType))
+				else:
+					raise CompilerException("The property '%s' of class '%s' does not exist" % (nodeToBPC(op2), callerType))
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	
@@ -964,8 +979,14 @@ class BaseOutputFileHandler:
 			
 			saved = self.onVariable
 			self.onVariable = ""
+			
 			try:
+				# For improved debug messages
+				#self.lastParsedNode.append(node)
+				
 				code = self.handleCall(virtualCall)
+				
+				#self.lastParsedNode.pop()
 			except CompilerException:
 				raise
 			except:

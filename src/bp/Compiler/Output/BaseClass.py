@@ -100,8 +100,11 @@ class BaseClass(BaseNamespace):
 		# Check base classes
 		if not exists:
 			exists, impl = findPublicMemberInBaseClasses(self, name)
+			
+			if not exists:
+				return False
 		
-		return exists
+		return True
 		
 	#def addDefaultGetter(self, propertyName):
 	#	self.defaultGetters[propertyName] = True
