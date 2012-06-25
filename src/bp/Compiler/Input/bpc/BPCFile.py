@@ -80,6 +80,7 @@ simpleBlocks = {
 	"public" : [],
 	"test" : [],
 	"interface" : [],
+	"implements" : [],
 }
 
 def addGenerics(line):
@@ -196,6 +197,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inCase = 0
 		self.inExtern = 0
 		self.inExtends = 0
+		self.inImplements = 0
 		self.inTemplate = 0
 		self.inFunction = 0
 		self.inGetter = 0
@@ -256,6 +258,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"get" : self.handleGet,
 			"if" : self.handleIf,
 			"import" : self.handleImport,
+			"implements" : self.handleImplements,
 			"in" : self.handleIn,
 			"include" : self.handleInclude,
 			"interface" : self.handleInterface,
@@ -642,6 +645,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			if self.inTemplate:
 				return self.handleTemplateParameter(line)
 			
+			if self.inImplements:
+				return self.handleImplementsParameter(line)
+			
 			if self.inExtends:
 				return self.handleExtendsParameter(line)
 			
@@ -798,6 +804,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.nextNode = node
 		return node
 		
+	def handleImplements(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("implements", line)
+		
+		node = self.doc.createElement("implements")
+		
+		self.inImplements = 1
+		self.nextNode = node
+		return node
+		
 	def handleTemplateParameter(self, line):
 		paramNode = self.parseExpr(line)
 		
@@ -810,6 +826,14 @@ class BPCFile(ScopeController, Benchmarkable):
 			node = self.doc.createElement("parameter")
 			node.appendChild(paramNode)
 			return node
+		
+	def handleImplementsParameter(self, line):
+		# parseExpr because of possible namespaces
+		paramNode = self.parseExpr(line)
+		
+		node = self.doc.createElement("implements-interface")
+		node.appendChild(paramNode)
+		return node
 		
 	def handleExtendsParameter(self, line):
 		# parseExpr because of possible namespaces

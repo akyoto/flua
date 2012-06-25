@@ -66,6 +66,7 @@ xmlToBPCSingleLineExpr = {
 	"continue" : "continue",
 	"throw" : "throw",
 	"extends-class" : "",
+	"implements-interface" : "",
 	"yield" : "yield",
 	"assert" : "assert",
 }
@@ -89,6 +90,7 @@ wrapperMultipleElements = {
 xmlToBPCBlock = {
 	"template" : "template",
 	"extends" : "extends",
+	"implements" : "implements",
 	"else" : "else",
 	"private" : "private",
 	"atomic" : "atomic",
@@ -175,6 +177,8 @@ autoNewlineBlock = {
 	"const",
 	"on",
 	"return",
+	"extends",
+	"implements",
 	
 	"function",
 	"getter",
