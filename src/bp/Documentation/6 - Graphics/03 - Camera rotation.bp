@@ -236,16 +236,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign-multiply depth="1" id="16">
-					<value>
-						<access>
-							<value>cube</value>
-							<value>scaling</value>
-						</access>
-					</value>
-					<value>2</value>
-				</assign-multiply>
-				<assign depth="1" id="17">
+				<assign depth="1" id="16">
 					<value>
 						<access>
 							<value>cube</value>
@@ -254,7 +245,7 @@
 					</value>
 					<value>cubeModel</value>
 				</assign>
-				<assign depth="1" id="18">
+				<assign depth="1" id="17">
 					<value>
 						<access>
 							<value>cube</value>
@@ -267,7 +258,7 @@
 			<meta/>
 		</for>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="19">
+		<while depth="0" id="18">
 			<condition>
 				<access>
 					<value>win</value>
@@ -275,11 +266,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="20">
+				<in depth="1" id="19">
 					<expression>win</expression>
 					<code>
 						<comment>\SBackground</comment>
-						<call depth="2" id="21">
+						<call depth="2" id="20">
 							<function>
 								<access>
 									<value>win</value>
@@ -293,7 +284,7 @@
 							</parameters>
 						</call>
 						<comment>\SColor\Sfor\Sthe\Smaterial\Sof\Sthe\Scube</comment>
-						<assign depth="2" id="22">
+						<assign depth="2" id="21">
 							<value>color</value>
 							<value>
 								<access>
@@ -302,7 +293,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="23">
+						<assign depth="2" id="22">
 							<value>
 								<access>
 									<value>color</value>
@@ -340,7 +331,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="24">
+						<assign depth="2" id="23">
 							<value>
 								<access>
 									<value>color</value>
@@ -378,7 +369,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="25">
+						<assign depth="2" id="24">
 							<value>
 								<access>
 									<value>color</value>
@@ -416,7 +407,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="26">
+						<assign depth="2" id="25">
 							<value>
 								<access>
 									<value>color</value>
@@ -455,7 +446,7 @@
 							</value>
 						</assign>
 						<comment>\SPick\Sa\Scamera</comment>
-						<assign depth="2" id="27">
+						<assign depth="2" id="26">
 							<value>
 								<access>
 									<value>
@@ -484,7 +475,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<assign depth="2" id="28">
+						<assign depth="2" id="27">
 							<value>
 								<access>
 									<value>
@@ -517,7 +508,7 @@
 								</multiply>
 							</value>
 						</assign>
-						<call depth="2" id="29">
+						<call depth="2" id="28">
 							<function>
 								<access>
 									<value>cam</value>
@@ -527,7 +518,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="30">
+						<call depth="2" id="29">
 							<function>
 								<access>
 									<value>scene</value>
