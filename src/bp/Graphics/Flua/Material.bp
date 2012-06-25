@@ -18,10 +18,15 @@
 				<function depth="1" id="2">
 					<parameters>
 						<parameter>
-							<access>
-								<value>my</value>
-								<value>shader</value>
-							</access>
+							<declare-type>
+								<value>
+									<access>
+										<value>my</value>
+										<value>shader</value>
+									</access>
+								</value>
+								<value>Shader</value>
+							</declare-type>
 						</parameter>
 					</parameters>
 					<name>init</name>
@@ -60,9 +65,110 @@
 					<meta/>
 				</function>
 				<function depth="1" id="5">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>material</value>
+								<value>Material</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="6">
+							<value>
+								<access>
+									<value>my</value>
+									<value>shader</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>material</value>
+									<value>shader</value>
+								</access>
+							</value>
+						</assign>
+						<assign depth="2" id="7">
+							<value>
+								<access>
+									<value>my</value>
+									<value>color</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>Color</type>
+									<parameters>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>material</value>
+														<value>color</value>
+													</access>
+												</value>
+												<value>red</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>material</value>
+														<value>color</value>
+													</access>
+												</value>
+												<value>green</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>material</value>
+														<value>color</value>
+													</access>
+												</value>
+												<value>blue</value>
+											</access>
+										</parameter>
+										<parameter>
+											<access>
+												<value>
+													<access>
+														<value>material</value>
+														<value>color</value>
+													</access>
+												</value>
+												<value>alpha</value>
+											</access>
+										</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<assign depth="2" id="8">
+							<value>
+								<access>
+									<value>my</value>
+									<value>texture</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>material</value>
+									<value>texture</value>
+								</access>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="9">
 					<name>activate</name>
 					<code>
-						<call depth="2" id="6">
+						<call depth="2" id="10">
 							<function>
 								<access>
 									<value>
@@ -77,7 +183,7 @@
 							<parameters/>
 						</call>
 						<comment>\SSet\Scolor</comment>
-						<call depth="2" id="7">
+						<call depth="2" id="11">
 							<function>glUniform4f</function>
 							<parameters>
 								<parameter>
@@ -138,7 +244,7 @@
 							</parameters>
 						</call>
 						<comment>\SSet\Stexture</comment>
-						<if-block depth="2" id="8">
+						<if-block depth="2" id="12">
 							<if>
 								<condition>
 									<access>
@@ -147,7 +253,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="9">
+									<call depth="3" id="13">
 										<function>
 											<access>
 												<value>
@@ -161,7 +267,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="10">
+									<call depth="3" id="14">
 										<function>glUniform1i</function>
 										<parameters>
 											<parameter>
@@ -182,12 +288,11 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="11">
-					<public-member depth="2" id="12">color</public-member>
-					<public-member depth="2" id="13">shader</public-member>
-					<public-member depth="2" id="14">texture</public-member>
+				<public depth="1" id="15">
+					<public-member depth="2" id="16">color</public-member>
+					<public-member depth="2" id="17">shader</public-member>
+					<public-member depth="2" id="18">texture</public-member>
 				</public>
 			</code>
 			<meta/>

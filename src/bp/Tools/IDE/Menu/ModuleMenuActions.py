@@ -31,6 +31,9 @@ class ModuleMenuActions:
 		if self.running > 0 or self.compiling > 0:
 			return
 		
+		if compilerFlags != self.lastRunOptions:
+			self.somethingModified = True
+		
 		# Console
 		#self.console.log.setPlainText("")
 		self.console.compiler.setPlainText("")
@@ -135,6 +138,7 @@ class ModuleMenuActions:
 		else:
 			# Success
 			self.codeEditLastRun = self.codeEdit
+			self.lastRunOptions = compilerFlags
 			self.somethingModified = False
 		finally:
 			if self.compiling > 0:

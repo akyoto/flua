@@ -869,6 +869,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if not op1ClassName in self.compiler.mainClass.classes:
 			return False, False
 		
+		if not op2.nodeValue:
+			return False, False
+		
 		#if op2.nodeValue == "vertices":
 		#	print("-" * 80)
 		#	print(op1Type)

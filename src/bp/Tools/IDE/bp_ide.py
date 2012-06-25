@@ -81,6 +81,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.running = 0
 		self.compiling = 0
 		self.backgroundCompileIsUpToDate = False
+		self.lastRunOptions = []
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V", "G", "B"]	# TODO: Internationalization
 		
 		# AC

@@ -529,6 +529,7 @@
 					<value>true</value>
 				</assign>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0" id="63">
 			<parameters>
