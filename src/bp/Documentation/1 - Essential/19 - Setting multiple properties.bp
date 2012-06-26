@@ -1,0 +1,69 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>bp.Core</import>
+			<import>bp.Math.Geometry</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SLet's\Screate\Sa\Spoint\Swith\Sx\Sand\Sy\Scoordinates:</comment>
+		<assign depth="0" id="1">
+			<value>p</value>
+			<value>
+				<new>
+					<type>Point</type>
+					<parameters>
+						<parameter>3</parameter>
+						<parameter>4</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SWe\Scan\Snow\Sset\Sthe\Scoordinates\Sto\S(5\S|\S6):</comment>
+		<assign depth="0" id="2">
+			<value>
+				<access>
+					<value>p</value>
+					<value>x</value>
+				</access>
+			</value>
+			<value>5</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>
+				<access>
+					<value>p</value>
+					<value>y</value>
+				</access>
+			</value>
+			<value>6</value>
+		</assign>
+		<comment>\SUsing\Sthe\S'on'\Skeyword\Syou\Scan\Sachieve\Sthe\Ssame\Sresult:</comment>
+		<on depth="0" id="4">
+			<expression>p</expression>
+			<code>
+				<assign depth="1" id="5">
+					<value>x</value>
+					<value>5</value>
+				</assign>
+				<assign depth="1" id="6">
+					<value>y</value>
+					<value>6</value>
+				</assign>
+			</code>
+		</on>
+		<comment>\SNote\Sthat\Sthe\Sexpression\Sfollowing\Sthe\S'on'\Skeyword\Sis</comment>
+		<comment>\Sguaranteed\Sto\Sbe\Sevaluated\Sonce\Sonly.\SThe\Susage\Sof\S'on'</comment>
+		<comment>\Sis\Sstrongly\Sencouraged\Sover\Srepeating\Sthe\Ssame\Svariable</comment>
+		<comment>\Sagain\Sand\Sagain\Sas\Sit's\Salso\Sfaster\Sfor\Smore\Scomplex</comment>
+		<comment>\Sexpressions.</comment>
+		<call depth="0" id="7">
+			<function>print</function>
+			<parameters>
+				<parameter>p</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>
