@@ -154,6 +154,8 @@ autoNewlineBlock = {
 	"try-block",
 	"for",
 	"foreach",
+	"parallel-for",
+	"parallel-foreach",
 	"extern",
 	"target",
 	"switch",
@@ -573,7 +575,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return ""
 		
 		return "import " + importMod
-	elif nodeName == "for":
+	elif nodeName in {"for", "parallel-for"}:
 		iterator = nodeToBPC(getElementByTagName(node, "iterator"), 0, conv)
 		start = nodeToBPC(getElementByTagName(node, "from"), 0, conv)
 		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
@@ -603,10 +605,15 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_PYTHON:
 			blockStart = ":"
 		
-		forLoop = "for%s%s = %s %s %s%s\n%s%s%s" % (exprStart, iterator, start, toUntil, end, blockStart, loopCode, "\t" * tabLevel, blockEnd)
+		if nodeName == "parallel-for":
+			keyword = "pfor"
+		else:
+			keyword = "for"
+		
+		forLoop = "%s%s%s = %s %s %s%s\n%s%s%s" % (keyword, exprStart, iterator, start, toUntil, end, blockStart, loopCode, "\t" * tabLevel, blockEnd)
 			
 		return forLoop
-	elif nodeName == "foreach":
+	elif nodeName in {"foreach", "parallel-foreach"}:
 		iterator = nodeToBPC(getElementByTagName(node, "iterator").firstChild, 0, conv)
 		coll = nodeToBPC(getElementByTagName(node, "collection").firstChild, 0, conv)
 		loopCode = nodeToBPC(getElementByTagName(node, "code"), tabLevel + 1, conv)
@@ -630,7 +637,12 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif currentSyntax == SYNTAX_PYTHON:
 			blockStart = ":"
 		
-		return "for%s%s in %s%s%s\n%s%s%s" % (exprStart, iterator, coll, counter, blockStart, loopCode, "\t" * tabLevel, blockEnd)
+		if nodeName == "parallel-foreach":
+			keyword = "pfor"
+		else:
+			keyword = "for"
+		
+		return "%s%s%s in %s%s%s\n%s%s%s" % (keyword, exprStart, iterator, coll, counter, blockStart, loopCode, "\t" * tabLevel, blockEnd)
 	elif nodeName == "parameter":
 		if node.childNodes:
 			if len(node.childNodes) == 1:

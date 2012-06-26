@@ -411,16 +411,12 @@
 							</function>
 							<parameters/>
 						</call>
-						<call depth="2" id="38">
-							<function>gcCollect</function>
-							<parameters/>
-						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="39">
+						<assign-add depth="2" id="38">
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="40">
+						<if-block depth="2" id="39">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -434,19 +430,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="41">
+									<assign depth="3" id="40">
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="42">
+									<assign depth="3" id="41">
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="43">
+									<assign depth="3" id="42">
 										<value>lastFrameRender</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="44">
+									<assign depth="3" id="43">
 										<value>
 											<access>
 												<value>win</value>
@@ -478,10 +474,10 @@
 			</code>
 		</while>
 		<comment>\SGame\Slogic\Sin\Sanother\Sthread</comment>
-		<function depth="0" id="45">
+		<function depth="0" id="44">
 			<name>update</name>
 			<code>
-				<while depth="1" id="46">
+				<while depth="1" id="45">
 					<condition>
 						<access>
 							<value>win</value>
@@ -490,7 +486,7 @@
 					</condition>
 					<code>
 						<comment>\STime</comment>
-						<assign depth="2" id="47">
+						<assign depth="2" id="46">
 							<value>ms</value>
 							<value>
 								<subtract>
@@ -505,7 +501,7 @@
 							</value>
 						</assign>
 						<comment>\SWait\Sfor\Sthe\SGO\Ssignal</comment>
-						<while depth="2" id="48">
+						<while depth="2" id="47">
 							<condition>
 								<less>
 									<value>frameCounter</value>
@@ -513,7 +509,7 @@
 								</less>
 							</condition>
 							<code>
-								<call depth="3" id="49">
+								<call depth="3" id="48">
 									<function>sleep</function>
 									<parameters>
 										<parameter>1</parameter>
@@ -522,7 +518,7 @@
 							</code>
 						</while>
 						<comment>\SPlay\Saround\Swith\Sthe\Scubes</comment>
-						<foreach depth="2" id="50">
+						<foreach depth="2" id="49">
 							<counter>i</counter>
 							<iterator>cube</iterator>
 							<collection>
@@ -537,7 +533,7 @@
 								</access>
 							</collection>
 							<code>
-								<assign depth="3" id="51">
+								<assign depth="3" id="50">
 									<value>
 										<access>
 											<value>
@@ -573,7 +569,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="52">
+								<assign depth="3" id="51">
 									<value>val</value>
 									<value>
 										<add>
@@ -592,7 +588,7 @@
 										</add>
 									</value>
 								</assign>
-								<on depth="3" id="53">
+								<on depth="3" id="52">
 									<expression>
 										<access>
 											<value>
@@ -605,7 +601,7 @@
 										</access>
 									</expression>
 									<code>
-										<assign depth="4" id="54">
+										<assign depth="4" id="53">
 											<value>red</value>
 											<value>
 												<call>
@@ -616,7 +612,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="55">
+										<assign depth="4" id="54">
 											<value>green</value>
 											<value>
 												<call>
@@ -632,7 +628,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="56">
+										<assign depth="4" id="55">
 											<value>blue</value>
 											<value>
 												<call>
@@ -648,7 +644,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="57">
+										<assign depth="4" id="56">
 											<value>alpha</value>
 											<value>
 												<call>
@@ -669,7 +665,7 @@
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<on depth="2" id="58">
+						<on depth="2" id="57">
 							<expression>
 								<access>
 									<value>cam</value>
@@ -677,7 +673,7 @@
 								</access>
 							</expression>
 							<code>
-								<assign depth="3" id="59">
+								<assign depth="3" id="58">
 									<value>x</value>
 									<value>
 										<multiply>
@@ -696,7 +692,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="60">
+								<assign depth="3" id="59">
 									<value>y</value>
 									<value>
 										<multiply>
@@ -722,15 +718,15 @@
 							</code>
 						</on>
 						<comment>\SCount\Supdates</comment>
-						<assign-add depth="2" id="61">
+						<assign-add depth="2" id="60">
 							<value>updates</value>
 							<value>1</value>
 						</assign-add>
-						<assign-add depth="2" id="62">
+						<assign-add depth="2" id="61">
 							<value>updateCounter</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="63">
+						<if-block depth="2" id="62">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -744,15 +740,15 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="64">
+									<assign depth="3" id="63">
 										<value>ups</value>
 										<value>updates</value>
 									</assign>
-									<assign depth="3" id="65">
+									<assign depth="3" id="64">
 										<value>updates</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="66">
+									<assign depth="3" id="65">
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
@@ -763,13 +759,13 @@
 				</while>
 			</code>
 		</function>
-		<function depth="0" id="67">
+		<function depth="0" id="66">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>absSin</name>
 			<code>
-				<return depth="1" id="68">
+				<return depth="1" id="67">
 					<call>
 						<function>abs</function>
 						<parameters>

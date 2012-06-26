@@ -51,6 +51,7 @@ simpleBlocks = {
 	"while" : [],
 	"for" : [],
 	"foreach" : [],
+	"parallel-for" : [],
 	"in" : [],
 	"on" : [],
 	"switch" : [],
@@ -271,6 +272,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"on" : self.handleOn,
 			"operator" : self.handleOperatorBlock,
 			"parallel" : self.handleParallel,
+			"pfor" : self.handleFor,
 			"private" : self.handlePrivate,
 			"public" : self.handlePublic,
 			"require" : self.handleRequire,
@@ -897,6 +899,13 @@ class BPCFile(ScopeController, Benchmarkable):
 		if len(line) < 5:
 			raise CompilerException("You need to specify an iterator in '%s'" % (line))
 		
+		# Remove 'p' from pfor
+		if line[0] == 'p':
+			line = line[1:]
+			parallel = True
+		else:
+			parallel = False
+		
 		if line[3] == '(':
 			line = "for " + line[4:]
 		elif line[4] == '(':
@@ -905,7 +914,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if self.currentSyntax == SYNTAX_CPP:
 			line = line[:-1] # Remove ')'
 		
-		node = self.doc.createElement("for")
+		node = self.doc.createElement(["for", "parallel-for"][parallel])
 		
 		line += " "
 		pos = line.find(" to ")
@@ -917,7 +926,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			if pos == -1:
 				raise CompilerException("Missing iterator definition in 'for' expression")
 			else:
-				node.tagName = "foreach"
+				node.tagName = ["foreach", "parallel-foreach"][parallel]
 				
 				iterName = line[4:pos].strip()
 				

@@ -25,7 +25,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{'maybe'},
 		{'not', 'namespace', 'null'},
 		{'or', 'operator', 'on'},
-		{'pattern', 'private', 'parallel', 'public'},
+		{'pattern', 'private', 'parallel', 'public', 'pfor'},
 		{},
 		{'return', 'require'},
 		{'set', 'shared', 'switch'},
@@ -52,7 +52,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'maybe',
 		'not', 'namespace', 'null',
 		'or', 'operator', 'on',
-		'private', 'parallel', 'public',
+		'private', 'parallel', 'public', 'pfor',
 		'return', 'require',
 		'set', 'shared', 'switch',
 		'to', 'try', 'template', 'target', 'throw', 'true', 'test',
@@ -199,7 +199,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						h = j
 					elif expr in {"until", "to", "counting"}:
 						# Possible bug, but ignorable
-						if (len(text) >= 3 and text.lstrip()[:3] == "for") or text.lstrip()[:2] == "to":
+						if (len(text) >= 4 and text.lstrip()[:4] in {"for ", "pfor"}) or text.lstrip()[:2] == "to":
 							self.setFormat(i, h - i, style['keyword'])
 					elif expr == "parallel":
 						if (len(text) >= 8 and text.lstrip()[:8] == "parallel"):

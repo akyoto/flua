@@ -146,6 +146,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			"yield" : self.handleYield,
 			"for" : self.handleFor,
 			"foreach" : self.handleForEach,
+			"parallel-for" : self.handleFor,
+			"parallel-foreach" : self.handleForEach,
 			"flow-to" : self.handleFlowTo,
 			"const" : self.handleConst,
 			"continue" : self.buildContinue,
