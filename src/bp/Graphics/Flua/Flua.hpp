@@ -154,6 +154,14 @@ inline GLint flua_createGLSLProgramUniform(GLuint program, char* attributeName) 
 	return attrib;
 }
 
+inline int flua_getScreenWidth() {
+	return glutGet(GLUT_SCREEN_WIDTH);
+}
+
+inline int flua_getScreenHeight() {
+	return glutGet(GLUT_SCREEN_HEIGHT);
+}
+
 inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, bool fullscreen = false) {
 	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2);
 	glutInitWindowSize(width, height);
