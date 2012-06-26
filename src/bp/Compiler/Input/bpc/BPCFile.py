@@ -74,6 +74,7 @@ simpleBlocks = {
 	"define" : [],
 	"extends" : [],
 	"parallel" : [],
+	"begin" : [],
 	"shared" : [],
 	"const" : [],
 	"atomic" : [],
@@ -245,6 +246,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"break" : self.handleBreak,
 			"to" : self.handleCasts,
 			"catch" : self.handleCatch,
+			"begin" : self.handleBegin,
 			"compilerflags" : self.handleCompilerFlags,
 			"const" : self.handleConst,
 			"continue" : self.handleContinue,
@@ -1050,6 +1052,17 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.raiseBlockException("parallel", line)
 		
 		node = self.doc.createElement("parallel")
+		code = self.doc.createElement("code")
+		node.appendChild(code)
+		
+		self.nextNode = code
+		return node
+		
+	def handleBegin(self, line):
+		if not self.nextLineIndented:
+			self.raiseBlockException("begin", line)
+		
+		node = self.doc.createElement("begin")
 		code = self.doc.createElement("code")
 		node.appendChild(code)
 		

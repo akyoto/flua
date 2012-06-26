@@ -48,9 +48,6 @@ class CPPOutputFile(BaseOutputFile):
 		
 		BaseOutputFile.__init__(self, compiler, file, root)
 		
-		self.customThreads = dict()
-		self.customThreadsString = ""
-		
 		# XML tag : C++ keyword, condition tag name, code tag name
 		self.paramBlocks = {
 			"if" : ["if", "condition", "code"],
@@ -117,9 +114,6 @@ class CPPOutputFile(BaseOutputFile):
 		incls = ["#ifndef %s\n#define %s\n#include <%s>\n#endif\n" % (ifndef, ifndef, incl) for incl, ifndef in self.includes]
 		self.includesHeader += "".join(incls)
 		
-		# Custom Threads
-		self.customThreadsString = '\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n'
-		
 		# Variables
 		for var in self.getTopLevelScope().variables.values():
 			if var.isShared:
@@ -152,6 +146,9 @@ class CPPOutputFile(BaseOutputFile):
 		return CPPFunction(self, node)
 		
 	def buildThreadFunc(self, funcName, paramTypes):
+		if funcName in self.compiler.customThreads:
+			return
+		
 		if self.compiler.tinySTMEnabled:
 			initCode = "stm_init_thread();"
 			exitCode = "stm_exit_thread();"
@@ -176,7 +173,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 	return NULL;
 }
 """ % (struct, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
-		self.customThreads[funcName] = func
+		self.compiler.customThreads[funcName] = func
 		
 	def buildFloat(self, value):
 		return value + "f"
@@ -549,7 +546,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 		self.writeFunctions()
 		self.writeClasses()
 		
-		return "%s%s%s%s%s%s%s%s%s%s%s" % (
+		return "%s%s%s%s%s%s%s%s%s%s" % (
 			self.header,
 			self.prototypesHeader,
 			self.includesHeader,
@@ -557,7 +554,7 @@ void* bp_thread_func_%s(void *bp_arg_struct_void) {
 			self.varsHeader,
 			self.dataFlowHeader,
 			self.classesHeader,
-			self.customThreadsString,
+			#self.customThreadsString,
 			self.functionsHeader,
 			#self.actorClassesHeader,
 			self.body,

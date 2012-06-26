@@ -211,6 +211,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			for externFunc in self.mainClass.externFunctions:
 				outStream.write("// extern func %s;\n" % (externFunc))
 			
+			# Custom Threads
+			outStream.write('\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n')
+			
 			# Includes
 			for incl, ifndef in self.includes:
 				outStream.write("#ifndef %s\n\t#define   %s\n\t#include <%s>\n#endif\n\n" % (ifndef, ifndef, incl))

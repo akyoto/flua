@@ -327,17 +327,14 @@
 			<meta/>
 		</for>
 		<comment>\SGame\Slogic\Sin\Sa\Sseparate\Sthread</comment>
-		<parallel depth="0" id="27">
+		<begin depth="0" id="27">
 			<code>
 				<call depth="1" id="28">
 					<function>update</function>
 					<parameters/>
 				</call>
 			</code>
-			<meta>
-				<wait-for-all-threads>false</wait-for-all-threads>
-			</meta>
-		</parallel>
+		</begin>
 		<comment>\SRender\Sloop\Smust\Sbe\Sin\Sthe\Smain\Sthread</comment>
 		<while depth="0" id="29">
 			<condition>

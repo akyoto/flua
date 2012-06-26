@@ -65,6 +65,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.strings = list()
 		self.operators = dict()
 		self.tuples = dict()
+		self.customThreads = dict()
 		
 		# Main class
 		self.mainClass = self.createClass("", None)

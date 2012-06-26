@@ -150,6 +150,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			"const" : self.handleConst,
 			"continue" : self.buildContinue,
 			"parallel" : self.handleParallel,
+			"begin" : self.handleParallel,
 			"shared" : self.handleShared,
 			"in" : self.handleIn,
 			"on" : self.handleOn,

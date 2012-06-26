@@ -11,7 +11,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	# Python keywords
 	keywords = [{}] * 97 + [
 		{'and', 'assert', 'atomic'},
-		{'break'},
+		{'break', 'begin'},
 		{'class', 'continue', 'const', 'case', 'catch', 'class', 'compilerflags', 'counting'},
 		{'define', 'def'},
 		{'elif', 'elsif', 'else', 'ensure', 'extern', 'extends'},
@@ -42,8 +42,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	# Keyword list
 	keywordList = {
 		'and', 'assert', 'atomic',
-		'break',
-		'class', 'continue', 'const', 'case', 'catch', 'compilerflags', 'counting',
+		'begin', 'break',
+		'class', 'continue', 'const', 'case', 'catch', 'compilerflags', 'counting', 'cobegin',
 		'define',
 		'elif', 'else', 'ensure', 'extern', 'extends',
 		'for', 'false',

@@ -6,16 +6,27 @@
 			<import>bp.Compiler.Test</import>
 		</dependencies>
 		<strings>
-			<string id="bp_string_0">Hello\SWorld!</string>
+			<string id="bp_string_0">Hello</string>
+			<string id="bp_string_1">World</string>
 		</strings>
 	</header>
 	<code>
 		<comment>\SPress\SF5\Sto\Ssee\Sif\Sbp\Sis\Srunning\Son\Syour\Scomputer!</comment>
-		<call depth="0" id="1">
-			<function>print</function>
-			<parameters>
-				<parameter>bp_string_0</parameter>
-			</parameters>
-		</call>
+		<parallel depth="0" id="1">
+			<code>
+				<call depth="1" id="2">
+					<function>print</function>
+					<parameters>
+						<parameter>bp_string_0</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="3">
+					<function>print</function>
+					<parameters>
+						<parameter>bp_string_1</parameter>
+					</parameters>
+				</call>
+			</code>
+		</parallel>
 	</code>
 </module>

@@ -48,9 +48,9 @@ metaDataForNodeName = {
 		forcePara,
 	],
 	
-	"parallel" : [
-		("wait-for-all-threads",     ["Wait for all calls / threads to finish:", "Bool", "true", False, "<p>Activate this if you need all parallel calls to finish their work before continuing the program flow.</p>"]),
-	]
+	#"parallel" : [
+	#	("wait-for-all-threads",     ["Wait for all calls / threads to finish:", "Bool", "true", False, "<p>Activate this if you need all parallel calls to finish their work before continuing the program flow.</p>"]),
+	#]
 }
 
 metaDataTitleForNodeName = {

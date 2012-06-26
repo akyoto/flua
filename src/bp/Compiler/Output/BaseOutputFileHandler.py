@@ -474,7 +474,13 @@ class BaseOutputFileHandler:
 	def handleParallel(self, node):
 		codeNode = getElementByTagName(node, "code")
 		
-		joinAll = getMetaData(node, "wait-for-all-threads") != "false" #isMetaDataTrueByTag(node, "wait-for-all-threads")
+		# 'begin' or 'parallel' statement?
+		if (node.tagName == "parallel"):
+			joinAll = True
+		else:
+			joinAll = False
+			
+		#getMetaData(node, "wait-for-all-threads") != "false" #isMetaDataTrueByTag(node, "wait-for-all-threads")
 		
 		self.parallelBlockStack.append(list())
 		self.inParallel += 1
@@ -1120,7 +1126,7 @@ class BaseOutputFileHandler:
 			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
 			
 			# Parallel
-			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName == "parallel":
+			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName in {"parallel", "begin"}:
 				threadID = self.compiler.customThreadsCount
 				threadFuncID = fullName
 				self.buildThreadFunc(threadFuncID, paramTypes)

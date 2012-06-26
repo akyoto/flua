@@ -114,6 +114,7 @@ xmlToBPCExprBlock = {
 	"else-if" : ["elif", "condition", "code"],
 	"try" : ["try", "", "code"],
 	"parallel" : ["parallel", "", "code"],
+	"begin" : ["begin", "", "code"],
 	"case" : ["", "values", "code"],
 	"while" : ["while", "condition", "code"],
 	"in" : ["in", "expression", "code"],
