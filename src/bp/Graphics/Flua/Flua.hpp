@@ -25,6 +25,7 @@ GLint flua_currentProgram;
 bool flua_glutRunFlag = false;
 int flua_mouseX = 0;
 int flua_mouseY = 0;
+int flua_width, flua_height;
 
 // glGetString(GL_VERSION)
 
@@ -52,6 +53,11 @@ inline bool glutWindowOpen() {
 inline void flua_onReshape(int width, int height) {
 	flua_projectionMatrix = glm::perspective(flua_fovAngle, 1.0f * width / height, 0.1f, 1000.0f);
 	glViewport(0, 0, width, height);
+	
+	flua_width = width;
+	flua_height = height;
+	
+	//std::cout << "Reshape!" << std::endl;
 }
 
 inline void flua_initGLUT() {
@@ -77,6 +83,15 @@ inline void flua_setCamera(float x, float y, float z, float camAngleX, float cam
 	
 	glm::vec3 camPos(x, y, z);
 	glm::vec3 camUp(0.0, 1.0, 0.0);
+	
+#ifdef _WIN32
+	int nWidth = glutGet(GLUT_WINDOW_WIDTH);
+	int nHeight = glutGet(GLUT_WINDOW_HEIGHT);
+	
+	if(flua_width != nWidth || flua_height != nHeight) {
+		flua_onReshape(nWidth, nHeight);
+	}
+#endif
 	
 	flua_viewMatrix = glm::lookAt(camPos, camPos + lookat, camUp);
 	flua_viewAndProjectionMatrix = flua_projectionMatrix * flua_viewMatrix;
@@ -147,7 +162,9 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, 
 	int winId = glutCreateWindow(title);
 	
 	// Force first call (not called automatically on Windows)
+#ifdef _WIN32
 	flua_onReshape(width, height);
+#endif
 	
 	glutMotionFunc(flua_onMouseMove);
 	glutPassiveMotionFunc(flua_onMouseMove);
