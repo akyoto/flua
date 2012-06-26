@@ -197,8 +197,6 @@ class BPMetaDataWidget(QtGui.QWidget):
 				widget = BPMetaLineEdit(self, metaNode, metaTag, defaultValue, self.doc)
 			elif dataType == "Bool":
 				widget = BPMetaCheckBox(self, metaNode, metaTag, defaultValue, self.doc)
-				if defaultValue == "true":
-					widget.setChecked(True)
 				widget.stateChanged.connect(widget.onStateChange)
 			
 			self.widgetByMetaTag[metaTag] = widget
@@ -278,6 +276,7 @@ class BPMetaCheckBox(QtGui.QCheckBox, BPMetaObject):
 	def __init__(self, parent, node, elemName, defaultValue, doc):
 		super().__init__(parent)
 		self.setupMetaInfo(parent, node, elemName, doc)
+		
 		if self.elemNode:
 			self.setChecked(self.elemNode.firstChild.nodeValue == "true")
 		elif defaultValue:
