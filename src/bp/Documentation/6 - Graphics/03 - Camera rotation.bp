@@ -25,7 +25,17 @@
 					<parameters>
 						<parameter>bp_string_0</parameter>
 						<parameter>800</parameter>
-						<parameter>600</parameter>
+						<parameter>
+							<divide>
+								<value>
+									<multiply>
+										<value>800</value>
+										<value>9</value>
+									</multiply>
+								</value>
+								<value>16</value>
+							</divide>
+						</parameter>
 					</parameters>
 				</new>
 			</value>
