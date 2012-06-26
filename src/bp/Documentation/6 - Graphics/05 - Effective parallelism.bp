@@ -758,6 +758,7 @@
 					</code>
 				</while>
 			</code>
+			<meta/>
 		</function>
 		<function depth="0" id="66">
 			<parameters>
@@ -781,6 +782,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

@@ -31,7 +31,6 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<comment>\SColor</comment>
 						<assign depth="2" id="3">
 							<value>
 								<access>
@@ -46,7 +45,6 @@
 								</new>
 							</value>
 						</assign>
-						<comment>\STexture</comment>
 						<assign depth="2" id="4">
 							<value>
 								<declare-type>
