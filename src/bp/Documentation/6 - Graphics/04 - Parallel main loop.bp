@@ -645,7 +645,17 @@
 															<parameters/>
 														</call>
 													</value>
-													<value>400</value>
+													<value>
+														<divide>
+															<value>
+																<access>
+																	<value>win</value>
+																	<value>width</value>
+																</access>
+															</value>
+															<value>2</value>
+														</divide>
+													</value>
 												</subtract>
 											</value>
 											<value>0.001</value>
@@ -666,7 +676,17 @@
 																	<parameters/>
 																</call>
 															</value>
-															<value>300</value>
+															<value>
+																<divide>
+																	<value>
+																		<access>
+																			<value>win</value>
+																			<value>height</value>
+																		</access>
+																	</value>
+																	<value>2</value>
+																</divide>
+															</value>
 														</subtract>
 													</value>
 												</negative>

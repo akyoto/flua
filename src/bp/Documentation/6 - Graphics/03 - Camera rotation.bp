@@ -412,278 +412,174 @@
 									</value>
 								</assign>
 								<assign depth="3" id="29">
+									<value>val</value>
 									<value>
+										<add>
+											<value>
+												<multiply>
+													<value>ms</value>
+													<value>0.0005</value>
+												</multiply>
+											</value>
+											<value>
+												<multiply>
+													<value>i</value>
+													<value>0.01</value>
+												</multiply>
+											</value>
+										</add>
+									</value>
+								</assign>
+								<on depth="3" id="30">
+									<expression>
 										<access>
 											<value>
 												<access>
-													<value>
-														<access>
-															<value>cube</value>
-															<value>material</value>
-														</access>
-													</value>
-													<value>color</value>
+													<value>cube</value>
+													<value>material</value>
 												</access>
 											</value>
+											<value>color</value>
+										</access>
+									</expression>
+									<code>
+										<assign depth="4" id="31">
 											<value>red</value>
-										</access>
-									</value>
-									<value>
-										<call>
-											<function>abs</function>
-											<parameters>
-												<parameter>
-													<call>
-														<function>sin</function>
-														<parameters>
-															<parameter>
-																<add>
-																	<value>
-																		<multiply>
-																			<value>ms</value>
-																			<value>0.0005</value>
-																		</multiply>
-																	</value>
-																	<value>
-																		<multiply>
-																			<value>i</value>
-																			<value>0.1</value>
-																		</multiply>
-																	</value>
-																</add>
-															</parameter>
-														</parameters>
-													</call>
-												</parameter>
-											</parameters>
-										</call>
-									</value>
-								</assign>
-								<assign depth="3" id="30">
-									<value>
-										<access>
 											<value>
-												<access>
-													<value>
-														<access>
-															<value>cube</value>
-															<value>material</value>
-														</access>
-													</value>
-													<value>color</value>
-												</access>
+												<call>
+													<function>absSin</function>
+													<parameters>
+														<parameter>val</parameter>
+													</parameters>
+												</call>
 											</value>
+										</assign>
+										<assign depth="4" id="32">
 											<value>green</value>
-										</access>
-									</value>
-									<value>
-										<call>
-											<function>abs</function>
-											<parameters>
-												<parameter>
-													<call>
-														<function>sin</function>
-														<parameters>
-															<parameter>
-																<add>
-																	<value>
-																		<add>
-																			<value>
-																				<multiply>
-																					<value>ms</value>
-																					<value>0.0005</value>
-																				</multiply>
-																			</value>
-																			<value>
-																				<multiply>
-																					<value>i</value>
-																					<value>0.1</value>
-																				</multiply>
-																			</value>
-																		</add>
-																	</value>
-																	<value>1</value>
-																</add>
-															</parameter>
-														</parameters>
-													</call>
-												</parameter>
-											</parameters>
-										</call>
-									</value>
-								</assign>
-								<assign depth="3" id="31">
-									<value>
-										<access>
 											<value>
-												<access>
-													<value>
-														<access>
-															<value>cube</value>
-															<value>material</value>
-														</access>
-													</value>
-													<value>color</value>
-												</access>
+												<call>
+													<function>absSin</function>
+													<parameters>
+														<parameter>
+															<add>
+																<value>val</value>
+																<value>1</value>
+															</add>
+														</parameter>
+													</parameters>
+												</call>
 											</value>
+										</assign>
+										<assign depth="4" id="33">
 											<value>blue</value>
-										</access>
-									</value>
-									<value>
-										<call>
-											<function>abs</function>
-											<parameters>
-												<parameter>
-													<call>
-														<function>sin</function>
-														<parameters>
-															<parameter>
-																<add>
-																	<value>
-																		<add>
-																			<value>
-																				<multiply>
-																					<value>ms</value>
-																					<value>0.0005</value>
-																				</multiply>
-																			</value>
-																			<value>
-																				<multiply>
-																					<value>i</value>
-																					<value>0.1</value>
-																				</multiply>
-																			</value>
-																		</add>
-																	</value>
-																	<value>2</value>
-																</add>
-															</parameter>
-														</parameters>
-													</call>
-												</parameter>
-											</parameters>
-										</call>
-									</value>
-								</assign>
-								<assign depth="3" id="32">
-									<value>
-										<access>
 											<value>
-												<access>
-													<value>
-														<access>
-															<value>cube</value>
-															<value>material</value>
-														</access>
-													</value>
-													<value>color</value>
-												</access>
+												<call>
+													<function>absSin</function>
+													<parameters>
+														<parameter>
+															<add>
+																<value>val</value>
+																<value>2</value>
+															</add>
+														</parameter>
+													</parameters>
+												</call>
 											</value>
+										</assign>
+										<assign depth="4" id="34">
 											<value>alpha</value>
-										</access>
-									</value>
-									<value>
-										<call>
-											<function>abs</function>
-											<parameters>
-												<parameter>
-													<call>
-														<function>sin</function>
-														<parameters>
-															<parameter>
-																<add>
-																	<value>
-																		<add>
-																			<value>
-																				<multiply>
-																					<value>ms</value>
-																					<value>0.0005</value>
-																				</multiply>
-																			</value>
-																			<value>
-																				<multiply>
-																					<value>i</value>
-																					<value>0.1</value>
-																				</multiply>
-																			</value>
-																		</add>
-																	</value>
-																	<value>3</value>
-																</add>
-															</parameter>
-														</parameters>
-													</call>
-												</parameter>
-											</parameters>
-										</call>
-									</value>
-								</assign>
+											<value>
+												<call>
+													<function>absSin</function>
+													<parameters>
+														<parameter>
+															<add>
+																<value>val</value>
+																<value>3</value>
+															</add>
+														</parameter>
+													</parameters>
+												</call>
+											</value>
+										</assign>
+									</code>
+								</on>
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<assign depth="2" id="33">
-							<value>
+						<on depth="2" id="35">
+							<expression>
 								<access>
-									<value>
-										<access>
-											<value>cam</value>
-											<value>rotation</value>
-										</access>
-									</value>
+									<value>cam</value>
+									<value>rotation</value>
+								</access>
+							</expression>
+							<code>
+								<assign depth="3" id="36">
 									<value>x</value>
-								</access>
-							</value>
-							<value>
-								<multiply>
 									<value>
-										<subtract>
-											<value>
-												<call>
-													<function>getMouseX</function>
-													<parameters/>
-												</call>
-											</value>
-											<value>400</value>
-										</subtract>
-									</value>
-									<value>0.001</value>
-								</multiply>
-							</value>
-						</assign>
-						<assign depth="2" id="34">
-							<value>
-								<access>
-									<value>
-										<access>
-											<value>cam</value>
-											<value>rotation</value>
-										</access>
-									</value>
-									<value>y</value>
-								</access>
-							</value>
-							<value>
-								<multiply>
-									<value>
-										<negative>
+										<multiply>
 											<value>
 												<subtract>
 													<value>
 														<call>
-															<function>getMouseY</function>
+															<function>getMouseX</function>
 															<parameters/>
 														</call>
 													</value>
-													<value>300</value>
+													<value>
+														<divide>
+															<value>
+																<access>
+																	<value>win</value>
+																	<value>width</value>
+																</access>
+															</value>
+															<value>2</value>
+														</divide>
+													</value>
 												</subtract>
 											</value>
-										</negative>
+											<value>0.001</value>
+										</multiply>
 									</value>
-									<value>0.001</value>
-								</multiply>
-							</value>
-						</assign>
-						<call depth="2" id="35">
+								</assign>
+								<assign depth="3" id="37">
+									<value>y</value>
+									<value>
+										<multiply>
+											<value>
+												<negative>
+													<value>
+														<subtract>
+															<value>
+																<call>
+																	<function>getMouseY</function>
+																	<parameters/>
+																</call>
+															</value>
+															<value>
+																<divide>
+																	<value>
+																		<access>
+																			<value>win</value>
+																			<value>height</value>
+																		</access>
+																	</value>
+																	<value>2</value>
+																</divide>
+															</value>
+														</subtract>
+													</value>
+												</negative>
+											</value>
+											<value>0.001</value>
+										</multiply>
+									</value>
+								</assign>
+							</code>
+						</on>
+						<call depth="2" id="38">
 							<function>
 								<access>
 									<value>cam</value>
@@ -693,7 +589,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="36">
+						<call depth="2" id="39">
 							<function>
 								<access>
 									<value>scene</value>
@@ -703,11 +599,11 @@
 							<parameters/>
 						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="37">
+						<assign-add depth="2" id="40">
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="38">
+						<if-block depth="2" id="41">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -721,19 +617,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="39">
+									<assign depth="3" id="42">
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="40">
+									<assign depth="3" id="43">
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="41">
+									<assign depth="3" id="44">
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="42">
+									<assign depth="3" id="45">
 										<value>
 											<access>
 												<value>win</value>
@@ -754,5 +650,29 @@
 				</in>
 			</code>
 		</while>
+		<function depth="0" id="46">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>absSin</name>
+			<code>
+				<return depth="1" id="47">
+					<call>
+						<function>abs</function>
+						<parameters>
+							<parameter>
+								<call>
+									<function>sin</function>
+									<parameters>
+										<parameter>x</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>
