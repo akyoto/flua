@@ -53,7 +53,7 @@ def getPython3CompilerName():
 	else:
 		return "python3"
 	
-def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".bp"):
+def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".flua"):
 	# ########################### #
 	# Priority for module search: #
 	# ########################### # ############# #
@@ -107,7 +107,7 @@ def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".b
 	return ""
 	#raise CompilerException("Module not found: '%s'" % importedModule)
 
-def getModuleImportType(importedModule, fileDir, projectDir, extension = ".bp"):
+def getModuleImportType(importedModule, fileDir, projectDir, extension = ".flua"):
 	fileDir = fixPath(fileDir)
 	projectDir = fixPath(projectDir)
 	

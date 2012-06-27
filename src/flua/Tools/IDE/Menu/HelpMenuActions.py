@@ -167,7 +167,7 @@ class HelpMenuActions:
 		QtGui.QDesktopServices.openUrl(QtCore.QUrl("http://lea.verou.me/2012/01/why-tabs-are-clearly-superior/", QtCore.QUrl.TolerantMode))
 	
 	def showIntroduction(self):
-		self.moduleView.highlightModule("bp.Examples.")
+		self.moduleView.highlightModule("bp.Documentation.")
 		
 	def faqUpdate(self):
 		self.notify("If you can not update to the latest version it probably means you modified an official module. Try resetting all local changes via Help > Reset all local changes and restarting the IDE.")

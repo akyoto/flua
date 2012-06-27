@@ -27,7 +27,7 @@ import os
 	#def filterAcceptsRow(self, sourceRow, sourceParent):
 		#sModelIndex = self.fsModel.index(sourceRow, 0, sourceParent)
 		##print(self.fsModel.fileName(sModelIndex))
-		#if self.fsModel.fileName(sModelIndex).endswith(".bp"):
+		#if self.fsModel.fileName(sModelIndex).endswith(".flua"):
 			#return True
 		#elif self.fsModel.isDir(sModelIndex):
 			##if self.filterAcceptsRow(sourceRow + 1, sModelIndex.child(0, 0)):
@@ -43,7 +43,7 @@ class BPFileBrowser(QtGui.QTreeView):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.fsModel = QtGui.QFileSystemModel()
-		#self.fsModel.setNameFilters(["*.bp"])
+		#self.fsModel.setNameFilters(["*.flua"])
 		fsModelIndex = self.fsModel.setRootPath(rootPath)
 		
 		#self.proxyModel = BPFileFilter(self.fsModel, fsModelIndex)

@@ -8,7 +8,7 @@ class FileMenuActions:
 		
 		# TODO:
 		if not fileName:
-			fileName = "./tmp/New file %d.bp" % (self.tmpCount)
+			fileName = "./tmp/New file %d.flua" % (self.tmpCount)
 		newCodeEdit = BPCodeEdit(self)
 		newCodeEdit.openingFile = True
 		
@@ -16,7 +16,7 @@ class FileMenuActions:
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
 		# Is text file?
-		if not fileName.endswith(".bp"):
+		if not fileName.endswith(".flua"):
 			newCodeEdit.isTextFile = True
 		
 		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
@@ -50,7 +50,7 @@ class FileMenuActions:
 				parent=self,
 				caption="Open File",
 				directory=openInDirectory,
-				filter="All Files (*.*);;GLSL Files (*.glsl);;bpc Files (*.bpc);;Any text file (*.*)")
+				filter="All Files (*.*);;GLSL Files (*.glsl);;Flua Files (*.flua);;Any text file (*.*)")
 		
 		if fileName:
 			# File already opened in workspace?
@@ -70,7 +70,7 @@ class FileMenuActions:
 			if index == -1:
 				ce = self.newFile(fileName, isOpeningFile = True)
 				
-				if fileName.endswith(".bp"):
+				if fileName.endswith(".flua"):
 					self.loadFileToEditor(fileName)
 				elif fileName.endswith(".bpc"):
 					self.loadBPCFileToEditor(fileName)
@@ -128,7 +128,7 @@ class FileMenuActions:
 				parent=self,
 				caption="Save File",
 				directory=saveInDirectory,
-				filter=["bp Files (*.bp)", "All Files (*.*)"][self.codeEdit.isTextFile])
+				filter=["Flua Files (*.flua)", "All Files (*.*)"][self.codeEdit.isTextFile])
 		
 		if filePath:
 			self.codeEdit.save(filePath)

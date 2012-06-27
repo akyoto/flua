@@ -561,7 +561,7 @@ class BPPostProcessorFile:
 		for child in dependencies.childNodes:
 			if child.nodeType != Node.TEXT_NODE and child.tagName == "import":
 				importedModule = child.childNodes[0].nodeValue.strip()
-				modulePath = getModulePath(importedModule, extractDir(self.filePath), self.processor.getProjectDir(), ".bp")
+				modulePath = getModulePath(importedModule, extractDir(self.filePath), self.processor.getProjectDir(), ".flua")
 				if modulePath:
 					self.importedFiles.append(modulePath)
 				else:

@@ -404,7 +404,7 @@ class Startup:
 		
 	def initCompiler(self):
 		self.postProcessorThread = None
-		self.inputCompiler = BPCCompiler(getModuleDir(), ".bp")
+		self.inputCompiler = BPCCompiler(getModuleDir(), ".flua")
 		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None
 		self.postProcessorThread = BPPostProcessorThread(self)

@@ -392,7 +392,12 @@
 							</condition>
 							<code>
 								<call depth="3" id="32">
-									<function>flua.swap</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>swap</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -795,7 +800,12 @@
 							</value>
 							<value>
 								<call>
-									<function>flua.strlenUtf8</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>

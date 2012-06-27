@@ -299,9 +299,9 @@ class BPCFile(ScopeController, Benchmarkable):
 	#	del self.doc
 		
 	def writeToFS(self):
-		#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".bp"
-		#fileOut = dirOut + stripAll(bpcFile.file) + ".bp"
-		fileOut = stripExt(self.file) + ".bp"
+		#fileOut = dirOut + stripExt(bpcFile.file[len(self.projectDir):]) + ".flua"
+		#fileOut = dirOut + stripAll(bpcFile.file) + ".flua"
+		fileOut = stripExt(self.file) + ".flua"
 		#print("Writing XML to " + fileOut)
 		
 		# Directory structure

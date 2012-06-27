@@ -393,7 +393,7 @@
   </action>
   <action name="actionIntroduction">
    <property name="text">
-    <string>Examples</string>
+    <string>Documentation</string>
    </property>
   </action>
   <action name="actionRunOptimized">

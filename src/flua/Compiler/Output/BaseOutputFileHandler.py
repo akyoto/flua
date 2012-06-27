@@ -674,7 +674,7 @@ class BaseOutputFileHandler:
 	
 	def handleImport(self, node):
 		importedModulePath = node.childNodes[0].nodeValue.strip()
-		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".bp")
+		importedModule = getModulePath(importedModulePath, extractDir(self.file), self.compiler.getProjectDir(), ".flua")
 		return self.buildModuleImport(importedModule)
 	
 	def handleElse(self, node):
@@ -938,7 +938,7 @@ class BaseOutputFileHandler:
 			self.compiler.forVarCounter += 1
 		
 		# Parallel execution
-		if parallel:
+		if 0 and parallel:
 			threadID = self.compiler.customThreadsCount
 			threadFuncID = fullName
 			

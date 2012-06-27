@@ -27,7 +27,7 @@ class BPModuleItem(QtGui.QStandardItem):
 		
 	def addSubModule(self, name):
 		if not self.subModules:
-			self.realPath = stripExt(self.realPath) + "/" + stripAll(self.realPath) + ".bp"
+			self.realPath = stripExt(self.realPath) + "/" + stripAll(self.realPath) + ".flua"
 		
 		mod = BPModuleItem(name)
 		mod.setModPath(self.path + "." + name)
@@ -121,7 +121,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				sharesName = True
 				parts[-2] = newName
 			
-			parts[-1] = newName + ".bp"
+			parts[-1] = newName + ".flua"
 		else:
 			if parts:
 				parts[-1] = newName
@@ -245,8 +245,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#print(newPath)
 		#print(name)
 		
-		copyFrom = getIDERoot() + "Templates/Empty.bp"
-		copyTo = newPath + name + ".bp"
+		copyFrom = getIDERoot() + "Templates/Empty.flua"
+		copyTo = newPath + name + ".flua"
 		
 		#print(copyFrom)
 		#print(copyTo)
@@ -319,6 +319,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modules = BPModuleItem("root")
 		self.modules.realPath = self.modDir
 		
+		extLen = len(".flua")
 		rootPath = extractDir(self.modules.realPath)
 		rootLen = len(rootPath)
 		
@@ -331,7 +332,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				continue
 			
 			for file in files:
-				if file.endswith(".bp"):
+				if file.endswith(".flua"):
 					
 					# If there is a directory with the same name, delete the file
 					if os.path.isdir(fixPath(root) + "/" + stripExt(file)):
@@ -343,12 +344,12 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 						continue
 					
 					lastDir = fixPath(root).split(OS_SLASH)[-2]
-					modName = file[:-3]
+					modName = file[:-extLen]
 					if modName == lastDir:
 						mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".")[:-1]
 					else:
 						mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".") + modName
-					mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".") + "." + file[:-3]
+					mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".") + "." + file[:-extLen]
 					
 					parts = mod.split(".")
 					
