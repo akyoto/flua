@@ -1245,8 +1245,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				if self.isTextFile:
 					self.setFilePath(newPath)
 				else:
-					if not newPath.endswith(".bp"):
-						newPath = stripExt(newPath) + ".bp"
+					if not newPath.endswith(".flua"):
+						newPath = stripExt(newPath) + ".flua"
 					self.setFilePath(newPath)
 					
 					if oldPath != newPath and self.bpIDE.processor:
