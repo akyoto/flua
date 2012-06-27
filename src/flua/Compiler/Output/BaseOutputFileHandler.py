@@ -924,7 +924,10 @@ class BaseOutputFileHandler:
 		if not self.variableExistsAnywhere(iterExpr):
 			self.getCurrentScope().variables[iterExpr] = var
 			typeInit = self.adjustDataType(var.type) + " "
+		
+		self.parallelBlockStack.append([])
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		
 		self.popScope()
 		
 		varDefs = ""
@@ -938,11 +941,12 @@ class BaseOutputFileHandler:
 			self.compiler.forVarCounter += 1
 		
 		# Parallel execution
-		if 0 and parallel:
+		if parallel:
 			threadID = self.compiler.customThreadsCount
-			threadFuncID = fullName
+			threadFuncID = "flua_pfor_func_%d" % self.compiler.customThreadsCount
 			
 			# Create a thread function
+			paramTypes = []
 			self.buildThreadFunc(threadFuncID, paramTypes)
 			
 			# Append it to the last list on the stack
@@ -950,7 +954,15 @@ class BaseOutputFileHandler:
 			
 			self.compiler.customThreadsCount += 1
 			tabs = "\t" * self.currentTabLevel
-			return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
+			
+			self.compiler.parallelForFuncs.append(self.buildPForFunc(threadFuncID, code))
+			#return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
+			
+			# Replace code
+			tabs = "\t" * self.currentTabLevel
+			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, "", tabs)
+		
+		self.parallelBlockStack.pop()
 		
 		return self.buildForLoop(varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, "\t" * self.currentTabLevel)
 		

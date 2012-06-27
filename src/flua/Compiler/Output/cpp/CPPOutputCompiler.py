@@ -211,6 +211,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			for externFunc in self.mainClass.externFunctions:
 				outStream.write("// extern func %s;\n" % (externFunc))
 			
+			# PFor funcs
+			outStream.write('\n'.join(self.parallelForFuncs))
+			
 			# Custom Threads
 			outStream.write('\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n')
 			

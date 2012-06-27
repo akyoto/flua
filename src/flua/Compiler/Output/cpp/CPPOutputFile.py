@@ -417,6 +417,9 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		code += self.returnSyntax % varName + ";}"
 		return code
 		
+	def buildPForFunc(self, threadFunc, code):
+		return "inline void %s() {\n%s\n}\n" % (threadFunc, code)
+		
 	def buildLine(self, line):
 		return line + ";\n" + "\t" * self.currentTabLevel
 		

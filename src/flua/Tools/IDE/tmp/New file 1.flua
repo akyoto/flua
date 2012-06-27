@@ -5,9 +5,17 @@
 			<import>flua.Core</import>
 			<import>playground.Everything</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="flua_string_0">Hello\SWorld</string>
+		</strings>
 	</header>
 	<code>
 		<comment>\SCheck\Sbp.Documentation\Sin\Sthe\Smodule\Sbrowser\Son\Sthe\Sleft\Sfor\Ssome\Sbeginner\Stopics.</comment>
+		<call depth="0" id="1">
+			<function>print</function>
+			<parameters>
+				<parameter>flua_string_0</parameter>
+			</parameters>
+		</call>
 	</code>
 </module>
