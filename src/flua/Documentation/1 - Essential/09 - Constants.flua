@@ -1,0 +1,26 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SEvery\Sidentifier\Sdefined\Sin\Sa\S'const'\Sblock\Sis\Sconstant:</comment>
+		<const depth="0" id="1">
+			<assign depth="1" id="2">
+				<value>a</value>
+				<value>1</value>
+			</assign>
+			<assign depth="1" id="3">
+				<value>b</value>
+				<value>2</value>
+			</assign>
+			<assign depth="1" id="4">
+				<value>c</value>
+				<value>3</value>
+			</assign>
+		</const>
+	</code>
+</module>

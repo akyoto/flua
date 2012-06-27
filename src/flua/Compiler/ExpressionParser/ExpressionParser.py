@@ -88,7 +88,7 @@ class ExpressionParser:
 		#self.recursionLevel += 1
 		
 		l = len
-		
+		#print(expr)
 		#expr = expr.replace(" ", "")
 		# Identifier + Space + Identifier = Invalid instruction
 		exprLen = l(expr)
