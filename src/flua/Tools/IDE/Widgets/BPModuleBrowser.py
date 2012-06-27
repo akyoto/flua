@@ -200,7 +200,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if not os.path.exists(path):
 				os.makedirs(path)
 			
-			shutil.copyfile(getIDERoot() + "Templates/Empty.bp", path + "Empty.bp")
+			shutil.copyfile(getIDERoot() + "Templates/Empty.flua", path + "Empty.flua")
 			self.reloadModuleDirectory(expand = False)
 		
 	# New module
