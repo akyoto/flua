@@ -823,6 +823,7 @@ class BaseOutputFileHandler:
 			
 			if isTextNode(op2):
 				op1Type = self.getExprDataType(collExprNode.childNodes[0].firstChild)
+				
 				op1Class = self.getClass(extractClassName(op1Type))
 				
 				if op1Class.hasIterator(op2.nodeValue):
@@ -832,6 +833,9 @@ class BaseOutputFileHandler:
 		iterExpr = self.parseExpr(iterExprNode)
 		collExpr = self.parseExpr(collExprNode)
 		collExprType = self.getExprDataType(collExprNode)
+		
+		if collExprType in nonPointerClasses:
+			raise CompilerException("'%s' is a value of type '%s' and does not have a default iterator" % (nodeToBPC(collExprNode), collExprType))
 		
 		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, [])
 		iteratorType = iteratorImpl.getYieldType()
