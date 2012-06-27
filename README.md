@@ -38,7 +38,7 @@ And start it:
 
     ./flua-studio.py
 
-The Linux version of bp (both the IDE and the standalone compiler) is slightly faster than the Windows one.
+The Linux version of Flua (both the IDE and the standalone compiler) is slightly faster than the Windows one.
 
 Compiling dependencies manually:
 
@@ -68,8 +68,10 @@ Download Flua via git (unless you already downloaded it):
 
     git clone git://github.com/blitzprog/flua.git
     
-Start bp-editor.py which is in the top-level bp directory:
+Start flua-studio.py which is in the top-level flua directory:
     
     ./flua-studio.py
     
 On 64-Bit systems you might need to install libc-i386-dev as well.
+If you want to compile the graphics examples you'll need X11 and OpenGL
+development packages.
