@@ -1,0 +1,21 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Compiler.Test</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Hello\SWorld</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SPress\SF5\Sto\Ssee\Sif\Sbp\Sis\Srunning\Son\Syour\Scomputer!</comment>
+		<call depth="0" id="1">
+			<function>print</function>
+			<parameters>
+				<parameter>flua_string_0</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

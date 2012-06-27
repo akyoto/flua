@@ -1,0 +1,19 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math</import>
+			<import>flua.Math.Geometry</import>
+			<import>flua.Math.Utils</import>
+			<import>flua.FileSystem</import>
+			<import>flua.DateTime</import>
+			<import>flua.Collection</import>
+			<import>flua.Concurrency</import>
+			<import>flua.Utils</import>
+			<import>flua.Graphics</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>
