@@ -1,1 +1,0 @@
-from bp.Tools.IDE.bp_ide import *

@@ -1,0 +1,12 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SType\S'import\Sflua.Collection.'\Shere\Sand\Sthe\Smodule\Sbrowser\Sshould\Sshow\Syou\Sa\Slist\Sof\Ssubmodules</comment>
+	</code>
+</module>

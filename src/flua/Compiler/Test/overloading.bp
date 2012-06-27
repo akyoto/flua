@@ -1,0 +1,67 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math.Geometry</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Function\Soverloading\SNOT\Sworking!</string>
+			<string id="flua_string_1">Function\Soverloading\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>testFunc</name>
+			<code>
+				<call depth="1" id="2">
+					<function>print</function>
+					<parameters>
+						<parameter>flua_string_0</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<function depth="0" id="3">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>x</value>
+						<value>Point</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>testFunc</name>
+			<code>
+				<call depth="1" id="4">
+					<function>print</function>
+					<parameters>
+						<parameter>flua_string_1</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<assign depth="0" id="5">
+			<value>testA</value>
+			<value>
+				<new>
+					<type>Point</type>
+					<parameters>
+						<parameter>3.0</parameter>
+						<parameter>4.0</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<call depth="0" id="6">
+			<function>testFunc</function>
+			<parameters>
+				<parameter>testA</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

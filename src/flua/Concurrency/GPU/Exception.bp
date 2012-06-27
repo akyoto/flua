@@ -1,0 +1,28 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0">
+			<name>GPUInitException</name>
+			<code>
+				<extends depth="1">
+					<extends-class depth="2">Exception</extends-class>
+				</extends>
+				<function depth="1">
+					<name>init</name>
+					<code>
+						<noop depth="2"/>
+					</code>
+				</function>
+			</code>
+			<meta>
+				<force-implementation>true</force-implementation>
+			</meta>
+		</class>
+	</code>
+</module>

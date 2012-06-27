@@ -1,0 +1,56 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Utils</import>
+			<import>flua.FileSystem</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">flua.decls.hpp</string>
+			<string id="flua_string_1">FileIO.ReadAll</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchReadAll</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>n</value>
+					<value>12000</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>testFile</value>
+					<value>flua_string_0</value>
+				</assign>
+				<in depth="1" id="4">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>flua_string_1</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<for depth="2" id="5">
+							<iterator>i</iterator>
+							<from>1</from>
+							<to>n</to>
+							<code>
+								<call depth="3" id="6">
+									<function>readFile</function>
+									<parameters>
+										<parameter>testFile</parameter>
+									</parameters>
+								</call>
+							</code>
+							<meta/>
+						</for>
+					</code>
+				</in>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

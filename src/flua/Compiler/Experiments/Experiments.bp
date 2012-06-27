@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SCtrl\S+\SClick\Son\Sit</comment>
+		<include depth="0" id="1">Iteration.txt</include>
+		<include depth="0" id="2">ExpressionHierarchy.txt</include>
+		<include depth="0" id="3">DataFlow.txt</include>
+		<include depth="0" id="4">MultiCalls.txt</include>
+		<include depth="0" id="5">Each.txt</include>
+		<include depth="0" id="6">Lambda.txt</include>
+	</code>
+</module>

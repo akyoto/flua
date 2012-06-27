@@ -1,0 +1,68 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Hello\nWorld</string>
+			<string id="flua_string_1">Hello\nWorld</string>
+			<string id="flua_string_2">Hello\nWorld</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SIn\Sbp\Syou\Scan\Shave\Smultiple\Siterators\Sfor\Sa\Sclass.</comment>
+		<comment>\SThe\Sdefault\Siterator\Scan\Sbe\Sused\Slike\Sthis:</comment>
+		<foreach depth="0" id="1">
+			<iterator>x</iterator>
+			<collection>flua_string_0</collection>
+			<code>
+				<call depth="1" id="2">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
+		<comment>\SIf\Syou\Sneed\Sthe\Sbyte\Svalues\Sof\Sthe\Sstring\Syou\Scan\Suse\Sthe\Sbyte\Sgenerator\S/\Siterator:</comment>
+		<foreach depth="0" id="3">
+			<iterator>x</iterator>
+			<collection>
+				<access>
+					<value>flua_string_1</value>
+					<value>bytes</value>
+				</access>
+			</collection>
+			<code>
+				<call depth="1" id="4">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
+		<comment>\SOr\Swe\Scould\Siterate\Sover\Sall\Slines\Sin\Sthe\Sstring\Sin\Sa\Svery\Sefficient\Sway:</comment>
+		<foreach depth="0" id="5">
+			<iterator>x</iterator>
+			<collection>
+				<access>
+					<value>flua_string_2</value>
+					<value>lines</value>
+				</access>
+			</collection>
+			<code>
+				<call depth="1" id="6">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
+		<comment>\SNote\Sthat\Snone\Sof\Sthese\Screate\Slists\Sor\Sother\Sdata\Sstructures\Sbehind\Sthe\Sscenes,</comment>
+		<comment>\Sthey\Swork\Slike\Sgenerators\Sand\Sif\Sthe\Sloop\Sstops\Searly\Syou\Swill\Snot\Shave\Screated</comment>
+		<comment>\Sunnecessary\Sobjects\Sbecause\Sthe\Sgenerator\Sstops\Sas\Swell.</comment>
+	</code>
+</module>

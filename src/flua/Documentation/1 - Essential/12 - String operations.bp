@@ -1,0 +1,181 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">This</string>
+			<string id="flua_string_1">\S</string>
+			<string id="flua_string_2">works!</string>
+			<string id="flua_string_3">a</string>
+			<string id="flua_string_4">abc</string>
+			<string id="flua_string_5">Yep!</string>
+			<string id="flua_string_6">The\Squick\Sbrown\Sbear\Sjumps\Sover\Sthe\Slazy\Sdog!</string>
+			<string id="flua_string_7">bear</string>
+			<string id="flua_string_8">fox</string>
+			<string id="flua_string_9">---</string>
+			<string id="flua_string_10">func1:\S</string>
+			<string id="flua_string_11">The\Squick\Sbrown\Sbear</string>
+			<string id="flua_string_12">Something</string>
+			<string id="flua_string_13">func2:\S</string>
+			<string id="flua_string_14">the\Slazy\Sdog</string>
+			<string id="flua_string_15">something</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SFor\Sconcatenation\Ssimply\Suse\Sthe\S'+'\Soperator</comment>
+		<call depth="0" id="1">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>
+							<add>
+								<value>flua_string_0</value>
+								<value>flua_string_1</value>
+							</add>
+						</value>
+						<value>flua_string_2</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\SIf\Syou\Swant\Sto\Scheck\Swhether\Sa\Sstring\Soccurs\Sin\Sanother\Sstring</comment>
+		<comment>\Suse\Sthe\S'in'\Skeyword:</comment>
+		<if-block depth="0" id="2">
+			<if>
+				<condition>
+					<exists-in>
+						<value>flua_string_3</value>
+						<value>flua_string_4</value>
+					</exists-in>
+				</condition>
+				<code>
+					<call depth="1" id="3">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_5</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<comment>\SReplacing\Sall\Soccurences\Sof\Sa\Sstring\Sin\Sanother\Sone:</comment>
+		<assign depth="0" id="4">
+			<value>myString</value>
+			<value>flua_string_6</value>
+		</assign>
+		<call depth="0" id="5">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<call>
+						<function>
+							<access>
+								<value>myString</value>
+								<value>replace</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>flua_string_7</parameter>
+							<parameter>flua_string_8</parameter>
+						</parameters>
+					</call>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\SJust\Sa\Sseparator\Sfor\Sthe\Sfollowing\Scalls</comment>
+		<call depth="0" id="6">
+			<function>print</function>
+			<parameters>
+				<parameter>flua_string_9</parameter>
+			</parameters>
+		</call>
+		<comment>\SNote\Sthat\Sstrings\Sare\Simmutable\Sand\Stherefore\Scan\Ssafely\Sbe\Saccessed\Sby</comment>
+		<comment>\Smultiple\Sthreads:</comment>
+		<function depth="0" id="7">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>func1</name>
+			<code>
+				<call depth="1" id="8">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_10</value>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>x</value>
+												<value>replace</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>flua_string_11</parameter>
+											<parameter>flua_string_12</parameter>
+										</parameters>
+									</call>
+								</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<function depth="0" id="9">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>func2</name>
+			<code>
+				<call depth="1" id="10">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_13</value>
+								<value>
+									<call>
+										<function>
+											<access>
+												<value>x</value>
+												<value>replace</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>flua_string_14</parameter>
+											<parameter>flua_string_15</parameter>
+										</parameters>
+									</call>
+								</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SCall\Sfunc1\Sand\Sfunc2\Sparallely</comment>
+		<parallel depth="0" id="11">
+			<code>
+				<call depth="1" id="12">
+					<function>func1</function>
+					<parameters>
+						<parameter>myString</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="13">
+					<function>func2</function>
+					<parameters>
+						<parameter>myString</parameter>
+					</parameters>
+				</call>
+			</code>
+		</parallel>
+	</code>
+</module>

@@ -1,0 +1,84 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">A\Smysterious\Sbeing\Skilled\Sme!</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SYou\Smight\Shave\Salready\Srealized\Sthat\Sthis\Sisn't\Sjust\Ssome\Splain\Stext\Seditor.</comment>
+		<comment>\SIn\Sreality\Severything\Syou\Ssee\Sis\SXML\S-\Syes,\Slook\Sin\Sthe\Smirror\S-\Syour\Sface,\Syour\Shair...everything\SXML.</comment>
+		<comment>\SMaybe\Snot\Sthat\Smuch,\Sbut\Sat\Sleast\Sthis\Seditor\Scontent\Syou\Ssee\Sis\Smade\Sout\Sof\SXML\Snodes.</comment>
+		<comment>\SYou\Scan\Senable\Sthe\S'XML'\Sview\Sin\Sthe\Smain\Smenu\Son\Sthe\Stop.</comment>
+		<comment>\SAt\Sleast\Sit\Sshould\Sbe\Son\Sthe\Stop\S-\Sunless\SCanonical\Sdecided\Sto\Stry\Sout\Ssome\Snew\Sand\Sweird\Smenu\Sinterface.</comment>
+		<comment>\SIn\Sany\Scase...meta\Sdata\Sis\Sall\Sthe\Sdata\S'between'\Sthe\Slines\Swhich\Syou\Scan't\Ssee\Sin\Stext\Sform.</comment>
+		<comment>\SYou\Smight\Ssee\Sit\Sin\Sthe\Sform\Sof\Sdifferent\Ssyntax\Shighlighting:</comment>
+		<extern depth="0" id="1">
+			<extern-function depth="1" id="2">
+				<name>bp_terribleSideEffectsFunction</name>
+				<meta/>
+			</extern-function>
+			<extern-function depth="1" id="3">
+				<name>bp_noSideEffectsFunction</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+				</meta>
+			</extern-function>
+			<extern-function depth="1" id="4">
+				<name>bp_referentiallyTransparentFunction</name>
+				<meta>
+					<no-side-effects>true</no-side-effects>
+					<same-output-for-input>true</same-output-for-input>
+				</meta>
+			</extern-function>
+		</extern>
+		<comment>\SIn\Sthe\Scurrent\Sversion\Sthis\Shighlighting\Sonly\Sworks\Sfor\Sextern\Sfunctions.</comment>
+		<comment>\SNow\Sclick\Son\Sthese,\Spress\SAlt\S+\SF\Sand\Scheck\Stheir\Smeta\Sdata.</comment>
+		<comment>\SExtern\Sfunctions\Sare\Sthe\S_only_\Sinterface\Sfrom\Sbp\Sto\Sthe\Soutside\Sworld.\STherefore\Sbp\Sneeds\Sto\Sknow</comment>
+		<comment>\Swhether\Sthese\Sfunctions\Sare\Sthread\Ssafe\Sand\S/\Sor\Sreferentially\Stransparent.</comment>
+		<comment>\SWe\Scan\Suse\Sthat\Smeta\Sdata\Sfor\Sall\Ssorts\Sof\Sinformation.</comment>
+		<comment>\SYou\Smight\Salready\Ssee\Sthat\Sthis\Sis\Sa\Sclass\Sdefinition...</comment>
+		<class depth="0" id="5">
+			<name>ClickOnMe</name>
+			<code>
+				<function depth="1" id="6">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="7"/>
+					</code>
+				</function>
+				<function depth="1" id="8">
+					<name>finalize</name>
+					<code>
+						<call depth="2" id="9">
+							<function>print</function>
+							<parameters>
+								<parameter>flua_string_0</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SIt\Sincludes\Sthe\Smeta\Sdata\Sof\Swhether\Sthe\SGarbage\SCollector\Sneeds\Sto\Sregister\Sits\Sdestructor\Sas\Sa\Sfinalizer.</comment>
+		<comment>\SMeta\Sdata\Smakes\Sthe\Slanguage\Smore\Sclean\Sin\Smy\Sopinion\Sbecause\Sinformation\Swhich\Srarely\Sneeds\Sto\Sbe</comment>
+		<comment>\Sedited\Sis\Shidden\Sfrom\Sthe\Sview\Suntil\Syou\Sneed\Sit\S/\Sclick\Son\Sit.</comment>
+		<comment>\SWe\Scould\Salso\Ssave\Sseveral\Sforms\Sof\Sdocumentation\Sfor\Sany\Sinstruction,\Sclass\Sor\Sfunction.</comment>
+		<comment>\SIn\Sfact\Sfunctions\Salready\Shave\Sa\Sgood\Samount\Sof\Smeta\Sdata:</comment>
+		<function depth="0" id="10">
+			<name>clickOnMe</name>
+			<code>
+				<return depth="1" id="11">42</return>
+			</code>
+		</function>
+		<comment>\SThey\Saren't\Sfully\Sworking\Sin\Sthe\Scurrent\Sversion,\Sthough.</comment>
+		<comment>\SAfter\Sediting\Sthe\Smeta\Sdata\Sthe\Sdocument\Sgets\Smodified\Sand\Stherefore\Syou\Sneed\Sto\Ssave\Syour\Schanges.</comment>
+		<comment>\SDo\Syou\Shave\Ssome\Sawesome\Sideas\Sabout\Swhat\Stypes\Sof\Smeta\Sdata\Sone\Scould\Sstore\Sin\San\Sinstruction?</comment>
+		<comment>\SLet\Sme\Sknow\Sabout\Syour\Sideas\Sand\Smaybe\Sit\Swill\Sbe\Simplemented!</comment>
+	</code>
+</module>

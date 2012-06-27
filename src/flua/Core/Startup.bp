@@ -1,0 +1,19 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SThis\Sfile\Sincludes\Severything\Sthat\Sis\Sneeded\Sat\Sthe\Sstart</comment>
+		<comment>\Sof\Sa\Sflua\Sprogram.</comment>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">Startup.hpp</include>
+			</code>
+		</target>
+	</code>
+</module>

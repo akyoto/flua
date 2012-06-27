@@ -1,0 +1,206 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Generics\Sare\Sworking!</string>
+			<string id="flua_string_1">Generics\Sare\Struly\Sworking!</string>
+			<string id="flua_string_2">Generics\Sare\Sperfectly\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="0">
+			<value>sample</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>ElementHolder</value>
+							<value>Int</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="1">
+			<value>
+				<access>
+					<value>sample</value>
+					<value>value</value>
+				</access>
+			</value>
+			<value>5</value>
+		</assign>
+		<assign depth="0" id="2">
+			<value>wrapper</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>ElementHolder</value>
+							<value>
+								<template-call>
+									<value>ElementHolder</value>
+									<value>Int</value>
+								</template-call>
+							</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>
+				<access>
+					<value>wrapper</value>
+					<value>value</value>
+				</access>
+			</value>
+			<value>sample</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>inst</value>
+			<value>
+				<access>
+					<value>wrapper</value>
+					<value>value</value>
+				</access>
+			</value>
+		</assign>
+		<assign depth="0" id="5">
+			<value>
+				<access>
+					<value>sample</value>
+					<value>value</value>
+				</access>
+			</value>
+			<value>7</value>
+		</assign>
+		<if-block depth="0" id="6">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<access>
+								<value>inst</value>
+								<value>value</value>
+							</access>
+						</value>
+						<value>7</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="7">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="8">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<access>
+								<value>wrapper</value>
+								<value>value</value>
+							</access>
+						</value>
+						<value>sample</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="9">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="10">
+			<if>
+				<condition>
+					<equal>
+						<value>wrapper</value>
+						<value>wrapper</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="11">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_2</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<class depth="0" id="12">
+			<name>ElementHolder</name>
+			<code>
+				<template depth="1" id="13">
+					<parameter depth="2" id="14">TDataType</parameter>
+				</template>
+				<function depth="1" id="15">
+					<name>init</name>
+					<code>
+						<declare-type depth="2" id="16">
+							<value>
+								<access>
+									<value>my</value>
+									<value>value</value>
+								</access>
+							</value>
+							<value>TDataType</value>
+						</declare-type>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="17">
+					<getter depth="2" id="18">
+						<name>value</name>
+						<code>
+							<return depth="3" id="19">
+								<access>
+									<value>my</value>
+									<value>value</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+				<set depth="1" id="20">
+					<setter depth="2" id="21">
+						<parameters>
+							<parameter>element</parameter>
+						</parameters>
+						<name>value</name>
+						<code>
+							<assign depth="3" id="22">
+								<value>
+									<access>
+										<value>my</value>
+										<value>value</value>
+									</access>
+								</value>
+								<value>element</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+				</set>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

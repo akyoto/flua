@@ -1,0 +1,145 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Collection.Map</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">url</string>
+			<string id="flua_string_1">google.com</string>
+			<string id="flua_string_2">desc</string>
+			<string id="flua_string_3">Search\Sengine</string>
+			<string id="flua_string_4">url</string>
+			<string id="flua_string_5">desc</string>
+			<string id="flua_string_6">url</string>
+			<string id="flua_string_7">google.com</string>
+			<string id="flua_string_8">desc</string>
+			<string id="flua_string_9">Search\Sengine</string>
+			<string id="flua_string_10">Not\Sworking.</string>
+			<string id="flua_string_11">HashMap\Sworking!</string>
+			<string id="flua_string_12">HashMap\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="1">
+			<value>website</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Map</value>
+							<value>String</value>
+						</template-call>
+					</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="2">
+			<value>
+				<index>
+					<value>website</value>
+					<value>flua_string_0</value>
+				</index>
+			</value>
+			<value>flua_string_1</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>
+				<index>
+					<value>website</value>
+					<value>flua_string_2</value>
+				</index>
+			</value>
+			<value>flua_string_3</value>
+		</assign>
+		<try-block depth="0" id="4">
+			<try>
+				<code>
+					<assign depth="1" id="5">
+						<value>url</value>
+						<value>
+							<index>
+								<value>website</value>
+								<value>flua_string_4</value>
+							</index>
+						</value>
+					</assign>
+					<assign depth="1" id="6">
+						<value>desc</value>
+						<value>
+							<index>
+								<value>website</value>
+								<value>flua_string_5</value>
+							</index>
+						</value>
+					</assign>
+					<if-block depth="1" id="7">
+						<if>
+							<condition>
+								<or>
+									<value>
+										<not-equal>
+											<value>
+												<index>
+													<value>website</value>
+													<value>flua_string_6</value>
+												</index>
+											</value>
+											<value>flua_string_7</value>
+										</not-equal>
+									</value>
+									<value>
+										<not-equal>
+											<value>
+												<index>
+													<value>website</value>
+													<value>flua_string_8</value>
+												</index>
+											</value>
+											<value>flua_string_9</value>
+										</not-equal>
+									</value>
+								</or>
+							</condition>
+							<code>
+								<throw depth="2" id="8">flua_string_10</throw>
+							</code>
+						</if>
+						<else depth="1" id="9">
+							<code>
+								<call depth="2" id="10">
+									<function>print</function>
+									<parameters>
+										<parameter>flua_string_11</parameter>
+									</parameters>
+								</call>
+							</code>
+						</else>
+					</if-block>
+					<comment>\SMake\SGCC\Shappy.</comment>
+					<assign depth="1" id="11">
+						<value>url</value>
+						<value>desc</value>
+					</assign>
+					<assign depth="1" id="12">
+						<value>desc</value>
+						<value>url</value>
+					</assign>
+				</code>
+			</try>
+			<catch depth="0" id="13">
+				<variable/>
+				<code>
+					<call depth="1" id="14">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_12</parameter>
+						</parameters>
+					</call>
+				</code>
+			</catch>
+		</try-block>
+	</code>
+</module>

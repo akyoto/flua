@@ -1,0 +1,35 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">I\Sam\S</string>
+			<string id="flua_string_1">\Syears\Sold.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SLet's\Sget\Ssome\SPHP\Sfeeling\S(wait,\Sthat\Slanguage\Sactually\SDID\Ssomething\Sright?!)</comment>
+		<assign depth="0" id="1">
+			<value>age</value>
+			<value>20</value>
+		</assign>
+		<call depth="0" id="2">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>
+							<add>
+								<value>flua_string_0</value>
+								<value>age</value>
+							</add>
+						</value>
+						<value>flua_string_1</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

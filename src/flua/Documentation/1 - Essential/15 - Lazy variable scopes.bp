@@ -1,0 +1,50 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SNotice\Sthat\S'x'\Sin\Sthis\Sfunction\Sis\Snot\Sdefined\Sin\Sthe\Sfunction\Sscope.</comment>
+		<comment>\SHowever\S'print\Sa'\Scan\Sstill\Saccess\Sthe\Svariable\Sbecause\Sthe\Scompiler</comment>
+		<comment>\Splaces\Sthe\Sdeclaration\Sof\S'x'\Sat\Sthe\Sbeginning\Sof\Sthe\Sfunction\Swhen\Snecessary.</comment>
+		<function depth="0" id="1">
+			<name>func</name>
+			<code>
+				<if-block depth="1" id="2">
+					<if>
+						<condition>1</condition>
+						<code>
+							<assign depth="2" id="3">
+								<value>x</value>
+								<value>5</value>
+							</assign>
+						</code>
+					</if>
+					<else depth="1" id="4">
+						<code>
+							<assign depth="2" id="5">
+								<value>x</value>
+								<value>7</value>
+							</assign>
+						</code>
+					</else>
+				</if-block>
+				<call depth="1" id="6">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SCall\Sit</comment>
+		<call depth="0" id="7">
+			<function>func</function>
+			<parameters/>
+		</call>
+	</code>
+</module>

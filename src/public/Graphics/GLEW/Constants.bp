@@ -2,7 +2,7 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
+			<import>flua.Core</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -330,7 +330,7 @@
 					<type>Int</type>
 				</extern-variable>
 				<extern-variable depth="2" id="83">
-					<name>GLEW_ARB_texture_compression_bptc</name>
+					<name>GLEW_ARB_texture_compression_flua.c</name>
 					<type>Int</type>
 				</extern-variable>
 				<extern-variable depth="2" id="84">

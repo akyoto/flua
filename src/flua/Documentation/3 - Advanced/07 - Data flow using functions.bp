@@ -1,0 +1,69 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SLet's\Sdefine\Sa\Sfunction:</comment>
+		<function depth="0" id="1">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>sum</name>
+			<code>
+				<return depth="1" id="2">
+					<add>
+						<value>a</value>
+						<value>b</value>
+					</add>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\S...and\Sa\Ssimple\Sreceiver\Sfor\Sthe\Sdata:</comment>
+		<function depth="0" id="3">
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+			<name>receive</name>
+			<code>
+				<call depth="1" id="4">
+					<function>print</function>
+					<parameters>
+						<parameter>a</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SActivate\Sthe\Sdata\Sflow\Sso\Sthat\Sthe\Sreturn\Svalue\Sof\S#sum</comment>
+		<comment>\Sis\Sgiven\Sto\Sthe\Sreceive\Sfunction\Seach\Stime\S#sum\Sis\Scalled:</comment>
+		<flow-to depth="0" id="5">
+			<value>sum</value>
+			<value>receive</value>
+		</flow-to>
+		<comment>\SExecute\Sit</comment>
+		<parallel depth="0" id="6">
+			<code>
+				<call depth="1" id="7">
+					<function>sum</function>
+					<parameters>
+						<parameter>10</parameter>
+						<parameter>10</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="8">
+					<function>sum</function>
+					<parameters>
+						<parameter>17</parameter>
+						<parameter>17</parameter>
+					</parameters>
+				</call>
+			</code>
+		</parallel>
+	</code>
+</module>

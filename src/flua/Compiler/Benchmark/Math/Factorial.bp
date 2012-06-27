@@ -1,0 +1,63 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math.Utils</import>
+			<import>flua.Utils</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Math.Factorial</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchFactorial</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>
+						<declare-type>
+							<value>resFact</value>
+							<value>BigInt</value>
+						</declare-type>
+					</value>
+					<value>0</value>
+				</assign>
+				<comment>\SA\Svalue\Saround\S50000\Swould\Smake\Sit\Scrash</comment>
+				<assign depth="1" id="3">
+					<value>
+						<declare-type>
+							<value>bigA</value>
+							<value>BigInt</value>
+						</declare-type>
+					</value>
+					<value>50000</value>
+				</assign>
+				<in depth="1" id="4">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>flua_string_0</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<assign depth="2" id="5">
+							<value>resFact</value>
+							<value>
+								<call>
+									<function>factorial</function>
+									<parameters>
+										<parameter>bigA</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</in>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

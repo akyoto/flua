@@ -1,0 +1,101 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SFlua\Ssupports\SEiffel-like\Scontracts\Swith\Sthe\Saddition\Sthat</comment>
+		<comment>\Syou\Scan\Senable\S/\Sdisable\Sthese\Schecks\Son\Sa\Sper-module\Sbasis.</comment>
+		<comment>\SSome\Smodules\Sneed\Sthese\Scorrectness\Schecks\Swhile\Sother\Smodules</comment>
+		<comment>\Sprefer\Sto\Shave\Smore\Sspeed\Sinstead\Sby\Sremoving\Sthese\Schecks.</comment>
+		<comment>\SCurrently\Sthere\Sis\Sno\S&quot;Run\Sunit\Stest&quot;\Sfunction\Sbut</comment>
+		<comment>\Syou\Scan\Sspecify\Scontracts\Sand\Stests\Sfor\Sfunctions.</comment>
+		<comment>\SConsider\Sthis\Swrapper\Sfor\Sthe\Ssquare\Sroot\Sfunction:</comment>
+		<function depth="0" id="1">
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+			<name>func</name>
+			<code>
+				<ensure depth="1" id="2">
+					<greater-or-equal depth="2" id="3">
+						<value>result</value>
+						<value>0</value>
+					</greater-or-equal>
+				</ensure>
+				<require depth="1" id="4">
+					<greater-or-equal depth="2" id="5">
+						<value>a</value>
+						<value>0</value>
+					</greater-or-equal>
+				</require>
+				<test depth="1" id="6">
+					<code>
+						<assert depth="2" id="7">
+							<equal>
+								<value>
+									<call>
+										<function>func</function>
+										<parameters>
+											<parameter>9</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>3</value>
+							</equal>
+						</assert>
+					</code>
+				</test>
+				<return depth="1" id="8">
+					<call>
+						<function>sqr</function>
+						<parameters>
+							<parameter>a</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SWithout\Sall\Sthe\Scontracts\Sand\Stests\Sit\Swould\Slook\Slike\Sthat:</comment>
+		<function depth="0" id="9">
+			<parameters>
+				<parameter>a</parameter>
+			</parameters>
+			<name>funcNoContracts</name>
+			<code>
+				<return depth="1" id="10">
+					<call>
+						<function>sqr</function>
+						<parameters>
+							<parameter>a</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SA\S&quot;Run\Smodule\Stest&quot;\Swould\Stry\Sto\Sexecute\Sthis:</comment>
+		<assert depth="0" id="11">
+			<equal>
+				<value>
+					<call>
+						<function>func</function>
+						<parameters>
+							<parameter>9</parameter>
+						</parameters>
+					</call>
+				</value>
+				<value>3</value>
+			</equal>
+		</assert>
+		<comment>\SIt\Sis\Sa\Sgood\Spractice\Sto\Swrite\Sthese\Swhen\Sdeveloping</comment>
+		<comment>\Sfunctions\Sbecause\Sfunction\Stests\Sand\Scontracts\Scan\Sbe\Spart</comment>
+		<comment>\Sof\Sthe\Sdocumentation.\STests\Soften\Shelp\Sother\Speople\Sto\Sunderstand\Show</comment>
+		<comment>\Sa\Sfunction\Sis\Ssupposed\Sto\Swork.</comment>
+	</code>
+</module>

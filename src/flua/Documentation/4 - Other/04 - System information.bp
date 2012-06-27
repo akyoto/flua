@@ -1,0 +1,32 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Concurrency</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Processors:\S</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SC++\Sbuilds\Scan\Saccess\Scertain\Sinformation\Sabout\Sthe\Ssystem.</comment>
+		<comment>\SThe\SJavaScript\Simplementation\Ssimply\Sreturns\Sa\Sdefault\Snumber\Sfor\Sthese\Sfunctions\S(e.g.\S0\Sor\S1)</comment>
+		<call depth="0" id="1">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<add>
+						<value>flua_string_0</value>
+						<value>
+							<call>
+								<function>getCPUCount</function>
+								<parameters/>
+							</call>
+						</value>
+					</add>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

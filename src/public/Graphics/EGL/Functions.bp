@@ -2,7 +2,7 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
+			<import>flua.Core</import>
 		</dependencies>
 		<strings/>
 	</header>

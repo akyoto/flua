@@ -1,0 +1,111 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math.Utils</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">BigInt\Sworking!</string>
+			<string id="flua_string_1">BigInt\Snot\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="1">
+			<value>
+				<declare-type>
+					<value>bigA</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>20</value>
+		</assign>
+		<assign depth="0" id="2">
+			<value>
+				<declare-type>
+					<value>smallB</value>
+					<value>Int32</value>
+				</declare-type>
+			</value>
+			<value>
+				<multiply>
+					<value>bigA</value>
+					<value>5</value>
+				</multiply>
+			</value>
+		</assign>
+		<assign depth="0" id="3">
+			<value>smallB</value>
+			<value>
+				<add>
+					<value>
+						<multiply>
+							<value>bigA</value>
+							<value>4</value>
+						</multiply>
+					</value>
+					<value>bigA</value>
+				</add>
+			</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>
+				<declare-type>
+					<value>resultA</value>
+					<value>BigInt</value>
+				</declare-type>
+			</value>
+			<value>2432902008176640000</value>
+		</assign>
+		<if-block depth="0" id="5">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>factorial</function>
+										<parameters>
+											<parameter>bigA</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>resultA</value>
+							</equal>
+						</value>
+						<value>
+							<equal>
+								<value>
+									<multiply>
+										<value>bigA</value>
+										<value>5</value>
+									</multiply>
+								</value>
+								<value>smallB</value>
+							</equal>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<call depth="1" id="6">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="7">
+				<code>
+					<call depth="1" id="8">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

@@ -1,0 +1,166 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Math.Geometry</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">\E</string>
+			<string id="flua_string_1">,\S</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>Point</name>
+			<code>
+				<template depth="1" id="2">
+					<parameter depth="2" id="3">
+						<name>TX</name>
+						<default-value>Float</default-value>
+					</parameter>
+					<parameter depth="2" id="4">
+						<name>TY</name>
+						<default-value>Float</default-value>
+					</parameter>
+				</template>
+				<function depth="1" id="5">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>TX</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>TY</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="6"/>
+					</code>
+				</function>
+				<function depth="1" id="7">
+					<parameters>
+						<parameter>offX</parameter>
+						<parameter>offY</parameter>
+					</parameters>
+					<name>move</name>
+					<code>
+						<assign-add depth="2" id="8">
+							<value>
+								<access>
+									<value>my</value>
+									<value>x</value>
+								</access>
+							</value>
+							<value>offX</value>
+						</assign-add>
+						<assign-add depth="2" id="9">
+							<value>
+								<access>
+									<value>my</value>
+									<value>y</value>
+								</access>
+							</value>
+							<value>offY</value>
+						</assign-add>
+					</code>
+				</function>
+				<function depth="1" id="10">
+					<parameters>
+						<parameter>point</parameter>
+					</parameters>
+					<name>distanceTo</name>
+					<code>
+						<return depth="2" id="11">
+							<call>
+								<function>distance</function>
+								<parameters>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>x</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>my</value>
+											<value>y</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>point</value>
+											<value>x</value>
+										</access>
+									</parameter>
+									<parameter>
+										<access>
+											<value>point</value>
+											<value>y</value>
+										</access>
+									</parameter>
+								</parameters>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="12">
+					<public-member depth="2" id="13">x</public-member>
+					<public-member depth="2" id="14">y</public-member>
+				</public>
+				<casts depth="1" id="15">
+					<cast-definition depth="2" id="16">
+						<to>String</to>
+						<code>
+							<comment>\STODO:\SImplement\SInt\S-&gt;\SString\Sautocast</comment>
+							<return depth="3" id="17">
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>flua_string_0</value>
+													<value>
+														<access>
+															<value>my</value>
+															<value>x</value>
+														</access>
+													</value>
+												</add>
+											</value>
+											<value>flua_string_1</value>
+										</add>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>y</value>
+										</access>
+									</value>
+								</add>
+							</return>
+						</code>
+					</cast-definition>
+				</casts>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

@@ -1,0 +1,71 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">10\S+\S10\Sis\S50!</string>
+			<string id="flua_string_1">10\S+\S10\Sis\S20!</string>
+			<string id="flua_string_2">10\S+\S10\Sis\Ssomething\Selse!</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SAn\Sif\S/\Selif\S/\Selse\Sblock\Scan\Sbe\Sbuilt\Slike\Sthat:</comment>
+		<if-block depth="0" id="1">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<add>
+								<value>10</value>
+								<value>10</value>
+							</add>
+						</value>
+						<value>50</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="2">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else-if depth="0" id="3">
+				<condition>
+					<equal>
+						<value>
+							<add>
+								<value>10</value>
+								<value>10</value>
+							</add>
+						</value>
+						<value>20</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="4">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else-if>
+			<else depth="0" id="5">
+				<code>
+					<call depth="1" id="6">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_2</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+		<comment>\SPress\SF5\Sto\Srun\Sthis.</comment>
+	</code>
+</module>

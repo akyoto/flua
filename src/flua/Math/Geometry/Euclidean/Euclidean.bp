@@ -1,0 +1,13 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>Point</import>
+			<import>Circle</import>
+			<import>Vector3</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

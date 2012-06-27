@@ -2,16 +2,16 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
-			<import>bp.Math</import>
-			<import>bp.Math.Geometry</import>
-			<import>bp.Math.Utils</import>
-			<import>bp.FileSystem</import>
-			<import>bp.DateTime</import>
-			<import>bp.Collection</import>
-			<import>bp.Concurrency</import>
-			<import>bp.Utils</import>
-			<import>bp.Graphics</import>
+			<import>flua.Core</import>
+			<import>flua.Math</import>
+			<import>flua.Math.Geometry</import>
+			<import>flua.Math.Utils</import>
+			<import>flua.FileSystem</import>
+			<import>flua.DateTime</import>
+			<import>flua.Collection</import>
+			<import>flua.Concurrency</import>
+			<import>flua.Utils</import>
+			<import>flua.Graphics</import>
 		</dependencies>
 		<strings/>
 	</header>

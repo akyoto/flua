@@ -1,0 +1,44 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SBase\Sexception\Sclass</comment>
+		<class depth="0" id="1">
+			<name>Exception</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="3"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SDividing\Sa\Svalue\Sby\Szero\Scauses\Sthis\Sexception\Sto\Sbe\Sthrown</comment>
+		<class depth="0" id="4">
+			<name>DivisionByZeroException</name>
+			<code>
+				<extends depth="1" id="5">
+					<extends-class depth="2" id="6">Exception</extends-class>
+				</extends>
+				<function depth="1" id="7">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="8"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta>
+				<force-implementation>true</force-implementation>
+			</meta>
+		</class>
+	</code>
+</module>

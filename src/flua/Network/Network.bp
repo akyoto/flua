@@ -1,0 +1,193 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>Exceptions</import>
+			<import>IP</import>
+			<import>Port</import>
+			<import>TCPStream</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">blitzprog.org</string>
+			<string id="flua_string_1">Could\Snot\Sresolve\S</string>
+		</strings>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">Network.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="3">
+			<namespace depth="1" id="4">
+				<name>flua</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>getHostIP</name>
+						<type>IPInfo</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+				</code>
+			</namespace>
+			<comment>\SExternally\Sdefined\SIPInfo</comment>
+			<class depth="1" id="6">
+				<name>IPInfo</name>
+				<code>
+					<function depth="2" id="7">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="8"/>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="9">
+						<name>createTCPSocket</name>
+						<code>
+							<declare-type depth="3" id="10">
+								<value>decl</value>
+								<value>Int</value>
+							</declare-type>
+							<return depth="3" id="11">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="12">
+						<name>createUDPSocket</name>
+						<code>
+							<declare-type depth="3" id="13">
+								<value>decl</value>
+								<value>Int</value>
+							</declare-type>
+							<return depth="3" id="14">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<function depth="2" id="15">
+						<parameters>
+							<parameter>sock</parameter>
+							<parameter>port</parameter>
+						</parameters>
+						<name>connect</name>
+						<code>
+							<declare-type depth="3" id="16">
+								<value>decl</value>
+								<value>Bool</value>
+							</declare-type>
+							<return depth="3" id="17">decl</return>
+						</code>
+						<meta/>
+					</function>
+					<casts depth="2" id="18">
+						<cast-definition depth="3" id="19">
+							<to>String</to>
+							<code>
+								<declare-type depth="4" id="20">
+									<value>decl</value>
+									<value>String</value>
+								</declare-type>
+								<return depth="4" id="21">decl</return>
+							</code>
+							<meta/>
+						</cast-definition>
+					</casts>
+				</code>
+				<meta/>
+			</class>
+		</extern>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="22">
+			<code>
+				<try-block depth="1" id="23">
+					<try>
+						<code>
+							<assign depth="2" id="24">
+								<value>ip</value>
+								<value>
+									<new>
+										<type>IP</type>
+										<parameters>
+											<parameter>flua_string_0</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<call depth="2" id="25">
+								<function>
+									<access>
+										<value>ip</value>
+										<value>print</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+							<assign depth="2" id="26">
+								<value>stream</value>
+								<value>
+									<new>
+										<type>TCPStream</type>
+										<parameters>
+											<parameter>ip</parameter>
+											<parameter>
+												<access>
+													<value>Port</value>
+													<value>HTTP</value>
+												</access>
+											</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<call depth="2" id="27">
+								<function>print</function>
+								<parameters>
+									<parameter>
+										<call>
+											<function>
+												<access>
+													<value>stream</value>
+													<value>connect</value>
+												</access>
+											</function>
+											<parameters/>
+										</call>
+									</parameter>
+								</parameters>
+							</call>
+						</code>
+					</try>
+					<catch depth="1" id="28">
+						<variable>
+							<declare-type>
+								<value>e</value>
+								<value>ResolveHostIPException</value>
+							</declare-type>
+						</variable>
+						<code>
+							<call depth="2" id="29">
+								<function>print</function>
+								<parameters>
+									<parameter>
+										<add>
+											<value>flua_string_1</value>
+											<value>
+												<access>
+													<value>e</value>
+													<value>hostName</value>
+												</access>
+											</value>
+										</add>
+									</parameter>
+								</parameters>
+							</call>
+						</code>
+					</catch>
+				</try-block>
+			</code>
+		</test>
+	</code>
+</module>

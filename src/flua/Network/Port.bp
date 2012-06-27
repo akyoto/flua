@@ -1,0 +1,91 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SUsage:\SPort.FTP</comment>
+		<namespace depth="0" id="1">
+			<name>Port</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>Echo</value>
+					<value>7</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>FTPData</value>
+					<value>20</value>
+				</assign>
+				<assign depth="1" id="4">
+					<value>FTP</value>
+					<value>21</value>
+				</assign>
+				<assign depth="1" id="5">
+					<value>SSH</value>
+					<value>22</value>
+				</assign>
+				<assign depth="1" id="6">
+					<value>Telnet</value>
+					<value>23</value>
+				</assign>
+				<assign depth="1" id="7">
+					<value>SMTP</value>
+					<value>25</value>
+				</assign>
+				<assign depth="1" id="8">
+					<value>ESMTP</value>
+					<value>25</value>
+				</assign>
+				<assign depth="1" id="9">
+					<value>Nameserver</value>
+					<value>42</value>
+				</assign>
+				<assign depth="1" id="10">
+					<value>Whois</value>
+					<value>43</value>
+				</assign>
+				<assign depth="1" id="11">
+					<value>HTTP</value>
+					<value>80</value>
+				</assign>
+				<assign depth="1" id="12">
+					<value>HTTPS</value>
+					<value>443</value>
+				</assign>
+				<assign depth="1" id="13">
+					<value>MySQL</value>
+					<value>3306</value>
+				</assign>
+			</code>
+		</namespace>
+		<test depth="0" id="14">
+			<code>
+				<call depth="1" id="15">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>Port</value>
+								<value>Echo</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="16">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<access>
+								<value>Port</value>
+								<value>FTP</value>
+							</access>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</test>
+	</code>
+</module>

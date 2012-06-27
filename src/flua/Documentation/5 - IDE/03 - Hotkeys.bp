@@ -1,0 +1,16 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SHotkey\Ssummary:</comment>
+		<comment>\S\S*\SAutoComplete\S[Ctrl\S+\SSpace]</comment>
+		<comment>\S\S*\SModule\Sbrowser\S[Alt\S+\SA]</comment>
+		<comment>\S\S*\SConsole\S[Alt\S+\SS]</comment>
+		<comment>\S\S*\SOpen\Sa\Shovered\Sinclude\Sfile\S[Ctrl\S+\SLeft\Smouse\Sbutton]</comment>
+	</code>
+</module>

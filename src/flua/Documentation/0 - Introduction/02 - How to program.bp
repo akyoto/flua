@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SThis\Sdocumentation\Sdoes\Snot\Seach\Syou\Show\Sto\Sprogram.</comment>
+		<comment>\SIf\Syou\Shave\Snever\Sprogrammed\Sbefore\Syou\Sshould\Slearn</comment>
+		<comment>\Sit\Sfirst.\SFlua\Sis\Sperfectly\Ssuited\Sas\Sa\Sfirst\Slanguage,</comment>
+		<comment>\Showever\SI\Sdo\Snot\Shave\Sthe\Stime\Sto\Swrite\Sa\Sguide\Sfor</comment>
+		<comment>\Snon-programmers.\SMaybe\Sthere\Sis\Ssome\Sperson\Sout\Sthere</comment>
+		<comment>\Swho\Swrote\Sone,\Swho\Sknows.</comment>
+	</code>
+</module>

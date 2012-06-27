@@ -1,0 +1,61 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">Utils.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="3">
+			<namespace depth="1" id="4">
+				<name>flua</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>getCPUCount</name>
+						<type>Size</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>atomicAdd</name>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>atomicSetFlag</name>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
+		</extern>
+		<comment>\SReturns\Sthe\Snumber\Sof\Sactive\Sprocessor\Scores</comment>
+		<function depth="0" id="8">
+			<name>getCPUCount</name>
+			<code>
+				<return depth="1" id="9">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getCPUCount</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

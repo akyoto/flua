@@ -1,0 +1,36 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">a</string>
+			<string id="flua_string_1">abc</string>
+			<string id="flua_string_2">Okay.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SAs\Sbp\Sis\Spurely\Sbased\Son\SXML\Scode\S(basically\San\Sabstract\Ssyntax\Stree)</comment>
+		<comment>\Syou\Scan\Sswitch\Sthe\Ssyntax\Sof\Sthe\Seditor\Sto\Sone\Syou\Slike\Swriting\Sor\Sreading\Sin.</comment>
+		<comment>\SI\Spersonally\Slike\S&quot;C++\SLight&quot;\Sfor\Sreading\Swhile\SI\Slove\Swriting\Sin\SFlua\SSyntax.</comment>
+		<if-block depth="0" id="1">
+			<if>
+				<condition>
+					<exists-in>
+						<value>flua_string_0</value>
+						<value>flua_string_1</value>
+					</exists-in>
+				</condition>
+				<code>
+					<call depth="1" id="2">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_2</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+	</code>
+</module>

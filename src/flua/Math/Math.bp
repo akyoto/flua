@@ -1,0 +1,317 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>Constants</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="1">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="2">Math.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="3">
+			<namespace depth="1" id="4">
+				<name>flua</name>
+				<code>
+					<extern-function depth="2" id="5">
+						<name>log</name>
+						<type>Float64</type>
+						<meta>
+							<referentially-transparent>true</referentially-transparent>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="6">
+						<name>log10</name>
+						<type>Float64</type>
+						<meta>
+							<referentially-transparent>true</referentially-transparent>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="7">
+						<name>sqrt</name>
+						<type>Float64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>floor</name>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="9">
+						<name>ceil</name>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="10">
+						<name>exp</name>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="11">
+						<name>isNan</name>
+						<type>Bool</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="12">
+						<name>isInf</name>
+						<type>Bool</type>
+						<meta>
+							<same-output-for-input>true</same-output-for-input>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="13">
+						<name>rand</name>
+						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
+						</meta>
+					</extern-function>
+				</code>
+			</namespace>
+		</extern>
+		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
+		<function depth="0" id="14">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>sq</name>
+			<code>
+				<return depth="1" id="15">
+					<multiply>
+						<value>x</value>
+						<value>x</value>
+					</multiply>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
+		<function depth="0" id="16">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>sqr</name>
+			<code>
+				<require depth="1" id="17">
+					<greater-or-equal depth="2" id="18">
+						<value>x</value>
+						<value>0</value>
+					</greater-or-equal>
+				</require>
+				<return depth="1" id="19">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>sqrt</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sln\Sof\S#x</comment>
+		<function depth="0" id="20">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>ln</name>
+			<code>
+				<return depth="1" id="21">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>log</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Slg\Sof\S#x</comment>
+		<function depth="0" id="22">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>lg</name>
+			<code>
+				<return depth="1" id="23">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>log10</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Sabsolute\Svalue\Sof\S#x\S(positive)</comment>
+		<function depth="0" id="24">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>abs</name>
+			<code>
+				<if-block depth="1" id="25">
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>x</value>
+								<value>0</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<return depth="2" id="26">x</return>
+						</code>
+					</if>
+					<else depth="1" id="27">
+						<code>
+							<return depth="2" id="28">
+								<negative>
+									<value>x</value>
+								</negative>
+							</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
+		<function depth="0" id="29">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>a</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+				<parameter>
+					<declare-type>
+						<value>b</value>
+						<value>Int</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>rand</name>
+			<code>
+				<ensure depth="1" id="30">
+					<greater-or-equal depth="2" id="31">
+						<value>result</value>
+						<value>a</value>
+					</greater-or-equal>
+					<less-or-equal depth="2" id="32">
+						<value>result</value>
+						<value>b</value>
+					</less-or-equal>
+				</ensure>
+				<return depth="1" id="33">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>rand</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>a</parameter>
+							<parameter>b</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
+		<function depth="0" id="34">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>min</name>
+			<code>
+				<if-block depth="1" id="35">
+					<if>
+						<condition>
+							<less>
+								<value>a</value>
+								<value>b</value>
+							</less>
+						</condition>
+						<code>
+							<return depth="2" id="36">a</return>
+						</code>
+					</if>
+					<else depth="1" id="37">
+						<code>
+							<return depth="2" id="38">b</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
+		<function depth="0" id="39">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>max</name>
+			<code>
+				<if-block depth="1" id="40">
+					<if>
+						<condition>
+							<greater>
+								<value>a</value>
+								<value>b</value>
+							</greater>
+						</condition>
+						<code>
+							<return depth="2" id="41">a</return>
+						</code>
+					</if>
+					<else depth="1" id="42">
+						<code>
+							<return depth="2" id="43">b</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+		</function>
+	</code>
+</module>

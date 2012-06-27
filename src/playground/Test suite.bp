@@ -2,8 +2,8 @@
 	<header>
 		<title/>
 		<dependencies>
-			<import>bp.Core</import>
-			<import>bp.Compiler.Test</import>
+			<import>flua.Core</import>
+			<import>flua.Compiler.Test</import>
 		</dependencies>
 		<strings/>
 	</header>

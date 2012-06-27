@@ -1,0 +1,25 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SYou\Smight\Shave\Sseen\Sthis\Sbefore:</comment>
+		<noop depth="0" id="1"/>
+		<comment>\SIt\Smeans\Sthat\Syou\Sare\Sso\Sshocked\Syou\Scan't\Seven\Scode\Sanymore.</comment>
+		<comment>\SAlmost.</comment>
+		<comment>\SIt's\Sjust\Sa\Sno-op\Soperation\Swhich\Sdoes...nothing.</comment>
+		<comment>\SYou\Scan\Suse\Sit\Sto\Screate\San\Sempty\Sfunction\Sor\Smethod\Sbecause\Sthese\Sneed\San\Sindented\Sblock:</comment>
+		<function depth="0" id="2">
+			<name>iNothing</name>
+			<code>
+				<noop depth="1" id="3"/>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SAlternatively\Syou\Scan\Sbuy\San\SiNothing\Sfor\S12,95\S€\Sat\Smy\Swebsite:\Shttp://apple.com</comment>
+	</code>
+</module>

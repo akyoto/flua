@@ -1,10 +1,10 @@
-bp
+Flua
 ====================
 
 General info
 ---------------------
 
-blitzprog (short: bp) is a general purpose programming language (or environment, if you like).
+Flua is a general purpose programming language (or environment, if you like).
 Its main features are:
 
  * Data flow programming
@@ -16,11 +16,11 @@ Its main features are:
 
 It is currently in the development phase and not stable.
 
-Website: http://blitzprog.org/
+Website: http://flua-lang.org/
 
 Installation
 ---------------------
-bp is based on Python 3 so you only need to install the Python 3 interpreter and the dependencies.
+Flua is based on Python 3 so you only need to install the Python 3 interpreter and the dependencies.
 
 Installation on Linux distributions:
 
@@ -30,13 +30,13 @@ On debian based systems (Ubuntu, Linux Mint, etc.) install the dependencies usin
 
 This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based systems you need to compile these dependencies manually or install the equivalent packages. If you're using a non-debian based system I'm sure you know what you are doing.
 
-Afterwards download bp via git:
+Afterwards download Flua via git:
 
-    git clone git://github.com/blitzprog/bp.git
+    git clone git://github.com/blitzprog/flua.git
 
 And start it:
 
-    ./bp-editor.py
+    ./flua-studio.py
 
 The Linux version of bp (both the IDE and the standalone compiler) is slightly faster than the Windows one.
 
@@ -64,12 +64,12 @@ If checkinstall doesn't work try
 
     sudo make install
 
-Download bp via git (unless you already downloaded it):
+Download Flua via git (unless you already downloaded it):
 
-    git clone git://github.com/blitzprog/bp.git
+    git clone git://github.com/blitzprog/flua.git
     
 Start bp-editor.py which is in the top-level bp directory:
     
-    ./bp-editor.py
+    ./flua-studio.py
     
 On 64-Bit systems you might need to install libc-i386-dev as well.

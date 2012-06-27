@@ -1,0 +1,32 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>keywordsTest</import>
+			<import>enterexit</import>
+			<import>math</import>
+			<import>generics</import>
+			<import>memory</import>
+			<import>array</import>
+			<import>map</import>
+			<import>overloading</import>
+			<import>namespaces</import>
+			<import>casts</import>
+			<import>bigint</import>
+			<import>auto-mutable-behav</import>
+			<import>defaultvalues</import>
+			<import>stringoperations</import>
+			<import>filesystem</import>
+			<import>exceptions</import>
+			<import>inheritance</import>
+			<import>multireturn</import>
+			<import>dataflow</import>
+			<import>unicode</import>
+			<import>foreach</import>
+			<import>parallel</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

@@ -1,0 +1,87 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Default\Sparameter\Svalues\Sworking!</string>
+			<string id="flua_string_1">Default\Sparameter\Svalues\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0">
+			<parameters>
+				<parameter>x</parameter>
+				<parameter>
+					<assign>
+						<value>y</value>
+						<value>5</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<name>defaultValueFunc</name>
+			<code>
+				<return depth="1">
+					<add>
+						<value>x</value>
+						<value>y</value>
+					</add>
+				</return>
+			</code>
+		</function>
+		<if-block depth="0">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>defaultValueFunc</function>
+										<parameters>
+											<parameter>15</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>20</value>
+							</equal>
+						</value>
+						<value>
+							<equal>
+								<value>
+									<call>
+										<function>defaultValueFunc</function>
+										<parameters>
+											<parameter>10</parameter>
+											<parameter>30</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>40</value>
+							</equal>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0">
+				<code>
+					<call depth="1">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

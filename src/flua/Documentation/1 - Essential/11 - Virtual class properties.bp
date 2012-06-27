@@ -1,0 +1,95 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SIt's\Sreally\Sjust\Sa\Sbuzzword.\SA\Svirtual\Sclass\Sproperty\Sis\Snothing\Smore\Sthan</comment>
+		<comment>\Sa\Sclass\Sproperty\Swhich\Sdoesn't\Sreally\Sexist\Sin\Smemory\Sbut\Scan\Sbe\Saccessed</comment>
+		<comment>\Slike\Sany\Sother\Sproperty\Sof\Sthe\Sclass.</comment>
+		<class depth="0" id="1">
+			<name>MyCircle</name>
+			<code>
+				<comment>\SWe'll\Signore\Sthe\Sfact\Sthat\Sour\Sweird\Scircle\Shas\Sno\Scenter</comment>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>radius</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="3"/>
+					</code>
+					<meta/>
+				</function>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">radius</public-member>
+				</public>
+				<get depth="1" id="6">
+					<getter depth="2" id="7">
+						<name>perimeter</name>
+						<code>
+							<return depth="3" id="8">
+								<multiply>
+									<value>
+										<access>
+											<value>my</value>
+											<value>radius</value>
+										</access>
+									</value>
+									<value>2</value>
+								</multiply>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SCreate\Sa\Scircle</comment>
+		<assign depth="0" id="9">
+			<value>c</value>
+			<value>
+				<new>
+					<type>MyCircle</type>
+					<parameters>
+						<parameter>5</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<comment>\SAccess\Sour\Sawesome\Sproperties</comment>
+		<call depth="0" id="10">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>c</value>
+						<value>radius</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="11">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>c</value>
+						<value>perimeter</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\SI\Sstrongly\Sencourage\Syou\Sto\Suse\Sthem\Sif\Syou\Scan\Sanswer</comment>
+		<comment>\Sthe\Squestion\S&quot;Is\Sthat\Sa\Sproperty\Sof\Sthis\Sclass?&quot;\Swith\S&quot;Yes&quot;.</comment>
+	</code>
+</module>

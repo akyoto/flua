@@ -1,0 +1,78 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Utils</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Hello\SWorld\Sあいうえおか</string>
+			<string id="flua_string_1">Strings.Concat</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchConcat</name>
+			<code>
+				<assign depth="1" id="2">
+					<value>n</value>
+					<value>1000000</value>
+				</assign>
+				<assign depth="1" id="3">
+					<value>a</value>
+					<value>flua_string_0</value>
+				</assign>
+				<in depth="1" id="4">
+					<expression>
+						<new>
+							<type>Benchmark</type>
+							<parameters>
+								<parameter>flua_string_1</parameter>
+							</parameters>
+						</new>
+					</expression>
+					<code>
+						<for depth="2" id="5">
+							<iterator>i</iterator>
+							<from>1</from>
+							<to>n</to>
+							<code>
+								<assign depth="3" id="6">
+									<value>result</value>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>
+														<add>
+															<value>
+																<add>
+																	<value>
+																		<add>
+																			<value>a</value>
+																			<value>a</value>
+																		</add>
+																	</value>
+																	<value>a</value>
+																</add>
+															</value>
+															<value>a</value>
+														</add>
+													</value>
+													<value>a</value>
+												</add>
+											</value>
+											<value>a</value>
+										</add>
+									</value>
+								</assign>
+							</code>
+							<meta/>
+						</for>
+					</code>
+				</in>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

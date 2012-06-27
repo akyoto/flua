@@ -1,0 +1,12 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>Color</import>
+			<import>Flua</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code/>
+</module>

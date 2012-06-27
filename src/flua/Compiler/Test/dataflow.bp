@@ -1,0 +1,46 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Dataflow\Sfor\Sfunctions</string>
+			<string id="flua_string_1">\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>sum</name>
+			<code>
+				<return depth="1" id="2">
+					<add>
+						<value>a</value>
+						<value>b</value>
+					</add>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<flow-to depth="0" id="3">
+			<value>sum</value>
+			<value>print</value>
+		</flow-to>
+		<parallel depth="0" id="4">
+			<code>
+				<call depth="1" id="5">
+					<function>sum</function>
+					<parameters>
+						<parameter>flua_string_0</parameter>
+						<parameter>flua_string_1</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</parallel>
+	</code>
+</module>

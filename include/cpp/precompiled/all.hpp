@@ -1,6 +1,6 @@
 // Two underscores because it makes the header look important and cool
-#ifndef __bp_precompiled_header
-#define __bp_precompiled_header
+#ifndef __flua_precompiled_header
+#define __flua_precompiled_header
 
 #include <cstdint>
 #include <cstdlib>

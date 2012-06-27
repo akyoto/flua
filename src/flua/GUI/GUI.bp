@@ -1,0 +1,12 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\STODO:\SNothing\Shere,\Syet.</comment>
+	</code>
+</module>

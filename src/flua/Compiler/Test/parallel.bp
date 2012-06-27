@@ -1,0 +1,44 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Concurrency</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Multithreading\Sworking!\S(</string>
+			<string id="flua_string_1">\Sprocessors\Sdetected)</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="1">
+			<value>numCores</value>
+			<value>
+				<call>
+					<function>getCPUCount</function>
+					<parameters/>
+				</call>
+			</value>
+		</assign>
+		<parallel depth="0" id="2">
+			<code>
+				<call depth="1" id="3">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>
+									<add>
+										<value>flua_string_0</value>
+										<value>numCores</value>
+									</add>
+								</value>
+								<value>flua_string_1</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</parallel>
+	</code>
+</module>

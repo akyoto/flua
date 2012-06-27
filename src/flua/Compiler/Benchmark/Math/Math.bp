@@ -1,0 +1,27 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>Distance</import>
+			<import>Factorial</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<function depth="0" id="1">
+			<name>benchMath</name>
+			<code>
+				<call depth="1" id="2">
+					<function>benchDistance</function>
+					<parameters/>
+				</call>
+				<call depth="1" id="3">
+					<function>benchFactorial</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

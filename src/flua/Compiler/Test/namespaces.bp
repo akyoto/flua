@@ -1,0 +1,52 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Namespaces\Sworking!</string>
+			<string id="flua_string_1">Namespaces\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<namespace depth="0" id="1">
+			<name>testing</name>
+			<code>
+				<function depth="1" id="2">
+					<name>func</name>
+					<code>
+						<call depth="2" id="3">
+							<function>print</function>
+							<parameters>
+								<parameter>flua_string_0</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+		</namespace>
+		<function depth="0" id="4">
+			<name>func</name>
+			<code>
+				<call depth="1" id="5">
+					<function>print</function>
+					<parameters>
+						<parameter>flua_string_1</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<call depth="0" id="6">
+			<function>
+				<access>
+					<value>testing</value>
+					<value>func</value>
+				</access>
+			</function>
+			<parameters/>
+		</call>
+	</code>
+</module>
