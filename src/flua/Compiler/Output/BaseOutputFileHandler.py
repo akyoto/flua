@@ -962,7 +962,8 @@ class BaseOutputFileHandler:
 			# Create a dynamical list of threads
 			# TODO: C++ independent
 			initCode = self.buildLine("std::vector<pthread_t> %s" % (saveInCollection))
-			exitCode = ""
+			exitCode = self.buildLine("for(std::vector<pthread_t>::iterator iter = %s.begin(); iter != %s.end(); iter++) { pthread_join(*iter, NULL); }" % (saveInCollection, saveInCollection))
+			#self.compiler.usingSTDAlgorithms = True
 			
 			# Replace code
 			tabs = "\t" * self.currentTabLevel

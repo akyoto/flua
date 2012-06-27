@@ -49,7 +49,6 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		else:#elif os.name == "posix":
 			self.operatingSystem = "linux"
 		
-
 		self.is64Bit = ("64" in platform.architecture()[0])
 		
 		if os.name == "nt":
@@ -68,6 +67,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.customCompilerFlags = []
 		self.customLinkerFlags = []
 		self.customThreadsCount = 0
+		self.usingSTDAlgorithms = False
 		
 		if os.name == "nt":
 			self.staticStdcppLinking = False#True
@@ -223,6 +223,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				
 			# TODO: Change std::vector to BPVector
 			outStream.write("#include <vector>\n")
+			
+			if self.usingSTDAlgorithms:
+				outStream.write("#include <algorithm>\n")
 			
 			# Data flow for functions
 			flowType = "void"
