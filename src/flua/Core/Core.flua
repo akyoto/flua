@@ -66,17 +66,21 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
+					<extern-function depth="2" id="12">
+						<name>exit</name>
+						<meta/>
+					</extern-function>
 				</code>
 			</namespace>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
-		<function depth="0" id="12">
+		<function depth="0" id="13">
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
 			<name>sleep</name>
 			<code>
-				<call depth="1" id="13">
+				<call depth="1" id="14">
 					<function>
 						<access>
 							<value>flua</value>
@@ -98,13 +102,13 @@
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="14">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>sizeOf</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="16">
 					<call>
 						<function>
 							<access>
@@ -122,12 +126,12 @@
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds\S(10\S^\S-3\Ssecs).</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0" id="16">
+		<function depth="0" id="17">
 			<name>systemTime</name>
 			<code>
-				<test depth="1" id="17">
+				<test depth="1" id="18">
 					<code>
-						<assign depth="2" id="18">
+						<assign depth="2" id="19">
 							<value>start</value>
 							<value>
 								<call>
@@ -136,7 +140,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="19">
+						<assign depth="2" id="20">
 							<value>end</value>
 							<value>
 								<call>
@@ -145,7 +149,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="20">
+						<assert depth="2" id="21">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -158,7 +162,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="21">
+				<return depth="1" id="22">
 					<call>
 						<function>
 							<access>
@@ -173,12 +177,12 @@
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
-		<function depth="0" id="22">
+		<function depth="0" id="23">
 			<name>systemTimeMicro</name>
 			<code>
-				<test depth="1" id="23">
+				<test depth="1" id="24">
 					<code>
-						<assign depth="2" id="24">
+						<assign depth="2" id="25">
 							<value>start</value>
 							<value>
 								<call>
@@ -187,7 +191,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="25">
+						<assign depth="2" id="26">
 							<value>end</value>
 							<value>
 								<call>
@@ -196,7 +200,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="26">
+						<assert depth="2" id="27">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -209,7 +213,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="27">
+				<return depth="1" id="28">
 					<call>
 						<function>
 							<access>
@@ -220,6 +224,32 @@
 						<parameters/>
 					</call>
 				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SExits\Sthe\Sapplication\Swith\San\Soptional\S#status\Scode</comment>
+		<function depth="0" id="29">
+			<parameters>
+				<parameter>
+					<assign>
+						<value>status</value>
+						<value>0</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<name>exit</name>
+			<code>
+				<call depth="1" id="30">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>exit</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>status</parameter>
+					</parameters>
+				</call>
 			</code>
 			<meta/>
 		</function>

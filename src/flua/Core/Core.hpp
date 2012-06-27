@@ -35,6 +35,10 @@ inline time_t flua_systemTimeMicro() {
 	return ts.tv_sec * 1000000 + ts.tv_usec;
 }
 
+inline void flua_exit(int status) {
+	exit(status);
+}
+
 /*inline clock_t flua_systemCPUClock() {
 	return clock();
 }*/

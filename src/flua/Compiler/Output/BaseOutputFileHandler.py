@@ -944,6 +944,7 @@ class BaseOutputFileHandler:
 		if parallel:
 			threadID = self.compiler.customThreadsCount
 			threadFuncID = "flua_pfor_func_%d" % self.compiler.customThreadsCount
+			saveInCollection = "flua_pfor_collection_%d" % self.compiler.customThreadsCount
 			
 			# Create a thread function
 			paramTypes = []
@@ -958,13 +959,21 @@ class BaseOutputFileHandler:
 			self.compiler.parallelForFuncs.append(self.buildPForFunc(threadFuncID, code))
 			#return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
 			
+			# Create a dynamical list of threads
+			# TODO: C++ independent
+			initCode = self.buildLine("std::vector<pthread_t> %s" % (saveInCollection))
+			exitCode = ""
+			
 			# Replace code
 			tabs = "\t" * self.currentTabLevel
-			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, "", tabs)
+			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, "", tabs, saveInCollection)
+		else:
+			initCode = ""
+			exitCode = ""
 		
 		self.parallelBlockStack.pop()
 		
-		return self.buildForLoop(varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, "\t" * self.currentTabLevel)
+		return initCode + self.buildForLoop(varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, "\t" * self.currentTabLevel) + exitCode
 		
 	def handleTry(self, node):
 		codeNode = getElementByTagName(node, "code")

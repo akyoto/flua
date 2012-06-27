@@ -330,16 +330,19 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	def buildDeleteMemPointer(self, caller):
 		return "delete [] %s" % (caller)
 	
-	def buildThreadCreation(self, threadID, threadFuncID, paramTypes, paramsString, tabs):
-		threadCreation =  "pthread_t flua_threadHandle_%d;\n%s" % (threadID, tabs)
+	def buildThreadCreation(self, threadID, threadFuncID, paramTypes, paramsString, tabs, saveInCollection = None):
+		threadCreation = ["pthread_t flua_threadHandle_%d;\n%s" % (threadID, tabs)]
 		
 		if paramTypes:
-			threadCreation += "flua_thread_args_%s* flua_threadArgs_%d = new (NoGC) flua_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs)
-			threadCreation += "pthread_create(&flua_threadHandle_%d, NULL, &flua_thread_func_%s, flua_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs)
+			threadCreation.append("flua_thread_args_%s* flua_threadArgs_%d = new (NoGC) flua_thread_args_%s(%s);\n%s" % (threadFuncID, threadID, threadFuncID, paramsString, tabs))
+			threadCreation.append("pthread_create(&flua_threadHandle_%d, NULL, &flua_thread_func_%s, flua_threadArgs_%d);\n%s" % (threadID, threadFuncID, threadID, tabs))
 		else:
-			threadCreation += "pthread_create(&flua_threadHandle_%d, NULL, &flua_thread_func_%s, reinterpret_cast<void*>(NULL));\n%s" % (threadID, threadFuncID, tabs)
+			threadCreation.append("pthread_create(&flua_threadHandle_%d, NULL, &flua_thread_func_%s, reinterpret_cast<void*>(NULL));\n%s" % (threadID, threadFuncID, tabs))
 		
-		return threadCreation
+		if saveInCollection:
+			threadCreation.append("%s.push_back(flua_threadHandle_%d);\n%s" % (saveInCollection, threadID, tabs))
+		
+		return ''.join(threadCreation)
 	
 	def buildNonPointerCall(self, caller, fullName, paramsString):
 		return "%s%s%s%s%s" % (["::", caller + "."][caller != ""], fullName, "(", paramsString, ")")
