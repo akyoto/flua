@@ -897,6 +897,7 @@ class BaseOutputFileHandler:
 	def handleFor(self, node):
 		if node.tagName == "parallel-for":
 			parallel = True
+			#self.
 		else:
 			parallel = False
 		

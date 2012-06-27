@@ -34,6 +34,19 @@ class ModuleMenuActions:
 		if compilerFlags != self.lastRunOptions:
 			self.somethingModified = True
 		
+		# Check for errors
+		if self.codeEdit.msgView.count() > 0:
+			print("\nPlease correct your compilation errors first before executing the module:")
+			
+			self.consoleDock.show()
+			
+			if self.codeEdit.msgView.lastErrorMessage:
+				print(self.codeEdit.msgView.lastErrorMessage)
+			else:
+				print("Unknown error. Please check your message window.")
+			
+			return
+		
 		# Console
 		#self.console.log.setPlainText("")
 		self.console.compiler.setPlainText("")
