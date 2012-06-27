@@ -7,7 +7,6 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SUsage:\SPort.FTP</comment>
 		<namespace depth="0" id="1">
 			<name>Port</name>
 			<code>
@@ -61,6 +60,7 @@
 				</assign>
 			</code>
 		</namespace>
+		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="14">
 			<code>
 				<call depth="1" id="15">

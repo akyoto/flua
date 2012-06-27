@@ -9,7 +9,7 @@
 			<import>TCPStream</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">blitzprog.org</string>
+			<string id="flua_string_0">flua-lang.org</string>
 			<string id="flua_string_1">Could\Snot\Sresolve\S</string>
 		</strings>
 	</header>

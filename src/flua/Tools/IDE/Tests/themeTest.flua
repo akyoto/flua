@@ -15,23 +15,23 @@
 	</header>
 	<code>
 		<comment>\SUse\Sthis\Sfile\Sto\Squickly\Stest\Sand\Ssave\Ssomething\Sin\Sflua\Swithout\Sthe\Sneed\Sto\Screate\Syour\Sown\Smodule\Sdirectory.</comment>
-		<call depth="0">
+		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_0</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="2">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_1</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0">
+		<if-block depth="0" id="3">
 			<if>
 				<condition>1</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="4">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_2</parameter>
@@ -40,11 +40,11 @@
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0">
+		<if-block depth="0" id="5">
 			<if>
 				<condition>2</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="6">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_3</parameter>
@@ -53,7 +53,7 @@
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0">
+		<assign depth="0" id="7">
 			<value>a</value>
 			<value>
 				<add>
@@ -62,28 +62,14 @@
 				</add>
 			</value>
 		</assign>
-		<call depth="0">
+		<call depth="0" id="8">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_4</parameter>
 			</parameters>
 		</call>
-		<call depth="0">
+		<call depth="0" id="9">
 			<function>print</function>
-			<parameters>
-				<parameter>a</parameter>
-			</parameters>
-		</call>
-		<call depth="0">
-			<function>flua.utf8_slice</function>
-			<parameters/>
-		</call>
-		<call depth="0">
-			<function>flua.getCurrentDate</function>
-			<parameters/>
-		</call>
-		<call depth="0">
-			<function>flua.sizeOf</function>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>

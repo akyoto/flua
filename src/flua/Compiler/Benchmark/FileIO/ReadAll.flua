@@ -7,7 +7,7 @@
 			<import>flua.FileSystem</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">flua.decls.hpp</string>
+			<string id="flua_string_0">flua_decls.hpp</string>
 			<string id="flua_string_1">FileIO.ReadAll</string>
 		</strings>
 	</header>
