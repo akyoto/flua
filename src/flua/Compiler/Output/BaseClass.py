@@ -91,8 +91,8 @@ class BaseClass(BaseNamespace):
 		self.hasOverwrittenFunctions = flag
 		#self.ensureDestructorCall = True
 	
-	def hasTemplateParams(self):
-		if self.templateNames:
+	def hasUndefinedTemplateParams(self):
+		if self.templateNames and not self.templateDefaultValues[-1]:
 			return True
 		else:
 			return False

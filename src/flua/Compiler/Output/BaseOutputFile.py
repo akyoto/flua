@@ -1390,7 +1390,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			if not templatePart:
 				classObj = self.getClass(extractClassName(typeName))
-				if classObj.hasTemplateParams():
+				if classObj.hasUndefinedTemplateParams():
 					raise CompilerException("Class '%s' expects you to specify the following template parameters: '%s'" % (classObj.name, ", ".join(classObj.templateNames)))
 			
 			typeName = self.compiler.specializedClasses[typeName].name
