@@ -267,7 +267,16 @@ inline GLuint flua_createBuffer() {
 	return newVBO;
 }
 
-inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {
+class BPTextureInfo: public gc {
+public:
+	inline BPTextureInfo(GLuint handle, UInt width, UInt height) : _handle(handle), _width(width), _height() {}
+	
+	GLuint _handle;
+	UInt _width;
+	UInt _height;
+};
+
+inline BPTextureInfo *flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {
 	//image format
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 	
@@ -292,7 +301,7 @@ inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint 
 	
 	//if still unkown, return failure
 	if(fif == FIF_UNKNOWN)
-		return false;
+		return NULL;
 
 	//check that the plugin has reading capabilities and load the file
 	if(FreeImage_FIFSupportsReading(fif))
@@ -300,7 +309,7 @@ inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint 
 	
 	//if the image failed to load, return failure
 	if(!dib)
-		return false;
+		return NULL;
 
 	//retrieve the image data
 	bits = FreeImage_GetBits(dib);
@@ -311,7 +320,7 @@ inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint 
 	
 	//if this somehow one of these failed (they shouldn't), return failure
 	if((bits == 0) || (width == 0) || (height == 0))
-		return false;
+		return NULL;
 	
 	//generate an OpenGL texture ID for this texture
 	glGenTextures(1, &gl_texID);
@@ -333,5 +342,5 @@ inline GLuint flua_loadTexture(const char* filename, GLenum image_format, GLint 
 	#endif
 	
 	//return success
-	return gl_texID;
+	return new (UseGC) BPTextureInfo(gl_texID, width, height);
 }

@@ -64,7 +64,8 @@
 					</extern-function>
 					<extern-function depth="2" id="11">
 						<name>loadTexture</name>
-						<type>GLuint</type>
+						<type>TextureInfo</type>
+						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="12">
 						<name>initGLUT</name>
@@ -125,11 +126,55 @@
 					</extern-function>
 				</code>
 			</namespace>
+			<class depth="1" id="22">
+				<name>TextureInfo</name>
+				<code>
+					<function depth="2" id="23">
+						<name>init</name>
+						<code>
+							<declare-type depth="3" id="24">
+								<value>
+									<access>
+										<value>my</value>
+										<value>handle</value>
+									</access>
+								</value>
+								<value>GLuint</value>
+							</declare-type>
+							<declare-type depth="3" id="25">
+								<value>
+									<access>
+										<value>my</value>
+										<value>width</value>
+									</access>
+								</value>
+								<value>UInt</value>
+							</declare-type>
+							<declare-type depth="3" id="26">
+								<value>
+									<access>
+										<value>my</value>
+										<value>height</value>
+									</access>
+								</value>
+								<value>UInt</value>
+							</declare-type>
+						</code>
+						<meta/>
+					</function>
+					<public depth="2" id="27">
+						<public-member depth="3" id="28">handle</public-member>
+						<public-member depth="3" id="29">width</public-member>
+						<public-member depth="3" id="30">height</public-member>
+					</public>
+				</code>
+				<meta/>
+			</class>
 		</extern>
-		<function depth="0" id="22">
+		<function depth="0" id="31">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="23">
+				<return depth="1" id="32">
 					<call>
 						<function>
 							<access>
@@ -144,10 +189,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="24">
+		<function depth="0" id="33">
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="25">
+				<return depth="1" id="34">
 					<call>
 						<function>
 							<access>
@@ -159,14 +204,13 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="26">
+		<function depth="0" id="35">
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="27">
+				<return depth="1" id="36">
 					<call>
 						<function>
 							<access>
@@ -178,10 +222,9 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="28">
+		<function depth="0" id="37">
 			<parameters>
 				<parameter>
 					<assign>
@@ -196,7 +239,7 @@
 			</parameters>
 			<name>getScreenWidth</name>
 			<code>
-				<return depth="1" id="29">
+				<return depth="1" id="38">
 					<call>
 						<function>
 							<access>
@@ -208,10 +251,9 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="30">
+		<function depth="0" id="39">
 			<parameters>
 				<parameter>
 					<assign>
@@ -226,7 +268,7 @@
 			</parameters>
 			<name>getScreenHeight</name>
 			<code>
-				<return depth="1" id="31">
+				<return depth="1" id="40">
 					<call>
 						<function>
 							<access>
@@ -238,12 +280,11 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="32">
+		<test depth="0" id="41">
 			<code>
-				<call depth="1" id="33">
+				<call depth="1" id="42">
 					<function>print</function>
 					<parameters>
 						<parameter>

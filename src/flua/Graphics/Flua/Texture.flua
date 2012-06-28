@@ -60,12 +60,7 @@
 							</if>
 						</if-block>
 						<assign depth="2" id="5">
-							<value>
-								<access>
-									<value>my</value>
-									<value>handle</value>
-								</access>
-							</value>
+							<value>texInfo</value>
 							<value>
 								<call>
 									<function>
@@ -94,19 +89,61 @@
 								</call>
 							</value>
 						</assign>
+						<assign depth="2" id="6">
+							<value>
+								<access>
+									<value>my</value>
+									<value>handle</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>texInfo</value>
+									<value>handle</value>
+								</access>
+							</value>
+						</assign>
+						<assign depth="2" id="7">
+							<value>
+								<access>
+									<value>my</value>
+									<value>width</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>texInfo</value>
+									<value>width</value>
+								</access>
+							</value>
+						</assign>
+						<assign depth="2" id="8">
+							<value>
+								<access>
+									<value>my</value>
+									<value>height</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>texInfo</value>
+									<value>width</value>
+								</access>
+							</value>
+						</assign>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="9">
 					<name>activate</name>
 					<code>
-						<call depth="2" id="7">
+						<call depth="2" id="10">
 							<function>glActiveTexture</function>
 							<parameters>
 								<parameter>GL_TEXTURE0</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="8">
+						<call depth="2" id="11">
 							<function>glBindTexture</function>
 							<parameters>
 								<parameter>GL_TEXTURE_2D</parameter>
@@ -120,18 +157,44 @@
 						</call>
 						<comment>glUniform1i(uniform_texture1,\S0)</comment>
 					</code>
+					<meta/>
 				</function>
-				<get depth="1" id="9">
-					<getter depth="2" id="10">
+				<get depth="1" id="12">
+					<getter depth="2" id="13">
 						<name>handle</name>
 						<code>
-							<return depth="3" id="11">
+							<return depth="3" id="14">
 								<access>
 									<value>my</value>
 									<value>handle</value>
 								</access>
 							</return>
 						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="15">
+						<name>width</name>
+						<code>
+							<return depth="3" id="16">
+								<access>
+									<value>my</value>
+									<value>width</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="17">
+						<name>height</name>
+						<code>
+							<return depth="3" id="18">
+								<access>
+									<value>my</value>
+									<value>height</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
 					</getter>
 				</get>
 			</code>

@@ -47,6 +47,11 @@ inline int flua_rand(T1 a, T2 b) {
 	return a;
 }
 
+template <typename T1, typename T2>
+inline float flua_randFloat(T1 a, T2 b) {
+	return (b >= a) ? a + (float)rand() / ((float)RAND_MAX / (b - a)) : b + (float)rand() / ((float)RAND_MAX / (a - b));
+}
+
 template <typename T>
 inline void flua_setRandSeed(T x) {
 	srand(x);
