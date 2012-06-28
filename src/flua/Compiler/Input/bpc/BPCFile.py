@@ -108,6 +108,7 @@ def addGenerics(line):
 			if bracketCounter == 0:
 				templateParam = addGenerics(line[startGeneric+1:i])
 				line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
+				
 				i += 1
 				lineLen = len(line)
 				
@@ -1326,6 +1327,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			funcName = line
 		elif line[pos] in {' ', '('}:
 			funcName = line[:pos]
+			
+			if line[pos] == '(':
+				line = line[:-1]
 		else:
 			if self.currentSyntax == SYNTAX_PYTHON:
 				whiteSpace = line.find('(')
