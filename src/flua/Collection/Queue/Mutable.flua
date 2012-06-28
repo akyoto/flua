@@ -1,0 +1,174 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Collection.List</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>MutableQueue</name>
+			<code>
+				<template depth="1" id="2">
+					<parameter depth="2" id="3">TDataType</parameter>
+				</template>
+				<function depth="1" id="4">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="5">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>List</value>
+											<value>TDataType</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+					</code>
+				</function>
+				<comment>\SAdds\Sthe\Selement\S#x\Sto\Sthe\Squeue</comment>
+				<function depth="1" id="6">
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+					<name>add</name>
+					<code>
+						<call depth="2" id="7">
+							<function>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>data</value>
+										</access>
+									</value>
+									<value>add</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>x</parameter>
+							</parameters>
+						</call>
+					</code>
+				</function>
+				<comment>\SRemoves\Sthe\Soldest\Selement\Sfrom\Sthe\Squeue\Sand\Sreturns\Sit\S(FIFO)</comment>
+				<function depth="1" id="8">
+					<name>pop</name>
+					<code>
+						<return depth="2" id="9">
+							<call>
+								<function>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>takeFirst</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="10">
+					<getter depth="2" id="11">
+						<name>hasElements</name>
+						<code>
+							<return depth="3" id="12">
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>data</value>
+										</access>
+									</value>
+									<value>hasElements</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta>
+				<default-class-version>true</default-class-version>
+			</meta>
+		</class>
+		<test depth="0" id="13">
+			<code>
+				<assign depth="1" id="14">
+					<value>q</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Queue</value>
+									<value>Int</value>
+								</template-call>
+							</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+				<on depth="1" id="15">
+					<expression>q</expression>
+					<code>
+						<call depth="2" id="16">
+							<function>add</function>
+							<parameters>
+								<parameter>1</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="17">
+							<function>add</function>
+							<parameters>
+								<parameter>2</parameter>
+							</parameters>
+						</call>
+						<call depth="2" id="18">
+							<function>add</function>
+							<parameters>
+								<parameter>3</parameter>
+							</parameters>
+						</call>
+					</code>
+				</on>
+				<while depth="1" id="19">
+					<condition>
+						<access>
+							<value>q</value>
+							<value>hasElements</value>
+						</access>
+					</condition>
+					<code>
+						<call depth="2" id="20">
+							<function>
+								<access>
+									<value>q</value>
+									<value>pop</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
+					</code>
+				</while>
+			</code>
+		</test>
+	</code>
+</module>

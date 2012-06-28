@@ -28,16 +28,17 @@ class BPSearchEdit(QtGui.QLineEdit):
 				#self.bpIDE.codeEdit.setTextCursor(self.bpIDE.codeEdit.textCursor())
 				self.bpIDE.codeEdit.setFocus()
 		elif key == QtCore.Qt.Key_Down:
-			self.searchForward(self.text(), True)
+			self.searchForward(self.text(), self.bpIDE.codeEdit, True)
 		elif key == QtCore.Qt.Key_Up:
-			self.searchBackward(self.text(), True)
+			self.searchBackward(self.text(), self.bpIDE.codeEdit, True)
 		else:
 			super().keyPressEvent(event)
 		
-	def searchForward(self, text, nextResult = False, findFlags = None):
-		ce = self.bpIDE.codeEdit
+	def searchForward(self, text, ce = None, nextResult = False, findFlags = None):
 		if not ce:
-			return
+			ce = self.bpIDE.codeEdit
+			if not ce:
+				return
 		
 		if not findFlags:
 			findFlags = QtGui.QTextDocument.FindFlags()
@@ -97,6 +98,6 @@ class BPSearchEdit(QtGui.QLineEdit):
 			if nextResult.position() != -1:
 				ce.setTextCursor(nextResult)
 			
-	def searchBackward(self, text, nextResult = False):
-		self.searchForward(text, nextResult, QtGui.QTextDocument.FindBackward)
+	def searchBackward(self, text, ce = None, nextResult = False):
+		self.searchForward(text, ce, nextResult, QtGui.QTextDocument.FindBackward)
 

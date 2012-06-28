@@ -40,7 +40,7 @@ class BaseOutputFileScan:
 	def scanAhead(self, parent):
 		for node in parent.childNodes:
 			if isElemNode(node):
-				if node.tagName == "class":
+				if node.tagName in {"class", "interface"}:
 					self.scanClass(node)
 				elif node.tagName == "function" or node.tagName == "operator" or node.tagName == "iterator-type":
 					self.scanFunction(node)
@@ -92,7 +92,7 @@ class BaseOutputFileScan:
 					self.inTemplate += 1
 					self.scanTemplate(node)
 					self.inTemplate -= 1
-				elif node.tagName == "extends":
+				elif node.tagName in {"extends", "implements"}:
 					self.inExtends += 1
 					self.scanExtends(node)
 					self.inExtends -= 1
@@ -149,7 +149,15 @@ class BaseOutputFileScan:
 			self.pushClass(refClass)
 			self.localClasses.append(self.currentClass)
 		
+		if node.tagName == "interface":
+			refClass.isInterface = True
+		
 		self.scanAhead(getElementByTagName(node, "code"))
+		
+		# Check interfaces
+		for classImpl in refClass.extends:
+			if classImpl.classObj.isInterface:
+				self.checkInterfaceImplementation(refClass, classImpl.classObj)
 		
 		if extendingClass:
 			self.currentClass = oldClass

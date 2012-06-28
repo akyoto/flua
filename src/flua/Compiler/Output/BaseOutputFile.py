@@ -163,6 +163,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			# Ignored
 			"class" : None,
+			"interface" : None,
 			"function" : None,
 			"operator" : None,
 			"cast-definition" : None,
@@ -264,6 +265,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return self.binaryOperatorSyntax % (self.exprPrefix, op1, connector, op2, self.exprPostfix)
 		else:
 			return self.binaryOperatorDivideSyntax % (self.exprPrefix, op1, connector, op2, self.exprPostfix)
+	
+	def checkInterfaceImplementation(self, classObj, interface):
+		#debug("Checking '%s' for implementation of interface '%s'" % (classObj.name, interface.name))
+		
+		for method in interface.functions:
+			if not classObj.hasFunction(method):
+				raise CompilerException("Class '%s' does not define the '%s' method of interface '%s'" % (classObj.name, method, interface.name))
 	
 	def getNamespacePrefix(self):
 		namespacePrefix = '_'.join(self.namespaceStack)
@@ -604,7 +612,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				
 				#debug("Member list:")
 				#for member in callerClassImpl.members.keys():
-				#	debug(" * " + member)
+				#	#debug(" * " + member)
 				
 				#if memberName in callerClass.publicMembers:
 				#	memberName = "_" + memberName
@@ -881,13 +889,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return False, False
 		
 		#if 1:#op2.nodeValue == "vertices":
-		#	debug("-" * 80)
-		#	debug(op1Type)
-		#	debug(op1ClassName)
-		#	debug("OP1:")
-		#	debug(op1.toprettyxml())
-		#	debug("OP2:")
-		#	debug(op2.toprettyxml())
+		#	#debug("-" * 80)
+		#	#debug(op1Type)
+		#	#debug(op1ClassName)
+		#	#debug("OP1:")
+		#	#debug(op1.toprettyxml())
+		#	#debug("OP2:")
+		#	#debug(op2.toprettyxml())
 		
 		classObj = self.getClass(op1ClassName)
 		
@@ -1378,10 +1386,19 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			templatePart = ""
 		
 		if typeName in self.compiler.specializedClasses:
+			#if not typeName in nonPointerClasses:
+			
+			if not templatePart:
+				classObj = self.getClass(extractClassName(typeName))
+				if classObj.hasTemplateParams():
+					raise CompilerException("Class '%s' expects you to specify the following template parameters: '%s'" % (classObj.name, ", ".join(classObj.templateNames)))
+			
 			typeName = self.compiler.specializedClasses[typeName].name
 		
 		#print("PREPARED: " + typeName + templatePart)
-		return typeName + templatePart
+		fullName = typeName + templatePart
+		
+		return fullName
 	
 	def implementFunction(self, typeName, funcName, paramTypes):
 		#if funcName == "init":

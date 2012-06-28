@@ -522,7 +522,7 @@
 								<call depth="3" id="48">
 									<function>sleep</function>
 									<parameters>
-										<parameter>1</parameter>
+										<parameter>5</parameter>
 									</parameters>
 								</call>
 							</code>

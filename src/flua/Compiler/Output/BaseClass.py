@@ -68,6 +68,7 @@ class BaseClass(BaseNamespace):
 		self.parent = None
 		self.isExtern = False
 		self.usesActorModel = False
+		self.isInterface = False
 		self.extends = []
 		self.node = node
 		self.hasOverwrittenFunctions = False
@@ -89,6 +90,12 @@ class BaseClass(BaseNamespace):
 	def setOverwrittenFunctions(self, flag):
 		self.hasOverwrittenFunctions = flag
 		#self.ensureDestructorCall = True
+	
+	def hasTemplateParams(self):
+		if self.templateNames:
+			return True
+		else:
+			return False
 	
 	def addPublicMember(self, name):
 		self.publicMembers[name] = True

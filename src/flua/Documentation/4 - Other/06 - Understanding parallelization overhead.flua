@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SRemember\Sthat\Syou\Sshould\Snot\Sparallelize\Strivial\Stasks\Swhich\Scan</comment>
+		<comment>\Sbe\Scomputed\Sfaster\Son\Sa\Ssingle\SCPU.\SThe\Smore\Sheavy\Sa\Scomputation</comment>
+		<comment>\Sis,\Sthe\Sbetter.\SIf\Syou\Scan\Sdescribe\Syour\Scomplex\Scomputation</comment>
+		<comment>\Sas\Sa\Spure\Sfunction\Sand\Scall\Sit\Smultiple\Stimes\Son\Sa\Scollection</comment>
+		<comment>\Syou'll\Sgain\Sthe\Smost\Sout\Sof\Sparallelization.\SThere\Sare\Salso\Smap()</comment>
+		<comment>\Sand\Sreduce()\Sfunctions\Sin\Sthe\Sflua.Collection\Smodule\Swhich\Scan</comment>
+		<comment>\Shelp\Syou\Swith\Sthese\Stasks.</comment>
+	</code>
+</module>

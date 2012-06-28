@@ -926,7 +926,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 
 def main():
 	# Create the application
-	#gc.set_debug(gc.DEBUG_LEAK)
+	#gc.set_#debug(gc.DEBUG_LEAK)
 	#gc.enable()
 	app = QtGui.QApplication(sys.argv)
 	editor = BPMainWindow()

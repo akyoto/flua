@@ -573,6 +573,8 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.inTemplate -= 1
 				elif nodeName == "extends":
 					self.inExtends -= 1
+				elif nodeName == "implements":
+					self.inImplements -= 1
 				elif nodeName == "get":
 					self.inGetter -= 1
 				elif nodeName == "set":
@@ -814,7 +816,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		node = self.doc.createElement("implements")
 		
-		self.inImplements = 1
+		self.inImplements += 1
 		self.nextNode = node
 		return node
 		

@@ -111,17 +111,56 @@
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>
-		<comment>\SSingly\Slinked\Slist</comment>
+		<comment>\SException\Sthrown\Swhen\Sattempting\Sto\Stake\San\Selement\Sfrom\San\Sempty\Slist</comment>
 		<class depth="0" id="17">
-			<name>MutableList</name>
+			<name>NoElementsAvailableException</name>
 			<code>
-				<template depth="1" id="18">
-					<parameter depth="2" id="19">TDataType</parameter>
-				</template>
+				<extends depth="1" id="18">
+					<extends-class depth="2" id="19">Exception</extends-class>
+				</extends>
 				<function depth="1" id="20">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>container</value>
+							</access>
+						</parameter>
+					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="21">
+						<noop depth="2" id="21"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="22">
+					<getter depth="2" id="23">
+						<name>container</name>
+						<code>
+							<return depth="3" id="24">
+								<access>
+									<value>my</value>
+									<value>container</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SSingly\Slinked\Slist</comment>
+		<class depth="0" id="25">
+			<name>MutableList</name>
+			<code>
+				<template depth="1" id="26">
+					<parameter depth="2" id="27">TDataType</parameter>
+				</template>
+				<function depth="1" id="28">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="29">
 							<value>
 								<access>
 									<value>my</value>
@@ -140,7 +179,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign depth="2" id="30">
 							<value>
 								<access>
 									<value>my</value>
@@ -157,13 +196,13 @@
 					</code>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Slist</comment>
-				<function depth="1" id="23">
+				<function depth="1" id="31">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<assign depth="2" id="24">
+						<assign depth="2" id="32">
 							<value>
 								<access>
 									<value>
@@ -189,7 +228,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="25">
+						<assign depth="2" id="33">
 							<value>
 								<access>
 									<value>my</value>
@@ -209,14 +248,79 @@
 							</value>
 						</assign>
 					</code>
+				</function>
+				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Slist\Sand\Sreturns\Sit</comment>
+				<function depth="1" id="34">
+					<name>takeFirst</name>
+					<code>
+						<if-block depth="2" id="35">
+							<if>
+								<condition>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>start</value>
+											</access>
+										</value>
+										<value>next</value>
+									</access>
+								</condition>
+								<code>
+									<assign depth="3" id="36">
+										<value>
+											<access>
+												<value>my</value>
+												<value>start</value>
+											</access>
+										</value>
+										<value>
+											<access>
+												<value>
+													<access>
+														<value>my</value>
+														<value>start</value>
+													</access>
+												</value>
+												<value>next</value>
+											</access>
+										</value>
+									</assign>
+									<return depth="3" id="37">
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>start</value>
+												</access>
+											</value>
+											<value>value</value>
+										</access>
+									</return>
+								</code>
+							</if>
+							<else depth="2" id="38">
+								<code>
+									<throw depth="3" id="39">
+										<new>
+											<type>NoElementsAvailableException</type>
+											<parameters>
+												<parameter>my</parameter>
+											</parameters>
+										</new>
+									</throw>
+								</code>
+							</else>
+						</if-block>
+					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="26">
-					<getter depth="2" id="27">
+				<get depth="1" id="40">
+					<getter depth="2" id="41">
 						<name>first</name>
 						<code>
-							<require depth="3" id="28">
-								<not-equal depth="4" id="29">
+							<require depth="3" id="42">
+								<not-equal depth="4" id="43">
 									<value>
 										<access>
 											<value>
@@ -231,7 +335,7 @@
 									<value>null</value>
 								</not-equal>
 							</require>
-							<return depth="3" id="30">
+							<return depth="3" id="44">
 								<access>
 									<value>
 										<access>
@@ -245,12 +349,34 @@
 						</code>
 						<meta/>
 					</getter>
+					<getter depth="2" id="45">
+						<name>hasElements</name>
+						<code>
+							<return depth="3" id="46">
+								<not-equal>
+									<value>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>start</value>
+												</access>
+											</value>
+											<value>next</value>
+										</access>
+									</value>
+									<value>null</value>
+								</not-equal>
+							</return>
+						</code>
+						<meta/>
+					</getter>
 				</get>
-				<iterators depth="1" id="31">
-					<iterator-type depth="2" id="32">
+				<iterators depth="1" id="47">
+					<iterator-type depth="2" id="48">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="33">
+							<assign depth="3" id="49">
 								<value>node</value>
 								<value>
 									<access>
@@ -259,7 +385,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="34">
+							<while depth="3" id="50">
 								<condition>
 									<access>
 										<value>node</value>
@@ -267,7 +393,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="4" id="35">
+									<assign depth="4" id="51">
 										<value>node</value>
 										<value>
 											<access>
@@ -276,7 +402,7 @@
 											</access>
 										</value>
 									</assign>
-									<yield depth="4" id="36">
+									<yield depth="4" id="52">
 										<access>
 											<value>node</value>
 											<value>value</value>
@@ -289,6 +415,7 @@
 				</iterators>
 			</code>
 			<meta>
+				<ensure-destructor-call>false</ensure-destructor-call>
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>

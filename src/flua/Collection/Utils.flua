@@ -1,0 +1,26 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
+		<function depth="0" id="1">
+			<name>map</name>
+			<code>
+				<noop depth="1" id="2"/>
+			</code>
+			<meta/>
+		</function>
+		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
+		<function depth="0" id="3">
+			<name>reduce</name>
+			<code>
+				<noop depth="1" id="4"/>
+			</code>
+		</function>
+	</code>
+</module>
