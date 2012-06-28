@@ -89,17 +89,21 @@
 							<same-output-for-input>false</same-output-for-input>
 						</meta>
 					</extern-function>
+					<extern-function depth="2" id="14">
+						<name>setRandSeed</name>
+						<meta/>
+					</extern-function>
 				</code>
 			</namespace>
 		</extern>
 		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
-		<function depth="0" id="14">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>sq</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="16">
 					<multiply>
 						<value>x</value>
 						<value>x</value>
@@ -108,19 +112,19 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
-		<function depth="0" id="16">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>sqr</name>
 			<code>
-				<require depth="1" id="17">
-					<greater-or-equal depth="2" id="18">
+				<require depth="1" id="18">
+					<greater-or-equal depth="2" id="19">
 						<value>x</value>
 						<value>0</value>
 					</greater-or-equal>
 				</require>
-				<return depth="1" id="19">
+				<return depth="1" id="20">
 					<call>
 						<function>
 							<access>
@@ -137,13 +141,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sln\Sof\S#x</comment>
-		<function depth="0" id="20">
+		<function depth="0" id="21">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>ln</name>
 			<code>
-				<return depth="1" id="21">
+				<return depth="1" id="22">
 					<call>
 						<function>
 							<access>
@@ -160,13 +164,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Slg\Sof\S#x</comment>
-		<function depth="0" id="22">
+		<function depth="0" id="23">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>lg</name>
 			<code>
-				<return depth="1" id="23">
+				<return depth="1" id="24">
 					<call>
 						<function>
 							<access>
@@ -182,13 +186,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sabsolute\Svalue\Sof\S#x\S(positive)</comment>
-		<function depth="0" id="24">
+		<function depth="0" id="25">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>abs</name>
 			<code>
-				<if-block depth="1" id="25">
+				<if-block depth="1" id="26">
 					<if>
 						<condition>
 							<greater-or-equal>
@@ -197,12 +201,12 @@
 							</greater-or-equal>
 						</condition>
 						<code>
-							<return depth="2" id="26">x</return>
+							<return depth="2" id="27">x</return>
 						</code>
 					</if>
-					<else depth="1" id="27">
+					<else depth="1" id="28">
 						<code>
-							<return depth="2" id="28">
+							<return depth="2" id="29">
 								<negative>
 									<value>x</value>
 								</negative>
@@ -214,7 +218,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="30">
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -231,17 +235,17 @@
 			</parameters>
 			<name>rand</name>
 			<code>
-				<ensure depth="1" id="30">
-					<greater-or-equal depth="2" id="31">
+				<ensure depth="1" id="31">
+					<greater-or-equal depth="2" id="32">
 						<value>result</value>
 						<value>a</value>
 					</greater-or-equal>
-					<less-or-equal depth="2" id="32">
+					<less-or-equal depth="2" id="33">
 						<value>result</value>
 						<value>b</value>
 					</less-or-equal>
 				</ensure>
-				<return depth="1" id="33">
+				<return depth="1" id="34">
 					<call>
 						<function>
 							<access>
@@ -257,15 +261,36 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SSets\Sa\Snew\S#seed\Sfor\Srandom\Snumbers</comment>
+		<function depth="0" id="35">
+			<parameters>
+				<parameter>seed</parameter>
+			</parameters>
+			<name>setRandSeed</name>
+			<code>
+				<call depth="1" id="36">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>setRandSeed</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>seed</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
-		<function depth="0" id="34">
+		<function depth="0" id="37">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>min</name>
 			<code>
-				<if-block depth="1" id="35">
+				<if-block depth="1" id="38">
 					<if>
 						<condition>
 							<less>
@@ -274,26 +299,26 @@
 							</less>
 						</condition>
 						<code>
-							<return depth="2" id="36">a</return>
+							<return depth="2" id="39">a</return>
 						</code>
 					</if>
-					<else depth="1" id="37">
+					<else depth="1" id="40">
 						<code>
-							<return depth="2" id="38">b</return>
+							<return depth="2" id="41">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="39">
+		<function depth="0" id="42">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>max</name>
 			<code>
-				<if-block depth="1" id="40">
+				<if-block depth="1" id="43">
 					<if>
 						<condition>
 							<greater>
@@ -302,12 +327,12 @@
 							</greater>
 						</condition>
 						<code>
-							<return depth="2" id="41">a</return>
+							<return depth="2" id="44">a</return>
 						</code>
 					</if>
-					<else depth="1" id="42">
+					<else depth="1" id="45">
 						<code>
-							<return depth="2" id="43">b</return>
+							<return depth="2" id="46">b</return>
 						</code>
 					</else>
 				</if-block>

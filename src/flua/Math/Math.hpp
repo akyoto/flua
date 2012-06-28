@@ -46,3 +46,8 @@ inline int flua_rand(T1 a, T2 b) {
 		return (b >= a) ? rand() % (b - a) + a : rand() % (a - b) + b;
 	return a;
 }
+
+template <typename T>
+inline void flua_setRandSeed(T x) {
+	srand(x);
+}
