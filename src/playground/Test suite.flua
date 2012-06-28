@@ -10,7 +10,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SPress\SF5\Sto\Ssee\Sif\Sbp\Sis\Srunning\Son\Syour\Scomputer!</comment>
+		<comment>\SPress\SF5\Sto\Ssee\Sif\SFlua\Sis\Srunning\Son\Syour\Scomputer!</comment>
 		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
