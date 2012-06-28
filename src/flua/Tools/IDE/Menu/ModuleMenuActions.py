@@ -179,6 +179,7 @@ class ModuleMenuActions:
 			if node:
 				print("Last parsed node:\n" + node.toxml())
 				
+			self.console.activate("Log")
 			self.consoleDock.show()
 		else:
 			errorMessage = e.getMsg()

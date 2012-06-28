@@ -118,6 +118,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.parallelBlockStack = []
 		self.tuples = dict()
 		self.tupleTypes = dict()
+		self.parallelForFuncs = list()
 		self.onVariable = ""
 		
 		# TODO: Read from module meta data

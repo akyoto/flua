@@ -69,6 +69,7 @@ class CPPOutputFile(BaseOutputFile):
 		#self.actorClassesHeader = ""
 		self.prototypesHeader = "\n// Prototypes\n\n"
 		self.includesHeader = "\n// Includes\n\n"
+		self.pForFuncsHeader = "\n// PFor funcs\n\n"
 		
 		# Syntax
 		self.lineLimiter = ";\n"
@@ -132,6 +133,7 @@ class CPPOutputFile(BaseOutputFile):
 		#self.varsHeader += "\n"
 		
 		self.structsHeader = "\n// Tuples\n\n%s" % '\n'.join(self.tuples.values())
+		self.pForFuncsHeader += '\n'.join(self.parallelForFuncs)
 	
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
@@ -227,7 +229,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return "\n%spthread_join(flua_threadHandle_%d, NULL);" % (tabs, threadID)
 	
 	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
-		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
+		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}\n" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
 	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit):
 		# Fix tabs
@@ -420,8 +422,11 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		code += self.returnSyntax % varName + ";}"
 		return code
 		
-	def buildPForFunc(self, threadFunc, code):
-		return "inline void %s() {\n%s\n}\n" % (threadFunc, code)
+	def buildPForFunc(self, threadFunc, code, paramsString):
+		protoType = "inline void %s(%s)" % (threadFunc, paramsString)
+		fullCode = "%s {\n%s\n}\n" % (protoType, code)
+		
+		return fullCode, protoType
 		
 	def buildLine(self, line):
 		return line + ";\n" + "\t" * self.currentTabLevel
@@ -552,12 +557,13 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		self.writeFunctions()
 		self.writeClasses()
 		
-		return "%s%s%s%s%s%s%s%s%s%s" % (
+		return "%s%s%s%s%s%s%s%s%s%s%s" % (
 			self.header,
 			self.prototypesHeader,
 			self.includesHeader,
 			self.structsHeader,
 			self.varsHeader,
+			self.pForFuncsHeader,
 			self.dataFlowHeader,
 			self.classesHeader,
 			#self.customThreadsString,

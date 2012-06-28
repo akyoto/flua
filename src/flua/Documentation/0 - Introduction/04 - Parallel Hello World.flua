@@ -6,7 +6,8 @@
 			<import>flua.Concurrency</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">Hello\SWorld</string>
+			<string id="flua_string_0">Hello\SWorld\Sfrom\Stask\S</string>
+			<string id="flua_string_1">\S/\S</string>
 		</strings>
 	</header>
 	<code>
@@ -29,11 +30,25 @@
 				<call depth="1" id="3">
 					<function>print</function>
 					<parameters>
-						<parameter>flua_string_0</parameter>
+						<parameter>
+							<add>
+								<value>
+									<add>
+										<value>
+											<add>
+												<value>flua_string_0</value>
+												<value>i</value>
+											</add>
+										</value>
+										<value>flua_string_1</value>
+									</add>
+								</value>
+								<value>numTasks</value>
+							</add>
+						</parameter>
 					</parameters>
 				</call>
 			</code>
 		</parallel-for>
-		<comment>\STODO:\Sfrom\Stask\S$i\S/\S$numTasks</comment>
 	</code>
 </module>

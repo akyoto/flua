@@ -449,6 +449,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def printL(self, msg):
 		print(msg)
+		self.console.activate("Log")
 		self.consoleDock.show()
 		
 	def getPostProcessorFile(self, path):

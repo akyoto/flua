@@ -952,7 +952,7 @@ class BaseOutputFileHandler:
 			saveInCollection = "flua_pfor_collection_%d" % self.compiler.customThreadsCount
 			
 			# Create a thread function
-			paramTypes = []
+			paramTypes = [var.type]
 			self.buildThreadFunc(threadFuncID, paramTypes)
 			
 			# Append it to the last list on the stack
@@ -961,7 +961,9 @@ class BaseOutputFileHandler:
 			self.compiler.customThreadsCount += 1
 			tabs = "\t" * self.currentTabLevel
 			
-			self.compiler.parallelForFuncs.append(self.buildPForFunc(threadFuncID, code))
+			fullCode, protoType = self.buildPForFunc(threadFuncID, code, self.adjustDataType(var.type) + " " + var.name)
+			self.parallelForFuncs.append(fullCode)
+			self.compiler.prototypes.append(protoType + ";\n")
 			#return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
 			
 			# Create a dynamical list of threads
@@ -972,7 +974,7 @@ class BaseOutputFileHandler:
 			
 			# Replace code
 			tabs = "\t" * self.currentTabLevel
-			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, "", tabs, saveInCollection)
+			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, var.name, tabs, saveInCollection)
 		else:
 			initCode = ""
 			exitCode = ""
