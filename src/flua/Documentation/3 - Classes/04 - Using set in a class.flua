@@ -1,0 +1,133 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">I'm\Sso\Sprivate!\SCan't\Sset\Sme!</string>
+			<string id="flua_string_1">To\Sbe\Sor\Snot\Sto\Sbe.</string>
+			<string id="flua_string_2">42</string>
+			<string id="flua_string_3">We\Scan\Swrite.</string>
+			<string id="flua_string_4">42</string>
+			<string id="flua_string_5">We\Scan\Swrite.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SMember\Svariables\Sin\SFlua\Sare\Sprivate\Sby\Sdefault.</comment>
+		<comment>\STo\Senable\Swrite\Saccess\Sto\Sa\Smember\Svariable\Syou</comment>
+		<comment>\Sneed\Sto\Smake\Sa\Sset\Sfunction.\SIn\Sother\Slanguages</comment>
+		<comment>\Syou'd\Swrite\SsetMember(new_value).\SIn\SFlua\Syou\Swrite:</comment>
+		<class depth="0" id="1">
+			<name>MyClass</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>memberOne</value>
+								</access>
+							</value>
+							<value>flua_string_0</value>
+						</assign>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>memberTwo</value>
+								</access>
+							</value>
+							<value>flua_string_1</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<set depth="1" id="5">
+					<setter depth="2" id="6">
+						<parameters>
+							<parameter>newValue</parameter>
+						</parameters>
+						<name>memberOne</name>
+						<code>
+							<assign depth="3" id="7">
+								<value>
+									<access>
+										<value>my</value>
+										<value>memberOne</value>
+									</access>
+								</value>
+								<value>newValue</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+					<setter depth="2" id="8">
+						<parameters>
+							<parameter>newValue</parameter>
+						</parameters>
+						<name>memberTwo</name>
+						<code>
+							<assign depth="3" id="9">
+								<value>
+									<access>
+										<value>my</value>
+										<value>memberTwo</value>
+									</access>
+								</value>
+								<value>newValue</value>
+							</assign>
+						</code>
+						<meta/>
+					</setter>
+				</set>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SCreate\San\Sinstance\Sof\Sthat\Sclass:</comment>
+		<assign depth="0" id="10">
+			<value>a</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<comment>\SNow\Swe\Shave\Swrite-only\Saccess\Sto\Sthese\Smembers:</comment>
+		<assign depth="0" id="11">
+			<value>
+				<access>
+					<value>a</value>
+					<value>memberOne</value>
+				</access>
+			</value>
+			<value>flua_string_2</value>
+		</assign>
+		<assign depth="0" id="12">
+			<value>
+				<access>
+					<value>a</value>
+					<value>memberTwo</value>
+				</access>
+			</value>
+			<value>flua_string_3</value>
+		</assign>
+		<comment>\SAs\Sa\Sside-note,\Syou\Scan\Salso\Swrite:</comment>
+		<on depth="0" id="13">
+			<expression>a</expression>
+			<code>
+				<assign depth="1" id="14">
+					<value>memberOne</value>
+					<value>flua_string_4</value>
+				</assign>
+				<assign depth="1" id="15">
+					<value>memberTwo</value>
+					<value>flua_string_5</value>
+				</assign>
+			</code>
+		</on>
+	</code>
+</module>

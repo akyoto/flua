@@ -1,0 +1,107 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">I'm\Sso\Sprivate!\SCan't\Sget\Sme!</string>
+			<string id="flua_string_1">To\Sbe\Sor\Snot\Sto\Sbe.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SMember\Svariables\Sin\SFlua\Sare\Sprivate\Sby\Sdefault.</comment>
+		<comment>\STo\Senable\Sread\Saccess\Sto\Sa\Smember\Svariable\Syou</comment>
+		<comment>\Sneed\Sto\Smake\Sa\Sget\Sfunction.\SIn\Sother\Slanguages</comment>
+		<comment>\Syou'd\Swrite\SgetMember().\SIn\SFlua\Syou\Swrite:</comment>
+		<class depth="0" id="1">
+			<name>MyClass</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>memberOne</value>
+								</access>
+							</value>
+							<value>flua_string_0</value>
+						</assign>
+						<assign depth="2" id="4">
+							<value>
+								<access>
+									<value>my</value>
+									<value>memberTwo</value>
+								</access>
+							</value>
+							<value>flua_string_1</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="5">
+					<getter depth="2" id="6">
+						<name>memberOne</name>
+						<code>
+							<return depth="3" id="7">
+								<access>
+									<value>my</value>
+									<value>memberOne</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="8">
+						<name>memberTwo</name>
+						<code>
+							<return depth="3" id="9">
+								<access>
+									<value>my</value>
+									<value>memberTwo</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SCreate\San\Sinstance\Sof\Sthat\Sclass:</comment>
+		<assign depth="0" id="10">
+			<value>a</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<comment>\SNow\Swe\Shave\Sread-only\Saccess\Sto\Sthese\Smembers:</comment>
+		<call depth="0" id="11">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>a</value>
+						<value>memberOne</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="12">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>a</value>
+						<value>memberTwo</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

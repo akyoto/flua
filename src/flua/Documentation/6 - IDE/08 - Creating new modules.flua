@@ -1,0 +1,14 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SThe\Seasiest\Sway\Sto\Sdo\Sthis\Sis\Sto\Sright-click\Son\Syour\STLD</comment>
+		<comment>\Sand\Schoose\S&quot;New\Smodule&quot;.</comment>
+		<comment>\SYou\Scan\Salso\Sdelete\Sit\Sor\Srename\Sit\Swith\SF2.</comment>
+	</code>
+</module>

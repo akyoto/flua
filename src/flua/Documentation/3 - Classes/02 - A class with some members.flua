@@ -1,0 +1,71 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Hello\SWorld</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SSo\Syou\Swant\Syour\Sown\Smembers,\Shuh?\SOkay:</comment>
+		<class depth="0" id="1">
+			<name>MyClass</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>member</value>
+								</access>
+							</value>
+							<value>flua_string_0</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="4">
+					<name>doSomething</name>
+					<code>
+						<call depth="2" id="5">
+							<function>print</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>member</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SCreate\San\Sobject:</comment>
+		<assign depth="0" id="6">
+			<value>a</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<call depth="0" id="7">
+			<function>
+				<access>
+					<value>a</value>
+					<value>doSomething</value>
+				</access>
+			</function>
+			<parameters/>
+		</call>
+	</code>
+</module>

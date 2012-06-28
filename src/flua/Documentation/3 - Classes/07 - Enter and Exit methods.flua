@@ -12,6 +12,7 @@
 		</strings>
 	</header>
 	<code>
+		<comment>\SThis\Sclass\Sdefines\S'enter'\Sand\S'exit'\Smethods:</comment>
 		<class depth="0" id="1">
 			<name>MyAwesomeClass</name>
 			<code>
@@ -62,7 +63,6 @@
 					<meta/>
 				</function>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SLet's\Sassume\Syou\Soften\Sneed\Sto\Sinitialize\Ssomething\Sin\Sa\Sblock\Sand\Safterwards\Sremove\Sit.</comment>
 		<comment>\SYou\Scan\Srealize\Sthis\Susing\Sthe\S'in'\Skeyword.</comment>

@@ -1,0 +1,74 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">I'm\Sso\Sprivate!\SCan't\Sget\Sme!</string>
+			<string id="flua_string_1">Something\Selse.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SMember\Svariables\Sin\SFlua\Sare\Sprivate\Sby\Sdefault.</comment>
+		<comment>\STherefore\Sif\Syou\Swant\Sto\Saccess\Sa\Sproperty\Sfrom\Soutside</comment>
+		<comment>\Sthe\Sclass\Syou\Sneed\Sto\Sdeclare\Sit\Sas\Spublic:</comment>
+		<class depth="0" id="1">
+			<name>MyClass</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>member</value>
+								</access>
+							</value>
+							<value>flua_string_0</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<comment>\SThis'll\Smake\Sit\Spublic:</comment>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">member</public-member>
+				</public>
+			</code>
+			<meta/>
+		</class>
+		<comment>\SCreate\San\Sinstance\Sof\Sthat\Sclass:</comment>
+		<assign depth="0" id="6">
+			<value>a</value>
+			<value>
+				<new>
+					<type>MyClass</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<comment>\SNow\Swe\Scan\Sread\Sits\Svalue:</comment>
+		<call depth="0" id="7">
+			<function>print</function>
+			<parameters>
+				<parameter>
+					<access>
+						<value>a</value>
+						<value>member</value>
+					</access>
+				</parameter>
+			</parameters>
+		</call>
+		<comment>\S...and\Swe\Scan\Sdirectly\Schange\Sthe\Svalue:</comment>
+		<assign depth="0" id="8">
+			<value>
+				<access>
+					<value>a</value>
+					<value>member</value>
+				</access>
+			</value>
+			<value>flua_string_1</value>
+		</assign>
+	</code>
+</module>
