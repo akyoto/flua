@@ -31,6 +31,16 @@ from flua.Compiler.Utils import *
 from flua.Compiler.Config import *
 
 ####################################################################
+# Functions
+####################################################################
+def checkInterfaceImplementation(classObj, interface):
+	#debug("Checking '%s' for implementation of interface '%s'" % (classObj.name, interface.name))
+	
+	for method in interface.functions:
+		if not classObj.hasFunction(method):
+			raise CompilerException("Class '%s' does not define the '%s' method of interface '%s'" % (classObj.name, method, interface.name))
+
+####################################################################
 # Classes
 ####################################################################
 class BaseOutputCompiler(Benchmarkable):

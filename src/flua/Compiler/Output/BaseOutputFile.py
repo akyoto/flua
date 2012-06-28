@@ -162,7 +162,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			"template-call" : self.handleTemplateCall,
 			
 			# Ignored
-			"class" : None,
+			"class" : self.handleClass,
 			"interface" : None,
 			"function" : None,
 			"operator" : None,
@@ -206,6 +206,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		# Debugging
 		self.lastParsedNode = list()
+		
+	def handleClass(self, node):
+		className = getElementByTagName(node, "name").firstChild.nodeValue
+		classObj = self.getClass(className)
+		
+		# Check interface implementations
+		for interface in classObj.extends:
+			if interface.classObj.isInterface:
+				checkInterfaceImplementation(classObj, interface.classObj)
 	
 	def compile(self):
 		raise NotImplementedError()
@@ -265,13 +274,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return self.binaryOperatorSyntax % (self.exprPrefix, op1, connector, op2, self.exprPostfix)
 		else:
 			return self.binaryOperatorDivideSyntax % (self.exprPrefix, op1, connector, op2, self.exprPostfix)
-	
-	def checkInterfaceImplementation(self, classObj, interface):
-		#debug("Checking '%s' for implementation of interface '%s'" % (classObj.name, interface.name))
-		
-		for method in interface.functions:
-			if not classObj.hasFunction(method):
-				raise CompilerException("Class '%s' does not define the '%s' method of interface '%s'" % (classObj.name, method, interface.name))
 	
 	def getNamespacePrefix(self):
 		namespacePrefix = '_'.join(self.namespaceStack)

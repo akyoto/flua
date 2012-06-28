@@ -154,11 +154,6 @@ class BaseOutputFileScan:
 		
 		self.scanAhead(getElementByTagName(node, "code"))
 		
-		# Check interfaces
-		for classImpl in refClass.extends:
-			if classImpl.classObj.isInterface:
-				self.checkInterfaceImplementation(refClass, classImpl.classObj)
-		
 		if extendingClass:
 			self.currentClass = oldClass
 		else:
