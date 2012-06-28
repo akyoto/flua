@@ -85,7 +85,7 @@ bpOperatorLevels = [
 		Operator("<<", "shift-left", Operator.BINARY),
 		Operator(">>", "shift-right", Operator.BINARY),
 	],
-		
+	
 	# 8: GT, LT
 	[
 		Operator(">=", "greater-or-equal", Operator.BINARY),
@@ -93,7 +93,7 @@ bpOperatorLevels = [
 		Operator("<=", "less-or-equal", Operator.BINARY),
 		Operator("<", "less", Operator.BINARY),
 	],
-		
+	
 	# 9: Comparison
 	[
 		Operator("==", "equal", Operator.BINARY),

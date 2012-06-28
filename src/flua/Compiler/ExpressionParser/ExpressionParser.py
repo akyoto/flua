@@ -114,7 +114,7 @@ class ExpressionParser:
 		operandRight = ""
 		char = ''
 		
-		#print(self.getDebugPrefix() + " * buildCleanExpr: " + expr)
+		#print(" * buildCleanExpr: " + expr)
 		
 		# For every operator level
 		for opLevel in self.operatorLevels:
@@ -473,7 +473,7 @@ class ExpressionParser:
 #				self.getCurrentScope().addVariable(GenericVariable(leftOperand, "Unknown"))
 		
 		# Right operand missing
-		if l(rightOperand) == 0:
+		if not rightOperand:
 			if operator == "=":
 				raise CompilerException("You need to assign a valid value to '%s'" % leftOperand)
 			raise CompilerException("Operator [" + operator + "] expects a second operator")

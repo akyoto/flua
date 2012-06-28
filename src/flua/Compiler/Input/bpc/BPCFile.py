@@ -89,9 +89,12 @@ def addGenerics(line):
 	bracketCounter = 0
 	char = ''
 	startGeneric = -1
+	lineLen = len(line)
+	i = 0
 	#oldLine = line
 	
-	for i in range(len(line)):
+	#for i in range(len(line)):
+	while i < lineLen:
 		char = line[i]
 		
 		if char == '<':
@@ -105,13 +108,19 @@ def addGenerics(line):
 			if bracketCounter == 0:
 				templateParam = addGenerics(line[startGeneric+1:i])
 				line = line[:startGeneric] + "§(" + templateParam + ")" + line[i+1:]
+				i += 1
+				lineLen = len(line)
 				
 		elif bracketCounter > 0 and char != '~' and char != ',' and (not char.isspace()) and ((not isVarChar(char)) or char == '.'):
 			break
-	
-#		if oldLine != line:
-#			print("Start: " + oldLine)
-#			print("End: " + line)
+		
+		i += 1
+		#if oldLine != line:
+		#	print(char)
+		#	print("Start: " + oldLine)
+		#	print("End: " + line)
+			
+	#print("End addGenerics()")
 	return line
 
 def addBrackets(line):
