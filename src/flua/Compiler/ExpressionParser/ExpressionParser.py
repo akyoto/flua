@@ -100,6 +100,10 @@ class ExpressionParser:
 		
 		expr = expr.replace(" ", "")
 		exprLen = l(expr)
+		
+		#if exprLen == 1 and not isVarChar(expr):
+		#	raise CompilerException("Invalid expression: '%s'" % (expr))
+		
 		i = 0
 		lastOccurence = 0
 		start = 0
@@ -128,6 +132,14 @@ class ExpressionParser:
 					if lastOccurence is not -1:
 						if lastOccurence == exprLen - 1:
 							raise CompilerException("Missing operand")
+						
+						if op.text == "§":
+							if lastOccurence == 0:
+								raise CompilerException("Can't start a template expression at the beginning of an expression in '%s'" % (expr))
+								
+							if not isVarChar(expr[lastOccurence - 1]):
+								raise CompilerException("You can't use a template expression without specifying an actual class in '%s'" % (expr))
+						
 						if isVarChar(expr[lastOccurence + op.textLen]) or expr[lastOccurence + op.textLen] == '(' or op.text == '(' or expr[lastOccurence + op.textLen] == '[' or op.text == '[':
 							if op.type == Operator.BINARY:
 								
@@ -175,6 +187,12 @@ class ExpressionParser:
 									end += 1
 
 								operandRight = expr[lastOccurence + op.textLen:end]
+								
+								#if (not operandLeft) or (not operandRight):
+								#	raise CompilerException("Invalid expression: '%s'" % (expr))
+								
+								#if exprLen == 1 and not isVarChar(expr):
+								#	raise CompilerException("Invalid expression: '%s'" % (expr))
 								
 								# Perform "no digits at the start of an identifier" check for the left operator
 								if operandLeft:
@@ -266,7 +284,8 @@ class ExpressionParser:
 								#else:
 								#	pass
 									#print(self.getDebugPrefix() + "    * Expression change denied for operator: [" + op.text + "]")
-								
+							
+							# Unary operators	
 							elif op.type == Operator.UNARY and (lastOccurence <= 0 or (isVarChar(expr[lastOccurence - 1]) == False and expr[lastOccurence - 1] != ')')):
 								#print("Unary check for operator [" + op.text + "]")
 								#print("  Unary.lastOccurence: " + str(lastOccurence))
