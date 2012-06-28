@@ -90,6 +90,7 @@
 						<code>
 							<noop depth="3" id="18"/>
 						</code>
+						<meta/>
 					</function>
 				</code>
 			</class>
@@ -261,7 +262,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
 		<function depth="0" id="46">

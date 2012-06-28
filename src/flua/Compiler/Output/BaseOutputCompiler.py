@@ -77,6 +77,8 @@ class BaseOutputCompiler(Benchmarkable):
 		self.tuples = dict()
 		self.customThreads = dict()
 		
+		self.enableIterVarPrefixes = False
+		
 		# Main class
 		self.mainClass = self.createClass("", None)
 		self.mainClassImpl = self.mainClass.requestImplementation([], [])

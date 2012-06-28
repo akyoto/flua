@@ -507,6 +507,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if node.nodeValue in self.tupleTypes:
 					return self.tupleTypes[node.nodeValue]
 				
+				#if self.inIterator:
+				#	return self.getVariableTypeAnywhere("_flua_iter_" + node.nodeValue)
+				
 				#translatedName = self.currentClassImpl.translateTemplateName(nodeName)
 				#if translatedName != nodeName:
 				#	return "Size"
@@ -1188,6 +1191,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					nodeName = replacedNodeValues[node.nodeValue]
 					return nodeName
 				else:
+					if self.inIterator and self.compiler.enableIterVarPrefixes:
+						return "_flua_iter_" + node.nodeValue
+					
 					return node.nodeValue
 		
 		tagName = node.tagName

@@ -1314,7 +1314,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		if self.currentSyntax == SYNTAX_PYTHON:
 			if not line.startswith("def "):
 				raise CompilerException("Missing 'def' keyword in function definition")
-			line = line[4:-1] # Remove 'def ' at the start and ')' at the end
+			line = line[4:] # Remove 'def ' at the start and ')' at the end
 		
 		# Check for function
 		funcName = ""

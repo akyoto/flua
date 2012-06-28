@@ -30,15 +30,10 @@
 					<extern-function depth="2" id="7">
 						<name>now</name>
 						<type>TimeStamp</type>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>true</same-output-for-input>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="8">
 						<name>formatTimeStamp</name>
 						<type>String</type>
-						<meta/>
 					</extern-function>
 				</code>
 			</namespace>
@@ -50,7 +45,6 @@
 						<code>
 							<noop depth="3" id="11"/>
 						</code>
-						<meta/>
 					</function>
 				</code>
 			</class>
@@ -72,7 +66,6 @@
 					<code>
 						<noop depth="2" id="14"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<parameters>
@@ -116,7 +109,6 @@
 							</call>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<get depth="1" id="19">
 					<getter depth="2" id="20">
@@ -202,7 +194,6 @@
 					</new>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
 		<function depth="0" id="29">
@@ -220,7 +211,6 @@
 					</access>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
 		<function depth="0" id="31">
@@ -238,13 +228,9 @@
 					</access>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
 		<function depth="0" id="33">
-			<parameters>
-				<parameter>year</parameter>
-			</parameters>
 			<name>isLeapYear</name>
 			<code>
 				<return depth="1" id="34">

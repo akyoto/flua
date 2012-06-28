@@ -17,30 +17,5 @@
 				<parameter>flua_string_0</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="2">
-			<function>setRandSeed</function>
-			<parameters>
-				<parameter>
-					<call>
-						<function>systemTime</function>
-						<parameters/>
-					</call>
-				</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="3">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<call>
-						<function>rand</function>
-						<parameters>
-							<parameter>1</parameter>
-							<parameter>10</parameter>
-						</parameters>
-					</call>
-				</parameter>
-			</parameters>
-		</call>
 	</code>
 </module>
