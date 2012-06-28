@@ -75,29 +75,25 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="14">
-						<name>setWindow</name>
-						<meta/>
-					</extern-function>
-					<extern-function depth="2" id="15">
 						<name>setActiveProgram</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="16">
+					<extern-function depth="2" id="15">
 						<name>setTransform</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="17">
+					<extern-function depth="2" id="16">
 						<name>setCamera</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="18">
+					<extern-function depth="2" id="17">
 						<name>getLastGLError</name>
 						<type>String</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="19">
+					<extern-function depth="2" id="18">
 						<name>getMouseX</name>
 						<type>Int</type>
 						<meta>
@@ -105,14 +101,14 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="20">
+					<extern-function depth="2" id="19">
 						<name>getMouseY</name>
 						<type>Int</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="21">
+					<extern-function depth="2" id="20">
 						<name>getScreenWidth</name>
 						<type>Int</type>
 						<meta>
@@ -120,7 +116,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="22">
+					<extern-function depth="2" id="21">
 						<name>getScreenHeight</name>
 						<type>Int</type>
 						<meta>
@@ -130,10 +126,10 @@
 				</code>
 			</namespace>
 		</extern>
-		<function depth="0" id="23">
+		<function depth="0" id="22">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="24">
+				<return depth="1" id="23">
 					<call>
 						<function>
 							<access>
@@ -148,10 +144,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="25">
+		<function depth="0" id="24">
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="26">
+				<return depth="1" id="25">
 					<call>
 						<function>
 							<access>
@@ -167,10 +163,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="27">
+		<function depth="0" id="26">
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="28">
+				<return depth="1" id="27">
 					<call>
 						<function>
 							<access>
@@ -185,7 +181,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="28">
 			<parameters>
 				<parameter>
 					<assign>
@@ -200,7 +196,7 @@
 			</parameters>
 			<name>getScreenWidth</name>
 			<code>
-				<return depth="1" id="30">
+				<return depth="1" id="29">
 					<call>
 						<function>
 							<access>
@@ -215,7 +211,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="30">
 			<parameters>
 				<parameter>
 					<assign>
@@ -230,7 +226,7 @@
 			</parameters>
 			<name>getScreenHeight</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="31">
 					<call>
 						<function>
 							<access>
@@ -245,9 +241,9 @@
 			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="33">
+		<test depth="0" id="32">
 			<code>
-				<call depth="1" id="34">
+				<call depth="1" id="33">
 					<function>print</function>
 					<parameters>
 						<parameter>
