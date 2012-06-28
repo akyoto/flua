@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SYou\Scan\Spress\SF5\Sto\Sexecute\Sthis.</comment>
+		<comment>\SGet\Sthe\Snumber\Sof\SCPU\Scores</comment>
 		<assign depth="0" id="1">
 			<value>numTasks</value>
 			<value>
@@ -21,7 +21,7 @@
 				</call>
 			</value>
 		</assign>
-		<comment>\SThis\Sis\Scurrently\SW.I.P.\SParallel\Sfor\Sloop</comment>
+		<comment>\SCreate\Sone\Stask\Sfor\Seach\SCPU\Score</comment>
 		<parallel-for depth="0" id="2">
 			<iterator>i</iterator>
 			<from>1</from>
