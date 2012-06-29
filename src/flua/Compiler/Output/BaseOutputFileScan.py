@@ -230,11 +230,12 @@ class BaseOutputFileScan:
 		
 	def scanExternFunction(self, node):
 		name = self.getNamespacePrefix() + getElementByTagName(node, "name").childNodes[0].nodeValue
-		types = node.getElementsByTagName("type")
-		type = "void"
+		typeNode = getElementByTagName(node, "type")
 		
-		if types:
-			type = types[0].childNodes[0].nodeValue
+		if typeNode:
+			type = typeNode.firstChild.nodeValue
+		else:
+			type = "void"
 		
 		# TODO: Remove hardcoded
 		if type == "CString":
@@ -247,15 +248,16 @@ class BaseOutputFileScan:
 		
 	def scanExternVariable(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
-		types = node.getElementsByTagName("type")
-		typeName = "Int"
+		typeNode = getElementByTagName(node, "type")
 		
-		if types:
-			typeName = types[0].childNodes[0].nodeValue
-		
-		# TODO: Remove hardcoded
-		if typeName == "CString":
-			typeName = "~MemPointer<Byte>"
+		if typeNode:
+			typeName = typeNode.firstChild.nodeValue
+			
+			# TODO: Remove hardcoded
+			if typeName == "CString":
+				typeName = "~MemPointer<Byte>"
+		else:
+			typeName = "Int"
 		
 		# Typedefs
 		typeName = self.prepareTypeName(typeName)

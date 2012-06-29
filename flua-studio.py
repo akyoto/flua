@@ -70,5 +70,5 @@ if __name__ == "__main__":
 		main()
 	else:
 		import cProfile
-		cProfile.run("main()", "/home/eduard/Projects/bp.prof")
-		os.system("pyprof2calltree -i /home/eduard/Projects/bp.prof -k")
+		cProfile.run("main()", "/home/eduard/Projects/flua.prof")
+		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
