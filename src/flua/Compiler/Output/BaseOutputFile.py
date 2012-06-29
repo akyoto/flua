@@ -504,11 +504,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if nodeName in replacedNodeValues:
 					nodeName = replacedNodeValues[nodeName]
 				
-				if node.nodeValue in self.tupleTypes:
-					return self.tupleTypes[node.nodeValue]
+				if nodeName in self.tupleTypes:
+					return self.tupleTypes[nodeName]
 				
-				#if self.inIterator:
-				#	return self.getVariableTypeAnywhere("_flua_iter_" + node.nodeValue)
+				if self.inIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName):
+					#print("getExprDataType: " + nodeName)
+					return self.getVariableTypeAnywhere("_flua_iter_" + nodeName)
 				
 				#translatedName = self.currentClassImpl.translateTemplateName(nodeName)
 				#if translatedName != nodeName:
@@ -1097,6 +1098,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		return pList, pTypes, pDefault, pDefaultTypes
 	
+	def varInLocalScope(self, name):
+		return (name in self.getCurrentScope().variables or not name in self.getTopLevelScope().variables)
+	
 	def getTypeDeclInfo(self, exprNode):
 		op1 = exprNode.childNodes[0].childNodes[0]
 		if isElemNode(op1) and op1.tagName == "access":
@@ -1190,8 +1194,23 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					nodeName = node.nodeValue
 					nodeName = replacedNodeValues[node.nodeValue]
 					return nodeName
+				# Catch member variables
+				elif node.nodeValue in self.currentClassImpl.members:
+					return node.nodeValue
+				# Catch normal types
+				elif node.nodeValue in nonPointerClasses:
+					return node.nodeValue
+				# Catch template types
+				elif node.nodeValue in self.currentClass.templateNames:
+					return node.nodeValue
+				# Catch class names
+				elif node.nodeValue in self.compiler.mainClass.classes:
+					return node.nodeValue
+				# Now we should only have variables left
 				else:
-					if self.inIterator and self.compiler.enableIterVarPrefixes:
+					if self.inIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(node.nodeValue) and isNot2ndAccessNode(node):
+						#print("parseExpr: " + node.nodeValue)
+						#print(self.currentClassImpl.members)
 						return "_flua_iter_" + node.nodeValue
 					
 					return node.nodeValue

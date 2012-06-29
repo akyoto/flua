@@ -68,6 +68,9 @@ def isMetaDataTrue(stri):
 def isMetaDataTrueByTag(node, metaTag):
 	return isMetaDataTrue(getMetaData(node, metaTag))
 	
+def isNot2ndAccessNode(node):
+	return (node.parentNode.parentNode.tagName != "access" or node == node.parentNode.parentNode.firstChild.firstChild)
+	
 def findNodes(node, nodeName):
 	callList = []
 	

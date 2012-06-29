@@ -217,7 +217,12 @@
 							</condition>
 							<code>
 								<call depth="3" id="19">
-									<function>flua.swap</function>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>swap</value>
+										</access>
+									</function>
 									<parameters>
 										<parameter>
 											<access>
@@ -285,8 +290,7 @@
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
 					<operator depth="2" id="28">
 						<parameters>
-							<parameter>index</parameter>
-							<parameter>value</parameter>
+							<parameter>(index,value)</parameter>
 						</parameters>
 						<name>[]=</name>
 						<code>

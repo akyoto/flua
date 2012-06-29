@@ -77,7 +77,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.tuples = dict()
 		self.customThreads = dict()
 		
-		self.enableIterVarPrefixes = False
+		self.enableIterVarPrefixes = True
 		
 		# Main class
 		self.mainClass = self.createClass("", None)
