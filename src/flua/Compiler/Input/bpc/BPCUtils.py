@@ -297,7 +297,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	if node is None:
 		return ""
 	
-	if isTextNode(node):
+	if node.nodeType == Node.TEXT_NODE:
 		text = node.nodeValue
 		if text.isspace():
 			return ""
@@ -520,7 +520,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 	elif nodeName == "comment":
 		return "#" + decodeCDATA(node.childNodes[0].nodeValue)
 	elif nodeName == "negative":
-		if isTextNode(node.childNodes[0].firstChild):
+		if node.childNodes[0].firstChild.nodeType == Node.TEXT_NODE:
 			return "-" + nodeToBPC(node.childNodes[0].firstChild, 0, conv)
 		else:
 			return "-(" + nodeToBPC(node.childNodes[0].firstChild, 0, conv) + ")"

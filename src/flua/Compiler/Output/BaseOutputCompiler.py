@@ -77,6 +77,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.tuples = dict()
 		self.customThreads = dict()
 		
+		self.hasExternCache = False
 		self.enableIterVarPrefixes = True
 		
 		# Main class
@@ -100,6 +101,15 @@ class BaseOutputCompiler(Benchmarkable):
 	# Take cache from another compiler instance - BE CAREFUL, THIS COULD LEAD TO MEMORY LEAKS
 	def takeOverCache(self, o):
 		self.parseStringCache = o.parseStringCache
+		
+		self.mainClass.externFunctions = o.mainClass.externFunctions
+		self.mainClass.externVariables = o.mainClass.externVariables
+		
+		for className, classObj in o.mainClass.classes.items():
+			if classObj.isExtern:
+				self.mainClass.classes[className] = classObj
+		
+		self.hasExternCache = True
 		
 	def reset(self, background):
 		# Background compiler?

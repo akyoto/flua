@@ -71,19 +71,25 @@ def isMetaDataTrueByTag(node, metaTag):
 def isNot2ndAccessNode(node):
 	return (node.parentNode.parentNode.tagName != "access" or node == node.parentNode.parentNode.firstChild.firstChild)
 	
-def findNodes(node, nodeName):
-	callList = []
-	
-	if tagName(node) == nodeName:# or tagName(node) == "new":
-		callList.append(node)
-	
-	for child in node.childNodes:
-		callList += findNodes(child, nodeName)
-	
-	return callList
+#def findNodes(node, nodeName):
+#	callList = []
+#	
+#	if node.nodeType == Node.ELEMENT_NODE and node.tagName == nodeName: # or tagName(node) == "new":
+#		callList.append(node)
+#	
+#	# TODO: Improve performance, make an iterative algorithm out of this:
+#	for child in node.childNodes:
+#		found = findNodes(child, nodeName)
+#		if found:
+#			callList += found
+#	
+#	for child in node.childNodes:
+#		callList += findNodes(child, nodeName)
+#	
+#	return callList
 	
 def findCalls(node):
-	return findNodes(node, "call")
+	return node.getElementsByTagName("call")
 	
 def findCallsReversed(node):
 	calls = findCalls(node)
@@ -128,11 +134,11 @@ def isTextNode(node):
 def isElemNode(node):
 	if node is None:
 		return False
-	return node.nodeType != Node.TEXT_NODE
+	return node.nodeType == Node.ELEMENT_NODE
 
 def getElementByTagName(node, name):
 	for child in node.childNodes:
-		if child.nodeType != Node.TEXT_NODE and child.tagName == name:
+		if child.nodeType == Node.ELEMENT_NODE and child.tagName == name:
 			return child
 
 def getFuncNameNode(node):

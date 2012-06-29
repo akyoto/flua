@@ -469,7 +469,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		return typeName
 	
 	def getExprDataTypeClean(self, node):
-		if isTextNode(node):
+		if node.nodeType == Node.TEXT_NODE:
 			if node.nodeValue.isdigit():
 				num = int(node.nodeValue)
 				if num > INT32_MAX or num < INT32_MIN:
@@ -527,7 +527,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			if node.tagName == "new":
 				typeNode = getElementByTagName(node, "type").childNodes[0]
 				
-				if isTextNode(typeNode):
+				if typeNode.nodeType == Node.TEXT_NODE:
 					typeName = typeNode.nodeValue
 				else:
 					# Template parameters
@@ -778,7 +778,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		caller = ""
 		callerType = ""
-		if isTextNode(funcNameNode): #and funcNameNode.tagName == "access":
+		if funcNameNode.nodeType == Node.TEXT_NODE: #and funcNameNode.tagName == "access":
 			funcName = funcNameNode.nodeValue
 		else:
 			#print("XML: " + funcNameNode.childNodes[0].childNodes[0].toxml())
@@ -933,7 +933,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		accessingGetter = ("get" + prop) in funcs
 		accessingSetter = ("set" + prop) in funcs
 		
-		if isTextNode(op2) and (accessingGetter or accessingSetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
+		if op2.nodeType == Node.TEXT_NODE and (accessingGetter or accessingSetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
 			#print(self.currentFunction.getName() + " -> " + "get" + capitalize(op2.nodeValue))
 			#print(self.currentFunction.getName() == "get" + capitalize(op2.nodeValue))
 			
@@ -941,7 +941,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#while primaryObject.nodeType != Node.TEXT_NODE:
 			#	primaryObject = primaryObject.firstChild
 			
-			if not (isTextNode(op1) and (op1.nodeValue == "my")):
+			if not (op1.nodeType == Node.TEXT_NODE and (op1.nodeValue == "my")):
 				# Make a virtual call
 				#print("so true")
 				return True, False
@@ -1109,7 +1109,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	
 	def getTypeDeclInfo(self, exprNode):
 		op1 = exprNode.childNodes[0].childNodes[0]
-		if isElemNode(op1) and op1.tagName == "access":
+		if op1.nodeType == Node.ELEMENT_NODE and op1.tagName == "access":
 			accessingObject = self.parseExpr(op1.childNodes[0].childNodes[0])
 			accessingMember = self.parseExpr(op1.childNodes[1].childNodes[0])
 			if accessingObject == self.myself:
@@ -1160,7 +1160,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return expr
 		
 		# Return text nodes directly (if it is not a string)
-		if isTextNode(node):
+		if node.nodeType == Node.TEXT_NODE:
 			nodeName = node.nodeValue
 			if nodeName.startswith("flua_string_"):
 				return self.id + "_" + nodeName
@@ -1640,7 +1640,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		return paramTypes, paramsString
 	
 	def isInvalidType(self, typeNode):
-		return (not isTextNode(typeNode)) and (not typeNode.tagName in {"template-call", "unmanaged"})
+		return (typeNode.nodeType != Node.TEXT_NODE) and (not typeNode.tagName in {"template-call", "unmanaged"})
 	
 	def getFunction(self, name):
 		return self.compiler.mainClass.functions[name]

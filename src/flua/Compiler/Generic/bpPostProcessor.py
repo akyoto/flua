@@ -128,7 +128,7 @@ def getInstructionTime(xmlNode):
 				t += getInstructionTime(child)
 		return t
 	
-	if isTextNode(xmlNode):
+	if xmlNode.nodeType == Node.TEXT_NODE:
 		name = xmlNode.nodeValue
 		if isNumeric(name):
 			if name.find(".") != -1:
@@ -597,7 +597,7 @@ class BPPostProcessorFile:
 		for child in node.childNodes:
 			self.findDefinitions(child)
 		
-		if isTextNode(node):
+		if node.nodeType == Node.TEXT_NODE:
 			return
 		elif node.tagName == "class":
 			className = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -606,7 +606,7 @@ class BPPostProcessorFile:
 			self.processor.classes[className] = BPClass(className)
 		
 	def getInstructionDependencies(self, tree, xmlNode):
-		if isTextNode(xmlNode):
+		if xmlNode.nodeType == Node.TEXT_NODE:
 			name = xmlNode.nodeValue
 			if not name:
 				return
@@ -761,7 +761,8 @@ class BPPostProcessorFile:
 	def processNode(self, node, depth = 0):
 		hasSetCurrentTree = False
 		hasSetCurrentClassName = False
-		if isElemNode(node):
+		
+		if node.nodeType == Node.ELEMENT_NODE:
 			if node.tagName == "function" and node.parentNode.tagName != "call":
 				nameNode = getElementByTagName(node, "name")
 				if nameNode:
@@ -810,7 +811,7 @@ class BPPostProcessorFile:
 			self.currentClassName = ""
 		
 		# Process
-		if isTextNode(node):
+		if node.nodeType == Node.TEXT_NODE:
 			return
 		elif node.tagName.startswith("assign"):
 			# DTree
@@ -829,7 +830,7 @@ class BPPostProcessorFile:
 			while 1:
 				self.lastOccurence[self.nodeToText(varToAdd)] = thisOperation
 				# access
-				if isElemNode(varToAdd) and varToAdd.tagName == "access":
+				if varToAdd.nodeType == Node.ELEMENT_NODE and varToAdd.tagName == "access":
 					accessOp1 = self.nodeToText(varToAdd.childNodes[0].childNodes[0])
 					accessOp2 = self.nodeToText(varToAdd.childNodes[1].childNodes[0])
 					self.lastOccurence[accessOp1] = thisOperation
@@ -849,7 +850,7 @@ class BPPostProcessorFile:
 			debugPP(tagName(op1) + " |--[" + node.tagName + "]--> " + tagName(op2))
 			
 			# Check
-			if node.tagName == "assign" and isElemNode(op2) and op2.tagName == "template-call":
+			if node.tagName == "assign" and op2.nodeType == Node.ELEMENT_NODE and op2.tagName == "template-call":
 				raise CompilerException("You forgot the brackets to initialize the object")
 		elif node.tagName == "call":
 			functionNode = getElementByTagName(node, "function")
@@ -860,7 +861,7 @@ class BPPostProcessorFile:
 			funcNameNode = functionNode.childNodes[0]
 			
 			funcName = ""
-			if isTextNode(funcNameNode):
+			if funcNameNode.nodeType == Node.TEXT_NODE:
 				funcName = funcNameNode.nodeValue
 			#elif funcNameNode.tagName == "template-call":
 			#	funcName = funcNameNode.childNodes[0].childNodes[0].nodeValue

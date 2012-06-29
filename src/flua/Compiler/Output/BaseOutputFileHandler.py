@@ -100,7 +100,7 @@ class BaseOutputFileHandler:
 		#debug("OP1: " + op1.toxml())
 		#debug(isTextNode(op1))
 		
-		if not isTextNode(op1):
+		if op1.nodeType != Node.TEXT_NODE:
 			if op1.tagName == "access":
 				accessOp1 = op1.childNodes[0].childNodes[0]
 				accessOp2 = op1.childNodes[1].childNodes[0]
@@ -327,7 +327,7 @@ class BaseOutputFileHandler:
 		if callerClassName in self.compiler.mainClass.classes:
 			
 			# MemPointer dereferencing is a special case
-			if callerClassName == "MemPointer" and isTextNode(op2):
+			if callerClassName == "MemPointer" and op2.nodeType == Node.TEXT_NODE:
 				if op2.nodeValue == "data":
 					return "(*(%s))" % (self.parseExpr(op1))
 			
@@ -818,10 +818,10 @@ class BaseOutputFileHandler:
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
 		iterName = "Default"
-		if isElemNode(collExprNode) and collExprNode.tagName == "access":
+		if collExprNode.nodeType == Node.ELEMENT_NODE and collExprNode.tagName == "access":
 			op2 = collExprNode.childNodes[1].firstChild
 			
-			if isTextNode(op2):
+			if op2.nodeType == Node.TEXT_NODE:
 				op1Type = self.getExprDataType(collExprNode.childNodes[0].firstChild)
 				
 				op1Class = self.getClass(extractClassName(op1Type))

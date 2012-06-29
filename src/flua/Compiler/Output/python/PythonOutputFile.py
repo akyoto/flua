@@ -82,7 +82,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.header = "# Imports\n"
 		self.header += "from flua.decls import *\n"
 		for node in self.dependencies.childNodes:
-			if isElemNode(node) and node.tagName == "import":
+			if node.nodeType == Node.ELEMENT_NODE and node.tagName == "import":
 				self.header += self.handleImport(node)
 		
 		# Variables
@@ -239,7 +239,7 @@ class PythonOutputFile(BaseOutputFile):
 		return "%s = %s" % (var.name, value)
 	
 	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
-		hasVar = (isElemNode(exprNode.firstChild) and exprNode.firstChild.tagName == "assign")
+		hasVar = (exprNode.firstChild.nodeType == Node.ELEMENT_NODE and exprNode.firstChild.tagName == "assign")
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)

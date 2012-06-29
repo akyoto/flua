@@ -453,7 +453,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			if not line and not self.currentLineComment:
 				# Function block error checking
-				if currentLine and isElemNode(currentLine) and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
+				if currentLine and currentLine.nodeType == Node.ELEMENT_NODE and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
 					codeNode = getElementByTagName(currentLine, "code")
 					
 					if (not self.inInterface) and ((not codeNode) or len(codeNode.childNodes) == 0): #and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
@@ -624,7 +624,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			if parent != self.doc:
 				if parent.tagName in blocks:
 					tagsAllowed = blocks[parent.tagName]
-					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
+					if atTab != currentTabCount + 1 or currentLine.nodeType == Node.TEXT_NODE or (not currentLine or not currentLine.tagName in tagsAllowed):
 						# Decrement if block stack counter
 						if parent.tagName == "if-block" and self.currentNode.tagName == "else":
 							self.inIfBlock -= 1
@@ -636,7 +636,7 @@ class BPCFile(ScopeController, Benchmarkable):
 						self.currentNode = parent
 				elif self.currentNode.tagName in simpleBlocks and self.currentNode.tagName != "extern":
 					tagsAllowed = simpleBlocks[self.currentNode.tagName]
-					if atTab != currentTabCount + 1 or isTextNode(currentLine) or (not currentLine or not currentLine.tagName in tagsAllowed):
+					if atTab != currentTabCount + 1 or currentLine.nodeType == Node.TEXT_NODE or (not currentLine or not currentLine.tagName in tagsAllowed):
 						self.currentNode = parent
 			
 			atTab -= 1
@@ -833,7 +833,7 @@ class BPCFile(ScopeController, Benchmarkable):
 	def handleTemplateParameter(self, line):
 		paramNode = self.parseExpr(line)
 		
-		if isElemNode(paramNode) and paramNode.tagName == "assign":
+		if paramNode.nodeType == Node.ELEMENT_NODE and paramNode.tagName == "assign":
 			paramNode.tagName = "parameter"
 			paramNode.childNodes[0].tagName = "name"
 			paramNode.childNodes[1].tagName = "default-value"

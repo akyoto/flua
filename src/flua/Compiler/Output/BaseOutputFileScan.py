@@ -39,7 +39,7 @@ class BaseOutputFileScan:
 	
 	def scanAhead(self, parent):
 		for node in parent.childNodes:
-			if isElemNode(node):
+			if node.nodeType == Node.ELEMENT_NODE:
 				if node.tagName in {"class", "interface"}:
 					self.scanClass(node)
 				elif node.tagName == "function" or node.tagName == "operator" or node.tagName == "iterator-type":
@@ -61,9 +61,10 @@ class BaseOutputFileScan:
 				elif node.tagName == "namespace":
 					self.scanNamespace(node)
 				elif node.tagName == "extern":
-					self.inExtern += 1
-					self.scanAhead(node)
-					self.inExtern -= 1
+					if (not self.compiler.hasExternCache) or self.isMainFile:
+						self.inExtern += 1
+						self.scanAhead(node)
+						self.inExtern -= 1
 				elif node.tagName == "operators":
 					self.inOperators += 1
 					self.scanAhead(node)
@@ -226,7 +227,7 @@ class BaseOutputFileScan:
 		#				self.currentClass.possibleMembers memberName
 		
 	def tryGettingVariableTypes(self, func):
-		func.assignNodes = findNodes(func.node, "assign")
+		func.assignNodes = func.node.getElementsByTagName("assign")
 		
 	def scanExternFunction(self, node):
 		name = self.getNamespacePrefix() + getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -234,12 +235,12 @@ class BaseOutputFileScan:
 		
 		if typeNode:
 			type = typeNode.firstChild.nodeValue
+			
+			# TODO: Remove hardcoded
+			if type == "CString":
+				type = "~MemPointer<Byte>"
 		else:
 			type = "void"
-		
-		# TODO: Remove hardcoded
-		if type == "CString":
-			type = "~MemPointer<Byte>"
 		
 		# Typedefs
 		type = self.prepareTypeName(type)

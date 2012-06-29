@@ -95,7 +95,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.header += "// Includes\n"
 		self.header += "#include <flua_decls.hpp>\n"
 		for node in self.dependencies.childNodes:
-			if isElemNode(node) and node.tagName == "import":
+			if node.nodeType == Node.ELEMENT_NODE and node.tagName == "import":
 				self.header += self.handleImport(node)
 		
 		# Strings
@@ -379,7 +379,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
 		exprType = self.adjustDataType(exprType)
 		
-		hasVar = (isElemNode(exprNode.firstChild) and exprNode.firstChild.tagName == "assign")
+		hasVar = (exprNode.firstChild.nodeType == Node.ELEMENT_NODE and exprNode.firstChild.tagName == "assign")
 		if hasVar:
 			# Left operator = Tmp variable
 			c = self.parseExpr(exprNode.firstChild.firstChild)
