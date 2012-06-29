@@ -507,7 +507,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if nodeName in self.tupleTypes:
 					return self.tupleTypes[nodeName]
 				
-				if self.inIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName):
+				# Catch extern funcs
+				if nodeName in self.compiler.mainClass.externFunctions:
+					pass
+				# Catch extern vars
+				elif nodeName in self.compiler.mainClass.externVariables:
+					pass
+				elif self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName):
 					#print("getExprDataType: " + nodeName)
 					return self.getVariableTypeAnywhere("_flua_iter_" + nodeName)
 				
@@ -1203,12 +1209,21 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				# Catch template types
 				elif node.nodeValue in self.currentClass.templateNames:
 					return node.nodeValue
+				# Catch public
+				elif node.nodeValue in self.currentClass.publicMembers:
+					return node.nodeValue
 				# Catch class names
 				elif node.nodeValue in self.compiler.mainClass.classes:
 					return node.nodeValue
+				# Catch extern funcs
+				elif node.nodeValue in self.compiler.mainClass.externFunctions:
+					return node.nodeValue
+				# Catch extern vars
+				elif node.nodeValue in self.compiler.mainClass.externVariables:
+					return node.nodeValue
 				# Now we should only have variables left
 				else:
-					if self.inIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(node.nodeValue) and isNot2ndAccessNode(node):
+					if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(node.nodeValue) and isNot2ndAccessNode(node):
 						#print("parseExpr: " + node.nodeValue)
 						#print(self.currentClassImpl.members)
 						return "_flua_iter_" + node.nodeValue
