@@ -104,6 +104,7 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		self.mainClass.externFunctions = o.mainClass.externFunctions
 		self.mainClass.externVariables = o.mainClass.externVariables
+		self.mainClass.namespaces = o.mainClass.namespaces
 		
 		for className, classObj in o.mainClass.classes.items():
 			if classObj.isExtern:
