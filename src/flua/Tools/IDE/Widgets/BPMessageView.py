@@ -44,17 +44,23 @@ class BPMessageView(QtGui.QListWidget):
 		self.clearSelection()
 		
 	def addMessage(self, msg):
-		newItem = QtGui.QListWidgetItem(self.icon, msg)
-		newItem.setData(QtCore.Qt.UserRole + 1, "")
-		newItem.setData(QtCore.Qt.UserRole + 2, -1)
-		self.addItem(newItem)
+		#newItem = QtGui.QListWidgetItem(self.icon, msg)
+		#newItem.setData(QtCore.Qt.UserRole + 1, "")
+		#newItem.setData(QtCore.Qt.UserRole + 2, -1)
+		#self.addItem(newItem)
 		
-		self.updateView()
+		#self.updateView()
+		self.addLineBasedMessage("", -1, msg)
 		
 	def addLineBasedMessage(self, errorFilePath, lineNumber, msg):
 		awesomeHash = errorFilePath + str(lineNumber) + msg
 		if awesomeHash in self.messages:
 			return
+		
+		# Remove error code information from the view
+		pos = msg.find("[Error code")
+		if pos != -1:
+			msg = msg[:pos]
 		
 		self.messages[awesomeHash] = msg
 		

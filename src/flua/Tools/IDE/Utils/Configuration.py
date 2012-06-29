@@ -132,10 +132,13 @@ class BPConfiguration:
 				border-radius: 7px;
 				color: rgba(255, 255, 255, 65%);
 				background-color: rgba(0, 0, 0, 10%);
+				padding: 0px;
+				margin: 0px;
 			}
 			
 			#MessageView::item {
-				margin: 5px;
+				padding: 10px 0px;
+				margin: 0px;
 			}
 			
 			#DocBubble {
