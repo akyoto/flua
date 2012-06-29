@@ -57,8 +57,9 @@ def findPublicMemberInBaseClasses(callerClass, funcName):
 ####################################################################
 class BaseClass(BaseNamespace):
 	
-	def __init__(self, name, node):
+	def __init__(self, name, node, cppFile):
 		super().__init__(name)
+		self.cppFile = cppFile
 		self.implementations = {}
 		self.templateNames = []
 		self.templateDefaultValues = []
@@ -86,6 +87,9 @@ class BaseClass(BaseNamespace):
 			self.ensureDestructorCall = False
 			self.forceImplementation = False
 			self.isDefaultVersion = False
+	
+	def getFilePath(self):
+		return self.cppFile.getFilePath()
 	
 	def setOverwrittenFunctions(self, flag):
 		self.hasOverwrittenFunctions = flag

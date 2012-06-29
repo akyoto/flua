@@ -36,8 +36,8 @@ from flua.Compiler.Output.cpp.CPPClassImplementation import *
 ####################################################################
 class CPPClass(BaseClass):
 	
-	def __init__(self, name, node):
-		super().__init__(name, node)
+	def __init__(self, name, node, cppFile):
+		super().__init__(name, node, cppFile)
 		
 	def createClassImplementation(self, templateValues):
 		return CPPClassImplementation(self, templateValues)

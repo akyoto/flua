@@ -919,11 +919,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		# Are we accessing a member of a class that's not even defined?
 		if not op1ClassName in self.compiler.mainClass.classes:
-			debug("Jump 1")
+			#debug("Jump 1")
 			return False, False
 		
 		if not op2.nodeValue:
-			debug("Jump 2")
+			#debug("Jump 2")
 			return False, False
 		
 		#if 1:#op2.nodeValue == "vertices":
@@ -950,7 +950,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#debug(isPublicMember)
 		
 		if isPublicMember:
-			debug("Jump 3")
+			#debug("Jump 3")
 			return False, True
 		
 		accessingGetter = ("get" + prop) in funcs
@@ -960,12 +960,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		func, impl = findFunctionInBaseClasses(classObj, "get" + prop)
 		
 		if func:
-			debug("Jump 3.5")
+			#debug("Jump 3.5")
 			return impl, False
 		
 		# TODO: Does that always work? -- Seems to work fine so far.
 		if not op2.nodeValue in classObj.properties:
-			debug("Jump 4")
+			#debug("Jump 4")
 			return False, False
 		
 		if op2.nodeType == Node.TEXT_NODE and (accessingGetter or accessingSetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):

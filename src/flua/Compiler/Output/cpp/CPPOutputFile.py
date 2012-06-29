@@ -142,7 +142,7 @@ class CPPOutputFile(BaseOutputFile):
 		return CPPNamespace(name)
 		
 	def createClass(self, name, node):
-		return CPPClass(name, node)
+		return CPPClass(name, node, self)
 	
 	def createFunction(self, node):
 		return CPPFunction(self, node)

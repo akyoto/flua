@@ -82,7 +82,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		return CPPOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 	
 	def createClass(self, name, node):
-		return CPPClass(name, node)
+		return CPPClass(name, node, None)
 	
 	def writeToFS(self):
 		#dirOut = fixPath(os.path.abspath(dirOut))

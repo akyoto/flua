@@ -206,10 +206,15 @@ class BaseOutputCompiler(Benchmarkable):
 			self.projectDir = extractDir(self.mainFile.getFilePath())
 			cppOut.isMainFile = True
 			
-			#if self.hasExternCache:
-			#	for x in self.mainClass.externFunctions.values():
-			#		if x
-			#	
+			if self.hasExternCache:
+				newClassesDict = dict()
+				
+				for className, classObj in self.mainClass.classes.items():
+					if classObj.getFilePath() != inpFile.getFilePath():
+						newClassesDict[className] = classObj
+				
+				self.mainClass.classes = newClassesDict
+				
 			#	self.mainClass.externVariables
 			#	self.mainClass.namespaces
 		else:

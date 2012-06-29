@@ -268,7 +268,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sa\Srandom\SFloat\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0" id="36">
@@ -313,7 +312,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SSets\Sa\Snew\S#seed\Sfor\Srandom\Snumbers</comment>
 		<function depth="0" id="41">
