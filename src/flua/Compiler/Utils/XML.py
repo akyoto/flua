@@ -71,25 +71,25 @@ def isMetaDataTrueByTag(node, metaTag):
 def isNot2ndAccessNode(node):
 	return (node.parentNode.parentNode.tagName != "access" or node == node.parentNode.parentNode.firstChild.firstChild)
 	
-#def findNodes(node, nodeName):
-#	callList = []
-#	
-#	if node.nodeType == Node.ELEMENT_NODE and node.tagName == nodeName: # or tagName(node) == "new":
-#		callList.append(node)
-#	
-#	# TODO: Improve performance, make an iterative algorithm out of this:
-#	for child in node.childNodes:
-#		found = findNodes(child, nodeName)
-#		if found:
-#			callList += found
-#	
-#	for child in node.childNodes:
-#		callList += findNodes(child, nodeName)
-#	
-#	return callList
+def findNodes(node, nodeName):
+	callList = []
+	
+	if node.nodeType == Node.ELEMENT_NODE and node.tagName == nodeName: # or tagName(node) == "new":
+		callList.append(node)
+	
+	# TODO: Improve performance, make an iterative algorithm out of this:
+	for child in node.childNodes:
+		found = findNodes(child, nodeName)
+		if found:
+			callList += found
+	
+	for child in node.childNodes:
+		callList += findNodes(child, nodeName)
+	
+	return callList
 	
 def findCalls(node):
-	return node.getElementsByTagName("call")
+	return findNodes(node, "call") #node.getElementsByTagName("call")
 	
 def findCallsReversed(node):
 	calls = findCalls(node)
