@@ -1161,10 +1161,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		# Return text nodes directly (if it is not a string)
 		if isTextNode(node):
-			if node.nodeValue.startswith("flua_string_"):
-				return self.id + "_" + node.nodeValue
+			nodeName = node.nodeValue
+			if nodeName.startswith("flua_string_"):
+				return self.id + "_" + nodeName
 			else:
-				if node.nodeValue == "my":
+				if nodeName == "my":
 					if self.useGC:
 						return self.myself
 					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
@@ -1175,60 +1176,60 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					#else:
 						# TODO: Unmanaged object initiations need to return 'this'
 					#	return "shared_from_this()"
-				#elif node.nodeValue == "null":
+				#elif nodeName == "null":
 				#	return "NULL"
 				# BigInt support
-				elif node.nodeValue.isdigit():
-					num = int(node.nodeValue)
+				elif nodeName.isdigit():
+					num = int(nodeName)
 					if num > INT32_MAX or num < INT32_MIN:
 						return "(BigInt)(\"" + str(num) + "\")"
 					else:
 						return str(num)
-				elif "." in node.nodeValue:
-					return self.buildFloat(node.nodeValue)
-				elif node.nodeValue == "true":
+				elif "." in nodeName:
+					return self.buildFloat(nodeName)
+				elif nodeName == "true":
 					return self.buildTrue()
-				elif node.nodeValue == "false":
+				elif nodeName == "false":
 					return self.buildFalse()
-				elif node.nodeValue == "null":
+				elif nodeName == "null":
 					return self.buildNull()
-				#elif node.nodeValue == "_flua_slice_end":
+				#elif nodeName == "_flua_slice_end":
 				#	declTypeNode = node.parentNode.parentNode
 				#	sliceNode = declTypeNode.parentNode.parentNode
 				#	sliceOn	
-				elif node.nodeValue in replacedNodeValues:
-					nodeName = node.nodeValue
-					nodeName = replacedNodeValues[node.nodeValue]
+				elif nodeName in replacedNodeValues:
+					nodeName = nodeName
+					nodeName = replacedNodeValues[nodeName]
 					return nodeName
 				# Catch member variables
-				elif node.nodeValue in self.currentClassImpl.members:
-					return node.nodeValue
+				elif nodeName in self.currentClassImpl.members:
+					return nodeName
 				# Catch normal types
-				elif node.nodeValue in nonPointerClasses:
-					return node.nodeValue
+				elif nodeName in nonPointerClasses:
+					return nodeName
 				# Catch template types
-				elif node.nodeValue in self.currentClass.templateNames:
-					return node.nodeValue
+				elif nodeName in self.currentClass.templateNames:
+					return nodeName
 				# Catch public
-				elif node.nodeValue in self.currentClass.publicMembers:
-					return node.nodeValue
+				elif nodeName in self.currentClass.publicMembers:
+					return nodeName
 				# Catch class names
-				elif node.nodeValue in self.compiler.mainClass.classes:
-					return node.nodeValue
+				elif nodeName in self.compiler.mainClass.classes:
+					return nodeName
 				# Catch extern funcs
-				elif node.nodeValue in self.compiler.mainClass.externFunctions:
-					return node.nodeValue
+				elif nodeName in self.compiler.mainClass.externFunctions:
+					return nodeName
 				# Catch extern vars
-				elif node.nodeValue in self.compiler.mainClass.externVariables:
-					return node.nodeValue
+				elif nodeName in self.compiler.mainClass.externVariables:
+					return nodeName
 				# Now we should only have variables left
 				else:
-					if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(node.nodeValue) and isNot2ndAccessNode(node):
-						#print("parseExpr: " + node.nodeValue)
+					if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
+						#print("parseExpr: " + nodeName)
 						#print(self.currentClassImpl.members)
-						return "_flua_iter_" + node.nodeValue
+						return "_flua_iter_" + nodeName
 					
-					return node.nodeValue
+					return nodeName
 		
 		tagName = node.tagName
 		

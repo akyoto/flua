@@ -102,7 +102,14 @@ class BaseClass(BaseNamespace):
 		
 	def hasPublicMember(self, name):
 		#debug("Checking '%s' for public member '%s'" % (self.getFinalName(), name))
+		
+		# Local list check
 		exists = name in self.publicMembers
+		
+		# Check for '*' locally
+		# TODO: Check if it really exists as a member
+		if "*" in self.publicMembers:
+			return True
 		
 		# Check base classes
 		if not exists:

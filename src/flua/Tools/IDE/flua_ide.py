@@ -54,8 +54,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		QtCore.QCoreApplication.setApplicationName("Flua Studio")
 		
 		# Init
-		self.developerFlag = False#os.path.exists("/home/eduard/Projects/bp/")
-		self.developerFlagMain = False#os.path.exists("/home/eduard/Projects/bp/")
+		self.developerFlag = os.path.exists("/home/eduard/Projects/flua/")
+		self.developerFlagMain = self.developerFlag #os.path.exists("/home/eduard/Projects/bp/")
 		self.threaded = True
 		self.tmpCount = 0
 		self.lastBlockPos = -1

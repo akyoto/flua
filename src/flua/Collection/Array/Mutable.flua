@@ -290,7 +290,8 @@
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
 					<operator depth="2" id="28">
 						<parameters>
-							<parameter>(index,value)</parameter>
+							<parameter>index</parameter>
+							<parameter>value</parameter>
 						</parameters>
 						<name>[]=</name>
 						<code>
@@ -324,6 +325,7 @@
 								<value>value</value>
 							</assign>
 						</code>
+						<meta/>
 					</operator>
 				</operators>
 				<iterators depth="1" id="33">

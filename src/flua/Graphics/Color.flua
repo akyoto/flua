@@ -119,30 +119,27 @@
 					<meta/>
 				</function>
 				<public depth="1" id="10">
-					<public-member depth="2" id="11">red</public-member>
-					<public-member depth="2" id="12">green</public-member>
-					<public-member depth="2" id="13">blue</public-member>
-					<public-member depth="2" id="14">alpha</public-member>
+					<public-member depth="2" id="11">*</public-member>
 				</public>
-				<operators depth="1" id="15">
-					<operator depth="2" id="16">
+				<operators depth="1" id="12">
+					<operator depth="2" id="13">
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
 						<name>=</name>
 						<code>
-							<on depth="3" id="17">
+							<on depth="3" id="14">
 								<expression>my</expression>
 								<code>
-									<assign depth="4" id="18">
+									<assign depth="4" id="15">
 										<value>red</value>
 										<value>value</value>
 									</assign>
-									<assign depth="4" id="19">
+									<assign depth="4" id="16">
 										<value>green</value>
 										<value>value</value>
 									</assign>
-									<assign depth="4" id="20">
+									<assign depth="4" id="17">
 										<value>blue</value>
 										<value>value</value>
 									</assign>
@@ -155,8 +152,8 @@
 			<meta/>
 		</class>
 		<comment>\SDefault</comment>
-		<define depth="0" id="21">
-			<assign depth="1" id="22">
+		<define depth="0" id="18">
+			<assign depth="1" id="19">
 				<value>Color</value>
 				<value>ColorRGBA</value>
 			</assign>

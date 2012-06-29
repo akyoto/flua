@@ -104,7 +104,7 @@ def getHeavierOperator(operatorType1, operatorType2):
 def correctOperators(sign):
 	if sign == "[]":# or sign == "index":
 		return "operatorIndex"
-	if sign == "[]=":# or sign == "set-index":
+	elif sign == "[]=":# or sign == "set-index":
 		return "operatorSetIndex"
 	elif sign == "[:]":# or sign == "slice":
 		return "operatorSlice"
@@ -136,7 +136,7 @@ def correctOperators(sign):
 def correctOperatorsTagName(sign):
 	if sign == "index":
 		return "operatorIndex"
-	if sign == "set-index":
+	elif sign == "set-index":
 		return "operatorSetIndex"
 	elif sign == "slice":
 		return "operatorSlice"
