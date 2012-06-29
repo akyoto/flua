@@ -275,7 +275,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			tmp = PythonOutputCompiler(self.processor, background = temporary)
 		
 		# Take previous cache
-		if self.outputCompiler and takeCache:
+		if self.outputCompiler:# and takeCache:
 			tmp.takeOverCache(self.outputCompiler)
 		
 		if temporary:
