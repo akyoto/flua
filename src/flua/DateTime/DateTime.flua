@@ -30,10 +30,15 @@
 					<extern-function depth="2" id="7">
 						<name>now</name>
 						<type>TimeStamp</type>
+						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="8">
 						<name>formatTimeStamp</name>
 						<type>String</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
 					</extern-function>
 				</code>
 			</namespace>

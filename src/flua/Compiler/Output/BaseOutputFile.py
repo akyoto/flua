@@ -665,13 +665,14 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						# Check base classes!
 						func, impl = findFunctionInBaseClasses(callerClassImpl, memberFunc)
 						
-						baseClassName = impl.getFullName()
-						#print(baseClassName, memberFunc)
-						
-						funcImpl = self.implementFunction(baseClassName, memberFunc, [])
-						#print(funcImpl.getReturnType())
-						
-						return funcImpl.getReturnType()
+						if func:
+							baseClassName = impl.getFullName()
+							#print(baseClassName, memberFunc)
+							
+							funcImpl = self.implementFunction(baseClassName, memberFunc, [])
+							#print(funcImpl.getReturnType())
+							
+							return funcImpl.getReturnType()
 					
 					virtualGetCall = self.makeXMLObjectCall(node.childNodes[0].childNodes[0].toxml(), memberFunc) 	
 					return self.getCallDataType(virtualGetCall)

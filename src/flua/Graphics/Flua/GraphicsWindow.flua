@@ -538,7 +538,6 @@
 							<value>true</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="62">
 					<parameters>
@@ -562,7 +561,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
 		</namespace>

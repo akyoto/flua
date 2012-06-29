@@ -87,9 +87,9 @@ class Startup:
 		self.syntaxSwitcher = QtGui.QComboBox(self)
 		self.syntaxSwitcher.setToolTip("Syntax switcher")
 		self.syntaxSwitcher.addItem("Flua Syntax              ")
-		self.syntaxSwitcher.addItem("C++ Extended            ")
-		self.syntaxSwitcher.addItem("Ruby Extended           ")
-		self.syntaxSwitcher.addItem("Python Extended         ")
+		self.syntaxSwitcher.addItem("Flua goes C++            ")
+		self.syntaxSwitcher.addItem("Flua goes Ruby           ")
+		self.syntaxSwitcher.addItem("Flua goes Python         ")
 		self.syntaxSwitcher.currentIndexChanged.connect(self.switchSyntax)
 		self.statusBar.addPermanentWidget(self.syntaxSwitcher, 0)
 		

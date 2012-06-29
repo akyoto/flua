@@ -1,0 +1,94 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Public\Sproperties\Saccess\Sin\Sbase\Sclasses\Sworking!</string>
+			<string id="flua_string_1">Public\Sproperties\Saccess\Sin\Sbase\Sclasses\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>TestingBase</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>prop</value>
+								</access>
+							</value>
+							<value>5</value>
+						</assign>
+					</code>
+				</function>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">prop</public-member>
+				</public>
+			</code>
+			<meta/>
+		</class>
+		<class depth="0" id="6">
+			<name>TestingDerived</name>
+			<code>
+				<extends depth="1" id="7">
+					<extends-class depth="2" id="8">TestingBase</extends-class>
+				</extends>
+				<function depth="1" id="9">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="10"/>
+					</code>
+				</function>
+			</code>
+			<meta/>
+		</class>
+		<assign depth="0" id="11">
+			<value>xyz</value>
+			<value>
+				<new>
+					<type>TestingDerived</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<if-block depth="0" id="12">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<access>
+								<value>xyz</value>
+								<value>prop</value>
+							</access>
+						</value>
+						<value>5</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="13">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="14">
+				<code>
+					<call depth="1" id="15">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

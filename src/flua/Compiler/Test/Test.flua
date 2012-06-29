@@ -16,10 +16,11 @@
 			<import>bigint</import>
 			<import>auto-mutable-behav</import>
 			<import>defaultvalues</import>
+			<import>inheritance</import>
+			<import>baseclass</import>
 			<import>stringoperations</import>
 			<import>filesystem</import>
 			<import>exceptions</import>
-			<import>inheritance</import>
 			<import>multireturn</import>
 			<import>dataflow</import>
 			<import>unicode</import>
