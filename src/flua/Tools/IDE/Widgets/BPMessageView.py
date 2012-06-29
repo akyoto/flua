@@ -65,6 +65,7 @@ class BPMessageView(QtGui.QListWidget):
 		
 		info = "<strong>%s</strong><br/>Line [%d]: %s" % (errorFilePath, lineNumber, msg)
 		newItem.setToolTip(info)
+		#self.setStyleSheet("background")
 		#self.setSizeHint(QtCore.QSize(0, 10))
 		self.addItem(newItem)
 		
@@ -124,7 +125,7 @@ class BPMessageView(QtGui.QListWidget):
 			self.setMaximumHeight(600)
 			
 			# Item size
-			maxHeight = 10
+			maxHeight = 2
 			for i in range(itemNum):
 				maxHeight += self.visualItemRect(self.item(i)).height() + 1
 			

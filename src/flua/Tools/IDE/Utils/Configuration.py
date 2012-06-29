@@ -135,7 +135,7 @@ class BPConfiguration:
 			}
 			
 			#MessageView::item {
-				padding: 5px;
+				margin: 5px;
 			}
 			
 			#DocBubble {
