@@ -33,7 +33,11 @@ from flua.Compiler.Utils import *
 # Functions
 ####################################################################
 def findFunctionInBaseClasses(callerClassImpl, funcName):
-	callerClass = callerClassImpl.classObj
+	if isinstance(callerClassImpl, BaseClassImplementation):
+		callerClass = callerClassImpl.classObj
+	else:
+		callerClass = callerClassImpl
+	
 	for classImpl in callerClass.extends:
 		classObj = classImpl.classObj
 		#debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))

@@ -163,18 +163,16 @@
 						<meta/>
 					</function>
 					<public depth="2" id="27">
-						<public-member depth="3" id="28">handle</public-member>
-						<public-member depth="3" id="29">width</public-member>
-						<public-member depth="3" id="30">height</public-member>
+						<public-member depth="3" id="28">*</public-member>
 					</public>
 				</code>
 				<meta/>
 			</class>
 		</extern>
-		<function depth="0" id="31">
+		<function depth="0" id="29">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="30">
 					<call>
 						<function>
 							<access>
@@ -189,10 +187,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="31">
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="34">
+				<return depth="1" id="32">
 					<call>
 						<function>
 							<access>
@@ -207,10 +205,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="35">
+		<function depth="0" id="33">
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="36">
+				<return depth="1" id="34">
 					<call>
 						<function>
 							<access>
@@ -224,7 +222,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="37">
+		<function depth="0" id="35">
 			<parameters>
 				<parameter>
 					<assign>
@@ -239,7 +237,7 @@
 			</parameters>
 			<name>getScreenWidth</name>
 			<code>
-				<return depth="1" id="38">
+				<return depth="1" id="36">
 					<call>
 						<function>
 							<access>
@@ -253,7 +251,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="39">
+		<function depth="0" id="37">
 			<parameters>
 				<parameter>
 					<assign>
@@ -268,7 +266,7 @@
 			</parameters>
 			<name>getScreenHeight</name>
 			<code>
-				<return depth="1" id="40">
+				<return depth="1" id="38">
 					<call>
 						<function>
 							<access>
@@ -282,9 +280,9 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="41">
+		<test depth="0" id="39">
 			<code>
-				<call depth="1" id="42">
+				<call depth="1" id="40">
 					<function>print</function>
 					<parameters>
 						<parameter>

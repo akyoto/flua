@@ -577,6 +577,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 							virtualCall = self.makeXMLCall(varName)
 							return self.getCallDataType(virtualCall)
 				
+				#if caller in self.compiler.mainClass.classes:
+				#	pass
+				
 				callerType = self.getExprDataType(caller)
 				
 				#while callerType in self.compiler.defines:
@@ -606,8 +609,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					
 					callerType = baseImpl.getFullName()
 					callerClassImpl = baseImpl
+				#else:
+				#	print("%s not found in base classes of %s" % (memberName, callerType))
 				
-				if not callerClassImpl.hasConstructorImplementation():
+				if not callerClassImpl.hasConstructorImplementation(): #and not callerClass.isExtern:
 					#print("XML:", node.toxml())
 					#print("Implementing init default for '%s'" % (callerType))
 					allFuncs = callerClassImpl.classObj.functions
@@ -617,6 +622,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						paramTypes = initVariants[0].paramTypesByDefinition
 						#print("paramTypes:", paramTypes)
 						#callerClassImpl.requestFuncImplementation("init", paramTypes)
+						
 						self.implementFunction(callerType, "init", paramTypes)
 						#print("Implemented.")
 					else:
@@ -644,8 +650,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					#print(templateParams)
 					#print("-----")
 					return self.currentClassImpl.translateTemplateName(memberType)
+				#elif findMemberInBaseClasses()
 				else:
-					pass
 					#debug("Member '" + memberName + "' doesn't exist")
 					
 					# data access from a pointer
@@ -653,8 +659,24 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					if callerClassName == "MemPointer" and memberName == "data":
 						return callerType[callerType.find('<')+1:-1]
 					
-					virtualGetCall = self.makeXMLObjectCall(node.childNodes[0].childNodes[0].toxml(), "get" + capitalize(memberName)) 
+					memberFunc = "get" + capitalize(memberName)
+					
+					if not callerClassImpl.classObj.hasFunction(memberFunc):
+						# Check base classes!
+						func, impl = findFunctionInBaseClasses(callerClassImpl, memberFunc)
+						
+						baseClassName = impl.getFullName()
+						#print(baseClassName, memberFunc)
+						
+						funcImpl = self.implementFunction(baseClassName, memberFunc, [])
+						#print(funcImpl.getReturnType())
+						
+						return funcImpl.getReturnType()
+					
+					virtualGetCall = self.makeXMLObjectCall(node.childNodes[0].childNodes[0].toxml(), memberFunc) 	
 					return self.getCallDataType(virtualGetCall)
+						
+						
 				
 #				templatesUsed = (callerClassName != callerType)
 #				
@@ -891,13 +913,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	def isMemberAccessFromOutside(self, op1, op2):
 		op1Type = self.getExprDataType(op1)
 		op1ClassName = extractClassName(op1Type)
+		
+		#print(op1Type, op1ClassName)
 		#debug(("get" + op2.nodeValue.capitalize()) + " -> " + str(self.compiler.mainClass.classes[op1Type].functions.keys()))
 		
 		# Are we accessing a member of a class that's not even defined?
 		if not op1ClassName in self.compiler.mainClass.classes:
+			debug("Jump 1")
 			return False, False
 		
 		if not op2.nodeValue:
+			debug("Jump 2")
 			return False, False
 		
 		#if 1:#op2.nodeValue == "vertices":
@@ -924,14 +950,23 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#debug(isPublicMember)
 		
 		if isPublicMember:
+			debug("Jump 3")
 			return False, True
-		
-		# TODO: Does that always work? -- Seems to work fine so far.
-		if not op2.nodeValue in classObj.properties:
-			return False, False
 		
 		accessingGetter = ("get" + prop) in funcs
 		accessingSetter = ("set" + prop) in funcs
+		
+		# Check base classes!
+		func, impl = findFunctionInBaseClasses(classObj, "get" + prop)
+		
+		if func:
+			debug("Jump 3.5")
+			return impl, False
+		
+		# TODO: Does that always work? -- Seems to work fine so far.
+		if not op2.nodeValue in classObj.properties:
+			debug("Jump 4")
+			return False, False
 		
 		if op2.nodeType == Node.TEXT_NODE and (accessingGetter or accessingSetter or (op2.nodeValue in self.getClassImplementationByTypeName(op1Type).members)):
 			#print(self.currentFunction.getName() + " -> " + "get" + capitalize(op2.nodeValue))

@@ -337,7 +337,6 @@ class BaseOutputFileHandler:
 			#debug(op1.toxml())
 			#debug(op2.toxml())
 			#debug(publicMemberAccess)
-			callerClassImpl = self.getClassImplementationByTypeName(callerType)
 			
 			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:
@@ -345,6 +344,13 @@ class BaseOutputFileHandler:
 				#if isTextNode(op1) and op1.nodeValue == "my":
 				#	op1xml = "this"
 				#else:
+				
+				# In base classes?
+				if isinstance(isMemberAccess, BaseClassImplementation):
+					memberFunc = "get" + capitalize(op2.nodeValue)
+					funcImpl = self.implementFunction(isMemberAccess.getFullName(), memberFunc, [])
+					return "%s->%s()" % (self.parseExpr(op1), memberFunc)
+				
 				op1xml = op1.toxml()
 				
 				getFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters/></call>" % (op1xml, "get" + capitalize(op2.nodeValue))).documentElement
@@ -353,11 +359,14 @@ class BaseOutputFileHandler:
 			# Or maybe it's just a direct public member access?
 			elif publicMemberAccess:
 				return self.parseBinaryOperator(node, self.ptrMemberAccessChar + "_")
-			elif self.currentClassImpl != callerClassImpl:
-				if op2.nodeValue in callerClassImpl.members:
-					raise CompilerException("The property '%s' of class '%s' is not public and has no get function" % (nodeToBPC(op2), callerType))
-				else:
-					raise CompilerException("The property '%s' of class '%s' does not exist" % (nodeToBPC(op2), callerType))
+			else:
+				callerClassImpl = self.getClassImplementationByTypeName(callerType)
+				
+				if self.currentClassImpl != callerClassImpl:
+					if op2.nodeValue in callerClassImpl.members:
+						raise CompilerException("The property '%s' of class '%s' is not public and has no get function" % (nodeToBPC(op2), callerType))
+					else:
+						raise CompilerException("The property '%s' of class '%s' does not exist" % (nodeToBPC(op2), callerType))
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	

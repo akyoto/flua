@@ -108,17 +108,16 @@ class BaseClass(BaseNamespace):
 		
 		# Check for '*' locally
 		# TODO: Check if it really exists as a member
-		if "*" in self.publicMembers:
+		if exists or "*" in self.publicMembers:
 			return True
 		
 		# Check base classes
-		if not exists:
-			exists, impl = findPublicMemberInBaseClasses(self, name)
-			
-			if not exists:
-				return False
+		exists, impl = findPublicMemberInBaseClasses(self, name)
 		
-		return True
+		if exists:
+			return True
+		
+		return False
 		
 	#def addDefaultGetter(self, propertyName):
 	#	self.defaultGetters[propertyName] = True
