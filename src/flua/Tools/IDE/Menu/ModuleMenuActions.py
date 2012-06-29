@@ -92,7 +92,7 @@ class ModuleMenuActions:
 		try:
 			if self.somethingModified or self.codeEdit != self.codeEditLastRun:
 				if not self.backgroundCompileIsUpToDate:
-					self.createOutputCompiler(outputTarget)
+					self.createOutputCompiler(outputTarget, takeCache = False)
 					
 					#exePath = cpp.getExePath().replace("/", "\\")
 					#if exePath and os.path.isfile(exePath):

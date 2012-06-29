@@ -268,14 +268,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def needsRehighlight(self, newFuncCount):
 		return newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile())
 	
-	def createOutputCompiler(self, outputTarget, temporary = False):
+	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		if outputTarget.startswith("C++"):
 			tmp = CPPOutputCompiler(self.processor, background = temporary)
 		elif outputTarget.startswith("Python 3"):
 			tmp = PythonOutputCompiler(self.processor, background = temporary)
 		
 		# Take previous cache
-		if self.outputCompiler:
+		if self.outputCompiler and takeCache:
 			tmp.takeOverCache(self.outputCompiler)
 		
 		if temporary:

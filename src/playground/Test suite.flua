@@ -14,7 +14,12 @@
 		<call depth="0" id="1">
 			<function>print</function>
 			<parameters>
-				<parameter>flua_string_0</parameter>
+				<parameter>
+					<access>
+						<value>flua_string_0</value>
+						<value>length</value>
+					</access>
+				</parameter>
 			</parameters>
 		</call>
 	</code>
