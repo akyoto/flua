@@ -134,6 +134,7 @@
 				<name>TextureInfo</name>
 				<code>
 					<function depth="2" id="24">
+						<parameters/>
 						<name>init</name>
 						<code>
 							<declare-type depth="3" id="25">
@@ -174,6 +175,7 @@
 			</class>
 		</extern>
 		<function depth="0" id="30">
+			<parameters/>
 			<name>getLastGLError</name>
 			<code>
 				<return depth="1" id="31">
@@ -192,6 +194,7 @@
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
 		<function depth="0" id="32">
+			<parameters/>
 			<name>getMouseX</name>
 			<code>
 				<return depth="1" id="33">
@@ -210,6 +213,7 @@
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
 		<function depth="0" id="34">
+			<parameters/>
 			<name>getMouseY</name>
 			<code>
 				<return depth="1" id="35">
@@ -302,7 +306,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="42">

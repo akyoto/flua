@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Core</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -12,9 +11,8 @@
 		<comment>\Sin\Sdevelopment\Sand\Saims\Sto\Scombine\Sall\Spowerful\Sfeatures\Sin\Scurrent\Slanguages.</comment>
 		<comment>\SYou\Scan\Sprogram\Sin\Sa\Sfunctional,\Sobject-oriented\Sor\Simperative\Sstyle\S-\Sthat's\Sup\Sto\Syou.</comment>
 		<comment>\SHowever\Syou\Scan\S*not*\Sprogram\Spurely\Sfunctional\Sbecause\Sit's\Snot\Sa\Spurely\Sfunctional\Slanguage.</comment>
-		<comment>\SI\Srecommend\Syou\Sto\Smix\Simperative,\Sfunctional\Sand\Sobject-oriented\Sprogramming\Sin\Smost\Scases.</comment>
-		<comment>\SFunctional\Sprogramming\Shas\Sbecome\Svery\Simportant\Snowadays\Sand\Syou\Swill\Sdo\Syourself</comment>
-		<comment>\Sa\Sfavour\Slearning\Sit.</comment>
+		<comment>\SI\Srecommend\Syou\Sto\Smix\Sall\Sof\Sthese\Sstyles\Sin\Smost\Scases.\SFunctional\Sprogramming\Shas\Sbecome</comment>
+		<comment>\Svery\Simportant\Snowadays\Sand\Syou\Swill\Sdo\Syourself\Sa\Sfavour\Slearning\Sit.</comment>
 		<comment>\S---------------------------------------------</comment>
 		<comment>\SFlua\Scan\Sbe\Sseen\Sas\Sa\Scode\Sgenerator.</comment>
 		<comment>\S---------------------------------------------</comment>

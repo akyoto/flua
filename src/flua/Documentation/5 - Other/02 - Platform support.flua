@@ -13,6 +13,7 @@
 		<comment>\SWindows\S64\SBit\S-\Scurrently\Ssupports\Smost\Slibraries\Sexcept\Sfor\Smultithreaded\Sgarbage\Scollection.</comment>
 		<comment>\SMacOS\S32\SBit\S\S\S-\Snot\Stested,\Sis\Sthere\Sanyone\Swho\Swants\Sto\Srun\Sthis\Son\SMacOS?</comment>
 		<comment>\SMacOS\S64\SBit\S\S\S-\Snot\Stested,\Sis\Sthere\Sanyone\Swho\Swants\Sto\Srun\Sthis\Son\SMacOS?</comment>
-		<comment>\SAndroid\S\S\S\S\S\S\S\S-\Swill\Sbe\Scoming\Ssoon</comment>
+		<comment>\SAndroid\S\S\S\S\S\S\S\S-\Swill\Sbe\Scoming\Ssoon.</comment>
+		<comment>\SiOS\S\S\S\S\S\S\S\S\S\S\S\S-\Swill\Sbe\Sthe\Slast\Sone\Sto\Sbe\Ssupported.</comment>
 	</code>
 </module>
