@@ -410,7 +410,10 @@
 					</iterator-type>
 				</iterators>
 			</code>
-			<meta/>
+			<meta>
+				<ensure-destructor-call>false</ensure-destructor-call>
+				<default-class-version>true</default-class-version>
+			</meta>
 		</class>
 	</code>
 </module>
