@@ -60,7 +60,7 @@ class BPCCompiler:
 	def initExprParser(self):
 		self.parser = getBPCExpressionParser()
 	
-	def compile(self, mainFile):
+	def compile(self, mainFile, perLineCallBack = None):
 		fileIn = fixPath(os.path.abspath(mainFile))
 		
 		# Emptiness check
@@ -69,7 +69,7 @@ class BPCCompiler:
 		if isMainFile:
 			self.projectDir = os.path.dirname(fileIn) + "/"
 		
-		bpcFile = self.spawnFileCompiler(fileIn, isMainFile)
+		bpcFile = self.spawnFileCompiler(fileIn, isMainFile, perLineCallBack)
 		
 		self.compiledFiles[fileIn] = bpcFile
 		self.compiledFilesList.append(bpcFile)
@@ -79,9 +79,9 @@ class BPCCompiler:
 				# TODO: Change directory
 				self.compile(file)
 		
-	def spawnFileCompiler(self, fileIn, isMainFile, codeText = ""):
+	def spawnFileCompiler(self, fileIn, isMainFile, codeText = "", perLineCallBack = None):
 		try:
-			myFile = BPCFile(self, fileIn, isMainFile)
+			myFile = BPCFile(self, fileIn, isMainFile, perLineCallBack)
 			myFile.compile(codeText)
 		except CompilerException as e:
 			raise InputCompilerException(str(e), myFile)

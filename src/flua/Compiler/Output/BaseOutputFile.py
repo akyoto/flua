@@ -202,6 +202,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.externCallSyntax = self.callSyntax
 		self.templateSyntax = ""
 		
+		# Callback
+		self.perParseChilds = None
+		
 		# Memory management
 		self.useGC = True
 		
@@ -1188,6 +1191,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		# Save scope for the IDE
 		#if parent.tagName == "code":
 		#self.saveScopesForNode(parent)
+		
+		# GUI responsiveness
+		if self.perParseChilds:
+			self.perParseChilds()
 		
 		return ''.join(lines)
 	

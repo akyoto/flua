@@ -46,7 +46,7 @@ def handleProcessOutputLinewise(proc, fhOut, fhErr):
 	
 	while 1:
 		# Make the GUI feel more responsive
-		QtGui.QApplication.instance().processEvents()
+		#QtGui.QApplication.instance().processEvents()
 
 		combinedLinesStdout = []
 		combinedLinesStderr = []
@@ -54,6 +54,8 @@ def handleProcessOutputLinewise(proc, fhOut, fhErr):
 		combinedLinesStderrCount = 0
 
 		while 1:
+			QtGui.QApplication.instance().processEvents()
+			
 			line = proc.stdout.readline()
 			if line:
 				combinedLinesStdout.append(line.decode("utf-8"))
@@ -70,6 +72,8 @@ def handleProcessOutputLinewise(proc, fhOut, fhErr):
 				break
 
 		while 1:
+			QtGui.QApplication.instance().processEvents()
+			
 			errLine = proc.stderr.readline()
 			if errLine:
 				try:

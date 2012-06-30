@@ -41,7 +41,7 @@ from flua.Tools.IDE.Syntax import *
 ####################################################################
 class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
-	def __init__(self):
+	def __init__(self, multiThreaded = True):
 		super().__init__()
 		
 		# Print this first to identify wrong paths
@@ -56,7 +56,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Init
 		self.developerFlag = False#os.path.exists("/home/eduard/Projects/flua/")
 		self.developerFlagMain = self.developerFlag #os.path.exists("/home/eduard/Projects/bp/")
-		self.threaded = True
+		
+		self.threaded = multiThreaded
+		
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
@@ -116,6 +118,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.bindFunctionToTimer(self.showDependencies, 150)
 		self.bindFunctionToTimer(self.onCompileTimeout, 500)
+		#self.bindFunctionToTimer(self.onProcessEvents, 5)
 		self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
@@ -206,6 +209,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.progressBar.hide()
 			self.searchEdit.show()
 		
+	def onProcessEvents(self):
+		QtGui.QApplication.instance().processEvents()
+	
 	def onCompileTimeout(self):
 		# Don't do this if we're actually compiling or if we have nothing to compile
 		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0:
@@ -278,9 +284,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		if outputTarget.startswith("C++"):
-			tmp = CPPOutputCompiler(self.processor, background = temporary)
+			tmp = CPPOutputCompiler(
+				self.processor,
+				background = temporary,
+				guiCallBack = [None, QtGui.QApplication.instance().processEvents][temporary],
+			)
 		elif outputTarget.startswith("Python 3"):
-			tmp = PythonOutputCompiler(self.processor, background = temporary)
+			tmp = PythonOutputCompiler(
+				self.processor,
+				background = temporary,
+				guiCallBack = [None, QtGui.QApplication.instance().processEvents][temporary],
+			)
 		
 		# Take previous cache
 		if self.outputCompiler:# and takeCache:
@@ -934,12 +948,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
 
-def main():
+def main(multiThreading = True):
 	# Create the application
 	#gc.set_#debug(gc.DEBUG_LEAK)
 	#gc.enable()
 	app = QtGui.QApplication(sys.argv)
-	editor = BPMainWindow()
+	editor = BPMainWindow(multiThreading)
 	exitCode = app.exec_()
 	
 	# In order to not have a segfault

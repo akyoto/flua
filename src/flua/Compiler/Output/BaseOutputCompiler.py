@@ -45,7 +45,7 @@ def checkInterfaceImplementation(classObj, interface):
 ####################################################################
 class BaseOutputCompiler(Benchmarkable):
 	
-	def __init__(self, inpCompiler, background = False):
+	def __init__(self, inpCompiler, background = False, guiCallBack = None):
 		if inpCompiler:
 			self.inputCompiler = inpCompiler
 			self.inputFiles = inpCompiler.getCompiledFiles()
@@ -77,6 +77,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.tuples = dict()
 		self.customThreads = dict()
 		
+		self.guiCallBack = guiCallBack
 		self.hasExternCache = False
 		self.enableIterVarPrefixes = True
 		
@@ -219,6 +220,9 @@ class BaseOutputCompiler(Benchmarkable):
 			#	self.mainClass.namespaces
 		else:
 			cppOut.isMainFile = False
+		
+		# Set callback
+		cppOut.perParseChilds = self.guiCallBack
 		
 		self.outFiles[inpFile] = cppOut
 		

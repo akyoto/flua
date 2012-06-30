@@ -36,7 +36,12 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
 			self.startBenchmark("[%s] Parser" % stripDir(filePath))
-			self.bpcFile = self.bpc.spawnFileCompiler(filePath, True, codeText)
+			self.bpcFile = self.bpc.spawnFileCompiler(
+				filePath,
+				True,
+				codeText,
+				perLineCallBack = QtGui.QApplication.instance().processEvents
+			)
 			
 			#if self.bpcFile.inFunction != 0:
 			#	print("inFunction: " +  str(self.bpcFile.inFunction))

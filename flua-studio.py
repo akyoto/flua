@@ -64,11 +64,21 @@ from flua.Tools.IDE.flua_ide import *
 os.chdir(scriptPath + "/src/flua/Tools/IDE/")
 
 if __name__ == "__main__":
-	useProfiler = 0
+	# Modes
+	MODE_RUN = 0
+	MODE_INSPECT = 1
+	MODE_PROFILE = 2
 	
-	if not useProfiler:
+	# Current mode
+	FLUA_STUDIO_MODE = MODE_RUN
+	
+	# Let's go!
+	if FLUA_STUDIO_MODE == 0:
 		main()
-	else:
-		import cProfile
-		cProfile.run("main()", "/home/eduard/Projects/flua.prof")
+	elif FLUA_STUDIO_MODE == 1:
 		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
+	elif FLUA_STUDIO_MODE == 2:
+		import cProfile
+		cProfile.run("main(multiThreading = False)", "/home/eduard/Projects/flua.prof")
+		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
+		

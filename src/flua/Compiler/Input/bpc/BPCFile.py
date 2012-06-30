@@ -178,7 +178,7 @@ def addBrackets(line):
 # Classes
 ####################################################################
 class BPCFile(ScopeController, Benchmarkable):
-	def __init__(self, compiler, fileIn, isMainFile):
+	def __init__(self, compiler, fileIn, isMainFile, perLineCallBack = None):
 		ScopeController.__init__(self)
 		
 		import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
@@ -188,6 +188,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.file = fileIn
 		self.dir = os.path.dirname(fileIn) + "/"
 		#print(fileIn, " -> ", self.dir)
+		
+		self.perLineCallBack = perLineCallBack
 		
 		self.stringCount = 0
 		self.importedFiles = []
@@ -453,6 +455,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		processLine = self.processLine
 		registerNode = self.registerNode
 		tabBack = self.tabBack
+		perLineCallBack = self.perLineCallBack
 		
 		# Go through every line -> build the structure
 		for lineIndex in range(0, len(lines)):
@@ -559,6 +562,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			# [ATTENTION]    WE PROUDLY PRESENT YOU: THE MAGICAL TOWER OF IF'S      #
 			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 			if currentLine:
+				if perLineCallBack:
+					perLineCallBack()
+				
 				if currentLine.nodeType != Node.TEXT_NODE:
 					currentLine.setAttribute("id", str(self.idCount))
 					currentLine.setAttribute("depth", str(tabCount))

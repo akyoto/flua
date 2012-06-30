@@ -40,8 +40,8 @@ import platform
 ####################################################################
 class CPPOutputCompiler(BaseOutputCompiler):
 	
-	def __init__(self, inpCompiler = None, background = False):
-		super().__init__(inpCompiler, background)
+	def __init__(self, inpCompiler = None, background = False, guiCallBack = None):
+		super().__init__(inpCompiler, background, guiCallBack)
 		
 		# OS and architecture
 		if os.name == "nt":
