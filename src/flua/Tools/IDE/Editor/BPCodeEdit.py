@@ -822,17 +822,30 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				#popup.hide()
 				return
 			
+			# Get the text in the line
+			oldCursor = self.textCursor()
+			cursor = self.textCursor()
+			block = cursor.block()
+			text = block.text()
+			relPos = cursor.positionInBlock() #cursor.position() - block.position()
+			
+			if relPos == 1:
+				return
+			
 			# 
 			if 	(
 					(
-						eventKey == QtCore.Qt.Key_Backspace and
-						self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION and
-						not self.completer.memberListActivated()
+						(
+							eventKey == QtCore.Qt.Key_Backspace #and
+							#(self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION)
+						)
+						or
+						(
+						(not isShortcut) and (not event.text())
+						)
 					)
-					or
-					(
-					(not isShortcut) and (not event.text())
-					)
+					#and
+					#((not self.completer.memberListActivated()) or self.completer.completionPrefix() == "")
 				):
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
@@ -842,18 +855,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
 			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-="
-			if event.text()[-1] in eow:
+			if ((not event.text()) and (not isShortcut)) or event.text()[-1] in eow:
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
 				self.completer.deactivateMemberList()
 				return
-			
-			# Get the text in the line
-			oldCursor = self.textCursor()
-			cursor = self.textCursor()
-			block = cursor.block()
-			text = block.text()
-			relPos = cursor.positionInBlock() #cursor.position() - block.position()
 			
 			# Data flow and other auto replace stuff
 			cursor.movePosition(QtGui.QTextCursor.Left)
@@ -934,7 +940,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				
 				# Backspace to 0 length would show a HUGE list unexpectedly
 				if completionPrefixLen == 0 and eventKey == QtCore.Qt.Key_Backspace:
-					if charBeforeWord != "." or (text and relPos >= 1 and text[relPos - 1] == "."):
+					if charBeforeWord != "." or (text and relPos >= 1 and text[relPos - 1] == "."): #and (not self.completer.memberListActivated()):
 						self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 						popup.hide()
 						return
