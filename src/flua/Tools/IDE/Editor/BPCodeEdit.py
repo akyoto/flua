@@ -1383,6 +1383,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Message view
 		self.msgView.updateViewParser()
 		
+		# Highlight if needed
+		if self.updater.lastException:
+			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
+			ce = self.updater.codeEdit
+			if ce and ce.disableUpdatesFlag:
+				ce.disableUpdatesFlag = False
+				ce.highlighter.rehighlight()
+		
 		# Any work in the queue left?
 		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
 		if self.updateQueue and abs(self.timer.interval() - interval) > 300:

@@ -46,9 +46,6 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		except InputCompilerException as e:
 			self.lastException = e
 			
-			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
-			self.codeEdit.disableUpdatesFlag = False
-			
 			#self.codeEdit.setLineError(lineNumber - 1, errorMessage)
 			#self.codeEdit.highlightLine(lineNumber - 1, QtGui.QColor("#ff0000"))
 		finally:
