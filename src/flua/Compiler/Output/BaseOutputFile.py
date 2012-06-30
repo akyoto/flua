@@ -53,6 +53,7 @@ enableOperatorOverloading = {
 
 replacedNodeValues = {
 	"from" : "flua__from",
+	"do" : "flua__do",
 	"char" : "flua__char",
 	"int" : "flua__int",
 	"bool" : "flua_bool",

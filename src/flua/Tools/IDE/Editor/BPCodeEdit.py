@@ -723,8 +723,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				# Not exactly a perfect solution but works in most cases...
 				textBlock = tc.block().text()
 				if textBlock[-1] != ")" and (not textBlock.startswith("catch ")):
-					tc.insertText("()")
-					tc.movePosition(QtGui.QTextCursor.Left)
+					node = self.bpIDE.currentNode
+					
+					if node:
+						parentName = node.parentNode.tagName
+						
+						if parentName in {"extends", "implements"}:
+							pass
+						elif node.nodeType == Node.ELEMENT_NODE and node.tagName == "declare-type":
+							pass
+						else:
+							tc.insertText("()")
+							tc.movePosition(QtGui.QTextCursor.Left)
 			elif completion in xmlToBPCBlock.values():
 				tc.insertText("\n" + ("\t" * (countTabs(tc.block().text()) + 1)))
 			

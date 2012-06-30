@@ -350,7 +350,6 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return "%s%s%s%s%s" % (["::", caller + "."][caller != ""], fullName, "(", paramsString, ")")
 	
 	def buildCall(self, caller, fullName, paramsString):
-		
 		# Class call
 		if caller in self.compiler.mainClass.classes:
 			caller = self.adjustDataType(caller, False)
@@ -499,8 +498,8 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					# Functions
 					for funcImpl in classImpl.funcImplementations.values():
 						if funcImpl.getFuncName() == "init":
-							code += "\t" + funcImpl.getConstructorCode() + "\n"
-							code += "\t" + funcImpl.getFullCode() + "\n"
+							code += "\t// This constructor is used by C++ internally.\n\t" + funcImpl.getConstructorCode() + "\n"
+							code += "\t// This constructor is used by Flua internally for derived classes.\n\t" + funcImpl.getFullCode() + "\n"
 						elif funcImpl.getFuncName() == "finalize":
 							code += "\t" + funcImpl.getDestructorCode() + "\n"
 							destructorWritten = True
