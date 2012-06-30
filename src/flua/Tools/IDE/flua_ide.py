@@ -484,7 +484,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def loadConfig(self):
 		if os.path.isfile(getIDERoot() + "settings.ini"):
 			try:
-				self.config = BPConfiguration(self, getIDERoot() + "settings.ini")
+				self.config = BPConfiguration(self, getIDESettingsRoot() + "settings.ini")
 			except:
 				self.config = BPConfiguration(self, getIDERoot() + "default-settings.ini")
 		else:

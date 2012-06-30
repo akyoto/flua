@@ -382,27 +382,45 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.checkObjectCreation(node)
 			
 			if node.nodeType != Node.TEXT_NODE:
-				# WE NEED TO CONVERT IT TO XML BECAUSE CLONENODE IS BUGGED
+				# WE NEED TO CONVERT IT TO XML BECAUSE CLONENODE IS BUGGED (and slower)
 				self.compiler.exprCache[line] = node.toxml()
 			else:
 				self.compiler.textNodeCache[line] = node
+			
 			return node
 			
 		if inExprCache:
 			# Element node - WE NEED TO RE-PARSE IT BECAUSE PYTHON'S CLONENODE IS BUGGED
+			#node = self.cloneRecursively(self.compiler.exprCache[line]) 
 			node = parseString(self.compiler.exprCache[line]).documentElement
+			
+			# This is actually slower...
+			#original = self.compiler.exprCache[line]
+			#node = original.cloneNode(True)
+			#self.adjustTagNames(node, original)
 		else:
 			# Text node
 			node = self.compiler.textNodeCache[line].cloneNode(False)
 		
 		return node
 		
-	# def cloneNode(self, node):
-		# if node.nodeType == Node.TEXT_NODE:
-			# return node.cloneNode(False)
+	def adjustTagNames(self, cloned, original):
+		if original.nodeType == Node.ELEMENT_NODE and cloned.tagName != original.tagName:
+			cloned.tagName = original.tagName
 		
-		# copy = self.doc.createElement(node.tagName)
-		# for attr in node.attributes:	
+		# Recursive
+		adjXMLTree = self.adjustTagNames
+		for i in range(len(original.childNodes)):
+			adjXMLTree(cloned.childNodes[i], original.childNodes[i])
+		
+	def cloneRecursively(self, node):
+		cloned = node.cloneNode(True)
+		self.adjustTagNames(cloned, node)
+		
+		#print("Original: " + node.toxml())
+		#print("Cloned:   " + cloned.toxml())
+		
+		return cloned
 		
 	def compile(self, codeText = None):
 		#print("Compiling: " + self.file)

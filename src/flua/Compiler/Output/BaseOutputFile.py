@@ -498,6 +498,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return "MemPointer<void>"
 			elif node.nodeValue in {"_flua_slice_start", "_flua_slice_end"}:
 				return "Size"
+			elif node.nodeValue in self.compiler.mainClass.classes:
+				return node.nodeValue
 			else:
 				nodeName = node.nodeValue
 				
@@ -576,6 +578,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 							# Functions
 							virtualCall = self.makeXMLCall(varName)
 							return self.getCallDataType(virtualCall)
+					#elif caller.nodeValue in self.compiler.mainClass.classes:
+					#	print(caller)
 				
 				#if caller in self.compiler.mainClass.classes:
 				#	pass
@@ -809,6 +813,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			if callerNode.nodeValue in self.compiler.mainClass.namespaces:
 				funcName = callerNode.nodeValue + "_" + funcNameNode.childNodes[1].childNodes[0].nodeValue
+			#elif callerNode.nodeType == Node.ELEMENT_NODE and callerNode.tagName == "access" and callerNode.firstChild.firstChild.nodeValue in self.compiler.mainClass.classes:
+			#	print(node.toprettyxml())
 			else:
 				callerType = self.getExprDataType(callerNode)
 				caller = self.parseExpr(callerNode)

@@ -6,7 +6,7 @@
 			<import>flua.Compiler.Test</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">Hello\SWorld</string>
+			<string id="flua_string_0">Hello\SFlua!</string>
 		</strings>
 	</header>
 	<code>

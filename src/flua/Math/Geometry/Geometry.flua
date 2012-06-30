@@ -48,6 +48,7 @@
 				</code>
 			</namespace>
 		</extern>
+		<comment>\SConverts\S#deg\Sdegrees\Sto\Sradians</comment>
 		<function depth="0" id="8">
 			<parameters>
 				<parameter>deg</parameter>
@@ -61,7 +62,9 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SConverts\S#rad\Sradians\Sto\Sdegrees</comment>
 		<function depth="0" id="10">
 			<parameters>
 				<parameter>rad</parameter>
@@ -75,6 +78,7 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
 		<comment>\Ssee\S#sinDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
@@ -100,6 +104,8 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#degree\Sdegrees,</comment>
+		<comment>\Ssee\S#cosDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
 		<function depth="0" id="14">
 			<parameters>
 				<parameter>radian</parameter>
@@ -120,7 +126,10 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Sangle\Sin\Sradians\Sbetween\Sthe\Spositive\Sx-axis\Sof</comment>
+		<comment>\Sa\Splane\Sand\Sthe\Spoint\Sgiven\Sby\Sthe\Scoordinates\S(x,\Sy)\Son\Sit.</comment>
 		<function depth="0" id="16">
 			<parameters>
 				<parameter>x</parameter>
@@ -143,7 +152,9 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
 		<function depth="0" id="18">
 			<parameters>
 				<parameter>degree</parameter>
@@ -172,6 +183,7 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
 		<function depth="0" id="20">
 			<parameters>
 				<parameter>degree</parameter>
@@ -200,6 +212,8 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Ssquared\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
+		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
 		<function depth="0" id="22">
 			<parameters>
 				<parameter>x1</parameter>
@@ -245,6 +259,8 @@
 				</return>
 			</code>
 		</function>
+		<comment>\SReturns\Sthe\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
+		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
 		<function depth="0" id="26">
 			<parameters>
 				<parameter>x1</parameter>
@@ -273,6 +289,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

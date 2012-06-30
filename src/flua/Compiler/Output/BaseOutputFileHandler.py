@@ -1204,7 +1204,7 @@ class BaseOutputFileHandler:
 					implicitAssignment = caller[:pos] + " = "
 			else:
 				implicitAssignment = ""
-				
+			
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return implicitAssignment + self.buildNonPointerCall(caller, fullName, paramsString)
 			else:

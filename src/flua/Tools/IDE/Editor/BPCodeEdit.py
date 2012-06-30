@@ -26,12 +26,12 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		#		self.memberList = list(self.members)
 		
 		# Sort individually
-		self.memberList.sort()
-		self.methodList.sort()
-		self.iteratorList.sort()
+		#self.memberList.sort()
+		#self.methodList.sort()
+		#self.iteratorList.sort()
 		
 		resultingList = self.memberList + self.methodList + self.iteratorList
-		#resultingList.sort()
+		resultingList.sort()
 		self.setStringList(resultingList)
 		
 		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
@@ -216,6 +216,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 		self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
+		#self.setModelSorting(QtGui.QCompleter.UnsortedModel)
 		self.popup().setObjectName("AutoCompleter")
 		
 	def memberExists(self, name):
@@ -237,7 +238,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		self.endBenchmark()
 		
 		self.startBenchmark("Setting new model")
-		self.setModelSorting(QtGui.QCompleter.UnsortedModel)
+		#self.setModelSorting(QtGui.QCompleter.UnsortedModel)
 		self.setModel(classMemberModel)
 		self.endBenchmark()
 		
@@ -245,8 +246,13 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		
 	def deactivateMemberList(self):
 		if self.model() != self.bpcModel:
-			self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
+			#self.startBenchmark("Set model sorting")
+			#self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
+			#self.endBenchmark()
+			
+			#self.startBenchmark("Set model")
 			self.setModel(self.bpcModel)
+			#self.endBenchmark()
 		
 	def activateMemberList(self, cursorRelPos = -1):
 		# DON'T USE "or self.model() != self.bpcModel" because it will make types
@@ -854,8 +860,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# Modifier pressed?
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
-			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-="
+			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-= "
 			if ((not event.text()) and (not isShortcut)) or event.text()[-1] in eow:
+				print(event.text()[-1] + "<<<<<<<<<<")
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
 				self.completer.deactivateMemberList()

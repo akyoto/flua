@@ -350,7 +350,17 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return "%s%s%s%s%s" % (["::", caller + "."][caller != ""], fullName, "(", paramsString, ")")
 	
 	def buildCall(self, caller, fullName, paramsString):
-		return "%s%s%s%s%s" % (["::", caller + "->"][caller != ""], fullName, "(", paramsString, ")")
+		
+		# Class call
+		if caller in self.compiler.mainClass.classes:
+			caller = self.adjustDataType(caller, False)
+			
+			if fullName.startswith("init_"):
+				fullName = caller
+			
+			return "%s::%s(%s)" % (caller, fullName, paramsString)
+		
+		return "%s%s(%s)" % (["::", caller + "->"][caller != ""], fullName, paramsString)
 	
 	def buildSingleParameter(self, typeName, name):
 		return self.singleParameterSyntax % (typeName, name)
@@ -490,6 +500,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					for funcImpl in classImpl.funcImplementations.values():
 						if funcImpl.getFuncName() == "init":
 							code += "\t" + funcImpl.getConstructorCode() + "\n"
+							code += "\t" + funcImpl.getFullCode() + "\n"
 						elif funcImpl.getFuncName() == "finalize":
 							code += "\t" + funcImpl.getDestructorCode() + "\n"
 							destructorWritten = True

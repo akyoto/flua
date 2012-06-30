@@ -80,7 +80,6 @@
 					<code>
 						<noop depth="2" id="11"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="12">
 					<name>myMethod</name>

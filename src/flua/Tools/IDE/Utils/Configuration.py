@@ -16,6 +16,12 @@ def getIDERoot():
 	global globalIDERoot
 	return globalIDERoot
 
+def getIDESettingsRoot():
+	if os.name == "nt":
+		return getIDERoot()
+	else:
+		return "~/.flua/studio/"
+
 def getGitPath():
 	if os.name == "nt":
 		global globalGitPath
@@ -41,6 +47,7 @@ class BPConfiguration:
 		self.bpIDE = bpIDE
 		self.fileName = fileName
 		self.parser = configparser.SafeConfigParser()
+		self.defaultParser = configparser.SafeConfigParser()
 		
 		self.darkStyleEnabled = False
 		
@@ -185,9 +192,6 @@ class BPConfiguration:
 		self.loadSettings()
 		
 	def loadSettings(self):
-		with codecs.open(self.fileName, "r", "utf-8") as inStream:
-			self.parser.readfp(inStream)
-		
 		if os.name == "nt":
 			ideConfig = "IDE:Windows"
 			editorConfig = "Editor:Windows"
@@ -197,21 +201,37 @@ class BPConfiguration:
 		
 		self.gitHubName = "Unknown"
 		
-		self.editorFontFamily = self.parser.get(editorConfig, "FontFamily")
-		self.editorFontSize = self.parser.getint(editorConfig, "FontSize")
-		self.tabWidth = self.parser.getint(editorConfig, "TabWidth")
-		self.documentModeEnabled = self.parser.getboolean(editorConfig, "DocumentMode")
-		self.useBold = self.parser.getboolean(editorConfig, "EnableBoldFormatting")
+		with codecs.open(self.fileName, "r", "utf-8") as inStream:
+			self.parser.readfp(inStream)
+			
+		with codecs.open(getIDERoot() + "default-settings.ini", "r", "utf-8") as inStream:
+			self.defaultParser.readfp(inStream)
 		
-		self.themeName = self.parser.get("Editor.Theme", "Theme")
+		self.editorFontFamily = self.get(editorConfig, "FontFamily")
+		self.editorFontSize = self.getInt(editorConfig, "FontSize")
+		self.tabWidth = self.getInt(editorConfig, "TabWidth")
+		self.documentModeEnabled = self.getBool(editorConfig, "DocumentMode")
+		self.useBold = self.getBool(editorConfig, "EnableBoldFormatting")
 		
-		self.ideFontFamily = self.parser.get(ideConfig, "FontFamily")
-		self.ideFontSize = self.parser.getint(ideConfig, "FontSize")
+		self.themeName = self.get("Editor.Theme", "Theme")
 		
-		self.updateInterval = self.parser.getint("Parser", "UpdateInterval")
+		self.ideFontFamily = self.get(ideConfig, "FontFamily")
+		self.ideFontSize = self.getInt(ideConfig, "FontSize")
 		
+		self.updateInterval = self.getInt("Parser", "UpdateInterval")
+		
+		# Create fonts
 		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
 		self.standardFont = QtGui.QFont(self.ideFontFamily, self.ideFontSize)
+		
+	def get(self, category, option):
+		return self.parser.get(category, option)
+		
+	def getInt(self, category, option):
+		return self.parser.getint(category, option)
+		
+	def getBool(self, category, option):
+		return self.parser.getboolean(category, option)
 		
 	def applySettings(self):
 		self.applyMonospaceFont(self.monospaceFont)
