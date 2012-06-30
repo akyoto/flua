@@ -25,8 +25,13 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		#		self.members = membersDict[className] #classImpl.classObj.possibleMembers
 		#		self.memberList = list(self.members)
 		
+		# Sort individually
+		self.memberList.sort()
+		self.methodList.sort()
+		self.iteratorList.sort()
+		
 		resultingList = self.memberList + self.methodList + self.iteratorList
-		resultingList.sort()
+		#resultingList.sort()
 		self.setStringList(resultingList)
 		
 		self.methodIcon = QtGui.QIcon("images/icons/autocomplete/method.png")
@@ -78,6 +83,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		self.externVarsListLen = len(self.externVarsList)
 		
 		super().__init__([], parent)
+		
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
 		self.externFuncIcon = QtGui.QIcon("images/icons/autocomplete/extern-function.png")
@@ -219,7 +225,6 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		return self.model() != self.bpcModel
 		
 	def createClassMemberModel(self, dataType, private = False):
-		
 		self.startBenchmark("Create class member model for '%s'" % dataType)
 		
 		try:
@@ -232,6 +237,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		self.endBenchmark()
 		
 		self.startBenchmark("Setting new model")
+		self.setModelSorting(QtGui.QCompleter.UnsortedModel)
 		self.setModel(classMemberModel)
 		self.endBenchmark()
 		
@@ -239,6 +245,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		
 	def deactivateMemberList(self):
 		if self.model() != self.bpcModel:
+			self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
 			self.setModel(self.bpcModel)
 		
 	def activateMemberList(self, cursorRelPos = -1):
@@ -641,17 +648,26 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		tc = self.textCursor()
 		
-		if completion in self.completer.bpcModel.shortCuts:
-			tc.movePosition(QtGui.QTextCursor.Left)
+		#tc.select(QtGui.QTextCursor.WordUnderCursor)
+		relPos = tc.positionInBlock()
+		textBlock = tc.block().text()
+		
+		if relPos > 1:
+			char = textBlock[relPos - 1]
+			
+			if isVarChar(char):
+				tc.movePosition(QtGui.QTextCursor.Left)
+		else:
+			char = ""
+		
+		if char != ".":
 			tc.movePosition(QtGui.QTextCursor.StartOfWord)
 			tc.select(QtGui.QTextCursor.WordUnderCursor)
 			tc.removeSelectedText()
+		
+		if completion in self.completer.bpcModel.shortCuts:
 			tc.insertText(self.completer.bpcModel.shortCuts[completion])
 		else:
-			tc.movePosition(QtGui.QTextCursor.Left)
-			tc.movePosition(QtGui.QTextCursor.StartOfWord)
-			tc.select(QtGui.QTextCursor.WordUnderCursor)
-			tc.removeSelectedText()
 			tc.insertText(completion)
 			
 			#extra = (len(completion) - len(self.completer.completionPrefix()))
@@ -675,9 +691,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Class members
 		if self.completer.memberListActivated():
-			relPos = tc.positionInBlock()
-			textBlock = tc.block().text()
-			
 			if completion in self.completer.model().methodList and ((relPos == len(textBlock) or textBlock[relPos] != "(")):
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
