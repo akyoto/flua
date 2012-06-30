@@ -29,6 +29,7 @@
 ####################################################################
 def buildShortcutDict(functionList):
 	shortCuts = dict()
+	
 	for funcName in functionList:
 		chars = funcName[0]
 		previousIsUpper = False
@@ -40,6 +41,6 @@ def buildShortcutDict(functionList):
 			elif previousIsUpper:
 				previousIsUpper = False
 				
-		if chars:
+		if chars and len(chars) > 1:
 			shortCuts[chars] = funcName
 	return shortCuts

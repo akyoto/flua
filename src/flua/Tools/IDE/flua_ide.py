@@ -85,7 +85,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V", "G", "B"]	# TODO: Internationalization
 		
 		# AC
-		self.shortCuts = dict()
+		#self.shortCuts = dict()
 		self.funcsDict = dict()
 		self.classesDict = dict()
 		

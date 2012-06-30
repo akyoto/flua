@@ -91,17 +91,17 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		self.keywordList = keywordList
 		self.updateStringList()
 		
-	def setAutoCompleteLists(self, functionList, shortCuts, classesList):
-		self.functionList = functionList
-		self.funcListLen = len(functionList)
-		
-		self.shortCuts = shortCuts
-		self.shortCutList = list(shortCuts)
-		
-		self.classesList = classesList
-		self.classesListLen = len(classesList)
-		
-		self.updateStringList()
+	#def setAutoCompleteLists(self, functionList, shortCuts, classesList):
+	#	self.functionList = functionList
+	#	self.funcListLen = len(functionList)
+	#	
+	#	self.shortCuts = shortCuts
+	#	self.shortCutList = list(shortCuts)
+	#	
+	#	self.classesList = classesList
+	#	self.classesListLen = len(classesList)
+	#	
+	#	self.updateStringList()
 		
 	def retrieveData(self, outComp):
 		self.startBenchmark("Updated AutoComplete list")
@@ -126,6 +126,11 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		if len(self.functions) != self.funcListLen:
 			self.functionList = list(self.functions)
 			self.funcListLen = len(self.functionList)
+			
+			self.shortCuts = buildShortcutDict(self.functionList)
+			self.shortCutList = list(self.shortCuts)
+			#print(self.shortCutsList)
+			
 			modified += 1
 			
 		if len(self.classes) != self.classesListLen:
@@ -178,7 +183,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 					return self.exceptionIcon
 				else:
 					return self.classIcon
-			elif text in self.shortCutList:
+			elif text in self.shortCuts:
 				return self.shortcutFunctionIcon
 			elif text in self.keywordList:
 				return self.keywordIcon
@@ -637,7 +642,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		tc = self.textCursor()
 		
 		if completion in self.completer.bpcModel.shortCuts:
-			#tc.movePosition(QtGui.QTextCursor.Left)
+			tc.movePosition(QtGui.QTextCursor.Left)
 			tc.movePosition(QtGui.QTextCursor.StartOfWord)
 			tc.select(QtGui.QTextCursor.WordUnderCursor)
 			tc.removeSelectedText()
@@ -750,18 +755,20 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Auto Complete
 		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
 		
+		if self.completer:
+			popup = self.completer.popup()
+		else:
+			popup = None
+		
 		# Ctrl + Mouse click
 		if event.modifiers() == QtCore.Qt.ControlModifier:
 			self.bpIDE.ctrlPressed = True
 			self.setMouseTracking(True)
 		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
+			self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+			popup.hide()
 			return
-		
-		if self.completer:
-			popup = self.completer.popup()
-		else:
-			popup = None
 		
 		# Auto Complete
 		if 		(
@@ -954,7 +961,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			# AFTER THE MEMBER LIST HAS BEEN EVENTUALLY CREATED set the prefix
 			if gonnaSetPrefix:
-				print("SETTING PREFIX TO:%s" % completionPrefix)
+				#print("SETTING PREFIX TO:%s" % completionPrefix)
 				self.completer.setCompletionPrefix(completionPrefix)
 				popup.setCurrentIndex(self.completer.completionModel().index(0, 0))
 			
@@ -968,12 +975,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					return
 				else:
 					self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_BY_USER
-			
-			# Is the prefix equal to the first suggestion? If so, hide the popup.
-			if self.completer.currentCompletion() == completionPrefix:
-				popup.hide()
-				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-				return
+			else:
+				# Is the prefix equal to the first suggestion? If so, hide the popup.
+				if self.completer.currentCompletion() == completionPrefix:
+					popup.hide()
+					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					return
 			
 			# Current state
 			if 	(
