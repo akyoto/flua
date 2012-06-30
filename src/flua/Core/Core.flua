@@ -8,6 +8,7 @@
 			<import>String</import>
 			<import>Output</import>
 			<import>Exception</import>
+			<import>flua.Collection.Vector</import>
 		</dependencies>
 		<strings/>
 	</header>
