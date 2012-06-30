@@ -703,8 +703,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				functionHasParameters = False
 				
 				# At end of line?
-				if tc.atBlockEnd(): #tc.block().text() == beforeCompletion + completion:
-					if beforeCompletion.isspace() or not beforeCompletion and functionHasParameters:
+				if ((relPos == len(textBlock) or (not textBlock[relPos] in '("\''))): #tc.block().text() == beforeCompletion + completion:
+					if beforeCompletion.isspace() or (not beforeCompletion) and functionHasParameters:
 						tc.insertText(" ")
 					else:
 						tc.insertText("()")
