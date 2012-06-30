@@ -41,3 +41,9 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 			self.lastException = None
 		except PostProcessorException as e:
 			self.lastException = e
+			
+			# Try to get line information
+			try:
+				e.lineNumber = self.codeEdit.bpcFile.nodeToOriginalLineNumber[e.node]
+			except:
+				pass

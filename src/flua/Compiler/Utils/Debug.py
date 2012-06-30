@@ -38,8 +38,9 @@ dbgEnabled = False
 ####################################################################
 class CompilerException(Exception):
 	
-	def __init__(self, value):
+	def __init__(self, value, node = None):
 		self.value = value
+		self.node = node
 		
 	def getMsg(self):
 		return self.value
@@ -89,9 +90,17 @@ class InputCompilerException(CompilerException):
 
 class PostProcessorException(CompilerException):
 	
-	def __init__(self, value, filePath):
+	def __init__(self, value, filePath, node):
 		self.setMsg(value)
 		self.filePath = filePath
+		self.node = node
+		self.lineNumber = -1
+		
+	def getFilePath(self):
+		return self.filePath
+		
+	def getLineNumber(self):
+		return self.lineNumber
 		
 	def __str__(self):
 		return self.filePath + ":\n" + self.getMsg()

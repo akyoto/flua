@@ -25,10 +25,16 @@ class BPMessageView(QtGui.QListWidget):
 		self.lastLineNumber = -2
 		self.lastErrorMessage = ""
 		self.lastErrorFilePath = ""
+		self.lastException = None
 		
 	def goToLineOfItem(self, item):
 		errorFilePath = item.data(QtCore.Qt.UserRole + 1)
+		
+		self.clearSelection()
+		
 		if (not errorFilePath) or (not os.path.isfile(errorFilePath)):
+			if self.lastException:
+				print("No line information for '%s'" % (self.lastException.__class__))
 			return
 		
 		lineNum = item.data(QtCore.Qt.UserRole + 2)
@@ -40,8 +46,6 @@ class BPMessageView(QtGui.QListWidget):
 		
 		if lineNum is not None and lineNum != -1:
 			self.bpIDE.goToLineEnd(lineNum)
-			
-		self.clearSelection()
 		
 	def addMessage(self, msg):
 		#newItem = QtGui.QListWidgetItem(self.icon, msg)
@@ -82,7 +86,7 @@ class BPMessageView(QtGui.QListWidget):
 		ce = self.bpIDE.codeEdit
 		
 		if ce and ce.updater and ce.updater.lastException:
-			e = ce.updater.lastException
+			e = self.lastException = ce.updater.lastException
 			#ce.updater.lastException = None
 			lineNumber = e.getLineNumber()
 			errorMessage = e.getMsg()
@@ -106,10 +110,9 @@ class BPMessageView(QtGui.QListWidget):
 		# Last post processor exception
 		pp = self.bpIDE.postProcessorThread
 		if pp and pp.lastException:
-			e = pp.lastException
+			e = self.lastException = pp.lastException
 			pp.lastException = None
-			errorMessage = e.getMsg()
-			self.addMessage(errorMessage)
+			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 		
 		self.updateView()
 		
