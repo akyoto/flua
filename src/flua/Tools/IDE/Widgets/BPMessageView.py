@@ -1,4 +1,5 @@
 from PyQt4 import QtGui, QtCore
+from flua.Compiler.Utils import *
 import os
 
 class BPMessageView(QtGui.QListWidget):
@@ -79,13 +80,15 @@ class BPMessageView(QtGui.QListWidget):
 		#self.setSizeHint(QtCore.QSize(0, 10))
 		self.addItem(newItem)
 		
-		self.updateView()
+		#self.updateView()
 		
 	def updateViewParser(self):
 		# Last parser exception
 		ce = self.bpIDE.codeEdit
 		
 		if ce and ce.updater and ce.updater.lastException:
+			self.clear()
+			
 			e = self.lastException = ce.updater.lastException
 			#ce.updater.lastException = None
 			lineNumber = e.getLineNumber()
@@ -93,30 +96,64 @@ class BPMessageView(QtGui.QListWidget):
 			errorFilePath = e.getFilePath()
 			
 			if lineNumber != self.lastLineNumber or errorMessage != self.lastErrorMessage or errorFilePath != self.lastErrorFilePath:
-				self.clear()
 				self.addLineBasedMessage(errorFilePath, lineNumber, errorMessage)
 				self.lastLineNumber = lineNumber
 				self.lastErrorMessage = errorMessage
 				self.lastErrorFilePath = errorFilePath
 		else:
-			self.resetLastException()
-			self.clear()
+			if self.lastException:
+				wasMyException = isinstance(self.lastException, InputCompilerException)
+				
+				if wasMyException:
+					self.clear()
 		
 		self.updateView()
 		
 	def updateViewPostProcessor(self):
 		#self.clear()
+		if self.lastException:
+			wasMyException = isinstance(self.lastException, PostProcessorException)
+			
+			if wasMyException:
+				self.clear()
+			else:
+				return
 		
 		# Last post processor exception
 		pp = self.bpIDE.postProcessorThread
 		if pp and pp.lastException:
+			self.clear()
 			e = self.lastException = pp.lastException
 			pp.lastException = None
 			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 		
 		self.updateView()
 		
+	def updateViewOutputCompiler(self):
+		if self.lastException:
+			wasMyException = isinstance(self.lastException, OutputCompilerException)
+			
+			if wasMyException:
+				self.clear()
+			else:
+				return
+		#else:
+		#	wasOutputCompilerException = False
+		
+		e = self.lastException = self.bpIDE.outputCompilerThread.lastException
+		
+		if e:
+			node = e.getLastParsedNode()
+			
+			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
+			
+			if not self.bpIDE.developerFlag:
+				self.bpIDE.consoleDock.hide()
+		
+		self.updateView()
+		
 	def clear(self):
+		self.resetLastException()
 		self.messages = dict()
 		super().clear()
 		self.hide()

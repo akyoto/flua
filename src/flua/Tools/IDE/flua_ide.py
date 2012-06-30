@@ -132,7 +132,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.newFile()
 			self.codeEdit.setPlainText("""import playground.Everything
 
-# Check bp.Documentation in the module browser on the left for some beginner topics.
+# Check flua.Documentation in the module browser on the left for some beginner topics.
 """)
 		else:
 			self.openFile(getModuleDir() + "eurbach/Namespaces.bp")
@@ -226,14 +226,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.outputCompilerThread.startWith(tmpOutputCompiler)
 	
 	def backgroundCompilerFinished(self):
-		if self.outputCompilerThread.lastException:
+		#if self.outputCompilerThread.lastException:
 			#pass
 			
 			# Hmm...what should we do with background compiler error messages?
 			
 			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
-			if self.codeEdit and self.codeEdit.msgView.count() == 0:
-				self.displayOutputCompilerException(self.outputCompilerThread.lastException)
+			#if self.codeEdit:
+				#msgView = self.codeEdit.msgView
+				#if 1:#msgView.count() == 0 or isinstance(msgView.lastException, OutputCompilerException):
+					#if msgView.lastException:
+					#	print(msgView.lastException.__class__)
+					#msgView.clear()
 		
 		# The output compiler
 		comp = self.outputCompilerThread.outputCompiler
@@ -265,6 +269,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			if ce.backgroundCompilerOutstandingTasks < 0:
 				ce.backgroundCompilerOutstandingTasks = 0
+				
+			# Messages
+			ce.msgView.updateViewOutputCompiler()
 	
 	def needsRehighlight(self, newFuncCount):
 		return newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile())

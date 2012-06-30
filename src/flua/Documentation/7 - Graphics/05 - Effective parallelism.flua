@@ -7,12 +7,12 @@
 			<import>flua.Math.Geometry</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">Flua\S-\SParallel\Smain\Sloop</string>
+			<string id="flua_string_0">Flua\S-\SEffective\Sparallelism</string>
 			<string id="flua_string_1">../</string>
 			<string id="flua_string_2">Shader/1-VS.glsl</string>
 			<string id="flua_string_3">Shader/1-FS.glsl</string>
 			<string id="flua_string_4">Textures/1-Tiles.png</string>
-			<string id="flua_string_5">Parallel\Smain\Sloop\S-\SFPS:\S</string>
+			<string id="flua_string_5">Effective\Sparallelism\S-\SFPS:\S</string>
 			<string id="flua_string_6">,\SUPS:\S</string>
 		</strings>
 	</header>

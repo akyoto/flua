@@ -7,7 +7,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SLet's\Sdefine\Sa\Sfunction:</comment>
+		<comment>\SLet's\Sdefine\Sa\Sdata\Ssource:</comment>
 		<function depth="0" id="1">
 			<parameters>
 				<parameter>a</parameter>
@@ -41,7 +41,7 @@
 			<meta/>
 		</function>
 		<comment>\SActivate\Sthe\Sdata\Sflow\Sso\Sthat\Sthe\Sreturn\Svalue\Sof\S#sum</comment>
-		<comment>\Sis\Sgiven\Sto\Sthe\Sreceive\Sfunction\Seach\Stime\S#sum\Sis\Scalled:</comment>
+		<comment>\Sis\Sgiven\Sto\Sthe\S#receive\Sfunction\Seach\Stime\S#sum\Sis\Scalled:</comment>
 		<flow-to depth="0" id="5">
 			<value>sum</value>
 			<value>receive</value>

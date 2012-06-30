@@ -166,28 +166,12 @@ class ModuleMenuActions:
 		
 		#cpp.compile(self.file, self.codeEdit.root)
 		
-	def displayOutputCompilerException(self, e):
-		if not self.codeEdit:
-			return
+	#def displayOutputCompilerException(self, e):
+	#	if not self.codeEdit:
+	#		return
+	#	
+	#	#lineNumber = e.getLineNumber()
 		
-		#lineNumber = e.getLineNumber()
-		node = e.getLastParsedNode()
-		
-		if 0:#self.developerFlag:
-			#print(e.getMsg())
-			
-			if node:
-				print("Last parsed node:\n" + node.toxml())
-				
-			self.console.activate("Log")
-			self.consoleDock.show()
-		else:
-			errorMessage = e.getMsg()
-			self.codeEdit.msgView.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), errorMessage)
-			
-			if not self.developerFlag:
-				self.consoleDock.hide()
-			#self.codeEdit.msgView.updateView()
 		
 	def showModuleProperties(self):
 		if self.codeEdit is None or not self.currentWorkspace.count():

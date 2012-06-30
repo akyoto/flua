@@ -74,6 +74,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2" id="12">
 						<name>next</name>
@@ -104,6 +105,7 @@
 								<value>node</value>
 							</assign>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>
@@ -131,7 +133,6 @@
 					<code>
 						<noop depth="2" id="21"/>
 					</code>
-					<meta/>
 				</function>
 				<get depth="1" id="22">
 					<getter depth="2" id="23">
@@ -144,11 +145,9 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
-			<meta/>
 		</class>
 		<comment>\SSingly\Slinked\Slist</comment>
 		<class depth="0" id="25">
@@ -313,7 +312,6 @@
 							</else>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<get depth="1" id="40">
 					<getter depth="2" id="41">
@@ -347,7 +345,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="45">
 						<name>hasElements</name>
@@ -369,7 +366,6 @@
 								</not-equal>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 				<iterators depth="1" id="47">
@@ -414,10 +410,7 @@
 					</iterator-type>
 				</iterators>
 			</code>
-			<meta>
-				<ensure-destructor-call>false</ensure-destructor-call>
-				<default-class-version>true</default-class-version>
-			</meta>
+			<meta/>
 		</class>
 	</code>
 </module>

@@ -872,7 +872,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-= "
 			if ((not event.text()) and (not isShortcut)) or event.text()[-1] in eow:
-				print(event.text()[-1] + "<<<<<<<<<<")
+				#print(event.text()[-1] + "<<<<<<<<<<")
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
 				self.completer.deactivateMemberList()

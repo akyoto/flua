@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SIn\Sbp\Syou\Scan\Shave\Smultiple\Siterators\Sfor\Sa\Sclass.</comment>
+		<comment>\SIn\SFlua\Syou\Scan\Shave\Smultiple\Siterators\Sfor\Sa\Sclass.</comment>
 		<comment>\SThe\Sdefault\Siterator\Scan\Sbe\Sused\Slike\Sthis:</comment>
 		<foreach depth="0" id="1">
 			<iterator>x</iterator>
