@@ -141,7 +141,7 @@ class BPMessageView(QtGui.QListWidget):
 			#maxHeight = max(92, maxHeight)
 			
 			# Resize bubble
-			margin = 7
+			margin = 7 + 10
 			b = self.ce.bubble
 			
 			# Resize myself

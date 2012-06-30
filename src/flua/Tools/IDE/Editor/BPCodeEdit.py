@@ -643,24 +643,30 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			tc.removeSelectedText()
 			tc.insertText(self.completer.bpcModel.shortCuts[completion])
 		else:
-			extra = (len(completion) - len(self.completer.completionPrefix()))
-			tc.movePosition(QtGui.QTextCursor.EndOfWord)
+			tc.movePosition(QtGui.QTextCursor.Left)
+			tc.movePosition(QtGui.QTextCursor.StartOfWord)
+			tc.select(QtGui.QTextCursor.WordUnderCursor)
+			tc.removeSelectedText()
+			tc.insertText(completion)
 			
+			#extra = (len(completion) - len(self.completer.completionPrefix()))
+			#tc.movePosition(QtGui.QTextCursor.EndOfWord)
+			#
 			# ) after completion
-			underCursor = self.textUnderCursor()
-			
-			if (underCursor) and (not isVarChar(underCursor[0])):
-				#print(underCursor + "<=========")
-				
-				pointPos = underCursor.find(".")
-				if pointPos == -1:
-					nTimes = len(underCursor)
-				else:
-					nTimes = len(underCursor) - pointPos - 1
-				print(nTimes)
-				tc.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, nTimes)
-			
-			tc.insertText(completion[len(completion) - extra:])
+			#underCursor = self.textUnderCursor()
+			#
+			#if (underCursor) and (not isVarChar(underCursor[0])):
+			#	#print(underCursor + "<=========")
+			#	
+			#	pointPos = underCursor.find(".")
+			#	if pointPos == -1:
+			#		nTimes = len(underCursor)
+			#	else:
+			#		nTimes = len(underCursor) - pointPos - 1
+			#	print(nTimes)
+			#	tc.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, nTimes)
+			#
+			#tc.insertText(completion[len(completion) - extra:])
 		
 		# Class members
 		if self.completer.memberListActivated():
@@ -750,6 +756,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.setMouseTracking(True)
 		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
+			return
 		
 		if self.completer:
 			popup = self.completer.popup()
@@ -961,6 +968,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					return
 				else:
 					self.autoCompleteState = BPCAutoCompleter.STATE_OPENED_BY_USER
+			
+			# Is the prefix equal to the first suggestion? If so, hide the popup.
+			if self.completer.currentCompletion() == completionPrefix:
+				popup.hide()
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				return
 			
 			# Current state
 			if 	(
