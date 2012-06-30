@@ -172,6 +172,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def showDependencies(self):#, node, updateDependencyView = True):
 		node = self.currentNode
+		
 		if node == self.lastShownNode:
 			if self.lastShownOutputCompiler != self.outputCompiler:
 				self.updateCodeBubble(node)
@@ -371,7 +372,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def updateCodeBubble(self, node):
 		if self.codeEdit and self.codeEdit.bubble and not self.running and self.consoleDock.isHidden():
 			if node:
+				#self.startBenchmark("Find calls in reversed order")
 				calls = findCallsReversed(node)
+				#self.endBenchmark()
 				
 				# TODO: Optimize as a dict lookup
 				# If we have output compiler information

@@ -79,11 +79,6 @@ def findNodes(node, nodeName):
 	
 	# TODO: Improve performance, make an iterative algorithm out of this:
 	for child in node.childNodes:
-		found = findNodes(child, nodeName)
-		if found:
-			callList += found
-	
-	for child in node.childNodes:
 		callList += findNodes(child, nodeName)
 	
 	return callList
