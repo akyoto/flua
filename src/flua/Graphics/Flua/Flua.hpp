@@ -2,6 +2,9 @@
 
 #include <public/Graphics/GLUT/C++/GLUT.hpp>
 
+//#include <public/Graphics/GLEW/C++/GLEW.hpp>
+//#include <public/Graphics/GLEW/GLEW.hpp>
+
 // ----------------------------------------------------
 //  TODO: Replace all errors with exceptions
 // ----------------------------------------------------
@@ -162,12 +165,24 @@ inline int flua_getScreenHeight() {
 	return glutGet(GLUT_SCREEN_HEIGHT);
 }
 
-inline Int flua_createGLUTWindow(char* title, int width, int height, int depth, bool fullscreen = false) {
-	glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - height) / 2);
+inline void flua_setVSync(bool vsync) {
+	/*
+#ifdef _WIN32
+	glewWGL::wglSwapIntervalEXT(vsync);
+#else
+	glewGLX::glXSwapIntervalSGI(vsync);
+#endif
+	*/
+}
+
+inline Int flua_createGLUTWindow(char* title, int width, int height, bool fullscreen = false) {
+	glutInitWindowPosition((flua_getScreenWidth() - width) / 2, (flua_getScreenHeight() - height) / 2);
 	glutInitWindowSize(width, height);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_ALPHA | GLUT_RGB | GLUT_DEPTH);
 	
 	int winId = glutCreateWindow(title);
+	
+	//flua_setVSync(true);
 	
 	// Force first call (not called automatically on Windows)
 #ifdef _WIN32

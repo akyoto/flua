@@ -74,7 +74,7 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.codeEdit = self.widget(index)
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
-			if (not self.bpIDE.codeEdit.openingFile) and (not self.bpIDE.codeEdit.isTextFile):
+			if ((not self.bpIDE.codeEdit.openingFile) and (not self.bpIDE.codeEdit.isTextFile)):
 				self.bpIDE.codeEdit.runUpdater()
 			
 			if self.bpIDE.codeEdit.reloading:

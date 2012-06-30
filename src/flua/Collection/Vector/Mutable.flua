@@ -93,6 +93,7 @@
 					<meta/>
 				</function>
 				<function depth="1" id="8">
+					<parameters/>
 					<name>finalize</name>
 					<code>
 						<call depth="2" id="9">
@@ -303,9 +304,9 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="23">
+					<parameters/>
 					<name>removeLast</name>
 					<code>
 						<require depth="2" id="24">
@@ -353,6 +354,7 @@
 					</code>
 				</function>
 				<function depth="1" id="28">
+					<parameters/>
 					<name>reverse</name>
 					<code>
 						<assign depth="2" id="29">
@@ -502,6 +504,7 @@
 				</operators>
 				<iterators depth="1" id="46">
 					<iterator-type depth="2" id="47">
+						<parameters/>
 						<name>default</name>
 						<code>
 							<assign depth="3" id="48">
@@ -552,6 +555,7 @@
 				</iterators>
 				<get depth="1" id="53">
 					<getter depth="2" id="54">
+						<parameters/>
 						<name>length</name>
 						<code>
 							<ensure depth="3" id="55">
@@ -579,6 +583,7 @@
 						</code>
 					</getter>
 					<getter depth="2" id="58">
+						<parameters/>
 						<name>size</name>
 						<code>
 							<ensure depth="3" id="59">
@@ -606,6 +611,7 @@
 						</code>
 					</getter>
 					<getter depth="2" id="62">
+						<parameters/>
 						<name>data</name>
 						<code>
 							<return depth="3" id="63">

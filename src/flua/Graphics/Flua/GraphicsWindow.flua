@@ -56,17 +56,6 @@
 								<value>
 									<access>
 										<value>my</value>
-										<value>depth</value>
-									</access>
-								</value>
-								<value>32</value>
-							</assign>
-						</parameter>
-						<parameter>
-							<assign>
-								<value>
-									<access>
-										<value>my</value>
 										<value>fullscreen</value>
 									</access>
 								</value>
@@ -113,12 +102,6 @@
 											<access>
 												<value>my</value>
 												<value>height</value>
-											</access>
-										</parameter>
-										<parameter>
-											<access>
-												<value>my</value>
-												<value>depth</value>
 											</access>
 										</parameter>
 										<parameter>

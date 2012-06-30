@@ -62,7 +62,6 @@
 							<value>size</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="7">
 					<name>finalize</name>
@@ -82,7 +81,6 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SFix\Sthis</comment>
 				<function depth="1" id="9">
@@ -175,7 +173,6 @@
 							<value>newSize</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="15">
 					<name>reverse</name>
@@ -249,7 +246,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<operators depth="1" id="22">
 					<comment>\SRetrieve\Sthe\Svalue\Sfrom\Sthe\Sarray\Sfor\Sthe\Sgiven\S#index</comment>
@@ -325,7 +321,6 @@
 								<value>value</value>
 							</assign>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 				<iterators depth="1" id="33">

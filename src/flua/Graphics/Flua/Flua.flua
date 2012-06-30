@@ -88,13 +88,17 @@
 						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="17">
+						<name>setVSync</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="18">
 						<name>getLastGLError</name>
 						<type>String</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="18">
+					<extern-function depth="2" id="19">
 						<name>getMouseX</name>
 						<type>Int</type>
 						<meta>
@@ -102,14 +106,14 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="19">
+					<extern-function depth="2" id="20">
 						<name>getMouseY</name>
 						<type>Int</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="20">
+					<extern-function depth="2" id="21">
 						<name>getScreenWidth</name>
 						<type>Int</type>
 						<meta>
@@ -117,7 +121,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="21">
+					<extern-function depth="2" id="22">
 						<name>getScreenHeight</name>
 						<type>Int</type>
 						<meta>
@@ -126,13 +130,13 @@
 					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="22">
+			<class depth="1" id="23">
 				<name>TextureInfo</name>
 				<code>
-					<function depth="2" id="23">
+					<function depth="2" id="24">
 						<name>init</name>
 						<code>
-							<declare-type depth="3" id="24">
+							<declare-type depth="3" id="25">
 								<value>
 									<access>
 										<value>my</value>
@@ -141,7 +145,7 @@
 								</value>
 								<value>GLuint</value>
 							</declare-type>
-							<declare-type depth="3" id="25">
+							<declare-type depth="3" id="26">
 								<value>
 									<access>
 										<value>my</value>
@@ -150,7 +154,7 @@
 								</value>
 								<value>UInt</value>
 							</declare-type>
-							<declare-type depth="3" id="26">
+							<declare-type depth="3" id="27">
 								<value>
 									<access>
 										<value>my</value>
@@ -162,17 +166,17 @@
 						</code>
 						<meta/>
 					</function>
-					<public depth="2" id="27">
-						<public-member depth="3" id="28">*</public-member>
+					<public depth="2" id="28">
+						<public-member depth="3" id="29">*</public-member>
 					</public>
 				</code>
 				<meta/>
 			</class>
 		</extern>
-		<function depth="0" id="29">
+		<function depth="0" id="30">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="30">
+				<return depth="1" id="31">
 					<call>
 						<function>
 							<access>
@@ -187,10 +191,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="32">
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="33">
 					<call>
 						<function>
 							<access>
@@ -205,10 +209,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="34">
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="34">
+				<return depth="1" id="35">
 					<call>
 						<function>
 							<access>
@@ -222,7 +226,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="35">
+		<function depth="0" id="36">
 			<parameters>
 				<parameter>
 					<assign>
@@ -237,7 +241,7 @@
 			</parameters>
 			<name>getScreenWidth</name>
 			<code>
-				<return depth="1" id="36">
+				<return depth="1" id="37">
 					<call>
 						<function>
 							<access>
@@ -251,7 +255,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="37">
+		<function depth="0" id="38">
 			<parameters>
 				<parameter>
 					<assign>
@@ -266,7 +270,7 @@
 			</parameters>
 			<name>getScreenHeight</name>
 			<code>
-				<return depth="1" id="38">
+				<return depth="1" id="39">
 					<call>
 						<function>
 							<access>
@@ -279,10 +283,31 @@
 				</return>
 			</code>
 		</function>
-		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="39">
+		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
+		<function depth="0" id="40">
+			<parameters>
+				<parameter>enabled</parameter>
+			</parameters>
+			<name>setVSync</name>
 			<code>
-				<call depth="1" id="40">
+				<call depth="1" id="41">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>setVSync</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>enabled</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="42">
+			<code>
+				<call depth="1" id="43">
 					<function>print</function>
 					<parameters>
 						<parameter>
