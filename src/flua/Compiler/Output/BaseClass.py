@@ -166,7 +166,7 @@ class BaseClass(BaseNamespace):
 	def setExtends(self, extends):
 		self.extends = extends
 		
-		if 0:
+		if 1:
 			cumulativeMembers = []
 			for classImpl in extends:
 				#print(classImpl.getFullName())
@@ -174,7 +174,7 @@ class BaseClass(BaseNamespace):
 				#print(classImpl.classObj.publicMembers)
 				#print(classImpl.classObj.properties)
 				cumulativeMembers += list(classImpl.classObj.publicMembers.items())
-				
+			
 			self.publicMembers = dict(list(self.publicMembers.items()) + cumulativeMembers)
 			#print(self.publicMembers)
 		

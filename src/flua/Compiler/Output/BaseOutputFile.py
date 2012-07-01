@@ -508,8 +508,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return "Size"
 			elif node.nodeValue in self.compiler.mainClass.classes:
 				return node.nodeValue
-			#elif node.nodeValue in self.compiler.mainClass.functions:
-			#	return "Function"
+			elif node.nodeValue in self.compiler.mainClass.functions:
+				return "Function"
 			elif node.nodeValue.startswith("0x"):
 				return "Int"
 			else:
@@ -551,7 +551,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				typeName = self.prepareTypeName(typeName)
 					
 				return typeName
-					#return typeNode.childNodes[0].childNodes[0].nodeValue
+				#return typeNode.childNodes[0].childNodes[0].nodeValue
 			elif node.tagName == "call":
 				if self.inFunction:
 					# Recursive functions: Try to guess
@@ -612,10 +612,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if memberName in callerClass.publicMembers:
 					memberType = callerClass.publicMembers[memberName]
 					
-					debug("Public member %s of type %s found for class %s" % (memberName, memberType, callerClassName))
+					#debug("Public member %s of type %s found for class %s" % (memberName, memberType, callerClassName))
 					
 					memberType = callerClassImpl.translateTemplateName(memberType)
-					debug("Translated: %s" % memberType)
+					#debug("Translated: %s" % memberType)
 					
 					return memberType
 				

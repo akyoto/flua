@@ -7,17 +7,16 @@ configScriptPath = extractDir(os.path.realpath(__file__))
 
 def getMinGWDirs():
 	if os.name == "nt":
-		# TODO: 64 bit
 		mp = fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/"))
 		return "%sbin/;%sinclude/;%slib/" % (mp, mp, mp)
 	else:
 		return ""
 
 def getDLLDir():
+	# TODO: 64 bit
 	if os.name == "nt":
 		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/windows/x86/DLLs"))
 	else:
-		# TODO: 64 bit
 		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/linux/x86/DLLs"))
 
 def getModuleDir():

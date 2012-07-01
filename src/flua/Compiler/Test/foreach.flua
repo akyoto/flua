@@ -59,7 +59,7 @@
 			</parameters>
 		</call>
 		<assign depth="0" id="5">
-			<value>sum</value>
+			<value>s</value>
 			<value>0</value>
 		</assign>
 		<foreach depth="0" id="6">
@@ -67,7 +67,7 @@
 			<collection>testArray</collection>
 			<code>
 				<assign-add depth="1" id="7">
-					<value>sum</value>
+					<value>s</value>
 					<value>val</value>
 				</assign-add>
 			</code>
@@ -76,7 +76,7 @@
 			<if>
 				<condition>
 					<equal>
-						<value>sum</value>
+						<value>s</value>
 						<value>6</value>
 					</equal>
 				</condition>
