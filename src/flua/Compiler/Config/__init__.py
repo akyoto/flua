@@ -5,11 +5,11 @@ buildAndExecute = 1
 buildGraphViz = 0
 configScriptPath = extractDir(os.path.realpath(__file__))
 
-def getMinGWDir():
+def getMinGWDirs():
 	if os.name == "nt":
 		# TODO: 64 bit
-		print(fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/")))
-		return fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/"))
+		mp = fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/"))
+		return "%sbin/;%sinclude/;%slib/" % (mp, mp, mp)
 	else:
 		return ""
 
