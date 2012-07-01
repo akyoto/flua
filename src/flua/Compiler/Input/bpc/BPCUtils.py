@@ -327,6 +327,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		return text
 	
+	# Correct wrong usage
+	if node.nodeType != Node.ELEMENT_NODE:
+		return nodeToBPC(node.documentElement, 0, conv)
+	
 	nodeName = node.tagName
 	# Type declaration
 	if nodeName == "declare-type":
@@ -341,7 +345,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		#return "%s(%s)" % (funcName, parameters)
 		#print("%s(%s)" % (funcName, parameters))
 		
-		if node.parentNode.tagName == "code":
+		if node.parentNode and node.parentNode.nodeType == Node.ELEMENT_NODE and node.parentNode.tagName == "code":
 			if parameters:
 				if currentSyntax == SYNTAX_BPC and funcName.find(".") == -1:
 					#print(funcName)
