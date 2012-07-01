@@ -66,6 +66,7 @@ class BaseClass(BaseNamespace):
 		#self.defaultGetters = dict()
 		#self.defaultSetters = dict()
 		self.publicMembers = dict()
+		self.publicMembersDefined = dict()
 		self.parent = None
 		self.isExtern = False
 		self.usesActorModel = False
@@ -103,6 +104,7 @@ class BaseClass(BaseNamespace):
 	
 	def addPublicMember(self, name, typeName):
 		self.publicMembers[name] = typeName
+		self.publicMembersDefined[name] = typeName
 		
 	def hasPublicMember(self, name):
 		#debug("Checking '%s' for public member '%s'" % (self.getFinalName(), name))

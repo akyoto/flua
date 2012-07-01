@@ -120,7 +120,7 @@ class BaseOutputFileScan:
 				
 				raise CompilerException("The member variable declaration of '%s' in a public block of class '%s' must be given a type" % (memberName, self.currentClass.name))
 			
-			self.currentClass.publicMembers[memberName] = memberType
+			self.currentClass.addPublicMember(memberName, memberType)
 		
 		# Remove this node
 		#self.lastParsedNode.pop()

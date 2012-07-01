@@ -532,7 +532,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 						code = code.replace("this->" + member.name, "this->_" + member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
 						writtenMembers[member.name] = True
 					
-					for memberName, memberType in classImpl.classObj.publicMembers.items():
+					for memberName, memberType in classImpl.classObj.publicMembersDefined.items():
 						if not memberName in writtenMembers:
 							code += "\t" + adjustDataTypeCPP(memberType, True) + " _" + memberName + ";\n"
 							#writtenMembers[memberName] = True
