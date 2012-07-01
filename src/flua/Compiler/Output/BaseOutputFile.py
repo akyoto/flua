@@ -480,8 +480,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					return "BigInt"
 				else:
 					return "Int"
-			elif node.nodeValue.startswith("0x"):
-				return "Int"
 			elif node.nodeValue.replace(".", "").isdigit():
 				return "Float"
 			elif node.nodeValue.startswith("flua_string_"):
@@ -494,16 +492,18 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				else:
 					# Modules who are compiled before that have to live with CStrings
 					return "~MemPointer<ConstChar>"
-			elif node.nodeValue == "true" or node.nodeValue == "false":
-				return "Bool"
 			elif node.nodeValue == "my":
 				return self.currentClassImpl.getFullName()
+			elif node.nodeValue == "true" or node.nodeValue == "false":
+				return "Bool"
 			elif node.nodeValue == "null":
 				return "MemPointer<void>"
 			elif node.nodeValue in {"_flua_slice_start", "_flua_slice_end"}:
 				return "Size"
 			elif node.nodeValue in self.compiler.mainClass.classes:
 				return node.nodeValue
+			elif node.nodeValue.startswith("0x"):
+				return "Int"
 			else:
 				nodeName = node.nodeValue
 				
@@ -567,12 +567,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				caller = node.childNodes[0].childNodes[0]
 				
 				if caller.nodeType == Node.TEXT_NODE:
-					#if caller.nodeValue == "loop":
-					#	return "Size"
-					
 					if caller.nodeValue in self.compiler.mainClass.namespaces:
-						#callerType = "flua_Namespace"
-						#callerClassName = "flua_Namespace"
 						varName = caller.nodeValue + "_" + node.childNodes[1].childNodes[0].nodeValue
 						
 						try:
@@ -585,13 +580,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					#elif caller.nodeValue in self.compiler.mainClass.classes:
 					#	print(caller)
 				
-				#if caller in self.compiler.mainClass.classes:
-				#	pass
-				
 				callerType = self.getExprDataType(caller)
-				
-				#while callerType in self.compiler.defines:
-				#	callerType = self.compiler.defines[callerType]
 				
 				callerClassName = extractClassName(callerType)
 				memberName = node.childNodes[1].childNodes[0].nodeValue
@@ -1046,8 +1035,22 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			raise CompilerException("Class '%s' has not been defined  [Error code 3]" % (className))
 		
 	def getClassImplementationByTypeName(self, typeName, initTypes = []):
-		className = extractClassName(typeName)
-		templateValues = extractTemplateValues(typeName)
+		# === START Non-Inlined version === #
+		# className = extractClassName(typeName)
+		# templateValues = extractTemplateValues(typeName)
+		# === END Non-Inlined version === #
+		
+		# === START inlined version === #
+		pos = typeName.find('<')
+		
+		if pos != -1:
+			className = typeName[:pos].replace("~", "")
+			templateValues = typeName[pos + 1:-1]
+		else:
+			className = typeName.replace("~", "")
+			templateValues = ""
+		# === END inlined version === #
+		
 		return self.getClass(className).requestImplementation(initTypes, splitParams(templateValues))
 		
 	def getParameterList(self, pNode):

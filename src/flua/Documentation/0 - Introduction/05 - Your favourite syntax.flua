@@ -80,9 +80,9 @@
 					<code>
 						<noop depth="2" id="11"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="12">
+					<parameters/>
 					<name>myMethod</name>
 					<code>
 						<call depth="2" id="13">

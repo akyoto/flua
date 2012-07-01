@@ -116,8 +116,16 @@ def getNextNonWhitespacePos(stri, fromIndex):
 def capitalize(stri):
 	return stri[0].upper() + stri[1:]
 
-def extractClassName(name):
-	return removeUnmanaged(removeGenerics(name))
+def extractClassName(typeName):
+	#return removeUnmanaged(removeGenerics(typeName))
+	
+	# Inlined version:
+	pos = typeName.find('<')
+	
+	if pos != -1:
+		return typeName[:pos].replace("~", "")
+	
+	return typeName.replace("~", "")
 
 def extractTemplateValues(name):
 	pos = name.find('<')
