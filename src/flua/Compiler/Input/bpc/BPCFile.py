@@ -1684,8 +1684,19 @@ class BPCFile(ScopeController, Benchmarkable):
 				if self.currentSyntax == SYNTAX_PYTHON:
 					line = line[:i]
 					break
-			elif line[i] == ' ' and not self.keyword:
-				self.keyword = line[:i]
+			elif line[i] == ' ':
+				if not self.keyword:
+					self.keyword = line[:i]
+				
+				# Remove "new"
+				if self.currentSyntax == SYNTAX_CPP:
+					if i >= 3:
+						if line[i-3:i] == "new" and (i == 3 or not isVarChar(line[i - 4])):
+							#print("before: " + line)
+							line = line[:i-3] + line[i+1:]
+							#print("after:  " + line)
+							i -= 3
+					
 			#elif line[i] == '<':
 			#	chevronsBalance += 1
 			#elif line[i] == '>':

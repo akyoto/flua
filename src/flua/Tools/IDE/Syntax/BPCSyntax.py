@@ -6,9 +6,9 @@ from flua.Compiler.Input.bpc import *
 import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 
 class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
-	"""Syntax highlighter for the BPC language.
+	"""Syntax highlighter for the Flua language.
 	"""
-	# Python keywords
+	# Flua keywords - used by the highlighter.
 	keywords = [{}] * 97 + [
 		{'and', 'assert', 'atomic'},
 		{'break', 'begin'},
@@ -23,7 +23,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{},
 		{},
 		{'maybe'},
-		{'not', 'namespace', 'null'},
+		{'not', 'namespace', 'null', 'new'},
 		{'or', 'operator', 'on'},
 		{'pattern', 'private', 'parallel', 'public', 'pfor'},
 		{},
@@ -39,7 +39,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		{},
 	] + [{}] * (256 - 97 - 26)
 	
-	# Keyword list
+	# Keyword list - used by the AutoCompleter.
 	keywordList = {
 		'and', 'assert', 'atomic',
 		'begin', 'break',

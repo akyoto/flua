@@ -484,6 +484,7 @@
 		</while>
 		<comment>\SGame\Slogic\Sin\Sanother\Sthread</comment>
 		<function depth="0" id="44">
+			<parameters/>
 			<name>update</name>
 			<code>
 				<while depth="1" id="45">

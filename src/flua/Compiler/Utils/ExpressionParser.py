@@ -64,6 +64,7 @@ bpOperatorLevels = [
 	[
 		Operator("!", "not", Operator.UNARY),
 		Operator("-", "negative", Operator.UNARY),
+		#Operator("new", "new", Operator.UNARY),
 	],
 	
 	# 5: Mul, Div
