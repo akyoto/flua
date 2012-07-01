@@ -5,6 +5,14 @@ buildAndExecute = 1
 buildGraphViz = 0
 configScriptPath = extractDir(os.path.realpath(__file__))
 
+def getMinGWDir():
+	if os.name == "nt":
+		# TODO: 64 bit
+		print(fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/")))
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/bin/"))
+	else:
+		return ""
+
 def getDLLDir():
 	if os.name == "nt":
 		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/windows/x86/DLLs"))

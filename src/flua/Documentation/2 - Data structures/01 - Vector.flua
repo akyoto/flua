@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Vector</import>
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">This\Sis\Sten\Spercent\Sluck,\Stwenty\Spercent\Sskill</string>

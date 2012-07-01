@@ -2,6 +2,7 @@
 #include <sys/time.h>
 
 // Macros
+#define BPFunction void
 #define flua_sizeOf sizeof
 
 // gcCollect

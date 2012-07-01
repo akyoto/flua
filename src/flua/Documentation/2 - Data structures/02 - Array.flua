@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Array</import>
 		</dependencies>
 		<strings/>
 	</header>

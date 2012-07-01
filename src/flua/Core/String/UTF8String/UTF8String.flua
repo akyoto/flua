@@ -574,7 +574,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\S#chars</comment>
 				<comment>\Sfrom\Sthe\Sposition\S#fromIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -921,7 +920,6 @@
 							</negative>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Sthe\Sbyte\Sposition\Sof\Sthe\Sfirst\Soccurence\Sof\Sthe\Sbyte\S#char</comment>
 				<comment>\Sfrom\Sthe\Sbyte\Sposition\S#fromByteIndex\Sin\Sthe\Sstring,\S-1\Sif\Snot\Sfound</comment>
@@ -2334,6 +2332,7 @@
 					</cast-definition>
 				</casts>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SExtend\Svirtual\SInt\Sclass\Sby\San\Soperator</comment>
 		<class depth="0" id="202">

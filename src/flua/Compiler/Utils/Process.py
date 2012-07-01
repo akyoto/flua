@@ -17,6 +17,9 @@ def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	if not getDLLDir() in os.environ["PATH"]:
 		os.environ["PATH"] = getDLLDir() + ";" + os.environ["PATH"]
 	
+	if os.name == "nt":
+		os.environ["PATH"] = getMinGWDir() + ";" + os.environ["PATH"]
+	
 	proc = subprocess.Popen(
 		cmd,
 		stdout = subprocess.PIPE,

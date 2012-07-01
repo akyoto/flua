@@ -1149,7 +1149,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function":
 				if (pos - blockPos == 0) or (not line[:pos - blockPos].isspace()):
-					print(nodeName)
+					#print(nodeName)
 					# Indent it?
 					if keyword in self.autoIndentKeywords:
 						tabLevel += 1

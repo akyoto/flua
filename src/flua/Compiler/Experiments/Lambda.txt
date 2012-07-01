@@ -1,6 +1,12 @@
-# (1)
+# (1.a)
 func n
 	return x { x + n }
+
+button.onClick = { print "Clicked" }
+
+# (1.b)
+func n
+	return (x) { x + n }
 
 button.onClick = { print "Clicked" }
 
@@ -11,6 +17,7 @@ func n
 button.onClick = lambda: print "Clicked"
 	
 # DRY. Good.
+# Uses ambiguous ":" operator, though.
 
 # (2.b)
 func n
@@ -19,6 +26,7 @@ func n
 button.onClick = function: print "Clicked"
 
 # Slight modification of 2. More characters (...). Better readability.
+# Uses ambiguous ":" operator.
 	
 # (3)
 func n

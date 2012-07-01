@@ -82,7 +82,6 @@
 					</code>
 				</function>
 				<function depth="1" id="12">
-					<parameters/>
 					<name>myMethod</name>
 					<code>
 						<call depth="2" id="13">
@@ -99,7 +98,6 @@
 					</code>
 				</function>
 			</code>
-			<meta/>
 		</class>
 		<assign depth="0" id="14">
 			<value>obj</value>

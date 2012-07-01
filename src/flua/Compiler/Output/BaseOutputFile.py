@@ -508,6 +508,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return "Size"
 			elif node.nodeValue in self.compiler.mainClass.classes:
 				return node.nodeValue
+			#elif node.nodeValue in self.compiler.mainClass.functions:
+			#	return "Function"
 			elif node.nodeValue.startswith("0x"):
 				return "Int"
 			else:
