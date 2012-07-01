@@ -354,8 +354,8 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		if caller in self.compiler.mainClass.classes:
 			caller = self.adjustDataType(caller, False)
 			
-			if fullName.startswith("init_"):
-				fullName = caller
+			#if fullName.startswith("init_"):
+			#	fullName = caller
 			
 			return "%s::%s(%s)" % (caller, fullName, paramsString)
 		
@@ -493,11 +493,15 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			if not classObj.isExtern:
 				for classImplId, classImpl in classObj.implementations.items():
 					destructorWritten = False
+					noParamsConstructorWritten = False
 					code = ""
 					
 					# Functions
 					for funcImpl in classImpl.funcImplementations.values():
 						if funcImpl.getFuncName() == "init":
+							if len(funcImpl.paramTypes) == 0:
+								noParamsConstructorWritten = True
+							
 							code += "\t// This constructor is used by C++ internally.\n\t" + funcImpl.getConstructorCode() + "\n"
 							code += "\t// This constructor is used by Flua internally for derived classes.\n\t" + funcImpl.getFullCode() + "\n"
 						elif funcImpl.getFuncName() == "finalize":
@@ -511,6 +515,10 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					# Virtual destructor
 					if classObj.hasOverwrittenFunctions and not destructorWritten:
 						code += "\tvirtual ~BP%s() {};\n" % classObj.name
+					
+					# Needed for derived classes
+					if not noParamsConstructorWritten:
+						code += "\tinline BP%s() {};\n" % classObj.name
 					
 					# Private members
 					# TODO: SET IT BACK TO PRIVATE AFTER FIXING FORCE INCLUSION
