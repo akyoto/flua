@@ -593,29 +593,7 @@
 								</not>
 							</return>
 						</code>
-					</operator>
-					<comment>\STODO:\SMake\Suse\Sof\Sthis</comment>
-					<operator depth="2" id="45">
-						<parameters>
-							<parameter>
-								<declare-type>
-									<value>stri</value>
-									<value>UTF8String</value>
-								</declare-type>
-							</parameter>
-						</parameters>
-						<name>+=</name>
-						<code>
-							<assign depth="3" id="46">
-								<value>my</value>
-								<value>
-									<add>
-										<value>my</value>
-										<value>stri</value>
-									</add>
-								</value>
-							</assign>
-						</code>
+						<meta/>
 					</operator>
 				</operators>
 			</code>
