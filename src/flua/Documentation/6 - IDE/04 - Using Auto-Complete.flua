@@ -3,10 +3,22 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>playground.Everything</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<comment>\SUse\SCtrl\S+\SSpace\Sand\Sthe\SIDE\Swill\Soffer\Syou\Sto\Scomplete\Sit\Sto\Sone\Sof\Sthe\Savailable\Sfunctions</comment>
+		<comment>\SUse\SCtrl\S+\SSpace\Sand\Sthe\SIDE\Swill\Soffer\Syou\Sto</comment>
+		<comment>\Scomplete\Sit\Sto\Sone\Sof\Sthe\Savailable\Sfunctions.</comment>
+		<comment>\SAny\Sfunction\Scan\Sbe\Sauto-completed\Swith\Sa\Sshortcut</comment>
+		<comment>\Sif\Sthe\Sname\Sis\Swritten\Sin\SCamel-Case.</comment>
+		<comment>\SExample:\STry\Styping\S&quot;sd&quot;\Sand\Shitting\SAuto-Complete.</comment>
+		<comment>\S---------------------------------------------------</comment>
+		<comment>\SOther\Sexamples:</comment>
+		<comment>\S\S*\Sgcdt\S-&gt;\SgetCurrentDateTime</comment>
+		<comment>\S\S*\Sgsw\S\S-&gt;\SgetScreenWidth</comment>
+		<comment>\S\S*\Sgsh\S\S-&gt;\SgetScreenHeight</comment>
+		<comment>\S\S*\S...</comment>
+		<comment>\SIt\Sworks\Sfor\Sall\Sof\Syour\Sown\Sfunctions\Sas\Swell.</comment>
 	</code>
 </module>
