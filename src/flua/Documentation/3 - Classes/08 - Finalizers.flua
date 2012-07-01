@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SIf\Syou\Sneed\Sto\Sabsolutely\Smake\Ssure\Sto\Sclean\Sup\Ssomething</comment>
+		<comment>\Sat\Sa\Scertain\Spoint\Sthen\Screate\Syour\Sown\Smethod\Sand\Scall\Sit</comment>
+		<comment>\Sat\Sthe\Sappropriate\Stime.\SYou\Scan\Sadd\Ssome\Scode\Sto\Sa\Sfinalize()</comment>
+		<comment>\Smethod,\Sbut\Sthere\Sis\SNO\SGUARANTEE\STHAT\SIT\SWILL\SEVER\SBE\SCALLED.</comment>
+		<comment>\SYou\Scan't\Sand\Syou\Sreally\Sdon't\Swant\Sto\Srely\Son\Sit.</comment>
+		<comment>\SChances\Sof\Sit\Sbeing\Scalled\Scan\Sbe\Sincreased\Sby\Senabling</comment>
+		<comment>\S&quot;Register\Sfinalizer&quot;\Sin\Sthe\SMeta\Sdata\Ssection\Sof\Sthe\Sclass.</comment>
+	</code>
+</module>

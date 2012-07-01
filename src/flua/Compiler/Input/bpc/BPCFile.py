@@ -1448,6 +1448,9 @@ class BPCFile(ScopeController, Benchmarkable):
 				raise CompilerException("Missing 'class' keyword in class definition")
 			line = line[6:]
 		
+		if " extends" in line:
+			raise CompilerException("'extends' must be written as a block inside the class")
+		
 		className = line
 		
 		node = self.doc.createElement("class")

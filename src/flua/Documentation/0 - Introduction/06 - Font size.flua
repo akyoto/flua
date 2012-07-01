@@ -1,0 +1,13 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SYou\Scan\Suse\S[Ctrl\S+\SMouse\Swheel]\Sto\Sadjust\Sthe</comment>
+		<comment>\Sfont\Ssize\Sto\Sone\Syou\Slike\Sreading\Sthe\Sdocumentation\Sin.</comment>
+	</code>
+</module>
