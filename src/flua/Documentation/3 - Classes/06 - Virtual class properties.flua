@@ -13,8 +13,16 @@
 		<class depth="0" id="1">
 			<name>MyCircle</name>
 			<code>
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>radius</value>
+							<value>Float</value>
+						</declare-type>
+					</public-member>
+				</public>
 				<comment>\SWe'll\Signore\Sthe\Sfact\Sthat\Sour\Sweird\Scircle\Shas\Sno\Scenter</comment>
-				<function depth="1" id="2">
+				<function depth="1" id="4">
 					<parameters>
 						<parameter>
 							<access>
@@ -25,13 +33,9 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop depth="2" id="5"/>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="4">
-					<public-member depth="2" id="5">radius</public-member>
-				</public>
 				<get depth="1" id="6">
 					<getter depth="2" id="7">
 						<name>perimeter</name>
@@ -48,7 +52,6 @@
 								</multiply>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
