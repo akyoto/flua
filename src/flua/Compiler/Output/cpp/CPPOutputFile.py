@@ -526,15 +526,17 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					
 					writtenMembers = dict()
 					
+					# ClassImpl members
 					for member in classImpl.members.values():
 						#print(member.name + " is of type " + member.type
 						#if not member.name in writtenMembers:
 						code = code.replace("this->" + member.name, "this->_" + member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
 						writtenMembers[member.name] = True
 					
+					# ClassObj public members
 					for memberName, memberType in classImpl.classObj.publicMembersDefined.items():
 						if not memberName in writtenMembers:
-							code += "\t" + adjustDataTypeCPP(memberType, True) + " _" + memberName + ";\n"
+							code += "\t" + adjustDataTypeCPP(classImpl.translateTemplateName(memberType), True) + " _" + memberName + ";\n"
 							#writtenMembers[memberName] = True
 					
 					code += "\t\n"

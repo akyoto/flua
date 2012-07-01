@@ -619,12 +619,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					
 					return memberType
 				
-				found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
-				if found:
-					#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
-					
-					callerType = baseImpl.getFullName()
-					callerClassImpl = baseImpl
+				# Disabled because of new algorithms
+				if 0:
+					found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
+					if found:
+						#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
+						
+						callerType = baseImpl.getFullName()
+						callerClassImpl = baseImpl
+				
 				#else:
 				#	print("%s not found in base classes of %s" % (memberName, callerType))
 				
@@ -1402,8 +1405,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return ""
 		elif node.tagName == "declare-type":
 			if node.parentNode.tagName == "code":
-				self.handleTypeDeclaration(node)
-				return ""
+				return self.handleTypeDeclaration(node, insertTypeName = True)
 			
 			name = self.handleTypeDeclaration(node, insertTypeName = True)
 			#print(name)
