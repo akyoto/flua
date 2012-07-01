@@ -101,8 +101,8 @@ class BaseClass(BaseNamespace):
 		else:
 			return False
 	
-	def addPublicMember(self, name):
-		self.publicMembers[name] = True
+	def addPublicMember(self, name, typeName):
+		self.publicMembers[name] = typeName
 		
 	def hasPublicMember(self, name):
 		#debug("Checking '%s' for public member '%s'" % (self.getFinalName(), name))
@@ -112,7 +112,7 @@ class BaseClass(BaseNamespace):
 		
 		# Check for '*' locally
 		# TODO: Check if it really exists as a member
-		if exists or "*" in self.publicMembers:
+		if exists: #or "*" in self.publicMembers:
 			return True
 		
 		# Check base classes

@@ -103,6 +103,10 @@ class BaseOutputCompiler(Benchmarkable):
 	def takeOverCache(self, o):
 		self.parseStringCache = o.parseStringCache
 		
+		#print(o.funcImplCache)
+		#self.funcImplCache = o.funcImplCache
+		#self.mainClass = o.mainClass
+		
 		self.mainClass.externFunctions = o.mainClass.externFunctions
 		self.mainClass.externVariables = o.mainClass.externVariables
 		self.mainClass.namespaces = o.mainClass.namespaces
@@ -227,11 +231,16 @@ class BaseOutputCompiler(Benchmarkable):
 		self.outFiles[inpFile] = cppOut
 		
 		# Scan imported files
-		for imp in inpFile.getImportedFiles():
-			inFile = self.inputCompiler.getFileInstanceByPath(imp)
-			if (not inFile in self.outFiles):
-				self.scan(inFile)
-				
+		try:
+			for imp in inpFile.getImportedFiles():
+				inFile = self.inputCompiler.getFileInstanceByPath(imp)
+				if (not inFile in self.outFiles):
+					self.scan(inFile)
+		except OutputCompilerException:
+			raise
+		except CompilerException as e:
+			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
+					
 		# This needs to be executed AFTER the imported files have been compiled
 		# It'll make sure the files are called in the correct (recursive) order
 		self.outFilesList.append((inpFile, cppOut))
@@ -246,7 +255,12 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		# Find classes, functions, operators and external stuff
 		# UTF8String module will find UTF8String class e.g.
-		cppOut.scanAhead(cppOut.codeNode)
+		try:
+			cppOut.scanAhead(cppOut.codeNode)
+		except OutputCompilerException:
+			raise
+		except CompilerException as e:
+			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		
 	def compile(self, inpFile, silent = False):
 		self.scan(inpFile, silent)

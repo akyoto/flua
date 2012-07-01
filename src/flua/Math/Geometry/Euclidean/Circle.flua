@@ -24,7 +24,21 @@
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function depth="1" id="5">
+				<public depth="1" id="5">
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>center</value>
+							<value>TCenter</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="7">
+						<declare-type>
+							<value>radius</value>
+							<value>TRadius</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="8">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -51,17 +65,17 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="6"/>
+						<noop depth="2" id="9"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="7">
+				<function depth="1" id="10">
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
 					<name>contains</name>
 					<code>
-						<return depth="2" id="8">
+						<return depth="2" id="11">
 							<less-or-equal>
 								<value>
 									<call>
@@ -121,13 +135,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="9">
+				<function depth="1" id="12">
 					<parameters>
 						<parameter>circle</parameter>
 					</parameters>
 					<name>intersects</name>
 					<code>
-						<assign depth="2" id="10">
+						<assign depth="2" id="13">
 							<value>dist</value>
 							<value>
 								<call>
@@ -181,7 +195,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign depth="2" id="14">
 							<value>sumRadi</value>
 							<value>
 								<add>
@@ -200,7 +214,7 @@
 								</add>
 							</value>
 						</assign>
-						<return depth="2" id="12">
+						<return depth="2" id="15">
 							<less>
 								<value>dist</value>
 								<value>
@@ -216,10 +230,6 @@
 					</code>
 					<meta/>
 				</function>
-				<public depth="1" id="13">
-					<public-member depth="2" id="14">center</public-member>
-					<public-member depth="2" id="15">radius</public-member>
-				</public>
 				<set depth="1" id="16">
 					<setter depth="2" id="17">
 						<parameters>

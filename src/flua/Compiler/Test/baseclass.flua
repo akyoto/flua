@@ -13,10 +13,18 @@
 		<class depth="0" id="1">
 			<name>TestingBase</name>
 			<code>
-				<function depth="1" id="2">
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>prop</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="4">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -26,10 +34,8 @@
 							<value>5</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
-				<public depth="1" id="4">
-					<public-member depth="2" id="5">prop</public-member>
-				</public>
 			</code>
 			<meta/>
 		</class>
@@ -46,7 +52,6 @@
 					</code>
 				</function>
 			</code>
-			<meta/>
 		</class>
 		<assign depth="0" id="11">
 			<value>xyz</value>

@@ -24,44 +24,49 @@
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function depth="1" id="5">
+				<public depth="1" id="5">
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>x</value>
+							<value>TX</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="7">
+						<declare-type>
+							<value>y</value>
+							<value>TY</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="8">
 					<parameters>
 						<parameter>
-							<declare-type>
-								<value>
-									<access>
-										<value>my</value>
-										<value>x</value>
-									</access>
-								</value>
-								<value>TX</value>
-							</declare-type>
+							<access>
+								<value>my</value>
+								<value>x</value>
+							</access>
 						</parameter>
 						<parameter>
-							<declare-type>
-								<value>
-									<access>
-										<value>my</value>
-										<value>y</value>
-									</access>
-								</value>
-								<value>TY</value>
-							</declare-type>
+							<access>
+								<value>my</value>
+								<value>y</value>
+							</access>
 						</parameter>
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="6"/>
+						<noop depth="2" id="9"/>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1" id="7">
+				<function depth="1" id="10">
 					<parameters>
 						<parameter>offX</parameter>
 						<parameter>offY</parameter>
 					</parameters>
 					<name>move</name>
 					<code>
-						<assign-add depth="2" id="8">
+						<assign-add depth="2" id="11">
 							<value>
 								<access>
 									<value>my</value>
@@ -70,7 +75,7 @@
 							</value>
 							<value>offX</value>
 						</assign-add>
-						<assign-add depth="2" id="9">
+						<assign-add depth="2" id="12">
 							<value>
 								<access>
 									<value>my</value>
@@ -81,13 +86,13 @@
 						</assign-add>
 					</code>
 				</function>
-				<function depth="1" id="10">
+				<function depth="1" id="13">
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
 					<name>distanceTo</name>
 					<code>
-						<return depth="2" id="11">
+						<return depth="2" id="14">
 							<call>
 								<function>distance</function>
 								<parameters>
@@ -121,10 +126,6 @@
 					</code>
 					<meta/>
 				</function>
-				<public depth="1" id="12">
-					<public-member depth="2" id="13">x</public-member>
-					<public-member depth="2" id="14">y</public-member>
-				</public>
 				<casts depth="1" id="15">
 					<cast-definition depth="2" id="16">
 						<to>String</to>

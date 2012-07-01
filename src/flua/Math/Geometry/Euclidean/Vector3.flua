@@ -21,20 +21,35 @@
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<function depth="1" id="4">
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">
+						<declare-type>
+							<value>x</value>
+							<value>TType</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>y</value>
+							<value>TType</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="7">
+						<declare-type>
+							<value>z</value>
+							<value>TType</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="8">
 					<parameters>
 						<parameter>
 							<assign>
 								<value>
-									<declare-type>
-										<value>
-											<access>
-												<value>my</value>
-												<value>x</value>
-											</access>
-										</value>
-										<value>TType</value>
-									</declare-type>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -42,15 +57,10 @@
 						<parameter>
 							<assign>
 								<value>
-									<declare-type>
-										<value>
-											<access>
-												<value>my</value>
-												<value>y</value>
-											</access>
-										</value>
-										<value>TType</value>
-									</declare-type>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -58,15 +68,10 @@
 						<parameter>
 							<assign>
 								<value>
-									<declare-type>
-										<value>
-											<access>
-												<value>my</value>
-												<value>z</value>
-											</access>
-										</value>
-										<value>TType</value>
-									</declare-type>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -74,37 +79,33 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop depth="2" id="9"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="10">
 					<name>normalize</name>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop depth="2" id="11"/>
 					</code>
 					<meta/>
 				</function>
-				<public depth="1" id="8">
-					<public-member depth="2" id="9">*</public-member>
-				</public>
-				<get depth="1" id="10">
-					<getter depth="2" id="11">
+				<get depth="1" id="12">
+					<getter depth="2" id="13">
 						<name>length</name>
 						<code>
-							<noop depth="3" id="12"/>
+							<noop depth="3" id="14"/>
 						</code>
-						<meta/>
 					</getter>
 				</get>
-				<set depth="1" id="13">
-					<setter depth="2" id="14">
+				<set depth="1" id="15">
+					<setter depth="2" id="16">
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<name>length</name>
 						<code>
-							<call depth="3" id="15">
+							<call depth="3" id="17">
 								<function>
 									<access>
 										<value>self</value>
@@ -113,19 +114,18 @@
 								</function>
 								<parameters/>
 							</call>
-							<assign-multiply depth="3" id="16">
+							<assign-multiply depth="3" id="18">
 								<value>self</value>
 								<value>newLength</value>
 							</assign-multiply>
 						</code>
-						<meta/>
 					</setter>
 				</set>
-				<casts depth="1" id="17">
-					<cast-definition depth="2" id="18">
+				<casts depth="1" id="19">
+					<cast-definition depth="2" id="20">
 						<to>String</to>
 						<code>
-							<return depth="3" id="19">
+							<return depth="3" id="21">
 								<add>
 									<value>
 										<add>
@@ -169,17 +169,16 @@
 								</add>
 							</return>
 						</code>
-						<meta/>
 					</cast-definition>
 				</casts>
-				<operators depth="1" id="20">
-					<operator depth="2" id="21">
+				<operators depth="1" id="22">
+					<operator depth="2" id="23">
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
 						<name>*=</name>
 						<code>
-							<assign-multiply depth="3" id="22">
+							<assign-multiply depth="3" id="24">
 								<value>
 									<access>
 										<value>my</value>
@@ -188,7 +187,7 @@
 								</value>
 								<value>value</value>
 							</assign-multiply>
-							<assign-multiply depth="3" id="23">
+							<assign-multiply depth="3" id="25">
 								<value>
 									<access>
 										<value>my</value>
@@ -197,7 +196,7 @@
 								</value>
 								<value>value</value>
 							</assign-multiply>
-							<assign-multiply depth="3" id="24">
+							<assign-multiply depth="3" id="26">
 								<value>
 									<access>
 										<value>my</value>
@@ -207,22 +206,21 @@
 								<value>value</value>
 							</assign-multiply>
 						</code>
-						<meta/>
 					</operator>
-					<operator depth="2" id="25">
+					<operator depth="2" id="27">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<switch depth="3" id="26">
+							<switch depth="3" id="28">
 								<value>index</value>
-								<case depth="4" id="27">
+								<case depth="4" id="29">
 									<values>
 										<value>0</value>
 									</values>
 									<code>
-										<return depth="5" id="28">
+										<return depth="5" id="30">
 											<access>
 												<value>my</value>
 												<value>x</value>
@@ -230,12 +228,12 @@
 										</return>
 									</code>
 								</case>
-								<case depth="4" id="29">
+								<case depth="4" id="31">
 									<values>
 										<value>1</value>
 									</values>
 									<code>
-										<return depth="5" id="30">
+										<return depth="5" id="32">
 											<access>
 												<value>my</value>
 												<value>y</value>
@@ -243,12 +241,12 @@
 										</return>
 									</code>
 								</case>
-								<case depth="4" id="31">
+								<case depth="4" id="33">
 									<values>
 										<value>2</value>
 									</values>
 									<code>
-										<return depth="5" id="32">
+										<return depth="5" id="34">
 											<access>
 												<value>my</value>
 												<value>z</value>
@@ -264,9 +262,9 @@
 			<meta/>
 		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="33">
+		<test depth="0" id="35">
 			<code>
-				<assign depth="1" id="34">
+				<assign depth="1" id="36">
 					<value>vec</value>
 					<value>
 						<new>

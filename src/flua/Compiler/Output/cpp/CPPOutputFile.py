@@ -523,9 +523,19 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					# Private members
 					# TODO: SET IT BACK TO PRIVATE AFTER FIXING FORCE INCLUSION
 					code += "public:\n"
+					
+					writtenMembers = dict()
+					
 					for member in classImpl.members.values():
-						#print(member.name + " is of type " + member.type)
+						#print(member.name + " is of type " + member.type
+						#if not member.name in writtenMembers:
 						code = code.replace("this->" + member.name, "this->_" + member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
+						writtenMembers[member.name] = True
+					
+					for memberName, memberType in classImpl.classObj.publicMembers.items():
+						if not memberName in writtenMembers:
+							code += "\t" + adjustDataTypeCPP(memberType, True) + " _" + memberName + ";\n"
+							#writtenMembers[memberName] = True
 					
 					code += "\t\n"
 					

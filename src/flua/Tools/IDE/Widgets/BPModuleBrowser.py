@@ -306,6 +306,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	# Reload all directories
 	def reloadModuleDirectory(self, rootItem = None, expand = True):
 		expandedList = []
+		
 		if self.bpcModel:
 			# Save expanded state
 			indices = self.bpcModel.persistentIndexList()
@@ -322,6 +323,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		extLen = len(".flua")
 		rootPath = extractDir(self.modules.realPath)
 		rootLen = len(rootPath)
+		self.modCount = 0
 		
 		self.startBenchmark("Load module directory")
 		for root, subFolders, files in os.walk(rootPath):
@@ -358,12 +360,15 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 						if not part in modulesRoot.subModules:
 							modulesRoot.subModules[part] = BPModuleItem(part)
 						modulesRoot = modulesRoot.subModules[part]
-		
+					
+					self.modCount += 1
+					
 		self.endBenchmark()
 		#print(self.modules.subModules["bp"].subModules)
 		#if self.bpcModel and self.bpcModel.hasChildren():
 		#	self.bpcModel.removeRows(1, self.bpcModel.rowCount())
 		#self.setModel(None)
+		
 		self.buildTree(rootItem)
 		
 		if expandedList:

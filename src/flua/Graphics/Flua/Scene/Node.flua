@@ -12,53 +12,87 @@
 		<class depth="0" id="1">
 			<name>SceneNode</name>
 			<code>
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>parent</value>
+							<value>SceneNode</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="4">
+						<declare-type>
+							<value>position</value>
+							<value>Vector3</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="5">
+						<declare-type>
+							<value>rotation</value>
+							<value>Vector3</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>scaling</value>
+							<value>Vector3</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="7">
+						<declare-type>
+							<value>childNodes</value>
+							<value>
+								<template-call>
+									<value>Vector</value>
+									<value>SceneNode</value>
+								</template-call>
+							</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="8">
+						<declare-type>
+							<value>mesh</value>
+							<value>Mesh</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="9">
+						<declare-type>
+							<value>material</value>
+							<value>Material</value>
+						</declare-type>
+					</public-member>
+				</public>
 				<comment>\SProvide\Sa\Sdefault\Sconstructor</comment>
-				<function depth="1" id="2">
+				<function depth="1" id="10">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="11">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>parent</value>
-										</access>
-									</value>
-									<value>SceneNode</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>parent</value>
+								</access>
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="4">
+						<assign depth="2" id="12">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>material</value>
-										</access>
-									</value>
-									<value>Material</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>material</value>
+								</access>
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="5">
+						<assign depth="2" id="13">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>mesh</value>
-										</access>
-									</value>
-									<value>Mesh</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>mesh</value>
+								</access>
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="6">
+						<assign depth="2" id="14">
 							<value>
 								<access>
 									<value>my</value>
@@ -72,7 +106,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="7">
+						<assign depth="2" id="15">
 							<value>
 								<access>
 									<value>my</value>
@@ -86,7 +120,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="8">
+						<assign depth="2" id="16">
 							<value>
 								<access>
 									<value>my</value>
@@ -104,7 +138,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="9">
+						<assign depth="2" id="17">
 							<value>
 								<access>
 									<value>my</value>
@@ -129,7 +163,7 @@
 					<meta/>
 				</function>
 				<comment>\SConstructs\Sa\Snode\Swith\Sthe\Sgiven\S#parent</comment>
-				<function depth="1" id="10">
+				<function depth="1" id="18">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -145,7 +179,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<if-block depth="2" id="11">
+						<if-block depth="2" id="19">
 							<if>
 								<condition>
 									<access>
@@ -154,7 +188,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="12">
+									<call depth="3" id="20">
 										<function>
 											<access>
 												<value>
@@ -178,35 +212,25 @@
 								</code>
 							</if>
 						</if-block>
-						<assign depth="2" id="13">
+						<assign depth="2" id="21">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>material</value>
-										</access>
-									</value>
-									<value>Material</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>material</value>
+								</access>
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="22">
 							<value>
-								<declare-type>
-									<value>
-										<access>
-											<value>my</value>
-											<value>mesh</value>
-										</access>
-									</value>
-									<value>Mesh</value>
-								</declare-type>
+								<access>
+									<value>my</value>
+									<value>mesh</value>
+								</access>
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="15">
+						<assign depth="2" id="23">
 							<value>
 								<access>
 									<value>my</value>
@@ -220,7 +244,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="16">
+						<assign depth="2" id="24">
 							<value>
 								<access>
 									<value>my</value>
@@ -234,7 +258,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="25">
 							<value>
 								<access>
 									<value>my</value>
@@ -252,7 +276,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="18">
+						<assign depth="2" id="26">
 							<value>
 								<access>
 									<value>my</value>
@@ -276,10 +300,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="19">
+				<function depth="1" id="27">
 					<name>render</name>
 					<code>
-						<foreach depth="2" id="20">
+						<foreach depth="2" id="28">
 							<iterator>node</iterator>
 							<collection>
 								<access>
@@ -288,7 +312,7 @@
 								</access>
 							</collection>
 							<code>
-								<call depth="3" id="21">
+								<call depth="3" id="29">
 									<function>
 										<access>
 											<value>node</value>
@@ -299,7 +323,7 @@
 								</call>
 							</code>
 						</foreach>
-						<if-block depth="2" id="22">
+						<if-block depth="2" id="30">
 							<if>
 								<condition>
 									<access>
@@ -308,7 +332,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="23">
+									<call depth="3" id="31">
 										<function>
 											<access>
 												<value>
@@ -322,7 +346,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<if-block depth="3" id="24">
+									<if-block depth="3" id="32">
 										<if>
 											<condition>
 												<access>
@@ -331,7 +355,7 @@
 												</access>
 											</condition>
 											<code>
-												<call depth="4" id="25">
+												<call depth="4" id="33">
 													<function>
 														<access>
 															<value>
@@ -345,7 +369,7 @@
 													</function>
 													<parameters/>
 												</call>
-												<call depth="4" id="26">
+												<call depth="4" id="34">
 													<function>
 														<access>
 															<value>flua</value>
@@ -407,7 +431,7 @@
 											</code>
 										</if>
 									</if-block>
-									<call depth="3" id="27">
+									<call depth="3" id="35">
 										<function>
 											<access>
 												<value>
@@ -425,18 +449,9 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="28">
-					<public-member depth="2" id="29">parent</public-member>
-					<public-member depth="2" id="30">position</public-member>
-					<public-member depth="2" id="31">rotation</public-member>
-					<public-member depth="2" id="32">scaling</public-member>
-					<public-member depth="2" id="33">childNodes</public-member>
-					<public-member depth="2" id="34">mesh</public-member>
-					<public-member depth="2" id="35">material</public-member>
-				</public>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

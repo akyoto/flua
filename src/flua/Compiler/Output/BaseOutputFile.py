@@ -419,6 +419,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return None
 		
 		return self.lastParsedNode[-1]
+		
+	def getLastParsedNodes(self):
+		if not self.lastParsedNode:
+			return None
+		
+		return self.lastParsedNode
 	
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
@@ -600,6 +606,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 #				print("Picking implementation '" + callerClassImpl.getParamString() + "'")
 				callerClassImpl = self.getClassImplementationByTypeName(callerType)
 				
+				# Check public members
+				if memberName in callerClass.publicMembers:
+					memberType = callerClass.publicMembers[memberName]
+					
+					debug("Public member %s of type %s found for class %s" % (memberName, memberType, callerClassName))
+					
+					memberType = callerClassImpl.translateTemplateName(memberType)
+					debug("Translated: %s" % memberType)
+					
+					return memberType
+				
 				found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
 				if found:
 					#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
@@ -629,7 +646,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				#for member in callerClassImpl.members.keys():
 				#	#debug(" * " + member)
 				
-				#if memberName in callerClass.publicMembers:
 				#	memberName = "_" + memberName
 					
 					#print("impl.members:", callerClassImpl.members)
@@ -646,7 +662,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					#print(callerClassName)
 					#print(templateParams)
 					#print("-----")
-					return self.currentClassImpl.translateTemplateName(memberType)
+					return callerClassImpl.translateTemplateName(memberType)
 				#elif findMemberInBaseClasses()
 				else:
 					#debug("Member '" + memberName + "' doesn't exist")
@@ -820,6 +836,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if operatorType1 in dataTypeWeights and operatorType2 in dataTypeWeights:
 			if operation == "divide":
 				dataType = getHeavierOperator(operatorType1, operatorType2)
+				
 				if dataType == "Double":
 					return dataType
 				else:

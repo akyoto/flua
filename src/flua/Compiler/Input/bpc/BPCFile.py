@@ -1080,7 +1080,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 	def handlePublicMember(self, line):
 		node = self.doc.createElement("public-member")
-		node.appendChild(self.doc.createTextNode(line))
+		node.appendChild(self.parseExpr(addGenerics(line)))
 		
 		return node
 		

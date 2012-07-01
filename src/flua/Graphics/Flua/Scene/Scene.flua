@@ -12,10 +12,18 @@
 		<class depth="0" id="1">
 			<name>Scene</name>
 			<code>
-				<function depth="1" id="2">
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>root</value>
+							<value>SceneNode</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="4">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -30,12 +38,11 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="4">
+				<function depth="1" id="6">
 					<name>render</name>
 					<code>
-						<foreach depth="2" id="5">
+						<foreach depth="2" id="7">
 							<iterator>node</iterator>
 							<collection>
 								<access>
@@ -49,7 +56,7 @@
 								</access>
 							</collection>
 							<code>
-								<call depth="3" id="6">
+								<call depth="3" id="8">
 									<function>
 										<access>
 											<value>node</value>
@@ -61,11 +68,7 @@
 							</code>
 						</foreach>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="7">
-					<public-member depth="2" id="8">root</public-member>
-				</public>
 			</code>
 			<meta/>
 		</class>

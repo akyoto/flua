@@ -104,7 +104,7 @@ class PostProcessorException(CompilerException):
 		
 	def __str__(self):
 		return self.filePath + ":\n" + self.getMsg()
- 
+
 class OutputCompilerException(CompilerException):
 	
 	def __init__(self, value, outFile, ppFile):
@@ -125,26 +125,38 @@ class OutputCompilerException(CompilerException):
 		if not self.inpFile:
 			return -1
 		
-		node = self.getLastParsedNode()
-		if node:
-			nodeToOriginalLineNumber = self.inpFile.nodeToOriginalLineNumber
-			while node and not node in nodeToOriginalLineNumber:
-				node = node.parentNode
+		nodes = self.outFile.getLastParsedNodes()
+		nodeToOriginalLineNumber = self.inpFile.nodeToOriginalLineNumber
+		
+		# Very useful debugging info here!
+		#c = 0
+		#for x in nodes:
+		#	print(str(c) + ": " + x.toprettyxml())
+		#	c += 1
+		
+		while nodes:
+			node = nodes.pop()
 			
 			if node:
-				return self.inpFile.nodeToOriginalLineNumber[node]
+				if nodeToOriginalLineNumber:
+					while node and not node in nodeToOriginalLineNumber:
+						node = node.parentNode
+					
+					if node:
+						return nodeToOriginalLineNumber[node]
 		
 		return -1
 		
-	def getLastParsedNode(self):
-		return self.outFile.getLastParsedNode()
+	#def getLastParsedNode(self):
+	#	return self.outFile.getLastParsedNode()
 		
 	def __str__(self):
 		basicSep = "-" * (80) + "\n"
 		sep = "\n" + basicSep
 		
 		filePath = self.outFile.getFilePath()
-		node = self.outFile.getLastParsedNode()
+		nodes = self.outFile.getLastParsedNodes()
+		
 		nodeXML = ""
 		nodeExpr = ""
 		nodeToOriginalLine = None
@@ -152,13 +164,20 @@ class OutputCompilerException(CompilerException):
 		if self.inpFile and self.inpFile.nodeToOriginalLine:
 			nodeToOriginalLine = self.inpFile.nodeToOriginalLine
 		
-		if node and nodeToOriginalLine:
-			while node and not node in nodeToOriginalLine:
-				node = node.parentNode
+		while nodes:
+			node = nodes.pop()
 			
 			if node:
 				nodeXML = node.toprettyxml()
-				nodeExpr = nodeToOriginalLine[node] + sep
+				
+				if nodeToOriginalLine:
+					while node and not node in nodeToOriginalLine:
+						node = node.parentNode
+					
+					if node:
+						nodeXML = node.toprettyxml()
+						nodeExpr = nodeToOriginalLine[node] + sep
+						break
 		
 		return sep + "In " + filePath + sep + nodeXML + basicSep + nodeExpr + self.getMsg() + sep
 

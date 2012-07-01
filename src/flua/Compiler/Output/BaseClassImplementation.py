@@ -100,6 +100,11 @@ class BaseClassImplementation:
 		
 	def addMember(self, var):
 		#debug("'%s' added member '%s'" % (self.getFullName(), var.name))
+		
+		# Type correction - public declaration always has precedence.
+		if var.name in self.classObj.publicMembers:
+			var.type = self.translateTemplateName(self.classObj.publicMembers[var.name])
+		
 		if var.name.startswith("_"):
 			raise CompilerException("Member names starting with an underscore are not allowed")
 		

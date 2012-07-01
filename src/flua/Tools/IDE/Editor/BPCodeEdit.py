@@ -1147,7 +1147,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			keywordStaysAfterNewline = (pos >= blockPos + len(keyword)) #isAtEndOfLine
 			
-			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function":
+			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function" and (pos - blockPos == 0 or not line[:pos - blockPos].isspace()):
 				# Indent it?
 				if keyword in self.autoIndentKeywords:
 					tabLevel += 1

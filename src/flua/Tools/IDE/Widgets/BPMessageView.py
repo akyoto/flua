@@ -143,7 +143,7 @@ class BPMessageView(QtGui.QListWidget):
 		e = self.lastException = self.bpIDE.outputCompilerThread.lastException
 		
 		if e:
-			node = e.getLastParsedNode()
+			#node = e.getLastParsedNode()
 			
 			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 			

@@ -56,8 +56,8 @@ class BaseOutputFileScan:
 					self.inCastDefinition += 1
 					result = self.scanFunction(node)
 					self.inCastDefinition -= 1
-				elif node.tagName == "public-member":
-					self.scanPublicMember(node)
+				#elif node.tagName == "public-member":
+				#	self.scanPublicMember(node)
 				elif node.tagName == "namespace":
 					self.scanNamespace(node)
 				elif node.tagName == "extern":
@@ -82,7 +82,8 @@ class BaseOutputFileScan:
 					self.scanAhead(node)
 					self.inDefine -= 1
 				elif node.tagName == "public":
-					self.scanAhead(node)
+					self.scanPublic(node)
+					#self.scanAhead(node)
 				#elif node.tagName == "default-get":
 				#	self.scanDefaultGet(node)
 				#elif node.tagName == "default-set":
@@ -105,12 +106,30 @@ class BaseOutputFileScan:
 					self.scanAhead(node)
 				elif node.tagName == "assign" and self.inDefine > 0:
 					self.scanDefine(node)
-					
-	def scanPublicMember(self, node):
-		name = node.firstChild.nodeValue
+	
+	def scanPublic(self, node):
+		pNames, pTypes, pDefaultValues, pDefaultValueTypes = self.getParameterList(node)
+		
+		for i in range(len(pNames)):
+			memberName = pNames[i]
+			memberType = pTypes[i]
+			
+			if not memberType:
+				# Last parsed node for debugging purposes
+				self.lastParsedNode.append(node.childNodes[i])
+				
+				raise CompilerException("The member variable declaration of '%s' in a public block of class '%s' must be given a type" % (memberName, self.currentClass.name))
+			
+			self.currentClass.publicMembers[memberName] = memberType
+		
+		# Remove this node
+		#self.lastParsedNode.pop()
+		
+	#def scanPublicMember(self, node):
+	#	name = node.firstChild.nodeValue
 		#self.currentClass.addDefaultGetter(name)
 		#self.currentClass.addDefaultSetter(name)
-		self.currentClass.addPublicMember(name)
+	#	self.currentClass.addPublicMember(name)
 	
 	#def scanDefaultGet(self, node):
 	#	for child in node.childNodes:

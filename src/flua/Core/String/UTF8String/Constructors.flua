@@ -69,7 +69,6 @@
 							<value>0</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SInteger</comment>
 				<function depth="1" id="6">
@@ -148,7 +147,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
 				<function depth="1" id="10">
@@ -662,7 +660,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
 				<function depth="1" id="28">
@@ -845,7 +842,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger\S+\SUTF8String</comment>
 				<function depth="1" id="34">
@@ -1272,7 +1268,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SCString</comment>
 				<function depth="1" id="48">
@@ -1533,7 +1528,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
 				<function depth="1" id="59">
@@ -1624,7 +1618,6 @@
 							</code>
 						</target>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\S#byteFrom\Sup\Sto\S#byteTo\Sbytes</comment>
 				<function depth="1" id="64">
@@ -1726,9 +1719,9 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

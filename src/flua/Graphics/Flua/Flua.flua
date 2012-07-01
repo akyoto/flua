@@ -133,49 +133,38 @@
 			<class depth="1" id="23">
 				<name>TextureInfo</name>
 				<code>
-					<function depth="2" id="24">
-						<parameters/>
-						<name>init</name>
-						<code>
-							<declare-type depth="3" id="25">
-								<value>
-									<access>
-										<value>my</value>
-										<value>handle</value>
-									</access>
-								</value>
+					<public depth="2" id="24">
+						<public-member depth="3" id="25">
+							<declare-type>
+								<value>handle</value>
 								<value>GLuint</value>
 							</declare-type>
-							<declare-type depth="3" id="26">
-								<value>
-									<access>
-										<value>my</value>
-										<value>width</value>
-									</access>
-								</value>
+						</public-member>
+						<public-member depth="3" id="26">
+							<declare-type>
+								<value>width</value>
 								<value>UInt</value>
 							</declare-type>
-							<declare-type depth="3" id="27">
-								<value>
-									<access>
-										<value>my</value>
-										<value>height</value>
-									</access>
-								</value>
+						</public-member>
+						<public-member depth="3" id="27">
+							<declare-type>
+								<value>height</value>
 								<value>UInt</value>
 							</declare-type>
+						</public-member>
+					</public>
+					<function depth="2" id="28">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="29"/>
 						</code>
 						<meta/>
 					</function>
-					<public depth="2" id="28">
-						<public-member depth="3" id="29">*</public-member>
-					</public>
 				</code>
 				<meta/>
 			</class>
 		</extern>
 		<function depth="0" id="30">
-			<parameters/>
 			<name>getLastGLError</name>
 			<code>
 				<return depth="1" id="31">
@@ -194,7 +183,6 @@
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
 		<function depth="0" id="32">
-			<parameters/>
 			<name>getMouseX</name>
 			<code>
 				<return depth="1" id="33">
@@ -213,7 +201,6 @@
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
 		<function depth="0" id="34">
-			<parameters/>
 			<name>getMouseY</name>
 			<code>
 				<return depth="1" id="35">
