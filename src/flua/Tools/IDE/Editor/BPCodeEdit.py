@@ -1147,38 +1147,40 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			keywordStaysAfterNewline = (pos >= blockPos + len(keyword)) #isAtEndOfLine
 			
-			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function" and (pos - blockPos == 0 or not line[:pos - blockPos].isspace()):
-				# Indent it?
-				if keyword in self.autoIndentKeywords:
-					tabLevel += 1
-				elif nodeName == "function" or nodeName == "class" or nodeName == "new":
-					if node.hasAttribute("implemented"):
-						impl = node.getAttribute("implemented")
-						if impl == "true":
-							tabLevel += 1
-					else:
+			if keyword and keywordStaysAfterNewline and not keyword[0] == '#' and nodeName != "extern-function":
+				if (pos - blockPos == 0) or (not line[:pos - blockPos].isspace()):
+					print(nodeName)
+					# Indent it?
+					if keyword in self.autoIndentKeywords:
 						tabLevel += 1
-				elif keyword == "init" and tabLevel == 1:
-					tabLevel += 1
-				#else:
-				#	topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
-				#	if not topLevelFuncExists:
-				#		tabLevel += 1
-					# isTopLevelFuncDefinition = (node is not None and node.parentNode.parentNode.tagName == "module")
-					# isClassFunction = (self.updater is not None) and (self.updater.lastException is not None)
-					# topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
-					# if (
-						# (wasFullLine or addBrackets(pureLine)[-1] == ')')
-						# and tabLevel <= 1
-						# and isAtEndOfLine
-						# and line and line[-1] != ')'
-						# and (isTopLevelFuncDefinition or isClassFunction)
-						# and (not topLevelFuncExists) or (isClassFunction)
-						# ):
-						
-					# TODO: Check whether parameters hold variable names only
-					# If the parameters have numbers then this won't be a function definition
-						# tabLevel += 1
+					elif (nodeName in functionNodeTagNames or nodeName == "class" or nodeName == "new"):
+						if node.hasAttribute("implemented"):
+							impl = node.getAttribute("implemented")
+							if impl == "true":
+								tabLevel += 1
+						else:
+							tabLevel += 1
+					elif keyword == "init" and tabLevel == 1:
+						tabLevel += 1
+					#else:
+					#	topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+					#	if not topLevelFuncExists:
+					#		tabLevel += 1
+						# isTopLevelFuncDefinition = (node is not None and node.parentNode.parentNode.tagName == "module")
+						# isClassFunction = (self.updater is not None) and (self.updater.lastException is not None)
+						# topLevelFuncExists = self.bpIDE.processor.getFirstDTreeByFunctionName(keyword)
+						# if (
+							# (wasFullLine or addBrackets(pureLine)[-1] == ')')
+							# and tabLevel <= 1
+							# and isAtEndOfLine
+							# and line and line[-1] != ')'
+							# and (isTopLevelFuncDefinition or isClassFunction)
+							# and (not topLevelFuncExists) or (isClassFunction)
+							# ):
+							
+						# TODO: Check whether parameters hold variable names only
+						# If the parameters have numbers then this won't be a function definition
+							# tabLevel += 1
 					
 			# Add the text
 			cursor.beginEditBlock()

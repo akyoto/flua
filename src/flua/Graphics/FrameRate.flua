@@ -1,0 +1,259 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>FrameRate</name>
+			<code>
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>lastUpdate</value>
+							<value>Int64</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="4">
+						<declare-type>
+							<value>frames</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="5">
+						<declare-type>
+							<value>sumFps</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>sumFpsCounted</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="7">
+						<declare-type>
+							<value>updateInterval</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="8">
+					<parameters>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>updateInterval</value>
+									</access>
+								</value>
+								<value>1000</value>
+							</assign>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="9">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lastUpdate</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>systemTime</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2" id="10">
+							<value>
+								<access>
+									<value>my</value>
+									<value>frames</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+						<assign depth="2" id="11">
+							<value>
+								<access>
+									<value>my</value>
+									<value>fps</value>
+								</access>
+							</value>
+							<value>0</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="12">
+					<name>update</name>
+					<code>
+						<assign-add depth="2" id="13">
+							<value>
+								<access>
+									<value>my</value>
+									<value>frames</value>
+								</access>
+							</value>
+							<value>1</value>
+						</assign-add>
+						<if-block depth="2" id="14">
+							<if>
+								<condition>
+									<greater-or-equal>
+										<value>
+											<subtract>
+												<value>
+													<call>
+														<function>systemTime</function>
+														<parameters/>
+													</call>
+												</value>
+												<value>
+													<access>
+														<value>my</value>
+														<value>lastUpdate</value>
+													</access>
+												</value>
+											</subtract>
+										</value>
+										<value>
+											<access>
+												<value>my</value>
+												<value>updateInterval</value>
+											</access>
+										</value>
+									</greater-or-equal>
+								</condition>
+								<code>
+									<assign depth="3" id="15">
+										<value>
+											<access>
+												<value>my</value>
+												<value>fps</value>
+											</access>
+										</value>
+										<value>
+											<access>
+												<value>my</value>
+												<value>frames</value>
+											</access>
+										</value>
+									</assign>
+									<assign depth="3" id="16">
+										<value>
+											<access>
+												<value>my</value>
+												<value>frames</value>
+											</access>
+										</value>
+										<value>0</value>
+									</assign>
+									<assign depth="3" id="17">
+										<value>
+											<access>
+												<value>my</value>
+												<value>lastUpdate</value>
+											</access>
+										</value>
+										<value>
+											<call>
+												<function>systemTime</function>
+												<parameters/>
+											</call>
+										</value>
+									</assign>
+									<assign-add depth="3" id="18">
+										<value>
+											<access>
+												<value>my</value>
+												<value>sumFps</value>
+											</access>
+										</value>
+										<value>
+											<access>
+												<value>my</value>
+												<value>fps</value>
+											</access>
+										</value>
+									</assign-add>
+									<assign-add depth="3" id="19">
+										<value>
+											<access>
+												<value>my</value>
+												<value>sumFpsCounted</value>
+											</access>
+										</value>
+										<value>1</value>
+									</assign-add>
+								</code>
+							</if>
+						</if-block>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="20">
+					<getter depth="2" id="21">
+						<name>fps</name>
+						<code>
+							<return depth="3" id="22">
+								<access>
+									<value>my</value>
+									<value>fps</value>
+								</access>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2" id="23">
+						<name>averageFPS</name>
+						<code>
+							<if-block depth="3" id="24">
+								<if>
+									<condition>
+										<equal>
+											<value>
+												<access>
+													<value>my</value>
+													<value>sumFpsCounted</value>
+												</access>
+											</value>
+											<value>0</value>
+										</equal>
+									</condition>
+									<code>
+										<return depth="4" id="25">0</return>
+									</code>
+								</if>
+							</if-block>
+							<return depth="3" id="26">
+								<divide>
+									<value>
+										<access>
+											<value>my</value>
+											<value>sumFps</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>my</value>
+											<value>sumFpsCounted</value>
+										</access>
+									</value>
+								</divide>
+							</return>
+						</code>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>
