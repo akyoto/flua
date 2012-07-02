@@ -21,6 +21,7 @@
 			<code>
 				<noop depth="1" id="4"/>
 			</code>
+			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
 		<function depth="0" id="5">
@@ -31,6 +32,22 @@
 			<name>merge</name>
 			<code>
 				<noop depth="1" id="6"/>
+			</code>
+			<meta/>
+		</function>
+		<comment>\STODO:\SImplement\Sthis</comment>
+		<function depth="0" id="7">
+			<name>qsort</name>
+			<code>
+				<noop depth="1" id="8"/>
+			</code>
+			<meta/>
+		</function>
+		<comment>\STODO:\SImplement\Sthis</comment>
+		<function depth="0" id="9">
+			<name>bsearch</name>
+			<code>
+				<noop depth="1" id="10"/>
 			</code>
 			<meta/>
 		</function>

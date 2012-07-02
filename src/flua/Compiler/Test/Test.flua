@@ -16,6 +16,7 @@
 			<import>bigint</import>
 			<import>auto-mutable-behav</import>
 			<import>defaultvalues</import>
+			<import>defaultinit</import>
 			<import>inheritance</import>
 			<import>baseclass</import>
 			<import>stringoperations</import>

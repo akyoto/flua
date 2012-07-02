@@ -9,7 +9,7 @@
 			<string id="flua_string_1">おはようございます。</string>
 			<string id="flua_string_2">Hello\SWorld.</string>
 			<string id="flua_string_3">String\Soperations\Sworking!</string>
-			<string id="flua_string_4">String\Soperations\SNOT\Sworking!</string>
+			<string id="flua_string_4">String\Soperations\Sworking!</string>
 			<string id="flua_string_5">\E</string>
 			<string id="flua_string_6">\E</string>
 			<string id="flua_string_7">a</string>
@@ -17,8 +17,11 @@
 			<string id="flua_string_9">d</string>
 			<string id="flua_string_10">abc</string>
 			<string id="flua_string_11">おはよ</string>
-			<string id="flua_string_12">String\Soperations\Sworking!</string>
-			<string id="flua_string_13">String\Soperations\SNOT\Sworking!</string>
+			<string id="flua_string_12">よ</string>
+			<string id="flua_string_13">Hello</string>
+			<string id="flua_string_14">World.</string>
+			<string id="flua_string_15">String\Soperations\SNOT\Sworking!</string>
+			<string id="flua_string_16">String\Soperations\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -190,26 +193,99 @@
 		<if-block depth="0" id="13">
 			<if>
 				<condition>
+					<not-equal>
+						<value>
+							<index>
+								<value>stringTestA</value>
+								<value>2</value>
+							</index>
+						</value>
+						<value>flua_string_12</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1" id="14">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="15">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<slice>
+								<value>stringTestC</value>
+								<value>
+									<range>
+										<from>_flua_slice_start</from>
+										<to>5</to>
+									</range>
+								</value>
+							</slice>
+						</value>
+						<value>flua_string_13</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1" id="16">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="17">
+			<if>
+				<condition>
+					<not-equal>
+						<value>
+							<slice>
+								<value>stringTestC</value>
+								<value>
+									<range>
+										<from>6</from>
+										<to>_flua_slice_end</to>
+									</range>
+								</value>
+							</slice>
+						</value>
+						<value>flua_string_14</value>
+					</not-equal>
+				</condition>
+				<code>
+					<assign-add depth="1" id="18">
+						<value>strErrors</value>
+						<value>1</value>
+					</assign-add>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="19">
+			<if>
+				<condition>
 					<greater>
 						<value>strErrors</value>
 						<value>0</value>
 					</greater>
 				</condition>
 				<code>
-					<call depth="1" id="14">
+					<call depth="1" id="20">
 						<function>print</function>
 						<parameters>
-							<parameter>flua_string_12</parameter>
+							<parameter>flua_string_15</parameter>
 						</parameters>
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="15">
+			<else depth="0" id="21">
 				<code>
-					<call depth="1" id="16">
+					<call depth="1" id="22">
 						<function>print</function>
 						<parameters>
-							<parameter>flua_string_13</parameter>
+							<parameter>flua_string_16</parameter>
 						</parameters>
 					</call>
 				</code>
