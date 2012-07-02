@@ -64,7 +64,8 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 	#classPostfix = ">"
 	#classPrefix = "BP_PTR_DECL(" + standardClassPrefix
 	#classPostfix = ")"
-	classPrefix = standardClassPrefix
+	
+	#classPrefix = standardClassPrefix
 	classPostfix = "*"
 	
 	pos = type.find('<')
@@ -73,11 +74,8 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 		return standardClassPrefix + type.replace("<", "_").replace(">", "_").replace(",", "_").replace(" ", "") + classPostfix
 	
 	if pos != -1:
-		params = splitParams(type[pos+1:-1])
-		paramsNew = []
-		for param in params:
-			paramsNew.append(adjustDataTypeCPP(param))
-		type = type[:pos] + "<" + ", ".join(paramsNew) + ">"
+		paramsNew = [adjustDataTypeCPP(param) for param in splitParams(type[pos+1:-1])]
+		type = "%s<%s>" % (type[:pos], ", ".join(paramsNew))
 	
 	className = extractClassName(type)
 	
@@ -89,7 +87,7 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 	
 	if not isUnmanaged(type):
 		if adjustOuterAsWell:
-			type = classPrefix + type + classPostfix
+			type = "%s%s%s" % (standardClassPrefix, type, classPostfix)
 		else:
 			type = standardClassPrefix + type
 	else:

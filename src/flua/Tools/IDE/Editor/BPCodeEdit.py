@@ -1181,7 +1181,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 						# TODO: Check whether parameters hold variable names only
 						# If the parameters have numbers then this won't be a function definition
 							# tabLevel += 1
-					
+			
 			# Add the text
 			cursor.beginEditBlock()
 			cursor.insertText("\n" + "\t" * (min(tabLevel, pos - blockPos)))

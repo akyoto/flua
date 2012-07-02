@@ -209,7 +209,7 @@ class BaseClass(BaseNamespace):
 		func.classObj = self
 		if not func.getName() in self.functions:
 			self.functions[func.getName()] = []
-		else:
+		elif (not self.cppFile) or self.cppFile.compiler.checkDoubleVarDefinition:
 			for iterFunc in self.functions[func.getName()]:
 				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
 					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))

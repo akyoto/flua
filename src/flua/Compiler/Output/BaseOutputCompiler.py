@@ -79,7 +79,10 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		self.guiCallBack = guiCallBack
 		self.hasExternCache = False
+		
+		# Options
 		self.enableIterVarPrefixes = True
+		self.checkDoubleVarDefinition = True
 		
 		# Main class
 		self.mainClass = self.createClass("", None)
@@ -104,8 +107,21 @@ class BaseOutputCompiler(Benchmarkable):
 		self.parseStringCache = o.parseStringCache
 		
 		#print(o.funcImplCache)
+		
 		#self.funcImplCache = o.funcImplCache
+		
 		#self.mainClass = o.mainClass
+		#self.mainClassImpl = o.mainClassImpl
+		
+		#self.mainClass.classes.pop("UTF8String")
+		
+		#self.stringClassDefined = o.stringClassDefined
+		
+		#for key, funcImpl in o.funcImplCache.items():
+		#	if funcImpl.canBeCached():
+		#		print("CACHE:    " + key)
+		#	else:
+		#		print("NO CACHE: " + key)
 		
 		self.mainClass.externFunctions = o.mainClass.externFunctions
 		self.mainClass.externVariables = o.mainClass.externVariables
@@ -211,6 +227,7 @@ class BaseOutputCompiler(Benchmarkable):
 			self.projectDir = extractDir(self.mainFile.getFilePath())
 			cppOut.isMainFile = True
 			
+			# Clear the cache from the entries for the current file
 			if self.hasExternCache:
 				newClassesDict = dict()
 				
@@ -263,11 +280,17 @@ class BaseOutputCompiler(Benchmarkable):
 			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		
 	def compile(self, inpFile, silent = False):
+		#self.startBenchmark("Scanning")
 		self.scan(inpFile, silent)
+		#self.endBenchmark()
 		
+		# 330 ms for flua.Compiler.Benchmark on my Core 2 Duo.
+		# Can we do this faster?
+		self.startBenchmark("Compiling")
 		for inpFile, outFile in self.outFilesList:
 			#print("Compiling: %s" % outFile.file)
 			self.genericCompile(inpFile, outFile, silent)
+		self.endBenchmark()
 		
 	# Building and executing
 	def genericCompile(self, inpFile, cppOut, silent = False):

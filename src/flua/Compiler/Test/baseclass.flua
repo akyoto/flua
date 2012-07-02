@@ -48,10 +48,20 @@
 				<function depth="1" id="9">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="10"/>
+						<call depth="2" id="10">
+							<function>
+								<access>
+									<value>TestingBase</value>
+									<value>init</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
 					</code>
+					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 		<assign depth="0" id="11">
 			<value>xyz</value>

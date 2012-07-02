@@ -8,6 +8,14 @@ class BaseFunctionImplementation:
 		self.func = func
 		self.paramTypes = paramTypes
 		
+		# This impl adds these classImpl members
+		#self.introducesMembers = dict()
+		
+		# Cache relevant variables
+		self.cacheEnabled = True
+		self.globalStateAccessCount = 0
+		self.sideEffects = 0
+		
 		for i in range(len(paramTypes)): #self.func.paramTypesByDefinition
 			byDef = self.func.paramTypesByDefinition[i]
 			
@@ -27,6 +35,29 @@ class BaseFunctionImplementation:
 		self.scope = None
 		self.variablesAtStart = []
 		self.func.implementations[self.name] = self
+		
+	# Functions with side effects
+	def addSideEffect(self, num = 1):
+		#print(self.classImpl.getFullName() + " :: " + self.getName() + " -> has side effects")
+		self.sideEffects += num
+		
+	# Public member, global variables
+	def addGlobalStateAccess(self):
+		#print(self.classImpl.getFullName() + " :: " + self.getName() + " -> accesses global state")
+		self.globalStateAccessCount += 1
+		
+	def disableCaching(self):
+		#print(self.classImpl.getFullName() + " :: " + self.getName() + " -> has caching disabled")
+		self.cacheEnabled = False
+		
+	def canBeCached(self):
+		return self.cacheEnabled
+		
+	def isPureFunction(self):
+		return self.sideEffects == 0 and self.globalStateAccessCount == 0
+		
+	def hasSideEffects(self):
+		return self.sideEffects > 0
 		
 	def declareVariableAtStart(self, var):
 		self.variablesAtStart.append(var)

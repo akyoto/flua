@@ -182,10 +182,12 @@ def normalizeTopLevelModName(name):
 	return newName
 
 def buildPostfix(paramTypes):
-	postfix = ""
-	for dataType in paramTypes:
-		postfix += "__" + normalizeName(dataType)
-	return postfix
+	return "".join(["__" + normalizeName(dataType) for dataType in paramTypes])
+	
+	#postfix = ""
+	#for dataType in paramTypes:
+	#	postfix += "__" + normalizeName(dataType)
+	#return postfix
 
 # These functions do NOT rely on each other
 def isNotOperatorSign(char):

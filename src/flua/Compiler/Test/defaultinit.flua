@@ -1,0 +1,84 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Default\Sconstructors\Sworking!</string>
+			<string id="flua_string_1">Default\Sconstructors\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>DefaultInit</name>
+			<code>
+				<public depth="1" id="2">
+					<public-member depth="2" id="3">
+						<declare-type>
+							<value>a</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="4">
+						<declare-type>
+							<value>b</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+				</public>
+			</code>
+		</class>
+		<assign depth="0" id="5">
+			<value>di</value>
+			<value>
+				<new>
+					<type>DefaultInit</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="6">
+			<value>
+				<access>
+					<value>di</value>
+					<value>a</value>
+				</access>
+			</value>
+			<value>5</value>
+		</assign>
+		<if-block depth="0" id="7">
+			<if>
+				<condition>
+					<equal>
+						<value>
+							<access>
+								<value>di</value>
+								<value>a</value>
+							</access>
+						</value>
+						<value>5</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="8">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="9">
+				<code>
+					<call depth="1" id="10">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

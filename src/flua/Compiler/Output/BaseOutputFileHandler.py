@@ -116,11 +116,16 @@ class BaseOutputFileHandler:
 				
 				isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
 				if isMemberAccess and not accessOp1.nodeValue == "my":
+					if self.currentFunctionImpl:
+						self.currentFunctionImpl.addSideEffect()
+					
 					#print("Using setter for type '%s'" % (accessOp1type))
 					setFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
 				elif publicMemberAccess:
-					pass
+					if self.currentFunctionImpl:
+						self.currentFunctionImpl.addGlobalStateAccess()
+					
 				#pass
 				#variableType = self.getExprDataType(op1)
 				#variableClass = self.compiler.classes[removeGenerics(variableType)]
@@ -239,6 +244,10 @@ class BaseOutputFileHandler:
 			#if not variableName in self.currentClass.members:
 			#	self.currentClass.addMember(var)
 			
+			if self.currentFunctionImpl:
+				self.currentFunctionImpl.addGlobalStateAccess()
+				self.currentFunctionImpl.disableCaching()
+			
 			if (not memberName in self.currentClassImpl.members):
 				self.currentClassImpl.addMember(var)
 			
@@ -247,6 +256,11 @@ class BaseOutputFileHandler:
 			#debug("Checking whether '%s' exists:" % variableName)
 			variableExisted = self.variableExistsAnywhere(variableName)
 			#debug(variableExisted)
+			
+			# Global or member variable access
+			if variableExisted > 1:
+				if self.currentFunctionImpl:
+					self.currentFunctionImpl.addSideEffect()
 			
 			# If it exists as a member we do not care about it
 			if variableExisted == 2:
@@ -483,7 +497,7 @@ class BaseOutputFileHandler:
 			
 	def handleUnmanaged(self, node):
 		self.inUnmanaged += 1
-		expr = self.parseExpr(node.childNodes[0])
+		expr = self.parseExpr(node.childNodes[0].childNodes[0])
 		self.inUnmanaged -= 1
 		return "~" + expr
 	
@@ -648,8 +662,8 @@ class BaseOutputFileHandler:
 			#return "return"
 	
 	def handleParameters(self, pNode):
-		pList = []
-		pTypes = []
+		if not pNode.childNodes:
+			return "", []
 		
 		# For slicing:
 		#<parameter>						= node
@@ -668,20 +682,11 @@ class BaseOutputFileHandler:
 		parseExpr = self.parseExpr
 		prepareTypeName = self.prepareTypeName
 		getExprDataType = self.getExprDataType
-		pTypesAppend = pTypes.append
-		pListAppend = pList.append
 		
-		for node in pNode.childNodes:
-			paramType = getExprDataType(node.childNodes[0])
-			
-			# Typedefs
-			paramType = prepareTypeName(paramType)
-			
-			#paramType = self.translateTemplateParam(paramType)
-			pListAppend(parseExpr(node.childNodes[0]))
-			pTypesAppend(paramType)
+		pList = ", ".join([parseExpr(node.childNodes[0]) for node in pNode.childNodes])
+		pTypes = [prepareTypeName(getExprDataType(node.childNodes[0])) for node in pNode.childNodes]
 		
-		return ", ".join(pList), pTypes
+		return pList, pTypes
 		
 	def handleTarget(self, node):
 		name = getElementByTagName(node, "name").childNodes[0].nodeValue
@@ -757,8 +762,8 @@ class BaseOutputFileHandler:
 	def handleTypeDeclaration(self, node, insertTypeName = True):
 		self.inTypeDeclaration += 1
 		
-		typeNode = node.childNodes[1]
-		if self.isInvalidType(typeNode.firstChild):
+		typeNode = node.childNodes[1].firstChild
+		if self.isInvalidType(typeNode):
 			raise CompilerException("Invalid type definition in '%s'" % nodeToBPC(node))
 		
 		typeName = self.parseExpr(typeNode, True)
@@ -767,7 +772,7 @@ class BaseOutputFileHandler:
 		typeName = self.prepareTypeName(typeName)
 		
 		typeName = self.currentClassImpl.translateTemplateName(typeName)
-		varName = self.parseExpr(node.childNodes[0])
+		varName = self.parseExpr(node.childNodes[0].childNodes[0])
 		self.inTypeDeclaration -= 1
 		
 		# Implement it
@@ -781,11 +786,14 @@ class BaseOutputFileHandler:
 			memberName = varName[len(self.memberAccessSyntax):]
 			memberName = self.fixMemberName(memberName)
 			
+			if self.currentFunctionImpl:
+				self.currentFunctionImpl.disableCaching()
+			
 			self.currentClassImpl.addMember(self.createVariable(memberName, typeName, "", False, not extractClassName(typeName) in nonPointerClasses, False))
 			return self.buildMemberTypeDeclInConstructor(varName) # ""
 		
 		variableExists = self.variableExistsAnywhere(varName)
-		if variableExists and (self.getVariableScope(varName) == self.getTopLevelScope()):
+		if self.compiler.checkDoubleVarDefinition and variableExists and (self.getVariableScope(varName) == self.getTopLevelScope()):
 			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
 			for item in self.scopes:
 				print(item.variables)
@@ -1094,6 +1102,9 @@ class BaseOutputFileHandler:
 		
 		# MemPointer.free
 		if funcName == "free" and callerClassName == "MemPointer":
+			if self.currentFunctionImpl:
+				self.currentFunctionImpl.addSideEffect()
+			
 			return self.buildDeleteMemPointer(caller)
 		
 		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("flua_"):
@@ -1169,6 +1180,17 @@ class BaseOutputFileHandler:
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
 			
+			# Check if that function can be cached.
+			# This is viral which means that if the called
+			# function can not be cached then the calling function
+			# can't be cached either. Same for the side effects.
+			if self.currentFunctionImpl:
+				if not funcImpl.canBeCached():
+					self.currentFunctionImpl.disableCaching()
+					
+				if funcImpl.hasSideEffects():
+					self.currentFunctionImpl.addSideEffect(funcImpl.sideEffects)
+			
 			# Casts
 			for i in range(len(previousParamTypes)):
 				pFrom = previousParamTypes[i]
@@ -1205,6 +1227,7 @@ class BaseOutputFileHandler:
 			# Immutable used with mutable coding style
 			if ((not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "code") and funcImpl.getReturnType() == callerType:
 				pos = caller.find(self.ptrMemberAccessChar)
+				
 				if pos == -1:
 					implicitAssignment = caller + " = "
 				else:

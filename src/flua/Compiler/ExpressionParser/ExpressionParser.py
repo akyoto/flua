@@ -490,6 +490,7 @@ class ExpressionParser:
 			raise CompilerException("Invalid expression: '%s'" % expr)
 		
 		#node = self.doc.createElement("expr")
+		expr = expr.replace("\t", " ")
 		
 		# TODO: Remove double whitespaces
 		
@@ -497,7 +498,6 @@ class ExpressionParser:
 		expr = expr.replace(" is not ", " != ")
 		
 		# Whitespaces are required!
-		expr = expr.replace("\t", " ")
 		expr = expr.replace(" and ", " && ")
 		expr = expr.replace(" or ", " || ")
 		expr = expr.replace(" is ", " == ")

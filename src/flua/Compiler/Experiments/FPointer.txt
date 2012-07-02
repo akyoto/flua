@@ -1,0 +1,8 @@
+typedef void(*)(void) BPGenericFunctionPtr;
+
+struct Sum_Functor {
+	BPGenericFunctionPtr funcPtr;
+	
+	String(*)(String, String) _String__String__Func;
+	Int(*)(Int, Int) _Int__Int__Func;
+}

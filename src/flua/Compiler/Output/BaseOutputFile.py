@@ -179,6 +179,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			"require" : None,
 			"ensure" : None,
 			"define" : None,
+			"comment" : None,
 		}
 		
 		# Syntax
@@ -348,6 +349,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				member = name[len(self.memberAccessSyntax):]
 				member = self.fixMemberName(member)
 				
+				if self.currentFunctionImpl:
+					self.currentFunctionImpl.addSideEffect()
+					self.currentFunctionImpl.disableCaching()
+				
 				#pos = member.find(self.ptrMemberAccessChar)
 				#if pos != -1:
 				#	member = member[:pos]
@@ -378,7 +383,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				
 				# Typedefs
 				definedAs = self.prepareTypeName(definedAs)
-				
 				definedAs = self.currentClassImpl.translateTemplateName(definedAs)
 				definedAs = self.addMissingTemplateValues(definedAs)
 				
@@ -565,7 +569,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif node.tagName == "assign":
 				op1 = node.childNodes[0].childNodes[0]
 				
-				if tagName(op1) == "declare-type":
+				if op1.nodeType == Node.ELEMENT_NODE and op1.tagName == "declare-type":
 					return self.parseExpr(op1.childNodes[1].firstChild)
 				
 				op2 = node.childNodes[1].childNodes[0]
@@ -620,13 +624,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					return memberType
 				
 				# Disabled because of new algorithms
-				if 0:
-					found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
-					if found:
-						#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
-						
-						callerType = baseImpl.getFullName()
-						callerClassImpl = baseImpl
+				#if 0:
+				#	found, baseImpl = findPublicMemberInBaseClasses(callerClassImpl.classObj, memberName)
+				#	if found:
+				#		#debug("Switching %s to %s!" % (callerClassImpl.getFullName(), baseImpl.getFullName()))
+				#		
+				#		callerType = baseImpl.getFullName()
+				#		callerClassImpl = baseImpl
 				
 				#else:
 				#	print("%s not found in base classes of %s" % (memberName, callerType))
@@ -694,8 +698,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					
 					virtualGetCall = self.makeXMLObjectCall(node.childNodes[0].childNodes[0].toxml(), memberFunc) 	
 					return self.getCallDataType(virtualGetCall)
-						
-						
 				
 #				templatesUsed = (callerClassName != callerType)
 #				
@@ -830,8 +832,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#elif callerNode.nodeType == Node.ELEMENT_NODE and callerNode.tagName == "access" and callerNode.firstChild.firstChild.nodeValue in self.compiler.mainClass.classes:
 			#	print(node.toprettyxml())
 			else:
+				# These 2 lines are the bottlenecks of this function!
 				callerType = self.getExprDataType(callerNode)
 				caller = self.parseExpr(callerNode)
+				
 				funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
 				#print(callerType + "::" + funcName)
 		
@@ -1114,13 +1118,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				name = "__" + exprNode.childNodes[1].childNodes[0].nodeValue
 			elif exprNode.tagName == "assign":
 				if tagName(exprNode.childNodes[0].childNodes[0]) == "declare-type":
-					name2 = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
+					#name2 = self.parseExpr(exprNode.childNodes[0].childNodes[0].firstChild.firstChild)
 					name, type = self.getTypeDeclInfo(exprNode.childNodes[0].childNodes[0])
 					#print(name, name2, name == name2)
 				else:
 					name = self.parseExpr(exprNode.childNodes[0].childNodes[0])
 				
 				if name.startswith(self.memberAccessSyntax):
+					if self.currentFunctionImpl:
+						self.currentFunctionImpl.addSideEffect()
+						self.currentFunctionImpl.disableCaching()
+					
 					member = name[len(self.memberAccessSyntax):]
 					#self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
 					name = "__" + member
@@ -1200,8 +1208,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		parseExpr = self.parseExpr
 		
 		for node in parent.childNodes:
+			self.lastParsedNode.append(node)
 			line = parseExpr(node)
-			
 			self.lastParsedNode.pop()
 			
 			if self.additionalCodePerLine:
@@ -1225,118 +1233,119 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	
 	def parseExpr(self, node, keepUnmanagedSign = True):
 		# Set last node for debugging purposes
-		self.lastParsedNode.append(node)
+		#self.lastParsedNode.append(node)
 		
 		if not keepUnmanagedSign:
 			expr = self.parseExpr(node, True)
+			
 			# Remove unmanaged sign
-			if len(expr) and expr[0] == "~":
+			if expr and expr[0] == "~":
 				return expr[1:]
+			
 			return expr
 		
 		# Return text nodes directly (if it is not a string)
 		if node.nodeType == Node.TEXT_NODE:
 			nodeName = node.nodeValue
+			
 			if nodeName.startswith("flua_string_"):
 				return self.id + "_" + nodeName
-			else:
-				if nodeName == "my":
-					if self.useGC:
-						return self.myself
-					# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
-					#opNode = node.parentNode.parentNode
-					#numChildNodes = len(opNode.childNodes)
-					#if numChildNodes > 1:
-					#	return self.myself
-					#else:
-						# TODO: Unmanaged object initiations need to return 'this'
-					#	return "shared_from_this()"
-				#elif nodeName == "null":
-				#	return "NULL"
-				# BigInt support
-				elif nodeName.isdigit():
-					num = int(nodeName)
-					if num > INT32_MAX or num < INT32_MIN:
-						return "(BigInt)(\"" + str(num) + "\")"
-					else:
-						return str(num)
-				elif "." in nodeName:
-					return self.buildFloat(nodeName)
-				elif nodeName == "true":
-					return self.buildTrue()
-				elif nodeName == "false":
-					return self.buildFalse()
-				elif nodeName == "null":
-					return self.buildNull()
-				#elif nodeName == "_flua_slice_end":
-				#	declTypeNode = node.parentNode.parentNode
-				#	sliceNode = declTypeNode.parentNode.parentNode
-				#	sliceOn	
-				elif nodeName in replacedNodeValues:
-					nodeName = nodeName
-					nodeName = replacedNodeValues[nodeName]
-					return nodeName
-				# Catch member variables
-				elif nodeName in self.currentClassImpl.members:
-					return nodeName
-				# Catch normal types
-				elif nodeName in nonPointerClasses:
-					return nodeName
-				# Catch template types
-				elif nodeName in self.currentClass.templateNames:
-					return nodeName
-				# Catch public
-				elif nodeName in self.currentClass.publicMembers:
-					return nodeName
-				# Catch class names
-				elif nodeName in self.compiler.mainClass.classes:
-					return nodeName
-				# Catch extern funcs
-				elif nodeName in self.compiler.mainClass.externFunctions:
-					return nodeName
-				# Catch extern vars
-				elif nodeName in self.compiler.mainClass.externVariables:
-					return nodeName
-				# Now we should only have variables left
+			elif nodeName == "my":
+				#if self.useGC:
+				return self.myself
+				
+				# TODO: Make sure the algorithm to find out whether 'self' is being used solely works 100%
+				#opNode = node.parentNode.parentNode
+				#numChildNodes = len(opNode.childNodes)
+				#if numChildNodes > 1:
+				#	return self.myself
+				#else:
+					# TODO: Unmanaged object initiations need to return 'this'
+				#	return "shared_from_this()"
+			#elif nodeName == "null":
+			#	return "NULL"
+			# BigInt support
+			elif nodeName.isdigit():
+				num = int(nodeName)
+				
+				if num > INT32_MAX or num < INT32_MIN:
+					return "(BigInt)(\"" + str(num) + "\")"
 				else:
-					if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
-						#print("parseExpr: " + nodeName)
-						#print(self.currentClassImpl.members)
-						return "_flua_iter_" + nodeName
+					return str(num)
+			elif "." in nodeName:
+				return self.buildFloat(nodeName)
+			elif nodeName == "true":
+				return self.buildTrue()
+			elif nodeName == "false":
+				return self.buildFalse()
+			elif nodeName == "null":
+				return self.buildNull()
+			#elif nodeName == "_flua_slice_end":
+			#	declTypeNode = node.parentNode.parentNode
+			#	sliceNode = declTypeNode.parentNode.parentNode
+			#	sliceOn	
+			elif nodeName in replacedNodeValues:
+				nodeName = nodeName
+				nodeName = replacedNodeValues[nodeName]
+				return nodeName
+			# Now we should only have variables left
+			else:
+				if (
+					# Catch normal types
+					nodeName in nonPointerClasses or
 					
+					# Catch class names
+					nodeName in self.compiler.mainClass.classes or
+					
+					# Catch extern funcs
+					nodeName in self.compiler.mainClass.externFunctions or
+					
+					# Catch public
+					nodeName in self.currentClass.publicMembers or
+					
+					# Catch member variables
+					nodeName in self.currentClassImpl.members or
+					
+					# Catch extern vars
+					nodeName in self.compiler.mainClass.externVariables or
+					
+					# Catch template types# Catch template types
+					nodeName in self.currentClass.templateNames
+					):
 					return nodeName
+				
+				if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
+					#print("parseExpr: " + nodeName)
+					#print(self.currentClassImpl.members)
+					return "_flua_iter_" + nodeName
+				
+				return nodeName
 		
-		tagName = node.tagName
+		nodeName = node.tagName
 		
-		# Check which kind of tag it is
-		if tagName in self.directMapping:
-			func = self.directMapping[tagName]
+		# Check if we have a direct function mapping for that tag
+		if nodeName in self.directMapping:
+			func = self.directMapping[nodeName]
 			
 			if func:
 				return func(node)
 			else:
 				return ""
-		elif tagName == "value":
+		
+		# Parameters
+		if nodeName == "value":
+			#print(nodeToBPC(node.parentNode))
+			#print(node.parentNode.toprettyxml())
 			return self.parseExpr(node.childNodes[0])
-		elif tagName == "if-block" or tagName == "try-block":
-			return self.parseChilds(node, "", "")
-		# exists-in
-		elif tagName == "exists-in":
-			op1 = node.childNodes[0].firstChild
-			op2 = node.childNodes[1].firstChild
-			
-			memberFunc = "contains"
-			virtualCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (op2.toxml(), memberFunc, op1.toxml())).documentElement
-			
-			return self.handleCall(virtualCall)
-		elif tagName == "parameters":
+		elif nodeName == "parameters":
 			return self.parseChilds(node, "", ", ")[:-2]
-		elif tagName == "parameter":
+		elif nodeName == "parameter":
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
+		
 		# Assign-add for Strings
-		elif tagName == "assign-add":
+		if nodeName == "assign-add":
 			# So damn hardcoded...
 			op1 = node.childNodes[0].firstChild
 			op2 = node.childNodes[1].firstChild
@@ -1351,7 +1360,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				virtualAddCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (op1.toxml(), memberFunc, op2.toxml())).documentElement
 				
 				return "%s = %s" % (lValue, self.handleCall(virtualAddCall))
-		elif tagName in enableOperatorOverloading:
+		elif nodeName in enableOperatorOverloading:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			callerClassName = extractClassName(callerType)
@@ -1366,16 +1375,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif callerClassName == "MemPointer": #and isUnmanaged(callerType):
 				pass#return "(%s + %s)" % (caller, op2)
 			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
-				memberFunc = correctOperatorsTagName(tagName)
+				memberFunc = correctOperatorsTagName(nodeName)
 				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
 					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 					
 					call = self.handleCall(virtualIndexCall)
 					return call
-				 
-		#elif tagName == "not":
+		elif nodeName == "not":
+			return self.buildNegation(self.parseExpr(node.firstChild))	 
+		#elif nodeName == "not":
 		#	return "!" + self.parseChilds(node)
-		elif tagName == "index":
+		elif nodeName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			index = self.parseExpr(node.childNodes[1].childNodes[0])
@@ -1388,29 +1398,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 			
 			return self.handleCall(virtualIndexCall)
-		elif tagName == "test":
-			if self.isMainFile and node.parentNode.parentNode.tagName == "module":
-				return self.parseChilds(node.firstChild, "\t" * self.currentTabLevel, self.lineLimiter)
-			return ""
-		elif tagName == "not":
-			return self.buildNegation(self.parseExpr(node.firstChild))
-		elif tagName == "throw":
-			return self.throwSyntax % self.parseExpr(node.firstChild)
-		elif tagName == "include":
-			fileName = node.childNodes[0].nodeValue
-			incFile = (self.dir + fileName)[len(self.compiler.modDir):]
-			ifndef = normalizeModPath(incFile).replace(".", "_")
-			self.includes.append((incFile, ifndef)) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
-			self.compiler.includes.append((incFile, ifndef))
-			return ""
-		elif node.tagName == "declare-type":
-			if node.parentNode.tagName == "code":
-				return self.handleTypeDeclaration(node, insertTypeName = True)
-			
-			name = self.handleTypeDeclaration(node, insertTypeName = True)
-			#print(name)
-			return name
-		elif node.tagName == "slice":
+		elif nodeName == "slice":
 			#           slice.value       .range        .from/to
 			sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
 			sliceTo =   node.childNodes[1].childNodes[0].childNodes[1].firstChild.toxml()
@@ -1427,16 +1415,62 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				virtualSliceCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, sliceFrom, sliceTo)).documentElement
 			
 			return self.handleCall(virtualSliceCall)
-		elif node.tagName == "compiler-flags":
+		elif nodeName == "declare-type":
+			if node.parentNode.tagName == "code":
+				return self.handleTypeDeclaration(node, insertTypeName = True)
+			
+			name = self.handleTypeDeclaration(node, insertTypeName = True)
+			#print(name)
+			return name
+		# exists-in
+		elif nodeName == "exists-in":
+			op1 = node.childNodes[0].firstChild
+			op2 = node.childNodes[1].firstChild
+			
+			memberFunc = "contains"
+			virtualCall = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (op2.toxml(), memberFunc, op1.toxml())).documentElement
+			
+			return self.handleCall(virtualCall)
+		
+		# Check operators
+		if nodeName in self.compiler.operators:
+			#print(self.compiler.operators.keys())
+			#print(nodeName)
+			op = self.compiler.operators[nodeName]
+			
+			if op.type == Operator.BINARY:
+				if op.text == "\\":
+					return self.parseBinaryOperator(node, " / ", True)
+				return self.parseBinaryOperator(node, " %s " % op.text, True)
+			elif op.type == Operator.UNARY:
+				return "%s(%s)" % (op.text, self.parseExpr(node.childNodes[0].childNodes[0]))
+		
+		# Check other possibilities
+		if nodeName == "if-block" or nodeName == "try-block":
 			return self.parseChilds(node, "", "")
-		elif tagName == "break":
+		elif nodeName == "test":
+			if self.isMainFile and node.parentNode.parentNode.tagName == "module":
+				return self.parseChilds(node.firstChild, "\t" * self.currentTabLevel, self.lineLimiter)
+			return ""
+		elif nodeName == "throw":
+			return self.throwSyntax % self.parseExpr(node.firstChild)
+		elif nodeName == "include":
+			fileName = node.childNodes[0].nodeValue
+			incFile = (self.dir + fileName)[len(self.compiler.modDir):]
+			ifndef = normalizeModPath(incFile).replace(".", "_")
+			self.includes.append((incFile, ifndef)) #+= "#include \"" + node.childNodes[0].nodeValue + "\"\n"
+			self.compiler.includes.append((incFile, ifndef))
+			return ""
+		elif nodeName == "compiler-flags":
+			return self.parseChilds(node, "", "")
+		elif nodeName == "break":
 			return "break"
-		elif tagName == "noop":
+		elif nodeName == "noop":
 			return self.buildNOOP()
 		
 		# Check parameterized blocks
-		if tagName in self.paramBlocks:
-			paramBlock = self.paramBlocks[node.tagName]
+		if nodeName in self.paramBlocks:
+			paramBlock = self.paramBlocks[nodeName]
 			keywordName = paramBlock[0]
 			paramTagName = paramBlock[1]
 			codeTagName = paramBlock[2]
@@ -1452,16 +1486,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
-		# Check operators
-		if tagName in self.compiler.operators:
-			op = self.compiler.operators[tagName]
-			
-			if op.type == Operator.BINARY:
-				if op.text == "\\":
-					return self.parseBinaryOperator(node, " / ", True)
-				return self.parseBinaryOperator(node, " %s " % op.text, True)
-			elif op.type == Operator.UNARY:
-				return "%s(%s)" % (op.text, self.parseExpr(node.childNodes[0]))
+		compilerWarning("Could not translate node '%s'" % nodeName)
 		
 		return ""
 	
@@ -1469,6 +1494,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		try:
 			typeAClassImpl = self.getClassImplementationByTypeName(typeA)
 			typeAClass = typeAClassImpl.classObj
+			
+			if not typeAClass.extends:
+				return False
 			
 			typeBClassImpl = self.getClassImplementationByTypeName(typeB)
 		except:
@@ -1513,9 +1541,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			typeName = self.compiler.specializedClasses[typeName].name
 		
 		#print("PREPARED: " + typeName + templatePart)
-		fullName = typeName + templatePart
+		#fullName = typeName + templatePart
 		
-		return fullName
+		return typeName + templatePart
 	
 	def implementFunction(self, typeName, funcName, paramTypes):
 		#if funcName == "init":

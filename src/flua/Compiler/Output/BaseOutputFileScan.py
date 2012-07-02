@@ -249,7 +249,7 @@ class BaseOutputFileScan:
 		#				self.currentClass.possibleMembers memberName
 		
 	def tryGettingVariableTypes(self, func):
-		func.assignNodes = func.node.getElementsByTagName("assign")
+		func.assignNodes = findNodes(func.node, "assign")
 		
 	def scanExternFunction(self, node):
 		name = self.getNamespacePrefix() + getElementByTagName(node, "name").childNodes[0].nodeValue
