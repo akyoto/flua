@@ -120,6 +120,7 @@ class BaseClassImplementation:
 			#debug(self.classObj.functions)
 			if not funcName in self.classObj.functions:
 				candidates, baseClassImpl = findFunctionInBaseClasses(self, funcName)
+				
 				if not candidates:
 					if self.classObj.name:
 						print("\n * ".join(["Class '%s' has the following functions:" % self.classObj.name] + list(self.classObj.functions.keys())))
@@ -175,7 +176,12 @@ class BaseClassImplementation:
 			candidates = self.classObj.functions[funcName]
 		
 		if candidates is None:
-			raise CompilerException("No matching function found: '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
+			if funcName in self.classObj.functions:
+				funcCount = len(self.classObj.functions[funcName])
+			else:
+				funcCount = 0
+			
+			raise CompilerException("No matching function found: '%s' has been called with these types: %s (%s possibilities to choose from)" % (funcName, paramTypes, funcCount))
 		
 		#print(candidates[0].paramTypesByDefinition)
 		winner = None

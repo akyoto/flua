@@ -22,5 +22,17 @@
 				<noop depth="1" id="4"/>
 			</code>
 		</function>
+		<comment>\STODO:\SImplement\Sthis</comment>
+		<function depth="0" id="5">
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<name>merge</name>
+			<code>
+				<noop depth="1" id="6"/>
+			</code>
+			<meta/>
+		</function>
 	</code>
 </module>

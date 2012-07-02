@@ -298,6 +298,8 @@ class BaseOutputCompiler(Benchmarkable):
 			
 			# Compile it
 			cppOut.compile()
+		except OutputCompilerException:
+			raise
 		except CompilerException as e:
 			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		

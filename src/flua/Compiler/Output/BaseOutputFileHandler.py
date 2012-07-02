@@ -415,9 +415,19 @@ class BaseOutputFileHandler:
 			classObj = self.compiler.specializedClasses[classObj.name]
 		
 		# Default parameters for init
-		paramTypes, paramsString = self.addDefaultParameters(typeName, "init", paramTypes, paramsString)
+		if "init" in classObj.functions:
+			paramTypes, paramsString = self.addDefaultParameters(typeName, "init", paramTypes, paramsString)
+			
+			funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		else:
+			# Make sure the class will exist:
+			forcedClassImpl = self.getClassImplementationByTypeName(typeName)
+			
+			# No func implementation for init
+			funcImpl = None
 		
-		funcImpl = self.implementFunction(typeName, "init", paramTypes)
+		if "finalize" in classObj.functions:
+			destructorImpl = self.implementFunction(typeName, "finalize", [])
 		
 		# We also need to implement 'init' for all types used in the template.
 		# This is needed because we need the information about their members before
@@ -456,9 +466,6 @@ class BaseOutputFileHandler:
 		#			raise
 				#finally:
 				#	continue
-		
-		if "finalize" in classObj.functions:
-			destructorImpl = self.implementFunction(typeName, "finalize", [])
 		
 		finalTypeName = self.adjustDataType(typeName, False)
 		
