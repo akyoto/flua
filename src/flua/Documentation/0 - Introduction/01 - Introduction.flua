@@ -12,12 +12,12 @@
 		<comment>\SYou\Scan\Sprogram\Sin\Sa\Sfunctional,\Sobject-oriented\Sor\Simperative\Sstyle\S-\Sthat's\Sup\Sto\Syou.</comment>
 		<comment>\SHowever\Syou\Scan\S*not*\Sprogram\Spurely\Sfunctional\Sbecause\Sit's\Snot\Sa\Spurely\Sfunctional\Slanguage.</comment>
 		<comment>\SI\Srecommend\Syou\Sto\Smix\Sall\Sof\Sthese\Sstyles\Sin\Smost\Scases.\SFunctional\Sprogramming\Shas\Sbecome</comment>
-		<comment>\Svery\Simportant\Snowadays\Sand\Syou\Swill\Sdo\Syourself\Sa\Sfavour\Slearning\Sit.</comment>
+		<comment>\Squite\Simportant\Sfor\Stask\Sparallelism\Snowadays\Sand\Syou\Swill\Sdo\Syourself\Sa\Sfavour\Slearning\Sit.</comment>
 		<comment>\S---------------------------------------------</comment>
 		<comment>\SFlua\Scan\Sbe\Sseen\Sas\Sa\Scode\Sgenerator.</comment>
 		<comment>\S---------------------------------------------</comment>
 		<comment>\S[Syntax\S1]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[C++]</comment>
-		<comment>\S[Syntax\S2]\S&lt;------&gt;\S[XML]\S-------&gt;\S[Python\S3]</comment>
+		<comment>\S[Syntax\S2]\S&lt;&lt;----&gt;&gt;\S[XML]\S------&gt;&gt;\S[Python\S3]</comment>
 		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[HTML5]</comment>
 		<comment>\S---------------------------------------------</comment>
 		<comment>\SCurrently\Sthere\Sis\Sone\Ssyntax\Smodule\Scalled\S&quot;Flua\SSyntax&quot;\Swhich\Shas\S4\Ssub-syntaxes\S(in\Syour\Sstatus\Sbar).</comment>
