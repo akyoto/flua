@@ -283,6 +283,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		return newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile())
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
+		#if self.outputCompiler:
+		#	return self.outputCompiler
+		
 		if outputTarget.startswith("C++"):
 			tmp = CPPOutputCompiler(
 				self.processor,
