@@ -513,6 +513,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif node.nodeValue in self.compiler.mainClass.classes:
 				return node.nodeValue
 			elif node.nodeValue in self.compiler.mainClass.functions:
+				self.compiler.functionsAsPointers[node.nodeValue] = self.compiler.mainClass.functions[node.nodeValue]
 				return "Function"
 			elif node.nodeValue.startswith("0x"):
 				return "Int"
@@ -1290,15 +1291,17 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return nodeName
 			# Now we should only have variables left
 			else:
+				mainClass = self.compiler.mainClass
+				
 				if (
 					# Catch normal types
 					nodeName in nonPointerClasses or
 					
 					# Catch class names
-					nodeName in self.compiler.mainClass.classes or
+					nodeName in mainClass.classes or
 					
 					# Catch extern funcs
-					nodeName in self.compiler.mainClass.externFunctions or
+					nodeName in mainClass.externFunctions or
 					
 					# Catch public
 					nodeName in self.currentClass.publicMembers or
@@ -1307,13 +1310,19 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					nodeName in self.currentClassImpl.members or
 					
 					# Catch extern vars
-					nodeName in self.compiler.mainClass.externVariables or
+					nodeName in mainClass.externVariables or
 					
 					# Catch template types# Catch template types
 					nodeName in self.currentClass.templateNames
 					):
 					return nodeName
 				
+				# Function pointers
+				if nodeName in mainClass.functions:
+					if not node.parentNode.parentNode.tagName.startswith("flow"):
+						return "_FP_" + nodeName
+				
+				# Iterator variables need to be prefixed
 				if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
 					#print("parseExpr: " + nodeName)
 					#print(self.currentClassImpl.members)

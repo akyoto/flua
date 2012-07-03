@@ -181,8 +181,9 @@ class HelpMenuActions:
 							<p>
 								<h2>Thanks to the developers of:</h2>
 								<ul style='font-size: 12pt;'>
-									<li style='margin-bottom: 4px'>Qt</li>
 									<li style='margin-bottom: 4px'>Python</li>
+									<li style='margin-bottom: 4px'>GCC</li>
+									<li style='margin-bottom: 4px'>Qt</li>
 									<li style='margin-bottom: 4px'>PyQt</li>
 									<li style='margin-bottom: 4px'>Git</li>
 									<li style='margin-bottom: 4px'>Linux</li>

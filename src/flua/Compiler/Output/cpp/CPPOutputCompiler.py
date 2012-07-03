@@ -208,8 +208,20 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			outStream.write(''.join(self.prototypes))
 			
 			# Extern functions
-			for externFunc in self.mainClass.externFunctions:
-				outStream.write("// extern func %s;\n" % (externFunc))
+			#for externFunc in self.mainClass.externFunctions:
+			#	outStream.write("// extern func %s;\n" % (externFunc))
+			
+			# Function pointers
+			outStream.write("""
+typedef struct BPFunction {
+	%s
+} BPFunction;
+""" % "".join(list(self.functionPointerCalls.keys())))
+			
+			# Function pointer objects
+			for funcName, funcList in self.functionsAsPointers.items():
+				outStream.write("BPFunction* _FP_%s = new BPFunction();\n" % (funcName))
+				#"".join([func.getName() for func in funcList])
 			
 			# Custom Threads
 			outStream.write('\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n')

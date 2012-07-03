@@ -1,8 +1,10 @@
-typedef void(*)(void) BPGenericFunctionPtr;
+typedef struct BPFunction {
+	String(*)(String, String) __String__String_Func;
+	Int(*)(Int, Int) __Int__Int_Func;
+} BPFunction;
 
-struct Sum_Functor {
-	BPGenericFunctionPtr funcPtr;
-	
-	String(*)(String, String) _String__String__Func;
-	Int(*)(Int, Int) _Int__Int__Func;
-}
+static Functor sum;
+sum.__Int__Int_Func = sum__Int__Int_;
+
+Functor a = sum;
+a.__Int__Int_Func(3, 4);
