@@ -1,0 +1,20 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SFlua\Sis\Scurrently\Sin\SAlpha\Sstage,\Sthat\Smeans\Slots\Sof\Sthings</comment>
+		<comment>\Sare\Snot\Sworking\Syet.\SThere\Sis\SNO\SGUARANTEE\SFOR\SBACKWARDS</comment>
+		<comment>\SCOMPATIBILITY\Sfor\Scodes\Swritten\Sin\SFlua\Snow.\SYou\Scan\Sexperiment</comment>
+		<comment>\Swith\Sthe\Slanguage\Sas\Smuch\Sas\Syou\Swant\Sbut\Syour\Scodes\Smight\Sbe</comment>
+		<comment>\Sincompatible\Swith\Sa\Sfuture\Sversion.</comment>
+		<comment>\SNOTE:\SEven\Sthough\SI'm\Swarning\Syou\Sabout\Smissing\Sbackwards\Scompatibility,</comment>
+		<comment>\SFlua's\Sconcept\Sactually\Sgives\Syou\Sa\Slot\Sof\Scompatibility\Sby\Sthe\Ssimple</comment>
+		<comment>\Sfact\Sthat\Syou\Sdon't\Ssave\Spure\Scode\Swith\Sa\Sstatic\Ssyntax\Sbut\Srather</comment>
+		<comment>\Sa\Sgeneric\Smodel\Swhich\Scan\Sbe\Sviewed\Sand\Sedited\Swith\Smultiple\Ssyntaxes.</comment>
+	</code>
+</module>

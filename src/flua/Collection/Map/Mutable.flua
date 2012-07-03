@@ -58,11 +58,12 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SHash\Smap\S/\SHash\Stable\Simplementation\Susing\Slinear\Sprobing,\Sno\Schaining.</comment>
 		<comment>\SNote\Sthat\Screating\Sit\S/\Sadding\Selements\Sfor\Shuge\Ssizes\S(&gt;1000000\Selements)</comment>
 		<comment>\Sis\Srelatively\Sslow\Sbut\Slookup\Sspeed\Sis\Squite\Sgood.</comment>
-		<comment>\STODO:\SOptimize,\Suse\Sa\Sdifferent\Salgorithm.</comment>
+		<comment>\STODO:\SUse\Sa\Sdifferent\Salgorithm.</comment>
 		<class depth="0" id="10">
 			<name>MutableMap</name>
 			<code>
@@ -173,6 +174,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReserves\Sspace\Sfor\S#newSize\Selements.\S#newSize\Sis\Srequired\Sto\Sbe\Sa\Spower\Sof\S2!</comment>
 				<function depth="1" id="18">
@@ -506,6 +508,7 @@
 								</code>
 							</while>
 						</code>
+						<meta/>
 					</operator>
 					<comment>\SCreates\Sa\Snew\S#key\S→\S#value\Spair\Sor\Ssets\Sthe\S#value\Sof\San\Sexisting\S#key</comment>
 					<operator depth="2" id="51">
@@ -743,6 +746,7 @@
 								</code>
 							</while>
 						</code>
+						<meta/>
 					</operator>
 				</operators>
 			</code>
