@@ -78,6 +78,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
 		self.strings = getElementByTagName(self.headerNode, "strings")
 		self.stringsAsBytes = dict()
+		self.loopStack = list()
 		
 		# Local
 		self.localClasses = []

@@ -244,7 +244,8 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			counterTypeInit,
 			paramNames,
 			paramTypes,
-			paramValues
+			paramValues,
+			localForVarCounter
 		):
 		# Fix tabs
 		numTabs = countTabs(iterImplCode) - len(tabs)
@@ -264,7 +265,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		# In Flua you'd write:
 		#     paramsInit = paramTypes.each + " " + paramNames.each + " = " + paramValues.each + ";\n"
 		
-		paramsInit = "".join(["%s%s _flua_iter_%s = %s;\n" % (tabs, paramTypes[i], paramNames[i], paramValues[i]) for i in range(len(paramNames))])
+		paramsInit = "".join(["%s%s _flua_iter_%s = %s;\n" % (tabs, adjustDataTypeCPP(paramTypes[i]), paramNames[i], paramValues[i]) for i in range(len(paramNames))])
 		
 		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)
@@ -273,8 +274,8 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		# Do we need a temporary variable to hold the collExpr value?
 		# TODO: We might ignore this for "this", "self", "my" etc.
 		if collExpr.find("->") != -1:
-			newCollExpr = "_flua_tmp_coll_%d" % self.compiler.forVarCounter
-			collInitCode = self.buildLine("%s %s = %s" % (self.adjustDataType(collExprType), newCollExpr, collExpr))
+			newCollExpr = "_flua_tmp_coll_%d" % localForVarCounter
+			collInitCode = self.buildLine("%s %s = %s" % (adjustDataTypeCPP(collExprType), newCollExpr, collExpr))
 			collExpr = newCollExpr
 		else:
 			collInitCode = ""
@@ -303,7 +304,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		#initCode += 
 		
-		continueJump = ";\n_continue_point_%d:\n" % self.compiler.forVarCounter
+		continueJump = ";\n_continue_point_%d:\n" % localForVarCounter
 		
 		resultingCode = iterImplCode.replace("__flua_yield_var", iterExpr).replace("__flua_yield_code", code + continueJump + perIterationCode)
 		
@@ -319,12 +320,12 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		if parent.tagName in {"for", "while"}:
 			return "continue"
 		elif parent.tagName == "foreach":
-			return "goto _continue_point_%d" % self.compiler.forVarCounter
+			return "goto _continue_point_%d" % self.loopStack[-1]
 		else:
 			raise CompilerException("Can't determine loop type in 'continue' statement")
 	
 	def buildTypeDeclaration(self, typeName, varName):
-		return self.adjustDataType(typeName) + " " + varName
+		return adjustDataTypeCPP(typeName) + " " + varName
 		
 	def buildTypeDeclarationNameOnly(self, varName):
 		return varName
@@ -373,7 +374,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	def buildCall(self, caller, fullName, paramsString):
 		# Class call
 		if caller in self.compiler.mainClass.classes:
-			caller = self.adjustDataType(caller, False)
+			caller = adjustDataTypeCPP(caller, False)
 			
 			#if fullName.startswith("init_"):
 			#	fullName = caller
@@ -407,7 +408,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return "(!(%s))" % expr
 	
 	def buildInBlock(self, exprNode, expr, exprType, code, tabs):
-		exprType = self.adjustDataType(exprType)
+		exprType = adjustDataTypeCPP(exprType)
 		
 		hasVar = (exprNode.firstChild.nodeType == Node.ELEMENT_NODE and exprNode.firstChild.tagName == "assign")
 		if hasVar:
@@ -447,7 +448,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		#self.getClassImplementationByTypeName("MutableVector<>")
 		
-		code = "{%s" % (self.buildLine(self.assignSyntax % (self.adjustDataType(returnType) + " " + varName, expr)))
+		code = "{%s" % (self.buildLine(self.assignSyntax % (adjustDataTypeCPP(returnType) + " " + varName, expr)))
 		code += self.buildDataFlowListenerIteration(funcImplName, varName)
 		code += self.returnSyntax % varName + ";}"
 		return code
@@ -581,7 +582,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					extends = "public "
 					classes = ""
 					if classObj.extends:
-						classes = ', public '.join(self.adjustDataType(c.classObj.name).replace("*", "") for c in classObj.extends)
+						classes = ', public '.join(adjustDataTypeCPP(c.classObj.name).replace("*", "") for c in classObj.extends)
 						extends += classes
 					
 					# Memory management

@@ -839,6 +839,8 @@ class BaseOutputFileHandler:
 		return ''.join(code)
 	
 	def handleForEach(self, node):
+		localForVarCounter = self.compiler.forVarCounter
+		
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
@@ -908,7 +910,13 @@ class BaseOutputFileHandler:
 			counterVarName = ""
 			counterTypeInit = ""
 		
+		# Push loop ID on the stack
+		self.loopStack.append(localForVarCounter)
+		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		
+		# Remove last loop ID from the stack
+		self.loopStack.pop()
 		
 		# Save scope
 		#self.debugScopes()
@@ -928,15 +936,7 @@ class BaseOutputFileHandler:
 		tabs = "\t" * self.currentTabLevel
 		iterImplCode = iteratorImpl.getCode()
 		
-		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED
-		self.compiler.forVarCounter += 1
-		
-		#print(code)
-		#print("--ITER--")
-		#print(iterImplCode)
-		#print("--END ITER--")
-		
-		return self.buildForEachLoop(
+		resultingCode = self.buildForEachLoop(
 			var,
 			typeInit,
 			iterExpr,
@@ -949,8 +949,20 @@ class BaseOutputFileHandler:
 			counterTypeInit,
 			iteratorImpl.func.paramNames,
 			paramTypes,
-			paramValues
+			paramValues,
+			localForVarCounter
 		)
+		
+		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED,
+		# AS THE VERY LAST STEP!
+		self.compiler.forVarCounter += 1
+		
+		#print(code)
+		#print("--ITER--")
+		#print(iterImplCode)
+		#print("--END ITER--")
+		
+		return resultingCode
 	
 	def handleFor(self, node):
 		if node.tagName == "parallel-for":
