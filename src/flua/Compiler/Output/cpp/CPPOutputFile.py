@@ -231,7 +231,21 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	def buildForLoop(self, varDefs, typeInit, iterExpr, fromExpr, operator, toExpr, code, tabs):
 		return "%sfor(%s%s = %s; %s %s %s; ++%s) {\n%s%s}\n" % (varDefs, typeInit, iterExpr, fromExpr, iterExpr, operator, toExpr, iterExpr, code, tabs)
 	
-	def buildForEachLoop(self, var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit):
+	def buildForEachLoop(self,
+			var,
+			typeInit,
+			iterExpr,
+			collExpr,
+			collExprType,
+			iterImplCode,
+			code,
+			tabs,
+			counterVarName,
+			counterTypeInit,
+			paramNames,
+			paramTypes,
+			paramValues
+		):
 		# Fix tabs
 		numTabs = countTabs(iterImplCode) - len(tabs)
 		
@@ -281,6 +295,8 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		else:
 			initCode = ""
 			perIterationCode = ""
+		
+		#initCode += 
 		
 		continueJump = ";\n_continue_point_%d:\n" % self.compiler.forVarCounter
 		

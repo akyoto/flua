@@ -443,6 +443,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
+		paramsString = ", ".join(paramsString)
 		
 		#if funcName == "distance":
 		#	debugStop()

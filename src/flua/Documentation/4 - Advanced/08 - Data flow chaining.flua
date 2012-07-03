@@ -22,10 +22,18 @@
 		<class depth="0" id="2">
 			<name>WebcamImage</name>
 			<code>
-				<function depth="1" id="3">
+				<public depth="1" id="3">
+					<public-member depth="2" id="4">
+						<declare-type>
+							<value>data</value>
+							<value>Int</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="5">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="4">
+						<assign depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
@@ -47,11 +55,7 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
-				<public depth="1" id="5">
-					<public-member depth="2" id="6">data</public-member>
-				</public>
 			</code>
 			<meta/>
 		</class>
@@ -66,7 +70,6 @@
 					</new>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SProcess\Simage</comment>
 		<function depth="0" id="9">
@@ -98,7 +101,6 @@
 				</assign-add>
 				<return depth="1" id="11">image</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SShow\Sit\Son\Sthe\Sscreen</comment>
 		<function depth="0" id="12">
@@ -119,7 +121,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\STheoretically\Syou\Scan\Screate\Sa\Smain\Sloop\Snow.</comment>
 		<comment>\STo\Sdemonstrate\Sthe\Sdata\Sflow\SI'm\Sjust\Sgoing\Sto\Sdo\Sthis\S10\Stimes:</comment>

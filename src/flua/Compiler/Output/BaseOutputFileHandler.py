@@ -391,6 +391,7 @@ class BaseOutputFileHandler:
 		typeName = self.parseExpr(getElementByTagName(node, "type").childNodes[0], True)
 		paramsNode = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(paramsNode)
+		paramsString = ", ".join(paramsString)
 		
 		typeName = self.prepareTypeName(typeName)
 		
@@ -663,7 +664,7 @@ class BaseOutputFileHandler:
 	
 	def handleParameters(self, pNode):
 		if not pNode.childNodes:
-			return "", []
+			return [], []
 		
 		# For slicing:
 		#<parameter>						= node
@@ -683,7 +684,7 @@ class BaseOutputFileHandler:
 		prepareTypeName = self.prepareTypeName
 		getExprDataType = self.getExprDataType
 		
-		pList = ", ".join([parseExpr(node.childNodes[0]) for node in pNode.childNodes])
+		pList = [parseExpr(node.childNodes[0]) for node in pNode.childNodes]
 		pTypes = [prepareTypeName(getExprDataType(node.childNodes[0])) for node in pNode.childNodes]
 		
 		return pList, pTypes
@@ -841,18 +842,31 @@ class BaseOutputFileHandler:
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
+		paramNames = []
+		paramValues = []
+		paramTypes = []
+		
 		iterName = "Default"
-		if collExprNode.nodeType == Node.ELEMENT_NODE and collExprNode.tagName == "access":
-			op2 = collExprNode.childNodes[1].firstChild
+		if collExprNode.nodeType == Node.ELEMENT_NODE:
+			if collExprNode.tagName == "call":
+				accessNode = getFuncNameNode(collExprNode)
+				
+				paramsNode = getElementByTagName(collExprNode, "parameters")
+				paramValues, paramTypes = self.handleParameters(paramsNode)
+			else:
+				accessNode = collExprNode
 			
-			if op2.nodeType == Node.TEXT_NODE:
-				op1Type = self.getExprDataType(collExprNode.childNodes[0].firstChild)
+			if accessNode.tagName == "access":
+				op2 = accessNode.childNodes[1].firstChild
 				
-				op1Class = self.getClass(extractClassName(op1Type))
-				
-				if op1Class.hasIterator(op2.nodeValue):
-					iterName = capitalize(op2.nodeValue)
-					collExprNode = collExprNode.childNodes[0].firstChild
+				if op2.nodeType == Node.TEXT_NODE:
+					op1Type = self.getExprDataType(accessNode.childNodes[0].firstChild)
+					
+					op1Class = self.getClass(extractClassName(op1Type))
+					
+					if op1Class.hasIterator(op2.nodeValue):
+						iterName = capitalize(op2.nodeValue)
+						collExprNode = accessNode.childNodes[0].firstChild
 		
 		iterExpr = self.parseExpr(iterExprNode)
 		collExpr = self.parseExpr(collExprNode)
@@ -861,7 +875,9 @@ class BaseOutputFileHandler:
 		if collExprType in nonPointerClasses:
 			raise CompilerException("'%s' is a value of type '%s' and does not have a default iterator" % (nodeToBPC(collExprNode), collExprType))
 		
-		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, [])
+		# Implement the iterator
+		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, paramTypes)
+		
 		iteratorType = iteratorImpl.getYieldType()
 		iteratorValue = iteratorImpl.getYieldValue()
 		
@@ -875,9 +891,10 @@ class BaseOutputFileHandler:
 		typeInit = ""
 		
 		# We ignore global variables - THIS...IS...SPAR...ERR...LOCALSCOPE!
-		if 1:#not self.variableExistsAnywhere(iterExpr):
-			self.getCurrentScope().variables[iterExpr] = var
-			typeInit = self.adjustDataType(var.type) + " "
+		#if 1:#not self.variableExistsAnywhere(iterExpr):
+		
+		self.getCurrentScope().variables[iterExpr] = var
+		typeInit = self.adjustDataType(var.type) + " "
 			
 		# Register counter variable (if available)
 		counterNode = getElementByTagName(node, "counter")
@@ -920,7 +937,21 @@ class BaseOutputFileHandler:
 		#print(iterImplCode)
 		#print("--END ITER--")
 		
-		return self.buildForEachLoop(var, typeInit, iterExpr, collExpr, collExprType, iterImplCode, code, tabs, counterVarName, counterTypeInit)
+		return self.buildForEachLoop(
+			var,
+			typeInit,
+			iterExpr,
+			collExpr,
+			collExprType,
+			iterImplCode,
+			code,
+			tabs,
+			counterVarName,
+			counterTypeInit,
+			paramNames,
+			paramTypes,
+			paramValues
+		)
 	
 	def handleFor(self, node):
 		if node.tagName == "parallel-for":
@@ -1092,6 +1123,7 @@ class BaseOutputFileHandler:
 		
 		params = getElementByTagName(node, "parameters")
 		paramsString, paramTypes = self.handleParameters(params)
+		paramsString = ", ".join(paramsString)
 		
 		#debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 		
