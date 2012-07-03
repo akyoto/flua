@@ -579,6 +579,98 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def locationForward(self):
 		print("Forward not implemented!")
 	
+	def createDefaultImplementation(self):
+		tc = self.textCursor()
+		pos = tc.positionInBlock()
+		block = tc.block()
+		
+		# Get the line text
+		text = block.text()
+		
+		if not text:
+			return
+		
+		leftOfCursor = text[:pos]
+		
+		# TODO: Allow point
+		#obj = getLeftMemberAccess(leftOfCursor, pos, allowPoint = False)
+		obj = ""
+		
+		# Just to be absolutely sure this won't be an endless loop...
+		count = 0
+		
+		while 1:
+			tc.movePosition(QtGui.QTextCursor.StartOfWord)
+			tc.select(QtGui.QTextCursor.WordUnderCursor)
+			
+			obj = tc.selectedText()
+			
+			if obj.replace("_", "").isalnum():
+				break
+			
+			# 2 times to avoid an endless loop
+			tc.movePosition(QtGui.QTextCursor.Left, n = 2)
+			
+			if tc.positionInBlock() == 0 or text[:tc.positionInBlock()].isspace() or count > 100:
+				obj = ""
+				break
+				
+			count += 1
+		
+		if obj:
+			if obj[0].islower():
+				self.makeFunction(obj)
+			else:
+				self.makeClass(obj)
+	
+	def makeFunction(self, obj):
+		#print("Making function %s" % obj)
+		
+		funcCode = "\n\n# \n%s\n\t..." % (obj)
+		
+		tc = self.textCursor()
+		tc.movePosition(QtGui.QTextCursor.EndOfWord)
+		tc.insertText(funcCode)
+		
+		tc.movePosition(QtGui.QTextCursor.Left)
+		tc.select(QtGui.QTextCursor.WordUnderCursor)
+		
+		self.setTextCursor(tc)
+		
+	def makeClass(self, obj):
+		#print("Making class %s" % obj)
+		
+		classCode = """
+
+# 
+%s
+	public
+		...
+	
+	init
+		...""" % (obj)
+		
+		tc = self.textCursor()
+		tc.movePosition(QtGui.QTextCursor.EndOfWord)
+		
+		# Get the line text
+		block = tc.block()
+		text = block.text()
+		relPos = tc.positionInBlock()
+		
+		if relPos >= len(text) or not text[relPos] in "(<":
+			tc.insertText("()")
+		else:
+			tc.movePosition(QtGui.QTextCursor.Right)
+			tc.movePosition(QtGui.QTextCursor.EndOfWord)
+		
+		tc.insertText(classCode)
+		
+		tc.movePosition(QtGui.QTextCursor.Left)
+		tc.select(QtGui.QTextCursor.WordUnderCursor)
+		
+		self.setTextCursor(tc)
+	
 	def mousePressEvent(self, event):
 		if not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()

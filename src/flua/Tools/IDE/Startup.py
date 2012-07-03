@@ -223,6 +223,7 @@ class Startup:
 		self.actionRedo.triggered.connect(self.redoLastAction)
 		self.actionSearch.triggered.connect(self.showSearch)
 		self.actionRegExSearch.triggered.connect(self.showRegexSearch)
+		self.actionCreateDefaultImplementation.triggered.connect(self.createDefaultImplementation)
 		self.actionCopy.triggered.connect(self.copy)
 		self.actionCut.triggered.connect(self.cut)
 		self.actionPaste.triggered.connect(self.paste)

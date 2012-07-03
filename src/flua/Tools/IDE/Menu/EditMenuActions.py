@@ -3,6 +3,10 @@ from flua.Compiler import *
 
 class EditMenuActions:
 	
+	def createDefaultImplementation(self):
+		if self.codeEdit:
+			self.codeEdit.createDefaultImplementation()
+	
 	def showPreferences(self):
 		self.preferences.setStyleSheet(self.config.dialogStyleSheet)
 		self.preferences.exec()

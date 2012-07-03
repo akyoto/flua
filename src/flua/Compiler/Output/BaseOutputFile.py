@@ -1110,6 +1110,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			defaultValue = ""
 			defaultValueType = ""
 			
+			if node.tagName == "noop":
+				continue
+			
 			exprNode = node.childNodes[0]
 			
 			if exprNode.nodeType == textNodeType:
