@@ -76,6 +76,9 @@ class HelpMenuActions:
 			# To prevent an error
 			self.changeLogDialog.bpIDE = self
 			
+			# Fix size
+			self.changeLogDialog.setMaximumWidth(0)
+			
 			self.changeLog = BPLogWidget(self.changeLogDialog)
 			self.changeLog.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 			self.changeLog.setReadOnly(True)

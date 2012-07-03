@@ -388,6 +388,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.outFile = None
 		self.backgroundCompilerOutstandingTasks = 0
 		self.ppOutstandingTasks = 0
+		self.selectionChanged.connect(self.onSelectionChange)
 		
 		self.autoReplace = {
 			# Simple data flow
@@ -598,6 +599,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.setMouseTracking(False)
 		
 		super().mousePressEvent(event)
+		
+	def onSelectionChange(self):
+		if self.hasFocus():
+			self.bpIDE.searchEdit.setUseSelection(self.textCursor().hasSelection())
 	
 	def mouseMoveEvent(self, event):
 		self.hoveringFileName = ""

@@ -7,8 +7,20 @@ class BPSearchEdit(QtGui.QLineEdit):
 		super().__init__(parent)
 		self.bpIDE = parent
 		self.regExSearch = False
-		self.setPlaceholderText("Ctrl + F (search), Arrow Down (next result), Arrow Up (previous result), Esc (leave search)")
+		
+		self.usingSelection = True
+		self.setUseSelection(False)
+		
 		self.textChanged.connect(self.searchForward)
+		
+	def setUseSelection(self, state):
+		if state != self.usingSelection:
+			self.usingSelection = state
+			
+			if state:
+				self.setPlaceholderText("Ctrl + F to search & replace in the selection")
+			else:
+				self.setPlaceholderText("Ctrl + F (search), Arrow Down (next result), Arrow Up (previous result), Esc (leave search)")
 		
 	def focusNormal(self):
 		self.regExSearch = False
@@ -23,6 +35,7 @@ class BPSearchEdit(QtGui.QLineEdit):
 		
 	def keyPressEvent(self, event):
 		key = event.key()
+		
 		if key == QtCore.Qt.Key_Escape:
 			if self.bpIDE.codeEdit:
 				#self.bpIDE.codeEdit.setTextCursor(self.bpIDE.codeEdit.textCursor())
@@ -48,8 +61,10 @@ class BPSearchEdit(QtGui.QLineEdit):
 		replaceEdit = self.bpIDE.replaceEdit
 		
 		if not text:
-			cursor.clearSelection()
-			ce.setTextCursor(cursor)
+			if not self.usingSelection:
+				cursor.clearSelection()
+				ce.setTextCursor(cursor)
+			
 			replaceEdit.hide()
 			return
 		
@@ -68,6 +83,9 @@ class BPSearchEdit(QtGui.QLineEdit):
 			replaceEdit.setPlaceholderText("Replace all RegEx matches with...")
 		
 		replaceEdit.show()
+		
+		if self.usingSelection:
+			return
 		
 		#cursor.clearSelection()
 		if not nextResult:

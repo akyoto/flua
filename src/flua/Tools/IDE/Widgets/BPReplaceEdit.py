@@ -22,14 +22,25 @@ class BPReplaceEdit(QtGui.QLineEdit):
 			text = QtCore.QRegExp(text)
 			
 		# Start of document
-		cursor.movePosition(QtGui.QTextCursor.Start)
+		if self.searchEdit.usingSelection:
+			#cursor.setPosition(cursor.selectionStart() - 1)
+			endSearch = cursor.selectionEnd()
+			startSearch = cursor.selectionStart()
+			cursor.setPosition(startSearch)
+			#print(" START: " + str(startSearch))
+			#print(" END: " + str(endSearch))
+		else:
+			cursor.movePosition(QtGui.QTextCursor.Start)
+			endSearch = -1
 		
 		cursor.beginEditBlock()
 		
 		# Begin replacing
 		while 1:
 			nextResult = qdoc.find(text, cursor, findFlags)
-			if nextResult.position() == -1:
+			
+			if nextResult.position() == -1 or (endSearch != -1 and nextResult.position() > endSearch):
+				#print(nextResult.position())
 				break
 			
 			nextResult.removeSelectedText()

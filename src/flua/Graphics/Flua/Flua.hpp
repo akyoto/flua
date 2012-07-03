@@ -16,8 +16,8 @@ glm::mat4
 
 glm::vec3
 	flua_xAxis(1, 0, 0),
-	flua_yAxis(1, 0, 0),
-	flua_zAxis(1, 0, 0);
+	flua_yAxis(0, 1, 0),
+	flua_zAxis(0, 0, 1);
 
 glm::mat4 flua_identityMatrix(1.0f);
 
