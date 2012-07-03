@@ -1711,6 +1711,11 @@ class BPCFile(ScopeController, Benchmarkable):
 				
 				lineLen = len(line)
 				
+				if i + 1 < lineLen:
+					firstCharacter = line[i + 1]
+				else:
+					firstCharacter = ""
+				
 				paramAtEndOfString = False
 				
 				h = i + 1
@@ -1745,7 +1750,7 @@ class BPCFile(ScopeController, Benchmarkable):
 					h += 1
 				
 				# Byte representation must be 1 character long
-				if stringLimiter == "'" and h  - i != 2:
+				if stringLimiter == "'" and (h  - i != 2 or firstCharacter == "\\") and not (firstCharacter == "\\" and h - i == 3):
 					raise CompilerException("A character / byte representation needs to contain exactly 1 character")
 					
 				if paramAtEndOfString:

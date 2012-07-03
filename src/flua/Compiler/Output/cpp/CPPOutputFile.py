@@ -261,6 +261,11 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 				lines.append(x)
 			iterImplCode = '\n'.join(lines)
 		
+		# In Flua you'd write:
+		#     paramsInit = paramTypes.each + " " + paramNames.each + " = " + paramValues.each + ";\n"
+		
+		paramsInit = "".join(["%s%s _flua_iter_%s = %s;\n" % (tabs, paramTypes[i], paramNames[i], paramValues[i]) for i in range(len(paramNames))])
+		
 		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)
 		
@@ -302,7 +307,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		resultingCode = iterImplCode.replace("__flua_yield_var", iterExpr).replace("__flua_yield_code", code + continueJump + perIterationCode)
 		
-		return "{\n%s%s%s%s%s;\n%s\n%s}" % (initCode, tabs, collInitCode, typeInit, iterExpr, resultingCode, tabs)
+		return "{\n%s%s%s%s%s%s;\n%s\n%s}" % (paramsInit, initCode, tabs, collInitCode, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildContinue(self, node):
@@ -337,7 +342,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
 	
 	def buildStringAsByte(self, id, value):
-		return id + " = " + str(ord(value)) + ";\n"
+		return id + " = '" + value + "';\n" # str(ord(value))
 	
 	def buildUndefinedString(self, id, value):
 		return id + " = const_cast<Byte*>(\"" + value + "\");\n"

@@ -842,7 +842,6 @@ class BaseOutputFileHandler:
 		iterExprNode = getElementByTagName(node, "iterator").childNodes[0]
 		collExprNode = getElementByTagName(node, "collection").childNodes[0]
 		
-		paramNames = []
 		paramValues = []
 		paramTypes = []
 		
@@ -948,7 +947,7 @@ class BaseOutputFileHandler:
 			tabs,
 			counterVarName,
 			counterTypeInit,
-			paramNames,
+			iteratorImpl.func.paramNames,
 			paramTypes,
 			paramValues
 		)
