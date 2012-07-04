@@ -117,9 +117,11 @@
     <property name="title">
      <string>Utilities</string>
     </property>
+    <addaction name="actionCreateDefaultImplementation"/>
     <addaction name="actionJumpToDefinition"/>
     <addaction name="actionDuplicateLine"/>
-    <addaction name="actionCreateDefaultImplementation"/>
+    <addaction name="actionToggleComment"/>
+    <addaction name="actionFindPossibleParallelizationPoints"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -599,6 +601,19 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
+   </property>
+  </action>
+  <action name="actionToggleComment">
+   <property name="text">
+    <string>Toggle comment</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionFindPossibleParallelizationPoints">
+   <property name="text">
+    <string>Find possible parallelization points</string>
    </property>
   </action>
  </widget>

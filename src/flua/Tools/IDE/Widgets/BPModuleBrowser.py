@@ -185,12 +185,13 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	# Create new repository
 	def newRepository(self, ignored):
 		name = self.bpIDE.askText(
-		"Please enter your name or the name of your company / organization:",
-		"""The name can <b>only contain lowercase letters</b>, think of it as a <b>tag</b> and use a short name. <br/>
-		Your work will be published under that tag. <br/>
-		If you are a single author publishing his modules we recommend you to use the first letter of<br/>
-		your first name and your second name, e.g. if your name is <b>Johnny Depp</b> your tag should be <b>jdepp</b>.<br/>
-		This is also the name which will appear in the global repository list if you decide to publish it."""
+			"Please enter your name or the name of your company / organization:",
+			"""The name can <b>only contain lowercase letters</b>, think of it as a <b>tag</b> and use a short name. <br/>
+			Your work will be published under that tag. <br/>
+			If you are a single author publishing his modules we recommend you to use the first letter of<br/>
+			your first name and your second name, e.g. if your name is <b>Johnny Depp</b> your tag should be <b>jdepp</b>.<br/>
+			This is also the name which will appear in the global repository list if you decide to publish it.""",
+			title = "New repository"
 		)
 		
 		if name:
@@ -211,7 +212,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		name = self.bpIDE.askText(
 			"New module name:",
-			"This module will be created as a submodule of <b>%s</b>" % item.path
+			"This module will be created as a submodule of <b>%s</b>" % item.path,
+			title = "New module"
 		)
 		
 		if not name:
@@ -272,7 +274,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				return
 			
 			if item.isModule and item.subModules:
-				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path):
+				if self.bpIDE.ask("Are you sure you want to delete <b>%s</b> and all of its submodules?" % item.path, title = "Delete module"):
 					if os.path.dirname(item.realPath).split("/")[-1] == item.name:
 						shutil.rmtree(extractDir(item.realPath))
 					else:
@@ -282,14 +284,14 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 						item.parent().removeRow(item.row())
 					deleted = True
 			elif item.isModule:
-				if self.bpIDE.ask("Are you sure you want to delete the module <b>%s</b>?" % item.path):
+				if self.bpIDE.ask("Are you sure you want to delete the module <b>%s</b>?" % item.path, title = "Delete module"):
 					os.unlink(item.realPath)
 					if item.parent():
 						item.parent().subModules.pop(item.name)
 						item.parent().removeRow(item.row())
 					deleted = True
 			else:
-				if self.bpIDE.ask("Are you sure you want to delete all modules inside <b>%s</b>?" % item.path):
+				if self.bpIDE.ask("Are you sure you want to delete all modules inside <b>%s</b>?" % item.path, title = "Delete module"):
 					shutil.rmtree(getModuleDir() + item.path)
 					if item.parent():
 						item.parent().subModules.pop(item.name)

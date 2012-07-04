@@ -583,7 +583,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def locationForward(self):
 		print("Forward not implemented!")
 	
-	def createDefaultImplementation(self):
+	def getTextAtCursor(self):
 		tc = self.textCursor()
 		pos = tc.positionInBlock()
 		block = tc.block()
@@ -620,12 +620,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				break
 				
 			count += 1
-		
-		if obj:
-			if obj[0].islower():
-				self.makeFunction(obj)
-			else:
-				self.makeClass(obj)
+			
+		return obj
 	
 	def makeFunction(self, obj):
 		#print("Making function %s" % obj)
@@ -633,11 +629,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		funcCode = "\n\n# \n%s\n\t..." % (obj)
 		
 		tc = self.textCursor()
+		tc.beginEditBlock()
+		
 		tc.movePosition(QtGui.QTextCursor.EndOfWord)
 		tc.insertText(funcCode)
 		
 		tc.movePosition(QtGui.QTextCursor.Left)
 		tc.select(QtGui.QTextCursor.WordUnderCursor)
+		
+		tc.endEditBlock()
 		
 		self.setTextCursor(tc)
 		
@@ -655,6 +655,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		...""" % (obj)
 		
 		tc = self.textCursor()
+		tc.beginEditBlock()
+		
 		tc.movePosition(QtGui.QTextCursor.EndOfWord)
 		
 		# Get the line text
@@ -673,6 +675,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		tc.movePosition(QtGui.QTextCursor.Left)
 		tc.select(QtGui.QTextCursor.WordUnderCursor)
 		
+		tc.endEditBlock()
 		self.setTextCursor(tc)
 	
 	def mousePressEvent(self, event):
@@ -695,6 +698,17 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.setMouseTracking(False)
 		
 		super().mousePressEvent(event)
+		
+	def jumpToFunction(self, outFunc):
+		# TODO: Implement this.
+		tc = self.textCursor()
+		
+		#try:
+		#if self.bpcFile:
+		#	lineNumber = self.bpcFile.nodeToOriginalLineNumber[searchingNode]
+		
+		self.setTextCursor(tc)
+		self.ensureCursorVisible()
 		
 	def onSelectionChange(self):
 		if self.hasFocus():
@@ -1295,9 +1309,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			super().keyPressEvent(event)
 	
-	def indentSelection(self):
-		tab = "\t"
-		tabLen = 1
+	def indentSelection(self, tab = "\t"):
+		tabLen = len(tab)
 		
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
@@ -1335,9 +1348,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Rehighlight
 		#self.rehighlightFunctionUsage()
 	
-	def unIndentSelection(self):
-		tab = "\t"
-		tabLen = 1
+	def unIndentSelection(self, tab = "\t"):
+		tabLen = len(tab)
 		
 		cursor = self.textCursor()
 		cursor.beginEditBlock()

@@ -554,7 +554,10 @@ class BPCFile(ScopeController, Benchmarkable):
 					registerNode(currentComment)
 					
 				# Append to current node
-				self.currentNode.appendChild(currentComment)
+				if self.currentNode:
+					self.currentNode.appendChild(currentComment)
+				else:
+					raise CompilerException("Invalid indentation")
 			else:
 				currentComment = None
 			

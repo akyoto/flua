@@ -209,60 +209,67 @@ class Startup:
 		self.viewsInitialized = True
 		
 	def initActions(self):
-		# File
-		self.actionNew.triggered.connect(self.newFile)
-		self.actionOpen.triggered.connect(self.openFile)
-		self.actionSave.triggered.connect(self.saveFile)
-		self.actionSaveAs.triggered.connect(self.saveAsFile)
-		self.actionClose.triggered.connect(self.closeCurrentTab)
-		self.actionReopenLastFile.triggered.connect(self.reopenLastFile)
-		self.actionExit.triggered.connect(self.close)
+		actions = {
+			# File
+			self.actionNew : self.newFile,
+			self.actionOpen : self.openFile,
+			self.actionSave : self.saveFile,
+			self.actionSaveAs : self.saveAsFile,
+			self.actionClose : self.closeCurrentTab,
+			self.actionReopenLastFile : self.reopenLastFile,
+			self.actionExit : self.close,
+			
+			# Edit
+			self.actionUndo : self.undoLastAction,
+			self.actionRedo : self.redoLastAction,
+			self.actionSearch : self.showSearch,
+			self.actionRegExSearch : self.showRegexSearch,
+			self.actionCopy : self.copy,
+			self.actionCut : self.cut,
+			self.actionPaste : self.paste,
+			self.actionPreferences : self.showPreferences,
+			
+			# Module
+			self.actionRun : self.onRunModule,
+			self.actionRunOptimized : self.runModuleOptimized,
+			self.actionRunDebug : self.runDebug,
+			self.actionRunModuleTests : self.runModuleTests,
+			self.actionCleanAllTargets : self.cleanAllTargets,
+			self.actionViewSource : self.viewSource,
+			self.actionProperties : self.showModuleProperties,
+			
+			# Utilities
+			self.actionJumpToDefinition : self.jumpToDefinition,
+			self.actionDuplicateLine : self.duplicateLine,
+			self.actionToggleComment : self.toggleComment,
+			self.actionCreateDefaultImplementation : self.createDefaultImplementation,
+			self.actionFindPossibleParallelizationPoints : self.findPossibleParallelizationPoints,
+			
+			# Repositories
+			self.actionRepositoryList : self.showRepositoryList,
+			self.actionConnectWithGitHub : self.connectWithGitHub,
+			
+			# Window
+			self.actionToggleFullscreen : self.toggleFullScreen,
+			
+			# Help
+			self.actionIntroduction : self.showIntroduction,
+			self.actionChangeLog : self.showChangeLog,
+			self.actionResetLocalChanges : self.resetLocalChanges,
+			self.actionResetLocalFileChanges : self.resetLocalFileChanges,
+			self.actionDownloadUpdates : self.downloadUpdates,
+			self.actionReportBug : self.reportBug,
+			self.actionThanksTo : self.thanksTo,
+			self.actionAbout : self.about,
+			
+			# FAQ
+			self.actionFAQUpdate : self.faqUpdate,
+			self.actionFAQCompiling : self.faqCompiling,
+			self.actionFAQTabs : self.faqTabs,
+		}
 		
-		# Edit
-		self.actionUndo.triggered.connect(self.undoLastAction)
-		self.actionRedo.triggered.connect(self.redoLastAction)
-		self.actionSearch.triggered.connect(self.showSearch)
-		self.actionRegExSearch.triggered.connect(self.showRegexSearch)
-		self.actionCopy.triggered.connect(self.copy)
-		self.actionCut.triggered.connect(self.cut)
-		self.actionPaste.triggered.connect(self.paste)
-		self.actionPreferences.triggered.connect(self.showPreferences)
-		
-		# Module
-		self.actionRun.triggered.connect(self.onRunModule)
-		self.actionRunOptimized.triggered.connect(self.runModuleOptimized)
-		self.actionRunDebug.triggered.connect(self.runDebug)
-		self.actionRunModuleTests.triggered.connect(self.runModuleTests)
-		self.actionCleanAllTargets.triggered.connect(self.cleanAllTargets)
-		self.actionViewSource.triggered.connect(self.viewSource)
-		self.actionProperties.triggered.connect(self.showModuleProperties)
-		
-		# Utilities
-		self.actionJumpToDefinition.triggered.connect(self.jumpToDefinition)
-		self.actionDuplicateLine.triggered.connect(self.duplicateLine)
-		self.actionCreateDefaultImplementation.triggered.connect(self.createDefaultImplementation)
-		
-		# Repositories
-		self.actionRepositoryList.triggered.connect(self.showRepositoryList)
-		self.actionConnectWithGitHub.triggered.connect(self.connectWithGitHub)
-		
-		# Window
-		self.actionToggleFullscreen.triggered.connect(self.toggleFullScreen)
-		
-		# Help
-		self.actionIntroduction.triggered.connect(self.showIntroduction)
-		self.actionChangeLog.triggered.connect(self.showChangeLog)
-		self.actionResetLocalChanges.triggered.connect(self.resetLocalChanges)
-		self.actionResetLocalFileChanges.triggered.connect(self.resetLocalFileChanges)
-		self.actionDownloadUpdates.triggered.connect(self.downloadUpdates)
-		self.actionReportBug.triggered.connect(self.reportBug)
-		self.actionThanksTo.triggered.connect(self.thanksTo)
-		self.actionAbout.triggered.connect(self.about)
-		
-		# FAQ
-		self.actionFAQUpdate.triggered.connect(self.faqUpdate)
-		self.actionFAQCompiling.triggered.connect(self.faqCompiling)
-		self.actionFAQTabs.triggered.connect(self.faqTabs)
+		for action, function in actions.items():
+			action.triggered.connect(function)
 		
 	def initWorkspaces(self):
 		# Workspaces
