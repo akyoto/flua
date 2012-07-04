@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>Exceptions</import>
 			<import>Immutable</import>
 			<import>Mutable</import>
 		</dependencies>

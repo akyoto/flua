@@ -155,7 +155,7 @@ while iter.hasNext() {
 }
 
 # Multithreading: Simply create an array from the generator
-data = Array<UTF8String>()
+data = BPVector<BPUTF8String*>()
 BPIterator_UTF8String iter(0);
 while iter.hasNext() {
 	e = iter.next();

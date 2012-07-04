@@ -658,7 +658,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		text = block.text()
 		relPos = tc.positionInBlock()
 		
-		if relPos >= len(text) or not text[relPos] in "(<":
+		if relPos >= len(text) or not text[relPos] in "(<>)":
 			tc.insertText("()")
 		else:
 			tc.movePosition(QtGui.QTextCursor.Right)

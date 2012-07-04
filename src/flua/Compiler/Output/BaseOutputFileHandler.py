@@ -748,8 +748,14 @@ class BaseOutputFileHandler:
 		op2 = self.prepareTypeName(op2)
 		
 		# Check whether the class really exists
-		if (not op2 in nonPointerClasses) and (not op2 == "MemPointer"):
-			self.getClassImplementationByTypeName(op2)
+		#print(op2)
+			
+		#	if (not t in nonPointerClasses) and (not t in {"MemPointer", "~MemPointer"}):
+		#		print("  > " + t)
+		#		self.getClassImplementationByTypeName(t)
+		
+		#	self.getClassImplementationByTypeName(op2)
+		#op1ClassImpl = self.getClassImplementationByTypeName(op1)
 		
 		return self.buildTemplateCall(op1, op2)
 		

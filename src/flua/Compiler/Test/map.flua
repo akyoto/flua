@@ -17,8 +17,12 @@
 			<string id="flua_string_8">desc</string>
 			<string id="flua_string_9">Search\Sengine</string>
 			<string id="flua_string_10">Not\Sworking.</string>
-			<string id="flua_string_11">HashMap\Sworking!</string>
-			<string id="flua_string_12">HashMap\SNOT\Sworking!</string>
+			<string id="flua_string_11">34</string>
+			<string id="flua_string_12">34</string>
+			<string id="flua_string_13">35</string>
+			<string id="flua_string_14">35</string>
+			<string id="flua_string_15">HashMap\Sworking!</string>
+			<string id="flua_string_16">HashMap\SNOT\Sworking!</string>
 		</strings>
 	</header>
 	<code>
@@ -29,7 +33,12 @@
 					<type>
 						<template-call>
 							<value>Map</value>
-							<value>String</value>
+							<value>
+								<parameters>
+									<parameter>String</parameter>
+									<parameter>String</parameter>
+								</parameters>
+							</value>
 						</template-call>
 					</type>
 					<parameters/>
@@ -109,33 +118,119 @@
 						</if>
 						<else depth="1" id="9">
 							<code>
-								<call depth="2" id="10">
-									<function>print</function>
-									<parameters>
-										<parameter>flua_string_11</parameter>
-									</parameters>
-								</call>
+								<assign depth="2" id="10">
+									<value>anotherMap</value>
+									<value>
+										<new>
+											<type>
+												<template-call>
+													<value>Map</value>
+													<value>
+														<parameters>
+															<parameter>String</parameter>
+															<parameter>Int</parameter>
+														</parameters>
+													</value>
+												</template-call>
+											</type>
+											<parameters/>
+										</new>
+									</value>
+								</assign>
+								<assign depth="2" id="11">
+									<value>
+										<index>
+											<value>anotherMap</value>
+											<value>flua_string_11</value>
+										</index>
+									</value>
+									<value>67</value>
+								</assign>
+								<try-block depth="2" id="12">
+									<try>
+										<code>
+											<assign depth="3" id="13">
+												<value>tmpVal</value>
+												<value>
+													<index>
+														<value>anotherMap</value>
+														<value>flua_string_12</value>
+													</index>
+												</value>
+											</assign>
+											<assign depth="3" id="14">
+												<value>tmpVal</value>
+												<value>
+													<index>
+														<value>anotherMap</value>
+														<value>flua_string_13</value>
+													</index>
+												</value>
+											</assign>
+											<comment>\SMake\SGCC\Shappy.</comment>
+											<call depth="3" id="15">
+												<function>print</function>
+												<parameters>
+													<parameter>tmpVal</parameter>
+												</parameters>
+											</call>
+										</code>
+									</try>
+									<catch depth="2" id="16">
+										<variable>
+											<declare-type>
+												<value>e</value>
+												<value>KeyNotFoundException</value>
+											</declare-type>
+										</variable>
+										<code>
+											<if-block depth="3" id="17">
+												<if>
+													<condition>
+														<equal>
+															<value>
+																<access>
+																	<value>e</value>
+																	<value>key</value>
+																</access>
+															</value>
+															<value>flua_string_14</value>
+														</equal>
+													</condition>
+													<code>
+														<call depth="4" id="18">
+															<function>print</function>
+															<parameters>
+																<parameter>flua_string_15</parameter>
+															</parameters>
+														</call>
+													</code>
+												</if>
+											</if-block>
+										</code>
+									</catch>
+								</try-block>
 							</code>
 						</else>
 					</if-block>
 					<comment>\SMake\SGCC\Shappy.</comment>
-					<assign depth="1" id="11">
+					<assign depth="1" id="19">
 						<value>url</value>
 						<value>desc</value>
 					</assign>
-					<assign depth="1" id="12">
+					<assign depth="1" id="20">
 						<value>desc</value>
 						<value>url</value>
 					</assign>
 				</code>
 			</try>
-			<catch depth="0" id="13">
+			<catch depth="0" id="21">
 				<variable/>
 				<code>
-					<call depth="1" id="14">
+					<call depth="1" id="22">
 						<function>print</function>
 						<parameters>
-							<parameter>flua_string_12</parameter>
+							<parameter>flua_string_16</parameter>
 						</parameters>
 					</call>
 				</code>

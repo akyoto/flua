@@ -1,0 +1,13 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SType\S&quot;update&quot;,\Sthen\Shit\SCtrl\S+\SE.</comment>
+		<comment>\STry\Sthe\Ssame\Swith\S&quot;MyClass&quot;.</comment>
+	</code>
+</module>

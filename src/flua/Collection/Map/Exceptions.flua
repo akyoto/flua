@@ -1,0 +1,50 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SThrown\Sif\Sthe\Skey\Sdoes\Snot\Sexist\Sin\Sthe\SMap</comment>
+		<class depth="0" id="1">
+			<name>KeyNotFoundException</name>
+			<code>
+				<extends depth="1" id="2">
+					<extends-class depth="2" id="3">Exception</extends-class>
+				</extends>
+				<function depth="1" id="4">
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>key</value>
+							</access>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<noop depth="2" id="5"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="6">
+					<getter depth="2" id="7">
+						<name>key</name>
+						<code>
+							<return depth="3" id="8">
+								<access>
+									<value>my</value>
+									<value>key</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

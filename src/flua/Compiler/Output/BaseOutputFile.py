@@ -1080,7 +1080,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			templateValues = ""
 		# === END inlined version === #
 		
-		return self.getClass(className).requestImplementation(initTypes, splitParams(templateValues))
+		classObj = self.getClass(className)
+		templateValuesList = splitParams(templateValues)
+		
+		return classObj.requestImplementation(initTypes, templateValuesList)
 		
 	def getParameterList(self, pNode):
 		if pNode is None:
@@ -1537,7 +1540,25 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if pos != -1:
 			templateParts = []
 			for param in splitParams(typeName[pos + 1:-1]):
-				templateParts.append(self.prepareTypeName(param))
+				#if (not preparedType in nonPointerClasses) and (not preparedType == "MemPointer") and (not preparedType in self.currentClass.templateNames):
+				#	self.getClassImplementationByTypeName(preparedType)
+				param = self.prepareTypeName(param)
+				param = self.currentClassImpl.translateTemplateName(param)
+				templateParts.append(param)
+				
+				if param in nonPointerClasses:
+					continue
+				
+				if param == "MemPointer" or param == "~MemPointer":
+					continue
+				
+				#print("  > " + param)
+				self.getClassImplementationByTypeName(param)
+				
+				#if not param in nonPointerClasses:
+				#	templateParts.append(self.prepareTypeName(param))
+				#else:
+				#	templateParts.append(param)
 			
 			typeName = typeName[:pos]
 			templatePart = "<" + ", ".join(templateParts) + ">"
@@ -1553,9 +1574,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					raise CompilerException("Class '%s' expects you to specify the following template parameters: '%s'" % (classObj.name, ", ".join(classObj.templateNames)))
 			
 			typeName = self.compiler.specializedClasses[typeName].name
-		
-		#print("PREPARED: " + typeName + templatePart)
-		#fullName = typeName + templatePart
 		
 		return typeName + templatePart
 	

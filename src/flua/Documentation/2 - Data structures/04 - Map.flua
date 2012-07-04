@@ -24,7 +24,12 @@
 					<type>
 						<template-call>
 							<value>Map</value>
-							<value>Int</value>
+							<value>
+								<parameters>
+									<parameter>String</parameter>
+									<parameter>Int</parameter>
+								</parameters>
+							</value>
 						</template-call>
 					</type>
 					<parameters/>
