@@ -126,8 +126,8 @@
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
-   <addaction name="menuUtilities"/>
    <addaction name="menuRepository"/>
+   <addaction name="menuUtilities"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>

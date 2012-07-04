@@ -1309,86 +1309,97 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			super().keyPressEvent(event)
 	
-	def indentSelection(self, tab = "\t"):
-		tabLen = len(tab)
-		
+	def processSelection(self, func, startOffset):
 		cursor = self.textCursor()
 		cursor.beginEditBlock()
 		
 		# Previous selection
 		selStart = cursor.selectionStart()
 		selEnd = cursor.selectionEnd()
+		
+		selStartBlockPosition = self.qdoc.findBlock(selStart).position()
+		
 		cursor.setPosition(selEnd, QtGui.QTextCursor.MoveAnchor)
 		blockEnd = cursor.blockNumber()
 		
-		# First block
-		selStartBlockPosition = self.qdoc.findBlock(selStart).position()
 		cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
-		cursor.insertText(tab)
 		
-		if selStart == selStartBlockPosition:
-			selStart -= tabLen
+		offsets = 0
 		
-		selEnd += tabLen
-		
-		# All selected blocks
-		while cursor.blockNumber() < blockEnd:
+		while cursor.blockNumber() <= blockEnd:
+			print(str(cursor.blockNumber()) + " / " + str(blockEnd))
+			
+			nOffset = func(cursor)
+			
+			if offsets == 0 and nOffset == 0:
+				startOffset = 0
+			
+			offsets += nOffset
+			
+			oldLineNumber = cursor.blockNumber()
+			
 			cursor.movePosition(QtGui.QTextCursor.NextBlock, QtGui.QTextCursor.MoveAnchor)
 			cursor.movePosition(QtGui.QTextCursor.StartOfBlock, QtGui.QTextCursor.MoveAnchor)
-			cursor.insertText(tab)
-			selEnd += tabLen
+			
+			# Detect endless loop
+			if cursor.blockNumber() == oldLineNumber:
+				break
 		
 		# Restore old selection
-		cursor.setPosition(selStart + 1, QtGui.QTextCursor.MoveAnchor)
-		cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
+		cursor.setPosition(selStart + startOffset, QtGui.QTextCursor.MoveAnchor)
+		cursor.setPosition(selEnd + offsets, QtGui.QTextCursor.KeepAnchor)
 		
 		cursor.endEditBlock()
 		self.setTextCursor(cursor)
+		
+		# Rehighlight
+		#self.rehighlightFunctionUsage()	
+	
+	def indentLine(self, cursor):
+		cursor.insertText("\t")
+		return 1
+		
+	def unIndentLine(self, cursor):
+		line = cursor.block().text()
+		
+		if line and line[0].isspace():
+			cursor.deleteChar()
+			return -1
+		else:
+			return 0
+	
+	def indentSelection(self, tab = "\t"):
+		self.processSelection(self.indentLine, 1)
+		
+		# First block
+		#cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
+		#cursor.insertText(tab)
+		#
+		#if selStart == selStartBlockPosition:
+		#	selStart -= tabLen
+		#
+		#selEnd += tabLen
+		
+		# Restore old selection
+		#cursor.setPosition(selStart + 1, QtGui.QTextCursor.MoveAnchor)
+		#cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
+		
+		#cursor.endEditBlock()
+		#self.setTextCursor(cursor)
 		
 		# Rehighlight
 		#self.rehighlightFunctionUsage()
 	
 	def unIndentSelection(self, tab = "\t"):
-		tabLen = len(tab)
-		
-		cursor = self.textCursor()
-		cursor.beginEditBlock()
-		
-		selStart = cursor.selectionStart()
-		selEnd = cursor.selectionEnd()
-		
-		selStartBlockPosition = self.qdoc.findBlock(selStart).position()
-		
-		cursor.setPosition(selEnd, QtGui.QTextCursor.MoveAnchor)
-		blockEnd = cursor.blockNumber()
-		
+		self.processSelection(self.unIndentLine, -1)
 		# First block
-		cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
-		line = cursor.block().text()
-		if line and line[0].isspace():
-			cursor.deleteChar()
-			if selStart != selStartBlockPosition:
-				selStart -= tabLen
-			selEnd -= tabLen
-		
-		# All selected blocks
-		while cursor.blockNumber() < blockEnd:
-			cursor.movePosition(QtGui.QTextCursor.NextBlock, QtGui.QTextCursor.MoveAnchor)
-			cursor.movePosition(QtGui.QTextCursor.StartOfBlock, QtGui.QTextCursor.MoveAnchor)
-			line = cursor.block().text()
-			if line and line[0].isspace():
-				cursor.deleteChar()
-				selEnd -= tabLen
-			
-		# Restore old selection
-		cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
-		cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
-			
-		cursor.endEditBlock()
-		self.setTextCursor(cursor)
-		
-		# Rehighlight
-		#self.rehighlightFunctionUsage()
+		#cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
+		#line = cursor.block().text()
+		#if line and line[0].isspace():
+		#	cursor.deleteChar()
+		#	if selStart != selStartBlockPosition:
+		#		selStart -= tabLen
+		#	selEnd -= tabLen
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])
