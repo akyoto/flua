@@ -1292,7 +1292,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		node = self.doc.createElement("return")
 		paramCode = line[len("return")+1:]
 		if paramCode:
-			param = self.parseExpr(paramCode)
+			param = self.parseExpr(addGenerics(paramCode))
 			if param.nodeValue or param.hasChildNodes():
 				node.appendChild(param)
 		return node
@@ -1301,17 +1301,16 @@ class BPCFile(ScopeController, Benchmarkable):
 		node = self.doc.createElement("assert")
 		paramCode = line[len("assert")+1:]
 		if paramCode:
-			param = self.parseExpr(paramCode)
+			param = self.parseExpr(addGenerics(paramCode))
 			if param.nodeValue or param.hasChildNodes():
 				node.appendChild(param)
 				return node
 		
 		raise CompilerException("assert keyword expects an expression to be checked (throws an error if it's 'false')")
 		
-	
 	def handleThrow(self, line):
 		node = self.doc.createElement("throw")
-		param = self.parseExpr(line[len("throw")+1:])
+		param = self.parseExpr(addGenerics(line[len("throw")+1:]))
 		if param.nodeValue or param.hasChildNodes():
 			node.appendChild(param)
 		else:
