@@ -2,7 +2,7 @@ from flua.Tools.IDE.Startup import *
 from flua.Tools.IDE.Menu import *
 import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 
-class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, HelpMenuActions):
+class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, UtilMenuActions, HelpMenuActions):
 	
 	def ask(self, question, title = "Message"):
 		return QtGui.QMessageBox.question(self,

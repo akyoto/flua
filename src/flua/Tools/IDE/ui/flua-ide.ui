@@ -118,6 +118,7 @@
      <string>Utilities</string>
     </property>
     <addaction name="actionJumpToDefinition"/>
+    <addaction name="actionDuplicateLine"/>
     <addaction name="actionCreateDefaultImplementation"/>
    </widget>
    <addaction name="menuFile"/>
@@ -587,6 +588,14 @@
   <action name="actionJumpToDefinition">
    <property name="text">
     <string>Jump to definition</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionDuplicateLine">
+   <property name="text">
+    <string>Duplicate line</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
