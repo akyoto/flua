@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Interface</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -113,53 +114,21 @@
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>
-		<comment>\SException\Sthrown\Swhen\Sattempting\Sto\Stake\San\Selement\Sfrom\San\Sempty\Slist</comment>
-		<class depth="0" id="17">
-			<name>NoElementsAvailableException</name>
-			<code>
-				<extends depth="1" id="18">
-					<extends-class depth="2" id="19">Exception</extends-class>
-				</extends>
-				<function depth="1" id="20">
-					<parameters>
-						<parameter>
-							<access>
-								<value>my</value>
-								<value>container</value>
-							</access>
-						</parameter>
-					</parameters>
-					<name>init</name>
-					<code>
-						<noop depth="2" id="21"/>
-					</code>
-				</function>
-				<get depth="1" id="22">
-					<getter depth="2" id="23">
-						<name>container</name>
-						<code>
-							<return depth="3" id="24">
-								<access>
-									<value>my</value>
-									<value>container</value>
-								</access>
-							</return>
-						</code>
-					</getter>
-				</get>
-			</code>
-		</class>
 		<comment>\SSingly\Slinked\Slist</comment>
-		<class depth="0" id="25">
+		<class depth="0" id="17">
 			<name>MutableList</name>
 			<code>
-				<template depth="1" id="26">
-					<parameter depth="2" id="27">TDataType</parameter>
+				<implements depth="1" id="18">
+					<implements-interface depth="2" id="19">Collection</implements-interface>
+					<implements-interface depth="2" id="20">Sequence</implements-interface>
+				</implements>
+				<template depth="1" id="21">
+					<parameter depth="2" id="22">TDataType</parameter>
 				</template>
-				<function depth="1" id="28">
+				<function depth="1" id="23">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="29">
+						<assign depth="2" id="24">
 							<value>
 								<access>
 									<value>my</value>
@@ -178,7 +147,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="30">
+						<assign depth="2" id="25">
 							<value>
 								<access>
 									<value>my</value>
@@ -195,13 +164,13 @@
 					</code>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Slist</comment>
-				<function depth="1" id="31">
+				<function depth="1" id="26">
 					<parameters>
 						<parameter>element</parameter>
 					</parameters>
 					<name>add</name>
 					<code>
-						<assign depth="2" id="32">
+						<assign depth="2" id="27">
 							<value>
 								<access>
 									<value>
@@ -227,7 +196,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="33">
+						<assign depth="2" id="28">
 							<value>
 								<access>
 									<value>my</value>
@@ -249,10 +218,10 @@
 					</code>
 				</function>
 				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Slist\Sand\Sreturns\Sit</comment>
-				<function depth="1" id="34">
+				<function depth="1" id="29">
 					<name>takeFirst</name>
 					<code>
-						<if-block depth="2" id="35">
+						<if-block depth="2" id="30">
 							<if>
 								<condition>
 									<access>
@@ -266,7 +235,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="3" id="36">
+									<assign depth="3" id="31">
 										<value>
 											<access>
 												<value>my</value>
@@ -285,7 +254,7 @@
 											</access>
 										</value>
 									</assign>
-									<return depth="3" id="37">
+									<return depth="3" id="32">
 										<access>
 											<value>
 												<access>
@@ -298,9 +267,9 @@
 									</return>
 								</code>
 							</if>
-							<else depth="2" id="38">
+							<else depth="2" id="33">
 								<code>
-									<throw depth="3" id="39">
+									<throw depth="3" id="34">
 										<new>
 											<type>NoElementsAvailableException</type>
 											<parameters>
@@ -313,12 +282,44 @@
 						</if-block>
 					</code>
 				</function>
-				<get depth="1" id="40">
-					<getter depth="2" id="41">
+				<comment>\STODO:\SImplement\Sthis</comment>
+				<function depth="1" id="35">
+					<name>takeLast</name>
+					<code>
+						<noop depth="2" id="36"/>
+					</code>
+					<meta/>
+				</function>
+				<comment>\STODO:\SImplement\Sthis</comment>
+				<function depth="1" id="37">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>remove</name>
+					<code>
+						<noop depth="2" id="38"/>
+					</code>
+				</function>
+				<comment>\STODO:\SImplement\Sthis</comment>
+				<function depth="1" id="39">
+					<name>removeFirst</name>
+					<code>
+						<noop depth="2" id="40"/>
+					</code>
+				</function>
+				<comment>\STODO:\SImplement\Sthis</comment>
+				<function depth="1" id="41">
+					<name>removeLast</name>
+					<code>
+						<noop depth="2" id="42"/>
+					</code>
+				</function>
+				<get depth="1" id="43">
+					<getter depth="2" id="44">
 						<name>first</name>
 						<code>
-							<require depth="3" id="42">
-								<not-equal depth="4" id="43">
+							<require depth="3" id="45">
+								<not-equal depth="4" id="46">
 									<value>
 										<access>
 											<value>
@@ -333,7 +334,7 @@
 									<value>null</value>
 								</not-equal>
 							</require>
-							<return depth="3" id="44">
+							<return depth="3" id="47">
 								<access>
 									<value>
 										<access>
@@ -346,10 +347,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="45">
+					<getter depth="2" id="48">
 						<name>hasElements</name>
 						<code>
-							<return depth="3" id="46">
+							<return depth="3" id="49">
 								<not-equal>
 									<value>
 										<access>
@@ -368,11 +369,11 @@
 						</code>
 					</getter>
 				</get>
-				<iterators depth="1" id="47">
-					<iterator-type depth="2" id="48">
+				<iterators depth="1" id="50">
+					<iterator-type depth="2" id="51">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="49">
+							<assign depth="3" id="52">
 								<value>node</value>
 								<value>
 									<access>
@@ -381,7 +382,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="50">
+							<while depth="3" id="53">
 								<condition>
 									<access>
 										<value>node</value>
@@ -389,7 +390,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="4" id="51">
+									<assign depth="4" id="54">
 										<value>node</value>
 										<value>
 											<access>
@@ -398,7 +399,7 @@
 											</access>
 										</value>
 									</assign>
-									<yield depth="4" id="52">
+									<yield depth="4" id="55">
 										<access>
 											<value>node</value>
 											<value>value</value>
@@ -409,9 +410,33 @@
 						</code>
 					</iterator-type>
 				</iterators>
+				<operators depth="1" id="56">
+					<comment>\STODO:\SImplement\Sthis</comment>
+					<operator depth="2" id="57">
+						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code>
+							<noop depth="3" id="58"/>
+						</code>
+						<meta/>
+					</operator>
+					<comment>\STODO:\SImplement\Sthis</comment>
+					<operator depth="2" id="59">
+						<parameters>
+							<parameter>index</parameter>
+							<parameter>value</parameter>
+						</parameters>
+						<name>[]=</name>
+						<code>
+							<noop depth="3" id="60"/>
+						</code>
+						<meta/>
+					</operator>
+				</operators>
 			</code>
 			<meta>
-				<ensure-destructor-call>false</ensure-destructor-call>
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>

@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Interface</import>
 			<import>flua.Core.Memory</import>
 			<import>flua.Math</import>
 		</dependencies>
@@ -13,10 +14,13 @@
 		<class depth="0" id="1">
 			<name>MutableArray</name>
 			<code>
-				<template depth="1" id="2">
-					<parameter depth="2" id="3">TDataType</parameter>
+				<implements depth="1" id="2">
+					<implements-interface depth="2" id="3">Collection</implements-interface>
+				</implements>
+				<template depth="1" id="4">
+					<parameter depth="2" id="5">TDataType</parameter>
 				</template>
-				<function depth="1" id="4">
+				<function depth="1" id="6">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -27,7 +31,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="5">
+						<assign depth="2" id="7">
 							<value>
 								<access>
 									<value>my</value>
@@ -52,7 +56,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<assign depth="2" id="6">
+						<assign depth="2" id="8">
 							<value>
 								<access>
 									<value>my</value>
@@ -63,10 +67,10 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1" id="7">
+				<function depth="1" id="9">
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="8">
+						<call depth="2" id="10">
 							<function>
 								<access>
 									<value>
@@ -83,7 +87,7 @@
 					</code>
 				</function>
 				<comment>\STODO:\SFix\Sthis</comment>
-				<function depth="1" id="9">
+				<function depth="1" id="11">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -94,7 +98,7 @@
 					</parameters>
 					<name>resize</name>
 					<code>
-						<assign depth="2" id="10">
+						<assign depth="2" id="12">
 							<value>newMem</value>
 							<value>
 								<unmanaged>
@@ -114,7 +118,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<call depth="2" id="11">
+						<call depth="2" id="13">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -140,7 +144,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="12">
+						<call depth="2" id="14">
 							<function>
 								<access>
 									<value>
@@ -154,7 +158,7 @@
 							</function>
 							<parameters/>
 						</call>
-						<assign depth="2" id="13">
+						<assign depth="2" id="15">
 							<value>
 								<access>
 									<value>my</value>
@@ -163,7 +167,7 @@
 							</value>
 							<value>newMem</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="16">
 							<value>
 								<access>
 									<value>my</value>
@@ -174,10 +178,10 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1" id="15">
+				<function depth="1" id="17">
 					<name>reverse</name>
 					<code>
-						<assign depth="2" id="16">
+						<assign depth="2" id="18">
 							<value>startRev</value>
 							<value>
 								<access>
@@ -186,7 +190,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="19">
 							<value>endRev</value>
 							<value>
 								<subtract>
@@ -200,7 +204,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<while depth="2" id="18">
+						<while depth="2" id="20">
 							<condition>
 								<greater>
 									<value>
@@ -213,7 +217,7 @@
 								</greater>
 							</condition>
 							<code>
-								<call depth="3" id="19">
+								<call depth="3" id="21">
 									<function>
 										<access>
 											<value>flua</value>
@@ -235,32 +239,33 @@
 										</parameter>
 									</parameters>
 								</call>
-								<assign-add depth="3" id="20">
+								<assign-add depth="3" id="22">
 									<value>startRev</value>
 									<value>1</value>
 								</assign-add>
-								<assign-subtract depth="3" id="21">
+								<assign-subtract depth="3" id="23">
 									<value>endRev</value>
 									<value>1</value>
 								</assign-subtract>
 							</code>
 						</while>
 					</code>
+					<meta/>
 				</function>
-				<operators depth="1" id="22">
+				<operators depth="1" id="24">
 					<comment>\SRetrieve\Sthe\Svalue\Sfrom\Sthe\Sarray\Sfor\Sthe\Sgiven\S#index</comment>
-					<operator depth="2" id="23">
+					<operator depth="2" id="25">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<require depth="3" id="24">
-								<greater-or-equal depth="4" id="25">
+							<require depth="3" id="26">
+								<greater-or-equal depth="4" id="27">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="26">
+								<less depth="4" id="28">
 									<value>index</value>
 									<value>
 										<access>
@@ -270,7 +275,7 @@
 									</value>
 								</less>
 							</require>
-							<return depth="3" id="27">
+							<return depth="3" id="29">
 								<index>
 									<value>
 										<access>
@@ -284,19 +289,19 @@
 						</code>
 					</operator>
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
-					<operator depth="2" id="28">
+					<operator depth="2" id="30">
 						<parameters>
 							<parameter>index</parameter>
 							<parameter>value</parameter>
 						</parameters>
 						<name>[]=</name>
 						<code>
-							<require depth="3" id="29">
-								<greater-or-equal depth="4" id="30">
+							<require depth="3" id="31">
+								<greater-or-equal depth="4" id="32">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="31">
+								<less depth="4" id="33">
 									<value>index</value>
 									<value>
 										<access>
@@ -306,7 +311,7 @@
 									</value>
 								</less>
 							</require>
-							<assign depth="3" id="32">
+							<assign depth="3" id="34">
 								<value>
 									<index>
 										<value>
@@ -323,15 +328,15 @@
 						</code>
 					</operator>
 				</operators>
-				<iterators depth="1" id="33">
-					<iterator-type depth="2" id="34">
+				<iterators depth="1" id="35">
+					<iterator-type depth="2" id="36">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="35">
+							<assign depth="3" id="37">
 								<value>pos</value>
 								<value>0</value>
 							</assign>
-							<assign depth="3" id="36">
+							<assign depth="3" id="38">
 								<value>end</value>
 								<value>
 									<access>
@@ -340,7 +345,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="37">
+							<while depth="3" id="39">
 								<condition>
 									<less>
 										<value>pos</value>
@@ -348,7 +353,7 @@
 									</less>
 								</condition>
 								<code>
-									<yield depth="4" id="38">
+									<yield depth="4" id="40">
 										<index>
 											<value>
 												<access>
@@ -359,7 +364,7 @@
 											<value>pos</value>
 										</index>
 									</yield>
-									<assign-add depth="4" id="39">
+									<assign-add depth="4" id="41">
 										<value>pos</value>
 										<value>1</value>
 									</assign-add>
@@ -368,17 +373,17 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="40">
-					<getter depth="2" id="41">
+				<get depth="1" id="42">
+					<getter depth="2" id="43">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="42">
-								<greater-or-equal depth="4" id="43">
+							<ensure depth="3" id="44">
+								<greater-or-equal depth="4" id="45">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="44">
+							<return depth="3" id="46">
 								<access>
 									<value>my</value>
 									<value>size</value>
@@ -386,16 +391,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="45">
+					<getter depth="2" id="47">
 						<name>size</name>
 						<code>
-							<ensure depth="3" id="46">
-								<greater-or-equal depth="4" id="47">
+							<ensure depth="3" id="48">
+								<greater-or-equal depth="4" id="49">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="48">
+							<return depth="3" id="50">
 								<access>
 									<value>my</value>
 									<value>size</value>
@@ -403,10 +408,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="49">
+					<getter depth="2" id="51">
 						<name>data</name>
 						<code>
-							<return depth="3" id="50">
+							<return depth="3" id="52">
 								<access>
 									<value>my</value>
 									<value>start</value>

@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Interface</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -65,11 +66,14 @@
 		<class depth="0" id="10">
 			<name>MutableMap</name>
 			<code>
-				<template depth="1" id="11">
-					<parameter depth="2" id="12">TKey</parameter>
-					<parameter depth="2" id="13">TValue</parameter>
+				<implements depth="1" id="11">
+					<implements-interface depth="2" id="12">Collection</implements-interface>
+				</implements>
+				<template depth="1" id="13">
+					<parameter depth="2" id="14">TKey</parameter>
+					<parameter depth="2" id="15">TValue</parameter>
 				</template>
-				<function depth="1" id="14">
+				<function depth="1" id="16">
 					<parameters>
 						<parameter>
 							<assign>
@@ -85,7 +89,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="15">
+						<assign depth="2" id="17">
 							<value>
 								<access>
 									<value>my</value>
@@ -101,7 +105,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="16">
+						<assign depth="2" id="18">
 							<value>
 								<access>
 									<value>my</value>
@@ -127,7 +131,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign depth="2" id="19">
 							<value>
 								<access>
 									<value>my</value>
@@ -153,7 +157,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="18">
+						<assign depth="2" id="20">
 							<value>
 								<access>
 									<value>my</value>
@@ -175,13 +179,13 @@
 					</code>
 				</function>
 				<comment>\SReserves\Sspace\Sfor\S#newSize\Selements.\S#newSize\Sis\Srequired\Sto\Sbe\Sa\Spower\Sof\S2!</comment>
-				<function depth="1" id="19">
+				<function depth="1" id="21">
 					<parameters>
 						<parameter>newSize</parameter>
 					</parameters>
 					<name>reserve</name>
 					<code>
-						<assign depth="2" id="20">
+						<assign depth="2" id="22">
 							<value>newTable</value>
 							<value>
 								<new>
@@ -197,7 +201,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="21">
+						<assign depth="2" id="23">
 							<value>newHashes</value>
 							<value>
 								<new>
@@ -213,7 +217,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign depth="2" id="24">
 							<value>newMask</value>
 							<value>
 								<subtract>
@@ -222,7 +226,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<for depth="2" id="23">
+						<for depth="2" id="25">
 							<iterator>i</iterator>
 							<from>0</from>
 							<until>
@@ -232,7 +236,7 @@
 								</access>
 							</until>
 							<code>
-								<assign depth="3" id="24">
+								<assign depth="3" id="26">
 									<value>savedHash</value>
 									<value>
 										<index>
@@ -246,7 +250,7 @@
 										</index>
 									</value>
 								</assign>
-								<if-block depth="3" id="25">
+								<if-block depth="3" id="27">
 									<if>
 										<condition>
 											<not-equal>
@@ -255,7 +259,7 @@
 											</not-equal>
 										</condition>
 										<code>
-											<assign depth="4" id="26">
+											<assign depth="4" id="28">
 												<value>newPos</value>
 												<value>
 													<bitwise-and>
@@ -265,7 +269,7 @@
 												</value>
 											</assign>
 											<comment>\SWe\Sneed\Sto\Shandle\Scollisions\Shere\Sas\Swell!</comment>
-											<while depth="4" id="27">
+											<while depth="4" id="29">
 												<condition>
 													<not-equal>
 														<value>
@@ -278,7 +282,7 @@
 													</not-equal>
 												</condition>
 												<code>
-													<assign depth="5" id="28">
+													<assign depth="5" id="30">
 														<value>newPos</value>
 														<value>
 															<bitwise-and>
@@ -295,7 +299,7 @@
 												</code>
 											</while>
 											<comment>\SCopy\Sfrom\Sold\Stable\Sat\Spos\Si\Sto\Snew\Stable\Sat\Sposition\SnewPos</comment>
-											<assign depth="4" id="29">
+											<assign depth="4" id="31">
 												<value>
 													<index>
 														<value>newHashes</value>
@@ -304,7 +308,7 @@
 												</value>
 												<value>savedHash</value>
 											</assign>
-											<assign depth="4" id="30">
+											<assign depth="4" id="32">
 												<value>
 													<index>
 														<value>newTable</value>
@@ -328,7 +332,7 @@
 								</if-block>
 							</code>
 						</for>
-						<assign depth="2" id="31">
+						<assign depth="2" id="33">
 							<value>
 								<access>
 									<value>my</value>
@@ -337,7 +341,7 @@
 							</value>
 							<value>newSize</value>
 						</assign>
-						<assign depth="2" id="32">
+						<assign depth="2" id="34">
 							<value>
 								<access>
 									<value>my</value>
@@ -346,7 +350,7 @@
 							</value>
 							<value>newTable</value>
 						</assign>
-						<assign depth="2" id="33">
+						<assign depth="2" id="35">
 							<value>
 								<access>
 									<value>my</value>
@@ -355,7 +359,7 @@
 							</value>
 							<value>newHashes</value>
 						</assign>
-						<assign depth="2" id="34">
+						<assign depth="2" id="36">
 							<value>
 								<access>
 									<value>my</value>
@@ -366,11 +370,11 @@
 						</assign>
 					</code>
 				</function>
-				<get depth="1" id="35">
-					<getter depth="2" id="36">
+				<get depth="1" id="37">
+					<getter depth="2" id="38">
 						<name>size</name>
 						<code>
-							<return depth="3" id="37">
+							<return depth="3" id="39">
 								<access>
 									<value>my</value>
 									<value>size</value>
@@ -379,9 +383,9 @@
 						</code>
 					</getter>
 				</get>
-				<operators depth="1" id="38">
+				<operators depth="1" id="40">
 					<comment>\SRetrieves\Sthe\Ssaved\Svalue\Sfor\S#key\Sfrom\Sthe\Shash\Smap</comment>
-					<operator depth="2" id="39">
+					<operator depth="2" id="41">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -392,7 +396,7 @@
 						</parameters>
 						<name>[]</name>
 						<code>
-							<assign depth="3" id="40">
+							<assign depth="3" id="42">
 								<value>hash</value>
 								<value>
 									<call>
@@ -403,7 +407,7 @@
 									</call>
 								</value>
 							</assign>
-							<assign depth="3" id="41">
+							<assign depth="3" id="43">
 								<value>pos</value>
 								<value>
 									<bitwise-and>
@@ -417,7 +421,7 @@
 									</bitwise-and>
 								</value>
 							</assign>
-							<assign depth="3" id="42">
+							<assign depth="3" id="44">
 								<value>storedHash</value>
 								<value>
 									<index>
@@ -431,10 +435,10 @@
 									</index>
 								</value>
 							</assign>
-							<while depth="3" id="43">
+							<while depth="3" id="45">
 								<condition>1</condition>
 								<code>
-									<if-block depth="4" id="44">
+									<if-block depth="4" id="46">
 										<if>
 											<condition>
 												<equal>
@@ -444,7 +448,7 @@
 											</condition>
 											<code>
 												<comment>\SLookup</comment>
-												<return depth="5" id="45">
+												<return depth="5" id="47">
 													<index>
 														<value>
 															<access>
@@ -457,7 +461,7 @@
 												</return>
 											</code>
 										</if>
-										<else-if depth="4" id="46">
+										<else-if depth="4" id="48">
 											<condition>
 												<equal>
 													<value>storedHash</value>
@@ -466,7 +470,7 @@
 											</condition>
 											<code>
 												<comment>\SCould\Snot\Sfind\Sthe\Skey</comment>
-												<throw depth="5" id="47">
+												<throw depth="5" id="49">
 													<new>
 														<type>KeyNotFoundException</type>
 														<parameters>
@@ -476,9 +480,9 @@
 												</throw>
 											</code>
 										</else-if>
-										<else depth="4" id="48">
+										<else depth="4" id="50">
 											<code>
-												<assign depth="5" id="49">
+												<assign depth="5" id="51">
 													<value>pos</value>
 													<value>
 														<bitwise-and>
@@ -497,7 +501,7 @@
 														</bitwise-and>
 													</value>
 												</assign>
-												<assign depth="5" id="50">
+												<assign depth="5" id="52">
 													<value>storedHash</value>
 													<value>
 														<index>
@@ -511,7 +515,7 @@
 														</index>
 													</value>
 												</assign>
-												<continue depth="5" id="51"/>
+												<continue depth="5" id="53"/>
 											</code>
 										</else>
 									</if-block>
@@ -520,7 +524,7 @@
 						</code>
 					</operator>
 					<comment>\SCreates\Sa\Snew\S#key\S→\S#value\Spair\Sor\Ssets\Sthe\S#value\Sof\San\Sexisting\S#key</comment>
-					<operator depth="2" id="52">
+					<operator depth="2" id="54">
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -537,7 +541,7 @@
 						</parameters>
 						<name>[]=</name>
 						<code>
-							<assign depth="3" id="53">
+							<assign depth="3" id="55">
 								<value>hash</value>
 								<value>
 									<call>
@@ -548,7 +552,7 @@
 									</call>
 								</value>
 							</assign>
-							<assign depth="3" id="54">
+							<assign depth="3" id="56">
 								<value>pos</value>
 								<value>
 									<bitwise-and>
@@ -562,7 +566,7 @@
 									</bitwise-and>
 								</value>
 							</assign>
-							<assign depth="3" id="55">
+							<assign depth="3" id="57">
 								<value>storedHash</value>
 								<value>
 									<index>
@@ -576,14 +580,14 @@
 									</index>
 								</value>
 							</assign>
-							<assign depth="3" id="56">
+							<assign depth="3" id="58">
 								<value>collisions</value>
 								<value>0</value>
 							</assign>
-							<while depth="3" id="57">
+							<while depth="3" id="59">
 								<condition>1</condition>
 								<code>
-									<if-block depth="4" id="58">
+									<if-block depth="4" id="60">
 										<if>
 											<condition>
 												<equal>
@@ -593,7 +597,7 @@
 											</condition>
 											<code>
 												<comment>\SOverwrite\Sold</comment>
-												<assign depth="5" id="59">
+												<assign depth="5" id="61">
 													<value>
 														<index>
 															<value>
@@ -607,10 +611,10 @@
 													</value>
 													<value>value</value>
 												</assign>
-												<return depth="5" id="60"/>
+												<return depth="5" id="62"/>
 											</code>
 										</if>
-										<else-if depth="4" id="61">
+										<else-if depth="4" id="63">
 											<condition>
 												<equal>
 													<value>storedHash</value>
@@ -619,7 +623,7 @@
 											</condition>
 											<code>
 												<comment>\SStore\Swithout\Scollision</comment>
-												<assign depth="5" id="62">
+												<assign depth="5" id="64">
 													<value>
 														<index>
 															<value>
@@ -633,7 +637,7 @@
 													</value>
 													<value>hash</value>
 												</assign>
-												<assign depth="5" id="63">
+												<assign depth="5" id="65">
 													<value>
 														<index>
 															<value>
@@ -647,18 +651,18 @@
 													</value>
 													<value>value</value>
 												</assign>
-												<return depth="5" id="64"/>
+												<return depth="5" id="66"/>
 											</code>
 										</else-if>
-										<else depth="4" id="65">
+										<else depth="4" id="67">
 											<code>
 												<comment>\SCollision</comment>
-												<assign-add depth="5" id="66">
+												<assign-add depth="5" id="68">
 													<value>collisions</value>
 													<value>1</value>
 												</assign-add>
 												<comment>\SWe\Savoid\Shigh\Sload\Sfactors</comment>
-												<if-block depth="5" id="67">
+												<if-block depth="5" id="69">
 													<if>
 														<condition>
 															<less>
@@ -677,7 +681,7 @@
 															</less>
 														</condition>
 														<code>
-															<assign depth="6" id="68">
+															<assign depth="6" id="70">
 																<value>pos</value>
 																<value>
 																	<bitwise-and>
@@ -698,11 +702,11 @@
 															</assign>
 														</code>
 													</if>
-													<else depth="5" id="69">
+													<else depth="5" id="71">
 														<code>
 															<comment>\SIF\Swe\Sever\Shave\Sa\Sreason\Sto\Sresize\Sthe\Stable</comment>
 															<comment>\Swe\Scan\Sassume\Sthat\Sthere\Swill\Sbe\SMUCH\SMORE\Sdata\Sincoming.</comment>
-															<call depth="6" id="70">
+															<call depth="6" id="72">
 																<function>
 																	<access>
 																		<value>my</value>
@@ -723,7 +727,7 @@
 																	</parameter>
 																</parameters>
 															</call>
-															<assign depth="6" id="71">
+															<assign depth="6" id="73">
 																<value>pos</value>
 																<value>
 																	<bitwise-and>
@@ -737,14 +741,14 @@
 																	</bitwise-and>
 																</value>
 															</assign>
-															<assign depth="6" id="72">
+															<assign depth="6" id="74">
 																<value>collisions</value>
 																<value>0</value>
 															</assign>
 														</code>
 													</else>
 												</if-block>
-												<assign depth="5" id="73">
+												<assign depth="5" id="75">
 													<value>storedHash</value>
 													<value>
 														<index>
@@ -758,7 +762,7 @@
 														</index>
 													</value>
 												</assign>
-												<continue depth="5" id="74"/>
+												<continue depth="5" id="76"/>
 											</code>
 										</else>
 									</if-block>

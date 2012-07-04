@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>Interface</import>
 			<import>Array</import>
 			<import>List</import>
 			<import>Map</import>

@@ -1,0 +1,78 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SCollection</comment>
+		<interface depth="0" id="1">
+			<name>Collection</name>
+			<code>
+				<operators depth="1" id="2">
+					<operator depth="2" id="3" implemented="false">
+						<parameters>
+							<parameter>index</parameter>
+						</parameters>
+						<name>[]</name>
+						<code/>
+						<meta/>
+					</operator>
+					<operator depth="2" id="4" implemented="false">
+						<parameters>
+							<parameter>index</parameter>
+							<parameter>value</parameter>
+						</parameters>
+						<name>[]=</name>
+						<code/>
+						<meta/>
+					</operator>
+				</operators>
+			</code>
+		</interface>
+		<comment>\SSequence</comment>
+		<interface depth="0" id="5">
+			<name>Sequence</name>
+			<code>
+				<function depth="1" id="6" implemented="false">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>add</name>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="7" implemented="false">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>remove</name>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="8" implemented="false">
+					<name>takeFirst</name>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="9" implemented="false">
+					<name>takeLast</name>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="10" implemented="false">
+					<name>removeFirst</name>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="11" implemented="false">
+					<name>removeLast</name>
+					<code/>
+					<meta/>
+				</function>
+			</code>
+		</interface>
+	</code>
+</module>

@@ -73,12 +73,11 @@ if __name__ == "__main__":
 	FLUA_STUDIO_MODE = MODE_RUN
 	
 	# Let's go!
-	if FLUA_STUDIO_MODE == 0:
+	if FLUA_STUDIO_MODE == MODE_RUN:
 		main()
-	elif FLUA_STUDIO_MODE == 1:
+	elif FLUA_STUDIO_MODE == MODE_INSPECT:
 		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
-	elif FLUA_STUDIO_MODE == 2:
+	elif FLUA_STUDIO_MODE == MODE_PROFILE:
 		import cProfile
 		cProfile.run("main(multiThreading = False)", "/home/eduard/Projects/flua.prof")
 		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
-		

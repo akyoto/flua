@@ -393,16 +393,68 @@
 				</in>
 				<return depth="1" id="57">data</return>
 			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path\Sas\Sa\SByte\Sarray</comment>
+		<function depth="0" id="58">
+			<parameters>
+				<parameter>path</parameter>
+			</parameters>
+			<name>readBinaryFile</name>
+			<code>
+				<in depth="1" id="59">
+					<expression>
+						<assign>
+							<value>f</value>
+							<value>
+								<new>
+									<type>FileReadStream</type>
+									<parameters>
+										<parameter>path</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+					</expression>
+					<code>
+						<assign depth="2" id="60">
+							<value>data</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>f</value>
+											<value>read</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>
+											<call>
+												<function>fileSize</function>
+												<parameters>
+													<parameter>path</parameter>
+												</parameters>
+											</call>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+				</in>
+				<return depth="1" id="61">data</return>
+			</code>
+			<meta/>
 		</function>
 		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
-		<function depth="0" id="58">
+		<function depth="0" id="62">
 			<parameters>
 				<parameter>path</parameter>
 				<parameter>data</parameter>
 			</parameters>
 			<name>writeFile</name>
 			<code>
-				<in depth="1" id="59">
+				<in depth="1" id="63">
 					<expression>
 						<assign>
 							<value>f</value>
@@ -417,7 +469,7 @@
 						</assign>
 					</expression>
 					<code>
-						<call depth="2" id="60">
+						<call depth="2" id="64">
 							<function>
 								<access>
 									<value>f</value>
@@ -431,16 +483,17 @@
 					</code>
 				</in>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SCopies\Sa\Sfile\Sfrom\Slocation\S#from\Sto\S#to,\Sboth\Sneed\Sto\Sbe\Sfile\Snames,\Snot\Sdirectories</comment>
-		<function depth="0" id="61">
+		<function depth="0" id="65">
 			<parameters>
 				<parameter>from</parameter>
 				<parameter>to</parameter>
 			</parameters>
 			<name>copyFile</name>
 			<code>
-				<if-block depth="1" id="62">
+				<if-block depth="1" id="66">
 					<if>
 						<condition>
 							<equal>
@@ -449,11 +502,11 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="63"/>
+							<return depth="2" id="67"/>
 						</code>
 					</if>
 				</if-block>
-				<call depth="1" id="64">
+				<call depth="1" id="68">
 					<function>writeFile</function>
 					<parameters>
 						<parameter>to</parameter>
@@ -468,6 +521,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 	</code>
 </module>
