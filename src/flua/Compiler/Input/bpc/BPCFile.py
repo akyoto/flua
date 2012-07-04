@@ -565,8 +565,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			# [ATTENTION]    WE PROUDLY PRESENT YOU: THE MAGICAL TOWER OF IF'S      #
 			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 			if currentLine:
-				if perLineCallBack:
-					perLineCallBack()
+				#if perLineCallBack:
+				#	perLineCallBack()
 				
 				if currentLine.nodeType != Node.TEXT_NODE:
 					currentLine.setAttribute("id", str(self.idCount))

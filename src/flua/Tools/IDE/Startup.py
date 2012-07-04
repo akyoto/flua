@@ -415,10 +415,11 @@ class Startup:
 		self.config.theme = self.themes[self.config.themeName]
 		
 	def initCompiler(self):
-		self.postProcessorThread = None
 		self.inputCompiler = BPCCompiler(getModuleDir(), ".flua")
 		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None
+		
+		# Threads
 		self.postProcessorThread = BPPostProcessorThread(self)
 		self.outputCompilerThread = BPOutputCompilerThread(self)
 		self.runThread = BPRunThread(self)

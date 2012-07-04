@@ -20,11 +20,19 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
 			self.outputCompiler = outputCompiler
 			
+			# To make the GUI more responsive
+			q = QtCore.QEventLoop(self)
+			self.finished.connect(q.quit)
+			
 			if self.bpIDE.threaded:
 				self.start(QtCore.QThread.LowestPriority)
 			else:
 				self.run()
 				self.finished.emit()
+			
+			# Execute event loop
+			q.exec()
+			
 			#self.bpIDE.consoleDock.show()
 			#print("Compiling")
 		

@@ -1235,8 +1235,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#self.saveScopesForNode(parent)
 		
 		# GUI responsiveness
-		if self.perParseChilds:
-			self.perParseChilds()
+		#if self.perParseChilds:
+		#	self.perParseChilds()
 		
 		return ''.join(lines)
 	
