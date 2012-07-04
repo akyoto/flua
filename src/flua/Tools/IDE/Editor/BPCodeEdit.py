@@ -276,6 +276,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			return False
 		
 		if len(leftOfCursor) >= 2 and leftOfCursor[-2] == '"':
+			self.codeEdit.lastObject = getLeftMemberAccess(leftOfCursor, len(leftOfCursor) - 1, allowPoint = False)
 			return self.createClassMemberModel("UTF8String")
 		
 		# Get what's in front of the dot
@@ -287,6 +288,8 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		print("\nActivating member list:")
 		print("Object: " + obj)
 		print("Member: " + member)
+		
+		self.codeEdit.lastObject = obj
 		#print(self.codeEdit.bpcFile)
 		#print(self.codeEdit.outFile)
 		
@@ -375,6 +378,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.openingFile = False
 		self.isTextFile = False
 		self.hoveringFileName = ""
+		self.lastObject = ""
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.completer = None
@@ -772,36 +776,36 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			tc.insertText(self.completer.bpcModel.shortCuts[completion])
 		else:
 			tc.insertText(completion)
-			
-			#extra = (len(completion) - len(self.completer.completionPrefix()))
-			#tc.movePosition(QtGui.QTextCursor.EndOfWord)
-			#
-			# ) after completion
-			#underCursor = self.textUnderCursor()
-			#
-			#if (underCursor) and (not isVarChar(underCursor[0])):
-			#	#print(underCursor + "<=========")
-			#	
-			#	pointPos = underCursor.find(".")
-			#	if pointPos == -1:
-			#		nTimes = len(underCursor)
-			#	else:
-			#		nTimes = len(underCursor) - pointPos - 1
-			#	print(nTimes)
-			#	tc.movePosition(QtGui.QTextCursor.Left, QtGui.QTextCursor.MoveAnchor, nTimes)
-			#
-			#tc.insertText(completion[len(completion) - extra:])
 		
 		# Class members
 		if self.completer.memberListActivated():
-			if completion in self.completer.model().methodList and ((relPos == len(textBlock) or textBlock[relPos] != "(")):
+			completerModel = self.completer.model()
+			
+			if completion in completerModel.iteratorList:
+				tc.select(QtGui.QTextCursor.BlockUnderCursor)
+				old = tc.selectedText()
+				
+				#print(old)
+				#print(self.lastObject)
+				#print(completion)
+				
+				if old.strip() == "%s.%s" % (self.lastObject, completion):
+					tabs = "\t" * countTabs(old)
+					tc.removeSelectedText()
+					tc.insertText("\n%sfor x in %s\n%s\t..." % (tabs, old.strip(), tabs))
+					tc.select(QtGui.QTextCursor.WordUnderCursor)
+					self.setTextCursor(tc)
+				else:
+					tc.clearSelection()
+			elif completion in completerModel.methodList and ((relPos == len(textBlock) or textBlock[relPos] != "(")):
 				tc.insertText("()")
 				tc.movePosition(QtGui.QTextCursor.Left)
 			self.completer.setModel(self.completer.bpcModel)
 		else:
 			# Functions
 			# TODO: Optimize for dict search instead of list search
-			if completion in self.completer.bpcModel.functionList:
+			funcList = self.completer.bpcModel.functionList
+			if completion in funcList:
 				beforeCompletion = tc.block().text()[:-len(completion)]
 				functionHasParameters = False
 				

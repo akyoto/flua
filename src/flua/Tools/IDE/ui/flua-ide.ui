@@ -98,8 +98,6 @@
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
     <addaction name="separator"/>
-    <addaction name="actionCreateDefaultImplementation"/>
-    <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuWindows">
@@ -115,9 +113,17 @@
     <addaction name="actionRepositoryList"/>
     <addaction name="actionConnectWithGitHub"/>
    </widget>
+   <widget class="QMenu" name="menuUtilities">
+    <property name="title">
+     <string>Utilities</string>
+    </property>
+    <addaction name="actionJumpToDefinition"/>
+    <addaction name="actionCreateDefaultImplementation"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
+   <addaction name="menuUtilities"/>
    <addaction name="menuRepository"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
@@ -576,6 +582,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionJumpToDefinition">
+   <property name="text">
+    <string>Jump to definition</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
  </widget>

@@ -12,5 +12,6 @@
 		<comment>\S\S*\SModule\Sbrowser\S[Alt\S+\SA]</comment>
 		<comment>\S\S*\SConsole\S[Alt\S+\SS]</comment>
 		<comment>\S\S*\SOpen\Sa\Shovered\Sinclude\Sfile\S[Ctrl\S+\SLeft\Smouse\Sbutton]</comment>
+		<comment>\S\S*\SCreate\Sdefault\Simplementation\S[Ctrl\S+\SE]</comment>
 	</code>
 </module>
