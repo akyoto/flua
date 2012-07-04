@@ -1331,8 +1331,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			nOffset = func(cursor)
 			
-			if offsets == 0 and nOffset == 0:
-				startOffset = 0
+			if offsets == 0:
+				startOffset = nOffset
 			
 			offsets += nOffset
 			
@@ -1355,6 +1355,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Rehighlight
 		#self.rehighlightFunctionUsage()	
 	
+	def indentSelection(self):
+		self.processSelection(self.indentLine, 1)
+	
+	def unIndentSelection(self):
+		self.processSelection(self.unIndentLine, -1)
+	
+	def toggleCommentsSelection(self):
+		self.processSelection(self.toggleCommentLine, 0)
+	
 	def indentLine(self, cursor):
 		cursor.insertText("\t")
 		return 1
@@ -1368,38 +1377,21 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			return 0
 	
-	def indentSelection(self, tab = "\t"):
-		self.processSelection(self.indentLine, 1)
+	def toggleCommentLine(self, cursor):
+		line = cursor.block().text()
 		
-		# First block
-		#cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
-		#cursor.insertText(tab)
-		#
-		#if selStart == selStartBlockPosition:
-		#	selStart -= tabLen
-		#
-		#selEnd += tabLen
-		
-		# Restore old selection
-		#cursor.setPosition(selStart + 1, QtGui.QTextCursor.MoveAnchor)
-		#cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
-		
-		#cursor.endEditBlock()
-		#self.setTextCursor(cursor)
-		
-		# Rehighlight
-		#self.rehighlightFunctionUsage()
-	
-	def unIndentSelection(self, tab = "\t"):
-		self.processSelection(self.unIndentLine, -1)
-		# First block
-		#cursor.setPosition(selStartBlockPosition, QtGui.QTextCursor.MoveAnchor)
-		#line = cursor.block().text()
-		#if line and line[0].isspace():
-		#	cursor.deleteChar()
-		#	if selStart != selStartBlockPosition:
-		#		selStart -= tabLen
-		#	selEnd -= tabLen
+		if line and line[0] == '#':
+			cursor.deleteChar()
+			
+			# Remove space as well
+			if len(line) > 1 and line[1].isspace():
+				cursor.deleteChar()
+				return -2
+			else:
+				return -1
+		else:
+			cursor.insertText('# ')
+			return 2
 	
 	def clearHighlights(self):
 		self.setExtraSelections([])

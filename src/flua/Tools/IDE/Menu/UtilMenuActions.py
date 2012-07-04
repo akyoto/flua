@@ -51,8 +51,7 @@ class UtilMenuActions:
 			tc.endEditBlock()
 			
 	def toggleComment(self):
-		self.notImplemented()
-		return
+		self.codeEdit.toggleCommentsSelection()
 		
 	def findPossibleParallelizationPoints(self):
 		self.notImplemented()
