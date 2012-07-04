@@ -942,6 +942,7 @@ class BaseOutputFileHandler:
 		tabs = "\t" * self.currentTabLevel
 		iterImplCode = iteratorImpl.getCode()
 		
+		#if self.outputEnabled:
 		resultingCode = self.buildForEachLoop(
 			var,
 			typeInit,
@@ -958,6 +959,8 @@ class BaseOutputFileHandler:
 			paramValues,
 			localForVarCounter
 		)
+		#else:
+		#	resultingCode = ""
 		
 		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED,
 		# AS THE VERY LAST STEP!
@@ -1283,6 +1286,9 @@ class BaseOutputFileHandler:
 					implicitAssignment = caller[:pos] + " = "
 			else:
 				implicitAssignment = ""
+			
+			#if not self.outputEnabled:
+			#	return ""
 			
 			if (callerClass in nonPointerClasses) or isUnmanaged(callerType):
 				return implicitAssignment + self.buildNonPointerCall(caller, fullName, paramsString)

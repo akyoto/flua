@@ -1,6 +1,6 @@
 #include "lz4/lz4.c"
 
-// bp
+// flua
 #include <flua/Collection/Vector/C++/Vector.hpp>
 #include <flua/Collection/Vector/C++/Mutable.hpp>
 

@@ -25,7 +25,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			self.finished.connect(q.quit)
 			
 			if self.bpIDE.threaded:
-				self.start(QtCore.QThread.LowestPriority)
+				self.start(QtCore.QThread.InheritPriority)
 			else:
 				self.run()
 				self.finished.emit()

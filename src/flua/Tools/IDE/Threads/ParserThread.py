@@ -18,13 +18,13 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 	def setDocument(self, doc):
 		self.qdoc = doc
 		
-	def startWith(self, priority):
+	def startWith(self):
 		# To make the GUI more responsive
 		q = QtCore.QEventLoop(self)
 		self.finished.connect(q.quit)
 		
 		if self.bpIDE.threaded:
-			self.start(priority)
+			self.start(QtCore.QThread.InheritPriority)
 		else:
 			self.run()
 			self.finished.emit()

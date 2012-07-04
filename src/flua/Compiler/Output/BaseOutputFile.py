@@ -210,6 +210,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		# Memory management
 		self.useGC = True
 		
+		self.outputEnabled = not self.compiler.background
+		
 		# Debugging
 		self.lastParsedNode = list()
 		

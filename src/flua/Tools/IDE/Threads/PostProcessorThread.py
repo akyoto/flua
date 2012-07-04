@@ -21,7 +21,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		
 		if not self.codeEdit is None:
 			if self.bpIDE.threaded:
-				self.start()
+				self.start(QtCore.QThread.InheritPriority)
 			else:
 				self.run()
 				self.finished.emit()

@@ -1509,7 +1509,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.updater.setDocument(self.qdoc)
 			
 			if self.threaded:
-				self.updater.startWith(QtCore.QThread.IdlePriority)
+				self.updater.startWith()
 			else:
 				self.updater.run()
 				self.updater.finished.emit()
