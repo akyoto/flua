@@ -58,15 +58,10 @@
 				</code>
 			</namespace>
 		</extern>
-		<comment>\SPrints\Sthe\Sinteger\S#x\Son\Sthe\Sconsole</comment>
+		<comment>\SPrints\S#x\Son\Sthe\Sconsole</comment>
 		<function depth="0" id="12">
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>x</value>
-						<value>Int</value>
-					</declare-type>
-				</parameter>
+				<parameter>x</parameter>
 			</parameters>
 			<name>print</name>
 			<code>
@@ -84,13 +79,13 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SPrints\Sfloat\S#x\Son\Sthe\Sconsole</comment>
+		<comment>\SPrints\S&quot;true&quot;\Sif\S#x\Sis\Strue,\S&quot;false&quot;\Sotherwise</comment>
 		<function depth="0" id="14">
 			<parameters>
 				<parameter>
 					<declare-type>
 						<value>x</value>
-						<value>Float</value>
+						<value>Bool</value>
 					</declare-type>
 				</parameter>
 			</parameters>
@@ -110,92 +105,14 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SPrints\S64-bit\Sfloat\S#x\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="16">
-			<parameters>
-				<parameter>
-					<declare-type>
-						<value>x</value>
-						<value>Float64</value>
-					</declare-type>
-				</parameter>
-			</parameters>
-			<name>print</name>
-			<code>
-				<call depth="1" id="17">
-					<function>
-						<access>
-							<value>flua</value>
-							<value>writeLine</value>
-						</access>
-					</function>
-					<parameters>
-						<parameter>x</parameter>
-					</parameters>
-				</call>
-			</code>
-			<meta/>
-		</function>
-		<comment>\SPrints\S&quot;true&quot;\Sif\S#x\Sis\Strue,\S&quot;false&quot;\Sotherwise</comment>
-		<function depth="0" id="18">
-			<parameters>
-				<parameter>
-					<declare-type>
-						<value>x</value>
-						<value>Bool</value>
-					</declare-type>
-				</parameter>
-			</parameters>
-			<name>print</name>
-			<code>
-				<call depth="1" id="19">
-					<function>
-						<access>
-							<value>flua</value>
-							<value>writeLine</value>
-						</access>
-					</function>
-					<parameters>
-						<parameter>x</parameter>
-					</parameters>
-				</call>
-			</code>
-			<meta/>
-		</function>
-		<comment>\SPrints\SBigInt\S#x\Son\Sthe\Sconsole</comment>
-		<function depth="0" id="20">
-			<parameters>
-				<parameter>
-					<declare-type>
-						<value>x</value>
-						<value>BigInt</value>
-					</declare-type>
-				</parameter>
-			</parameters>
-			<name>print</name>
-			<code>
-				<call depth="1" id="21">
-					<function>
-						<access>
-							<value>flua</value>
-							<value>writeLine</value>
-						</access>
-					</function>
-					<parameters>
-						<parameter>x</parameter>
-					</parameters>
-				</call>
-			</code>
-			<meta/>
-		</function>
 		<comment>\SWrites\S#x\Son\Sthe\Sconsole\Swithout\Sa\Snewline\Scharacter</comment>
-		<function depth="0" id="22">
+		<function depth="0" id="16">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>write</name>
 			<code>
-				<call depth="1" id="23">
+				<call depth="1" id="17">
 					<function>
 						<access>
 							<value>flua</value>

@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Stream</import>
 			<import>File</import>
 			<import>Exceptions</import>
 		</dependencies>
@@ -14,7 +15,10 @@
 		<class depth="0" id="1">
 			<name>FileReadStream</name>
 			<code>
-				<function depth="1" id="2">
+				<implements depth="1" id="2">
+					<implements-interface depth="2" id="3">ReadStream</implements-interface>
+				</implements>
+				<function depth="1" id="4">
 					<parameters>
 						<parameter>
 							<access>
@@ -25,7 +29,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="5">
 							<value>
 								<access>
 									<value>my</value>
@@ -52,7 +56,7 @@
 								</call>
 							</value>
 						</assign>
-						<if-block depth="2" id="4">
+						<if-block depth="2" id="6">
 							<if>
 								<condition>
 									<not>
@@ -65,7 +69,7 @@
 									</not>
 								</condition>
 								<code>
-									<throw depth="3" id="5">
+									<throw depth="3" id="7">
 										<new>
 											<type>FileNotFoundException</type>
 											<parameters>
@@ -82,12 +86,11 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="8">
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="7">
+						<call depth="2" id="9">
 							<function>
 								<access>
 									<value>my</value>
@@ -96,18 +99,18 @@
 							</function>
 							<parameters/>
 						</call>
-					</code>
-				</function>
-				<function depth="1" id="8">
-					<name>enter</name>
-					<code>
-						<noop depth="2" id="9"/>
 					</code>
 				</function>
 				<function depth="1" id="10">
+					<name>enter</name>
+					<code>
+						<noop depth="2" id="11"/>
+					</code>
+				</function>
+				<function depth="1" id="12">
 					<name>exit</name>
 					<code>
-						<call depth="2" id="11">
+						<call depth="2" id="13">
 							<function>
 								<access>
 									<value>my</value>
@@ -117,11 +120,12 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1" id="12">
+				<function depth="1" id="14">
 					<name>read</name>
 					<code>
-						<assign depth="2" id="13">
+						<assign depth="2" id="15">
 							<value>fSize</value>
 							<value>
 								<call>
@@ -137,7 +141,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="16">
 							<value>buffer</value>
 							<value>
 								<new>
@@ -153,7 +157,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="15">
+						<call depth="2" id="17">
 							<function>
 								<access>
 									<value>flua</value>
@@ -171,7 +175,7 @@
 								<parameter>fSize</parameter>
 							</parameters>
 						</call>
-						<return depth="2" id="16">
+						<return depth="2" id="18">
 							<new>
 								<type>String</type>
 								<parameters>
@@ -180,15 +184,14 @@
 							</new>
 						</return>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="17">
+				<function depth="1" id="19">
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
 					<name>read</name>
 					<code>
-						<assign depth="2" id="18">
+						<assign depth="2" id="20">
 							<value>buffer</value>
 							<value>
 								<new>
@@ -204,7 +207,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="19">
+						<call depth="2" id="21">
 							<function>
 								<access>
 									<value>flua</value>
@@ -227,14 +230,13 @@
 								<parameter>numBytes</parameter>
 							</parameters>
 						</call>
-						<return depth="2" id="20">buffer</return>
+						<return depth="2" id="22">buffer</return>
 					</code>
-					<meta/>
 				</function>
-				<function depth="1" id="21">
+				<function depth="1" id="23">
 					<name>close</name>
 					<code>
-						<if-block depth="2" id="22">
+						<if-block depth="2" id="24">
 							<if>
 								<condition>
 									<access>
@@ -243,7 +245,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="3" id="23">
+									<assign depth="3" id="25">
 										<value>success</value>
 										<value>
 											<call>
@@ -264,7 +266,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign depth="3" id="24">
+									<assign depth="3" id="26">
 										<value>
 											<access>
 												<value>my</value>
@@ -273,11 +275,11 @@
 										</value>
 										<value>null</value>
 									</assign>
-									<return depth="3" id="25">success</return>
+									<return depth="3" id="27">success</return>
 								</code>
 							</if>
 						</if-block>
-						<return depth="2" id="26">false</return>
+						<return depth="2" id="28">false</return>
 					</code>
 				</function>
 			</code>

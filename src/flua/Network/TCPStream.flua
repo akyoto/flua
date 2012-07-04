@@ -3,6 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Stream</import>
 		</dependencies>
 		<strings/>
 	</header>
@@ -10,7 +11,11 @@
 		<class depth="0" id="1">
 			<name>TCPStream</name>
 			<code>
-				<function depth="1" id="2">
+				<implements depth="1" id="2">
+					<implements-interface depth="2" id="3">ReadStream</implements-interface>
+					<implements-interface depth="2" id="4">WriteStream</implements-interface>
+				</implements>
+				<function depth="1" id="5">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -32,7 +37,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
@@ -59,10 +64,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="4">
+				<function depth="1" id="7">
 					<name>connect</name>
 					<code>
-						<return depth="2" id="5">
+						<return depth="2" id="8">
 							<call>
 								<function>
 									<access>
@@ -92,9 +97,29 @@
 							</call>
 						</return>
 					</code>
+				</function>
+				<function depth="1" id="9">
+					<parameters>
+						<parameter>numBytes</parameter>
+					</parameters>
+					<name>read</name>
+					<code>
+						<return depth="2" id="10">null</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="11">
+					<parameters>
+						<parameter>collection</parameter>
+					</parameters>
+					<name>write</name>
+					<code>
+						<noop depth="2" id="12"/>
+					</code>
 					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

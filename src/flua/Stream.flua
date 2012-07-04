@@ -1,0 +1,70 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SInterface\Sfor\Sreadable\Sstreams</comment>
+		<interface depth="0" id="1">
+			<name>ReadStream</name>
+			<code>
+				<function depth="1" id="2" implemented="false">
+					<parameters>
+						<parameter>numBytes</parameter>
+					</parameters>
+					<name>read</name>
+					<code/>
+					<meta/>
+				</function>
+			</code>
+		</interface>
+		<comment>\SInterface\Sfor\Swriteable\Sstreams</comment>
+		<interface depth="0" id="3">
+			<name>WriteStream</name>
+			<code>
+				<function depth="1" id="4" implemented="false">
+					<parameters>
+						<parameter>collection</parameter>
+					</parameters>
+					<name>write</name>
+					<code/>
+					<meta/>
+				</function>
+			</code>
+		</interface>
+		<comment>\SNullStream</comment>
+		<class depth="0" id="5">
+			<name>NullStream</name>
+			<code>
+				<implements depth="1" id="6">
+					<implements-interface depth="2" id="7">ReadStream</implements-interface>
+					<implements-interface depth="2" id="8">WriteStream</implements-interface>
+				</implements>
+				<function depth="1" id="9">
+					<parameters>
+						<parameter>numBytes</parameter>
+					</parameters>
+					<name>read</name>
+					<code>
+						<return depth="2" id="10">null</return>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="11">
+					<parameters>
+						<parameter>collection</parameter>
+					</parameters>
+					<name>write</name>
+					<code>
+						<noop depth="2" id="12"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

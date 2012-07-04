@@ -173,11 +173,11 @@ class BaseFunction:
 			# Inheritance: Derived class -> Base class
 			elif self.cppFile.isDerivedClass(typeA, typeB):
 				score += 4
-			# "I don't care about the type of A"
-			elif typeB == "":
-				score += 3
 			# A implemented a cast to B
 			elif classImplA and classImplA.classObj.hasCast(typeB):
+				score += 3
+			# "I don't care about the type of A"
+			elif typeB == "":
 				score += 2
 			# A can be naturally casted to B
 			elif canBeCastedTo(typeA, typeB):

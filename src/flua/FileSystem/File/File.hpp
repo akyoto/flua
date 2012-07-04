@@ -12,9 +12,14 @@ inline BPFileHandle* flua_fopen(BPUTF8String* path, BPUTF8String* mode) {
 	return fopen(*path, *mode);
 }
 
-// flua_fwrite
-inline size_t flua_fwrite(BPFileHandle* fh, BPUTF8String *contents) {
-	return fwrite(*contents, sizeof(Byte), contents->_lengthInBytes, fh);
+template <typename T>
+inline size_t flua_fwrite(BPFileHandle* fh, T* buffer, size_t bufferSize) {
+	return fwrite(buffer, sizeof(T), bufferSize, fh);
+}
+
+template <typename T>
+inline size_t flua_fwrite(BPFileHandle* fh, T value, size_t valueSize) {
+	return fwrite(&value, sizeof(T), valueSize, fh);
 }
 
 // flua_fflush
