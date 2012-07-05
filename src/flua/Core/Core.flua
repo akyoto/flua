@@ -101,16 +101,37 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#us\Smicroseconds</comment>
+		<function depth="0" id="15">
+			<parameters>
+				<parameter>us</parameter>
+			</parameters>
+			<name>sleepMicro</name>
+			<code>
+				<call depth="1" id="16">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>usleep</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>us</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<name>sizeOf</name>
 			<code>
-				<return depth="1" id="16">
+				<return depth="1" id="18">
 					<call>
 						<function>
 							<access>
@@ -128,12 +149,12 @@
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds\S(10\S^\S-3\Ssecs).</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0" id="17">
-			<name>systemTime</name>
+		<function depth="0" id="19">
+			<name>getSystemTime</name>
 			<code>
-				<test depth="1" id="18">
+				<test depth="1" id="20">
 					<code>
-						<assign depth="2" id="19">
+						<assign depth="2" id="21">
 							<value>start</value>
 							<value>
 								<call>
@@ -142,7 +163,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="20">
+						<assign depth="2" id="22">
 							<value>end</value>
 							<value>
 								<call>
@@ -151,7 +172,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="21">
+						<assert depth="2" id="23">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -164,7 +185,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="22">
+				<return depth="1" id="24">
 					<call>
 						<function>
 							<access>
@@ -176,15 +197,16 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
-		<function depth="0" id="23">
-			<name>systemTimeMicro</name>
+		<function depth="0" id="25">
+			<name>getSystemTimeMicro</name>
 			<code>
-				<test depth="1" id="24">
+				<test depth="1" id="26">
 					<code>
-						<assign depth="2" id="25">
+						<assign depth="2" id="27">
 							<value>start</value>
 							<value>
 								<call>
@@ -193,7 +215,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="26">
+						<assign depth="2" id="28">
 							<value>end</value>
 							<value>
 								<call>
@@ -202,7 +224,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="27">
+						<assert depth="2" id="29">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -215,7 +237,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="28">
+				<return depth="1" id="30">
 					<call>
 						<function>
 							<access>
@@ -230,7 +252,7 @@
 			<meta/>
 		</function>
 		<comment>\SExits\Sthe\Sapplication\Swith\San\Soptional\S#status\Scode</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="31">
 			<parameters>
 				<parameter>
 					<assign>
@@ -241,7 +263,7 @@
 			</parameters>
 			<name>exit</name>
 			<code>
-				<call depth="1" id="30">
+				<call depth="1" id="32">
 					<function>
 						<access>
 							<value>flua</value>

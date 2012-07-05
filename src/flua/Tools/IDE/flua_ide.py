@@ -426,7 +426,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						try:
 							# Params
 							if call.tagName == "call":
-								print(call.toxml())
+								#print(call.toxml())
 								caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
 							elif call.tagName == "new":
 								#caller = ""
@@ -462,7 +462,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						
 						except:
 							# Only show all function variants if code bubble is empty
-							if not code:
+							if (not code) and call.tagName == "call":
 								if callerType:
 									code.append("# %s" % (callerType))
 								
@@ -470,7 +470,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 							continue
 					else:
 						# Only show all function variants if code bubble is empty
-						if not code:
+						if (not code) and call.tagName == "call":
 							if callerType:
 								code.append("# %s" % (callerType))
 							

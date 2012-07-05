@@ -12,20 +12,20 @@
 			<value>fluaProgramStart</value>
 			<value>
 				<call>
-					<function>systemTime</function>
+					<function>getSystemTime</function>
 					<parameters/>
 				</call>
 			</value>
 		</assign>
 		<comment>\SReturns\Sthe\Snumber\Sof\Smilliseconds\Sthat\Spassed\Ssince\Sprogram\Sstart</comment>
 		<function depth="0" id="2">
-			<name>appTime</name>
+			<name>getAppTime</name>
 			<code>
 				<return depth="1" id="3">
 					<subtract>
 						<value>
 							<call>
-								<function>systemTime</function>
+								<function>getSystemTime</function>
 								<parameters/>
 							</call>
 						</value>
