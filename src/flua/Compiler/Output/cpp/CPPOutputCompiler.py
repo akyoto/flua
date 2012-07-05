@@ -317,6 +317,7 @@ typedef struct BPFunction {
 			"-Wno-sign-compare", # Weird stuff
 			"-Wno-parentheses", # TODO: Check
 			"-Wno-unused-label", # We create unused labels in loops but that's fine
+			"-Wno-attributes", # by hash map
 			
 			"-std=c++0x",
 			["-m32", "-m64"][self.is64Bit],
