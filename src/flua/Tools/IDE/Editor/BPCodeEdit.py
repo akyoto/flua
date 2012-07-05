@@ -681,6 +681,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def mousePressEvent(self, event):
 		if not self.bpIDE.developerFlag:
 			self.bpIDE.consoleDock.hide()
+			self.bpIDE.searchResults.hide()
 		
 		if event.button() == QtCore.Qt.XButton1:
 			self.locationBackward()
@@ -699,14 +700,20 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		super().mousePressEvent(event)
 		
+	# TODO: Implement this.
 	def jumpToFunction(self, outFunc):
-		# TODO: Implement this.
 		tc = self.textCursor()
 		
 		#try:
 		#if self.bpcFile:
 		#	lineNumber = self.bpcFile.nodeToOriginalLineNumber[searchingNode]
 		
+		self.setTextCursor(tc)
+		self.ensureCursorVisible()
+		
+	# TODO: Implement this.
+	def jumpToClass(self, className):
+		tc = self.textCursor()
 		self.setTextCursor(tc)
 		self.ensureCursorVisible()
 		

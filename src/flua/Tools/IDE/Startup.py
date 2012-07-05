@@ -105,6 +105,9 @@ class Startup:
 		self.statusBar.addPermanentWidget(self.searchEdit, 1)
 		self.statusBar.addPermanentWidget(self.replaceEdit, 1)
 		
+		# Search results
+		self.searchResults = BPSearchResultsWidget(self)
+		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
 		self.targetSwitcher.setToolTip("Target language")

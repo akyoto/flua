@@ -2,7 +2,7 @@ from PyQt4 import QtGui, QtCore
 from flua.Tools.IDE.Widgets.BPReplaceEdit import *
 
 class BPSearchEdit(QtGui.QLineEdit):
-
+	
 	def __init__(self, parent = None):
 		super().__init__(parent)
 		self.bpIDE = parent
@@ -27,6 +27,7 @@ class BPSearchEdit(QtGui.QLineEdit):
 		self.selectAll()
 		self.setFocus()
 		self.searchForward(self.text())
+		self.bpIDE.searchResults.startSearch()
 		
 	def focusRegex(self):
 		self.focusNormal()
@@ -40,6 +41,7 @@ class BPSearchEdit(QtGui.QLineEdit):
 			if self.bpIDE.codeEdit:
 				#self.bpIDE.codeEdit.setTextCursor(self.bpIDE.codeEdit.textCursor())
 				self.bpIDE.codeEdit.setFocus()
+				self.bpIDE.searchResults.hide()
 		elif key == QtCore.Qt.Key_Down:
 			self.searchForward(self.text(), self.bpIDE.codeEdit, True)
 		elif key == QtCore.Qt.Key_Up:

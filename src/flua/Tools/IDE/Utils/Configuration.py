@@ -69,7 +69,7 @@ class BPConfiguration:
 				background-color: #ffffff;
 			}
 			
-			#MessageView {
+			#MessageView, #SearchResults {
 				border-radius: 7px;
 				color: rgba(0, 0, 0, 65%);
 				background-color: rgba(255, 255, 255, 10%);
@@ -135,7 +135,7 @@ class BPConfiguration:
 				border-radius: 0px;
 			}
 			
-			#MessageView {
+			#MessageView, #SearchResults {
 				border-radius: 7px;
 				color: rgba(255, 255, 255, 65%);
 				background-color: rgba(0, 0, 0, 10%);
@@ -143,9 +143,27 @@ class BPConfiguration:
 				margin: 0px;
 			}
 			
+			#SearchResults {
+				border-radius: 7px;
+				color: rgba(255, 255, 255, 80%);
+				background-color: rgba(0, 0, 0, 30%);
+				padding: 0;
+				margin: 0;
+			}
+			
 			#MessageView::item {
 				padding: 10px 0px;
 				margin: 0px;
+			}
+			
+			#SearchResults::item {
+				padding: 0;
+				margin: 0;
+			}
+			
+			#SearchResults::item:hover {
+				color: rgba(255, 255, 255, 100%);
+				background-color: rgba(0, 0, 0, 30%);
 			}
 			
 			#DocBubble {
@@ -331,6 +349,8 @@ class BPConfiguration:
 		# All docks
 		for dock in self.bpIDE.docks:
 			dock.setFont(font)
+			
+		self.bpIDE.searchResults.setFont(font)
 		
 	def applyTabWidth(self, value):
 		self.tabWidth = value

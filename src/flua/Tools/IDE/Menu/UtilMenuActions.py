@@ -35,7 +35,15 @@ class UtilMenuActions:
 						if self.codeEdit:
 							self.codeEdit.jumpToFunction(allFuncs[obj][0].node)
 		else:
-			print(obj)
+			if self.outputCompiler:
+				allClasses = self.outputCompiler.mainClass.classes
+				
+				if obj in allClasses:
+					classObj = allClasses[obj]
+					
+					self.openFile(classObj.cppFile.getFilePath())
+					if self.codeEdit:
+						self.codeEdit.jumpToClass(obj)
 	
 	def duplicateLine(self):
 		if self.codeEdit:

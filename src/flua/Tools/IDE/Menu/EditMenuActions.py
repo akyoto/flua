@@ -11,20 +11,21 @@ class EditMenuActions:
 		self.showSearch(regex = True)
 	
 	def showSearch(self, regex = False):
-		self.searchForm, existed = self.getUIFromCache("search")
+		#self.searchForm, existed = self.getUIFromCache("search")
 		
-		if not existed:
-			self.searchForm.setStyleSheet(self.config.dialogStyleSheet)
+		#if not existed:
+		#	self.searchForm.setStyleSheet(self.config.dialogStyleSheet)
 			
-			flags = self.searchForm.windowFlags()
-			flags |= QtCore.Qt.WindowStaysOnTopHint
-			#flags |= QtCore.Qt.Popup
-			#flags |= QtCore.Qt.FramelessWindowHint
-			
-			self.searchForm.setWindowFlags(flags)
-			
-			#self.searchForm.layout().addWidget(self.searchEdit)
+		#	flags = self.searchForm.windowFlags()
+		#	flags |= QtCore.Qt.WindowStaysOnTopHint
+		#	#flags |= QtCore.Qt.Popup
+		#	flags |= QtCore.Qt.FramelessWindowHint
+		#	
+		#	self.searchForm.setWindowFlags(flags)
+		#	
+		#	#self.searchForm.layout().addWidget(self.searchEdit)
 		
+		#self.searchForm.setGeometry(self.searchEdit.x(), self.height() - self.searchEdit.height(), self.searchEdit.width(), self.searchEdit.height())
 		#self.searchForm.show()
 		
 		#self.searchEdit.selectAll()
