@@ -3,6 +3,7 @@ from flua.Tools.IDE import *
 from flua.Compiler.Utils import *
 from flua.Compiler.Config import *
 from flua.Compiler.Input.bpc import *
+from flua.Compiler.Output import *
 
 class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the C++ language.
@@ -82,6 +83,26 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		'(', ')', '[', ']', '{', '}',
 	}
 	
+	cDataTypes = {
+		# C
+		'char', 'bool', 'void', 'int', 'float', 'double', 'short',
+		
+		# GLSL
+		'vec2', 'vec3', 'vec4',
+		'bvec2', 'bvec3', 'bvec4',
+		'ivec2', 'ivec3', 'ivec4',
+		'mat2', 'mat3', 'mat4',
+		'sampler1D', 'sampler2D', 'sampler3D', 'samplerCube',
+		'sampler1DShadow', 'sampler2DShadow',
+	}
+	
+	glslQualifiers = {
+		# GLSL
+		'in', 'out', 'inout',
+		
+		'attribute', 'uniform', 'varying',
+	}
+	
 	def __init__(self, document, bpIDE):
 		QtGui.QSyntaxHighlighter.__init__(self, document)
 		self.bpIDE = bpIDE
@@ -157,28 +178,12 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					self.setFormat(i, h - i, style['self'])
 					i = h
 					continue
-				elif expr in {
-						# C
-						'char', 'bool', 'void', 'int', 'float', 'double', 'short',
-						
-						# GLSL
-						'vec2', 'vec3', 'vec4',
-						'bvec2', 'bvec3', 'bvec4',
-						'ivec2', 'ivec3', 'ivec4',
-						'mat2', 'mat3', 'mat4',
-						'sampler1D', 'sampler2D', 'sampler3D', 'samplerCube',
-						'sampler1DShadow', 'sampler2DShadow',
-						}:
+				elif expr in CPPHighlighter.cDataTypes or expr in nonPointerClasses or expr.startswith("GL") or expr.endswith("_t"):
 					# Quick hack
 					self.setFormat(i, h - i, style['c-datatypes'])
 					i = h
 					continue
-				elif expr in {
-						# GLSL
-						'in', 'out', 'inout',
-						
-						'attribute', 'uniform', 'varying',
-						}:
+				elif expr in CPPHighlighter.glslQualifiers:
 					self.setFormat(i, h - i, style['keyword'])
 					i = h
 					continue

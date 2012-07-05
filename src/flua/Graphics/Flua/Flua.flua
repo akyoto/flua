@@ -341,10 +341,25 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="47">
+		<comment>\SReturns\Swhether\Sthe\Scurrent\Swindows\Sis\Sin\Sfullscreen\Smode</comment>
+		<function depth="0" id="47">
+			<name>isFullScreen</name>
 			<code>
-				<call depth="1" id="48">
+				<return depth="1" id="48">
+					<call>
+						<function>glutGet</function>
+						<parameters>
+							<parameter>GLUT_FULL_SCREEN</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="49">
+			<code>
+				<call depth="1" id="50">
 					<function>print</function>
 					<parameters>
 						<parameter>

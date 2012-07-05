@@ -158,7 +158,7 @@
 							<value>start</value>
 							<value>
 								<call>
-									<function>systemTime</function>
+									<function>getSystemTime</function>
 									<parameters/>
 								</call>
 							</value>
@@ -167,7 +167,7 @@
 							<value>end</value>
 							<value>
 								<call>
-									<function>systemTime</function>
+									<function>getSystemTime</function>
 									<parameters/>
 								</call>
 							</value>
@@ -210,7 +210,7 @@
 							<value>start</value>
 							<value>
 								<call>
-									<function>systemTimeMicro</function>
+									<function>getSystemTimeMicro</function>
 									<parameters/>
 								</call>
 							</value>
@@ -219,7 +219,7 @@
 							<value>end</value>
 							<value>
 								<call>
-									<function>systemTimeMicro</function>
+									<function>getSystemTimeMicro</function>
 									<parameters/>
 								</call>
 							</value>
