@@ -1785,8 +1785,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		return self.buildSingleParameter(typeName, name)
 	
 	def addDivisionByZeroCheck(self, op):
-		if isNumeric(op):
-			if op != "0" and op != "0.0":
+		if isNumeric(op) or (op.endswith("f") and isNumeric(op[:-1])):
+			if op != "0" and op != "0.0" and op != "0f" and op != "0.0f":
 				return
 			else:
 				self.additionalCodePerLine.append(self.buildDivByZeroThrow(op))
