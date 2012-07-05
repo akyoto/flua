@@ -5,6 +5,7 @@
 			<import>flua.Core</import>
 			<import>Color</import>
 			<import>FrameRate</import>
+			<import>Keys</import>
 			<import>Flua</import>
 		</dependencies>
 		<strings/>

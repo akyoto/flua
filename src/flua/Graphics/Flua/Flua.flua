@@ -128,35 +128,42 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
+					<extern-function depth="2" id="23">
+						<name>isKeyDown</name>
+						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="23">
+			<class depth="1" id="24">
 				<name>TextureInfo</name>
 				<code>
-					<public depth="2" id="24">
-						<public-member depth="3" id="25">
+					<public depth="2" id="25">
+						<public-member depth="3" id="26">
 							<declare-type>
 								<value>handle</value>
 								<value>GLuint</value>
 							</declare-type>
 						</public-member>
-						<public-member depth="3" id="26">
+						<public-member depth="3" id="27">
 							<declare-type>
 								<value>width</value>
 								<value>UInt</value>
 							</declare-type>
 						</public-member>
-						<public-member depth="3" id="27">
+						<public-member depth="3" id="28">
 							<declare-type>
 								<value>height</value>
 								<value>UInt</value>
 							</declare-type>
 						</public-member>
 					</public>
-					<function depth="2" id="28">
+					<function depth="2" id="29">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="29"/>
+							<noop depth="3" id="30"/>
 						</code>
 						<meta/>
 					</function>
@@ -164,10 +171,10 @@
 				<meta/>
 			</class>
 		</extern>
-		<function depth="0" id="30">
+		<function depth="0" id="31">
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="31">
+				<return depth="1" id="32">
 					<call>
 						<function>
 							<access>
@@ -182,10 +189,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="32">
+		<function depth="0" id="33">
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="33">
+				<return depth="1" id="34">
 					<call>
 						<function>
 							<access>
@@ -200,10 +207,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="34">
+		<function depth="0" id="35">
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="35">
+				<return depth="1" id="36">
 					<call>
 						<function>
 							<access>
@@ -217,7 +224,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="36">
+		<function depth="0" id="37">
 			<parameters>
 				<parameter>
 					<assign>
@@ -232,7 +239,7 @@
 			</parameters>
 			<name>getScreenWidth</name>
 			<code>
-				<return depth="1" id="37">
+				<return depth="1" id="38">
 					<call>
 						<function>
 							<access>
@@ -246,7 +253,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="38">
+		<function depth="0" id="39">
 			<parameters>
 				<parameter>
 					<assign>
@@ -261,7 +268,7 @@
 			</parameters>
 			<name>getScreenHeight</name>
 			<code>
-				<return depth="1" id="39">
+				<return depth="1" id="40">
 					<call>
 						<function>
 							<access>
@@ -275,13 +282,13 @@
 			</code>
 		</function>
 		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
-		<function depth="0" id="40">
+		<function depth="0" id="41">
 			<parameters>
 				<parameter>enabled</parameter>
 			</parameters>
 			<name>setVSync</name>
 			<code>
-				<call depth="1" id="41">
+				<call depth="1" id="42">
 					<function>
 						<access>
 							<value>flua</value>
@@ -293,11 +300,40 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#key\Sis\Sbeing\Spressed,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="43">
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>key</value>
+						<value>Byte</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<name>isKeyDown</name>
+			<code>
+				<return depth="1" id="44">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>isKeyDown</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>key</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="42">
+		<test depth="0" id="45">
 			<code>
-				<call depth="1" id="43">
+				<call depth="1" id="46">
 					<function>print</function>
 					<parameters>
 						<parameter>

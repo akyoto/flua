@@ -11,6 +11,34 @@
 //  TODO: Replace all errors with exceptions
 // ----------------------------------------------------
 
+typedef Byte KeyType;
+
+// Keys
+KeyType KEY_DOWN = GLUT_KEY_DOWN;
+KeyType KEY_END = GLUT_KEY_END;
+KeyType KEY_F1 = GLUT_KEY_F1;
+KeyType KEY_F10 = GLUT_KEY_F10;
+KeyType KEY_F11 = GLUT_KEY_F11;
+KeyType KEY_F12 = GLUT_KEY_F12;
+KeyType KEY_F2 = GLUT_KEY_F2;
+KeyType KEY_F3 = GLUT_KEY_F3;
+KeyType KEY_F4 = GLUT_KEY_F4;
+KeyType KEY_F5 = GLUT_KEY_F5;
+KeyType KEY_F6 = GLUT_KEY_F6;
+KeyType KEY_F7 = GLUT_KEY_F7;
+KeyType KEY_F8 = GLUT_KEY_F8;
+KeyType KEY_F9 = GLUT_KEY_F9;
+KeyType KEY_HOME = GLUT_KEY_HOME;
+KeyType KEY_INSERT = GLUT_KEY_INSERT;
+KeyType KEY_LEFT = GLUT_KEY_LEFT;
+KeyType KEY_PAGE_DOWN = GLUT_KEY_DOWN;
+KeyType KEY_PAGE_UP = GLUT_KEY_PAGE_UP;
+KeyType KEY_REPEAT_DEFAULT = GLUT_KEY_REPEAT_DEFAULT;
+KeyType KEY_REPEAT_OFF = GLUT_KEY_REPEAT_OFF;
+KeyType KEY_REPEAT_ON = GLUT_KEY_REPEAT_ON;
+KeyType KEY_RIGHT = GLUT_KEY_RIGHT;
+KeyType KEY_UP = GLUT_KEY_UP;
+
 glm::mat4
 	flua_viewMatrix,
 	flua_projectionMatrix,
@@ -33,6 +61,7 @@ int flua_mouseY = 0;
 int flua_width, flua_height;
 
 // glGetString(GL_VERSION)
+bool flua_keys[256];
 
 void flua_onClose() {
 	flua_glutRunFlag = false;
@@ -41,6 +70,10 @@ void flua_onClose() {
 void flua_onMouseMove(int x, int y) {
 	flua_mouseX = x;
 	flua_mouseY = y;
+}
+
+inline bool flua_isKeyDown(unsigned char key) {
+	return flua_keys[key];
 }
 
 inline int flua_getMouseX() {
@@ -63,6 +96,22 @@ inline void flua_onReshape(int width, int height) {
 	flua_height = height;
 	
 	//std::cout << "Reshape!" << std::endl;
+}
+
+inline void flua_onKeyDown(unsigned char key, int x, int y) {
+	flua_keys[key] = true;
+}
+
+inline void flua_onKeyUp(unsigned char key, int x, int y) {
+	flua_keys[key] = false;
+}
+
+inline void flua_onSpecialKeyDown(int key, int x, int y) {
+	flua_keys[static_cast<unsigned char>(key)] = true;
+}
+
+inline void flua_onSpecialKeyUp(int key, int x, int y) {
+	flua_keys[static_cast<unsigned char>(key)] = false;
 }
 
 inline void flua_initGLUT() {
@@ -192,9 +241,17 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, bool fullsc
 	flua_onReshape(width, height);
 #endif
 	
+	// Mouse
 	glutMotionFunc(flua_onMouseMove);
 	glutPassiveMotionFunc(flua_onMouseMove);
 	glutReshapeFunc(flua_onReshape);
+	
+	// Keyboard
+	glutKeyboardFunc(flua_onKeyDown);
+	glutKeyboardUpFunc(flua_onKeyUp);
+	glutSpecialFunc(flua_onSpecialKeyDown);
+	glutSpecialUpFunc(flua_onSpecialKeyUp);
+	
 	glutCloseFunc(flua_onClose);
 	flua_glutRunFlag = true;
 	
