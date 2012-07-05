@@ -1,6 +1,6 @@
 // C/C++ files
 //#include <hash/phsieh.hpp>
-#include <hash/murmur3.cpp>
+#include <hash/murmur3.hpp>
 
 // bp modules
 #include <flua/Core/String/UTF8String/C++/UTF8String.hpp>
