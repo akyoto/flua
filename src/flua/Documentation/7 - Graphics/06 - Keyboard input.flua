@@ -205,10 +205,26 @@
 		<comment>\SMain\Sloop</comment>
 		<while depth="0" id="15">
 			<condition>
-				<access>
-					<value>win</value>
-					<value>open</value>
-				</access>
+				<and>
+					<value>
+						<access>
+							<value>win</value>
+							<value>open</value>
+						</access>
+					</value>
+					<value>
+						<not>
+							<value>
+								<call>
+									<function>isKeyDown</function>
+									<parameters>
+										<parameter>KEY_ESCAPE</parameter>
+									</parameters>
+								</call>
+							</value>
+						</not>
+					</value>
+				</and>
 			</condition>
 			<code>
 				<in depth="1" id="16">

@@ -105,6 +105,14 @@
 					<name>KEY_UP</name>
 					<type>Byte</type>
 				</extern-variable>
+				<extern-variable depth="2" id="27">
+					<name>KEY_ESCAPE</name>
+					<type>Byte</type>
+				</extern-variable>
+				<extern-variable depth="2" id="28">
+					<name>KEY_ENTER</name>
+					<type>Byte</type>
+				</extern-variable>
 			</const>
 		</extern>
 	</code>

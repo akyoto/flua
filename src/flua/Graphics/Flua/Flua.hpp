@@ -38,6 +38,8 @@ KeyType KEY_REPEAT_OFF = GLUT_KEY_REPEAT_OFF;
 KeyType KEY_REPEAT_ON = GLUT_KEY_REPEAT_ON;
 KeyType KEY_RIGHT = GLUT_KEY_RIGHT;
 KeyType KEY_UP = GLUT_KEY_UP;
+KeyType KEY_ESCAPE = 27;
+KeyType KEY_ENTER = 13;
 
 glm::mat4
 	flua_viewMatrix,
