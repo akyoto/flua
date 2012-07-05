@@ -33,6 +33,9 @@ class BPReplaceEdit(QtGui.QLineEdit):
 			cursor.movePosition(QtGui.QTextCursor.Start)
 			endSearch = -1
 		
+		newText = self.text()
+		newTextLen = len(newText)
+		
 		cursor.beginEditBlock()
 		
 		# Begin replacing
@@ -43,8 +46,13 @@ class BPReplaceEdit(QtGui.QLineEdit):
 				#print(nextResult.position())
 				break
 			
+			oldText = nextResult.selectedText()
 			nextResult.removeSelectedText()
-			nextResult.insertText(self.text())
+			nextResult.insertText(newText)
+			
+			if endSearch != -1:
+				endSearch += newTextLen - len(oldText)
+			
 			cursor.setPosition(nextResult.position())
 		
 		cursor.endEditBlock()
