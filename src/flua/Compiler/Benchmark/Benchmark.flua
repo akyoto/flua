@@ -132,7 +132,7 @@
 					<equal>
 						<value>
 							<call>
-								<function>input</function>
+								<function>consoleInput</function>
 								<parameters>
 									<parameter>flua_string_3</parameter>
 								</parameters>

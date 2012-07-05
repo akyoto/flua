@@ -341,7 +341,7 @@
 							<value>ms</value>
 							<value>
 								<call>
-									<function>appTime</function>
+									<function>getAppTime</function>
 									<parameters/>
 								</call>
 							</value>

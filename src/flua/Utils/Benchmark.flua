@@ -45,7 +45,7 @@
 							</value>
 							<value>
 								<call>
-									<function>systemTimeMicro</function>
+									<function>getSystemTimeMicro</function>
 									<parameters/>
 								</call>
 							</value>
@@ -65,7 +65,7 @@
 							</value>
 							<value>
 								<call>
-									<function>systemTimeMicro</function>
+									<function>getSystemTimeMicro</function>
 									<parameters/>
 								</call>
 							</value>

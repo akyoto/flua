@@ -243,7 +243,7 @@
 										<multiply>
 											<value>
 												<call>
-													<function>appTime</function>
+													<function>getAppTime</function>
 													<parameters/>
 												</call>
 											</value>
@@ -257,7 +257,7 @@
 										<multiply>
 											<value>
 												<call>
-													<function>appTime</function>
+													<function>getAppTime</function>
 													<parameters/>
 												</call>
 											</value>
@@ -271,7 +271,7 @@
 										<multiply>
 											<value>
 												<call>
-													<function>appTime</function>
+													<function>getAppTime</function>
 													<parameters/>
 												</call>
 											</value>
@@ -306,7 +306,7 @@
 																		<multiply>
 																			<value>
 																				<call>
-																					<function>appTime</function>
+																					<function>getAppTime</function>
 																					<parameters/>
 																				</call>
 																			</value>
@@ -339,7 +339,7 @@
 																		<multiply>
 																			<value>
 																				<call>
-																					<function>appTime</function>
+																					<function>getAppTime</function>
 																					<parameters/>
 																				</call>
 																			</value>
@@ -372,7 +372,7 @@
 																		<multiply>
 																			<value>
 																				<call>
-																					<function>appTime</function>
+																					<function>getAppTime</function>
 																					<parameters/>
 																				</call>
 																			</value>
@@ -405,7 +405,7 @@
 																		<multiply>
 																			<value>
 																				<call>
-																					<function>appTime</function>
+																					<function>getAppTime</function>
 																					<parameters/>
 																				</call>
 																			</value>

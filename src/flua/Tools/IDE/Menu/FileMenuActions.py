@@ -39,6 +39,9 @@ class FileMenuActions:
 		self.openFile(self.currentWorkspace.filesClosed.pop())
 	
 	def openFile(self, path):
+		if not self.loadingFinished:
+			return
+		
 		fileName = path
 		if not fileName:
 			if self.isTmpFile():

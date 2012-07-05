@@ -80,6 +80,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.runThread = None
 		self.somethingModified = True
 		self.codeEditLastRun = None
+		self.loadingFinished = False
 		self.running = 0
 		self.compiling = 0
 		self.backgroundCompileIsUpToDate = False
@@ -205,6 +206,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.progressBar.show()
 			#self.searchEdit.hide()
 		else:
+			self.loadingFinished = True
 			self.firstStartUpdateTimer.stop()
 			self.progressBar.hide()
 			self.searchEdit.show()
