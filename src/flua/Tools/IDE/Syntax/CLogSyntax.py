@@ -55,7 +55,7 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 				self.setFormat(0, len(text), style['program-output'])
 				return
 		
-		if text.startswith("        ") and len(text) > 8 and text[8].isalnum():
+		if text.startswith("        ") and len(text) > 8 and (text[8].isalnum() or text[8] == "'"):
 			self.setFormat(0, len(text), style['comment']) # Changelog message
 		elif text.endswith("ms"):
 			self.setFormat(0, len(text), style['benchmark'])
