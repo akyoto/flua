@@ -26,13 +26,13 @@ class BPSearchEdit(QtGui.QLineEdit):
 		self.regExSearch = False
 		self.selectAll()
 		self.setFocus()
-		self.searchForward(self.text())
+		#self.searchForward(self.text())
 		self.bpIDE.searchResults.startSearch()
 		
 	def focusRegex(self):
 		self.focusNormal()
 		self.regExSearch = True
-		self.searchForward(self.text())
+		#self.searchForward(self.text())
 		
 	def keyPressEvent(self, event):
 		key = event.key()

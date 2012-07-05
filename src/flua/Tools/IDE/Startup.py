@@ -227,6 +227,7 @@ class Startup:
 			self.actionRedo : self.redoLastAction,
 			self.actionSearch : self.showSearch,
 			self.actionRegExSearch : self.showRegexSearch,
+			self.actionFindNext : self.findNext,
 			self.actionCopy : self.copy,
 			self.actionCut : self.cut,
 			self.actionPaste : self.paste,

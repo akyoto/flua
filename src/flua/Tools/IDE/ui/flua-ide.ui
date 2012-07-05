@@ -93,6 +93,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch"/>
     <addaction name="actionRegExSearch"/>
+    <addaction name="actionFindNext"/>
     <addaction name="separator"/>
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
@@ -614,6 +615,14 @@
   <action name="actionFindPossibleParallelizationPoints">
    <property name="text">
     <string>Find possible parallelization points</string>
+   </property>
+  </action>
+  <action name="actionFindNext">
+   <property name="text">
+    <string>Find next</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
    </property>
   </action>
  </widget>

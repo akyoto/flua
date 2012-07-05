@@ -7,6 +7,13 @@ class EditMenuActions:
 		self.preferences.setStyleSheet(self.config.dialogStyleSheet)
 		self.preferences.exec()
 	
+	def findNext(self):
+		if self.searchEdit.text():
+			self.searchEdit.usingSelection = False
+			self.searchEdit.searchForward(self.searchEdit.text(), self.codeEdit, True)
+		else:
+			self.showSearch()
+	
 	def showRegexSearch(self):
 		self.showSearch(regex = True)
 	
