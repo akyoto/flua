@@ -3,8 +3,8 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Graphics.Flua</import>
 			<import>flua.FileSystem</import>
+			<import>flua.Graphics.Flua</import>
 		</dependencies>
 		<strings/>
 	</header>

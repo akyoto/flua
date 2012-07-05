@@ -131,12 +131,6 @@
 								</code>
 							</if>
 						</if-block>
-						<comment>glMatrixMode\SGL_PROJECTION</comment>
-						<comment>glLoadIdentity()</comment>
-						<comment>glOrtho\S0,\Smy.width,\Smy.height,\S0,\S0,\S1</comment>
-						<comment>glMatrixMode\SGL_MODELVIEW</comment>
-						<comment>glLoadIdentity()</comment>
-						<comment>glTranslatef(0.375,\S0.375,\S0)</comment>
 					</code>
 					<meta/>
 				</function>
@@ -538,7 +532,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 			</code>
 		</namespace>

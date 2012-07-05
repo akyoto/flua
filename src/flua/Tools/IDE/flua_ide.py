@@ -418,12 +418,15 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				code = []
 				shownFuncs = dict()
 				for call in calls:
+					callerType = ""
+					funcName = ""
 					
 					if currentOutFile:
 						# Exceptions are your friends! ... or not?
 						try:
 							# Params
 							if call.tagName == "call":
+								print(call.toxml())
 								caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
 							elif call.tagName == "new":
 								#caller = ""
@@ -438,10 +441,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 							try:
 								realFunc = classImpl.getMatchingFunction(funcName, paramTypes)
 								realFuncDefNode = realFunc.node
+								
+								if callerType:
+									code.append("# %s" % (callerType))
+								
 								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile, shownFuncs)
 							except:
 								try:
 									candidates = classImpl.getCandidates(funcName)
+									
+									if callerType:
+										code.append("# %s" % (callerType))
 									
 									for func in candidates:
 										self.bubbleFunction(code, func.node, call, currentOutFile, shownFuncs)
@@ -449,15 +459,21 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 									continue
 								except:
 									continue
-							
+						
 						except:
 							# Only show all function variants if code bubble is empty
 							if not code:
+								if callerType:
+									code.append("# %s" % (callerType))
+								
 								self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
 							continue
 					else:
 						# Only show all function variants if code bubble is empty
 						if not code:
+							if callerType:
+								code.append("# %s" % (callerType))
+							
 							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
 						continue
 				
