@@ -84,7 +84,16 @@ def findNodes(node, nodeName):
 	return callList
 	
 def findCalls(node):
-	return findNodes(node, "call") #node.getElementsByTagName("call")
+	callList = []
+	
+	if node.nodeType == Node.ELEMENT_NODE and node.tagName in {"call", "new"}: # or tagName(node) == "new":
+		callList.append(node)
+	
+	# TODO: Improve performance, make an iterative algorithm out of this:
+	for child in node.childNodes:
+		callList += findCalls(child)
+	
+	return callList
 	
 def findCallsReversed(node):
 	calls = findCalls(node)

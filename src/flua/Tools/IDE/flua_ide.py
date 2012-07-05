@@ -423,7 +423,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						# Exceptions are your friends! ... or not?
 						try:
 							# Params
-							caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
+							if call.tagName == "call":
+								caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
+							elif call.tagName == "new":
+								#caller = ""
+								callerType = currentOutFile.getExprDataType(call)
+								funcName = "init"
+								
 							params = getElementByTagName(call, "parameters")
 							paramsString, paramTypes = currentOutFile.handleParameters(params)
 							
