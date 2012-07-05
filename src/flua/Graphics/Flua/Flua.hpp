@@ -2,6 +2,8 @@
 
 #include <public/Graphics/GLUT/C++/GLUT.hpp>
 
+#include <flua/Math/Geometry/Euclidean/C++/Vector3.hpp>
+
 //#include <public/Graphics/GLEW/C++/GLEW.hpp>
 //#include <public/Graphics/GLEW/GLEW.hpp>
 
@@ -103,16 +105,17 @@ inline void flua_setCamera(float x, float y, float z, float camAngleX, float cam
 // TODO: Remove hardcoded values
 inline void flua_setTransform(
 		GLint flua_transformAttr,
-		float x, float y, float z)
+		BPVector3<Float>* pos,
+		BPVector3<Float>* rot)
 {
-	float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
+	//float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
 	glm::vec3 axis_y(0.0, 1.0, 0.0);
 	glm::mat4 anim = \
-	 glm::rotate(flua_identityMatrix, angle, flua_xAxis) *  // X axis
-	 glm::rotate(flua_identityMatrix, angle, flua_yAxis) *  // Y axis
-	 glm::rotate(flua_identityMatrix, angle, flua_zAxis);   // Z axis
+	 glm::rotate(flua_identityMatrix, rot->_x, flua_xAxis) *  // X axis
+	 glm::rotate(flua_identityMatrix, rot->_y, flua_yAxis) *  // Y axis
+	 glm::rotate(flua_identityMatrix, rot->_z, flua_zAxis);   // Z axis
 	
-	glm::mat4 model = glm::translate(flua_identityMatrix, glm::vec3(x, y, -z));
+	glm::mat4 model = glm::translate(flua_identityMatrix, glm::vec3(pos->_x, pos->_y, -pos->_z));
 	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
 	
 	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));

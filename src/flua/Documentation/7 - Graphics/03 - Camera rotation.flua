@@ -5,6 +5,7 @@
 			<import>flua.Core</import>
 			<import>flua.Graphics</import>
 			<import>flua.Math.Geometry</import>
+			<import>flua.Utils.Time</import>
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">Flua\S-\SCamera\Srotation</string>
@@ -298,28 +299,19 @@
 		</for>
 		<comment>\SVariables</comment>
 		<assign depth="0" id="19">
-			<value>programStart</value>
-			<value>
-				<call>
-					<function>systemTime</function>
-					<parameters/>
-				</call>
-			</value>
-		</assign>
-		<assign depth="0" id="20">
 			<value>lastFrameUpdate</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="21">
+		<assign depth="0" id="20">
 			<value>frames</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="22">
+		<assign depth="0" id="21">
 			<value>fps</value>
 			<value>0</value>
 		</assign>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="23">
+		<while depth="0" id="22">
 			<condition>
 				<access>
 					<value>win</value>
@@ -327,11 +319,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="24">
+				<in depth="1" id="23">
 					<expression>win</expression>
 					<code>
 						<comment>\SBackground</comment>
-						<call depth="2" id="25">
+						<call depth="2" id="24">
 							<function>
 								<access>
 									<value>win</value>
@@ -345,22 +337,17 @@
 							</parameters>
 						</call>
 						<comment>\STime</comment>
-						<assign depth="2" id="26">
+						<assign depth="2" id="25">
 							<value>ms</value>
 							<value>
-								<subtract>
-									<value>
-										<call>
-											<function>systemTime</function>
-											<parameters/>
-										</call>
-									</value>
-									<value>programStart</value>
-								</subtract>
+								<call>
+									<function>appTime</function>
+									<parameters/>
+								</call>
 							</value>
 						</assign>
 						<comment>\SPlay\Saround\Swith\Sthe\Scubes</comment>
-						<foreach depth="2" id="27">
+						<foreach depth="2" id="26">
 							<counter>i</counter>
 							<iterator>cube</iterator>
 							<collection>
@@ -375,7 +362,7 @@
 								</access>
 							</collection>
 							<code>
-								<assign depth="3" id="28">
+								<assign depth="3" id="27">
 									<value>
 										<access>
 											<value>
@@ -411,7 +398,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="29">
+								<assign depth="3" id="28">
 									<value>val</value>
 									<value>
 										<add>
@@ -430,7 +417,7 @@
 										</add>
 									</value>
 								</assign>
-								<on depth="3" id="30">
+								<on depth="3" id="29">
 									<expression>
 										<access>
 											<value>
@@ -443,7 +430,7 @@
 										</access>
 									</expression>
 									<code>
-										<assign depth="4" id="31">
+										<assign depth="4" id="30">
 											<value>red</value>
 											<value>
 												<call>
@@ -454,7 +441,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="32">
+										<assign depth="4" id="31">
 											<value>green</value>
 											<value>
 												<call>
@@ -470,7 +457,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="33">
+										<assign depth="4" id="32">
 											<value>blue</value>
 											<value>
 												<call>
@@ -486,7 +473,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="34">
+										<assign depth="4" id="33">
 											<value>alpha</value>
 											<value>
 												<call>
@@ -507,7 +494,7 @@
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<on depth="2" id="35">
+						<on depth="2" id="34">
 							<expression>
 								<access>
 									<value>cam</value>
@@ -515,7 +502,7 @@
 								</access>
 							</expression>
 							<code>
-								<assign depth="3" id="36">
+								<assign depth="3" id="35">
 									<value>x</value>
 									<value>
 										<multiply>
@@ -544,7 +531,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="37">
+								<assign depth="3" id="36">
 									<value>y</value>
 									<value>
 										<multiply>
@@ -579,7 +566,7 @@
 								</assign>
 							</code>
 						</on>
-						<call depth="2" id="38">
+						<call depth="2" id="37">
 							<function>
 								<access>
 									<value>cam</value>
@@ -589,7 +576,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="39">
+						<call depth="2" id="38">
 							<function>
 								<access>
 									<value>scene</value>
@@ -599,11 +586,11 @@
 							<parameters/>
 						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="40">
+						<assign-add depth="2" id="39">
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="41">
+						<if-block depth="2" id="40">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -617,19 +604,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="42">
+									<assign depth="3" id="41">
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="43">
+									<assign depth="3" id="42">
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="44">
+									<assign depth="3" id="43">
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="45">
+									<assign depth="3" id="44">
 										<value>
 											<access>
 												<value>win</value>
@@ -650,13 +637,13 @@
 				</in>
 			</code>
 		</while>
-		<function depth="0" id="46">
+		<function depth="0" id="45">
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<name>absSin</name>
 			<code>
-				<return depth="1" id="47">
+				<return depth="1" id="46">
 					<call>
 						<function>abs</function>
 						<parameters>

@@ -6,6 +6,7 @@
 			<import>Benchmark</import>
 			<import>Compression</import>
 			<import>Input</import>
+			<import>Time</import>
 		</dependencies>
 		<strings/>
 	</header>

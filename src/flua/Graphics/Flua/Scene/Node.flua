@@ -395,35 +395,14 @@
 														</parameter>
 														<parameter>
 															<access>
-																<value>
-																	<access>
-																		<value>my</value>
-																		<value>position</value>
-																	</access>
-																</value>
-																<value>x</value>
+																<value>my</value>
+																<value>position</value>
 															</access>
 														</parameter>
 														<parameter>
 															<access>
-																<value>
-																	<access>
-																		<value>my</value>
-																		<value>position</value>
-																	</access>
-																</value>
-																<value>y</value>
-															</access>
-														</parameter>
-														<parameter>
-															<access>
-																<value>
-																	<access>
-																		<value>my</value>
-																		<value>position</value>
-																	</access>
-																</value>
-																<value>z</value>
+																<value>my</value>
+																<value>rotation</value>
 															</access>
 														</parameter>
 													</parameters>
