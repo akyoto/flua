@@ -44,7 +44,7 @@ class PythonOutputCompiler(BaseOutputCompiler):
 		return PythonOutputFile(self, inpFile.getFilePath(), inpFile.getRoot())
 		
 	def createClass(self, name, node):
-		return PythonClass(name, node)
+		return PythonClass(name, node, None)
 		
 	def writeToFS(self):
 		cppFiles = self.compiledFiles.values()
@@ -87,7 +87,7 @@ class PythonOutputCompiler(BaseOutputCompiler):
 				# Write main file
 				with open(fileOut, "w") as outStream:
 					outStream.write("""
-import flua.decls
+import flua_decls
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))

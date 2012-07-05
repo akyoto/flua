@@ -163,7 +163,7 @@ def tagName(node):
 		return node.tagName
 
 def getLeftMostOperatorNode(node):
-	if (not node) or (not node.childNodes):
+	if (not node.childNodes):
 		return node
 	
 	while node.firstChild:

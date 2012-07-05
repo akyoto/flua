@@ -478,7 +478,6 @@
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<private depth="1" id="75">
 					<function depth="2" id="76">
@@ -491,11 +490,9 @@
 								</parameters>
 							</call>
 						</code>
-						<meta/>
 					</function>
 				</private>
 			</code>
-			<meta/>
 		</class>
 		<assign depth="0" id="78">
 			<value>obj</value>

@@ -42,7 +42,7 @@ class BaseOutputFileHandler:
 		
 		# 'on' block
 		if self.onVariable:
-			op1 = node.firstChild.firstChild
+			op1 = node.childNodes[0].firstChild
 			op2 = node.childNodes[1].firstChild
 			
 			# OP1 = OP2
@@ -52,6 +52,8 @@ class BaseOutputFileHandler:
 			# a   -> innerOp1
 			
 			innerOp1 = getLeftMostOperatorNode(op1)
+			
+			#print("INNER MOST: " + innerOp1.toprettyxml())
 			#innerOp2 = innerOp1.parentNode.parentNode.childNodes[1].firstChild
 			
 			# Prefix the on variable
@@ -1103,7 +1105,13 @@ class BaseOutputFileHandler:
 		if self.onVariable:
 			funcNameNode = getFuncNameNode(node)
 			params = getElementByTagName(node, "parameters")
-			virtualCall = self.makeXMLObjectCall(self.onVariable, funcNameNode.toxml(), params.toxml())
+			
+			if funcNameNode.nodeType == Node.ELEMENT_NODE and funcNameNode.tagName == "access":
+				# TODO: BUG: Fix this for more than 2 access nodes
+				innerOp1 = getLeftMostOperatorNode(funcNameNode)
+				virtualCall = self.makeXMLObjectCall("<access><value>%s</value><value>%s</value></access>" % (self.onVariable, innerOp1.toxml()), funcNameNode.childNodes[1].childNodes[0].toxml(), params.toxml())
+			else:
+				virtualCall = self.makeXMLObjectCall(self.onVariable, funcNameNode.toxml(), params.toxml())
 			
 			# Set parent node to make mutable behaviour for immutable types possible (some crazy cheating)
 			virtualCall.parentNode = node.parentNode
@@ -1120,14 +1128,16 @@ class BaseOutputFileHandler:
 				#self.lastParsedNode.pop()
 			except CompilerException:
 				raise
-			except:
-				raise CompilerException("'%s' could not be called as a method of '%s'" % (nodeToBPC(node), saved))
+			#except:
+			#	raise CompilerException("'%s' could not be called as a method of '%s'" % (nodeToBPC(node), saved))
 			self.onVariable = saved
 			
 			return code
 		
 		# Retrieve some information about the call
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
+		
+		#debug(("--> [CALL] " + caller + ".METHOD").ljust(70) + " [my : " + callerType + "]")
 		
 		# For casts
 		funcName = self.prepareTypeName(funcName)

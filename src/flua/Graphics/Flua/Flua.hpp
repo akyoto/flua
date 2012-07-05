@@ -387,7 +387,7 @@ inline BPTextureInfo *flua_loadTexture(const char* filename, GLenum image_format
 	//if the image failed to load, return failure
 	if(!dib)
 		return NULL;
-
+	
 	//retrieve the image data
 	bits = FreeImage_GetBits(dib);
 	

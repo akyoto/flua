@@ -36,8 +36,8 @@ from flua.Compiler.Output.python.PythonClassImplementation import *
 ####################################################################
 class PythonClass(BaseClass):
 	
-	def __init__(self, name, node):
-		super().__init__(name, node)
+	def __init__(self, name, node, cppFile):
+		super().__init__(name, node, cppFile)
 		
 	def createClassImplementation(self, templateValues):
 		return PythonClassImplementation(self, templateValues)

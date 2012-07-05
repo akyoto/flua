@@ -80,7 +80,7 @@ class PythonOutputFile(BaseOutputFile):
 	def compile(self):
 		# Header
 		self.header = "# Imports\n"
-		self.header += "from flua.decls import *\n"
+		self.header += "from flua_decls import *\n"
 		for node in self.dependencies.childNodes:
 			if node.nodeType == Node.ELEMENT_NODE and node.tagName == "import":
 				self.header += self.handleImport(node)
@@ -109,7 +109,7 @@ class PythonOutputFile(BaseOutputFile):
 		return PythonNamespace(name)
 		
 	def createClass(self, name, node):
-		return PythonClass(name, node)
+		return PythonClass(name, node, self)
 	
 	def createFunction(self, node):
 		return PythonFunction(self, node)
@@ -164,6 +164,9 @@ class PythonOutputFile(BaseOutputFile):
 	
 	def buildUndefinedString(self, id, value):
 		return id + " = (\"" + value + "\")\n"
+	
+	def buildFloat(self, value):
+		return value
 	
 	def buildModuleImport(self, importedModule):
 		path = (extractDir(importedModule) + stripAll(importedModule))[len(self.compiler.modDir):]

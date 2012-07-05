@@ -1334,7 +1334,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		offsets = 0
 		
 		while cursor.blockNumber() <= blockEnd:
-			print(str(cursor.blockNumber()) + " / " + str(blockEnd))
+			#print(str(cursor.blockNumber()) + " / " + str(blockEnd))
 			
 			nOffset = func(cursor)
 			

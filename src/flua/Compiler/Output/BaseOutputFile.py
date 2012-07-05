@@ -842,6 +842,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				caller = self.parseExpr(callerNode)
 				
 				funcName = funcNameNode.childNodes[1].childNodes[0].nodeValue
+				#print("FuncNode: " + funcNameNode.toprettyxml())
+				#print(funcNameNode.childNodes[1].childNodes[0].toprettyxml())
 				#print(callerType + "::" + funcName)
 		
 		return caller, callerType, correctOperators(funcName)
