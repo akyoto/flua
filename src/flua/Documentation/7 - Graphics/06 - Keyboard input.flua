@@ -8,7 +8,7 @@
 			<import>flua.Utils.Time</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">Flua\S-\SRotating\Scube</string>
+			<string id="flua_string_0">Flua\S-\SKeyboard\Sinput</string>
 			<string id="flua_string_1">../</string>
 			<string id="flua_string_2">Shader/1-VS.glsl</string>
 			<string id="flua_string_3">Shader/1-FS.glsl</string>
@@ -25,7 +25,17 @@
 					<parameters>
 						<parameter>flua_string_0</parameter>
 						<parameter>800</parameter>
-						<parameter>600</parameter>
+						<parameter>
+							<divide>
+								<value>
+									<multiply>
+										<value>800</value>
+										<value>9</value>
+									</multiply>
+								</value>
+								<value>16</value>
+							</divide>
+						</parameter>
 					</parameters>
 				</new>
 			</value>
@@ -251,7 +261,7 @@
 									<call>
 										<function>isKeyDown</function>
 										<parameters>
-											<parameter>KEY_UP</parameter>
+											<parameter>KEY_LEFT</parameter>
 										</parameters>
 									</call>
 								</condition>
@@ -279,7 +289,7 @@
 									<call>
 										<function>isKeyDown</function>
 										<parameters>
-											<parameter>KEY_DOWN</parameter>
+											<parameter>KEY_RIGHT</parameter>
 										</parameters>
 									</call>
 								</condition>
@@ -307,7 +317,7 @@
 									<call>
 										<function>isKeyDown</function>
 										<parameters>
-											<parameter>KEY_LEFT</parameter>
+											<parameter>KEY_UP</parameter>
 										</parameters>
 									</call>
 								</condition>
@@ -335,7 +345,7 @@
 									<call>
 										<function>isKeyDown</function>
 										<parameters>
-											<parameter>KEY_RIGHT</parameter>
+											<parameter>KEY_DOWN</parameter>
 										</parameters>
 									</call>
 								</condition>
