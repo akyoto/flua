@@ -69,7 +69,10 @@ class BPSearchEdit(QtGui.QLineEdit):
 			return
 		
 		if not self.regExSearch:
-			pyCount = ce.toPlainText().count(text)
+			if not self.usingSelection:
+				pyCount = ce.toPlainText().count(text)
+			else:
+				pyCount = cursor.selectedText().count(text)
 			
 			if pyCount == 0:
 				replaceEdit.hide()
