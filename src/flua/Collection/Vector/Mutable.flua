@@ -95,6 +95,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="11">
 					<name>finalize</name>
@@ -194,6 +195,7 @@
 							</if>
 						</if-block>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="18">
 					<parameters>
@@ -518,20 +520,202 @@
 							</code>
 						</while>
 					</code>
+					<meta/>
 				</function>
-				<operators depth="1" id="50">
-					<operator depth="2" id="51">
+				<comment>\SAdds\San\S#element\Sinbetween\Stwo\Ssuccessive\Selements</comment>
+				<function depth="1" id="50">
+					<parameters>
+						<parameter>element</parameter>
+					</parameters>
+					<name>interpose</name>
+					<code>
+						<assign depth="2" id="51">
+							<value>len</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>getLength</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<if-block depth="2" id="52">
+							<if>
+								<condition>
+									<equal>
+										<value>len</value>
+										<value>0</value>
+									</equal>
+								</condition>
+								<code>
+									<return depth="3" id="53"/>
+								</code>
+							</if>
+						</if-block>
+						<assign depth="2" id="54">
+							<value>newSize</value>
+							<value>
+								<call>
+									<function>max</function>
+									<parameters>
+										<parameter>
+											<multiply>
+												<value>len</value>
+												<value>2</value>
+											</multiply>
+										</parameter>
+										<parameter>
+											<call>
+												<function>
+													<access>
+														<value>my</value>
+														<value>getSize</value>
+													</access>
+												</function>
+												<parameters/>
+											</call>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+						<assign depth="2" id="55">
+							<value>newMem</value>
+							<value>
+								<unmanaged>
+									<value>
+										<new>
+											<type>
+												<template-call>
+													<value>MemPointer</value>
+													<value>TDataType</value>
+												</template-call>
+											</type>
+											<parameters>
+												<parameter>newSize</parameter>
+											</parameters>
+										</new>
+									</value>
+								</unmanaged>
+							</value>
+						</assign>
+						<for depth="2" id="56">
+							<iterator>i</iterator>
+							<from>0</from>
+							<until>len</until>
+							<code>
+								<assign depth="3" id="57">
+									<value>
+										<index>
+											<value>newMem</value>
+											<value>
+												<multiply>
+													<value>i</value>
+													<value>2</value>
+												</multiply>
+											</value>
+										</index>
+									</value>
+									<value>
+										<index>
+											<value>
+												<access>
+													<value>my</value>
+													<value>start</value>
+												</access>
+											</value>
+											<value>i</value>
+										</index>
+									</value>
+								</assign>
+								<assign depth="3" id="58">
+									<value>
+										<index>
+											<value>newMem</value>
+											<value>
+												<subtract>
+													<value>
+														<multiply>
+															<value>i</value>
+															<value>2</value>
+														</multiply>
+													</value>
+													<value>1</value>
+												</subtract>
+											</value>
+										</index>
+									</value>
+									<value>element</value>
+								</assign>
+							</code>
+						</for>
+						<assign depth="2" id="59">
+							<value>
+								<access>
+									<value>my</value>
+									<value>start</value>
+								</access>
+							</value>
+							<value>newMem</value>
+						</assign>
+						<assign depth="2" id="60">
+							<value>
+								<access>
+									<value>my</value>
+									<value>end</value>
+								</access>
+							</value>
+							<value>
+								<subtract>
+									<value>
+										<add>
+											<value>newMem</value>
+											<value>
+												<multiply>
+													<value>len</value>
+													<value>2</value>
+												</multiply>
+											</value>
+										</add>
+									</value>
+									<value>1</value>
+								</subtract>
+							</value>
+						</assign>
+						<assign depth="2" id="61">
+							<value>
+								<access>
+									<value>my</value>
+									<value>endOfStorage</value>
+								</access>
+							</value>
+							<value>
+								<add>
+									<value>newMem</value>
+									<value>newSize</value>
+								</add>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+				<operators depth="1" id="62">
+					<operator depth="2" id="63">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<require depth="3" id="52">
-								<greater-or-equal depth="4" id="53">
+							<require depth="3" id="64">
+								<greater-or-equal depth="4" id="65">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="54">
+								<less depth="4" id="66">
 									<value>index</value>
 									<value>
 										<access>
@@ -541,7 +725,7 @@
 									</value>
 								</less>
 							</require>
-							<return depth="3" id="55">
+							<return depth="3" id="67">
 								<index>
 									<value>
 										<access>
@@ -555,19 +739,19 @@
 						</code>
 					</operator>
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
-					<operator depth="2" id="56">
+					<operator depth="2" id="68">
 						<parameters>
 							<parameter>index</parameter>
 							<parameter>value</parameter>
 						</parameters>
 						<name>[]=</name>
 						<code>
-							<require depth="3" id="57">
-								<greater-or-equal depth="4" id="58">
+							<require depth="3" id="69">
+								<greater-or-equal depth="4" id="70">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="59">
+								<less depth="4" id="71">
 									<value>index</value>
 									<value>
 										<access>
@@ -577,7 +761,7 @@
 									</value>
 								</less>
 							</require>
-							<assign depth="3" id="60">
+							<assign depth="3" id="72">
 								<value>
 									<index>
 										<value>
@@ -594,15 +778,15 @@
 						</code>
 					</operator>
 				</operators>
-				<iterators depth="1" id="61">
-					<iterator-type depth="2" id="62">
+				<iterators depth="1" id="73">
+					<iterator-type depth="2" id="74">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="63">
+							<assign depth="3" id="75">
 								<value>pos</value>
 								<value>0</value>
 							</assign>
-							<assign depth="3" id="64">
+							<assign depth="3" id="76">
 								<value>end</value>
 								<value>
 									<call>
@@ -616,7 +800,7 @@
 									</call>
 								</value>
 							</assign>
-							<while depth="3" id="65">
+							<while depth="3" id="77">
 								<condition>
 									<less>
 										<value>pos</value>
@@ -624,7 +808,7 @@
 									</less>
 								</condition>
 								<code>
-									<yield depth="4" id="66">
+									<yield depth="4" id="78">
 										<index>
 											<value>
 												<access>
@@ -635,7 +819,7 @@
 											<value>pos</value>
 										</index>
 									</yield>
-									<assign-add depth="4" id="67">
+									<assign-add depth="4" id="79">
 										<value>pos</value>
 										<value>1</value>
 									</assign-add>
@@ -644,17 +828,17 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="68">
-					<getter depth="2" id="69">
+				<get depth="1" id="80">
+					<getter depth="2" id="81">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="70">
-								<greater-or-equal depth="4" id="71">
+							<ensure depth="3" id="82">
+								<greater-or-equal depth="4" id="83">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="72">
+							<return depth="3" id="84">
 								<subtract>
 									<value>
 										<access>
@@ -672,16 +856,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="73">
+					<getter depth="2" id="85">
 						<name>size</name>
 						<code>
-							<ensure depth="3" id="74">
-								<greater-or-equal depth="4" id="75">
+							<ensure depth="3" id="86">
+								<greater-or-equal depth="4" id="87">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="76">
+							<return depth="3" id="88">
 								<subtract>
 									<value>
 										<access>
@@ -699,10 +883,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="77">
+					<getter depth="2" id="89">
 						<name>data</name>
 						<code>
-							<return depth="3" id="78">
+							<return depth="3" id="90">
 								<access>
 									<value>my</value>
 									<value>start</value>
@@ -711,20 +895,20 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="79">
-					<setter depth="2" id="80">
+				<set depth="1" id="91">
+					<setter depth="2" id="92">
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<name>length</name>
 						<code>
-							<require depth="3" id="81">
-								<greater-or-equal depth="4" id="82">
+							<require depth="3" id="93">
+								<greater-or-equal depth="4" id="94">
 									<value>newLength</value>
 									<value>0</value>
 								</greater-or-equal>
 							</require>
-							<assign depth="3" id="83">
+							<assign depth="3" id="95">
 								<value>
 									<access>
 										<value>my</value>
@@ -743,7 +927,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block depth="3" id="84">
+							<if-block depth="3" id="96">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -762,7 +946,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call depth="4" id="85">
+										<call depth="4" id="97">
 											<function>
 												<access>
 													<value>my</value>
@@ -802,11 +986,11 @@
 			</meta>
 		</class>
 		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>
-		<class depth="0" id="86">
+		<class depth="0" id="98">
 			<name>UTF8String</name>
 			<code>
 				<comment>\SInit\Sfrom\Sbyte\Sarray</comment>
-				<function depth="1" id="87">
+				<function depth="1" id="99">
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -822,7 +1006,7 @@
 					</parameters>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="88">
+						<assign depth="2" id="100">
 							<value>
 								<access>
 									<value>my</value>
@@ -848,7 +1032,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="89">
+						<call depth="2" id="101">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -871,7 +1055,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="90">
+						<assign depth="2" id="102">
 							<value>
 								<access>
 									<value>my</value>
@@ -885,7 +1069,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="91">
+						<assign depth="2" id="103">
 							<value>
 								<access>
 									<value>my</value>

@@ -84,6 +84,9 @@ def findNodes(node, nodeName):
 	return callList
 	
 def findCalls(node):
+	if node.nodeType != Node.ELEMENT_NODE:
+		return
+	
 	callList = []
 	
 	if node.tagName in {"call", "new"}: # or tagName(node) == "new":
