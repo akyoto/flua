@@ -307,12 +307,22 @@ class PythonOutputFile(BaseOutputFile):
 						classes = ', '.join(self.adjustDataType(c.classObj.name) for c in classObj.extends)
 						extends = "(%s)" % classes
 					
+					writtenMembers = dict()
+					
 					# Init all members as None
 					memberInit = []
 					for member in classImpl.members:
-						memberInit.append("\t\tself.")
+						memberInit.append("\t\tself._")
 						memberInit.append(member)
 						memberInit.append(" = None\n")
+						writtenMembers[member] = True
+					
+					# ClassObj public members
+					for memberName, memberType in classImpl.classObj.publicMembersDefined.items():
+						if not memberName in writtenMembers:
+							memberInit.append("\t\tself._")
+							memberInit.append(memberName)
+							memberInit.append(" = None\n")
 					
 					self.classesHeader += "class %s%s:\n\tdef __init__(self):\n%s\t\tpass" % (finalClassName, extends, ''.join(memberInit))
 					

@@ -1,51 +1,14 @@
 #include <cmath>
 
-template <typename T>
-inline double flua_sin(T radian) {
-	return sin(radian);
-}
+BP_WRAP_1(float, flua_sin, sinf)
+BP_WRAP_1(float, flua_cos, cosf)
+BP_WRAP_1(float, flua_tan, tanf)
 
-template <typename T>
-inline double flua_cos(T radian) {
-	return cos(radian);
-}
+BP_WRAP_1(float, flua_asin, asinf)
+BP_WRAP_1(float, flua_acos, acosf)
+BP_WRAP_1(float, flua_atan, atanf)
+BP_WRAP_1(float, flua_atan2, atan2f)
 
-template <typename T>
-inline double flua_tan(T radian) {
-	return tan(radian);
-}
-
-template <typename T>
-inline double flua_asin(T radian) {
-	return asin(radian);
-}
-
-template <typename T>
-inline double flua_acos(T radian) {
-	return acos(radian);
-}
-
-template <typename T>
-inline double flua_atan(T radian) {
-	return atan(radian);
-}
-
-template <typename T1, typename T2>
-inline double flua_atan2(T1 y, T2 x) {
-	return atan2(y, x);
-}
-
-template <typename T>
-inline double flua_sinh(T radian) {
-	return sinh(radian);
-}
-
-template <typename T>
-inline double flua_cosh(T radian) {
-	return cosh(radian);
-}
-
-template <typename T>
-inline double flua_tanh(T radian) {
-	return tanh(radian);
-}
+BP_WRAP_1(float, flua_sinh, sinhf)
+BP_WRAP_1(float, flua_cosh, coshf)
+BP_WRAP_1(float, flua_tanh, tanhf)

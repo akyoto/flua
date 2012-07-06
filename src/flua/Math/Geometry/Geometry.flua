@@ -21,7 +21,7 @@
 				<code>
 					<extern-function depth="2" id="5">
 						<name>sin</name>
-						<type>Float64</type>
+						<type>Float</type>
 						<meta>
 							<referentially-transparent>true</referentially-transparent>
 							<same-output-for-input>true</same-output-for-input>
@@ -30,7 +30,7 @@
 					</extern-function>
 					<extern-function depth="2" id="6">
 						<name>cos</name>
-						<type>Float64</type>
+						<type>Float</type>
 						<meta>
 							<referentially-transparent>true</referentially-transparent>
 							<same-output-for-input>true</same-output-for-input>
@@ -38,40 +38,95 @@
 						</meta>
 					</extern-function>
 					<extern-function depth="2" id="7">
-						<name>atan2</name>
-						<type>Float64</type>
+						<name>tan</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>asin</name>
+						<type>Float</type>
 						<meta>
 							<same-output-for-input>true</same-output-for-input>
 							<no-side-effects>true</no-side-effects>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="9">
+						<name>acos</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="10">
+						<name>atan</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="11">
+						<name>atan2</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="12">
+						<name>sinh</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="13">
+						<name>cosh</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
+					</extern-function>
+					<extern-function depth="2" id="14">
+						<name>tanh</name>
+						<type>Float</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
 				</code>
 			</namespace>
 		</extern>
 		<comment>\SConverts\S#deg\Sdegrees\Sto\Sradians</comment>
-		<function depth="0" id="8">
+		<function depth="0" id="15">
 			<parameters>
 				<parameter>deg</parameter>
 			</parameters>
 			<name>degToRad</name>
 			<code>
-				<return depth="1" id="9">
+				<return depth="1" id="16">
 					<multiply>
 						<value>deg</value>
 						<value>DEG_TO_RAD</value>
 					</multiply>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SConverts\S#rad\Sradians\Sto\Sdegrees</comment>
-		<function depth="0" id="10">
+		<function depth="0" id="17">
 			<parameters>
 				<parameter>rad</parameter>
 			</parameters>
 			<name>radToDeg</name>
 			<code>
-				<return depth="1" id="11">
+				<return depth="1" id="18">
 					<multiply>
 						<value>rad</value>
 						<value>RAD_TO_DEG</value>
@@ -82,13 +137,13 @@
 		</function>
 		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
 		<comment>\Ssee\S#sinDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
-		<function depth="0" id="12">
+		<function depth="0" id="19">
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
 			<name>sin</name>
 			<code>
-				<return depth="1" id="13">
+				<return depth="1" id="20">
 					<call>
 						<function>
 							<access>
@@ -104,15 +159,15 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#degree\Sdegrees,</comment>
+		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
 		<comment>\Ssee\S#cosDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
-		<function depth="0" id="14">
+		<function depth="0" id="21">
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
 			<name>cos</name>
 			<code>
-				<return depth="1" id="15">
+				<return depth="1" id="22">
 					<call>
 						<function>
 							<access>
@@ -128,16 +183,108 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Stangent\Sof\San\Sangle\Sof\S#radian\Sradians</comment>
+		<function depth="0" id="23">
+			<parameters>
+				<parameter>radian</parameter>
+			</parameters>
+			<name>tan</name>
+			<code>
+				<return depth="1" id="24">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>tan</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>radian</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SArc\Ssine\Sis\Sthe\Sinverse\Soperation\Sof\Ssine</comment>
+		<function depth="0" id="25">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>asin</name>
+			<code>
+				<return depth="1" id="26">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>asin</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SArc\Scosine\Sis\Sthe\Sinverse\Soperation\Sof\Scosine</comment>
+		<function depth="0" id="27">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>acos</name>
+			<code>
+				<return depth="1" id="28">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>acos</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SArc\Stangent\Sis\Sthe\Sinverse\Soperation\Sof\Stangent</comment>
+		<function depth="0" id="29">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>atan</name>
+			<code>
+				<return depth="1" id="30">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>atan</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Sangle\Sin\Sradians\Sbetween\Sthe\Spositive\Sx-axis\Sof</comment>
 		<comment>\Sa\Splane\Sand\Sthe\Spoint\Sgiven\Sby\Sthe\Scoordinates\S(x,\Sy)\Son\Sit.</comment>
-		<function depth="0" id="16">
+		<function depth="0" id="31">
 			<parameters>
 				<parameter>x</parameter>
 				<parameter>y</parameter>
 			</parameters>
 			<name>aTan2</name>
 			<code>
-				<return depth="1" id="17">
+				<return depth="1" id="32">
 					<call>
 						<function>
 							<access>
@@ -154,14 +301,83 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SReturns\Sthe\Shyperbolic\Ssine\Sof\S#x</comment>
+		<function depth="0" id="33">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>sinh</name>
+			<code>
+				<return depth="1" id="34">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>sinh</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Shyperbolic\Scosine\Sof\S#x</comment>
+		<function depth="0" id="35">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>cosh</name>
+			<code>
+				<return depth="1" id="36">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>cosh</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Shyperbolic\Stangent\Sof\S#x</comment>
+		<function depth="0" id="37">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>tanh</name>
+			<code>
+				<return depth="1" id="38">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>tanh</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
-		<function depth="0" id="18">
+		<function depth="0" id="39">
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
 			<name>sinDegree</name>
 			<code>
-				<return depth="1" id="19">
+				<return depth="1" id="40">
 					<call>
 						<function>
 							<access>
@@ -182,15 +398,16 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
-		<function depth="0" id="20">
+		<function depth="0" id="41">
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
 			<name>cosDegree</name>
 			<code>
-				<return depth="1" id="21">
+				<return depth="1" id="42">
 					<call>
 						<function>
 							<access>
@@ -211,10 +428,41 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Stangent\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
+		<function depth="0" id="43">
+			<parameters>
+				<parameter>degree</parameter>
+			</parameters>
+			<name>tanDegree</name>
+			<code>
+				<return depth="1" id="44">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>tan</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>
+								<call>
+									<function>radToDeg</function>
+									<parameters>
+										<parameter>degree</parameter>
+									</parameters>
+								</call>
+							</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssquared\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
 		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
-		<function depth="0" id="22">
+		<function depth="0" id="45">
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
@@ -223,7 +471,7 @@
 			</parameters>
 			<name>distanceSq</name>
 			<code>
-				<assign depth="1" id="23">
+				<assign depth="1" id="46">
 					<value>dX</value>
 					<value>
 						<subtract>
@@ -232,7 +480,7 @@
 						</subtract>
 					</value>
 				</assign>
-				<assign depth="1" id="24">
+				<assign depth="1" id="47">
 					<value>dY</value>
 					<value>
 						<subtract>
@@ -241,7 +489,7 @@
 						</subtract>
 					</value>
 				</assign>
-				<return depth="1" id="25">
+				<return depth="1" id="48">
 					<add>
 						<value>
 							<multiply>
@@ -261,7 +509,7 @@
 		</function>
 		<comment>\SReturns\Sthe\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
 		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
-		<function depth="0" id="26">
+		<function depth="0" id="49">
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
@@ -270,7 +518,7 @@
 			</parameters>
 			<name>distance</name>
 			<code>
-				<return depth="1" id="27">
+				<return depth="1" id="50">
 					<call>
 						<function>sqr</function>
 						<parameters>
@@ -289,7 +537,154 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="51">
+			<code>
+				<call depth="1" id="52">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>sin</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="53">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>cos</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="54">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>tan</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="55">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>asin</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="56">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>acos</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="57">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>atan</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="58">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>floor</function>
+								<parameters>
+									<parameter>5.5</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="59">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>ceil</function>
+								<parameters>
+									<parameter>5.5</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="60">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>sinh</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="61">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>cosh</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="62">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>tanh</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</test>
 	</code>
 </module>

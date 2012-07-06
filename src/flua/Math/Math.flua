@@ -46,6 +46,7 @@
 					</extern-function>
 					<extern-function depth="2" id="8">
 						<name>floor</name>
+						<type>Float</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 							<same-output-for-input>true</same-output-for-input>
@@ -53,6 +54,7 @@
 					</extern-function>
 					<extern-function depth="2" id="9">
 						<name>ceil</name>
+						<type>Float</type>
 						<meta>
 							<same-output-for-input>true</same-output-for-input>
 							<no-side-effects>true</no-side-effects>
@@ -75,7 +77,7 @@
 					</extern-function>
 					<extern-function depth="2" id="12">
 						<name>isInf</name>
-						<type>Bool</type>
+						<type>Int</type>
 						<meta>
 							<same-output-for-input>true</same-output-for-input>
 							<no-side-effects>true</no-side-effects>
@@ -192,6 +194,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sabsolute\Svalue\Sof\S#x\S(positive)</comment>
 		<function depth="0" id="26">
@@ -333,15 +336,108 @@
 				</call>
 			</code>
 		</function>
-		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
+		<comment>\SReturns\Sthe\Slargest\Sintegral\Svalue\Sthat\Sis\Snot\Sgreater\Sthan\S#x</comment>
 		<function depth="0" id="43">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>floor</name>
+			<code>
+				<return depth="1" id="44">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>floor</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
+		<function depth="0" id="45">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>ceil</name>
+			<code>
+				<return depth="1" id="46">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>ceil</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SDetermines\Sif\S#x\Sis\Snot-a-number\S(NaN)</comment>
+		<function depth="0" id="47">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>isNaN</name>
+			<code>
+				<return depth="1" id="48">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>isNan</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SDetermines\Sif\S#x\Sis\Sinfinite,\S1\Sfor\Spositive\Sinfinity</comment>
+		<comment>\Sand\S-1\Sfor\Snegative\Sinfinity.</comment>
+		<function depth="0" id="49">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>isInf</name>
+			<code>
+				<return depth="1" id="50">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>isInf</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
+		<function depth="0" id="51">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>min</name>
 			<code>
-				<if-block depth="1" id="44">
+				<if-block depth="1" id="52">
 					<if>
 						<condition>
 							<less>
@@ -350,26 +446,26 @@
 							</less>
 						</condition>
 						<code>
-							<return depth="2" id="45">a</return>
+							<return depth="2" id="53">a</return>
 						</code>
 					</if>
-					<else depth="1" id="46">
+					<else depth="1" id="54">
 						<code>
-							<return depth="2" id="47">b</return>
+							<return depth="2" id="55">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="48">
+		<function depth="0" id="56">
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<name>max</name>
 			<code>
-				<if-block depth="1" id="49">
+				<if-block depth="1" id="57">
 					<if>
 						<condition>
 							<greater>
@@ -378,16 +474,47 @@
 							</greater>
 						</condition>
 						<code>
-							<return depth="2" id="50">a</return>
+							<return depth="2" id="58">a</return>
 						</code>
 					</if>
-					<else depth="1" id="51">
+					<else depth="1" id="59">
 						<code>
-							<return depth="2" id="52">b</return>
+							<return depth="2" id="60">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
 		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="61">
+			<code>
+				<call depth="1" id="62">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>isInf</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="63">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<call>
+								<function>isNaN</function>
+								<parameters>
+									<parameter>0</parameter>
+								</parameters>
+							</call>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</test>
 	</code>
 </module>

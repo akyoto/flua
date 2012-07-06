@@ -1,44 +1,13 @@
 #include <cmath>
 
-template <typename T>
-inline bool flua_isNan(T x) {
-	return isnan(x);
-}
-
-template <typename T>
-inline bool flua_isInf(T x) {
-	return isinf(x);
-}
-
-template <typename T>
-inline double flua_sqrt(T num) {
-	return sqrt(num);
-}
-
-template <typename T>
-inline double flua_exp(T x) {
-	return exp(x);
-}
-
-template <typename T>
-inline double flua_floor(T x) {
-	return floor(x);
-}
-
-template <typename T>
-inline double flua_ceil(T x) {
-	return ceil(x);
-}
-
-template <typename T>
-inline double flua_log(T x) {
-	return log(x);
-}
-
-template <typename T>
-inline double flua_log10(T x) {
-	return log10(x);
-}
+BP_WRAP_1(bool, flua_isNan, isnan)
+BP_WRAP_1(bool, flua_isInf, isinf)
+BP_WRAP_1(double, flua_sqrt, sqrt)
+BP_WRAP_1(double, flua_exp, exp)
+BP_WRAP_1(double, flua_floor, floor)
+BP_WRAP_1(double, flua_ceil, ceil)
+BP_WRAP_1(double, flua_log, log)
+BP_WRAP_1(double, flua_log10, log10)
 
 template <typename T1, typename T2>
 inline int flua_rand(T1 a, T2 b) {
