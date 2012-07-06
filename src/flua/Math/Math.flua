@@ -62,6 +62,7 @@
 					</extern-function>
 					<extern-function depth="2" id="10">
 						<name>exp</name>
+						<type>Float64</type>
 						<meta>
 							<same-output-for-input>true</same-output-for-input>
 							<no-side-effects>true</no-side-effects>
@@ -120,6 +121,7 @@
 					</multiply>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
 		<function depth="0" id="18">
@@ -357,7 +359,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
 		<function depth="0" id="45">
@@ -380,7 +381,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SDetermines\Sif\S#x\Sis\Snot-a-number\S(NaN)</comment>
 		<function depth="0" id="47">
@@ -403,7 +403,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SDetermines\Sif\S#x\Sis\Sinfinite,\S1\Sfor\Spositive\Sinfinity</comment>
 		<comment>\Sand\S-1\Sfor\Snegative\Sinfinity.</comment>
@@ -427,7 +426,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
 		<function depth="0" id="51">
@@ -485,10 +483,33 @@
 				</if-block>
 			</code>
 		</function>
-		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="61">
+		<comment>\SReturns\Se\S(Euler's\Snumber,\S2.7182818)\Sraised\Sto\Sthe\Sgiven\Spower\S#x</comment>
+		<function depth="0" id="61">
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
+			<name>ePow</name>
 			<code>
-				<call depth="1" id="62">
+				<return depth="1" id="62">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>exp</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="63">
+			<code>
+				<call depth="1" id="64">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -501,7 +522,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="63">
+				<call depth="1" id="65">
 					<function>print</function>
 					<parameters>
 						<parameter>
