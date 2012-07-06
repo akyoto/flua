@@ -550,6 +550,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.updater = None
 			super().clear()
 			self.updater = BPCodeUpdater(self)
+			self.postProcessorThread = BPPostProcessorThread(self)
 			self.disableUpdatesFlag = False
 			
 			self.timer = QtCore.QTimer(self)
@@ -969,19 +970,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			relPos = cursor.positionInBlock() #cursor.position() - block.position()
 			
 			if relPos == 1:
+				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+				popup.hide()
 				return
 			
 			# 
 			if 	(
 					(
-						(
-							eventKey == QtCore.Qt.Key_Backspace #and
-							#(self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION)
-						)
-						or
-						(
-						(not isShortcut) and (not event.text())
-						)
+						eventKey == QtCore.Qt.Key_Backspace #and
+						#(self.autoCompleteState == BPCAutoCompleter.STATE_SEARCHING_SUGGESTION)
+					)
+					or
+					(
+					(not isShortcut) and (not event.text())
 					)
 					#and
 					#((not self.completer.memberListActivated()) or self.completer.completionPrefix() == "")
@@ -1524,6 +1525,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			return
 		
 		if self.updateQueue:
+			print("onUpdateTimeout: got some work")
 			self.updateQueue.clear()
 			self.updater.setDocument(self.qdoc)
 			

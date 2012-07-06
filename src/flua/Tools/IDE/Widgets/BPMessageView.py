@@ -120,7 +120,7 @@ class BPMessageView(QtGui.QListWidget):
 				return
 		
 		# Last post processor exception
-		pp = self.bpIDE.postProcessorThread
+		pp = self.ce.postProcessorThread
 		if pp and pp.lastException:
 			self.clear()
 			e = self.lastException = pp.lastException

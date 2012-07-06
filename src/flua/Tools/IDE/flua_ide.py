@@ -198,7 +198,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.updateCodeBubble(node)
 		
 	def onProgressUpdate(self):
-		if self.lastFunctionCount == -1 and self.postProcessorThread:
+		if self.lastFunctionCount == -1: #and self.codeEdit and self.codeEdit.postProcessorThread:
 			val = time.time() - self.startTime
 			self.progressBar.setValue(min(100, val * 40))
 			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
@@ -673,11 +673,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def runPostProcessor(self, codeEdit):
 		# TODO: Less cpu usage
-		if self.threaded and not codeEdit.reloading:
-			if not self.postProcessorThread.isRunning():
-				self.postProcessorThread.startWith(codeEdit)
-			else:
-				codeEdit.disableUpdatesFlag = False
+		if self.threaded: #and not codeEdit.reloading:
+			if not codeEdit.postProcessorThread.isRunning():
+				codeEdit.postProcessorThread.startWith()
+			#else:
+			#	codeEdit.disableUpdatesFlag = False
 		else:
 			#raise "Not implemented in single-threaded mode"
 			ppThread = BPPostProcessorThread(self)
@@ -688,7 +688,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def postProcessorFinished(self, ppThread = None):
 		if ppThread is None:
-			ppThread = self.postProcessorThread
+			ppThread = self.codeEdit.postProcessorThread
 		
 		ppCodeEdit = ppThread.codeEdit
 		self.processorOutFile = ppThread.ppFile

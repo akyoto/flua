@@ -4,20 +4,20 @@ import collections
 
 class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	
-	def __init__(self, bpIDE):
-		super().__init__(bpIDE)
+	def __init__(self, codeEdit):
+		super().__init__(codeEdit)
 		Benchmarkable.__init__(self)
-		self.bpIDE = bpIDE
-		self.processor = bpIDE.processor
+		self.bpIDE = codeEdit.bpIDE
+		self.codeEdit = codeEdit
+		self.processor = codeEdit.bpIDE.processor
 		self.ppFile = None
 		self.lastException = None
 		self.numTasksHandled = 0
 		self.ceQueue = collections.deque()
-		self.finished.connect(self.bpIDE.postProcessorFinished)
+		self.finished.connect(codeEdit.bpIDE.postProcessorFinished)
 		
-	def startWith(self, codeEdit):
-		self.codeEdit = codeEdit
-		self.numTasksHandled = codeEdit.ppOutstandingTasks
+	def startWith(self):
+		self.numTasksHandled = self.codeEdit.ppOutstandingTasks
 		
 		if not self.codeEdit is None:
 			if self.bpIDE.threaded:

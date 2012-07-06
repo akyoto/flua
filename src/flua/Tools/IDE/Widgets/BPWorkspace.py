@@ -152,6 +152,8 @@ class BPWorkspace(QtGui.QTabWidget):
 					tabName = "%s %s" % (moduleName, filePath.split("/")[-2])
 				else:
 					tabName = moduleName
+					
+				#self.bpIDE.codeEdit.highlighter.rehighlight()
 			
 			self.setTabText(self.currentIndex(), tabName)
 			self.setTabToolTip(self.currentIndex(), filePath)

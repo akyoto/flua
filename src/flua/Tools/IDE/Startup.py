@@ -424,7 +424,6 @@ class Startup:
 		self.processorOutFile = None
 		
 		# Threads
-		self.postProcessorThread = BPPostProcessorThread(self)
 		self.outputCompilerThread = BPOutputCompilerThread(self)
 		self.runThread = BPRunThread(self)
 		
