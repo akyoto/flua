@@ -62,6 +62,8 @@ class RepositoryMenuActions:
 			
 			self.repoDialog.search.textChanged.connect(self.filterRepositories)
 			self.repoDialog.repositoryList.currentItemChanged.connect(self.onRepositoryChange)
+			
+			self.repoDialog.downloadButton.setEnabled(False)
 			self.repoDialog.downloadButton.clicked.connect(self.downloadRepository)
 		
 		self.filterRepositories("")
@@ -69,6 +71,9 @@ class RepositoryMenuActions:
 		
 	def downloadRepository(self):
 		item = self.repoDialog.repositoryList.currentItem()
+		if not item:
+			return
+		
 		repoName = item.text()
 		
 		if repoName == "blitzprog/flua":
