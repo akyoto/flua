@@ -409,7 +409,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			
 			# Process line type
 			prefix = ""
-			if child.hasAttribute("implemented") and child.getAttribute("implemented") == "false":
+			if child.nodeType != Node.TEXT_NODE and child.hasAttribute("implemented") and child.getAttribute("implemented") == "false":
 				pass
 			elif previousLineType:
 				if (currentLineType + previousLineType >= 3 or (currentLineType == 0 and previousLineType > 0)) and currentLineType != 3:
@@ -497,7 +497,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		funcName = nodeToBPC(name, 0, conv)
 		
-		if node.hasAttribute("implemented") and node.getAttribute("implemented") == "false":
+		if node.nodeType != Node.TEXT_NODE and node.hasAttribute("implemented") and node.getAttribute("implemented") == "false":
 			codeText = ""
 			implemented = False
 		else:

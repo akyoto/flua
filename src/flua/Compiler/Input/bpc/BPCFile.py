@@ -1357,7 +1357,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			if line[pos] == '(':
 				line = line[:-1]
 		else:
+			
 			if self.currentSyntax == SYNTAX_PYTHON:
+				line = line[:-1]
 				whiteSpace = line.find('(')
 			else:
 				whiteSpace = line.find(' ')
@@ -1366,6 +1368,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				funcName = line[:whiteSpace]
 			else:
 				funcName = line
+			
+			#print(line, pos, funcName)
 			
 			if (not self.inOperators) and (not self.inCasts):
 				raise CompilerException("Invalid function name '" + funcName + "' for function definition")
@@ -1400,6 +1404,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
 		expr = addGenerics(line[len(funcName)+1:])
+		
 		if expr:
 			if isDefinitelyOperatorSign(expr[0]):
 				raise CompilerException("Parameter name missing: '%s' (expecting function definition for '%s')" % (expr, funcName))

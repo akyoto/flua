@@ -85,7 +85,7 @@ def findNodes(node, nodeName):
 	
 def findCalls(node):
 	if node.nodeType != Node.ELEMENT_NODE:
-		return
+		return []
 	
 	callList = []
 	

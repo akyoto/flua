@@ -66,10 +66,12 @@
 			</parameters>
 		</call>
 		<comment>\SNote\Sthat\Sthis\Screates\Sa\Sbetter\Sreusability\Sfor\Sfunctions.</comment>
-		<comment>\SEven\Sthough\Sthe\SC++\Soutput\Smodule\Suses\Sstatic\Styping\S(well,\Sit's\SC++\Sfiles\Safter\Sall...)</comment>
-		<comment>\Syou\Sshould\Sleave\Sout\Sthe\Stype\Sspecifiers\Sas\Soften\Sas\Spossible\Sbecause</comment>
-		<comment>\Syour\Sfunction\Scan\Sthen\Sbe\Sused\Swith\Smany\Spossible\Stypes,\Snot\Sjust\Sthe\Sones\Syou\Sthought\Sof.</comment>
-		<comment>\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour\Sfunction\Sto\Sa\Sspecific\Stype,\Syou\Sneed\Sto\Swrite:</comment>
+		<comment>\SEven\Sthough\Sthe\SC++\Soutput\Smodule\Suses\Sstatic\Styping</comment>
+		<comment>\S(well,\Sit's\SC++\Sfiles\Safter\Sall...)\Syou\Sshould\Sleave\Sout</comment>
+		<comment>\Sthe\Stype\Sspecifiers\Sas\Soften\Sas\Spossible\Sbecause\Syour\Sfunction</comment>
+		<comment>\Scan\Sthen\Sbe\Sused\Swith\Smany\Spossible\Stypes,\Snot\Sjust\Sthe\Sones</comment>
+		<comment>\Syou\Sthought\Sof.\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour</comment>
+		<comment>\Sfunction\Sto\Sa\Sspecific\Stype,\Syou\Sneed\Sto\Swrite:</comment>
 		<function depth="0" id="5">
 			<parameters>
 				<parameter>
@@ -105,7 +107,6 @@
 					</add>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<call depth="0" id="7">
 			<function>print</function>

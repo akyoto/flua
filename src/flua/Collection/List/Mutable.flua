@@ -288,7 +288,6 @@
 					<code>
 						<noop depth="2" id="36"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function depth="1" id="37">
@@ -420,7 +419,6 @@
 						<code>
 							<noop depth="3" id="58"/>
 						</code>
-						<meta/>
 					</operator>
 					<comment>\STODO:\SImplement\Sthis</comment>
 					<operator depth="2" id="59">
@@ -432,13 +430,9 @@
 						<code>
 							<noop depth="3" id="60"/>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 			</code>
-			<meta>
-				<default-class-version>true</default-class-version>
-			</meta>
 		</class>
 	</code>
 </module>
