@@ -44,6 +44,12 @@ QTabBar::tab:selected {
 	border-radius: 0px;
 }
 
+#RepositoryList::item {
+	font-family: Ubuntu;
+	font-size: 12pt;
+	padding: 3px;
+}
+
 #MessageView, #SearchResults {
 	border-radius: 7px;
 	color: rgba(255, 255, 255, 65%);
@@ -81,7 +87,7 @@ QTabBar::tab:selected {
 }
 
 #DocNavigator QPushButton {
-	color: rgba(255, 255, 255, 60%);
+	color: rgba(255, 255, 255, 40%);
 	background-color: rgba(0, 0, 0, 20%);
 	border-radius: 7px;
 	height: 60px;

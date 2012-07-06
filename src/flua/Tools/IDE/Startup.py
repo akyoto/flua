@@ -44,6 +44,9 @@ class Startup:
 		self.startBenchmark("Init Actions")
 		self.initActions()
 		self.endBenchmark()
+		
+		# Repository list
+		self.repos = [x for x in readFile(getIDERoot() + "repositories.txt").split("\n") if x]
 	
 	def initPreferences(self):
 		self.preferences = uic.loadUi("ui/preferences.ui")

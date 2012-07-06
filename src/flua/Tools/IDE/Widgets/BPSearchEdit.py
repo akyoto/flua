@@ -29,6 +29,9 @@ class BPSearchEdit(QtGui.QLineEdit):
 		#self.searchForward(self.text())
 		self.bpIDE.searchResults.startSearch()
 		
+		if self.bpIDE.codeEdit:
+			self.bpIDE.codeEdit.bubble.hide()
+		
 	def focusRegex(self):
 		self.focusNormal()
 		self.regExSearch = True

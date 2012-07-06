@@ -2,7 +2,14 @@ from flua.Tools.IDE.Startup import *
 from flua.Tools.IDE.Menu import *
 import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 
-class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, UtilMenuActions, HelpMenuActions):
+class MenuActions(
+		FileMenuActions,
+		EditMenuActions,
+		ModuleMenuActions,
+		RepositoryMenuActions,
+		UtilMenuActions,
+		HelpMenuActions
+	):
 	
 	def ask(self, question, title = "Message"):
 		return QtGui.QMessageBox.question(self,
@@ -42,12 +49,6 @@ class MenuActions(FileMenuActions, EditMenuActions, ModuleMenuActions, UtilMenuA
 			self.showNormal()
 		else:
 			self.showFullScreen()
-		
-	def showRepositoryList(self):
-		self.notImplemented()
-		
-	def connectWithGitHub(self):
-		self.notImplemented()
 		
 	def viewSource(self):
 		if not self.codeEdit:

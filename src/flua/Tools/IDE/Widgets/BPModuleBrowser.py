@@ -376,7 +376,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if expandedList:
 			for modPath, state in expandedList:
 				item = self.getModuleItemByName(modPath)
-				self.setExpanded(item.index(), state)
+				if item:
+					self.setExpanded(item.index(), state)
 		elif expand:
 			self.expandToDepth(0)
 		

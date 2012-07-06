@@ -31,7 +31,7 @@
 ####################################################################
 import sys
 import os
-from PyQt4 import QtGui, QtCore, uic
+from PyQt4 import QtGui, QtCore, QtNetwork, uic
 from flua.Compiler import *
 from flua.Tools.IDE.Startup import *
 from flua.Tools.IDE.Syntax import *
@@ -86,6 +86,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.backgroundCompileIsUpToDate = False
 		self.lastRunOptions = []
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V", "G", "B"]	# TODO: Internationalization
+		self.activeRepositoryIcon = QtGui.QIcon("images/icons/docks/modules.png")
+		self.inactiveRepositoryIcon = QtGui.QIcon("images/icons/docks/modules-inactive.png")
+		#self.networkMgr = QtNetwork.QNetworkAccessManager(self)
 		
 		# AC
 		#self.shortCuts = dict()

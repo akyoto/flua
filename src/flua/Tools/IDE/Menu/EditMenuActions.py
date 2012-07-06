@@ -9,7 +9,7 @@ class EditMenuActions:
 	
 	def findNext(self):
 		if self.searchEdit.text():
-			self.searchEdit.usingSelection = False
+			self.searchEdit.setUseSelection(False)
 			self.searchEdit.searchForward(self.searchEdit.text(), self.codeEdit, True)
 		else:
 			self.showSearch()

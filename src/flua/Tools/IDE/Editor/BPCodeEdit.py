@@ -1525,7 +1525,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			return
 		
 		if self.updateQueue:
-			print("onUpdateTimeout: got some work")
+			#print("onUpdateTimeout: got some work")
 			self.updateQueue.clear()
 			self.updater.setDocument(self.qdoc)
 			

@@ -86,12 +86,13 @@ def findNodes(node, nodeName):
 def findCalls(node):
 	callList = []
 	
-	if node.nodeType == Node.ELEMENT_NODE and node.tagName in {"call", "new"}: # or tagName(node) == "new":
+	if node.tagName in {"call", "new"}: # or tagName(node) == "new":
 		callList.append(node)
 	
 	# TODO: Improve performance, make an iterative algorithm out of this:
 	for child in node.childNodes:
-		callList += findCalls(child)
+		if child.nodeType == Node.ELEMENT_NODE:
+			callList += findCalls(child)
 	
 	return callList
 	
