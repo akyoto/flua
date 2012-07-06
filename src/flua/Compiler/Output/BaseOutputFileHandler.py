@@ -918,7 +918,10 @@ class BaseOutputFileHandler:
 			counterVarName = ""
 			counterTypeInit = ""
 		
+		self.compiler.forVarCounter += 1
+		
 		# Push loop ID on the stack
+		print("Push " + str(localForVarCounter))
 		self.loopStack.append(localForVarCounter)
 		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
@@ -963,10 +966,6 @@ class BaseOutputFileHandler:
 		)
 		#else:
 		#	resultingCode = ""
-		
-		# DO THIS AFTER THE LOOP BODY HAS BEEN COMPILED,
-		# AS THE VERY LAST STEP!
-		self.compiler.forVarCounter += 1
 		
 		#print(code)
 		#print("--ITER--")

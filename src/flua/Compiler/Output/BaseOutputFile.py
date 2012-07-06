@@ -1438,7 +1438,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			return self.handleCall(virtualSliceCall)
 		elif nodeName == "declare-type":
 			if node.parentNode.tagName == "code":
-				return self.handleTypeDeclaration(node, insertTypeName = True)
+				line = self.handleTypeDeclaration(node, insertTypeName = True)
+				if node.childNodes[0].childNodes[0].nodeType != Node.TEXT_NODE:
+					return ""
+				else:
+					return line
 			
 			name = self.handleTypeDeclaration(node, insertTypeName = True)
 			#print(name)
