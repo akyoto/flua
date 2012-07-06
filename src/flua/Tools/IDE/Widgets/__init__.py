@@ -12,4 +12,5 @@ from flua.Tools.IDE.Widgets.BPSearchEdit import *
 from flua.Tools.IDE.Widgets.BPReplaceEdit import *
 from flua.Tools.IDE.Widgets.BPSearchResultsWidget import *
 from flua.Tools.IDE.Widgets.BPChatWidget import *
+from flua.Tools.IDE.Widgets.BPDocNavigator import *
 from flua.Tools.IDE.Widgets.BPDebugger import *

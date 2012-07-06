@@ -41,6 +41,10 @@ def getRmPath():
 	else:
 		return ""
 
+def readFile(fileName):
+	with open(fileName, "r") as f:
+		return f.read()
+
 class BPConfiguration:
 	
 	def __init__(self, bpIDE, fileName):
@@ -88,99 +92,7 @@ class BPConfiguration:
 			}
 		"""
 		
-		self.darkStyleSheet = """
-			/*QWidget {
-				background-color: #272727;
-				color: #eeeeee;
-			}*/
-			
-			QPlainTextEdit, QTreeView, QListView {
-				background-color: #272727;
-				border-radius: 7px;
-				color: #eeeeee;
-			}
-			
-			QListView {
-				border-radius: 0px;
-			}
-			
-			QPlainTextEdit {
-				border-top-left-radius: 0px;
-			}
-			
-			QTabBar::tab {
-				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 32), stop:1 rgba(39, 39, 39, 48));
-				border-top-left-radius: 6px;
-				border-top-right-radius: 6px;
-				padding: 3px;
-				padding-left: 7px;
-				padding-right: 7px;
-			}
-			
-			QTabBar::tab:hover {
-				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 164), stop:1 rgba(39, 39, 39, 172));
-			}
-			
-			QTabBar::tab:selected {
-				background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 rgba(84, 84, 84, 255), stop:1 rgba(39, 39, 39, 255));
-			}
-			
-			#BPConsoleWidget QTabBar::tab:selected {
-				color: white;
-			}
-			
-			#Log, #Compiler, #Output {
-				font-family: Ubuntu Mono;
-				font-size: 11pt;
-				border-radius: 0px;
-			}
-			
-			#MessageView, #SearchResults {
-				border-radius: 7px;
-				color: rgba(255, 255, 255, 65%);
-				background-color: rgba(0, 0, 0, 10%);
-				padding: 0px;
-				margin: 0px;
-			}
-			
-			#SearchResults {
-				border-radius: 7px;
-				color: rgba(255, 255, 255, 80%);
-				background-color: rgba(0, 0, 0, 30%);
-				padding: 0;
-				margin: 0;
-			}
-			
-			#MessageView::item {
-				padding: 10px 0px;
-				margin: 0px;
-			}
-			
-			#SearchResults::item {
-				padding: 0;
-				margin: 0;
-			}
-			
-			#SearchResults::item:hover {
-				color: rgba(255, 255, 255, 100%);
-				background-color: rgba(0, 0, 0, 30%);
-			}
-			
-			#DocBubble {
-				border-radius: 7px;
-				background-color: rgba(0, 0, 0, 10%);
-			}
-			
-			#AutoCompleter {
-				border: none;
-				font-family: Ubuntu;
-				font-size: 13px;
-			}
-			
-			QStatusBar, QLabel, QLineEdit, QComboBox {
-				font-size: 9pt;
-			}
-"""
+		self.darkStyleSheet = readFile(getIDERoot() + "themes/Dark.css")
 
 # QTabWidget::tab-bar {
 

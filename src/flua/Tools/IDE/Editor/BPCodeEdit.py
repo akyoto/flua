@@ -382,6 +382,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.completer = None
+		self.docNavigator = None
 		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -540,9 +541,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def clear(self, isBubble = False):
 		self.doc = None
 		self.root = None
-		self.filePath = ""
 		self.lines = []
 		self.bpcFile = None
+		self.setFilePath("")
 		
 		if not isBubble:
 			self.disableUpdatesFlag = True
@@ -1455,8 +1456,19 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def setFilePath(self, filePath):
 		self.filePath = fixPath(filePath)
+		
 		if self.bpcFile:
 			self.bpcFile.setFilePath(self.filePath)
+			
+		if not self.docNavigator:
+			if self.isDocFile():
+				self.docNavigator = BPDocNavigator(self)
+				self.resizeDocNavigator()
+		else:
+			if not self.isDocFile():
+				self.docNavigator.hide()
+			else:
+				self.docNavigator.show()
 		
 	def getFilePath(self):
 		return self.filePath
@@ -1697,6 +1709,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			self.setExtraSelections(extraSelections)
 		
+	def isDocFile(self):
+		fileName = stripAll(self.getFilePath())
+		
+		isDoc = (len(fileName) >= 4 and fileName[:2].isdigit() and self.bubble is not None)
+		return isDoc
+		
 	def resizeEvent(self, event):
 		super().resizeEvent(event)
 		
@@ -1706,6 +1724,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if self.bubble:
 			self.resizeBubble()
+			
+		self.resizeDocNavigator()
+	
+	def resizeDocNavigator(self):
+		if self.docNavigator:
+			self.docNavigator.setGeometry(self.width() / 2 - self.docNavigator.customWidth / 2 - 7, self.height() - self.docNavigator.customHeight - 21, self.docNavigator.customWidth, self.docNavigator.customHeight)
 	
 	BUBBLE_MARGIN = 18
 	BUBBLE_MARGIN_HALF = BUBBLE_MARGIN / 2

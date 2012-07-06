@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Graphics.Flua</import>
+			<import>flua.Graphics</import>
 			<import>flua.Collection</import>
 			<import>Shader</import>
 			<import>Texture</import>

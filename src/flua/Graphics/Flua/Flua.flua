@@ -115,7 +115,7 @@
 					</extern-function>
 					<extern-function depth="2" id="21">
 						<name>getScreenWidth</name>
-						<type>Int</type>
+						<type>UInt</type>
 						<meta>
 							<same-output-for-input>false</same-output-for-input>
 							<no-side-effects>true</no-side-effects>
@@ -123,7 +123,7 @@
 					</extern-function>
 					<extern-function depth="2" id="22">
 						<name>getScreenHeight</name>
-						<type>Int</type>
+						<type>UInt</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
@@ -171,6 +171,7 @@
 				<meta/>
 			</class>
 		</extern>
+		<comment>\SReturns\Sthe\Slast\SOpenGL\Serror\Sas\Sa\Sstring</comment>
 		<function depth="0" id="31">
 			<name>getLastGLError</name>
 			<code>
@@ -186,6 +187,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
@@ -251,6 +253,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
 		<function depth="0" id="39">
@@ -280,6 +283,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
 		<function depth="0" id="41">
@@ -308,7 +312,7 @@
 				<parameter>
 					<declare-type>
 						<value>key</value>
-						<value>Byte</value>
+						<value>Key</value>
 					</declare-type>
 				</parameter>
 			</parameters>

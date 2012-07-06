@@ -211,11 +211,11 @@ inline GLint flua_createGLSLProgramUniform(GLuint program, char* attributeName) 
 	return attrib;
 }
 
-inline int flua_getScreenWidth() {
+inline UInt flua_getScreenWidth() {
 	return glutGet(GLUT_SCREEN_WIDTH);
 }
 
-inline int flua_getScreenHeight() {
+inline UInt flua_getScreenHeight() {
 	return glutGet(GLUT_SCREEN_HEIGHT);
 }
 

@@ -73,7 +73,9 @@ class BPSearchResultsWidget(QtGui.QListWidget):
 		if resultsHeight > 200:
 			resultsHeight = 200
 		
-		self.setGeometry(self.bpIDE.width() - resultsWidth - 21, self.bpIDE.height() - self.bpIDE.statusBar.height() - resultsHeight - 21, resultsWidth, resultsHeight)
+		if self.bpIDE.codeEdit:
+			self.setParent(self.bpIDE.codeEdit)
+			self.setGeometry(self.bpIDE.codeEdit.width() - resultsWidth - 21, self.bpIDE.codeEdit.height() - resultsHeight - 21, resultsWidth, resultsHeight)
 		
 		# Show widget
 		if items:

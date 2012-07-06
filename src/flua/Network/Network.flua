@@ -43,7 +43,6 @@
 						<code>
 							<noop depth="3" id="8"/>
 						</code>
-						<meta/>
 					</function>
 					<function depth="2" id="9">
 						<name>createTCPSocket</name>
@@ -54,7 +53,6 @@
 							</declare-type>
 							<return depth="3" id="11">decl</return>
 						</code>
-						<meta/>
 					</function>
 					<function depth="2" id="12">
 						<name>createUDPSocket</name>
@@ -65,7 +63,6 @@
 							</declare-type>
 							<return depth="3" id="14">decl</return>
 						</code>
-						<meta/>
 					</function>
 					<function depth="2" id="15">
 						<parameters>
@@ -80,7 +77,6 @@
 							</declare-type>
 							<return depth="3" id="17">decl</return>
 						</code>
-						<meta/>
 					</function>
 					<casts depth="2" id="18">
 						<cast-definition depth="3" id="19">
@@ -96,7 +92,6 @@
 						</cast-definition>
 					</casts>
 				</code>
-				<meta/>
 			</class>
 		</extern>
 		<comment>\SUsage\Sexample</comment>
