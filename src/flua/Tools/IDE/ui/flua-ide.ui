@@ -153,7 +153,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-new.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-new.png</iconset>
+     <normaloff>../images/icons/actions/document-new.png</normaloff>../images/icons/actions/document-new.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -168,7 +168,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/system-log-out.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/system-log-out.png</iconset>
+     <normaloff>../images/icons/actions/system-log-out.png</normaloff>../images/icons/actions/system-log-out.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -183,7 +183,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-open.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-open.png</iconset>
+     <normaloff>../images/icons/actions/document-open.png</normaloff>../images/icons/actions/document-open.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -195,7 +195,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/apps/help-browser.png</normaloff>../../../../bp/Tools/IDE/images/icons/apps/help-browser.png</iconset>
+     <normaloff>../images/icons/apps/help-browser.png</normaloff>../images/icons/apps/help-browser.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -204,7 +204,7 @@
   <action name="actionRun">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/media-playback-start.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/media-playback-start.png</iconset>
+     <normaloff>../images/icons/actions/media-playback-start.png</normaloff>../images/icons/actions/media-playback-start.png</iconset>
    </property>
    <property name="text">
     <string>Run</string>
@@ -216,7 +216,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-save.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-save.png</iconset>
+     <normaloff>../images/icons/actions/document-save.png</normaloff>../images/icons/actions/document-save.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -228,7 +228,7 @@
   <action name="actionSaveAs">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-save-as.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-save-as.png</iconset>
+     <normaloff>../images/icons/actions/document-save-as.png</normaloff>../images/icons/actions/document-save-as.png</iconset>
    </property>
    <property name="text">
     <string>Save as</string>
@@ -240,7 +240,7 @@
   <action name="actionUndo">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-undo.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-undo.png</iconset>
+     <normaloff>../images/icons/actions/edit-undo.png</normaloff>../images/icons/actions/edit-undo.png</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -252,7 +252,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-redo.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-redo.png</iconset>
+     <normaloff>../images/icons/actions/edit-redo.png</normaloff>../images/icons/actions/edit-redo.png</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -292,7 +292,7 @@
   <action name="actionProperties">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-properties.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/document-properties.png</iconset>
+     <normaloff>../images/icons/actions/document-properties.png</normaloff>../images/icons/actions/document-properties.png</iconset>
    </property>
    <property name="text">
     <string>Properties</string>
@@ -304,7 +304,7 @@
   <action name="actionCopy">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-copy.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-copy.png</iconset>
+     <normaloff>../images/icons/actions/edit-copy.png</normaloff>../images/icons/actions/edit-copy.png</iconset>
    </property>
    <property name="text">
     <string>Copy</string>
@@ -316,7 +316,7 @@
   <action name="actionPaste">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-paste.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-paste.png</iconset>
+     <normaloff>../images/icons/actions/edit-paste.png</normaloff>../images/icons/actions/edit-paste.png</iconset>
    </property>
    <property name="text">
     <string>Paste</string>
@@ -328,7 +328,7 @@
   <action name="actionCut">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-cut.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-cut.png</iconset>
+     <normaloff>../images/icons/actions/edit-cut.png</normaloff>../images/icons/actions/edit-cut.png</iconset>
    </property>
    <property name="text">
     <string>Cut</string>
@@ -340,7 +340,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/categories/preferences-system.png</normaloff>../../../../bp/Tools/IDE/images/icons/categories/preferences-system.png</iconset>
+     <normaloff>../images/icons/categories/preferences-system.png</normaloff>../images/icons/categories/preferences-system.png</iconset>
    </property>
    <property name="text">
     <string>Preferences</string>
@@ -360,7 +360,7 @@
   <action name="actionClose">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/window-close.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/window-close.png</iconset>
+     <normaloff>../images/icons/actions/window-close.png</normaloff>../images/icons/actions/window-close.png</iconset>
    </property>
    <property name="text">
     <string>Close</string>
@@ -385,7 +385,7 @@
   <action name="actionDownloadUpdates">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/go-down.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/go-down.png</iconset>
+     <normaloff>../images/icons/actions/go-down.png</normaloff>../images/icons/actions/go-down.png</iconset>
    </property>
    <property name="text">
     <string>Download updates</string>
@@ -394,7 +394,7 @@
   <action name="actionReopenLastFile">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/tab-new.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/tab-new.png</iconset>
+     <normaloff>../images/icons/actions/tab-new.png</normaloff>../images/icons/actions/tab-new.png</iconset>
    </property>
    <property name="text">
     <string>Reopen last file</string>
@@ -411,7 +411,7 @@
   <action name="actionRunOptimized">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/media-seek-forward.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/media-seek-forward.png</iconset>
+     <normaloff>../images/icons/actions/media-seek-forward.png</normaloff>../images/icons/actions/media-seek-forward.png</iconset>
    </property>
    <property name="text">
     <string>Run optimized</string>
@@ -423,7 +423,7 @@
   <action name="actionRunDebug">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/docks/debugger.png</normaloff>../../../../bp/Tools/IDE/images/icons/docks/debugger.png</iconset>
+     <normaloff>../images/icons/docks/debugger.png</normaloff>../images/icons/docks/debugger.png</iconset>
    </property>
    <property name="text">
     <string>Debug</string>
@@ -435,7 +435,7 @@
   <action name="actionToggleFullscreen">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/view-fullscreen.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/view-fullscreen.png</iconset>
+     <normaloff>../images/icons/actions/view-fullscreen.png</normaloff>../images/icons/actions/view-fullscreen.png</iconset>
    </property>
    <property name="text">
     <string>Toggle fullscreen</string>
@@ -447,7 +447,7 @@
   <action name="actionChangeLog">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/apps/accessories-text-editor.png</normaloff>../../../../bp/Tools/IDE/images/icons/apps/accessories-text-editor.png</iconset>
+     <normaloff>../images/icons/apps/accessories-text-editor.png</normaloff>../images/icons/apps/accessories-text-editor.png</iconset>
    </property>
    <property name="text">
     <string>Changelog</string>
@@ -461,7 +461,7 @@
   <action name="actionRunModuleTests">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/places/start-here.png</normaloff>../../../../bp/Tools/IDE/images/icons/places/start-here.png</iconset>
+     <normaloff>../images/icons/places/start-here.png</normaloff>../images/icons/places/start-here.png</iconset>
    </property>
    <property name="text">
     <string>Run module tests</string>
@@ -473,7 +473,7 @@
   <action name="actionCleanAllTargets">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
    </property>
    <property name="text">
     <string>Clean all targets</string>
@@ -482,7 +482,7 @@
   <action name="actionResetLocalChanges">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
    </property>
    <property name="text">
     <string>Reset all local changes</string>
@@ -491,7 +491,7 @@
   <action name="actionSearch">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-find.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-find.png</iconset>
+     <normaloff>../images/icons/actions/edit-find.png</normaloff>../images/icons/actions/edit-find.png</iconset>
    </property>
    <property name="text">
     <string>Search</string>
@@ -503,7 +503,7 @@
   <action name="actionRegExSearch">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-find.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-find.png</iconset>
+     <normaloff>../images/icons/actions/edit-find.png</normaloff>../images/icons/actions/edit-find.png</iconset>
    </property>
    <property name="text">
     <string>RegEx Search</string>
@@ -515,7 +515,7 @@
   <action name="actionReportBug">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/docks/debugger.png</normaloff>../../../../bp/Tools/IDE/images/icons/docks/debugger.png</iconset>
+     <normaloff>../images/icons/docks/debugger.png</normaloff>../images/icons/docks/debugger.png</iconset>
    </property>
    <property name="text">
     <string>Submit a Bug Report</string>
@@ -524,7 +524,7 @@
   <action name="actionRepositoryList">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/apps/internet-web-browser.png</normaloff>../../../../bp/Tools/IDE/images/icons/apps/internet-web-browser.png</iconset>
+     <normaloff>../images/icons/apps/internet-web-browser.png</normaloff>../images/icons/apps/internet-web-browser.png</iconset>
    </property>
    <property name="text">
     <string>Repository list</string>
@@ -533,7 +533,7 @@
   <action name="actionConnectWithGitHub">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/apps/github.png</normaloff>../../../../bp/Tools/IDE/images/icons/apps/github.png</iconset>
+     <normaloff>../images/icons/apps/github.png</normaloff>../images/icons/apps/github.png</iconset>
    </property>
    <property name="text">
     <string>Connect with GitHub</string>
@@ -542,7 +542,7 @@
   <action name="actionResetLocalFileChanges">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</normaloff>../../../../bp/Tools/IDE/images/icons/actions/edit-clear.png</iconset>
+     <normaloff>../images/icons/actions/edit-clear.png</normaloff>../images/icons/actions/edit-clear.png</iconset>
    </property>
    <property name="text">
     <string>Reset changes for this module</string>
@@ -561,7 +561,7 @@
   <action name="actionViewSource">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../bp/Tools/IDE/images/icons/mimetypes/text-x-generic.png</normaloff>../../../../bp/Tools/IDE/images/icons/mimetypes/text-x-generic.png</iconset>
+     <normaloff>../images/icons/mimetypes/text-x-generic.png</normaloff>../images/icons/mimetypes/text-x-generic.png</iconset>
    </property>
    <property name="text">
     <string>View generated source code</string>
