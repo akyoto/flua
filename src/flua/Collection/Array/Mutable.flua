@@ -427,5 +427,120 @@
 				<force-implementation>false</force-implementation>
 			</meta>
 		</class>
+		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>
+		<class depth="0" id="53">
+			<name>UTF8String</name>
+			<code>
+				<comment>\SInit\Sfrom\Sbyte\Sarray</comment>
+				<function depth="1" id="54">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>bytes</value>
+								<value>
+									<template-call>
+										<value>Array</value>
+										<value>Byte</value>
+									</template-call>
+								</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="55">
+							<value>
+								<access>
+									<value>my</value>
+									<value>data</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>MemPointer</value>
+											<value>Byte</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>
+											<access>
+												<value>bytes</value>
+												<value>length</value>
+											</access>
+										</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
+						<call depth="2" id="56">
+							<function>copyMem</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>bytes</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>data</value>
+									</access>
+								</parameter>
+								<parameter>
+									<access>
+										<value>bytes</value>
+										<value>length</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+						<assign depth="2" id="57">
+							<value>
+								<access>
+									<value>my</value>
+									<value>lengthInBytes</value>
+								</access>
+							</value>
+							<value>
+								<access>
+									<value>bytes</value>
+									<value>length</value>
+								</access>
+							</value>
+						</assign>
+						<assign depth="2" id="58">
+							<value>
+								<access>
+									<value>my</value>
+									<value>length</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>
+										<access>
+											<value>flua</value>
+											<value>strlenUtf8</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>
+											<access>
+												<value>my</value>
+												<value>data</value>
+											</access>
+										</parameter>
+									</parameters>
+								</call>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+			</code>
+		</class>
 	</code>
 </module>

@@ -1357,9 +1357,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			if line[pos] == '(':
 				line = line[:-1]
 		else:
-			
 			if self.currentSyntax == SYNTAX_PYTHON:
 				line = line[:-1]
+				
 				whiteSpace = line.find('(')
 			else:
 				whiteSpace = line.find(' ')

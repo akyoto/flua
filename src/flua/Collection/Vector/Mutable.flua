@@ -20,6 +20,7 @@
 				<template depth="1" id="5">
 					<parameter depth="2" id="6">TDataType</parameter>
 				</template>
+				<comment>\SInitializes\Sthe\Svector\Swith\Sthe\Sgiven\S#size\Sand\S0\Slength</comment>
 				<function depth="1" id="7">
 					<parameters>
 						<parameter>
@@ -97,6 +98,7 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SFrees\Sthe\Sallocated\Smemory</comment>
 				<function depth="1" id="11">
 					<name>finalize</name>
 					<code>
@@ -115,6 +117,7 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Sarray\Sand\Sresizes\Sit\Sif\Sthere\Sis\Snot\Senough\Sspace</comment>
 				<function depth="1" id="13">
@@ -197,6 +200,7 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SReserves\Sspace\Sfor\S#newSize\Selements</comment>
 				<function depth="1" id="18">
 					<parameters>
 						<parameter>
@@ -325,6 +329,7 @@
 						<noop depth="2" id="29"/>
 					</code>
 				</function>
+				<comment>\SRemoves\Sthe\Slast\Selement\Sfrom\Sthe\Svector</comment>
 				<function depth="1" id="30">
 					<name>removeLast</name>
 					<code>
@@ -467,6 +472,7 @@
 						</if-block>
 					</code>
 				</function>
+				<comment>\SReverses\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function depth="1" id="45">
 					<name>reverse</name>
 					<code>
@@ -721,6 +727,7 @@
 					</code>
 				</function>
 				<operators depth="1" id="64">
+					<comment>\SRetrieves\Sthe\Selement\Sat\Sposition\S#index</comment>
 					<operator depth="2" id="65">
 						<parameters>
 							<parameter>index</parameter>
@@ -793,7 +800,6 @@
 								<value>value</value>
 							</assign>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 				<iterators depth="1" id="75">
@@ -1007,7 +1013,7 @@
 		<class depth="0" id="100">
 			<name>UTF8String</name>
 			<code>
-				<comment>\SInit\Sfrom\Sbyte\Sarray</comment>
+				<comment>\SInit\Sfrom\Sbyte\Svector</comment>
 				<function depth="1" id="101">
 					<parameters>
 						<parameter>
@@ -1015,7 +1021,7 @@
 								<value>bytes</value>
 								<value>
 									<template-call>
-										<value>Array</value>
+										<value>Vector</value>
 										<value>Byte</value>
 									</template-call>
 								</value>
@@ -1114,8 +1120,10 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>
