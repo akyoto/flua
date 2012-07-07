@@ -526,6 +526,17 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#	modName = child.childNodes[0].nodeValue.strip()
 		#	self.highlightModule(modName)
 	
+	def highlightModPath(self, modPath, style, addToOldImportedMods = True):
+		item = self.getModuleItemByName(modPath, expand = True)
+		
+		if item:
+			#item.setFont(style.font())
+			item.setForeground(style.foreground())
+			
+		if addToOldImportedMods:
+			self.oldImportedMods.append(modPath)
+			self.oldImportedModsLen += 1
+	
 	def highlightModule(self, modName):
 		importType = self.bpIDE.getModuleImportType(modName)
 		
@@ -539,22 +550,27 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		# Local + project import
 		if importType >=1 and importType <= 4:
-			filePath = stripExt(self.bpIDE.getModulePath(modName))
-			modPath = filePath[len(getModuleDir()):].replace(OS_SLASH, ".")
-			parts = modPath.split(".")
-			if len(parts) > 1 and parts[-1] == parts[-2]:
-				modPath = ".".join(parts[:-1])
+			filePath = self.bpIDE.getModulePath(modName)
+			modPath = self.translateFileToModPath(filePath)
 		# Global module import
 		else:
 			modPath = modName
 		
-		item = self.getModuleItemByName(modPath, expand = True)
-		if item:
-			#item.setFont(style.font())
-			item.setForeground(style.foreground())
-			
-		self.oldImportedMods.append(modPath)
-		self.oldImportedModsLen += 1
+		self.highlightModPath(modPath, style)
+		
+	def highlightFile(self, filePath, style, addToOldImportedMods = False):
+		self.highlightModPath(self.translateFileToModPath(filePath), style, addToOldImportedMods)
+		
+	def translateFileToModPath(self, filePath):
+		filePath = stripExt(filePath)
+		modPath = filePath[len(getModuleDir()):].replace(OS_SLASH, ".")
+		parts = modPath.split(".")
+		
+		if len(parts) > 1 and parts[-1] == parts[-2]:
+			modPath = ".".join(parts[:-1])
+		
+		print(modPath)
+		return modPath
 		
 	def getModuleItemByName(self, modName, expand = False):
 		importType = self.bpIDE.getModuleImportType(modName)

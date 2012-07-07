@@ -1731,7 +1731,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def resizeDocNavigator(self):
 		if self.docNavigator:
-			self.docNavigator.setGeometry(self.width() / 2 - self.docNavigator.customWidth / 2 - 7, self.height() - self.docNavigator.customHeight - 21, self.docNavigator.customWidth, self.docNavigator.customHeight)
+			self.docNavigator.setGeometry(self.width() / 1.5 - self.docNavigator.customWidth / 2 - 7, self.height() - self.docNavigator.customHeight - 21, self.docNavigator.customWidth, self.docNavigator.customHeight)
 	
 	BUBBLE_MARGIN = 18
 	BUBBLE_MARGIN_HALF = BUBBLE_MARGIN / 2

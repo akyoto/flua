@@ -58,17 +58,17 @@ QTabBar::tab:selected {
 	margin: 0px;
 }
 
+#MessageView::item {
+	padding: 10px 0px;
+	margin: 0px;
+}
+
 #SearchResults {
 	border-radius: 7px;
 	color: rgba(255, 255, 255, 80%);
 	background-color: rgba(0, 0, 0, 30%);
 	padding: 0;
 	margin: 0;
-}
-
-#MessageView::item {
-	padding: 10px 0px;
-	margin: 0px;
 }
 
 #SearchResults::item {
@@ -87,8 +87,8 @@ QTabBar::tab:selected {
 }
 
 #DocNavigator QPushButton {
-	color: rgba(255, 255, 255, 30%);
-	background-color: rgba(0, 0, 0, 10%);
+	color: rgba(255, 255, 255, 9%);
+	background-color: rgba(0, 0, 0, 9%);
 	border-radius: 7px;
 	height: 60px;
 }

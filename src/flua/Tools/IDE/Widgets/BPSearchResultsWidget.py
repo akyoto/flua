@@ -69,9 +69,9 @@ class BPSearchResultsWidget(QtGui.QListWidget):
 		for i in range(items):
 			resultsHeight += self.visualItemRect(self.item(i)).height()
 		
-		resultsWidth = 400
-		if resultsHeight > 200:
-			resultsHeight = 200
+		resultsWidth = 270
+		if resultsHeight > 180:
+			resultsHeight = 180
 		
 		if self.bpIDE.codeEdit:
 			self.setParent(self.bpIDE.codeEdit)

@@ -10,8 +10,8 @@ class BPDocNavigator(QtGui.QWidget):
 		self.bpIDE = parent.bpIDE
 		self.setObjectName("DocNavigator")
 		
-		self.customWidth = 160
-		self.customHeight = 48
+		self.customWidth = 150
+		self.customHeight = 42
 		
 		self.previousFile = ""
 		self.nextFile = ""
@@ -97,7 +97,9 @@ class BPDocNavigator(QtGui.QWidget):
 	def backward(self):
 		self.bpIDE.closeCurrentTab()
 		self.bpIDE.openFile(self.previousFile)
+		self.bpIDE.moduleView.highlightFile(self.previousFile, self.bpIDE.getCurrentTheme()['global-module-import'])
 		
 	def forward(self):
 		self.bpIDE.closeCurrentTab()
 		self.bpIDE.openFile(self.nextFile)
+		self.bpIDE.moduleView.highlightFile(self.nextFile, self.bpIDE.getCurrentTheme()['global-module-import'])
