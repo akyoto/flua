@@ -6,5 +6,19 @@
 		</dependencies>
 		<strings/>
 	</header>
-	<code/>
+	<code>
+		<comment>\STODO:\SImmutable\Svector</comment>
+		<class depth="0" id="1">
+			<name>ImmutableVector</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="3"/>
+					</code>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
 </module>

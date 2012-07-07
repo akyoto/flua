@@ -5,6 +5,7 @@
 			<import>flua.Core</import>
 			<import>File</import>
 			<import>Directory</import>
+			<import>URL</import>
 		</dependencies>
 		<strings/>
 	</header>

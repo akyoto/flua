@@ -14,6 +14,9 @@
 			<string id="flua_string_6">%M</string>
 			<string id="flua_string_7">%S</string>
 			<string id="flua_string_8">%Y-%m-%d\S%H:%M:%S</string>
+			<string id="flua_string_9">Hour:\S\S\S</string>
+			<string id="flua_string_10">Minute:\S</string>
+			<string id="flua_string_11">Second:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -122,6 +125,7 @@
 							</call>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<get depth="1" id="19">
 					<getter depth="2" id="20">
@@ -296,9 +300,11 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</cast-definition>
 				</casts>
 			</code>
+			<meta/>
 		</class>
 		<comment>\SReturns\Sa\SDateTime\Sobject\Sfor\Sthe\Scurrent\Slocal\Stime</comment>
 		<function depth="0" id="39">
@@ -443,6 +449,54 @@
 								<value>now</value>
 								<value>time</value>
 							</access>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="52">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_9</value>
+								<value>
+									<access>
+										<value>now</value>
+										<value>hour</value>
+									</access>
+								</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="53">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_10</value>
+								<value>
+									<access>
+										<value>now</value>
+										<value>minute</value>
+									</access>
+								</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="54">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_11</value>
+								<value>
+									<access>
+										<value>now</value>
+										<value>second</value>
+									</access>
+								</value>
+							</add>
 						</parameter>
 					</parameters>
 				</call>

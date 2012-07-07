@@ -1,0 +1,129 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">https:</string>
+			<string id="flua_string_1">https://</string>
+			<string id="flua_string_2">/</string>
+			<string id="flua_string_3">http://</string>
+			<string id="flua_string_4">/</string>
+		</strings>
+	</header>
+	<code>
+		<class depth="0" id="1">
+			<name>URL</name>
+			<code>
+				<extends depth="1" id="2">
+					<extends-class depth="2" id="3">UTF8String</extends-class>
+				</extends>
+				<function depth="1" id="4">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>fromString</value>
+								<value>String</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<call depth="2" id="5">
+							<function>
+								<access>
+									<value>UTF8String</value>
+									<value>init</value>
+								</access>
+							</function>
+							<parameters>
+								<parameter>fromString</parameter>
+							</parameters>
+						</call>
+					</code>
+				</function>
+				<get depth="1" id="6">
+					<getter depth="2" id="7">
+						<name>hostName</name>
+						<code>
+							<if-block depth="3" id="8">
+								<if>
+									<condition>
+										<call>
+											<function>
+												<access>
+													<value>my</value>
+													<value>startsWith</value>
+												</access>
+											</function>
+											<parameters>
+												<parameter>flua_string_0</parameter>
+											</parameters>
+										</call>
+									</condition>
+									<code>
+										<return depth="4" id="9">
+											<call>
+												<function>
+													<access>
+														<value>
+															<call>
+																<function>
+																	<access>
+																		<value>my</value>
+																		<value>after</value>
+																	</access>
+																</function>
+																<parameters>
+																	<parameter>flua_string_1</parameter>
+																</parameters>
+															</call>
+														</value>
+														<value>until</value>
+													</access>
+												</function>
+												<parameters>
+													<parameter>flua_string_2</parameter>
+												</parameters>
+											</call>
+										</return>
+									</code>
+								</if>
+								<else depth="3" id="10">
+									<code>
+										<return depth="4" id="11">
+											<call>
+												<function>
+													<access>
+														<value>
+															<call>
+																<function>
+																	<access>
+																		<value>my</value>
+																		<value>after</value>
+																	</access>
+																</function>
+																<parameters>
+																	<parameter>flua_string_3</parameter>
+																</parameters>
+															</call>
+														</value>
+														<value>until</value>
+													</access>
+												</function>
+												<parameters>
+													<parameter>flua_string_4</parameter>
+												</parameters>
+											</call>
+										</return>
+									</code>
+								</else>
+							</if-block>
+						</code>
+					</getter>
+				</get>
+			</code>
+		</class>
+	</code>
+</module>
