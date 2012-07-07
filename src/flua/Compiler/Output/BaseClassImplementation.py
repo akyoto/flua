@@ -40,9 +40,9 @@ def findFunctionInBaseClasses(callerClassImpl, funcName):
 	
 	for classImpl in callerClass.extends:
 		classObj = classImpl.classObj
-		#debug("Checking base class '%s' for function '%s'" % (classObj.name, funcName))
+		#debug("Checking base class „%s“ for function „%s“" % (classObj.name, funcName))
 		if funcName in classObj.functions:
-			#debug("Found function '%s' in base class '%s'" % (funcName, classObj.name))
+			#debug("Found function „%s“ in base class „%s“" % (funcName, classObj.name))
 			return classObj.functions[funcName], classImpl
 		
 		if classObj.extends:
@@ -65,7 +65,7 @@ class BaseClassImplementation:
 		self.funcImplementations = {}
 		self.hasConstructorImpl = False
 		
-		#debug("'%s' added class implementation %s" % (self.classObj.name, templateValues))
+		#debug("„%s“ added class implementation %s" % (self.classObj.name, templateValues))
 		
 	def hasConstructorImplementation(self):
 		return self.hasConstructorImpl
@@ -99,7 +99,7 @@ class BaseClassImplementation:
 			return self.classObj.name
 		
 	def addMember(self, var):
-		#debug("'%s' added member '%s'" % (self.getFullName(), var.name))
+		#debug("„%s“ added member „%s“" % (self.getFullName(), var.name))
 		
 		# Type correction - public declaration always has precedence.
 		if var.name in self.classObj.publicMembers:
@@ -123,11 +123,11 @@ class BaseClassImplementation:
 				
 				if not candidates:
 					if self.classObj.name:
-						print("\n * ".join(["Class '%s' has the following functions:" % self.classObj.name] + list(self.classObj.functions.keys())))
-						print("\n * ".join(["Class '%s' implemented the following functions:" % self.classObj.name] + list(self.funcImplementations.keys())))
-						raise CompilerException("Function '%s.%s' has not been defined [Error code 5]" % (self.classObj.name, funcName))
+						print("\n * ".join(["Class „%s“ has the following functions:" % self.classObj.name] + list(self.classObj.functions.keys())))
+						print("\n * ".join(["Class „%s“ implemented the following functions:" % self.classObj.name] + list(self.funcImplementations.keys())))
+						raise CompilerException("Function „%s.%s“ has not been defined [Error code 5]" % (self.classObj.name, funcName))
 					else:
-						raise CompilerException("Function '%s' has not been defined [Error code 5]" % (funcName))
+						raise CompilerException("Function „%s“ has not been defined [Error code 5]" % (funcName))
 			
 			func = self.getMatchingFunction(funcName, paramTypes)
 			
@@ -159,7 +159,7 @@ class BaseClassImplementation:
 #		return "<" + ", ".join(self.templateValues) + ">"
 		
 	def addFuncImplementation(self, impl):
-		#debug("'%s' added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
+		#debug("„%s“ added function implementation %s" % (self.classObj.name + self.getTemplateValuesString(), impl.name))
 		self.funcImplementations[impl.name] = impl
 		
 	def getCandidates(self, funcName):
@@ -169,7 +169,7 @@ class BaseClassImplementation:
 			return self.classObj.functions[funcName]
 		
 	def getMatchingFunction(self, funcName, paramTypes):
-		#print("Function '%s' has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
+		#print("Function „%s“ has been called with types %s (%s to choose from)" % (funcName, paramTypes, len(self.classObj.functions[funcName])))
 		if not funcName in self.classObj.functions:
 			candidates, baseClassImpl = findFunctionInBaseClasses(self, funcName)
 		else:
@@ -181,14 +181,14 @@ class BaseClassImplementation:
 			else:
 				funcCount = 0
 			
-			raise CompilerException("No matching function found: '%s' has been called with these types: %s (%s possibilities to choose from)" % (funcName, paramTypes, funcCount))
+			raise CompilerException("No matching function found: „%s“ has been called with these types: %s (%s possibilities to choose from)" % (funcName, paramTypes, funcCount))
 		
 		#print(candidates[0].paramTypesByDefinition)
 		winner = None
 		winnerScore = 0
 		for func in candidates:
 			score = func.getMatchingScore(paramTypes, self)
-			#debug("Candidate: %s (types by definition) with score '%s'" % (func.paramTypesByDefinition, score))
+			#debug("Candidate: %s (types by definition) with score „%s“" % (func.paramTypesByDefinition, score))
 			if score > winnerScore:
 				winner = func
 				winnerScore = score
@@ -209,6 +209,6 @@ class BaseClassImplementation:
 				paramsInfo = "with the parameter types %s" % paramTypes
 			else:
 				paramsInfo = "without any parameters"
-			raise CompilerException("No matching function found for the call '%s' %s" % (calledFunc, paramsInfo))
+			raise CompilerException("No matching function found for the call „%s“ %s" % (calledFunc, paramsInfo))
 		
 		return winner

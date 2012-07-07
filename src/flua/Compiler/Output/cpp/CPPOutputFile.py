@@ -162,7 +162,7 @@ class CPPOutputFile(BaseOutputFile):
 		
 		func = """%s
 
-// Thread function for '%s'
+// Thread function for „%s“
 void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	%s
 	
@@ -215,7 +215,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			constructorName = structName
 		
 		return paramNames, """
-// Struct '%s'
+// Struct „%s“
 %s %s {
 %s
 	%s
@@ -288,7 +288,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			old = "%s->%s" % (collExpr, member.name)
 			new = "%s->_%s" % (collExpr, member.name)
 			
-			#debug("Replacing '%s' with '%s'" % (old, new))
+			#debug("Replacing „%s“ with „%s“" % (old, new))
 			iterImplCode = iterImplCode.replace(old, new)
 		
 		# Because we love hardcoding. We're removing the '\n' and ';' here.

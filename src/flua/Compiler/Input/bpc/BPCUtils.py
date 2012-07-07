@@ -249,7 +249,7 @@ def nodeToBPCSaved(node, tabLevel, conv):
 	# Remove last node if it did not add any code, e.g. import flua.Core
 	if conv:
 		if not codeAdded:
-			#print("[LineConverter] Removing previously added node because it did not add any code: '%s'" % node.toxml())
+			#print("[LineConverter] Removing previously added node because it did not add any code: „%s“" % node.toxml())
 			conv.removeLast()
 			return codeAdded
 		
@@ -316,11 +316,11 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					for child in strings.childNodes:
 						if child.nodeType != Node.TEXT_NODE and child.tagName == "string" and child.getAttribute("id") == text:
 							if child.getAttribute("as-byte") == "true":
-								return "'%s'" % decodeCDATA(child.childNodes[0].nodeValue)
+								return "„%s“" % decodeCDATA(child.childNodes[0].nodeValue)
 							else:
 								return '"%s"' % decodeCDATA(child.childNodes[0].nodeValue)
 				except:
-					raise CompilerException("Can't find string value of '%s'" % (text))
+					raise CompilerException("Can't find string value of „%s“" % (text))
 			return '""'
 		elif text in {"_flua_slice_start", "_flua_slice_end"}:
 			return ""
@@ -859,7 +859,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		
 		return ''.join([prefix, op1bpc, space, opSymbol, space, op2bpc, postfix])
 	
-	raise CompilerException("Can't turn '%s' into BPC code, unknown element tag" % (nodeName))
+	raise CompilerException("Can't turn „%s“ into BPC code, unknown element tag" % (nodeName))
 
 def getCalledFuncName(node):
 	try:

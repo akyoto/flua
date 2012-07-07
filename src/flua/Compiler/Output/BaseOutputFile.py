@@ -340,7 +340,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					pList += self.buildSingleParameter(adjustedDefaultValueType, name) + ", "
 					continue
 				
-				raise CompilerException("You forgot to specify the parameter '%s' of the function '%s'" % (name, self.currentFunction.getName()))
+				raise CompilerException("You forgot to specify the parameter „%s“ of the function „%s“" % (name, self.currentFunction.getName()))
 			
 			usedAs = types[counter]
 			
@@ -374,7 +374,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				declaredInline = (tagName(declNode) == "declare-type")
 			
 			if not declaredInline:
-				#print("Variable %s used as '%s'" % (name, usedAs))
+				#print("Variable %s used as „%s“" % (name, usedAs))
 				self.getCurrentScope().variables[name] = self.createVariable(name, usedAs, "", False, not usedAs in nonPointerClasses, False)
 				pList += self.buildSingleParameter(self.adjustDataType(usedAs), name) + ", "
 			else:
@@ -406,9 +406,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
 						heavier = getHeavierOperator(definedAs, usedAs)
 						if usedAs == heavier:
-							compilerWarning("Information might be lost by converting '%s' to '%s' for the parameter '%s' in the function '%s'" % (usedAs, definedAs, name, self.currentFunction.getName()))
+							compilerWarning("Information might be lost by converting „%s“ to „%s“ for the parameter „%s“ in the function „%s“" % (usedAs, definedAs, name, self.currentFunction.getName()))
 					else:
-						raise CompilerException("'%s' expects the type '%s' where you used the type '%s' for the parameter '%s'" % (self.currentFunction.getName(), definedAs, usedAs, name))
+						raise CompilerException("„%s“ expects the type „%s“ where you used the type „%s“ for the parameter „%s“" % (self.currentFunction.getName(), definedAs, usedAs, name))
 			
 			counter += 1
 		
@@ -462,7 +462,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			#debug("Return types: " + str(funcImpl.returnTypes))
 			#debug(self.compiler.funcImplCache)
-			#debug("Return type of '%s' is '%s' (callerType: '%s')" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
+			#debug("Return type of „%s“ is „%s“ (callerType: „%s“)" % (funcImpl.getName(), funcImpl.getReturnType(), callerType))
 			
 			return funcImpl.getReturnType()
 	
@@ -642,7 +642,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				
 				if not callerClassImpl.hasConstructorImplementation(): #and not callerClass.isExtern:
 					#print("XML:", node.toxml())
-					#print("Implementing init default for '%s'" % (callerType))
+					#print("Implementing init default for „%s“" % (callerType))
 					allFuncs = callerClassImpl.classObj.functions
 					
 					if "init" in allFuncs:
@@ -654,7 +654,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						self.implementFunction(callerType, "init", paramTypes)
 						#print("Implemented.")
 					else:
-						raise CompilerException("'%s' is missing an 'init' constructor" % callerType)
+						raise CompilerException("„%s“ is missing an 'init' constructor" % callerType)
 				
 				#debug("Member list:")
 				#for member in callerClassImpl.members.keys():
@@ -904,7 +904,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if scope:
 			return scope
 		
-		raise CompilerException("Unknown variable: %s" % name)
+		raise CompilerException("Unknown variable: „%s“" % name)
 	
 	def getVariableTypeAnywhere(self, name):
 		var = self.getVariable(name)
@@ -924,12 +924,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		#print(self.getTopLevelScope().variables)
 		if name in self.compiler.mainClass.classes:
-			raise CompilerException("You forgot to create an instance of the class '" + name + "' by using brackets")
+			raise CompilerException("You forgot to create an instance of the class „" + name + "“ by using brackets")
 		
 		if name in self.compiler.mainClass.functions:
-			raise CompilerException("A function call can only return a value if you use parentheses: '" + name + "()'")
+			raise CompilerException("A function call can only return a value if you use parentheses: „" + name + "()“")
 		
-		raise CompilerException("Unknown variable: " + name)
+		raise CompilerException("Unknown variable: „%s“" % name)
 	
 	def variableExistsAnywhere(self, name):
 		if name in self.compiler.mainClassImpl.members:
@@ -1052,10 +1052,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.namespaceStack.append(name)
 		
 		if not name in self.currentClass.namespaces:
-			#debug("Adding new namespace to '%s': '%s'" % (self.currentClass.name, name))
+			#debug("Adding new namespace to „%s“: „%s“" % (self.currentClass.name, name))
 			self.currentClass.namespaces[name] = self.createNamespace(name)
 		else:
-			pass#print("Namespace '%s' already exists!" % name)
+			pass#print("Namespace „%s“ already exists!" % name)
 		
 	def popNamespace(self):
 		self.namespaceStack.pop()
@@ -1073,8 +1073,14 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#	for x in self.compiler.mainClass.classes.keys():
 			#		print(x)
 			#	print("-" * 80)
+			classNameLower = className.lower()
+			classNameLowerSet = set(classNameLower)
 			
-			raise CompilerException("Class '%s' has not been defined  [Error code 3]" % (className))
+			for name in self.compiler.mainClass.classes:
+				if set(name.lower()) == classNameLowerSet:
+					raise CompilerException("Class „%s“ has not been defined - did you mean „%s“? [Error code 3]" % (className, name))
+			
+			raise CompilerException("Class „%s“ has not been defined [Error code 3]" % (className))
 		
 	def getClassImplementationByTypeName(self, typeName, initTypes = []):
 		# === START Non-Inlined version === #
@@ -1216,7 +1222,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			if accessingObject == self.myself:
 				name = "__" + accessingMember
 			else:
-				raise CompilerException("'%s.%s' may not be used as a function parameter" % (accessingObject, accessingMember))
+				raise CompilerException("„%s.%s“ may not be used as a function parameter" % (accessingObject, accessingMember))
 		else:
 			name = self.parseExpr(op1)
 		
@@ -1411,7 +1417,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			if callerClassName == "void":
 				funcName = node.childNodes[0].childNodes[0].childNodes[0].childNodes[0].nodeValue
-				raise CompilerException("Function '%s' has no return value" % funcName)
+				raise CompilerException("Function „%s“ has no return value" % funcName)
 			
 			if callerClassName in nonPointerClasses:
 				pass#return "(%s+%s)" % (caller, op2)
@@ -1537,7 +1543,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
-		compilerWarning("Could not translate node '%s'" % nodeName)
+		compilerWarning("Could not translate node „%s“" % nodeName)
 		
 		return ""
 	
@@ -1605,7 +1611,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			if not templatePart:
 				classObj = self.getClass(extractClassName(typeName))
 				if classObj.hasUndefinedTemplateParams():
-					raise CompilerException("Class '%s' expects you to specify the following template parameters: '%s'" % (classObj.name, ", ".join(classObj.templateNames)))
+					raise CompilerException("Class „%s“ expects you to specify the following template parameters: „%s“" % (classObj.name, ", ".join(classObj.templateNames)))
 			
 			typeName = self.compiler.specializedClasses[typeName].name
 		
@@ -1629,7 +1635,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		className = extractClassName(typeName)
 		if className in nonPointerClasses:
-			raise CompilerException("'%s' has not been defined (maybe another function returns the wrong value?)" % (key))
+			raise CompilerException("„%s“ has not been defined (maybe another function returns the wrong value?)" % (key))
 		
 		#print(funcName, "|", className, "|", key)
 		if not funcName in self.getClass(className).functions:
@@ -1642,7 +1648,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					print(" * " + "\n * ".join(self.getClass(className).functions.keys()))
 					
 				# TODO: Check for an iterator used in the wrong place and show another exception
-				raise CompilerException("The '%s' function of class '%s' has not been defined" % (funcName, className))
+				raise CompilerException("The „%s“ function of class „%s“ has not been defined" % (funcName, className))
 		
 		func = self.getClassImplementationByTypeName(typeName).getMatchingFunction(funcName, paramTypes)
 		definedInFile = func.cppFile

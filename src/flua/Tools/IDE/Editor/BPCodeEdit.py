@@ -226,7 +226,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		return self.model() != self.bpcModel
 		
 	def createClassMemberModel(self, dataType, private = False):
-		self.startBenchmark("Create class member model for '%s'" % dataType)
+		self.startBenchmark("Create class member model for „%s“" % dataType)
 		
 		try:
 			classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
@@ -326,9 +326,9 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			else:
 				try:
 					return self.createClassMemberModel(dataType)
-					#print("Created class member model for '%s'" % dataType)
+					#print("Created class member model for „%s“" % dataType)
 				except BaseException as e:
-					print("No class information available for '%s' (%s)" % (dataType, str(e)))
+					print("No class information available for „%s“ (%s)" % (dataType, str(e)))
 					self.deactivateMemberList()
 		
 		return False

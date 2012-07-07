@@ -112,7 +112,7 @@ def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".f
 		return fixPath(os.path.abspath(gImportedInFolder))
 	
 	return ""
-	#raise CompilerException("Module not found: '%s'" % importedModule)
+	#raise CompilerException("Module not found: „%s“" % importedModule)
 
 def getModuleImportType(importedModule, fileDir, projectDir, extension = ".flua"):
 	fileDir = fixPath(fileDir)

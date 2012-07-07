@@ -14,7 +14,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		self.finished.connect(self.programExited)
 		
 	def programStarted(self):
-		print("Program '%s' started." % (stripAll(self.exe)))
+		print("Program „%s“ started." % (stripAll(self.exe)))
 		
 		if self.debugMode:
 			#self.sendDebugger("break main\n")
@@ -23,9 +23,9 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		
 	def programExited(self):
 		if self.exitCode != 0:
-			print("Program '%s' exited with exit code [%d]." % (stripAll(self.exe), self.exitCode))
+			print("Program „%s“ exited with exit code [%d]." % (stripAll(self.exe), self.exitCode))
 		else:
-			print("Program '%s' exited normally." % (stripAll(self.exe)))
+			print("Program „%s“ exited normally." % (stripAll(self.exe)))
 		
 		if self.bpIDE.running > 0:
 			self.bpIDE.running -= 1

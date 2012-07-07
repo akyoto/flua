@@ -39,9 +39,9 @@ def findPublicMemberInBaseClasses(callerClass, funcName):
 	for classImpl in callerClass.extends:
 		classObj = classImpl.classObj
 		
-		#debug("Checking base class '%s' for public member '%s'" % (classObj.name, funcName))
+		#debug("Checking base class „%s“ for public member „%s“" % (classObj.name, funcName))
 		if classObj.hasPublicMember(funcName):
-			#debug("Found public member '%s' in base class '%s'" % (funcName, classObj.name))
+			#debug("Found public member „%s“ in base class „%s“" % (funcName, classObj.name))
 			return classObj.publicMembers[funcName], classImpl
 		
 		if classObj.extends:
@@ -107,7 +107,7 @@ class BaseClass(BaseNamespace):
 		self.publicMembersDefined[name] = typeName
 		
 	def hasPublicMember(self, name):
-		#debug("Checking '%s' for public member '%s'" % (self.getFinalName(), name))
+		#debug("Checking „%s“ for public member „%s“" % (self.getFinalName(), name))
 		
 		# Local list check
 		exists = name in self.publicMembers
@@ -200,19 +200,19 @@ class BaseClass(BaseNamespace):
 		return self.implementations[key]
 		
 	def addClass(self, classObj):
-		#debug("'%s' added class '%s'" % (self.name, classObj.name))
+		#debug("„%s“ added class „%s“" % (self.name, classObj.name))
 		classObj.parent = self
 		self.classes[classObj.name] = classObj
 		
 	def addFunction(self, func):
-		#debug("'%s' added function '%s'" % (self.name, func.getName()))
+		#debug("„%s“ added function „%s“" % (self.name, func.getName()))
 		func.classObj = self
 		if not func.getName() in self.functions:
 			self.functions[func.getName()] = []
 		elif (not self.cppFile) or self.cppFile.compiler.checkDoubleVarDefinition:
 			for iterFunc in self.functions[func.getName()]:
 				if func.paramTypesByDefinition == iterFunc.paramTypesByDefinition:
-					raise CompilerException("The function '%s.%s' accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
+					raise CompilerException("The function „%s.%s“ accepting parameters of the types %s has already been defined." % (self.name, func.getName(), func.paramTypesByDefinition))
 		
 		self.functions[func.getName()].append(func)
 		
@@ -222,6 +222,18 @@ class BaseClass(BaseNamespace):
 		
 	def hasFunction(self, name):
 		return name in self.functions
+		
+	def getSimilarFunctionName(self, name):
+		nameLower = name.lower()
+		nameLowerSet = set(nameLower)
+		
+		# TODO: Add more comparison functions than just lowercase
+		for funcName, func in self.functions.items():
+			funcNameLower = funcName.lower()
+			if (nameLower[0] == funcNameLower[0] and nameLowerSet == set(funcNameLower)):
+				return funcName
+		
+		return ""
 		
 	def hasOperator(self, name):
 		return correctOperators(name) in self.functions
@@ -237,14 +249,14 @@ class BaseClass(BaseNamespace):
 		return typeName in self.functions
 		
 	def addExternFunction(self, name, type):
-		#debug("'%s' added extern function '%s' of type '%s'" % (self.name, name, type))
+		#debug("„%s“ added extern function „%s“ of type „%s“" % (self.name, name, type))
 		self.externFunctions[name] = type
 		
 	def addExternVariable(self, name, type):
-		#debug("'%s' added extern variable '%s' of type '%s'" % (self.name, name, type))
+		#debug("„%s“ added extern variable „%s“ of type „%s“" % (self.name, name, type))
 		self.externVariables[name] = type
 	
 	def setTemplateNames(self, names, defaultValues):
-		#debug("'%s' set the template names %s" % (self.name, names))
+		#debug("„%s“ set the template names %s" % (self.name, names))
 		self.templateNames = names
 		self.templateDefaultValues = defaultValues

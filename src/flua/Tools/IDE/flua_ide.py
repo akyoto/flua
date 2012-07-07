@@ -498,7 +498,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 						
 						#self.codeEdit.bubble.show()
 				elif self.codeEdit:
-					self.codeEdit.bubble.hide()#setPlainText("Unknown function '%s'" % funcName)
+					self.codeEdit.bubble.hide()#setPlainText("Unknown function „%s“" % funcName)
 			elif self.codeEdit:
 				self.codeEdit.bubble.hide()
 		elif self.codeEdit:

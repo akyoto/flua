@@ -412,7 +412,7 @@ typedef struct BPFunction {
 			fhOut(str(cmd))
 			return startProcess(cmd, fhOut, fhErr, thread, bytewise = True)
 		except OSError:
-			print("Can't execute '%s'" % exe)
+			print("Can't execute „%s“" % exe)
 			
 		return -1
 	

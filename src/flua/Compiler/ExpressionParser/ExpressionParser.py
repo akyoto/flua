@@ -102,7 +102,7 @@ class ExpressionParser:
 		exprLen = l(expr)
 		
 		#if exprLen == 1 and not isVarChar(expr):
-		#	raise CompilerException("Invalid expression: '%s'" % (expr))
+		#	raise CompilerException("Invalid expression: „%s“" % (expr))
 		
 		i = 0
 		lastOccurence = 0
@@ -135,10 +135,10 @@ class ExpressionParser:
 						
 						if op.text == "§":
 							if lastOccurence == 0:
-								raise CompilerException("Can't start a template expression at the beginning of an expression in '%s'" % (expr))
+								raise CompilerException("Can't start a template expression at the beginning of an expression in „%s“" % (expr))
 								
 							if not isVarChar(expr[lastOccurence - 1]):
-								raise CompilerException("You can't use a template expression without specifying an actual class in '%s'" % (expr))
+								raise CompilerException("You can't use a template expression without specifying an actual class in „%s“" % (expr))
 						
 						if isVarChar(expr[lastOccurence + op.textLen]) or expr[lastOccurence + op.textLen] == '(' or op.text == '(' or expr[lastOccurence + op.textLen] == '[' or op.text == '[':
 							if op.type == Operator.BINARY:
@@ -189,10 +189,10 @@ class ExpressionParser:
 								operandRight = expr[lastOccurence + op.textLen:end]
 								
 								#if (not operandLeft) or (not operandRight):
-								#	raise CompilerException("Invalid expression: '%s'" % (expr))
+								#	raise CompilerException("Invalid expression: „%s“" % (expr))
 								
 								#if exprLen == 1 and not isVarChar(expr):
-								#	raise CompilerException("Invalid expression: '%s'" % (expr))
+								#	raise CompilerException("Invalid expression: „%s“" % (expr))
 								
 								# Perform "no digits at the start of an identifier" check for the left operator
 								if operandLeft:
@@ -202,7 +202,7 @@ class ExpressionParser:
 											if not c.isdigit():
 												if isVarChar(c):
 													if operandLeft[0] != '0' or operandLeft[1] != 'x':
-														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandLeft))
+														raise CompilerException("Identifiers must not begin with a digit: „%s“" % (operandLeft))
 												else:
 													break
 								# Array slicing?
@@ -230,16 +230,16 @@ class ExpressionParser:
 											if not c.isdigit():
 												if isVarChar(c):
 													if operandRight[0] != '0' or operandRight[1] != 'x':
-														raise CompilerException("Identifiers must not begin with a digit: '%s'" % (operandRight))
+														raise CompilerException("Identifiers must not begin with a digit: „%s“" % (operandRight))
 												else:
 													break
 													
 									if op.text != "#" and operandRight == "()":
-										raise CompilerException("Invalid right operand in '%s'" % (expr))
+										raise CompilerException("Invalid right operand in „%s“" % (expr))
 										
 									# TODO: Allow lists
 									if operandRight == "[]":
-										raise CompilerException("Invalid right operand in '%s'" % (expr))
+										raise CompilerException("Invalid right operand in „%s“" % (expr))
 								
 								#if op.text != "(":
 								#	if (operandRight and operandRight[0].isdigit() and not operandRight.isdigit()):
@@ -475,7 +475,7 @@ class ExpressionParser:
 		# Right operand missing
 		if not rightOperand:
 			if operator == "=":
-				raise CompilerException("You need to assign a valid value to '%s'" % leftOperand)
+				raise CompilerException("You need to assign a valid value to „%s“" % leftOperand)
 			raise CompilerException("Operator [" + operator + "] expects a second operator")
 		
 		#self.recursionLevel -= 1
@@ -487,7 +487,7 @@ class ExpressionParser:
 		if not expr:
 			raise CompilerException("Expression missing")
 		if expr[0] != '~' and isDefinitelyOperatorSign(expr[0]) and not expr[0] == "-":
-			raise CompilerException("Invalid expression: '%s'" % expr)
+			raise CompilerException("Invalid expression: „%s“" % expr)
 		
 		#node = self.doc.createElement("expr")
 		expr = expr.replace("\t", " ")

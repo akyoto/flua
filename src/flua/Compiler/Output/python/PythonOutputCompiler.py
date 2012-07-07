@@ -134,7 +134,7 @@ import """ + hppFile + "\n" + self.getFileExecList() + "\n")
 		try:
 			return startProcess(cmd, fhOut, fhErr)
 		except OSError:
-			print("Can't execute '%s'" % exe)
+			print("Can't execute „%s“" % exe)
 		
 	def getFileExecList(self):
 		files = []

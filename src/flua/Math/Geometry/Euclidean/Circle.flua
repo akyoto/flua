@@ -11,6 +11,7 @@
 		<strings/>
 	</header>
 	<code>
+		<comment>\SRepresents\Sa\Scircle\Swith\Sa\Scenter\Spoint\Sand\Sa\Sradius</comment>
 		<class depth="0" id="1">
 			<name>Circle</name>
 			<code>

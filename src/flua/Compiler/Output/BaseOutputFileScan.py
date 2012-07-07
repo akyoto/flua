@@ -118,10 +118,10 @@ class BaseOutputFileScan:
 				# Last parsed node for debugging purposes
 				self.lastParsedNode.append(node.childNodes[i])
 				
-				raise CompilerException("The member variable declaration of '%s' in a public block of class '%s' must be given a type" % (memberName, self.currentClass.name))
+				raise CompilerException("The member variable declaration of „%s“ in a public block of class „%s“ must be given a type" % (memberName, self.currentClass.name))
 			
 			if memberName.startswith("__"):
-				raise CompilerException("Don't use 'my', 'self' or 'this' in the member variable declaration of '%s' in a public block of class '%s'" % (memberName[2:], self.currentClass.name))
+				raise CompilerException("Don't use 'my', 'self' or 'this' in the member variable declaration of „%s“ in a public block of class „%s“" % (memberName[2:], self.currentClass.name))
 			
 			self.currentClass.addPublicMember(memberName, memberType)
 		

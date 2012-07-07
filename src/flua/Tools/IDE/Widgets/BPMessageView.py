@@ -35,7 +35,7 @@ class BPMessageView(QtGui.QListWidget):
 		
 		if (not errorFilePath) or (not os.path.isfile(errorFilePath)):
 			if self.lastException:
-				print("No line information for '%s'" % (self.lastException.__class__))
+				print("No line information for „%s“" % (self.lastException.__class__))
 			return
 		
 		lineNum = item.data(QtCore.Qt.UserRole + 2)

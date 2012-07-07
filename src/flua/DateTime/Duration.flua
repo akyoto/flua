@@ -1,0 +1,62 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\STODO:\SRepresents\Sa\Sduration</comment>
+		<class depth="0" id="1">
+			<name>Duration</name>
+			<code>
+				<function depth="1" id="2">
+					<parameters>
+						<parameter>
+							<declare-type>
+								<value>from</value>
+								<value>DateTime</value>
+							</declare-type>
+						</parameter>
+						<parameter>
+							<declare-type>
+								<value>to</value>
+								<value>DateTime</value>
+							</declare-type>
+						</parameter>
+					</parameters>
+					<name>init</name>
+					<code>
+						<assign depth="2" id="3">
+							<value>
+								<access>
+									<value>my</value>
+									<value>value</value>
+								</access>
+							</value>
+							<value>
+								<subtract>
+									<value>
+										<access>
+											<value>to</value>
+											<value>timeStamp</value>
+										</access>
+									</value>
+									<value>
+										<access>
+											<value>from</value>
+											<value>timeStamp</value>
+										</access>
+									</value>
+								</subtract>
+							</value>
+						</assign>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>

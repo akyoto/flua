@@ -88,7 +88,7 @@ class BaseOutputFileHandler:
 			except CompilerException:
 				raise
 			except:
-				raise CompilerException("'%s' could not be set as a property of '%s'" % (nodeToBPC(node), saved))
+				raise CompilerException("„%s“ could not be set as a property of „%s“" % (nodeToBPC(node), saved))
 			
 			self.onVariable = saved
 			
@@ -121,7 +121,7 @@ class BaseOutputFileHandler:
 					if self.currentFunctionImpl:
 						self.currentFunctionImpl.addSideEffect()
 					
-					#print("Using setter for type '%s'" % (accessOp1type))
+					#print("Using setter for type „%s“" % (accessOp1type))
 					setFunc = self.cachedParseString("<call><function><access><value>%s</value><value>%s</value></access></function><parameters><parameter>%s</parameter></parameters></call>" % (accessOp1.toxml(), "set" + capitalize(accessOp2.nodeValue), node.childNodes[1].childNodes[0].toxml())).documentElement
 					return self.handleCall(setFunc)
 				elif publicMemberAccess:
@@ -161,7 +161,7 @@ class BaseOutputFileHandler:
 				tupleTypes = splitParams(valueType[valueType.find("<")+1:-1])
 				
 				if numAssignments != len(tupleTypes):
-					raise CompilerException("'%s' returns %d values while there are %d assignments" % (nodeToBPC(op2), len(tupleTypes), numAssignments))
+					raise CompilerException("„%s“ returns %d values while there are %d assignments" % (nodeToBPC(op2), len(tupleTypes), numAssignments))
 				
 				code = []
 				
@@ -211,18 +211,18 @@ class BaseOutputFileHandler:
 			if len(node.childNodes[1].childNodes) == 1:
 				value = self.parseExpr(node.childNodes[1].childNodes[0], False)
 			else:
-				raise CompilerException("Invalid assignment value for '%s'" % (variableName))
+				raise CompilerException("Invalid assignment value for „%s“" % (variableName))
 		else:
-			raise CompilerException("Invalid assignment value for '%s'" % (variableName))
+			raise CompilerException("Invalid assignment value for „%s“" % (variableName))
 		
 		# Parse value type
 		valueType = self.getExprDataType(node.childNodes[1].childNodes[0])
 		
 		if valueType == "void":
-			raise CompilerException("'%s' which is assigned to '%s' does not return a value" % (nodeToBPC(node.childNodes[1].childNodes[0]), variableName))
+			raise CompilerException("„%s“ which is assigned to „%s“ does not return a value" % (nodeToBPC(node.childNodes[1].childNodes[0]), variableName))
 		
 		#if valueType.startswith("Tuple<"):
-		#	raise CompilerException("'%s' returns multiple values, not just one" % (nodeToBPC(op2)))
+		#	raise CompilerException("„%s“ returns multiple values, not just one" % (nodeToBPC(op2)))
 		
 		memberName = variableName
 		
@@ -255,7 +255,7 @@ class BaseOutputFileHandler:
 			
 			variableExisted = True
 		else:
-			#debug("Checking whether '%s' exists:" % variableName)
+			#debug("Checking whether „%s“ exists:" % variableName)
 			variableExisted = self.variableExistsAnywhere(variableName)
 			#debug(variableExisted)
 			
@@ -380,9 +380,9 @@ class BaseOutputFileHandler:
 				
 				if self.currentClassImpl != callerClassImpl:
 					if op2.nodeValue in callerClassImpl.members:
-						raise CompilerException("The property '%s' of class '%s' is not public and has no get function" % (nodeToBPC(op2), callerType))
+						raise CompilerException("The property „%s“ of class „%s“ is not public and has no get function" % (nodeToBPC(op2), callerType))
 					else:
-						raise CompilerException("The property '%s' of class '%s' does not exist" % (nodeToBPC(op2), callerType))
+						raise CompilerException("The property „%s“ of class „%s“ does not exist" % (nodeToBPC(op2), callerType))
 		
 		return self.parseBinaryOperator(node, self.ptrMemberAccessChar)
 	
@@ -546,11 +546,11 @@ class BaseOutputFileHandler:
 		exprType = self.getExprDataType(exprNode.firstChild)
 		
 		if exprType in nonPointerClasses:
-			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which '%s' lacks" % exprType)
+			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which „%s“ lacks" % exprType)
 		
 		classObj = self.getClass(extractClassName(exprType))
 		if not (classObj.hasFunction("enter") and classObj.hasFunction("exit")):
-			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which '%s' lacks" % exprType)
+			raise CompilerException("The class used for an 'in' block needs 'enter' and 'exit' methods which „%s“ lacks" % exprType)
 		
 		self.implementFunction(exprType, "enter", [])
 		self.implementFunction(exprType, "exit", [])
@@ -581,7 +581,7 @@ class BaseOutputFileHandler:
 			code = "%s %s = %s;\n" % (self.adjustDataType(exprType), self.onVariable, value)
 		else:
 			self.onVariable = exprNode.nodeValue
-			code = "// on '%s'\n" % self.onVariable
+			code = "// on „%s“\n" % self.onVariable
 		
 		code += self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.onVariable = ""
@@ -634,11 +634,11 @@ class BaseOutputFileHandler:
 				expr = self.parseExpr(node.firstChild, False)
 				
 				if retType == "void":
-					raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+					raise CompilerException("„%s“ doesn't return a value" % nodeToBPC(node.childNodes[0]))
 					
-				#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+				#debug("Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 				if self.currentFunction and self.currentFunction.hasDataFlow:
-					#print("[DATAFLOW] Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+					#print("[DATAFLOW] Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 					return self.buildFunctionDataFlowOnReturn(node, expr, self.currentFunctionImpl)
 				
 				return self.returnSyntax % expr
@@ -655,9 +655,9 @@ class BaseOutputFileHandler:
 			yieldValue = self.parseExpr(node.childNodes[0], False)
 			
 			if yieldType == "void":
-				raise CompilerException("'%s' doesn't return a value" % nodeToBPC(node.childNodes[0]))
+				raise CompilerException("„%s“ doesn't return a value" % nodeToBPC(node.childNodes[0]))
 				
-			#debug("Returning '%s' with type '%s' on current func '%s' with implementation '%s'" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
+			#debug("Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 			return self.yieldSyntax % yieldValue
 		else:
 			raise CompilerException("The 'yield' keyword needs an expression which is processed in each loop iteration")
@@ -747,11 +747,12 @@ class BaseOutputFileHandler:
 		op1 = self.currentClassImpl.translateTemplateName(op1)
 		op2 = self.currentClassImpl.translateTemplateName(op2)
 		
-		op2 = self.prepareTypeName(op2)
+		#op2 = self.prepareTypeName(op2)
 		
 		# Check whether the class really exists
 		#print(op2)
-			
+		
+		#for t in 
 		#	if (not t in nonPointerClasses) and (not t in {"MemPointer", "~MemPointer"}):
 		#		print("  > " + t)
 		#		self.getClassImplementationByTypeName(t)
@@ -773,7 +774,7 @@ class BaseOutputFileHandler:
 		
 		typeNode = node.childNodes[1].firstChild
 		if self.isInvalidType(typeNode):
-			raise CompilerException("Invalid type definition in '%s'" % nodeToBPC(node))
+			raise CompilerException("Invalid type definition in „%s“" % nodeToBPC(node))
 		
 		typeName = self.parseExpr(typeNode, True)
 		
@@ -809,7 +810,7 @@ class BaseOutputFileHandler:
 				print("===")
 			raise CompilerException("'" + varName + "' has already been defined as a %s variable of the type '" % (["local", "class", "global"][variableExists - 1]) + self.getVariableTypeAnywhere(varName) + "'")
 		else:
-			#debug("Declaring '%s' as '%s'" % (varName, typeName))
+			#debug("Declaring „%s“ as „%s“" % (varName, typeName))
 			var = self.createVariable(varName, typeName, "", self.inConst, not typeName in nonPointerClasses, False)
 			self.registerVariable(var)
 			
@@ -882,7 +883,7 @@ class BaseOutputFileHandler:
 		collExprType = self.getExprDataType(collExprNode)
 		
 		if collExprType in nonPointerClasses:
-			raise CompilerException("'%s' is a value of type '%s' and does not have a default iterator" % (nodeToBPC(collExprNode), collExprType))
+			raise CompilerException("„%s“ is a value of type „%s“ and does not have a default iterator" % (nodeToBPC(collExprNode), collExprType))
 		
 		# Implement the iterator
 		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, paramTypes)
@@ -891,7 +892,7 @@ class BaseOutputFileHandler:
 		iteratorValue = iteratorImpl.getYieldValue()
 		
 		if not iteratorType:
-			raise CompilerException("Iterator for '%s' doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
+			raise CompilerException("Iterator for „%s“ doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
 		
 		self.pushScope()
 		
@@ -1128,7 +1129,7 @@ class BaseOutputFileHandler:
 			except CompilerException:
 				raise
 			#except:
-			#	raise CompilerException("'%s' could not be called as a method of '%s'" % (nodeToBPC(node), saved))
+			#	raise CompilerException("„%s“ could not be called as a method of „%s“" % (nodeToBPC(node), saved))
 			self.onVariable = saved
 			
 			return code
@@ -1158,7 +1159,7 @@ class BaseOutputFileHandler:
 		
 		callerClassName = extractClassName(callerType)
 		#if callerClassName == "void":
-		#	raise CompilerException("Function '%s' has no return value" % getElementByTagName(node, "function"))
+		#	raise CompilerException("Function „%s“ has no return value" % getElementByTagName(node, "function"))
 		callerClass = self.getClass(callerClassName)
 		
 		# MemPointer.free
@@ -1176,9 +1177,20 @@ class BaseOutputFileHandler:
 			if not funcName in callerClass.functions:
 				if not funcInBase:
 					if funcName[0].islower():
-						raise CompilerException("Function '%s.%s' has not been defined [Error code 1]" % (callerType, funcName))
+						similarFuncName = callerClass.getSimilarFunctionName(funcName)
+						
+						if similarFuncName:
+							if callerType:
+								raise CompilerException("Function „%s.%s“ has not been defined - did you mean „%s“? [Error code 1]" % (callerType, funcName, similarFuncName))
+							else:
+								raise CompilerException("Function „%s“ has not been defined - did you mean „%s“? [Error code 1]" % (funcName, similarFuncName))
+						else:
+							if callerType:
+								raise CompilerException("Function „%s.%s“ has not been defined [Error code 1]" % (callerType, funcName))
+							else:
+								raise CompilerException("Function „%s“ has not been defined [Error code 1]" % (funcName))
 					else:
-						raise CompilerException("Class '%s' has not been defined  [Error code 2]" % (funcName))
+						raise CompilerException("Class „%s“ has not been defined  [Error code 2]" % (funcName))
 				
 				func = funcInBase
 			else:
@@ -1236,7 +1248,7 @@ class BaseOutputFileHandler:
 			
 			for i in range(len(paramTypes)):
 				if paramTypes[i] == "void":
-					raise CompilerException("'%s' does not return a value" % nodeToBPC(params.childNodes[i]))
+					raise CompilerException("„%s“ does not return a value" % nodeToBPC(params.childNodes[i]))
 			
 			funcImpl = self.implementFunction(callerType, funcName, paramTypes)
 			fullName = funcImpl.getName()
@@ -1260,11 +1272,11 @@ class BaseOutputFileHandler:
 				if pFrom != pTo and (not canBeCastedTo(pFrom, pTo)) and (not self.isDerivedClass(pFrom, pTo)):
 					params = paramsString.split(",")
 					# TODO: self.buildCall(caller, fullName, paramsString)
-					#debug("Type cast from '%s' to '%s'" % (pFrom, pTo))
+					#debug("Type cast from „%s“ to „%s“" % (pFrom, pTo))
 					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
 					paramsString = ", ".join(params)
 				elif pFrom == "Int" and pTo == "Size":
-					compilerWarning("Cast from signed Integer to unsigned Size in '%s'" % nodeToBPC(node))
+					compilerWarning("Cast from signed Integer to unsigned Size in „%s“" % nodeToBPC(node))
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()
@@ -1273,7 +1285,7 @@ class BaseOutputFileHandler:
 			#		break
 			#	
 			#	if defaultValueTypes[i] and paramTypes[i] != defaultValueTypes[i]:
-			#		raise CompilerException("Call parameter types don't match the parameter default types of '%s'" % (funcName))
+			#		raise CompilerException("Call parameter types don't match the parameter default types of „%s“" % (funcName))
 			
 			# Parallel execution
 			if self.inParallel >= 0 and node.parentNode and node.parentNode.parentNode and node.parentNode.parentNode.tagName in {"parallel", "begin"}:

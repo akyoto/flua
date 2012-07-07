@@ -141,9 +141,9 @@ def addBrackets(line):
 	identifier = line[:i]
 	if char == '.':
 		if identifier:
-			raise CompilerException("You need to specify a function or property of '%s'" % (identifier))
+			raise CompilerException("You need to specify a function or property of „%s“" % (identifier))
 		else:
-			raise CompilerException("Invalid instruction: '%s'" % line)
+			raise CompilerException("Invalid instruction: „%s“" % line)
 	# A simple array index without any other calls
 	elif char == ']':
 		return line
@@ -158,7 +158,7 @@ def addBrackets(line):
 	if isDefinitelyOperatorSign(char):
 		if (not identifier or not rightOperand):
 			#print(line, "|", identifier, "|", rightOperand)
-			raise CompilerException("Invalid instruction: '%s'" % line)
+			raise CompilerException("Invalid instruction: „%s“" % line)
 	
 	# Don't make function calls out of data flow
 	if rightOperand.startswith("<-") or rightOperand.startswith("->") or rightOperand.startswith("<->") or rightOperand.startswith("→") or rightOperand.startswith("←"):
@@ -580,7 +580,7 @@ class BPCFile(ScopeController, Benchmarkable):
 								self.getCurrentScope().variables[variable] = currentLine
 				
 				if not self.currentNode:
-					raise CompilerException("'%s' was indented and needs to be in a valid block" % self.lastLine)
+					raise CompilerException("„%s“ was indented and needs to be in a valid block" % self.lastLine)
 				self.lastNode = self.currentNode.appendChild(currentLine)
 			prevTabCount = tabCount
 		
@@ -710,7 +710,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				return self.handleFunction(line)
 			
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
-				raise CompilerException("A class definition may not contain top-level executable code: '%s'" % (line))
+				raise CompilerException("A class definition may not contain top-level executable code: „%s“" % (line))
 			
 			line = addBrackets(line)
 			line = addGenerics(line)
@@ -936,7 +936,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.raiseBlockException("for", line)
 		
 		if len(line) < 5:
-			raise CompilerException("You need to specify an iterator in '%s'" % (line))
+			raise CompilerException("You need to specify an iterator in „%s“" % (line))
 		
 		# Remove 'p' from pfor
 		if line[0] == 'p':
@@ -1015,7 +1015,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			#if not toParam:
 			#	keyword = ["until", "to"][toUsed]
-			#	raise CompilerException("Missing expression after '%s'" % (keyword))
+			#	raise CompilerException("Missing expression after „%s“" % (keyword))
 			
 			if toUsed:
 				toParam = line[pos+len(" to "):]
@@ -1407,7 +1407,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		if expr:
 			if isDefinitelyOperatorSign(expr[0]):
-				raise CompilerException("Parameter name missing: '%s' (expecting function definition for '%s')" % (expr, funcName))
+				raise CompilerException("Parameter name missing: „%s“ (expecting function definition for „%s“)" % (expr, funcName))
 			params = self.parseExpr(expr)
 			paramsNode = self.parser.getParametersNode(params)
 			node.appendChild(paramsNode)
@@ -1519,7 +1519,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		return node
 		
 	def raiseBlockException(self, keyword, line):
-		raise CompilerException("It is required to have an indented %s block after '%s'" % (keyword, line))
+		raise CompilerException("It is required to have an indented %s block after „%s“" % (keyword, line))
 		
 	def handleIf(self, line):
 		node = self.doc.createElement("if-block")
@@ -1677,7 +1677,7 @@ class BPCFile(ScopeController, Benchmarkable):
 						raise CompilerException("You can't create a vector with 0 elements using this syntax. You can use 'Vector<YOUR_TYPE>()' if you really need an empty vector.")
 					
 					# New sequences
-					if (i == 0 or not isVarChar(line[i-1])):
+					if (i == 0 or (not isVarChar(line[i-1]) and line[i-1] != "]")):
 						line = "%s%s%s" % (line[:i], seqPrefix, line[i:])
 						i += seqPrefixLen
 			elif line[i] == ']':
@@ -1744,7 +1744,7 @@ class BPCFile(ScopeController, Benchmarkable):
 						paramEnd = h + 1
 						
 						if paramEnd >= lineLen:
-							raise CompilerException("Expecting variable name after '%s'" % line)
+							raise CompilerException("Expecting variable name after „%s“" % line)
 						
 						# Get variable name
 						while paramEnd < lineLen and (line[paramEnd].isalnum() or line[paramEnd] == '_'):
