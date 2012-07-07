@@ -9,6 +9,7 @@
 			<import>generics</import>
 			<import>memory</import>
 			<import>array</import>
+			<import>vectorlist</import>
 			<import>map</import>
 			<import>overloading</import>
 			<import>namespaces</import>

@@ -1,0 +1,63 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Vector</string>
+			<string id="flua_string_1">initialization</string>
+			<string id="flua_string_2">lists</string>
+			<string id="flua_string_3">working!</string>
+			<string id="flua_string_4">\S</string>
+			<string id="flua_string_5">\n</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="1">
+			<value>vecTest</value>
+			<value>
+				<index>
+					<value>_flua_seq</value>
+					<value>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+							<parameter>flua_string_1</parameter>
+							<parameter>flua_string_2</parameter>
+							<parameter>flua_string_3</parameter>
+						</parameters>
+					</value>
+				</index>
+			</value>
+		</assign>
+		<call depth="0" id="2">
+			<function>
+				<access>
+					<value>vecTest</value>
+					<value>interpose</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>flua_string_4</parameter>
+			</parameters>
+		</call>
+		<foreach depth="0" id="3">
+			<iterator>x</iterator>
+			<collection>vecTest</collection>
+			<code>
+				<call depth="1" id="4">
+					<function>write</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
+		<call depth="0" id="5">
+			<function>write</function>
+			<parameters>
+				<parameter>flua_string_5</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>
