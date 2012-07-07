@@ -878,7 +878,7 @@
 										<index>
 											<value>newMem</value>
 											<value>
-												<subtract>
+												<add>
 													<value>
 														<multiply>
 															<value>i</value>
@@ -886,13 +886,14 @@
 														</multiply>
 													</value>
 													<value>1</value>
-												</subtract>
+												</add>
 											</value>
 										</index>
 									</value>
 									<value>element</value>
 								</assign>
 							</code>
+							<meta/>
 						</for>
 						<assign depth="2" id="77">
 							<value>
@@ -942,6 +943,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<operators depth="1" id="80">
 					<comment>\SRetrieves\Sthe\Selement\Sat\Sposition\S#index</comment>
