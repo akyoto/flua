@@ -24,16 +24,16 @@
 					<type>GraphicsWindow</type>
 					<parameters>
 						<parameter>flua_string_0</parameter>
-						<parameter>800</parameter>
+						<parameter>1024</parameter>
 						<parameter>
 							<divide>
+								<value>1024</value>
 								<value>
-									<multiply>
-										<value>800</value>
-										<value>9</value>
-									</multiply>
+									<call>
+										<function>getScreenRatio</function>
+										<parameters/>
+									</call>
 								</value>
-								<value>16</value>
 							</divide>
 						</parameter>
 					</parameters>

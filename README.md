@@ -8,41 +8,30 @@ Flua is a general purpose programming language (or environment, if you like).
 Its main features are:
 
  * Data flow programming
- * Mutable AND immutable data structures depending on what you currently need
- * Automatic Parallelization
- * Syntax independent
+ * Mutable and immutable data structures depending on what you currently need
+ * Multiple syntax support
  * Language can be extended via patterns
+ * Automatic Parallelization based on Whitelists
  * Code is saved in XML files which hold all the data about them (documentation, etc.)
 
-It is currently in the development phase and not stable.
+It is currently in the Alpha phase.
 
 Website: http://flua-lang.org/
 
 Installation
 ---------------------
-Flua is based on Python 3 so you only need to install the Python 3 interpreter and the dependencies.
-
-Installation on Linux distributions:
-
-On debian based systems (Ubuntu, Linux Mint, etc.) install the dependencies using the packet manager (Python 3, PyQt 4, Git, g++):
+If you use Debian or Ubuntu just execute this:
 
     sudo apt-get install python3 python3-pyqt4 git g++
-
-This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based systems you need to compile these dependencies manually or install the equivalent packages. If you're using a non-debian based system I'm sure you know what you are doing.
-
-Afterwards download Flua via git:
-
     git clone git://github.com/blitzprog/flua.git
+    ./flua/flua-studio.py
 
-And start it:
+This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based systems you need to compile these dependencies manually or install the equivalent packages.
 
-    ./flua-studio.py
+Compiling dependencies manually
+---------------------
 
-The Linux version of Flua (both the IDE and the standalone compiler) is slightly faster than the Windows one.
-
-Compiling dependencies manually:
-
-If you are using Ubuntu 12.04 you don't need to do this. If you are using Ubuntu 11.xx or a non-debian based system, this section is for you.
+If you are using Ubuntu 11.xx or a non-debian based system, this section is for you.
 Install git, g++, Python 3 and these development packages via your package manager (Ubuntu 11.xx is used as an example):
 
     sudo apt-get install python3 git g++ build-essential python3-dev libqt4-dev
@@ -70,7 +59,7 @@ Download Flua via git (unless you already downloaded it):
     
 Start flua-studio.py which is in the top-level flua directory:
     
-    ./flua-studio.py
+    ./flua/flua-studio.py
     
 On 64-Bit systems you might need to install libc-i386-dev as well.
 If you want to compile the graphics examples you'll need X11 and OpenGL
