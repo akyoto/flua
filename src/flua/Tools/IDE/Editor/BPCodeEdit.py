@@ -995,7 +995,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#hasModifier = ((event.modifiers() != QtCore.Qt.NoModifier) and not ctrlOrShift)
 			
 			eow = "~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-= "
-			if ((not event.text()) and (not isShortcut)) or event.text()[-1] in eow:
+			if (not isShortcut) and ((not event.text()) or event.text()[-1] in eow):
 				#print(event.text()[-1] + "<<<<<<<<<<")
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
