@@ -10,6 +10,8 @@
 			<import>Exception</import>
 			<import>flua.Collection.Interface</import>
 			<import>flua.Collection.Array</import>
+			<import>flua.Collection.List</import>
+			<import>flua.Collection.Queue</import>
 			<import>flua.Collection.Vector</import>
 		</dependencies>
 		<strings/>
@@ -34,43 +36,24 @@
 					<extern-function depth="2" id="7">
 						<name>usleep</name>
 						<type>Bool</type>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>true</same-output-for-input>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="8">
 						<name>systemTime</name>
 						<type>Int64</type>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="9">
 						<name>systemTimeMicro</name>
 						<type>Int64</type>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="10">
 						<name>swap</name>
-						<meta>
-							<no-side-effects>true</no-side-effects>
-							<same-output-for-input>true</same-output-for-input>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="11">
 						<name>sizeOf</name>
 						<type>Size</type>
-						<meta>
-							<same-output-for-input>true</same-output-for-input>
-							<no-side-effects>true</no-side-effects>
-						</meta>
 					</extern-function>
 					<extern-function depth="2" id="12">
 						<name>exit</name>
-						<meta/>
 					</extern-function>
 				</code>
 			</namespace>
@@ -99,7 +82,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#us\Smicroseconds</comment>
 		<function depth="0" id="15">
@@ -120,7 +102,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
@@ -197,7 +178,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
@@ -249,7 +229,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SExits\Sthe\Sapplication\Swith\San\Soptional\S#status\Scode</comment>
 		<function depth="0" id="31">

@@ -308,7 +308,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			)
 		
 		# Take previous cache
-		if self.outputCompiler:# and takeCache:
+		if self.outputCompiler: #and takeCache:
 			tmp.takeOverCache(self.outputCompiler)
 		
 		if temporary:

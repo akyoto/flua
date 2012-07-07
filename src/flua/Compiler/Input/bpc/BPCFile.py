@@ -1672,8 +1672,8 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif line[i] == '[':
 				squareBracketsBalance += 1
 				
-				if (self.inOperators == False or self.inOperator == True):
-					if i + 1 < len(line) and line[i+1] == ']':
+				if (self.inOperators == False or self.inOperator == True) and (not self.inInterface):
+					if i > 1 and i + 1 < len(line) and line[i+1] == ']':
 						raise CompilerException("You can't create a vector with 0 elements using this syntax. You can use 'Vector<YOUR_TYPE>()' if you really need an empty vector.")
 					
 					# New sequences
