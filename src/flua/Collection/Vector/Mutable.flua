@@ -322,8 +322,9 @@
 					<code>
 						<noop depth="2" id="27"/>
 					</code>
+					<meta/>
 				</function>
-				<comment>\STODO:\SImplement\Sthis</comment>
+				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Svector</comment>
 				<function depth="1" id="28">
 					<name>removeFirst</name>
 					<code>
@@ -490,7 +491,7 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\STODO:\SImplement\Sthis</comment>
+				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Svector\Sand\Sreturns\Sit</comment>
 				<function depth="1" id="43">
 					<name>takeFirst</name>
 					<code>
@@ -643,8 +644,9 @@
 						</assign>
 						<return depth="2" id="55">val</return>
 					</code>
+					<meta/>
 				</function>
-				<comment>\STODO:\SImplement\Sthis</comment>
+				<comment>\SRemoves\Sthe\Slast\Selement\Sfrom\Sthe\Svector\Sand\Sreturns\Sit</comment>
 				<function depth="1" id="56">
 					<name>takeLast</name>
 					<code>

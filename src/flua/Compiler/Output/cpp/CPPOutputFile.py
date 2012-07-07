@@ -308,7 +308,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		resultingCode = iterImplCode.replace("__flua_yield_var", iterExpr).replace("__flua_yield_code", code + continueJump + perIterationCode)
 		
-		return "{\n%s%s%s%s%s%s;\n%s\n%s}" % (paramsInit, initCode, tabs, collInitCode, typeInit, iterExpr, resultingCode, tabs)
+		return "{ // start foreach\n%s%s%s%s%s%s;\n%s\n%s} // end foreach" % (paramsInit, initCode, tabs, collInitCode, typeInit, iterExpr, resultingCode, tabs)
 		#return initCode + "{\n" + tabs + typeInit + iterExpr + ";\n" + resultingCode + "\n" + tabs + "}"
 	
 	def buildContinue(self, node):
