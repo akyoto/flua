@@ -47,7 +47,9 @@
 				</call>
 			</code>
 		</foreach>
-		<comment>\SYou\Scan\Screate\Sa\Svector\Sfor\Sany\Sdata\Stype:</comment>
+		<comment>\SYou\Scan\Screate\Sa\Svector\Sfor\Sany\Sdata\Stype.</comment>
+		<comment>\SHere\Swe\Suse\Sthe\Sexplicit\Snaming\Sof\Sthe\Svector\Sclass</comment>
+		<comment>\Sand\Sthe\Sdata\Stype\Sstored\Sin\Sit\Sto\Screate\San\Sempty\Svector:</comment>
 		<assign depth="0" id="4">
 			<value>myVec</value>
 			<value>
@@ -62,56 +64,42 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="5">
-			<function>
-				<access>
-					<value>myVec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>flua_string_0</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="6">
-			<function>
-				<access>
-					<value>myVec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>flua_string_1</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="7">
-			<function>
-				<access>
-					<value>myVec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>flua_string_2</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="8">
-			<function>
-				<access>
-					<value>myVec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>flua_string_3</parameter>
-			</parameters>
-		</call>
+		<comment>\SNow\Sadd\Ssome\Selements\Sto\Sit:</comment>
+		<on depth="0" id="5">
+			<expression>myVec</expression>
+			<code>
+				<call depth="1" id="6">
+					<function>add</function>
+					<parameters>
+						<parameter>flua_string_0</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="7">
+					<function>add</function>
+					<parameters>
+						<parameter>flua_string_1</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="8">
+					<function>add</function>
+					<parameters>
+						<parameter>flua_string_2</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="9">
+					<function>add</function>
+					<parameters>
+						<parameter>flua_string_3</parameter>
+					</parameters>
+				</call>
+			</code>
+		</on>
 		<comment>\SIterate\Sover\Sthe\Svector\Scontents</comment>
-		<foreach depth="0" id="9">
+		<foreach depth="0" id="10">
 			<iterator>x</iterator>
 			<collection>myVec</collection>
 			<code>
-				<call depth="1" id="10">
+				<call depth="1" id="11">
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>
