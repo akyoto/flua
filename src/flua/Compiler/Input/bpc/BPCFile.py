@@ -1650,6 +1650,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		squareBracketsBalance = 0 # []
 		#chevronsBalance = 0 # <>
 		
+		seqPrefix = "_flua_seq"
+		seqPrefixLen = len(seqPrefix)
+		
 		self.currentLineComment = None
 		self.keyword = ""
 		
@@ -1668,6 +1671,14 @@ class BPCFile(ScopeController, Benchmarkable):
 				roundBracketsBalance -= 1
 			elif line[i] == '[':
 				squareBracketsBalance += 1
+				
+				if i + 1 < len(line) and line[i+1] == ']':
+					raise CompilerException("You can't create a vector with 0 elements using this syntax. You can use 'Vector<YOUR_TYPE>()' if you really need an empty vector.")
+				
+				# New sequences
+				if (i == 0 or not isVarChar(line[i-1])) and (self.inOperators == False or self.inOperator == True):
+					line = "%s%s%s" % (line[:i], seqPrefix, line[i:])
+					i += seqPrefixLen
 			elif line[i] == ']':
 				squareBracketsBalance -= 1
 			elif line[i] == '{':

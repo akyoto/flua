@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <sys/time.h>
+#include <cstdarg>
 
 // Macros
 #define BPFunction void
@@ -38,6 +39,19 @@ inline time_t flua_systemTimeMicro() {
 
 inline void flua_exit(int status) {
 	exit(status);
+}
+
+template <class CollType, typename ElemType, typename PromotedType>
+inline CollType* flua_buildCollection(int count, ...) {
+	va_list arguments;
+	CollType* vec = new (UseGC) CollType(count);
+	
+	va_start(arguments, count);
+	for(int i = 0; i < count; ++i)
+		vec->add(static_cast<ElemType>(va_arg(arguments, PromotedType)));
+	va_end(arguments);
+	
+	return vec;
 }
 
 // operator << for BigInt

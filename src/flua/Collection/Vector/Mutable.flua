@@ -100,6 +100,7 @@
 				</function>
 				<comment>\SFrees\Sthe\Sallocated\Smemory</comment>
 				<function depth="1" id="11">
+					<parameters/>
 					<name>finalize</name>
 					<code>
 						<call depth="2" id="12">
@@ -324,6 +325,7 @@
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function depth="1" id="28">
+					<parameters/>
 					<name>removeFirst</name>
 					<code>
 						<noop depth="2" id="29"/>
@@ -331,6 +333,7 @@
 				</function>
 				<comment>\SRemoves\Sthe\Slast\Selement\Sfrom\Sthe\Svector</comment>
 				<function depth="1" id="30">
+					<parameters/>
 					<name>removeLast</name>
 					<code>
 						<require depth="2" id="31">
@@ -379,6 +382,7 @@
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function depth="1" id="35">
+					<parameters/>
 					<name>takeFirst</name>
 					<code>
 						<require depth="2" id="36">
@@ -410,6 +414,7 @@
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function depth="1" id="39">
+					<parameters/>
 					<name>takeLast</name>
 					<code>
 						<require depth="2" id="40">
@@ -474,6 +479,7 @@
 				</function>
 				<comment>\SReverses\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function depth="1" id="45">
+					<parameters/>
 					<name>reverse</name>
 					<code>
 						<assign depth="2" id="46">
@@ -804,6 +810,7 @@
 				</operators>
 				<iterators depth="1" id="75">
 					<iterator-type depth="2" id="76">
+						<parameters/>
 						<name>default</name>
 						<code>
 							<assign depth="3" id="77">
@@ -854,6 +861,7 @@
 				</iterators>
 				<get depth="1" id="82">
 					<getter depth="2" id="83">
+						<parameters/>
 						<name>length</name>
 						<code>
 							<ensure depth="3" id="84">
@@ -881,6 +889,7 @@
 						</code>
 					</getter>
 					<getter depth="2" id="87">
+						<parameters/>
 						<name>size</name>
 						<code>
 							<ensure depth="3" id="88">
@@ -908,6 +917,7 @@
 						</code>
 					</getter>
 					<getter depth="2" id="91">
+						<parameters/>
 						<name>data</name>
 						<code>
 							<return depth="3" id="92">
@@ -1120,10 +1130,8 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 			</code>
-			<meta/>
 		</class>
 	</code>
 </module>

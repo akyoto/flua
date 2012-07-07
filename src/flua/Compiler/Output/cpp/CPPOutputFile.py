@@ -459,6 +459,47 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		return fullCode, protoType
 		
+	def buildNewSequence(self, params):
+		seqType = "MutableVector"
+		
+		if params.nodeType == Node.TEXT_NODE:
+			seqSubType = self.getExprDataType(params)
+			initList = [self.parseExpr(params)]
+			numChildren = "1"
+		else:
+			if not params.childNodes:
+				raise CompilerException("Can't create an empty vector without any information about which data types it holds, need at least one element")
+			
+			seqSubType = self.getExprDataType(params.firstChild.firstChild)
+			initList = [self.parseExpr(x.firstChild) for x in params.childNodes]
+			numChildren = str(len(params.childNodes))
+		
+		fullSeqType = "%s<%s>" % (seqType, seqSubType)
+		
+		dataType = adjustDataTypeCPP(fullSeqType, adjustOuterAsWell = False)
+		
+		# Implement the needed calls
+		self.implementFunction(fullSeqType, "add", [seqSubType])
+		
+		subDataType = adjustDataTypeCPP(seqSubType)
+		
+		promoteTypes = {
+			"Float" : "Float64",
+			"Byte" : "Int",
+			"Int16" : "Int",
+		}
+		
+		if subDataType in promoteTypes:
+			promotedType = promoteTypes[subDataType]
+		else:
+			promotedType = subDataType
+		
+		# C++ is so annoying...
+		#if subDataType == "Float":
+		#	subDataType = "Double"
+		
+		return self.buildCall("", "flua_buildCollection< %s, %s, %s >" % (dataType, subDataType, promotedType), ", ".join([numChildren] + initList))
+		
 	def buildLine(self, line):
 		return line + ";\n" + "\t" * self.currentTabLevel
 		
@@ -533,6 +574,9 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 							continue
 						else:
 							code += "\t" + funcImpl.getFullCode() + "\n"
+							
+							if funcImpl.getFuncName() == "add":
+								code += "\t" + funcImpl.getFullCode(noPostfix = True) + "\n"
 					
 					# Virtual destructor
 					if classObj.hasOverwrittenFunctions and not destructorWritten:

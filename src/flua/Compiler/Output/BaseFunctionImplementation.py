@@ -115,7 +115,7 @@ class BaseFunctionImplementation:
 	def getPrototype(self):
 		return NotImplementedError()
 		
-	def getFullCode(self):
+	def getFullCode(self, noPostfix = False):
 		return NotImplementedError()
 		
 	# Constructor

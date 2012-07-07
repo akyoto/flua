@@ -718,6 +718,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 #					return memberType
 			elif node.tagName == "parameters":
 				return "Tuple<%s>" % ', '.join([self.getExprDataType(x.firstChild) for x in node.childNodes])
+			elif node.tagName == "index" and node.firstChild.firstChild.nodeValue == "_flua_seq":
+				params = node.childNodes[1].firstChild
+				
+				if params.nodeType == Node.TEXT_NODE:
+					subType = self.getExprDataType(params)
+				else:
+					subType = self.getExprDataType(params.firstChild.firstChild)
+				
+				return "Vector<%s>" % subType
 			elif node.tagName == "slice":
 				#           slice.value       .range        .from/to
 				sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
@@ -1305,6 +1314,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			else:
 				mainClass = self.compiler.mainClass
 				
+				#print(nodeName)
+				
 				if (
 					# Catch normal types
 					nodeName in nonPointerClasses or
@@ -1316,10 +1327,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					nodeName in mainClass.externFunctions or
 					
 					# Catch public
-					nodeName in self.currentClass.publicMembers or
+					#nodeName in self.currentClass.publicMembers or
 					
 					# Catch member variables
-					nodeName in self.currentClassImpl.members or
+					#nodeName in self.currentClassImpl.members or
 					
 					# Catch extern vars
 					nodeName in mainClass.externVariables or
@@ -1327,19 +1338,30 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					# Catch template types# Catch template types
 					nodeName in self.currentClass.templateNames
 					):
+					#print("=NORMAL")
 					return nodeName
 				
 				# Function pointers
 				if nodeName in mainClass.functions:
 					if not node.parentNode.parentNode.tagName.startswith("flow"):
+						#print("=FUNCTION")
 						return "_FP_" + nodeName
 				
 				# Iterator variables need to be prefixed
-				if self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
+				#if self.currentFunction:
+				#	print(self.inIterator)
+				#	print(self.currentFunction.isIterator)
+				#	print(self.compiler.enableIterVarPrefixes)
+				#	print(self.varInLocalScope(nodeName))
+				#	print(isNot2ndAccessNode(node))
+				
+				if self.inIterator and self.currentFunction and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
 					#print("parseExpr: " + nodeName)
 					#print(self.currentClassImpl.members)
+					#print("=ITER")
 					return "_flua_iter_" + nodeName
 				
+				#print("=MORE THAN NORMAL")
 				return nodeName
 		
 		nodeName = node.tagName
@@ -1408,6 +1430,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#	return "!" + self.parseChilds(node)
 		elif nodeName == "index":
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
+			
+			if caller == "_flua_seq":
+				return self.buildNewSequence(node.childNodes[1].childNodes[0])
+			
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			index = self.parseExpr(node.childNodes[1].childNodes[0])
 			callerClassName = extractClassName(callerType)

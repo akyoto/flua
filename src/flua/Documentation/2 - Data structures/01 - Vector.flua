@@ -17,56 +17,24 @@
 		<assign depth="0" id="1">
 			<value>vec</value>
 			<value>
-				<new>
-					<type>
-						<template-call>
-							<value>Vector</value>
-							<value>Int</value>
-						</template-call>
-					</type>
-					<parameters/>
-				</new>
+				<index>
+					<value>_flua_seq</value>
+					<value>
+						<parameters>
+							<parameter>1</parameter>
+							<parameter>2</parameter>
+							<parameter>3</parameter>
+						</parameters>
+					</value>
+				</index>
 			</value>
 		</assign>
-		<call depth="0" id="2">
-			<function>
-				<access>
-					<value>vec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>1</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="3">
-			<function>
-				<access>
-					<value>vec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>2</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="4">
-			<function>
-				<access>
-					<value>vec</value>
-					<value>add</value>
-				</access>
-			</function>
-			<parameters>
-				<parameter>3</parameter>
-			</parameters>
-		</call>
 		<comment>\SWe\Scan\Snow\Siterate\Sover\Sthat\Svector</comment>
-		<foreach depth="0" id="5">
+		<foreach depth="0" id="2">
 			<iterator>x</iterator>
 			<collection>vec</collection>
 			<code>
-				<call depth="1" id="6">
+				<call depth="1" id="3">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -80,7 +48,7 @@
 			</code>
 		</foreach>
 		<comment>\SYou\Scan\Screate\Sa\Svector\Sfor\Sany\Sdata\Stype:</comment>
-		<assign depth="0" id="7">
+		<assign depth="0" id="4">
 			<value>myVec</value>
 			<value>
 				<new>
@@ -94,7 +62,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="8">
+		<call depth="0" id="5">
 			<function>
 				<access>
 					<value>myVec</value>
@@ -105,7 +73,7 @@
 				<parameter>flua_string_0</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="9">
+		<call depth="0" id="6">
 			<function>
 				<access>
 					<value>myVec</value>
@@ -116,7 +84,7 @@
 				<parameter>flua_string_1</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="10">
+		<call depth="0" id="7">
 			<function>
 				<access>
 					<value>myVec</value>
@@ -127,7 +95,7 @@
 				<parameter>flua_string_2</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="11">
+		<call depth="0" id="8">
 			<function>
 				<access>
 					<value>myVec</value>
@@ -139,11 +107,11 @@
 			</parameters>
 		</call>
 		<comment>\SIterate\Sover\Sthe\Svector\Scontents</comment>
-		<foreach depth="0" id="12">
+		<foreach depth="0" id="9">
 			<iterator>x</iterator>
 			<collection>myVec</collection>
 			<code>
-				<call depth="1" id="13">
+				<call depth="1" id="10">
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>

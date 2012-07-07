@@ -807,6 +807,9 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if nodeName == "template-call":
 			return op1bpc + "<" + op2bpc + ">"
 		elif nodeName == "index":
+			if op1bpc == "_flua_seq":
+				op1bpc = ""
+			
 			return op1bpc + "[" + op2bpc + "]"
 		elif nodeName == "slice":
 			return op1bpc + "[" + op2bpc + "]"

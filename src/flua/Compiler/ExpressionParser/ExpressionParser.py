@@ -521,6 +521,7 @@ class ExpressionParser:
 		#print("buildXMLTree: " + expr)
 		
 		expr = self.buildCleanExpr(expr)
+		#print(expr)
 		opNode = self.buildOperation(expr)
 		self.adjustXMLTree(opNode)
 		

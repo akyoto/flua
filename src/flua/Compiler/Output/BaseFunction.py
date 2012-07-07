@@ -138,6 +138,9 @@ class BaseFunction:
 			# Default values
 			if i >= numCalledTypes:
 				if self.paramDefaultValues[i]:
+					# Choose a number higher than 0 but lower than 1 to
+					# to make the function viable but not prioritize over
+					# more fitting functions.
 					score += 0.01
 					continue
 				else:

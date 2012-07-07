@@ -47,7 +47,7 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 	def getPrototype(self):
 		return "inline %s %s(%s);\n" % (adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
 		
-	def getFullCode(self):
+	def getFullCode(self, noPostfix = False):
 		if self.func.overwritten:
 			inlineVirtual = "virtual"
 		else:
@@ -70,7 +70,10 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 		if self.getFuncName() == "operatorAssign" and self.classImpl.getName() == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":
 			funcName = "operator="
 		else:
-			funcName = self.getName()
+			if noPostfix:
+				funcName = self.func.getName()
+			else:
+				funcName = self.getName()
 		
 		if self.classImpl.getName():
 			tabs = "\t"
