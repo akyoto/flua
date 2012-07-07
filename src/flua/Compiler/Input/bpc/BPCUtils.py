@@ -316,7 +316,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 					for child in strings.childNodes:
 						if child.nodeType != Node.TEXT_NODE and child.tagName == "string" and child.getAttribute("id") == text:
 							if child.getAttribute("as-byte") == "true":
-								return "„%s“" % decodeCDATA(child.childNodes[0].nodeValue)
+								return "'%s'" % decodeCDATA(child.childNodes[0].nodeValue)
 							else:
 								return '"%s"' % decodeCDATA(child.childNodes[0].nodeValue)
 				except:

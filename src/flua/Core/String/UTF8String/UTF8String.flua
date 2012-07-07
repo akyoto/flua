@@ -7,7 +7,10 @@
 			<import>flua.Core.Memory</import>
 			<import>flua.Math</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string as-byte="true" id="flua_string_0">\S</string>
+			<string as-byte="true" id="flua_string_1">\S</string>
+		</strings>
 	</header>
 	<code>
 		<assign depth="0" id="1">
@@ -1743,7 +1746,18 @@
 				<comment>\SPad\Sleft</comment>
 				<function depth="1" id="138">
 					<parameters>
-						<parameter>(x,(byte:Byte))</parameter>
+						<parameter>x</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<declare-type>
+										<value>byte</value>
+										<value>Byte</value>
+									</declare-type>
+								</value>
+								<value>flua_string_0</value>
+							</assign>
+						</parameter>
 					</parameters>
 					<name>padLeft</name>
 					<code>
@@ -1850,11 +1864,23 @@
 							</new>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SPad\Sright</comment>
 				<function depth="1" id="147">
 					<parameters>
-						<parameter>(x,(byte:Byte))</parameter>
+						<parameter>x</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<declare-type>
+										<value>byte</value>
+										<value>Byte</value>
+									</declare-type>
+								</value>
+								<value>flua_string_1</value>
+							</assign>
+						</parameter>
 					</parameters>
 					<name>padRight</name>
 					<code>
@@ -2277,7 +2303,6 @@
 							</add>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Sstring\Sstarts\Sand\Sends\Swith\S#chars</comment>
 				<function depth="1" id="179">
@@ -2317,7 +2342,6 @@
 							</and>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SPrints\Sthe\Sstring\Son\Sthe\Sconsole</comment>
 				<function depth="1" id="181">

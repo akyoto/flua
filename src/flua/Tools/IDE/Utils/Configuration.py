@@ -1,6 +1,7 @@
 import configparser
 import codecs
 import os
+import gc
 from flua.Compiler.Utils import *
 from flua.Compiler.Config import *
 from PyQt4 import QtGui, QtCore, uic
@@ -137,6 +138,10 @@ class BPConfiguration:
 		with codecs.open(getIDERoot() + "default-settings.ini", "r", "utf-8") as inStream:
 			self.defaultParser.readfp(inStream)
 		
+		self.gcMemoryThreshold = self.getInt("Application", "GCMemoryThreshold")
+		self.updateInterval = self.getInt("Parser", "UpdateInterval")
+		self.compilerUpdateInterval = self.getInt("Compiler", "UpdateInterval")
+		
 		self.editorFontFamily = self.get(editorConfig, "FontFamily")
 		self.editorFontSize = self.getInt(editorConfig, "FontSize")
 		self.tabWidth = self.getInt(editorConfig, "TabWidth")
@@ -147,8 +152,6 @@ class BPConfiguration:
 		
 		self.ideFontFamily = self.get(ideConfig, "FontFamily")
 		self.ideFontSize = self.getInt(ideConfig, "FontSize")
-		
-		self.updateInterval = self.getInt("Parser", "UpdateInterval")
 		
 		# Create fonts
 		self.monospaceFont = QtGui.QFont(self.editorFontFamily, self.editorFontSize)
@@ -164,6 +167,12 @@ class BPConfiguration:
 		return self.parser.getboolean(category, option)
 		
 	def applySettings(self):
+		# GC
+		t = gc.get_threshold()
+		multi = self.gcMemoryThreshold
+		gc.set_threshold(int(t[0] * multi), int(t[1] * multi), int(t[2] * multi))
+		
+		# Fonts
 		self.applyMonospaceFont(self.monospaceFont)
 		self.applyStandardFont(self.standardFont)
 		self.applyTheme(self.themeName)

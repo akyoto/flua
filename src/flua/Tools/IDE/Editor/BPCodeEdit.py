@@ -285,9 +285,9 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 		obj = getLeftMemberAccess(leftOfCursor, dotPos, allowPoint = True)
 		member = leftOfCursor[dotPos+1:]
 		
-		print("\nActivating member list:")
-		print("Object: " + obj)
-		print("Member: " + member)
+		#print("\nActivating member list:")
+		#print("Object: " + obj)
+		#print("Member: " + member)
 		
 		self.codeEdit.lastObject = obj
 		#print(self.codeEdit.bpcFile)
@@ -1588,7 +1588,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Any work in the queue left?
 		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
-		if self.updateQueue and abs(self.timer.interval() - interval) > 300:
+		if self.updateQueue and abs(self.timer.interval() - interval) > 400:
 			print("Setting new update interval: %d ms" % (interval))
 			self.timer.setInterval(interval)
 		

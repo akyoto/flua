@@ -121,7 +121,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.startTime = time.time()
 		
 		self.bindFunctionToTimer(self.showDependencies, 150)
-		self.bindFunctionToTimer(self.onCompileTimeout, 500)
+		self.bindFunctionToTimer(self.onCompileTimeout, self.config.compilerUpdateInterval)
 		#self.bindFunctionToTimer(self.onProcessEvents, 5)
 		self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		

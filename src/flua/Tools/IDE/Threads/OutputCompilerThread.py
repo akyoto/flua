@@ -11,6 +11,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		self.lastException = None
 		self.codeEdit = None
 		self.numTasksHandled = 0
+		
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
 		
 	def startWith(self, outputCompiler):
