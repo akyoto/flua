@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>Duration</import>
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">%Y-%m-%d</string>
@@ -293,37 +292,15 @@
 						<meta/>
 					</getter>
 				</get>
-				<operators depth="1" id="38">
-					<operator depth="2" id="39">
-						<parameters>
-							<parameter>
-								<declare-type>
-									<value>date</value>
-									<value>DateTime</value>
-								</declare-type>
-							</parameter>
-						</parameters>
-						<name>-</name>
-						<code>
-							<return depth="3" id="40">
-								<new>
-									<type>Duration</type>
-									<parameters>
-										<parameter>date</parameter>
-										<parameter>my</parameter>
-									</parameters>
-								</new>
-							</return>
-						</code>
-						<meta/>
-					</operator>
-				</operators>
-				<casts depth="1" id="41">
-					<cast-definition depth="2" id="42">
+				<comment>\Soperator</comment>
+				<comment>\T-\Sdate\S:\SDateTime</comment>
+				<comment>\T\Treturn\SDuration(date,\Smy)</comment>
+				<casts depth="1" id="38">
+					<cast-definition depth="2" id="39">
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SISO</comment>
-							<return depth="3" id="43">
+							<return depth="3" id="40">
 								<call>
 									<function>
 										<access>
@@ -343,10 +320,10 @@
 			<meta/>
 		</class>
 		<comment>\SReturns\Sa\SDateTime\Sobject\Sfor\Sthe\Scurrent\Slocal\Stime</comment>
-		<function depth="0" id="44">
+		<function depth="0" id="41">
 			<name>getCurrentDateTime</name>
 			<code>
-				<return depth="1" id="45">
+				<return depth="1" id="42">
 					<new>
 						<type>DateTime</type>
 						<parameters>
@@ -367,10 +344,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
-		<function depth="0" id="46">
+		<function depth="0" id="43">
 			<name>getCurrentDate</name>
 			<code>
-				<return depth="1" id="47">
+				<return depth="1" id="44">
 					<access>
 						<value>
 							<call>
@@ -384,10 +361,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
-		<function depth="0" id="48">
+		<function depth="0" id="45">
 			<name>getCurrentTime</name>
 			<code>
-				<return depth="1" id="49">
+				<return depth="1" id="46">
 					<access>
 						<value>
 							<call>
@@ -401,10 +378,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
-		<function depth="0" id="50">
+		<function depth="0" id="47">
 			<name>isLeapYear</name>
 			<code>
-				<return depth="1" id="51">
+				<return depth="1" id="48">
 					<and>
 						<value>
 							<equal>
@@ -448,9 +425,9 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="52">
+		<test depth="0" id="49">
 			<code>
-				<assign depth="1" id="53">
+				<assign depth="1" id="50">
 					<value>now</value>
 					<value>
 						<call>
@@ -459,13 +436,13 @@
 						</call>
 					</value>
 				</assign>
-				<call depth="1" id="54">
+				<call depth="1" id="51">
 					<function>print</function>
 					<parameters>
 						<parameter>now</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="55">
+				<call depth="1" id="52">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -476,7 +453,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="56">
+				<call depth="1" id="53">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -487,7 +464,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="57">
+				<call depth="1" id="54">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -503,7 +480,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="58">
+				<call depth="1" id="55">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -519,7 +496,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="59">
+				<call depth="1" id="56">
 					<function>print</function>
 					<parameters>
 						<parameter>
