@@ -138,7 +138,7 @@ class BaseFunction:
 			# Default values
 			if i >= numCalledTypes:
 				if self.paramDefaultValues[i]:
-					score += 2
+					score += 0.01
 					continue
 				else:
 					return 0

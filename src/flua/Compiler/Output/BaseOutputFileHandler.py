@@ -904,7 +904,7 @@ class BaseOutputFileHandler:
 		
 		self.getCurrentScope().variables[iterExpr] = var
 		typeInit = self.adjustDataType(var.type) + " "
-			
+		
 		# Register counter variable (if available)
 		counterNode = getElementByTagName(node, "counter")
 		if counterNode:

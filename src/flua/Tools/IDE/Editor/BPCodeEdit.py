@@ -1726,7 +1726,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if self.bubble:
 			self.resizeBubble()
-			
+		
 		self.resizeDocNavigator()
 	
 	def resizeDocNavigator(self):

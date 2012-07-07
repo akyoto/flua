@@ -106,46 +106,8 @@
 									<parameters>
 										<parameter>
 											<access>
-												<value>
-													<access>
-														<value>material</value>
-														<value>color</value>
-													</access>
-												</value>
-												<value>red</value>
-											</access>
-										</parameter>
-										<parameter>
-											<access>
-												<value>
-													<access>
-														<value>material</value>
-														<value>color</value>
-													</access>
-												</value>
-												<value>green</value>
-											</access>
-										</parameter>
-										<parameter>
-											<access>
-												<value>
-													<access>
-														<value>material</value>
-														<value>color</value>
-													</access>
-												</value>
-												<value>blue</value>
-											</access>
-										</parameter>
-										<parameter>
-											<access>
-												<value>
-													<access>
-														<value>material</value>
-														<value>color</value>
-													</access>
-												</value>
-												<value>alpha</value>
+												<value>material</value>
+												<value>color</value>
 											</access>
 										</parameter>
 									</parameters>

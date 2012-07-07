@@ -13,8 +13,10 @@
 			<string id="flua_string_0">Starting:</string>
 			<string id="flua_string_1">All\Sbenchmarks</string>
 			<string id="flua_string_2">-</string>
-			<string id="flua_string_3">Use\Sparallel\Sexecution?\S(currently\Snot\Sworking\Son\S64-bit\SWindows)\S[y/n]</string>
+			<string id="flua_string_3">Use\Sparallel\Sexecution?\S[y/n]</string>
 			<string id="flua_string_4">y</string>
+			<string id="flua_string_5">Use\Sparallel\Sexecution?\S(currently\Snot\Sworking\Son\S64-bit\SWindows)\S[y/n]</string>
+			<string id="flua_string_6">y</string>
 		</strings>
 	</header>
 	<code>
@@ -125,23 +127,51 @@
 			<meta/>
 		</function>
 		<comment>\SRun\Sit!</comment>
-		<call depth="0" id="23">
-			<function>benchAll</function>
-			<parameters>
-				<parameter>
-					<equal>
-						<value>
-							<call>
-								<function>consoleInput</function>
-								<parameters>
-									<parameter>flua_string_3</parameter>
-								</parameters>
-							</call>
-						</value>
-						<value>flua_string_4</value>
-					</equal>
-				</parameter>
-			</parameters>
-		</call>
+		<target depth="0" id="23">
+			<name>Linux</name>
+			<code>
+				<call depth="1" id="24">
+					<function>benchAll</function>
+					<parameters>
+						<parameter>
+							<equal>
+								<value>
+									<call>
+										<function>consoleInput</function>
+										<parameters>
+											<parameter>flua_string_3</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>flua_string_4</value>
+							</equal>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</target>
+		<target depth="0" id="25">
+			<name>Windows</name>
+			<code>
+				<call depth="1" id="26">
+					<function>benchAll</function>
+					<parameters>
+						<parameter>
+							<equal>
+								<value>
+									<call>
+										<function>consoleInput</function>
+										<parameters>
+											<parameter>flua_string_5</parameter>
+										</parameters>
+									</call>
+								</value>
+								<value>flua_string_6</value>
+							</equal>
+						</parameter>
+					</parameters>
+				</call>
+			</code>
+		</target>
 	</code>
 </module>
