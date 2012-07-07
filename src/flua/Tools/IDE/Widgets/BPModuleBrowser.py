@@ -569,7 +569,6 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		if len(parts) > 1 and parts[-1] == parts[-2]:
 			modPath = ".".join(parts[:-1])
 		
-		print(modPath)
 		return modPath
 		
 	def getModuleItemByName(self, modName, expand = False):

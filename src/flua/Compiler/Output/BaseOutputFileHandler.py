@@ -802,7 +802,7 @@ class BaseOutputFileHandler:
 			return self.buildMemberTypeDeclInConstructor(varName) # ""
 		
 		variableExists = self.variableExistsAnywhere(varName)
-		if self.compiler.checkDoubleVarDefinition and variableExists and (self.getVariableScope(varName) == self.getTopLevelScope()):
+		if self.compiler.checkDoubleVarDefinition and variableExists and node.parentNode.tagName != "parameter" and (self.getVariableScope(varName) == self.getTopLevelScope()):
 			#["local", "global"][self.getVariableScopeAnywhere(varName) == self.getTopLevelScope()]
 			for item in self.scopes:
 				print(item.variables)
@@ -921,7 +921,7 @@ class BaseOutputFileHandler:
 		self.compiler.forVarCounter += 1
 		
 		# Push loop ID on the stack
-		print("Push " + str(localForVarCounter))
+		#print("Push " + str(localForVarCounter))
 		self.loopStack.append(localForVarCounter)
 		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
