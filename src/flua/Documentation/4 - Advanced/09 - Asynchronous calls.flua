@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SEach\Sline\Sin\Sa\S„begin“\Sblock\Swill\Sbe\Sexecuted\Sparallely</comment>
-		<comment>\Swithout\Swaiting\Sfor\Sthe\Stermination\Sof\Sthose\Sthreads.</comment>
+		<comment>\Swithout\Swaiting\Sfor\Sthe\Stermination\Sof\Sthose\Stasks.</comment>
 		<begin depth="0" id="1">
 			<code>
 				<call depth="1" id="2">

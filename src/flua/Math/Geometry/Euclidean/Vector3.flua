@@ -46,10 +46,15 @@
 						<parameter>
 							<assign>
 								<value>
-									<access>
-										<value>my</value>
-										<value>x</value>
-									</access>
+									<declare-type>
+										<value>
+											<access>
+												<value>my</value>
+												<value>x</value>
+											</access>
+										</value>
+										<value>TType</value>
+									</declare-type>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -57,10 +62,15 @@
 						<parameter>
 							<assign>
 								<value>
-									<access>
-										<value>my</value>
-										<value>y</value>
-									</access>
+									<declare-type>
+										<value>
+											<access>
+												<value>my</value>
+												<value>y</value>
+											</access>
+										</value>
+										<value>TType</value>
+									</declare-type>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -68,10 +78,15 @@
 						<parameter>
 							<assign>
 								<value>
-									<access>
-										<value>my</value>
-										<value>z</value>
-									</access>
+									<declare-type>
+										<value>
+											<access>
+												<value>my</value>
+												<value>z</value>
+											</access>
+										</value>
+										<value>TType</value>
+									</declare-type>
 								</value>
 								<value>0.0</value>
 							</assign>
@@ -96,6 +111,7 @@
 						<code>
 							<noop depth="3" id="14"/>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 				<set depth="1" id="15">
@@ -108,17 +124,18 @@
 							<call depth="3" id="17">
 								<function>
 									<access>
-										<value>self</value>
+										<value>my</value>
 										<value>normalise</value>
 									</access>
 								</function>
 								<parameters/>
 							</call>
 							<assign-multiply depth="3" id="18">
-								<value>self</value>
+								<value>my</value>
 								<value>newLength</value>
 							</assign-multiply>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 				<casts depth="1" id="19">
@@ -169,6 +186,7 @@
 								</add>
 							</return>
 						</code>
+						<meta/>
 					</cast-definition>
 				</casts>
 				<operators depth="1" id="22">
@@ -256,6 +274,7 @@
 								</case>
 							</switch>
 						</code>
+						<meta/>
 					</operator>
 				</operators>
 			</code>
