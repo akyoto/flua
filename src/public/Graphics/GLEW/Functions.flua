@@ -15,15 +15,19 @@
 			<extern-function depth="1" id="3">
 				<name>glewGetErrorString</name>
 				<type>CString</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="4">
 				<name>glewExperimental</name>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="5">
 				<name>glewGetExtension</name>
 			</extern-function>
 			<extern-function depth="1" id="6">
 				<name>glewGetString</name>
+				<type>CString</type>
+				<meta/>
 			</extern-function>
 			<extern-function depth="1" id="7">
 				<name>glewIsSupported</name>

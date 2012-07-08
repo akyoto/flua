@@ -22,7 +22,7 @@ Installation on Debian
 ---------------------
 If you use Debian or Ubuntu just execute this:
 
-    sudo apt-get install python3 python3-pyqt4 git g++ build-essential xorg-dev libx11-dev libxt-dev libxext-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libfreeimage3 libfreeimage-dev libglew1.6 libglew1.6-dev freeglut3 freeglut3-dev
+    sudo apt-get install python3 python3-pyqt4 git g++ build-essential xorg-dev libx11-dev libxt-dev libxext-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libfreeimage3 libfreeimage-dev freeglut3 freeglut3-dev
     git clone git://github.com/blitzprog/flua.git
     ./flua/flua-studio.py
 
