@@ -1,0 +1,40 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">Here\SI\Sam!\SThis\Scall\Sruns\Sasynchronously.</string>
+			<string id="flua_string_1">You\Smight\Snot\Ssee\Sthe\Sprevious\Sprint\Sbecause...</string>
+			<string id="flua_string_2">...we\Sdon't\Swait\Sfor\Sits\Stermination.</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SEach\Sline\Sin\Sa\S„begin“\Sblock\Swill\Sbe\Sexecuted\Sparallely</comment>
+		<comment>\Swithout\Swaiting\Sfor\Sthe\Stermination\Sof\Sthose\Sthreads.</comment>
+		<begin depth="0" id="1">
+			<code>
+				<call depth="1" id="2">
+					<function>print</function>
+					<parameters>
+						<parameter>flua_string_0</parameter>
+					</parameters>
+				</call>
+			</code>
+		</begin>
+		<comment>\SAfter\Sthe\Stasks\Shave\Sbeen\Sstarted\Swe\Scan\Scontinue\Swith\Sour\Snormal\Sprogram\Sflow:</comment>
+		<call depth="0" id="3">
+			<function>print</function>
+			<parameters>
+				<parameter>flua_string_1</parameter>
+			</parameters>
+		</call>
+		<call depth="0" id="4">
+			<function>print</function>
+			<parameters>
+				<parameter>flua_string_2</parameter>
+			</parameters>
+		</call>
+	</code>
+</module>

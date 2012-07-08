@@ -1687,6 +1687,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		else:
 			self.compiler.funcImplCacheStarted[key] += 1
 		
+		# Implement it
 		funcImpl = definedInFile.implementLocalFunction(typeName, funcName, paramTypes)
 		
 		# Implementation ended
