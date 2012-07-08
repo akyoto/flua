@@ -18,7 +18,7 @@ It is currently in the Alpha phase.
 
 Website: http://flua-lang.org/
 
-Installation
+Installation on Debian
 ---------------------
 If you use Debian or Ubuntu just execute this:
 
@@ -27,6 +27,11 @@ If you use Debian or Ubuntu just execute this:
     ./flua/flua-studio.py
 
 This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based systems you need to compile these dependencies manually or install the equivalent packages.
+
+Installation on Windows
+---------------------
+Just download and execute this self-extracting archive:
+https://github.com/downloads/blitzprog/flua/Flua-x86.exe
 
 Compiling dependencies manually
 ---------------------

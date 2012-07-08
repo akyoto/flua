@@ -285,7 +285,7 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SReturns\Swidth\S/\Sheight\Sof\Sthe\Sscreen\Sas\Sa\Sfloating\Spointer\Snumber</comment>
+		<comment>\SReturns\Swidth\Sdivided\Sby\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
 		<function depth="0" id="41">
 			<parameters>
 				<parameter>
