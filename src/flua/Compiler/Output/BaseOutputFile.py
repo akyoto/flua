@@ -203,6 +203,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.callSyntax = "%s(%s)"
 		self.externCallSyntax = self.callSyntax
 		self.templateSyntax = ""
+		self.powerSyntax = ""
 		
 		# Callback
 		self.perParseChilds = None
@@ -269,6 +270,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		# Division by zero
 		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
 			self.addDivisionByZeroCheck(op2)
+		
+		if connector == " ^ ":
+			return self.powerSyntax % (op1, op2)
 		
 		if connector in {" + ", " - ", " * ", " / ", " \\ ", " & ", " | ", " && ", " || ", " % "}:
 			self.exprPrefix = "("

@@ -67,7 +67,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		# Comparison
 		'==', '!=', '<', '<=', '>', '>=',
 		# Arithmetic
-		'\+', '-', '\*', '/', '//', '\%', '\*\*',
+		'\+', '-', '\*', '/', '//', '\%', '\*\*', '\^',
 		# In-place
 		'\+=', '-=', '\*=', '/=', '\%=',
 		# Bitwise
@@ -275,7 +275,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				return
 			elif char == ',':
 				self.setFormat(i, 1, style['comma'])
-			elif char in '+-*/=<>%&|:!\\~':
+			elif char in '+-*/=<>%&|:!\\~^':
 				#h = i + 1
 				#while h < textLen and text[h]:
 				#	h += 1

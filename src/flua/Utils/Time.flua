@@ -17,7 +17,7 @@
 				</call>
 			</value>
 		</assign>
-		<comment>\SReturns\Sthe\Snumber\Sof\Smilliseconds\Sthat\Spassed\Ssince\Sprogram\Sstart</comment>
+		<comment>\SReturns\Sthe\Snumber\Sof\Smilliseconds\Sthat\Shave\Spassed\Ssince\Sprogram\Sstart</comment>
 		<function depth="0" id="2">
 			<name>getAppTime</name>
 			<code>

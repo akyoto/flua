@@ -60,6 +60,11 @@ bpOperatorLevels = [
 		Operator("}=", "exists-in", Operator.BINARY),
 	],
 	
+	# Power
+	[
+		Operator("^", "power", Operator.BINARY),
+	],
+	
 	# 3: Unary
 	[
 		Operator("!", "not", Operator.UNARY),

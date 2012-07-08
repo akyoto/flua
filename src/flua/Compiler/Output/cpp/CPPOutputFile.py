@@ -89,6 +89,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.ptrMemberAccessChar = "->"
 		self.yieldSyntax = "__flua_yield_var = %s;\n__flua_yield_code"
 		self.templateSyntax = "%s<%s>"
+		self.powerSyntax = "pow(%s, %s)"
 		
 	def compile(self):
 		# Header
