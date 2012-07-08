@@ -326,13 +326,13 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			raise CompilerException("Can't determine loop type in 'continue' statement")
 	
 	def buildTypeDeclaration(self, typeName, varName):
-		return adjustDataTypeCPP(typeName) + " " + varName
+		return "%s %s" % (adjustDataTypeCPP(typeName), varName)
 		
 	def buildTypeDeclarationNameOnly(self, varName):
 		return varName
 	
 	def buildTemplateCall(self, op1, op2):
-		return op1 + "<" + op2 + ">"
+		return "%s<%s>" % (op1, op2)
 	
 	def buildDivByZeroCheck(self, op):
 		return 'if((%s) == 0) throw new BPDivisionByZeroException()' % op
@@ -341,16 +341,16 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		return 'throw new BPDivisionByZeroException()'
 	
 	def buildString(self, id, value):
-		return id + " = new BPUTF8String(const_cast<Byte*>(\"" + value + "\"));\n"
+		return "%s = new BPUTF8String(const_cast<Byte*>(\"%s\"));\n" % (id, value)
 	
 	def buildStringAsByte(self, id, value):
-		return id + " = '" + value + "';\n" # str(ord(value))
+		return "%s = '%s';\n" % (id, value) # str(ord(value))
 	
 	def buildUndefinedString(self, id, value):
-		return id + " = const_cast<Byte*>(\"" + value + "\");\n"
+		return "%s = const_cast<Byte*>(\"%s\");\n" % (id, value)
 	
 	def buildModuleImport(self, importedModule):
-		return "#include <" + extractDir(importedModule) + "C++/" + stripAll(importedModule) + ".hpp>\n"
+		return "#include <%sC++/%s.hpp>\n" % (extractDir(importedModule), stripAll(importedModule))
 	
 	def buildDeleteMemPointer(self, caller):
 		return "delete [] %s" % (caller)
