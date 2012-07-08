@@ -305,7 +305,7 @@
 										<call>
 											<function>sizeOf</function>
 											<parameters>
-												<parameter>GL_FLOAT</parameter>
+												<parameter>GLfloat</parameter>
 											</parameters>
 										</call>
 									</value>
@@ -328,7 +328,7 @@
 								<parameter>0</parameter>
 							</parameters>
 						</call>
-						<comment>glVertexAttribPointer\Smy.colorAttr,\S3,\SGL_FLOAT,\SGL_FALSE,\Slen,\S3\S*\SsizeOf(GL_FLOAT)</comment>
+						<comment>glVertexAttribPointer\Smy.colorAttr,\S3,\SGL_FLOAT,\SGL_FALSE,\Slen,\S3\S*\SsizeOf(GLfloat)</comment>
 						<call depth="2" id="16">
 							<function>glVertexAttribPointer</function>
 							<parameters>
@@ -349,7 +349,7 @@
 											<call>
 												<function>sizeOf</function>
 												<parameters>
-													<parameter>GL_FLOAT</parameter>
+													<parameter>GLfloat</parameter>
 												</parameters>
 											</call>
 										</value>

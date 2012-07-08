@@ -549,6 +549,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				#if translatedName != nodeName:
 				#	return "Size"
 				
+				nodeNamePrepd = self.prepareTypeName(nodeName)
+				if nodeNamePrepd in nonPointerClasses:
+					return "DataType"
+				
 				return self.getVariableTypeAnywhere(nodeName)
 		else:
 			# Binary operators

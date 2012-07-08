@@ -36,6 +36,7 @@ standardClassPrefix = "BP"
 
 dataTypeWeights = {
 	"void" : 0,	# Added because of recursive functions
+	"DataType" : 0,
 	"Bool" : 1,
 	"Byte" : 2,
 	"ConstChar" : 3,

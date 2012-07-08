@@ -135,7 +135,7 @@
 												<call>
 													<function>sizeOf</function>
 													<parameters>
-														<parameter>GL_FLOAT</parameter>
+														<parameter>GLfloat</parameter>
 													</parameters>
 												</call>
 											</value>
@@ -163,6 +163,7 @@
 								</parameters>
 							</call>
 						</code>
+						<meta/>
 					</setter>
 				</set>
 			</code>

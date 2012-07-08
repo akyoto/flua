@@ -1142,6 +1142,15 @@ class BaseOutputFileHandler:
 			
 			return code
 		
+		# Sizeof shortcut
+		funcNameNode = getFuncNameNode(node)
+		if funcNameNode.nodeValue == "sizeOf":
+			print("YAY! 1")
+			paramNode = getElementByTagName(node, "parameters")
+			if paramNode.childNodes:
+				print("YAY! 2")
+				return "sizeof(%s)" % paramNode.firstChild.firstChild.nodeValue
+		
 		# Retrieve some information about the call
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		

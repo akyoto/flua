@@ -51,6 +51,7 @@ dataTypeDefinitions = {
 	"Float64" : "double",
 	"CString" : "Byte *",
 	"BigInt" : "mpz_class",
+	"DataType" : "int",
 }
 
 ####################################################################

@@ -28,7 +28,7 @@
 											<type>
 												<template-call>
 													<value>Vector</value>
-													<value>Float</value>
+													<value>GLfloat</value>
 												</template-call>
 											</type>
 											<parameters/>
@@ -328,6 +328,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2" id="39">
 						<name>numIndices</name>
@@ -339,6 +340,7 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 				</get>
 			</code>
@@ -945,6 +947,7 @@
 						</on>
 						<return depth="2" id="93">obj</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
 		</namespace>
