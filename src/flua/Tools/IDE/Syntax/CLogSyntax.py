@@ -49,6 +49,10 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 			self.setFormat(0, len(text), style['traceback'])
 			return
 		
+		if text.startswith("[Warning]"):
+			self.setFormat(0, len(text), style['compiler-error'])
+			return
+		
 		if self.previousBlockState() == 1 and self.bpIDE.running:
 			self.setCurrentBlockState(1)
 			if not text.startswith("---") and not text.startswith("Executing:"):

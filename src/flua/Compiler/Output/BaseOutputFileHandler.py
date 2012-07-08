@@ -610,6 +610,17 @@ class BaseOutputFileHandler:
 			# THEN parseExpr -> implementFunction can be called
 			retType = self.getExprDataType(node.childNodes[0])
 			
+			if retType == "void":
+				if len(self.currentFunctionImpl.returnTypes) == 0:
+					raise CompilerException("„%s“ doesn't return a value" % nodeToBPC(node.childNodes[0]))
+				else:
+					# Pick the first type as the best guess
+					retType = self.currentFunctionImpl.returnTypes[0]
+					
+					# But warn the user
+					if not self.compiler.background:
+						compilerWarning("The use of „%s“ might lead to an infinite loop." % nodeToBPC(node))
+			
 			if self.currentFunctionImpl:
 				self.currentFunctionImpl.returnTypes.append(retType)
 			
@@ -632,9 +643,6 @@ class BaseOutputFileHandler:
 			else:
 				# STEP 2
 				expr = self.parseExpr(node.firstChild, False)
-				
-				if retType == "void":
-					raise CompilerException("„%s“ doesn't return a value" % nodeToBPC(node.childNodes[0]))
 					
 				#debug("Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 				if self.currentFunction and self.currentFunction.hasDataFlow:
@@ -1276,7 +1284,8 @@ class BaseOutputFileHandler:
 					params = params[:i] + [self.buildCall("(" + params[i] + ")", "to" + pTo, "")] + params[i + 1:]
 					paramsString = ", ".join(params)
 				elif pFrom == "Int" and pTo == "Size":
-					compilerWarning("Cast from signed Integer to unsigned Size in „%s“" % nodeToBPC(node))
+					if not self.compiler.background:
+						compilerWarning("Cast from signed Integer to unsigned Size in „%s“" % nodeToBPC(node))
 			
 			# Check whether the given parameters match the default parameter types
 			#defaultValueTypes = funcImpl.func.getParamDefaultValueTypes()

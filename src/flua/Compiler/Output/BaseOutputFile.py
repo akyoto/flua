@@ -410,7 +410,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					if definedAs in nonPointerClasses and usedAs in nonPointerClasses:
 						heavier = getHeavierOperator(definedAs, usedAs)
 						if usedAs == heavier:
-							compilerWarning("Information might be lost by converting „%s“ to „%s“ for the parameter „%s“ in the function „%s“" % (usedAs, definedAs, name, self.currentFunction.getName()))
+							if not self.compiler.background:
+								compilerWarning("Information might be lost by converting „%s“ to „%s“ for the parameter „%s“ in the function „%s“" % (usedAs, definedAs, name, self.currentFunction.getName()))
 					else:
 						raise CompilerException("„%s“ expects the type „%s“ where you used the type „%s“ for the parameter „%s“" % (self.currentFunction.getName(), definedAs, usedAs, name))
 			
@@ -722,6 +723,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 #					return memberType
 			elif node.tagName == "parameters":
 				return "Tuple<%s>" % ', '.join([self.getExprDataType(x.firstChild) for x in node.childNodes])
+			# Inline vectors
 			elif node.tagName == "index" and node.firstChild.firstChild.nodeValue == "_flua_seq":
 				params = node.childNodes[1].firstChild
 				
@@ -731,6 +733,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					subType = self.getExprDataType(params.firstChild.firstChild)
 				
 				return "Vector<%s>" % subType
+			# Slicing
 			elif node.tagName == "slice":
 				#           slice.value       .range        .from/to
 				sliceFrom = node.childNodes[1].childNodes[0].childNodes[0].firstChild.toxml()
@@ -1547,7 +1550,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			return self.buildParamBlock(keywordName, condition, code, "\t" * self.currentTabLevel)
 		
-		compilerWarning("Could not translate node „%s“" % nodeName)
+		if not self.compiler.background:
+			compilerWarning("Could not translate node „%s“" % nodeName)
 		
 		return ""
 	
@@ -1632,11 +1636,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		#while funcName in self.compiler.defines:
 		#	funcName = self.compiler.defines[funcName]
 		
+		# Cache
 		key = typeName + "." + funcName + "(" + ", ".join(paramTypes) + ")"
 		
 		if key in self.compiler.funcImplCache:
 			return self.compiler.funcImplCache[key]
 		
+		# Type check
 		className = extractClassName(typeName)
 		if className in nonPointerClasses:
 			raise CompilerException("„%s“ has not been defined (maybe another function returns the wrong value?)" % (key))
@@ -1671,14 +1677,30 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		definedInFile.currentFunction = func
 		if func.isIterator:
 			definedInFile.stringClassDefined = True
+			
+		#debug("IMPLEMENTING: %s::%s(%s)" % (typeName, funcName, ", ".join(paramTypes)))
+		
+		# Let the system know that we are working on implementing that function
+		# to prevent double prototype declarations.
+		if not key in self.compiler.funcImplCacheStarted:
+			self.compiler.funcImplCacheStarted[key] = 1
+		else:
+			self.compiler.funcImplCacheStarted[key] += 1
+		
 		funcImpl = definedInFile.implementLocalFunction(typeName, funcName, paramTypes)
+		
+		# Implementation ended
+		self.compiler.funcImplCacheStarted[key] -= 1
 		
 		# Pop
 		definedInFile.currentFunction = oldFunc
 		
-		if className == "":
+		if className == "" and self.compiler.funcImplCacheStarted[key] == 0:
 			prototype = funcImpl.getPrototype()
 			self.prototypesHeader += prototype
+			
+			#print("Adding prototype %s" % prototype)
+			
 			self.compiler.prototypes.append(prototype)
 		
 		#if func and funcImpl and funcImpl.getReturnType() != "void":

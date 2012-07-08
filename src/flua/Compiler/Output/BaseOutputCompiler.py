@@ -67,6 +67,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.includes = list()
 		self.specializedClasses = dict()
 		self.funcImplCache = dict()
+		self.funcImplCacheStarted = dict()
 		self.parseStringCache = dict()
 		self.needToInitStringClass = False
 		self.assignNodes = list()
