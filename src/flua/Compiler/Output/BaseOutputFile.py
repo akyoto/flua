@@ -734,7 +734,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				if params.nodeType == Node.TEXT_NODE:
 					subType = self.getExprDataType(params)
 				else:
-					subType = self.getExprDataType(params.firstChild.firstChild)
+					if params.tagName == "index" and params.firstChild.firstChild.nodeValue == "_flua_seq":
+						subType = self.getExprDataType(params)
+					else:
+						subType = self.getExprDataType(params.firstChild.firstChild)
 				
 				return "Vector<%s>" % subType
 			# Slicing

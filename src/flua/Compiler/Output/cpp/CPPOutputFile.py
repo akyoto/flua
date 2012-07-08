@@ -462,6 +462,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 	def buildNewSequence(self, params):
 		seqType = "MutableVector"
+		#print(params.toxml())
 		
 		if params.nodeType == Node.TEXT_NODE:
 			seqSubType = self.getExprDataType(params)
@@ -471,8 +472,16 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			if not params.childNodes:
 				raise CompilerException("Can't create an empty vector without any information about which data types it holds, need at least one element")
 			
-			seqSubType = self.getExprDataType(params.firstChild.firstChild)
-			initList = [self.parseExpr(x.firstChild) for x in params.childNodes]
+			if params.tagName == "index" and params.firstChild.firstChild.nodeValue == "_flua_seq":
+				seqSubType = self.getExprDataType(params)
+				#print(seqSubType)
+				
+				initList = [self.parseExpr(params)]
+				#print(initList)
+			else:
+				seqSubType = self.getExprDataType(params.firstChild.firstChild)
+				initList = [self.parseExpr(x.firstChild) for x in params.childNodes]
+			
 			numChildren = str(len(params.childNodes))
 		
 		fullSeqType = "%s<%s>" % (seqType, seqSubType)
@@ -480,8 +489,10 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		dataType = adjustDataTypeCPP(fullSeqType, adjustOuterAsWell = False)
 		
 		# Implement the needed calls
+		#print("b4 implement")
 		self.implementFunction(fullSeqType, "add", [seqSubType])
 		
+		#print("after")
 		subDataType = adjustDataTypeCPP(seqSubType)
 		
 		promoteTypes = {
