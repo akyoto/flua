@@ -81,58 +81,51 @@
 			<value>90</value>
 		</assign>
 		<comment>\SLoad</comment>
-		<assign depth="0" id="11">
-			<value>fsRoot</value>
-			<value>flua_string_1</value>
-		</assign>
-		<assign depth="0" id="12">
-			<value>vs</value>
-			<value>
+		<in depth="0" id="11">
+			<expression>
 				<new>
-					<type>VertexShader</type>
+					<type>Directory</type>
 					<parameters>
-						<parameter>
-							<add>
-								<value>fsRoot</value>
-								<value>flua_string_2</value>
-							</add>
-						</parameter>
+						<parameter>flua_string_1</parameter>
 					</parameters>
 				</new>
-			</value>
-		</assign>
-		<assign depth="0" id="13">
-			<value>fs</value>
-			<value>
-				<new>
-					<type>FragmentShader</type>
-					<parameters>
-						<parameter>
-							<add>
-								<value>fsRoot</value>
-								<value>flua_string_3</value>
-							</add>
-						</parameter>
-					</parameters>
-				</new>
-			</value>
-		</assign>
-		<assign depth="0" id="14">
-			<value>tex1</value>
-			<value>
-				<new>
-					<type>Texture</type>
-					<parameters>
-						<parameter>
-							<add>
-								<value>fsRoot</value>
-								<value>flua_string_4</value>
-							</add>
-						</parameter>
-					</parameters>
-				</new>
-			</value>
-		</assign>
+			</expression>
+			<code>
+				<assign depth="1" id="12">
+					<value>vs</value>
+					<value>
+						<new>
+							<type>VertexShader</type>
+							<parameters>
+								<parameter>flua_string_2</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign depth="1" id="13">
+					<value>fs</value>
+					<value>
+						<new>
+							<type>FragmentShader</type>
+							<parameters>
+								<parameter>flua_string_3</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign depth="1" id="14">
+					<value>tex1</value>
+					<value>
+						<new>
+							<type>Texture</type>
+							<parameters>
+								<parameter>flua_string_4</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+			</code>
+		</in>
 		<comment>\SMix\Sit!</comment>
 		<assign depth="0" id="15">
 			<value>composed</value>

@@ -49,7 +49,7 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 			self.setFormat(0, len(text), style['traceback'])
 			return
 		
-		if text.startswith("[Warning]"):
+		if text.startswith("[Warning]") or text.startswith("/usr/bin/ld: cannot find"):
 			self.setFormat(0, len(text), style['compiler-error'])
 			return
 		

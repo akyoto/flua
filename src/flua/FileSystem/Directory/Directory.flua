@@ -65,6 +65,7 @@
 						<meta/>
 					</function>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SSymbolizes\Sa\Sdirectory\Sin\Sthe\Sfile\Ssystem</comment>
@@ -85,11 +86,59 @@
 						<noop depth="2" id="15"/>
 					</code>
 				</function>
-				<iterators depth="1" id="16">
-					<iterator-type depth="2" id="17">
+				<function depth="1" id="16">
+					<name>enter</name>
+					<code>
+						<assign depth="2" id="17">
+							<value>
+								<access>
+									<value>my</value>
+									<value>oldPath</value>
+								</access>
+							</value>
+							<value>
+								<call>
+									<function>getCurrentDir</function>
+									<parameters/>
+								</call>
+							</value>
+						</assign>
+						<call depth="2" id="18">
+							<function>changeDir</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>path</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="19">
+					<name>exit</name>
+					<code>
+						<call depth="2" id="20">
+							<function>changeDir</function>
+							<parameters>
+								<parameter>
+									<access>
+										<value>my</value>
+										<value>oldPath</value>
+									</access>
+								</parameter>
+							</parameters>
+						</call>
+					</code>
+					<meta/>
+				</function>
+				<iterators depth="1" id="21">
+					<iterator-type depth="2" id="22">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="18">
+							<assign depth="3" id="23">
 								<value>dirHandle</value>
 								<value>
 									<call>
@@ -110,10 +159,10 @@
 									</call>
 								</value>
 							</assign>
-							<while depth="3" id="19">
+							<while depth="3" id="24">
 								<condition>1</condition>
 								<code>
-									<assign depth="4" id="20">
+									<assign depth="4" id="25">
 										<value>nextFile</value>
 										<value>
 											<call>
@@ -129,7 +178,7 @@
 											</call>
 										</value>
 									</assign>
-									<if-block depth="4" id="21">
+									<if-block depth="4" id="26">
 										<if>
 											<condition>
 												<or>
@@ -148,10 +197,10 @@
 												</or>
 											</condition>
 											<code>
-												<continue depth="5" id="22"/>
+												<continue depth="5" id="27"/>
 											</code>
 										</if>
-										<else-if depth="4" id="23">
+										<else-if depth="4" id="28">
 											<condition>
 												<equal>
 													<value>nextFile</value>
@@ -159,14 +208,14 @@
 												</equal>
 											</condition>
 											<code>
-												<break depth="5" id="24"/>
+												<break depth="5" id="29"/>
 											</code>
 										</else-if>
 									</if-block>
-									<yield depth="4" id="25">nextFile</yield>
+									<yield depth="4" id="30">nextFile</yield>
 								</code>
 							</while>
-							<call depth="3" id="26">
+							<call depth="3" id="31">
 								<function>
 									<access>
 										<value>flua</value>
@@ -180,11 +229,11 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="27">
-					<getter depth="2" id="28">
+				<get depth="1" id="32">
+					<getter depth="2" id="33">
 						<name>path</name>
 						<code>
-							<return depth="3" id="29">
+							<return depth="3" id="34">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -193,11 +242,11 @@
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="30">
-					<cast-definition depth="2" id="31">
+				<casts depth="1" id="35">
+					<cast-definition depth="2" id="36">
 						<to>String</to>
 						<code>
-							<return depth="3" id="32">
+							<return depth="3" id="37">
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -209,10 +258,10 @@
 			</code>
 		</class>
 		<comment>\SGet\Sthe\Scurrent\Sworking\Sdirectory\Swhere\Sthe\Sapplication\Sis\Sexecuted\Sin</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="38">
 			<name>getCurrentDir</name>
 			<code>
-				<return depth="1" id="34">
+				<return depth="1" id="39">
 					<new>
 						<type>URL</type>
 						<parameters>
@@ -231,16 +280,15 @@
 					</new>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
-		<function depth="0" id="35">
+		<function depth="0" id="40">
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<name>changeDir</name>
 			<code>
-				<call depth="1" id="36">
+				<call depth="1" id="41">
 					<function>
 						<access>
 							<value>flua</value>
@@ -254,12 +302,12 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="37">
+		<test depth="0" id="42">
 			<code>
-				<target depth="1" id="38">
+				<target depth="1" id="43">
 					<name>Linux</name>
 					<code>
-						<foreach depth="2" id="39">
+						<foreach depth="2" id="44">
 							<iterator>x</iterator>
 							<collection>
 								<new>
@@ -270,7 +318,7 @@
 								</new>
 							</collection>
 							<code>
-								<call depth="3" id="40">
+								<call depth="3" id="45">
 									<function>print</function>
 									<parameters>
 										<parameter>x</parameter>
@@ -280,10 +328,10 @@
 						</foreach>
 					</code>
 				</target>
-				<target depth="1" id="41">
+				<target depth="1" id="46">
 					<name>Windows</name>
 					<code>
-						<foreach depth="2" id="42">
+						<foreach depth="2" id="47">
 							<iterator>x</iterator>
 							<collection>
 								<new>
@@ -294,7 +342,7 @@
 								</new>
 							</collection>
 							<code>
-								<call depth="3" id="43">
+								<call depth="3" id="48">
 									<function>print</function>
 									<parameters>
 										<parameter>x</parameter>

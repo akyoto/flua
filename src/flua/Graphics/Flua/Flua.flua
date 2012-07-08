@@ -306,13 +306,17 @@
 						<value>
 							<call>
 								<function>getScreenWidth</function>
-								<parameters/>
+								<parameters>
+									<parameter>id</parameter>
+								</parameters>
 							</call>
 						</value>
 						<value>
 							<call>
 								<function>getScreenHeight</function>
-								<parameters/>
+								<parameters>
+									<parameter>id</parameter>
+								</parameters>
 							</call>
 						</value>
 					</divide>
