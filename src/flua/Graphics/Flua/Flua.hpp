@@ -284,7 +284,7 @@ void flua_printGLError(GLuint object) {
 		glGetProgramInfoLog(object, log_length, NULL, error);
 	
 	fprintf(stderr, "%s", error);
-	free(log);
+	free(error);
 }
 
 GLuint flua_createShader(const GLchar* source, GLenum type) {
