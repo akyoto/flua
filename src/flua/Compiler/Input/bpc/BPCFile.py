@@ -1403,6 +1403,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		if not self.inCasts:
 			nameNode.appendChild(self.doc.createTextNode(funcName))
 		
+		node.appendChild(nameNode)
+		
 		expr = addGenerics(line[len(funcName)+1:])
 		
 		if expr:
@@ -1413,10 +1415,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			node.appendChild(paramsNode)
 		
 		codeNode = self.doc.createElement("code")
-		
-		node.appendChild(nameNode)
 		node.appendChild(codeNode)
-		
 		#self.inFunction = True
 		
 		if not self.inInterface:

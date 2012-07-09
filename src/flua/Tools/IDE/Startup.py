@@ -411,6 +411,7 @@ class Startup:
 				'traceback' : cf("#ffffcc"),
 				'compiler-error' : cf("#ff9000"),
 				
+				'c-function' : cf('#ffa0c0', useBold),
 				'c-datatypes' : cf('#ffff00', useBold),
 				'c-main' : cf('#00ffff', useBold),
 			},

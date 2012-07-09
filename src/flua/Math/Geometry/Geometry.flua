@@ -106,10 +106,10 @@
 		</extern>
 		<comment>\SConverts\S#deg\Sdegrees\Sto\Sradians</comment>
 		<function depth="0" id="15">
+			<name>degToRad</name>
 			<parameters>
 				<parameter>deg</parameter>
 			</parameters>
-			<name>degToRad</name>
 			<code>
 				<return depth="1" id="16">
 					<multiply>
@@ -121,10 +121,10 @@
 		</function>
 		<comment>\SConverts\S#rad\Sradians\Sto\Sdegrees</comment>
 		<function depth="0" id="17">
+			<name>radToDeg</name>
 			<parameters>
 				<parameter>rad</parameter>
 			</parameters>
-			<name>radToDeg</name>
 			<code>
 				<return depth="1" id="18">
 					<multiply>
@@ -138,10 +138,10 @@
 		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
 		<comment>\Ssee\S#sinDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
 		<function depth="0" id="19">
+			<name>sin</name>
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
-			<name>sin</name>
 			<code>
 				<return depth="1" id="20">
 					<call>
@@ -162,10 +162,10 @@
 		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#radian\Sradians,</comment>
 		<comment>\Ssee\S#cosDegree\Sif\Syou\Sneed\Sto\Sspecify\Sthe\Sangle\Sin\Sdegrees.</comment>
 		<function depth="0" id="21">
+			<name>cos</name>
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
-			<name>cos</name>
 			<code>
 				<return depth="1" id="22">
 					<call>
@@ -185,10 +185,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Stangent\Sof\San\Sangle\Sof\S#radian\Sradians</comment>
 		<function depth="0" id="23">
+			<name>tan</name>
 			<parameters>
 				<parameter>radian</parameter>
 			</parameters>
-			<name>tan</name>
 			<code>
 				<return depth="1" id="24">
 					<call>
@@ -208,10 +208,10 @@
 		</function>
 		<comment>\SArc\Ssine\Sis\Sthe\Sinverse\Soperation\Sof\Ssine</comment>
 		<function depth="0" id="25">
+			<name>aSin</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>asin</name>
 			<code>
 				<return depth="1" id="26">
 					<call>
@@ -231,10 +231,10 @@
 		</function>
 		<comment>\SArc\Scosine\Sis\Sthe\Sinverse\Soperation\Sof\Scosine</comment>
 		<function depth="0" id="27">
+			<name>aCos</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>acos</name>
 			<code>
 				<return depth="1" id="28">
 					<call>
@@ -254,10 +254,10 @@
 		</function>
 		<comment>\SArc\Stangent\Sis\Sthe\Sinverse\Soperation\Sof\Stangent</comment>
 		<function depth="0" id="29">
+			<name>aTan</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>atan</name>
 			<code>
 				<return depth="1" id="30">
 					<call>
@@ -278,11 +278,11 @@
 		<comment>\SReturns\Sthe\Sangle\Sin\Sradians\Sbetween\Sthe\Spositive\Sx-axis\Sof</comment>
 		<comment>\Sa\Splane\Sand\Sthe\Spoint\Sgiven\Sby\Sthe\Scoordinates\S(x,\Sy)\Son\Sit.</comment>
 		<function depth="0" id="31">
+			<name>aTan2</name>
 			<parameters>
 				<parameter>x</parameter>
 				<parameter>y</parameter>
 			</parameters>
-			<name>atan2</name>
 			<code>
 				<return depth="1" id="32">
 					<call>
@@ -303,10 +303,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Shyperbolic\Ssine\Sof\S#x</comment>
 		<function depth="0" id="33">
+			<name>sinH</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>sinH</name>
 			<code>
 				<return depth="1" id="34">
 					<call>
@@ -326,10 +326,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Shyperbolic\Scosine\Sof\S#x</comment>
 		<function depth="0" id="35">
+			<name>cosH</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>cosH</name>
 			<code>
 				<return depth="1" id="36">
 					<call>
@@ -349,10 +349,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Shyperbolic\Stangent\Sof\S#x</comment>
 		<function depth="0" id="37">
+			<name>tanH</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>tanH</name>
 			<code>
 				<return depth="1" id="38">
 					<call>
@@ -372,10 +372,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Ssine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
 		<function depth="0" id="39">
+			<name>sinDegree</name>
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
-			<name>sinDegree</name>
 			<code>
 				<return depth="1" id="40">
 					<call>
@@ -402,10 +402,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Scosine\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
 		<function depth="0" id="41">
+			<name>cosDegree</name>
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
-			<name>cosDegree</name>
 			<code>
 				<return depth="1" id="42">
 					<call>
@@ -432,10 +432,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Stangent\Sof\San\Sangle\Sof\S#degree\Sdegrees.</comment>
 		<function depth="0" id="43">
+			<name>tanDegree</name>
 			<parameters>
 				<parameter>degree</parameter>
 			</parameters>
-			<name>tanDegree</name>
 			<code>
 				<return depth="1" id="44">
 					<call>
@@ -463,13 +463,13 @@
 		<comment>\SReturns\Sthe\Ssquared\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
 		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
 		<function depth="0" id="45">
+			<name>distanceSq</name>
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
 				<parameter>x2</parameter>
 				<parameter>y2</parameter>
 			</parameters>
-			<name>distanceSq</name>
 			<code>
 				<assign depth="1" id="46">
 					<value>dX</value>
@@ -510,13 +510,13 @@
 		<comment>\SReturns\Sthe\Sdistance\Sbetween\Sa\Spoint\Swith\Sthe\Scoordinates</comment>
 		<comment>\S#x1,\S#y1\Sand\Sanother\Spoint\Swith\Sthe\Scoordinates\S#x2,\S#y2.</comment>
 		<function depth="0" id="49">
+			<name>distance</name>
 			<parameters>
 				<parameter>x1</parameter>
 				<parameter>y1</parameter>
 				<parameter>x2</parameter>
 				<parameter>y2</parameter>
 			</parameters>
-			<name>distance</name>
 			<code>
 				<return depth="1" id="50">
 					<call>
@@ -585,7 +585,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>asin</function>
+								<function>aSin</function>
 								<parameters>
 									<parameter>0</parameter>
 								</parameters>
@@ -598,7 +598,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>acos</function>
+								<function>aCos</function>
 								<parameters>
 									<parameter>0</parameter>
 								</parameters>
@@ -611,7 +611,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>atan</function>
+								<function>aTan</function>
 								<parameters>
 									<parameter>0</parameter>
 								</parameters>
@@ -624,7 +624,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>atan2</function>
+								<function>aTan2</function>
 								<parameters>
 									<parameter>0</parameter>
 									<parameter>0</parameter>
@@ -638,7 +638,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>floor</function>
+								<function>roundUp</function>
 								<parameters>
 									<parameter>5.5</parameter>
 								</parameters>
@@ -651,7 +651,7 @@
 					<parameters>
 						<parameter>
 							<call>
-								<function>ceil</function>
+								<function>roundDown</function>
 								<parameters>
 									<parameter>5.5</parameter>
 								</parameters>

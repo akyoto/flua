@@ -109,10 +109,10 @@
 		</extern>
 		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
 		<function depth="0" id="16">
+			<name>sq</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>sq</name>
 			<code>
 				<return depth="1" id="17">
 					<multiply>
@@ -125,10 +125,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
 		<function depth="0" id="18">
+			<name>sqr</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>sqr</name>
 			<code>
 				<require depth="1" id="19">
 					<greater-or-equal depth="2" id="20">
@@ -154,10 +154,10 @@
 		</function>
 		<comment>\SReturns\Sln\Sof\S#x</comment>
 		<function depth="0" id="22">
+			<name>ln</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>ln</name>
 			<code>
 				<return depth="1" id="23">
 					<call>
@@ -177,10 +177,10 @@
 		</function>
 		<comment>\SReturns\Slg\Sof\S#x</comment>
 		<function depth="0" id="24">
+			<name>lg</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>lg</name>
 			<code>
 				<return depth="1" id="25">
 					<call>
@@ -200,10 +200,10 @@
 		</function>
 		<comment>\SReturns\Sthe\Sabsolute\Svalue\Sof\S#x\S(positive)</comment>
 		<function depth="0" id="26">
+			<name>abs</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>abs</name>
 			<code>
 				<if-block depth="1" id="27">
 					<if>
@@ -232,6 +232,7 @@
 		</function>
 		<comment>\SReturns\Sa\Srandom\Sinteger\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0" id="31">
+			<name>rand</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -246,7 +247,6 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>rand</name>
 			<code>
 				<ensure depth="1" id="32">
 					<greater-or-equal depth="2" id="33">
@@ -276,6 +276,7 @@
 		</function>
 		<comment>\SReturns\Sa\Srandom\SFloat\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0" id="36">
+			<name>randFloat</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -290,7 +291,6 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>randFloat</name>
 			<code>
 				<ensure depth="1" id="37">
 					<greater-or-equal depth="2" id="38">
@@ -320,10 +320,10 @@
 		</function>
 		<comment>\SSets\Sa\Snew\S#seed\Sfor\Srandom\Snumbers</comment>
 		<function depth="0" id="41">
+			<name>setRandSeed</name>
 			<parameters>
 				<parameter>seed</parameter>
 			</parameters>
-			<name>setRandSeed</name>
 			<code>
 				<call depth="1" id="42">
 					<function>
@@ -338,36 +338,14 @@
 				</call>
 			</code>
 		</function>
-		<comment>\SReturns\Sthe\Slargest\Sintegral\Svalue\Sthat\Sis\Snot\Sgreater\Sthan\S#x</comment>
+		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
 		<function depth="0" id="43">
+			<name>roundUp</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>floor</name>
 			<code>
 				<return depth="1" id="44">
-					<call>
-						<function>
-							<access>
-								<value>flua</value>
-								<value>floor</value>
-							</access>
-						</function>
-						<parameters>
-							<parameter>x</parameter>
-						</parameters>
-					</call>
-				</return>
-			</code>
-		</function>
-		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
-		<function depth="0" id="45">
-			<parameters>
-				<parameter>x</parameter>
-			</parameters>
-			<name>ceil</name>
-			<code>
-				<return depth="1" id="46">
 					<call>
 						<function>
 							<access>
@@ -381,13 +359,37 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
-		<comment>\SDetermines\Sif\S#x\Sis\Snot-a-number\S(NaN)</comment>
-		<function depth="0" id="47">
+		<comment>\SReturns\Sthe\Slargest\Sintegral\Svalue\Sthat\Sis\Snot\Sgreater\Sthan\S#x</comment>
+		<function depth="0" id="45">
+			<name>roundDown</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
+			<code>
+				<return depth="1" id="46">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>floor</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>x</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SDetermines\Sif\S#x\Sis\Snot-a-number\S(NaN)</comment>
+		<function depth="0" id="47">
 			<name>isNaN</name>
+			<parameters>
+				<parameter>x</parameter>
+			</parameters>
 			<code>
 				<return depth="1" id="48">
 					<call>
@@ -407,10 +409,10 @@
 		<comment>\SDetermines\Sif\S#x\Sis\Sinfinite,\S1\Sfor\Spositive\Sinfinity</comment>
 		<comment>\Sand\S-1\Sfor\Snegative\Sinfinity.</comment>
 		<function depth="0" id="49">
+			<name>isInf</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>isInf</name>
 			<code>
 				<return depth="1" id="50">
 					<call>
@@ -429,11 +431,11 @@
 		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
 		<function depth="0" id="51">
+			<name>min</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
-			<name>min</name>
 			<code>
 				<if-block depth="1" id="52">
 					<if>
@@ -457,11 +459,11 @@
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
 		<function depth="0" id="56">
+			<name>max</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
-			<name>max</name>
 			<code>
 				<if-block depth="1" id="57">
 					<if>
@@ -485,10 +487,10 @@
 		</function>
 		<comment>\SReturns\Se\S(Euler's\Snumber,\S2.7182818)\Sraised\Sto\Sthe\Sgiven\Spower\S#x</comment>
 		<function depth="0" id="61">
+			<name>ePow</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>ePow</name>
 			<code>
 				<return depth="1" id="62">
 					<call>
@@ -504,7 +506,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="63">

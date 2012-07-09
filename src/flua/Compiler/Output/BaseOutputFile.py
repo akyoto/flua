@@ -1431,10 +1431,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					# So damn hardcoded...
 					op1 = node.childNodes[0].firstChild
 					op2 = node.childNodes[1].firstChild
-					dataType = self.getExprDataType(op1)
+					dataType = callerType
 					
 					# TODO: Check whether the class has a += operator and if not, use this:
-					if (not dataType in nonPointerClasses) and (not removeUnmanaged(dataType).startswith("MemPointer<")) and not self.getClass(extractClassName(dataType)).hasOperator("+="):
+					if (not callerType in nonPointerClasses) and (not removeUnmanaged(callerType).startswith("MemPointer<")) and not self.getClass(extractClassName(callerType)).hasOperator("+="):
 						lValue = self.parseExpr(op1)
 						#rValue = self.parseExpr(op2)
 						#return "%s = %s->operatorAdd__UTF8String(%s)" % (lValue, lValue, rValue)
@@ -1443,7 +1443,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						
 						return "%s = %s" % (lValue, self.handleCall(virtualAddCall))
 				
-				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
+				if (not callerType in nonPointerClasses) and (not callerType.replace("~", "").startswith("MemPointer<")) and self.getClass(callerClassName).hasFunction(memberFunc):
 					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 					call = self.handleCall(virtualIndexCall)
 					return call

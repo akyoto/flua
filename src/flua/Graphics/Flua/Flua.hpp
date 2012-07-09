@@ -161,13 +161,13 @@ inline void flua_setTransform(
 {
 	//float angle = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * 15;  // 45° per second
 	glm::vec3 axis_y(0.0, 1.0, 0.0);
-	glm::mat4 anim = \
+	glm::mat4 rotation = \
 	 glm::rotate(flua_identityMatrix, rot->_x, flua_xAxis) *  // X axis
 	 glm::rotate(flua_identityMatrix, rot->_y, flua_yAxis) *  // Y axis
 	 glm::rotate(flua_identityMatrix, rot->_z, flua_zAxis);   // Z axis
 	
-	glm::mat4 model = glm::translate(flua_identityMatrix, glm::vec3(pos->_x, pos->_y, -pos->_z));
-	glm::mat4 mvp = flua_viewAndProjectionMatrix * model * anim;
+	glm::mat4 translation = glm::translate(flua_identityMatrix, glm::vec3(pos->_x, pos->_y, -pos->_z));
+	glm::mat4 mvp = flua_viewAndProjectionMatrix * translation * rotation;
 	
 	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
@@ -276,14 +276,14 @@ void flua_printGLError(GLuint object) {
 		return;
 	}
 	
-	char* log = (char*)malloc(log_length);
+	char* error = (char*)malloc(log_length);
 	
 	if (glIsShader(object))
-		glGetShaderInfoLog(object, log_length, NULL, log);
+		glGetShaderInfoLog(object, log_length, NULL, error);
 	else if (glIsProgram(object))
-		glGetProgramInfoLog(object, log_length, NULL, log);
+		glGetProgramInfoLog(object, log_length, NULL, error);
 	
-	fprintf(stderr, "%s", log);
+	fprintf(stderr, "%s", error);
 	free(log);
 }
 

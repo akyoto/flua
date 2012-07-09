@@ -1712,6 +1712,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			self.setExtraSelections(extraSelections)
 		
 	def isDocFile(self):
+		if self.isTextFile:
+			return False
+		
 		fileName = stripAll(self.getFilePath())
 		
 		isDoc = (len(fileName) >= 4 and fileName[:2].isdigit() and self.bubble is not None)

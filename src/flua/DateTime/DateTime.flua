@@ -17,6 +17,7 @@
 			<string id="flua_string_9">Hour:\S\S\S</string>
 			<string id="flua_string_10">Minute:\S</string>
 			<string id="flua_string_11">Second:\S</string>
+			<string id="flua_string_12">Month:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -70,6 +71,7 @@
 			<name>DateTime</name>
 			<code>
 				<function depth="1" id="13">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -78,13 +80,13 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<noop depth="2" id="14"/>
 					</code>
 					<meta/>
 				</function>
 				<function depth="1" id="15">
+					<name>format</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -93,7 +95,6 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>format</name>
 					<code>
 						<require depth="2" id="16">
 							<less depth="3" id="17">
@@ -202,6 +203,7 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</getter>
 					<getter depth="2" id="28">
 						<name>day</name>
@@ -423,6 +425,7 @@
 					</and>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test depth="0" id="49">
@@ -506,6 +509,22 @@
 									<access>
 										<value>now</value>
 										<value>second</value>
+									</access>
+								</value>
+							</add>
+						</parameter>
+					</parameters>
+				</call>
+				<call depth="1" id="57">
+					<function>print</function>
+					<parameters>
+						<parameter>
+							<add>
+								<value>flua_string_12</value>
+								<value>
+									<access>
+										<value>now</value>
+										<value>month</value>
 									</access>
 								</value>
 							</add>
