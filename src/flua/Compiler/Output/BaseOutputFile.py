@@ -45,6 +45,7 @@ enableOperatorOverloading = {
 	"divide",
 	"equal",
 	"not-equal",
+	
 	"assign-add",
 	"assign-substract",
 	"assign-multiply",
@@ -1406,23 +1407,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			if getElementByTagName(node, "default-value"):
 				return self.parseExpr(node.childNodes[0].childNodes[0])
 			return self.parseExpr(node.childNodes[0])
-		
-		# Assign-add for Strings
-		if nodeName == "assign-add":
-			# So damn hardcoded...
-			op1 = node.childNodes[0].firstChild
-			op2 = node.childNodes[1].firstChild
-			dataType = self.getExprDataType(op1)
-			
-			# TODO: Check whether the class has a += operator and if not, use this:
-			if (not dataType in nonPointerClasses) and (not removeUnmanaged(dataType).startswith("MemPointer<")) and not self.getClass(extractClassName(dataType)).hasOperator("+="):
-				lValue = self.parseExpr(op1)
-				#rValue = self.parseExpr(op2)
-				#return "%s = %s->operatorAdd__UTF8String(%s)" % (lValue, lValue, rValue)
-				memberFunc = "+"
-				virtualAddCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (op1.toxml(), memberFunc, op2.toxml())).documentElement
-				
-				return "%s = %s" % (lValue, self.handleCall(virtualAddCall))
+		# Overloadable operators
 		elif nodeName in enableOperatorOverloading:
 			caller = self.parseExpr(node.childNodes[0].childNodes[0])
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
@@ -1439,6 +1424,25 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				pass#return "(%s + %s)" % (caller, op2)
 			else:#if correctOperators(tagName) in self.getClassImplementationByTypeName(callerType).funcImplementations:
 				memberFunc = correctOperatorsTagName(nodeName)
+				
+				# TODO: Remove this code and replace it with a generic version
+				# Assign-add for Strings
+				if nodeName == "assign-add":
+					# So damn hardcoded...
+					op1 = node.childNodes[0].firstChild
+					op2 = node.childNodes[1].firstChild
+					dataType = self.getExprDataType(op1)
+					
+					# TODO: Check whether the class has a += operator and if not, use this:
+					if (not dataType in nonPointerClasses) and (not removeUnmanaged(dataType).startswith("MemPointer<")) and not self.getClass(extractClassName(dataType)).hasOperator("+="):
+						lValue = self.parseExpr(op1)
+						#rValue = self.parseExpr(op2)
+						#return "%s = %s->operatorAdd__UTF8String(%s)" % (lValue, lValue, rValue)
+						memberFunc = "+"
+						virtualAddCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (op1.toxml(), memberFunc, op2.toxml())).documentElement
+						
+						return "%s = %s" % (lValue, self.handleCall(virtualAddCall))
+				
 				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
 					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
 					call = self.handleCall(virtualIndexCall)

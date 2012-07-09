@@ -194,9 +194,81 @@
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
+						<name>+=</name>
+						<code>
+							<assign-add depth="3" id="24">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-add>
+							<assign-add depth="3" id="25">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-add>
+							<assign-add depth="3" id="26">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-add>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="27">
+						<parameters>
+							<parameter>value</parameter>
+						</parameters>
+						<name>-=</name>
+						<code>
+							<assign-subtract depth="3" id="28">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-subtract>
+							<assign-subtract depth="3" id="29">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-subtract>
+							<assign-subtract depth="3" id="30">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-subtract>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="31">
+						<parameters>
+							<parameter>value</parameter>
+						</parameters>
 						<name>*=</name>
 						<code>
-							<assign-multiply depth="3" id="24">
+							<assign-multiply depth="3" id="32">
 								<value>
 									<access>
 										<value>my</value>
@@ -205,7 +277,7 @@
 								</value>
 								<value>value</value>
 							</assign-multiply>
-							<assign-multiply depth="3" id="25">
+							<assign-multiply depth="3" id="33">
 								<value>
 									<access>
 										<value>my</value>
@@ -214,7 +286,7 @@
 								</value>
 								<value>value</value>
 							</assign-multiply>
-							<assign-multiply depth="3" id="26">
+							<assign-multiply depth="3" id="34">
 								<value>
 									<access>
 										<value>my</value>
@@ -224,21 +296,282 @@
 								<value>value</value>
 							</assign-multiply>
 						</code>
+						<meta/>
 					</operator>
-					<operator depth="2" id="27">
+					<operator depth="2" id="35">
+						<parameters>
+							<parameter>value</parameter>
+						</parameters>
+						<name>/=</name>
+						<code>
+							<assign-divide depth="3" id="36">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-divide>
+							<assign-divide depth="3" id="37">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-divide>
+							<assign-divide depth="3" id="38">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>value</value>
+							</assign-divide>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="39">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>vec</value>
+									<value>Vector3</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>+=</name>
+						<code>
+							<assign-add depth="3" id="40">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>x</value>
+									</access>
+								</value>
+							</assign-add>
+							<assign-add depth="3" id="41">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>y</value>
+									</access>
+								</value>
+							</assign-add>
+							<assign-add depth="3" id="42">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>z</value>
+									</access>
+								</value>
+							</assign-add>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="43">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>vec</value>
+									<value>Vector3</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>-=</name>
+						<code>
+							<assign-subtract depth="3" id="44">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>x</value>
+									</access>
+								</value>
+							</assign-subtract>
+							<assign-subtract depth="3" id="45">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>y</value>
+									</access>
+								</value>
+							</assign-subtract>
+							<assign-subtract depth="3" id="46">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>z</value>
+									</access>
+								</value>
+							</assign-subtract>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="47">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>vec</value>
+									<value>Vector3</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>*=</name>
+						<code>
+							<assign-multiply depth="3" id="48">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>x</value>
+									</access>
+								</value>
+							</assign-multiply>
+							<assign-multiply depth="3" id="49">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>y</value>
+									</access>
+								</value>
+							</assign-multiply>
+							<assign-multiply depth="3" id="50">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>z</value>
+									</access>
+								</value>
+							</assign-multiply>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="51">
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>vec</value>
+									<value>Vector3</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<name>/=</name>
+						<code>
+							<assign-divide depth="3" id="52">
+								<value>
+									<access>
+										<value>my</value>
+										<value>x</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>x</value>
+									</access>
+								</value>
+							</assign-divide>
+							<assign-divide depth="3" id="53">
+								<value>
+									<access>
+										<value>my</value>
+										<value>y</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>y</value>
+									</access>
+								</value>
+							</assign-divide>
+							<assign-divide depth="3" id="54">
+								<value>
+									<access>
+										<value>my</value>
+										<value>z</value>
+									</access>
+								</value>
+								<value>
+									<access>
+										<value>vec</value>
+										<value>z</value>
+									</access>
+								</value>
+							</assign-divide>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="55">
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<name>[]</name>
 						<code>
-							<switch depth="3" id="28">
+							<switch depth="3" id="56">
 								<value>index</value>
-								<case depth="4" id="29">
+								<case depth="4" id="57">
 									<values>
 										<value>0</value>
 									</values>
 									<code>
-										<return depth="5" id="30">
+										<return depth="5" id="58">
 											<access>
 												<value>my</value>
 												<value>x</value>
@@ -246,12 +579,12 @@
 										</return>
 									</code>
 								</case>
-								<case depth="4" id="31">
+								<case depth="4" id="59">
 									<values>
 										<value>1</value>
 									</values>
 									<code>
-										<return depth="5" id="32">
+										<return depth="5" id="60">
 											<access>
 												<value>my</value>
 												<value>y</value>
@@ -259,12 +592,12 @@
 										</return>
 									</code>
 								</case>
-								<case depth="4" id="33">
+								<case depth="4" id="61">
 									<values>
 										<value>2</value>
 									</values>
 									<code>
-										<return depth="5" id="34">
+										<return depth="5" id="62">
 											<access>
 												<value>my</value>
 												<value>z</value>
@@ -274,16 +607,15 @@
 								</case>
 							</switch>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 			</code>
 			<meta/>
 		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="35">
+		<test depth="0" id="63">
 			<code>
-				<assign depth="1" id="36">
+				<assign depth="1" id="64">
 					<value>vec</value>
 					<value>
 						<new>

@@ -18,6 +18,9 @@
 		<comment>\S\S*\Sgcdt\S-&gt;\SgetCurrentDateTime</comment>
 		<comment>\S\S*\Sgsw\S\S-&gt;\SgetScreenWidth</comment>
 		<comment>\S\S*\Sgsh\S\S-&gt;\SgetScreenHeight</comment>
+		<comment>\S\S*\Sikd\S\S-&gt;\SisKeyDown</comment>
+		<comment>\S\S*\Srf\S\S\S-&gt;\SreadFile</comment>
+		<comment>\S\S*\Swf\S\S\S-&gt;\SwriteFile</comment>
 		<comment>\S\S*\S...</comment>
 		<comment>\SIt\Sworks\Sfor\Sall\Sof\Syour\Sown\Sfunctions\Sas\Swell.</comment>
 	</code>
