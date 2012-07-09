@@ -313,27 +313,44 @@
 						<noop depth="2" id="42"/>
 					</code>
 				</function>
-				<get depth="1" id="43">
-					<getter depth="2" id="44">
+				<function depth="1" id="43">
+					<name>hasElements</name>
+					<code>
+						<return depth="2" id="44">
+							<not-equal>
+								<value>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>start</value>
+											</access>
+										</value>
+										<value>next</value>
+									</access>
+								</value>
+								<value>null</value>
+							</not-equal>
+						</return>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="45">
+					<getter depth="2" id="46">
 						<name>first</name>
 						<code>
-							<require depth="3" id="45">
-								<not-equal depth="4" id="46">
-									<value>
+							<require depth="3" id="47">
+								<call depth="4" id="48">
+									<function>
 										<access>
-											<value>
-												<access>
-													<value>my</value>
-													<value>start</value>
-												</access>
-											</value>
-											<value>next</value>
+											<value>my</value>
+											<value>hasElements</value>
 										</access>
-									</value>
-									<value>null</value>
-								</not-equal>
+									</function>
+									<parameters/>
+								</call>
 							</require>
-							<return depth="3" id="47">
+							<return depth="3" id="49">
 								<access>
 									<value>
 										<access>
@@ -343,27 +360,6 @@
 									</value>
 									<value>next</value>
 								</access>
-							</return>
-						</code>
-					</getter>
-					<getter depth="2" id="48">
-						<name>hasElements</name>
-						<code>
-							<return depth="3" id="49">
-								<not-equal>
-									<value>
-										<access>
-											<value>
-												<access>
-													<value>my</value>
-													<value>start</value>
-												</access>
-											</value>
-											<value>next</value>
-										</access>
-									</value>
-									<value>null</value>
-								</not-equal>
 							</return>
 						</code>
 					</getter>

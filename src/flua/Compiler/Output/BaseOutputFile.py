@@ -1441,7 +1441,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				memberFunc = correctOperatorsTagName(nodeName)
 				if (not callerType in nonPointerClasses) and self.getClass(callerClassName).hasFunction(memberFunc):
 					virtualIndexCall = self.cachedParseString("<call><operator><access><value>%s</value><value>%s</value></access></operator><parameters><parameter>%s</parameter></parameters></call>" % (node.childNodes[0].childNodes[0].toxml(), memberFunc, node.childNodes[1].childNodes[0].toxml())).documentElement
-					
 					call = self.handleCall(virtualIndexCall)
 					return call
 		elif nodeName == "not":

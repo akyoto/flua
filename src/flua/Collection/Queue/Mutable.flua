@@ -21,7 +21,7 @@
 							<value>
 								<access>
 									<value>my</value>
-									<value>data</value>
+									<value>list</value>
 								</access>
 							</value>
 							<value>
@@ -37,6 +37,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SAdds\Sthe\Selement\S#x\Sto\Sthe\Squeue</comment>
 				<function depth="1" id="6">
@@ -51,7 +52,7 @@
 									<value>
 										<access>
 											<value>my</value>
-											<value>data</value>
+											<value>list</value>
 										</access>
 									</value>
 									<value>add</value>
@@ -62,6 +63,7 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Soldest\Selement\Sfrom\Sthe\Squeue\Sand\Sreturns\Sit\S(FIFO)</comment>
 				<function depth="1" id="8">
@@ -74,7 +76,7 @@
 										<value>
 											<access>
 												<value>my</value>
-												<value>data</value>
+												<value>list</value>
 											</access>
 										</value>
 										<value>takeFirst</value>
@@ -86,33 +88,36 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="10">
-					<getter depth="2" id="11">
-						<name>hasElements</name>
-						<code>
-							<return depth="3" id="12">
-								<access>
-									<value>
-										<access>
-											<value>my</value>
-											<value>data</value>
-										</access>
-									</value>
-									<value>hasElements</value>
-								</access>
-							</return>
-						</code>
-						<meta/>
-					</getter>
-				</get>
+				<function depth="1" id="10">
+					<name>hasElements</name>
+					<code>
+						<return depth="2" id="11">
+							<call>
+								<function>
+									<access>
+										<value>
+											<access>
+												<value>my</value>
+												<value>list</value>
+											</access>
+										</value>
+										<value>hasElements</value>
+									</access>
+								</function>
+								<parameters/>
+							</call>
+						</return>
+					</code>
+					<meta/>
+				</function>
 			</code>
 			<meta>
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>
-		<test depth="0" id="13">
+		<test depth="0" id="12">
 			<code>
-				<assign depth="1" id="14">
+				<assign depth="1" id="13">
 					<value>q</value>
 					<value>
 						<new>
@@ -126,22 +131,22 @@
 						</new>
 					</value>
 				</assign>
-				<on depth="1" id="15">
+				<on depth="1" id="14">
 					<expression>q</expression>
 					<code>
-						<call depth="2" id="16">
+						<call depth="2" id="15">
 							<function>add</function>
 							<parameters>
 								<parameter>1</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="17">
+						<call depth="2" id="16">
 							<function>add</function>
 							<parameters>
 								<parameter>2</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="18">
+						<call depth="2" id="17">
 							<function>add</function>
 							<parameters>
 								<parameter>3</parameter>
@@ -149,15 +154,20 @@
 						</call>
 					</code>
 				</on>
-				<while depth="1" id="19">
+				<while depth="1" id="18">
 					<condition>
-						<access>
-							<value>q</value>
-							<value>hasElements</value>
-						</access>
+						<call>
+							<function>
+								<access>
+									<value>q</value>
+									<value>hasElements</value>
+								</access>
+							</function>
+							<parameters/>
+						</call>
 					</condition>
 					<code>
-						<call depth="2" id="20">
+						<call depth="2" id="19">
 							<function>
 								<access>
 									<value>q</value>

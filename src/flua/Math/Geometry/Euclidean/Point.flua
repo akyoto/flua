@@ -6,8 +6,7 @@
 			<import>flua.Math.Geometry</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">\E</string>
-			<string id="flua_string_1">,\S</string>
+			<string id="flua_string_0">,\S</string>
 		</strings>
 	</header>
 	<code>
@@ -85,6 +84,7 @@
 							<value>offY</value>
 						</assign-add>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="13">
 					<parameters>
@@ -136,17 +136,19 @@
 									<value>
 										<add>
 											<value>
-												<add>
-													<value>flua_string_0</value>
-													<value>
-														<access>
-															<value>my</value>
-															<value>x</value>
-														</access>
-													</value>
-												</add>
+												<new>
+													<type>String</type>
+													<parameters>
+														<parameter>
+															<access>
+																<value>my</value>
+																<value>x</value>
+															</access>
+														</parameter>
+													</parameters>
+												</new>
 											</value>
-											<value>flua_string_1</value>
+											<value>flua_string_0</value>
 										</add>
 									</value>
 									<value>
@@ -158,6 +160,7 @@
 								</add>
 							</return>
 						</code>
+						<meta/>
 					</cast-definition>
 				</casts>
 			</code>

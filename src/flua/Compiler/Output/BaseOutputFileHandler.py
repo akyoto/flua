@@ -640,10 +640,11 @@ class BaseOutputFileHandler:
 				self.compiler.tuples[typeId] = True
 				
 				return self.returnSyntax % (self.newObjectSyntax % (structName, ', '.join(values)))
+			# Single return value
 			else:
 				# STEP 2
 				expr = self.parseExpr(node.firstChild, False)
-					
+				
 				#debug("Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))
 				if self.currentFunction and self.currentFunction.hasDataFlow:
 					#print("[DATAFLOW] Returning „%s“ with type „%s“ on current func „%s“ with implementation „%s“" % (expr, retType, self.currentFunction.getName(), self.currentFunctionImpl.getName()))

@@ -26,17 +26,6 @@
 					<parameters>
 						<parameter>flua_string_0</parameter>
 						<parameter>1024</parameter>
-						<parameter>
-							<divide>
-								<value>1024</value>
-								<value>
-									<call>
-										<function>getScreenRatio</function>
-										<parameters/>
-									</call>
-								</value>
-							</divide>
-						</parameter>
 					</parameters>
 				</new>
 			</value>

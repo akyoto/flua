@@ -253,6 +253,10 @@ class BaseOutputCompiler(Benchmarkable):
 		# Scan imported files
 		try:
 			for imp in inpFile.getImportedFiles():
+				# Don't compile core inside core
+				if isPartOfCore(self.mainFile.getFilePath()) and isCore(imp):
+					continue
+				
 				inFile = self.inputCompiler.getFileInstanceByPath(imp)
 				if (not inFile in self.outFiles):
 					self.scan(inFile)

@@ -36,24 +36,37 @@
 					<extern-function depth="2" id="7">
 						<name>usleep</name>
 						<type>Bool</type>
+						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="8">
 						<name>systemTime</name>
 						<type>Int64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="9">
 						<name>systemTimeMicro</name>
 						<type>Int64</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="10">
 						<name>swap</name>
+						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="11">
 						<name>sizeOf</name>
 						<type>Size</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>true</same-output-for-input>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="12">
 						<name>exit</name>
+						<meta/>
 					</extern-function>
 				</code>
 			</namespace>

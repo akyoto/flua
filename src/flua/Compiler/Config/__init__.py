@@ -60,6 +60,12 @@ def getPython3CompilerName():
 	else:
 		return "python3"
 	
+def isCore(path):
+	return path == getModuleDir() + "flua/Core/Core.flua"
+	
+def isPartOfCore(path):
+	return getModuleDir() + "flua/Core/" in path
+	
 def getModulePath(importedModule, fileDir = "", projectDir = "", extension = ".flua"):
 	# ########################### #
 	# Priority for module search: #
