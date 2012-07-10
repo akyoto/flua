@@ -108,6 +108,8 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		if not text or (ce and ce.disableUpdatesFlag):
 			return
 		
+		#self.startBenchmark("Highlight block")
+		
 		style = bpIDE.getCurrentTheme()
 		
 		i = 0
@@ -285,6 +287,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				self.setFormat(i, 1, style['brace'])
 				
 			i += 1
+		
 		#self.endBenchmark()
 		
 		#self.setCurrentBlockState(0)

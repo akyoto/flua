@@ -147,6 +147,7 @@ class BPConfiguration:
 		self.tabWidth = self.getInt(editorConfig, "TabWidth")
 		self.documentModeEnabled = self.getBool(editorConfig, "DocumentMode")
 		self.useBold = self.getBool(editorConfig, "EnableBoldFormatting")
+		self.enableDocBubbles = self.getBool(editorConfig, "EnableDocBubbles")
 		
 		self.themeName = self.get("Editor.Theme", "Theme")
 		

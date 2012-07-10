@@ -402,6 +402,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			code.append(doc)
 	
 	def updateCodeBubble(self, node):
+		if not self.config.enableDocBubbles:
+			return
+		
 		if self.codeEdit and self.codeEdit.bubble and (not self.running) and self.consoleDock.isHidden() and (self.codeEdit.hasFocus()):
 			if node:
 				#self.startBenchmark("Find calls in reversed order")

@@ -20,6 +20,7 @@
 		<strings>
 			<string id="flua_string_0">Desktop\Ssize:\S</string>
 			<string id="flua_string_1">\Sx\S</string>
+			<string id="flua_string_2">Ratio:\S</string>
 		</strings>
 	</header>
 	<code>
@@ -227,6 +228,7 @@
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
 		<function depth="0" id="37">
+			<name>getScreenWidth</name>
 			<parameters>
 				<parameter>
 					<assign>
@@ -239,7 +241,6 @@
 					</assign>
 				</parameter>
 			</parameters>
-			<name>getScreenWidth</name>
 			<code>
 				<return depth="1" id="38">
 					<call>
@@ -257,6 +258,7 @@
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
 		<function depth="0" id="39">
+			<name>getScreenHeight</name>
 			<parameters>
 				<parameter>
 					<assign>
@@ -269,7 +271,6 @@
 					</assign>
 				</parameter>
 			</parameters>
-			<name>getScreenHeight</name>
 			<code>
 				<return depth="1" id="40">
 					<call>
@@ -287,6 +288,7 @@
 		</function>
 		<comment>\SReturns\Swidth\Sdivided\Sby\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
 		<function depth="0" id="41">
+			<name>getScreenRatio</name>
 			<parameters>
 				<parameter>
 					<assign>
@@ -299,7 +301,6 @@
 					</assign>
 				</parameter>
 			</parameters>
-			<name>getScreenRatio</name>
 			<code>
 				<return depth="1" id="42">
 					<divide>
@@ -326,10 +327,10 @@
 		</function>
 		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
 		<function depth="0" id="43">
+			<name>setVSync</name>
 			<parameters>
 				<parameter>enabled</parameter>
 			</parameters>
-			<name>setVSync</name>
 			<code>
 				<call depth="1" id="44">
 					<function>
@@ -347,6 +348,7 @@
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#key\Sis\Sbeing\Spressed,\Sfalse\Sotherwise</comment>
 		<function depth="0" id="45">
+			<name>isKeyDown</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -355,7 +357,6 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>isKeyDown</name>
 			<code>
 				<return depth="1" id="46">
 					<call>
@@ -437,10 +438,15 @@
 					<function>print</function>
 					<parameters>
 						<parameter>
-							<call>
-								<function>getScreenRatio</function>
-								<parameters/>
-							</call>
+							<add>
+								<value>flua_string_2</value>
+								<value>
+									<call>
+										<function>getScreenRatio</function>
+										<parameters/>
+									</call>
+								</value>
+							</add>
 						</parameter>
 					</parameters>
 				</call>
