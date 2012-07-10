@@ -200,14 +200,14 @@ class Startup:
 		self.metaDataViewDock.hide()
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
+		self.dependenciesViewDock.hide()
 		#self.chatViewDock.hide()
 		
 		#self.msgViewDock.hide()
 		
 		#self.xmlViewDock.show()
 		
-		if not self.developerFlag:
-			self.dependenciesViewDock.hide()
+		if not self.config.developerMode:
 			self.xmlViewDock.hide()
 			self.consoleDock.hide()
 		

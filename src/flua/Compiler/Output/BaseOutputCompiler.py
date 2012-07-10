@@ -79,6 +79,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.customThreads = dict()
 		self.functionsAsPointers = dict()
 		self.functionPointerCalls = dict()
+		self.loopStack = list()
 		
 		self.guiCallBack = guiCallBack
 		self.hasExternCache = False

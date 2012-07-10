@@ -322,7 +322,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		if parent.tagName in {"for", "while"}:
 			return "continue"
 		elif parent.tagName == "foreach":
-			return "goto _continue_point_%d" % self.loopStack[-1]
+			return "goto _continue_point_%d" % self.compiler.loopStack[-1]
 		else:
 			raise CompilerException("Can't determine loop type in 'continue' statement")
 	

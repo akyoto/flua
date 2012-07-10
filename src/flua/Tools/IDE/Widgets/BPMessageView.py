@@ -147,7 +147,7 @@ class BPMessageView(QtGui.QListWidget):
 			
 			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 			
-			if not self.bpIDE.developerFlag:
+			if not self.bpIDE.config.developerMode:
 				self.bpIDE.consoleDock.hide()
 		
 		self.updateView()

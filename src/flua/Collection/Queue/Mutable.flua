@@ -14,6 +14,7 @@
 				<template depth="1" id="2">
 					<parameter depth="2" id="3">TDataType</parameter>
 				</template>
+				<comment>\SInitializes\Sa\Squeue</comment>
 				<function depth="1" id="4">
 					<name>init</name>
 					<code>
@@ -41,10 +42,10 @@
 				</function>
 				<comment>\SAdds\Sthe\Selement\S#x\Sto\Sthe\Squeue</comment>
 				<function depth="1" id="6">
+					<name>add</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>add</name>
 					<code>
 						<call depth="2" id="7">
 							<function>
@@ -88,6 +89,7 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SReturns\Strue\Sif\Sthe\Squeue\Shas\Sat\Sleast\Sone\Selement</comment>
 				<function depth="1" id="10">
 					<name>hasElements</name>
 					<code>
@@ -110,14 +112,65 @@
 					</code>
 					<meta/>
 				</function>
+				<iterators depth="1" id="12">
+					<iterator-type depth="2" id="13">
+						<name>default</name>
+						<code>
+							<foreach depth="3" id="14">
+								<iterator>element</iterator>
+								<collection>
+									<access>
+										<value>my</value>
+										<value>list</value>
+									</access>
+								</collection>
+								<code>
+									<yield depth="4" id="15">element</yield>
+								</code>
+							</foreach>
+						</code>
+					</iterator-type>
+					<iterator-type depth="2" id="16">
+						<name>takeAll</name>
+						<code>
+							<while depth="3" id="17">
+								<condition>
+									<call>
+										<function>
+											<access>
+												<value>my</value>
+												<value>hasElements</value>
+											</access>
+										</function>
+										<parameters/>
+									</call>
+								</condition>
+								<code>
+									<yield depth="4" id="18">
+										<call>
+											<function>
+												<access>
+													<value>my</value>
+													<value>takeFirst</value>
+												</access>
+											</function>
+											<parameters/>
+										</call>
+									</yield>
+								</code>
+							</while>
+						</code>
+					</iterator-type>
+				</iterators>
 			</code>
 			<meta>
 				<default-class-version>true</default-class-version>
 			</meta>
 		</class>
-		<test depth="0" id="12">
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="19">
 			<code>
-				<assign depth="1" id="13">
+				<assign depth="1" id="20">
 					<value>q</value>
 					<value>
 						<new>
@@ -131,22 +184,22 @@
 						</new>
 					</value>
 				</assign>
-				<on depth="1" id="14">
+				<on depth="1" id="21">
 					<expression>q</expression>
 					<code>
-						<call depth="2" id="15">
+						<call depth="2" id="22">
 							<function>add</function>
 							<parameters>
 								<parameter>1</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="16">
+						<call depth="2" id="23">
 							<function>add</function>
 							<parameters>
 								<parameter>2</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="17">
+						<call depth="2" id="24">
 							<function>add</function>
 							<parameters>
 								<parameter>3</parameter>
@@ -154,30 +207,18 @@
 						</call>
 					</code>
 				</on>
-				<while depth="1" id="18">
-					<condition>
-						<call>
-							<function>
-								<access>
-									<value>q</value>
-									<value>hasElements</value>
-								</access>
-							</function>
-							<parameters/>
-						</call>
-					</condition>
+				<foreach depth="1" id="25">
+					<iterator>x</iterator>
+					<collection>q</collection>
 					<code>
-						<call depth="2" id="19">
-							<function>
-								<access>
-									<value>q</value>
-									<value>pop</value>
-								</access>
-							</function>
-							<parameters/>
+						<call depth="2" id="26">
+							<function>print</function>
+							<parameters>
+								<parameter>x</parameter>
+							</parameters>
 						</call>
 					</code>
-				</while>
+				</foreach>
 			</code>
 		</test>
 	</code>

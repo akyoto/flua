@@ -413,11 +413,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			#"<→" : "↔",
 		}
 		
-		self.autoSuggestion = True
-		self.autoSuggestionMinChars = 4
+		self.autoSuggestion = self.bpIDE.config.autoSuggestionEnabled
+		self.autoSuggestionMinChars = self.bpIDE.config.autoSuggestionMinChars
 		#self.autoSuggestionTypedChars = 3
-		self.autoSuggestionMinCompleteChars = 2
-		self.autoSuggestionMaxItemCount = 3
+		self.autoSuggestionMinCompleteChars = self.bpIDE.config.autoSuggestionMinCompleteChars
+		self.autoSuggestionMaxItemCount = self.bpIDE.config.autoSuggestionMaxItemCount
 		
 		self.enableACInstant = True
 		
@@ -501,6 +501,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"public",
 			"on",
 			"interface",
+			"iterator",
 			
 			# A dirty hack so that C++ gets some auto indent
 			'inline',
@@ -681,7 +682,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTextCursor(tc)
 	
 	def mousePressEvent(self, event):
-		if not self.bpIDE.developerFlag:
+		if not self.bpIDE.config.developerMode:
 			self.bpIDE.consoleDock.hide()
 			self.bpIDE.searchResults.hide()
 		
@@ -902,26 +903,24 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		super().focusInEvent(event)
 	
 	def keyPressEvent(self, event, dontAutoComplete = False):
-		if self.bpIDE.codeEdit is None:
-			return
+		#if self.bpIDE.codeEdit is None:
+		#	return
 		
-		# Auto Complete
-		isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier and event.key() == QtCore.Qt.Key_Space)
+		# Ctrl + Mouse click
+		eventModifiers = event.modifiers()
+		eventKey = event.key()
+		
+		if eventModifiers == QtCore.Qt.ControlModifier:
+			self.bpIDE.ctrlPressed = True
+			self.setMouseTracking(True)
 		
 		if self.completer:
 			popup = self.completer.popup()
 		else:
 			popup = None
 		
-		# Ctrl + Mouse click
-		if event.modifiers() == QtCore.Qt.ControlModifier:
-			self.bpIDE.ctrlPressed = True
-			self.setMouseTracking(True)
-		elif event.key() == QtCore.Qt.Key_Escape and not self.bpIDE.developerFlag:
-			self.bpIDE.consoleDock.hide()
-			self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-			popup.hide()
-			return
+		# Auto Complete
+		isShortcut = (eventModifiers == QtCore.Qt.ControlModifier and eventKey == QtCore.Qt.Key_Space)
 		
 		# Auto Complete
 		if 		(
@@ -931,7 +930,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					(self.autoSuggestion or isShortcut or (popup and popup.isVisible()))
 				):
 			# Ignore certain keys for the editor when AC is open
-			eventKey = event.key()
 			if popup.isVisible() and eventKey in (
 					QtCore.Qt.Key_Enter,
 					QtCore.Qt.Key_Return,
@@ -942,7 +940,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				
 				# Escape disables AC
 				if eventKey == QtCore.Qt.Key_Escape:
+					if not self.bpIDE.config.developerMode:
+						self.bpIDE.consoleDock.hide()
+					
 					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+					popup.hide()
 				
 				event.ignore()
 				return

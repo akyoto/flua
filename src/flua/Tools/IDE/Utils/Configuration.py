@@ -139,8 +139,15 @@ class BPConfiguration:
 			self.defaultParser.readfp(inStream)
 		
 		self.gcMemoryThreshold = self.getInt("Application", "GCMemoryThreshold")
+		self.developerMode = self.getBool("Application", "DeveloperMode")
+		
 		self.updateInterval = self.getInt("Parser", "UpdateInterval")
 		self.compilerUpdateInterval = self.getInt("Compiler", "UpdateInterval")
+		
+		self.autoSuggestionEnabled = self.getBool("AutoSuggestion", "Enabled")
+		self.autoSuggestionMinChars = self.getInt("AutoSuggestion", "MinChars")
+		self.autoSuggestionMinCompleteChars = self.getInt("AutoSuggestion", "MinCompleteChars")
+		self.autoSuggestionMaxItemCount = self.getInt("AutoSuggestion", "MaxItemCount")
 		
 		self.editorFontFamily = self.get(editorConfig, "FontFamily")
 		self.editorFontSize = self.getInt(editorConfig, "FontSize")

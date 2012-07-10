@@ -30,10 +30,10 @@
 		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
 		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread:</comment>
 		<function depth="0" id="1">
+			<name>func</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>func</name>
 			<code>
 				<call depth="1" id="2">
 					<function>sleep</function>

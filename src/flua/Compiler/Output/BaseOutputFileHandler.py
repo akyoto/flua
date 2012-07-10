@@ -894,6 +894,11 @@ class BaseOutputFileHandler:
 		if collExprType in nonPointerClasses:
 			raise CompilerException("„%s“ is a value of type „%s“ and does not have a default iterator" % (nodeToBPC(collExprNode), collExprType))
 		
+		# Push loop ID on the stack
+		#print("Push " + str(localForVarCounter))
+		self.compiler.loopStack.append(localForVarCounter)
+		self.compiler.forVarCounter += 1
+		
 		# Implement the iterator
 		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, paramTypes)
 		
@@ -928,16 +933,10 @@ class BaseOutputFileHandler:
 			counterVarName = ""
 			counterTypeInit = ""
 		
-		self.compiler.forVarCounter += 1
-		
-		# Push loop ID on the stack
-		#print("Push " + str(localForVarCounter))
-		self.loopStack.append(localForVarCounter)
-		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		
 		# Remove last loop ID from the stack
-		self.loopStack.pop()
+		self.compiler.loopStack.pop()
 		
 		# Save scope
 		#self.debugScopes()
@@ -955,7 +954,7 @@ class BaseOutputFileHandler:
 		
 		# TODO: Generic
 		tabs = "\t" * self.currentTabLevel
-		iterImplCode = iteratorImpl.getCode()
+		iterImplCode = iteratorImpl.getCode().replace("_continue_point_", "_continue_point_%d_" % localForVarCounter)
 		
 		#if self.outputEnabled:
 		resultingCode = self.buildForEachLoop(

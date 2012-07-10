@@ -54,7 +54,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				
 				self.lastException = None
 		except OutputCompilerException as e:
-			if self.bpIDE.developerFlag:
+			if self.bpIDE.config.developerMode:
 				printTraceback()
 			else:
 				self.lastException = e

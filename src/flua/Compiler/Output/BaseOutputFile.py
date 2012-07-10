@@ -80,7 +80,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.dependencies = getElementByTagName(self.headerNode, "dependencies")
 		self.strings = getElementByTagName(self.headerNode, "strings")
 		self.stringsAsBytes = dict()
-		self.loopStack = list()
 		
 		# Local
 		self.localClasses = []
@@ -887,18 +886,24 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			else:
 				return getHeavierOperator(operatorType1, operatorType2)
 		else:
-			operatorType1 = removeUnmanaged(operatorType1)
-			operatorType2 = removeUnmanaged(operatorType2)
+			operatorType1 = operatorType1.replace("~", "")
+			operatorType2 = operatorType2.replace("~", "")
 			
+			# First operator
 			if operatorType1.startswith("MemPointer"):
 				if operation == "index":
 					return operatorType1[len("MemPointer<"):-1]
+				
 				if operatorType2.startswith("MemPointer"):
 					if operation == "subtract":
 						return "Size"
+				
 				if operation == "add" or operation == "subtract":
 					return operatorType1
+				
 				return self.getCombinationResult(operation, "Size", operatorType2)
+			
+			# 2nd operator
 			if operatorType2.startswith("MemPointer"):
 				return self.getCombinationResult(operation, operatorType1, "Size")
 			
@@ -909,9 +914,16 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				impl = self.implementFunction(operatorType1, "[]", [operatorType2])
 				return impl.getReturnType()
 			
-			custom = self.implementFunction(operatorType1, correctOperatorsTagName(operation), [operatorType2])
-			if custom:
-				return custom.getReturnType()
+			memberFunc = correctOperatorsTagName(operation)
+			op1ClassName = extractClassName(operatorType1)
+			
+			if self.getClass(op1ClassName).hasFunction(memberFunc):
+				custom = self.implementFunction(operatorType1, memberFunc, [operatorType2])
+				if custom:
+					return custom.getReturnType()
+			# Operators == and != are automatically defined
+			elif operation == "equal" or operation == "not-equal":
+				return "Bool"
 			
 			raise CompilerException("Could not find an operator for the operation: " + operation + " " + operatorType1 + " " + operatorType2)
 	
