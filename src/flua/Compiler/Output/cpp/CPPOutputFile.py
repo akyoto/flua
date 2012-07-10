@@ -286,11 +286,12 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		# Fix member names
 		for member in classImpl.members.values():
-			old = "%s->%s" % (collExpr, member.name)
-			new = "%s->_%s" % (collExpr, member.name)
-			
-			#debug("Replacing „%s“ with „%s“" % (old, new))
-			iterImplCode = iterImplCode.replace(old, new)
+			iterImplCode = self.addMemberPrefix(iterImplCode, member.name, collExpr)
+		#	old = "%s->%s" % (collExpr, member.name)
+		#	new = "%s->_%s" % (collExpr, member.name)
+		#	
+		#	#debug("Replacing „%s“ with „%s“" % (old, new))
+		#	iterImplCode = iterImplCode.replace(old, new)
 		
 		# Because we love hardcoding. We're removing the '\n' and ';' here.
 		code = code[:-2]
@@ -608,7 +609,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					for member in classImpl.members.values():
 						#print(member.name + " is of type " + member.type
 						#if not member.name in writtenMembers:
-						code = code.replace("this->" + member.name, "this->_" + member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
+						code = self.addMemberPrefix(code, member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
 						writtenMembers[member.name] = True
 					
 					# ClassObj public members

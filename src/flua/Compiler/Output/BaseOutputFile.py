@@ -1274,6 +1274,29 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		return ''.join(lines)
 	
+	def addMemberPrefix(self, code, name, myself = ""):
+		if not myself:
+			myself = self.myself
+		
+		pos = 0
+		old = "%s->%s" % (myself, name)
+		oldLen = len(old)
+		
+		new = "%s->_%s" % (myself, name)
+		newLen = len(new)
+		
+		while 1:
+			pos = code.find(old, pos)
+			
+			if pos == -1:
+				return code
+			
+			if code[pos + oldLen].isalnum() or code[pos + oldLen] == "_":
+				pos += oldLen
+			else:
+				code = "%s%s%s" % (code[:pos], new, code[pos + oldLen:])
+				pos += newLen
+	
 	def parseExpr(self, node, keepUnmanagedSign = True):
 		# Set last node for debugging purposes
 		#self.lastParsedNode.append(node)
@@ -1368,7 +1391,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						#print("=FUNCTION")
 						return "_FP_" + nodeName
 				
-				# Iterator variables need to be prefixed
 				#if self.currentFunction:
 				#	print(self.inIterator)
 				#	print(self.currentFunction.isIterator)
@@ -1376,11 +1398,19 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				#	print(self.varInLocalScope(nodeName))
 				#	print(isNot2ndAccessNode(node))
 				
-				if self.inIterator and self.currentFunction and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
-					#print("parseExpr: " + nodeName)
-					#print(self.currentClassImpl.members)
-					#print("=ITER")
-					return "_flua_iter_" + nodeName
+				# Iterator variables need to be prefixed
+				if self.inIterator and self.currentFunction and self.currentFunction.isIterator:
+					#if nodeName in self.currentClassImpl.members:
+						#print(nodeName)
+						#print(self.currentClassImpl.members)
+						
+					#	return "_" + nodeName
+					
+					if self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
+						#print("parseExpr: " + nodeName)
+						#print(self.currentClassImpl.members)
+						#print("=ITER")
+						return "_flua_iter_" + nodeName
 				
 				#print("=MORE THAN NORMAL")
 				return nodeName
