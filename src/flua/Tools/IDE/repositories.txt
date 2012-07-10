@@ -1,2 +1,2 @@
 blitzprog/flua
-blitzprog/eurbach
+blitzprog/flua-tests

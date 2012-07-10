@@ -84,8 +84,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.modDeleteAction.triggered.connect(self.deleteModule)
 		
 		self.repoNewAction = QtGui.QAction(
-			QtGui.QIcon(getIDERoot() + "images/icons/actions/contact-new.png"),
-			"New company / organization / author",
+			QtGui.QIcon(getIDERoot() + "images/icons/mimetypes/package-x-generic.png"),
+			"New repository",
 			self)
 		self.repoNewAction.triggered.connect(self.newRepository)
 		
@@ -185,12 +185,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	# Create new repository
 	def newRepository(self, ignored):
 		name = self.bpIDE.askText(
-			"Please enter your name or the name of your company / organization:",
+			"Please enter the name of your repository:",
 			"""The name can <b>only contain lowercase letters</b>, think of it as a <b>tag</b> and use a short name. <br/>
-			Your work will be published under that tag. <br/>
-			If you are a single author publishing his modules we recommend you to use the first letter of<br/>
-			your first name and your second name, e.g. if your name is <b>Johnny Depp</b> your tag should be <b>jdepp</b>.<br/>
-			This is also the name which will appear in the global repository list if you decide to publish it.""",
+			This is the name which will appear in the global repository list if you decide to publish it.""",
 			title = "New repository"
 		)
 		

@@ -86,8 +86,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.backgroundCompileIsUpToDate = False
 		self.lastRunOptions = []
 		self.dockShortcuts = ["A", "S", "D", "F", "Y", "X", "C", "V", "G", "B"]	# TODO: Internationalization
-		self.activeRepositoryIcon = QtGui.QIcon("images/icons/docks/modules.png")
-		self.inactiveRepositoryIcon = QtGui.QIcon("images/icons/docks/modules-inactive.png")
+		self.activeRepositoryIcon = QtGui.QIcon("images/icons/repo-browser/repository.png")
+		self.inactiveRepositoryIcon = QtGui.QIcon("images/icons/repo-browser/repository-inactive.png")
 		#self.networkMgr = QtNetwork.QNetworkAccessManager(self)
 		
 		# AC
