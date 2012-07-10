@@ -559,6 +559,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		uiFileName = "preferences/" + name.replace(" - ", ".").lower()
 		
 		widget, existed = self.getUIFromCache(uiFileName)
+		
+		# Update values
+		self.config.updatePreferencesWidget(uiFileName, widget)
+		
 		if not existed:
 			self.config.initPreferencesWidget(uiFileName, widget)
 		

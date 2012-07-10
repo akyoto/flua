@@ -5,7 +5,6 @@
 			<import>flua.Core</import>
 			<import>flua.Core.String</import>
 			<import>flua.Core.Memory</import>
-			<import>flua.Math</import>
 		</dependencies>
 		<strings>
 			<string as-byte="true" id="flua_string_0">\S</string>
@@ -2444,7 +2443,6 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<iterators depth="1" id="188">
 					<iterator-type depth="2" id="189">

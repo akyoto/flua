@@ -6,8 +6,6 @@ from queue import Queue, Empty
 from PyQt4 import QtGui
 from flua.Compiler.Config import *
 
-ON_POSIX = 'posix' in sys.builtin_module_names
-
 def startProcess(cmd, fhOut, fhErr, thread = None, bytewise = False):
 	#fhOut = sys.stdout.write
 	#fhErr = sys.stderr.write

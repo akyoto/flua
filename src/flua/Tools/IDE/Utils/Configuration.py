@@ -281,21 +281,29 @@ class BPConfiguration:
 		
 	def initPreferencesWidget(self, uiFileName, widget):
 		if uiFileName == "preferences/editor":
-			widget.fontFamily.setCurrentFont(self.monospaceFont)
-			widget.fontSize.setValue(self.editorFontSize)
-			widget.tabWidth.setValue(self.tabWidth)
-			
-			#widget.fontFamily.connect()
 			widget.fontFamily.currentFontChanged.connect(self.applyEditorFontFamily)
 			widget.fontSize.valueChanged.connect(self.applyEditorFontSize)
 			widget.tabWidth.valueChanged.connect(self.applyTabWidth)
 		elif uiFileName == "preferences/editor.theme":
+			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
+			
+	def updatePreferencesWidget(self, uiFileName, widget):
+		if uiFileName == "preferences/editor":
+			widget.fontFamily.setCurrentFont(self.monospaceFont)
+			widget.fontSize.setValue(self.editorFontSize)
+			widget.tabWidth.setValue(self.tabWidth)
+		elif uiFileName == "preferences/editor.theme":
 			self.themeWidget = widget.themeName
 			self.themeWidget.setCurrentIndex(self.themeName == "Dark")
-			self.themeWidget.currentIndexChanged.connect(self.applyTheme)
+		elif uiFileName == "preferences/editor.performance":
+			widget.parserInterval.setValue(self.updateInterval)
+			widget.compilerInterval.setValue(self.compilerUpdateInterval)
+			widget.gcMemThreshold.setValue(self.gcMemoryThreshold)
 		elif uiFileName == "preferences/targets.c++":
 			widget.compilerName.setText(getGCCCompilerName())
 			widget.compilerPath.setText(getGCCCompilerPath())
 			widget.compilerVersion.setText(getGCCCompilerVersion())
-			#self.themeWidget = widget.themeName
-			#self.themeWidget.currentIndexChanged.connect(self.applyTheme)
+		elif uiFileName == "preferences/targets.python":
+			widget.compilerName.setText(getPython3CompilerName())
+			widget.compilerPath.setText(getPython3Path())
+			widget.compilerVersion.setText(getPython3Version())

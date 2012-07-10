@@ -25,28 +25,6 @@
      <item>
       <layout class="QVBoxLayout" name="leftLayout">
        <item>
-        <widget class="QLineEdit" name="filter">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>170</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>170</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QTreeWidget" name="settings">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -120,6 +98,14 @@
            </property>
            <property name="toolTip">
             <string>Editor - Theme</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Performance</string>
+           </property>
+           <property name="toolTip">
+            <string>Editor - Performance</string>
            </property>
           </item>
          </item>

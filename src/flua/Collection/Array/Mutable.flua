@@ -21,6 +21,7 @@
 					<parameter depth="2" id="5">TDataType</parameter>
 				</template>
 				<function depth="1" id="6">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -29,7 +30,6 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<assign depth="2" id="7">
 							<value>
@@ -66,6 +66,7 @@
 							<value>size</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="9">
 					<name>finalize</name>
@@ -85,9 +86,11 @@
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\STODO:\SFix\Sthis</comment>
 				<function depth="1" id="11">
+					<name>resize</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -96,7 +99,6 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>resize</name>
 					<code>
 						<assign depth="2" id="12">
 							<value>newMem</value>
@@ -255,10 +257,10 @@
 				<operators depth="1" id="24">
 					<comment>\SRetrieve\Sthe\Svalue\Sfrom\Sthe\Sarray\Sfor\Sthe\Sgiven\S#index</comment>
 					<operator depth="2" id="25">
+						<name>[]</name>
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
-						<name>[]</name>
 						<code>
 							<require depth="3" id="26">
 								<greater-or-equal depth="4" id="27">
@@ -290,11 +292,11 @@
 					</operator>
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
 					<operator depth="2" id="30">
+						<name>[]=</name>
 						<parameters>
 							<parameter>index</parameter>
 							<parameter>value</parameter>
 						</parameters>
-						<name>[]=</name>
 						<code>
 							<require depth="3" id="31">
 								<greater-or-equal depth="4" id="32">
@@ -433,6 +435,7 @@
 			<code>
 				<comment>\SInit\Sfrom\Sbyte\Sarray</comment>
 				<function depth="1" id="54">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -446,7 +449,6 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<assign depth="2" id="55">
 							<value>
@@ -538,7 +540,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 			</code>
 		</class>

@@ -198,7 +198,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReserves\Sspace\Sfor\S#newSize\Selements</comment>
 				<function depth="1" id="18">
@@ -311,7 +310,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function depth="1" id="26">
@@ -322,7 +320,6 @@
 					<code>
 						<noop depth="2" id="27"/>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Svector</comment>
 				<function depth="1" id="28">
@@ -462,7 +459,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Slast\Selement\Sfrom\Sthe\Svector</comment>
 				<function depth="1" id="39">
@@ -489,7 +485,6 @@
 							<value>1</value>
 						</assign-subtract>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Sfirst\Selement\Sfrom\Sthe\Svector\Sand\Sreturns\Sit</comment>
 				<function depth="1" id="43">
@@ -644,7 +639,6 @@
 						</assign>
 						<return depth="2" id="55">val</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Slast\Selement\Sfrom\Sthe\Svector\Sand\Sreturns\Sit</comment>
 				<function depth="1" id="56">
@@ -687,7 +681,6 @@
 							</access>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReverses\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function depth="1" id="61">
@@ -762,7 +755,6 @@
 							</code>
 						</while>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SAdds\San\S#element\Sinbetween\Stwo\Ssuccessive\Selements</comment>
 				<function depth="1" id="68">
@@ -894,7 +886,6 @@
 									<value>element</value>
 								</assign>
 							</code>
-							<meta/>
 						</for>
 						<assign depth="2" id="77">
 							<value>
@@ -944,7 +935,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sis\Sempty</comment>
 				<function depth="1" id="80">
@@ -967,7 +957,6 @@
 							</equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sis\Snot\Sempty</comment>
 				<function depth="1" id="82">
@@ -990,7 +979,6 @@
 							</not-equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sstarts\Swith\Sthe\Sgiven\S#element</comment>
 				<function depth="1" id="84">
@@ -1027,7 +1015,6 @@
 							</equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sends\Swith\Sthe\Sgiven\S#element</comment>
 				<function depth="1" id="88">
@@ -1069,7 +1056,6 @@
 							</equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SAdds\S#element\Sto\Sthe\Svector\Sat\Sthe\Sbeginning\Sand\Sat\Sthe\Send</comment>
 				<function depth="1" id="92">
@@ -1228,7 +1214,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Svector\Sstarts\Sand\Sends\Swith\S#element</comment>
 				<function depth="1" id="102">
@@ -1268,7 +1253,6 @@
 							</and>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<operators depth="1" id="104">
 					<comment>\SRetrieves\Sthe\Selement\Sat\Sposition\S#index</comment>

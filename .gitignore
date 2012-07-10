@@ -17,5 +17,5 @@ src/playground/*
 include/cpp/musl/*
 include/cpp/boost/*
 libs/cpp/linux/x86/musl-*
-src/eurbach/
+src/flua-tests/
 .notepad++

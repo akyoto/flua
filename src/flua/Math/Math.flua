@@ -234,18 +234,8 @@
 		<function depth="0" id="31">
 			<name>rand</name>
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>a</value>
-						<value>Int</value>
-					</declare-type>
-				</parameter>
-				<parameter>
-					<declare-type>
-						<value>b</value>
-						<value>Int</value>
-					</declare-type>
-				</parameter>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
 			</parameters>
 			<code>
 				<ensure depth="1" id="32">
@@ -273,23 +263,14 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sa\Srandom\SFloat\Sbetween\Sa\Sand\Sb</comment>
 		<function depth="0" id="36">
 			<name>randFloat</name>
 			<parameters>
-				<parameter>
-					<declare-type>
-						<value>a</value>
-						<value>Float</value>
-					</declare-type>
-				</parameter>
-				<parameter>
-					<declare-type>
-						<value>b</value>
-						<value>Float</value>
-					</declare-type>
-				</parameter>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
 			</parameters>
 			<code>
 				<ensure depth="1" id="37">
@@ -317,6 +298,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SSets\Sa\Snew\S#seed\Sfor\Srandom\Snumbers</comment>
 		<function depth="0" id="41">
@@ -359,7 +341,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Slargest\Sintegral\Svalue\Sthat\Sis\Snot\Sgreater\Sthan\S#x</comment>
 		<function depth="0" id="45">
@@ -428,71 +409,16 @@
 					</call>
 				</return>
 			</code>
-		</function>
-		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
-		<function depth="0" id="51">
-			<name>min</name>
-			<parameters>
-				<parameter>a</parameter>
-				<parameter>b</parameter>
-			</parameters>
-			<code>
-				<if-block depth="1" id="52">
-					<if>
-						<condition>
-							<less>
-								<value>a</value>
-								<value>b</value>
-							</less>
-						</condition>
-						<code>
-							<return depth="2" id="53">a</return>
-						</code>
-					</if>
-					<else depth="1" id="54">
-						<code>
-							<return depth="2" id="55">b</return>
-						</code>
-					</else>
-				</if-block>
-			</code>
-		</function>
-		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="56">
-			<name>max</name>
-			<parameters>
-				<parameter>a</parameter>
-				<parameter>b</parameter>
-			</parameters>
-			<code>
-				<if-block depth="1" id="57">
-					<if>
-						<condition>
-							<greater>
-								<value>a</value>
-								<value>b</value>
-							</greater>
-						</condition>
-						<code>
-							<return depth="2" id="58">a</return>
-						</code>
-					</if>
-					<else depth="1" id="59">
-						<code>
-							<return depth="2" id="60">b</return>
-						</code>
-					</else>
-				</if-block>
-			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Se\S(Euler's\Snumber,\S2.7182818)\Sraised\Sto\Sthe\Sgiven\Spower\S#x</comment>
-		<function depth="0" id="61">
+		<function depth="0" id="51">
 			<name>ePow</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="62">
+				<return depth="1" id="52">
 					<call>
 						<function>
 							<access>
@@ -508,9 +434,9 @@
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="63">
+		<test depth="0" id="53">
 			<code>
-				<call depth="1" id="64">
+				<call depth="1" id="54">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -523,7 +449,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="65">
+				<call depth="1" id="55">
 					<function>print</function>
 					<parameters>
 						<parameter>

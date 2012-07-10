@@ -43,6 +43,7 @@ enableOperatorOverloading = {
 	"subtract",
 	"multiply",
 	"divide",
+	
 	"equal",
 	"not-equal",
 	
@@ -57,7 +58,7 @@ replacedNodeValues = {
 	"do" : "flua__do",
 	"char" : "flua__char",
 	"int" : "flua__int",
-	"bool" : "flua_bool",
+	"bool" : "flua__bool",
 }
 
 ####################################################################
@@ -1274,29 +1275,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		return ''.join(lines)
 	
-	def addMemberPrefix(self, code, name, myself = ""):
-		if not myself:
-			myself = self.myself
-		
-		pos = 0
-		old = "%s->%s" % (myself, name)
-		oldLen = len(old)
-		
-		new = "%s->_%s" % (myself, name)
-		newLen = len(new)
-		
-		while 1:
-			pos = code.find(old, pos)
-			
-			if pos == -1:
-				return code
-			
-			if code[pos + oldLen].isalnum() or code[pos + oldLen] == "_":
-				pos += oldLen
-			else:
-				code = "%s%s%s" % (code[:pos], new, code[pos + oldLen:])
-				pos += newLen
-	
 	def parseExpr(self, node, keepUnmanagedSign = True):
 		# Set last node for debugging purposes
 		#self.lastParsedNode.append(node)
@@ -1879,6 +1857,29 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			paramsString += ", ".join(paramDefaultValues[paramTypesLen:paramDefaultValuesLen])
 		
 		return paramTypes, paramsString
+	
+	def addMemberPrefix(self, code, name, myself = ""):
+		if not myself:
+			myself = self.myself
+		
+		pos = 0
+		old = "%s->%s" % (myself, name)
+		oldLen = len(old)
+		
+		new = "%s->_%s" % (myself, name)
+		newLen = len(new)
+		
+		while 1:
+			pos = code.find(old, pos)
+			
+			if pos == -1:
+				return code
+			
+			if code[pos + oldLen].isalnum() or code[pos + oldLen] == "_":
+				pos += oldLen
+			else:
+				code = "%s%s%s" % (code[:pos], new, code[pos + oldLen:])
+				pos += newLen
 	
 	def isInvalidType(self, typeNode):
 		return (typeNode.nodeType != Node.TEXT_NODE) and (not typeNode.tagName in {"template-call", "unmanaged"})

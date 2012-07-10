@@ -6,6 +6,9 @@ import os
 import sys
 import shutil
 
+# New origin:
+# git remote set-url --push origin <newurl>
+
 class BPModuleViewModel(QtGui.QStandardItemModel):
 	
 	def __init__(self, parent = None):

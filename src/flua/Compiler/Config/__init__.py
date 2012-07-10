@@ -1,9 +1,25 @@
 from flua.Compiler.Utils import *
+import subprocess
 
 # Configuration
 buildAndExecute = 1
 buildGraphViz = 0
 configScriptPath = extractDir(os.path.realpath(__file__))
+
+ON_POSIX = 'posix' in sys.builtin_module_names
+
+def getFirstLineFromProcess(cmd):
+	proc = subprocess.Popen(
+		cmd,
+		stdout = subprocess.PIPE,
+		stderr = subprocess.PIPE,
+		#stdin = subprocess.PIPE,
+		#env = os.environ,
+		#bufsize = 1,
+		close_fds = ON_POSIX
+	)
+	
+	return proc.stdout.readline().decode("utf-8")
 
 def getMinGWDirs():
 	if os.name == "nt":
@@ -45,8 +61,7 @@ def getGCCCompilerName():
 			return "g++"
 	
 def getGCCCompilerVersion():
-	# TODO: ...
-	return ""
+	return getFirstLineFromProcess([getGCCCompilerPath() + getGCCCompilerName(), "--version"])
 	
 def getPython3Path():
 	if os.name == "nt":
@@ -59,6 +74,11 @@ def getPython3CompilerName():
 		return "python.exe"
 	else:
 		return "python3"
+	
+def getPython3Version():
+	outp = getFirstLineFromProcess([getPython3Path() + getPython3CompilerName(), "--version"])
+	print("output: " + outp)
+	return outp
 	
 def isCore(path):
 	return path == getModuleDir() + "flua/Core/Core.flua"

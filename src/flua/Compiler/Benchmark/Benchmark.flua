@@ -34,10 +34,10 @@
 		</target>
 		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion</comment>
 		<function depth="0" id="6">
+			<name>benchAll</name>
 			<parameters>
 				<parameter>para</parameter>
 			</parameters>
-			<name>benchAll</name>
 			<code>
 				<call depth="1" id="7">
 					<function>benchWarmUp</function>

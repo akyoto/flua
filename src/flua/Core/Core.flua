@@ -73,10 +73,10 @@
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
 		<function depth="0" id="13">
+			<name>sleep</name>
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
-			<name>sleep</name>
 			<code>
 				<call depth="1" id="14">
 					<function>
@@ -98,10 +98,10 @@
 		</function>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#us\Smicroseconds</comment>
 		<function depth="0" id="15">
+			<name>sleepMicro</name>
 			<parameters>
 				<parameter>us</parameter>
 			</parameters>
-			<name>sleepMicro</name>
 			<code>
 				<call depth="1" id="16">
 					<function>
@@ -121,10 +121,10 @@
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
 		<function depth="0" id="17">
+			<name>sizeOf</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
-			<name>sizeOf</name>
 			<code>
 				<return depth="1" id="18">
 					<call>
@@ -247,6 +247,7 @@
 		</function>
 		<comment>\SExits\Sthe\Sapplication\Swith\San\Soptional\S#status\Scode</comment>
 		<function depth="0" id="31">
+			<name>exit</name>
 			<parameters>
 				<parameter>
 					<assign>
@@ -255,7 +256,6 @@
 					</assign>
 				</parameter>
 			</parameters>
-			<name>exit</name>
 			<code>
 				<call depth="1" id="32">
 					<function>
@@ -270,6 +270,62 @@
 				</call>
 			</code>
 			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
+		<function depth="0" id="33">
+			<name>min</name>
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<code>
+				<if-block depth="1" id="34">
+					<if>
+						<condition>
+							<less>
+								<value>a</value>
+								<value>b</value>
+							</less>
+						</condition>
+						<code>
+							<return depth="2" id="35">a</return>
+						</code>
+					</if>
+					<else depth="1" id="36">
+						<code>
+							<return depth="2" id="37">b</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
+		<function depth="0" id="38">
+			<name>max</name>
+			<parameters>
+				<parameter>a</parameter>
+				<parameter>b</parameter>
+			</parameters>
+			<code>
+				<if-block depth="1" id="39">
+					<if>
+						<condition>
+							<greater>
+								<value>a</value>
+								<value>b</value>
+							</greater>
+						</condition>
+						<code>
+							<return depth="2" id="40">a</return>
+						</code>
+					</if>
+					<else depth="1" id="41">
+						<code>
+							<return depth="2" id="42">b</return>
+						</code>
+					</else>
+				</if-block>
+			</code>
 		</function>
 	</code>
 </module>
