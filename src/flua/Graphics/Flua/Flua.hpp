@@ -243,6 +243,7 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, bool fullsc
 	flua_onReshape(width, height);
 #endif
 	
+
 	// Mouse
 	glutMotionFunc(flua_onMouseMove);
 	glutPassiveMotionFunc(flua_onMouseMove);
@@ -353,12 +354,18 @@ public:
 	UInt _height;
 };
 
-inline BPTextureInfo *flua_loadTexture(const char* filename, GLenum image_format, GLint internal_format, GLint level, GLint border) {
+inline BPTextureInfo *flua_loadTexture(
+		const char* filename,
+		GLenum image_format,
+		GLint internal_format,
+		GLint level,
+		GLint border
+) {
 	//image format
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 	
 	//pointer to the image, once loaded
-	FIBITMAP *dib(0);
+	FIBITMAP* dib(0);
 	
 	//pointer to the image data
 	BYTE* bits(0);
@@ -414,6 +421,7 @@ inline BPTextureInfo *flua_loadTexture(const char* filename, GLenum image_format
 	gluBuild2DMipmaps(GL_TEXTURE_2D, internal_format, width, height, image_format, GL_UNSIGNED_BYTE, bits);
 	
 	//Free FreeImage's copy of the data
+	// TODO: This needs to work instead of leading to a segfault at the end of the program.
 	#ifndef USING_GC
 		FreeImage_Unload(dib);
 	#endif

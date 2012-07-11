@@ -605,9 +605,16 @@
 											<value>red</value>
 											<value>
 												<call>
-													<function>absSin</function>
+													<function>abs</function>
 													<parameters>
-														<parameter>val</parameter>
+														<parameter>
+															<call>
+																<function>sin</function>
+																<parameters>
+																	<parameter>val</parameter>
+																</parameters>
+															</call>
+														</parameter>
 													</parameters>
 												</call>
 											</value>
@@ -616,13 +623,20 @@
 											<value>green</value>
 											<value>
 												<call>
-													<function>absSin</function>
+													<function>abs</function>
 													<parameters>
 														<parameter>
-															<add>
-																<value>val</value>
-																<value>1</value>
-															</add>
+															<call>
+																<function>sin</function>
+																<parameters>
+																	<parameter>
+																		<add>
+																			<value>val</value>
+																			<value>1</value>
+																		</add>
+																	</parameter>
+																</parameters>
+															</call>
 														</parameter>
 													</parameters>
 												</call>
@@ -632,13 +646,20 @@
 											<value>blue</value>
 											<value>
 												<call>
-													<function>absSin</function>
+													<function>abs</function>
 													<parameters>
 														<parameter>
-															<add>
-																<value>val</value>
-																<value>2</value>
-															</add>
+															<call>
+																<function>sin</function>
+																<parameters>
+																	<parameter>
+																		<add>
+																			<value>val</value>
+																			<value>2</value>
+																		</add>
+																	</parameter>
+																</parameters>
+															</call>
 														</parameter>
 													</parameters>
 												</call>
@@ -648,13 +669,20 @@
 											<value>alpha</value>
 											<value>
 												<call>
-													<function>absSin</function>
+													<function>abs</function>
 													<parameters>
 														<parameter>
-															<add>
-																<value>val</value>
-																<value>3</value>
-															</add>
+															<call>
+																<function>sin</function>
+																<parameters>
+																	<parameter>
+																		<add>
+																			<value>val</value>
+																			<value>3</value>
+																		</add>
+																	</parameter>
+																</parameters>
+															</call>
 														</parameter>
 													</parameters>
 												</call>
@@ -777,29 +805,6 @@
 						</if-block>
 					</code>
 				</while>
-			</code>
-		</function>
-		<function depth="0" id="68">
-			<parameters>
-				<parameter>x</parameter>
-			</parameters>
-			<name>absSin</name>
-			<code>
-				<return depth="1" id="69">
-					<call>
-						<function>abs</function>
-						<parameters>
-							<parameter>
-								<call>
-									<function>sin</function>
-									<parameters>
-										<parameter>x</parameter>
-									</parameters>
-								</call>
-							</parameter>
-						</parameters>
-					</call>
-				</return>
 			</code>
 		</function>
 	</code>

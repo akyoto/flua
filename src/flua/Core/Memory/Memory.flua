@@ -48,64 +48,74 @@
 						<name>gcCollect</name>
 						<meta/>
 					</extern-function>
+					<extern-function depth="2" id="11">
+						<name>gcEnable</name>
+					</extern-function>
+					<extern-function depth="2" id="12">
+						<name>gcDisable</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="13">
+						<name>gcPrintStats</name>
+					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="11">
+			<class depth="1" id="14">
 				<name>MemPointer</name>
 				<code>
-					<template depth="2" id="12">
-						<parameter depth="3" id="13">TDataType</parameter>
+					<template depth="2" id="15">
+						<parameter depth="3" id="16">TDataType</parameter>
 					</template>
-					<function depth="2" id="14">
+					<function depth="2" id="17">
+						<name>init</name>
 						<parameters>
 							<parameter>size</parameter>
 						</parameters>
-						<name>init</name>
 						<code>
-							<noop depth="3" id="15"/>
+							<noop depth="3" id="18"/>
 						</code>
 					</function>
-					<function depth="2" id="16">
+					<function depth="2" id="19">
 						<name>free</name>
 						<code>
-							<noop depth="3" id="17"/>
+							<noop depth="3" id="20"/>
 						</code>
 					</function>
-					<operators depth="2" id="18">
-						<operator depth="3" id="19">
+					<operators depth="2" id="21">
+						<operator depth="3" id="22">
+							<name>[]</name>
 							<parameters>
 								<parameter>index</parameter>
 							</parameters>
-							<name>[]</name>
 							<code>
-								<declare-type depth="4" id="20">
+								<declare-type depth="4" id="23">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return depth="4" id="21">retValue</return>
+								<return depth="4" id="24">retValue</return>
 							</code>
 						</operator>
 					</operators>
-					<set depth="2" id="22">
-						<setter depth="3" id="23">
+					<set depth="2" id="25">
+						<setter depth="3" id="26">
+							<name>data</name>
 							<parameters>
 								<parameter>nValue</parameter>
 							</parameters>
-							<name>data</name>
 							<code>
-								<noop depth="4" id="24"/>
+								<noop depth="4" id="27"/>
 							</code>
 						</setter>
 					</set>
-					<get depth="2" id="25">
-						<getter depth="3" id="26">
+					<get depth="2" id="28">
+						<getter depth="3" id="29">
 							<name>data</name>
 							<code>
-								<declare-type depth="4" id="27">
+								<declare-type depth="4" id="30">
 									<value>retValue</value>
 									<value>TDataType</value>
 								</declare-type>
-								<return depth="4" id="28">retValue</return>
+								<return depth="4" id="31">retValue</return>
 							</code>
 							<meta/>
 						</getter>
@@ -114,15 +124,15 @@
 			</class>
 		</extern>
 		<comment>\SCopies\S#size\Selements\Sfrom\S#source\Sto\S#dest</comment>
-		<function depth="0" id="29">
+		<function depth="0" id="32">
+			<name>copyMem</name>
 			<parameters>
 				<parameter>source</parameter>
 				<parameter>dest</parameter>
 				<parameter>size</parameter>
 			</parameters>
-			<name>copyMem</name>
 			<code>
-				<call depth="1" id="30">
+				<call depth="1" id="33">
 					<function>
 						<access>
 							<value>flua</value>
@@ -140,15 +150,15 @@
 		</function>
 		<comment>\SCompares\S#size\Selements\Sin\S#source\Sand\S#dest\Sand</comment>
 		<comment>\Sreturns\Strue\Sif\Sthey\Sare\Sequal</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="34">
+			<name>compareMem</name>
 			<parameters>
 				<parameter>source</parameter>
 				<parameter>dest</parameter>
 				<parameter>size</parameter>
 			</parameters>
-			<name>compareMem</name>
 			<code>
-				<return depth="1" id="32">
+				<return depth="1" id="35">
 					<call>
 						<function>
 							<access>
@@ -167,15 +177,15 @@
 			<meta/>
 		</function>
 		<comment>\SWrites\S#value\Sto\S#size\Selements\Sin\S#dest</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="36">
+			<name>setMem</name>
 			<parameters>
 				<parameter>dest</parameter>
 				<parameter>value</parameter>
 				<parameter>size</parameter>
 			</parameters>
-			<name>setMem</name>
 			<code>
-				<call depth="1" id="34">
+				<call depth="1" id="37">
 					<function>
 						<access>
 							<value>flua</value>
@@ -193,10 +203,10 @@
 		</function>
 		<comment>\SActivates\Sone\Sgarbage\Scollection\Scycle\Swhich\Sdoes\Snot</comment>
 		<comment>\Sguarantee\Sto\Sfree\Sup\Sunused\Smemory\Simmediately</comment>
-		<function depth="0" id="35">
+		<function depth="0" id="38">
 			<name>gcCollect</name>
 			<code>
-				<call depth="1" id="36">
+				<call depth="1" id="39">
 					<function>
 						<access>
 							<value>flua</value>
@@ -208,17 +218,65 @@
 			</code>
 			<meta/>
 		</function>
+		<comment>\SEnables\Sthe\Sgarbage\Scollector\Sif\Spossible</comment>
+		<function depth="0" id="40">
+			<name>gcEnable</name>
+			<code>
+				<call depth="1" id="41">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>gcEnable</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SDisables\Sthe\Sgarbage\Scollector\Sif\Spossible</comment>
+		<function depth="0" id="42">
+			<name>gcDisable</name>
+			<code>
+				<call depth="1" id="43">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>gcDisable</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SPrints\Ssome\Sgarbage\Scollector\Sstats\Sif\Savailable</comment>
+		<function depth="0" id="44">
+			<name>gcPrintStats</name>
+			<code>
+				<call depth="1" id="45">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>gcPrintStats</value>
+						</access>
+					</function>
+					<parameters/>
+				</call>
+			</code>
+			<meta/>
+		</function>
 		<comment>\SReturns\Sthe\Snext\Spower\Sof\S2\Sfor\S#x.\SThis\Sfunction\Sis\Sin\Sthe</comment>
 		<comment>\Smemory\Ssection\Sbecause\Sit\Sis\Sused\Squite\Soften\Sby\Sdata\Sstructures.</comment>
-		<function depth="0" id="37">
+		<function depth="0" id="46">
+			<name>getNextPowerOf2</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>getNextPowerOf2</name>
 			<code>
-				<test depth="1" id="38">
+				<test depth="1" id="47">
 					<code>
-						<assert depth="2" id="39">
+						<assert depth="2" id="48">
 							<equal>
 								<value>
 									<call>
@@ -231,7 +289,7 @@
 								<value>8</value>
 							</equal>
 						</assert>
-						<assert depth="2" id="40">
+						<assert depth="2" id="49">
 							<equal>
 								<value>
 									<call>
@@ -244,7 +302,7 @@
 								<value>256</value>
 							</equal>
 						</assert>
-						<assert depth="2" id="41">
+						<assert depth="2" id="50">
 							<equal>
 								<value>
 									<call>
@@ -259,11 +317,11 @@
 						</assert>
 					</code>
 				</test>
-				<assign-subtract depth="1" id="42">
+				<assign-subtract depth="1" id="51">
 					<value>x</value>
 					<value>1</value>
 				</assign-subtract>
-				<assign depth="1" id="43">
+				<assign depth="1" id="52">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -277,7 +335,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="44">
+				<assign depth="1" id="53">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -291,7 +349,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="45">
+				<assign depth="1" id="54">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -305,7 +363,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="46">
+				<assign depth="1" id="55">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -319,7 +377,7 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<assign depth="1" id="47">
+				<assign depth="1" id="56">
 					<value>x</value>
 					<value>
 						<bitwise-or>
@@ -333,14 +391,13 @@
 						</bitwise-or>
 					</value>
 				</assign>
-				<return depth="1" id="48">
+				<return depth="1" id="57">
 					<add>
 						<value>x</value>
 						<value>1</value>
 					</add>
 				</return>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

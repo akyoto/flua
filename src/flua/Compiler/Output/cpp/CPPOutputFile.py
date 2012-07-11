@@ -592,8 +592,11 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 								code += "\t" + funcImpl.getFullCode(noPostfix = True) + "\n"
 					
 					# Virtual destructor
-					if classObj.hasOverwrittenFunctions and not destructorWritten:
-						code += "\tvirtual ~BP%s() {};\n" % classObj.name
+					if not destructorWritten:
+						if classObj.hasOverwrittenFunctions:
+							code += "\tvirtual ~BP%s() {};\n" % classObj.name
+						#else:
+						#	code += "\t~BP%s(){std::cout << \"Destroying %s\" << std::endl;};\n" % (classObj.name, classObj.name)
 					
 					# Needed for derived classes
 					if not noParamsConstructorWritten:

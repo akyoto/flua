@@ -6,11 +6,6 @@
 #define BPFunction void
 #define flua_sizeOf sizeof
 
-// gcCollect
-inline void flua_gcCollect() {
-	GC_gcollect();
-}
-
 template <typename T1, typename T2>
 inline void flua_swap(T1 &x, T2 &y) {
 	T1 tmp(x);

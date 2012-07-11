@@ -15,6 +15,26 @@ inline void flua_setMem(TDest *dest, TValue value, const sizeType numElements) {
 	memset(dest, value, numElements * sizeof(TDest));
 }
 
+// gcCollect
+inline void flua_gcCollect() {
+	GC_gcollect();
+}
+
+// gcDisable
+inline void flua_gcDisable() {
+	GC_disable();
+}
+
+// gcEnable
+inline void flua_gcEnable() {
+	GC_enable();
+}
+
+// gcPrintStats
+inline void flua_gcPrintStats() {
+	GC_dump();
+}
+
 /* Old, don't use it.
 template <typename TDataType>
 class BPMemPointer {

@@ -16,5 +16,20 @@
 				</compiler-flags>
 			</code>
 		</target>
+		<extern depth="0" id="5">
+			<namespace depth="1" id="6">
+				<name>FreeImage</name>
+				<code>
+					<extern-function depth="2" id="7">
+						<name>init</name>
+						<meta/>
+					</extern-function>
+					<extern-function depth="2" id="8">
+						<name>exit</name>
+						<meta/>
+					</extern-function>
+				</code>
+			</namespace>
+		</extern>
 	</code>
 </module>

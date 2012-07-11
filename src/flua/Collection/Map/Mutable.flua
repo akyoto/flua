@@ -38,10 +38,10 @@
 		</const>
 		<comment>\SReturns\Sthe\Shashcode\Sfor\S#x</comment>
 		<function depth="0" id="8">
+			<name>hashCode</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>hashCode</name>
 			<code>
 				<return depth="1" id="9">
 					<call>
@@ -74,6 +74,7 @@
 					<parameter depth="2" id="15">TValue</parameter>
 				</template>
 				<function depth="1" id="16">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -87,7 +88,6 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<assign depth="2" id="17">
 							<value>
@@ -180,10 +180,10 @@
 				</function>
 				<comment>\SReserves\Sspace\Sfor\S#newSize\Selements.\S#newSize\Sis\Srequired\Sto\Sbe\Sa\Spower\Sof\S2!</comment>
 				<function depth="1" id="21">
+					<name>reserve</name>
 					<parameters>
 						<parameter>newSize</parameter>
 					</parameters>
-					<name>reserve</name>
 					<code>
 						<assign depth="2" id="22">
 							<value>newTable</value>
@@ -386,6 +386,7 @@
 				<operators depth="1" id="40">
 					<comment>\SRetrieves\Sthe\Ssaved\Svalue\Sfor\S#key\Sfrom\Sthe\Shash\Smap</comment>
 					<operator depth="2" id="41">
+						<name>[]</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -394,7 +395,6 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>[]</name>
 						<code>
 							<assign depth="3" id="42">
 								<value>hash</value>
@@ -525,6 +525,7 @@
 					</operator>
 					<comment>\SCreates\Sa\Snew\S#key\S→\S#value\Spair\Sor\Ssets\Sthe\S#value\Sof\San\Sexisting\S#key</comment>
 					<operator depth="2" id="54">
+						<name>[]=</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -539,7 +540,6 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>[]=</name>
 						<code>
 							<assign depth="3" id="55">
 								<value>hash</value>
