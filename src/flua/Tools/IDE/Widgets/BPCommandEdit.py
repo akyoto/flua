@@ -34,6 +34,12 @@ class BPCommandEdit(QtGui.QLineEdit):
 				cursor.removeSelectedText()
 			else:
 				cursor.deleteChar()
+		elif token == "c":
+				selStart = cursor.selectionStart()
+				selEnd = cursor.selectionEnd()
+				
+				cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
+				cursor.setPosition(selEnd + 1, QtGui.QTextCursor.KeepAnchor)
 		elif token == "w":
 			if cursor.hasSelection():
 				selStart = cursor.selectionStart()

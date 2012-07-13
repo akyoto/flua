@@ -15,6 +15,8 @@
 		<comment>\S\S\S\S\SSelects\Sone\Sword</comment>
 		<comment>\Sl</comment>
 		<comment>\S\S\S\S\SSelects\Sone\Sline</comment>
+		<comment>\Sc</comment>
+		<comment>\S\S\S\S\SSelects\Sone\Scharacter</comment>
 		<comment>\Su</comment>
 		<comment>\S\S\S\S\SUndo\Sone\Saction</comment>
 		<comment>\Sr</comment>
@@ -26,12 +28,14 @@
 		<comment>\Sdl</comment>
 		<comment>\S\S\S\S\SDeletes\Sone\Sline</comment>
 		<comment>\S================================================================================</comment>
-		<comment>\SThese\Scommands\Scan\Sbe\Sused\Smultiple\Stimes\Sby\Sadding\Sa\Snumber\Sto\Sthe\Scommand:</comment>
+		<comment>\SCommands\Scan\Sbe\Sused\Smultiple\Stimes\Sby\Sadding\Sa\Snumber\Sto\Sthe\Scommand:</comment>
 		<comment>\S================================================================================</comment>
 		<comment>\Sw5</comment>
 		<comment>\S\S\S\S\SSelects\Sthe\Snext\S5\Swords</comment>
 		<comment>\Sl5</comment>
 		<comment>\S\S\S\S\SSelects\Sthe\Snext\S5\Slines</comment>
+		<comment>\Sc5</comment>
+		<comment>\S\S\S\S\SSelects\Sthe\Snext\S5\Scharacters</comment>
 		<comment>\Su5</comment>
 		<comment>\S\S\S\S\SUndo\Sthe\Slast\S5\Sactions</comment>
 		<comment>\Sr5</comment>
