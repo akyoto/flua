@@ -3,7 +3,6 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Collection.Vector</import>
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">This\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.\SThis\Sis\Sa\Sreally\Slarge\Stext.</string>
@@ -53,6 +52,7 @@
 		<comment>\SCompresses\Sa\Sstring\Sand\Sreturns\San\Sarray\Sof\Sbytes</comment>
 		<comment>\Scontaining\Sthe\Scompressed\Sdata.</comment>
 		<function depth="0" id="8">
+			<name>compress</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -61,7 +61,6 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>compress</name>
 			<code>
 				<assign depth="1" id="9">
 					<value>bytes</value>
@@ -126,6 +125,7 @@
 		<comment>\SUncompresses\Sa\Scompressed\Sarray\Sof\Sbytes\Sand\Sreturns</comment>
 		<comment>\San\Sarray\Sof\Sbytes\Scontaining\Sthe\Soriginal\Sdata.</comment>
 		<function depth="0" id="12">
+			<name>uncompress</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -139,7 +139,6 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>uncompress</name>
 			<code>
 				<assign depth="1" id="13">
 					<value>uncBytes</value>

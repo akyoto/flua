@@ -118,6 +118,7 @@
     <property name="title">
      <string>Utilities</string>
     </property>
+    <addaction name="actionCommand"/>
     <addaction name="actionCreateDefaultImplementation"/>
     <addaction name="actionJumpToDefinition"/>
     <addaction name="actionDuplicateLine"/>
@@ -623,6 +624,14 @@
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionCommand">
+   <property name="text">
+    <string>Command</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
    </property>
   </action>
  </widget>

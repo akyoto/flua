@@ -1189,7 +1189,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					#self.currentClassImpl.addMember(self.createVariable(member, usedAs, "", False, not usedAs in nonPointerClasses, False))
 					name = "__" + member
 				
-				defaultValue = self.parseExpr(exprNode.childNodes[1].childNodes[0])
+				defaultValue = parseExpr(exprNode.childNodes[1].childNodes[0])
 				defaultValueType = self.getExprDataType(exprNode)
 				
 				#if declTypeFlag:

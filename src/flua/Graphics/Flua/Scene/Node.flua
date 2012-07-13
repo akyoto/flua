@@ -164,6 +164,7 @@
 				</function>
 				<comment>\SConstructs\Sa\Snode\Swith\Sthe\Sgiven\S#parent</comment>
 				<function depth="1" id="18">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -177,7 +178,6 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<if-block depth="2" id="19">
 							<if>
@@ -301,9 +301,62 @@
 					<meta/>
 				</function>
 				<function depth="1" id="27">
+					<name>translate</name>
+					<parameters>
+						<parameter>mX</parameter>
+						<parameter>mY</parameter>
+						<parameter>mZ</parameter>
+					</parameters>
+					<code>
+						<assign-add depth="2" id="28">
+							<value>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>position</value>
+										</access>
+									</value>
+									<value>x</value>
+								</access>
+							</value>
+							<value>mX</value>
+						</assign-add>
+						<assign-add depth="2" id="29">
+							<value>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>position</value>
+										</access>
+									</value>
+									<value>y</value>
+								</access>
+							</value>
+							<value>mY</value>
+						</assign-add>
+						<assign-add depth="2" id="30">
+							<value>
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>position</value>
+										</access>
+									</value>
+									<value>z</value>
+								</access>
+							</value>
+							<value>mZ</value>
+						</assign-add>
+					</code>
+					<meta/>
+				</function>
+				<function depth="1" id="31">
 					<name>render</name>
 					<code>
-						<foreach depth="2" id="28">
+						<foreach depth="2" id="32">
 							<iterator>node</iterator>
 							<collection>
 								<access>
@@ -312,7 +365,7 @@
 								</access>
 							</collection>
 							<code>
-								<call depth="3" id="29">
+								<call depth="3" id="33">
 									<function>
 										<access>
 											<value>node</value>
@@ -323,7 +376,7 @@
 								</call>
 							</code>
 						</foreach>
-						<if-block depth="2" id="30">
+						<if-block depth="2" id="34">
 							<if>
 								<condition>
 									<access>
@@ -332,7 +385,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="31">
+									<call depth="3" id="35">
 										<function>
 											<access>
 												<value>
@@ -346,7 +399,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<if-block depth="3" id="32">
+									<if-block depth="3" id="36">
 										<if>
 											<condition>
 												<access>
@@ -355,7 +408,7 @@
 												</access>
 											</condition>
 											<code>
-												<call depth="4" id="33">
+												<call depth="4" id="37">
 													<function>
 														<access>
 															<value>
@@ -369,7 +422,7 @@
 													</function>
 													<parameters/>
 												</call>
-												<call depth="4" id="34">
+												<call depth="4" id="38">
 													<function>
 														<access>
 															<value>flua</value>
@@ -410,7 +463,7 @@
 											</code>
 										</if>
 									</if-block>
-									<call depth="3" id="35">
+									<call depth="3" id="39">
 										<function>
 											<access>
 												<value>

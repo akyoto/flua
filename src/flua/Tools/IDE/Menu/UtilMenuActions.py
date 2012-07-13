@@ -3,6 +3,13 @@ from flua.Compiler import *
 
 class UtilMenuActions:
 	
+	def enterCommand(self):
+		self.searchEdit.hide()
+		self.replaceEdit.hide()
+		
+		self.cmdEdit.focusNormal()
+		self.cmdEdit.show()
+	
 	def createDefaultImplementation(self):
 		if self.codeEdit:
 			obj = self.codeEdit.getTextAtCursor()

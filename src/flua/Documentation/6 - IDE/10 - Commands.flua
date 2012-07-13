@@ -1,0 +1,32 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SUsing\S[Ctrl\S+\SL]\S(will\Sbe\Scustomizable)\Syou\Scan\Sissue\Scommands\Sto\Sthe\Seditor.</comment>
+		<comment>\S================================================================================</comment>
+		<comment>\SHere\Sare\Sa\Sfew\Sexamples:</comment>
+		<comment>\S================================================================================</comment>
+		<comment>\Sd</comment>
+		<comment>\S\S\S\S\SDeletes\Sone\Scharacter</comment>
+		<comment>\Sdw</comment>
+		<comment>\S\S\S\S\SDeletes\Sone\Sword</comment>
+		<comment>\Sdl</comment>
+		<comment>\S\S\S\S\SDeletes\Sone\Sline</comment>
+		<comment>\S================================================================================</comment>
+		<comment>\SThese\Scommands\Scan\Sbe\Sused\Smultiple\Stimes\Sby\Sadding\Sa\Snumber\Sto\Sthe\Scommand:</comment>
+		<comment>\S================================================================================</comment>
+		<comment>\Sd10</comment>
+		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Scharacters</comment>
+		<comment>\Sdw10</comment>
+		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Swords</comment>
+		<comment>\Sdl10</comment>
+		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Slines</comment>
+		<comment>\S================================================================================</comment>
+		<comment>\SMore\Scommands\Swill\Sbe\Savailable\Sin\Sfuture\Sversions.</comment>
+	</code>
+</module>

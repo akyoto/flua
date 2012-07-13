@@ -66,11 +66,11 @@
 						</code>
 					</function>
 					<function depth="2" id="15">
+						<name>connect</name>
 						<parameters>
 							<parameter>sock</parameter>
 							<parameter>port</parameter>
 						</parameters>
-						<name>connect</name>
 						<code>
 							<declare-type depth="3" id="16">
 								<value>decl</value>

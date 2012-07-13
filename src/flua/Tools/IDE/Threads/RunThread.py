@@ -32,7 +32,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 		self.debugMode = False
 		self.exitCode = -1
 		self.finished.connect(self.programExited)
-		
+	
 	def programStarted(self):
 		print("Program „%s“ started." % (stripAll(self.exe)))
 		

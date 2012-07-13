@@ -111,6 +111,12 @@ class Startup:
 		# Search results
 		self.searchResults = BPSearchResultsWidget(self)
 		
+		# Command edit
+		self.cmdEdit = BPCommandEdit(self)
+		self.cmdEdit.hide()
+		
+		self.statusBar.addPermanentWidget(self.cmdEdit, 1)
+		
 		# Target switching
 		self.targetSwitcher = QtGui.QComboBox(self)
 		self.targetSwitcher.setToolTip("Target language")
@@ -246,6 +252,7 @@ class Startup:
 			self.actionProperties : self.showModuleProperties,
 			
 			# Utilities
+			self.actionCommand : self.enterCommand,
 			self.actionJumpToDefinition : self.jumpToDefinition,
 			self.actionDuplicateLine : self.duplicateLine,
 			self.actionToggleComment : self.toggleComment,

@@ -1,0 +1,102 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.DateTime</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">%B</string>
+			<string id="flua_string_1">%m</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SRepresents\Sa\Smonth</comment>
+		<class depth="0" id="1">
+			<name>Month</name>
+			<code>
+				<function depth="1" id="2">
+					<name>init</name>
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>date</value>
+							</access>
+						</parameter>
+					</parameters>
+					<code>
+						<noop depth="2" id="3"/>
+					</code>
+				</function>
+				<get depth="1" id="4">
+					<getter depth="2" id="5">
+						<name>name</name>
+						<code>
+							<return depth="3" id="6">
+								<call>
+									<function>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>date</value>
+												</access>
+											</value>
+											<value>format</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>flua_string_0</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+					<getter depth="2" id="7">
+						<name>number</name>
+						<code>
+							<return depth="3" id="8">
+								<call>
+									<function>
+										<access>
+											<value>
+												<access>
+													<value>my</value>
+													<value>date</value>
+												</access>
+											</value>
+											<value>format</value>
+										</access>
+									</function>
+									<parameters>
+										<parameter>flua_string_1</parameter>
+									</parameters>
+								</call>
+							</return>
+						</code>
+					</getter>
+				</get>
+				<casts depth="1" id="9">
+					<cast-definition depth="2" id="10">
+						<to>String</to>
+						<code>
+							<return depth="3" id="11">
+								<call>
+									<function>
+										<access>
+											<value>my</value>
+											<value>getName</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</return>
+						</code>
+						<meta/>
+					</cast-definition>
+				</casts>
+			</code>
+		</class>
+	</code>
+</module>

@@ -1,0 +1,52 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SA\Snode\Swith\Sa\Sparent\Sand\Ssome\Schild\Snodes</comment>
+		<class depth="0" id="1">
+			<name>MutableTree</name>
+			<code>
+				<template depth="1" id="2">
+					<parameter depth="2" id="3">TDataType</parameter>
+				</template>
+				<public depth="1" id="4">
+					<public-member depth="2" id="5">
+						<declare-type>
+							<value>parent</value>
+							<value>
+								<template-call>
+									<value>Tree</value>
+									<value>TDataType</value>
+								</template-call>
+							</value>
+						</declare-type>
+					</public-member>
+					<public-member depth="2" id="6">
+						<declare-type>
+							<value>children</value>
+							<value>
+								<template-call>
+									<value>Vector</value>
+									<value>Tree</value>
+								</template-call>
+							</value>
+						</declare-type>
+					</public-member>
+				</public>
+				<function depth="1" id="7">
+					<name>init</name>
+					<code>
+						<noop depth="2" id="8"/>
+					</code>
+					<meta/>
+				</function>
+			</code>
+			<meta/>
+		</class>
+	</code>
+</module>
