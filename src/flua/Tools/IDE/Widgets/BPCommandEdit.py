@@ -35,9 +35,25 @@ class BPCommandEdit(QtGui.QLineEdit):
 			else:
 				cursor.deleteChar()
 		elif token == "w":
-			cursor.select(QtGui.QTextCursor.WordUnderCursor)
+			if cursor.hasSelection():
+				selStart = cursor.selectionStart()
+				cursor.select(QtGui.QTextCursor.WordUnderCursor)
+				selEnd = cursor.selectionEnd()
+				
+				cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
+				cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
+			else:
+				cursor.select(QtGui.QTextCursor.WordUnderCursor)
 		elif token == "l":
-			cursor.select(QtGui.QTextCursor.BlockUnderCursor)
+			if cursor.hasSelection():
+				selStart = cursor.selectionStart()
+				cursor.select(QtGui.QTextCursor.BlockUnderCursor)
+				selEnd = cursor.selectionEnd()
+				
+				cursor.setPosition(selStart, QtGui.QTextCursor.MoveAnchor)
+				cursor.setPosition(selEnd, QtGui.QTextCursor.KeepAnchor)
+			else:
+				cursor.select(QtGui.QTextCursor.LineUnderCursor)
 		elif token == "u":
 			self.bpIDE.undoLastAction()
 		elif token == "r":
@@ -63,8 +79,13 @@ class BPCommandEdit(QtGui.QLineEdit):
 			selector = cmd[1]
 			
 			if selector.isdigit():
-				for n in range(int(selector)):
+				times = int(selector)
+				
+				for n in range(times):
 					self.interpretToken(token, cursor)
+					
+					if n != times - 1:
+						self.moveCursor(token, cursor)
 			else:
 				self.interpretToken(selector, cursor)
 				self.interpretToken(token, cursor)
@@ -84,11 +105,17 @@ class BPCommandEdit(QtGui.QLineEdit):
 				
 				self.interpretToken(token, cursor)
 				
-				if selector and times > 1:
-					if selector == "w":
-						cursor.movePosition(QtGui.QTextCursor.NextWord)
-					elif selector == "l":
-						cursor.movePosition(QtGui.QTextCursor.NextBlock)
+				if n != times - 1:
+					if not selector:
+						selector = token
+					
+					self.moveCursor(selector, cursor)
+		
+	def moveCursor(self, selector, cursor):
+		if selector == "w":
+			cursor.movePosition(QtGui.QTextCursor.NextWord, QtGui.QTextCursor.KeepAnchor)
+		elif selector == "l":
+			cursor.movePosition(QtGui.QTextCursor.NextBlock, QtGui.QTextCursor.KeepAnchor)
 		
 	def execCommand(self, cmd):
 		if not self.bpIDE.codeEdit:

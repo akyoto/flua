@@ -11,6 +11,14 @@
 		<comment>\S================================================================================</comment>
 		<comment>\SHere\Sare\Sa\Sfew\Sexamples:</comment>
 		<comment>\S================================================================================</comment>
+		<comment>\Sw</comment>
+		<comment>\S\S\S\S\SSelects\Sone\Sword</comment>
+		<comment>\Sl</comment>
+		<comment>\S\S\S\S\SSelects\Sone\Sline</comment>
+		<comment>\Su</comment>
+		<comment>\S\S\S\S\SUndo\Sone\Saction</comment>
+		<comment>\Sr</comment>
+		<comment>\S\S\S\S\SRedo\Sone\Saction</comment>
 		<comment>\Sd</comment>
 		<comment>\S\S\S\S\SDeletes\Sone\Scharacter</comment>
 		<comment>\Sdw</comment>
@@ -20,12 +28,18 @@
 		<comment>\S================================================================================</comment>
 		<comment>\SThese\Scommands\Scan\Sbe\Sused\Smultiple\Stimes\Sby\Sadding\Sa\Snumber\Sto\Sthe\Scommand:</comment>
 		<comment>\S================================================================================</comment>
-		<comment>\Sd10</comment>
-		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Scharacters</comment>
-		<comment>\Sdw10</comment>
-		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Swords</comment>
-		<comment>\Sdl10</comment>
-		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S10\Slines</comment>
+		<comment>\Sw5</comment>
+		<comment>\S\S\S\S\SSelects\Sthe\Snext\S5\Swords</comment>
+		<comment>\Sl5</comment>
+		<comment>\S\S\S\S\SSelects\Sthe\Snext\S5\Slines</comment>
+		<comment>\Su5</comment>
+		<comment>\S\S\S\S\SUndo\Sthe\Slast\S5\Sactions</comment>
+		<comment>\Sr5</comment>
+		<comment>\S\S\S\S\SRedo\Sthe\Slast\S5\Sactions</comment>
+		<comment>\Sdw5</comment>
+		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S5\Swords</comment>
+		<comment>\Sdl5</comment>
+		<comment>\S\S\S\S\SDeletes\Sthe\Snext\S5\Slines</comment>
 		<comment>\S================================================================================</comment>
 		<comment>\SMore\Scommands\Swill\Sbe\Savailable\Sin\Sfuture\Sversions.</comment>
 	</code>
