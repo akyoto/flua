@@ -52,13 +52,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Module directory: " + getModuleDir())
 		print("---")
 		
-		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
-		self.show()
-		
 		# Useless stuff
 		QtCore.QCoreApplication.setOrganizationName("Flua")
 		QtCore.QCoreApplication.setOrganizationDomain("flua-lang.org")
 		QtCore.QCoreApplication.setApplicationName("Flua Studio")
+		
+		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
+		if os.name == "nt":
+			self.show()
 		
 		# Init
 		self.threaded = multiThreaded
@@ -117,6 +118,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywordList))
 		
+		if os.name != "nt":
+			self.showMaximized()
+		
 		# The beginning of the end.
 		self.initAll()
 		
@@ -152,7 +156,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.console.watch(self.console.log)
 		
 		# Show maximized now
-		self.showMaximized()
+		if os.name == "nt":
+			self.showMaximized()
 		
 		#self.openFile("/home/eduard/Projects/bp/src/flua.Core/String/UTF8String.bp")
 		
@@ -991,6 +996,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
+		
+	def sizeHint(self):
+		return QtCore.QSize(1024, 600)
 
 def main(multiThreading = True):
 	# Create the application

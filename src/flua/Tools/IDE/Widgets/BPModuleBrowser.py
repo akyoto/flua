@@ -329,6 +329,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		rootLen = len(rootPath)
 		self.modCount = 0
 		
+		tmpPath = self.bpIDE.tmpPath
+		
 		self.startBenchmark(" * Load module directory")
 		for root, subFolders, files in os.walk(rootPath):
 			if fixPath(root) == self.bpIDE.tmpPath:
@@ -337,9 +339,11 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if root.endswith("__pycache__"):
 				continue
 			
+			if tmpPath in root:
+				continue
+			
 			for file in files:
 				if file.endswith(".flua"):
-					
 					# If there is a directory with the same name, delete the file
 					if os.path.isdir(fixPath(root) + "/" + stripExt(file)):
 						try:

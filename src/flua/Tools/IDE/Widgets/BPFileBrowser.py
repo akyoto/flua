@@ -42,9 +42,8 @@ class BPFileBrowser(QtGui.QTreeView):
 	def __init__(self, parent, rootPath):
 		super().__init__(parent)
 		self.bpIDE = parent
-		self.fsModel = QtGui.QFileSystemModel()
-		#self.fsModel.setNameFilters(["*.flua"])
-		fsModelIndex = self.fsModel.setRootPath(rootPath)
+		self.rootPath = rootPath
+		self.fsModel = None
 		
 		#self.proxyModel = BPFileFilter(self.fsModel, fsModelIndex)
 		#self.proxyModel.setFilterWildcard("b*")
@@ -55,17 +54,31 @@ class BPFileBrowser(QtGui.QTreeView):
 		#self.viewPath("/home/")#rootPath)
 		#self.setModel(self.proxyModel)
 		#self.setModel(self.proxyModel)
-		self.setModel(self.fsModel)
-		self.setRootIndex(fsModelIndex)#self.proxyModel.mapFromSource(fsModelIndex))
 		
 		self.setHeaderHidden(True)
-		self.setColumnHidden(1, True)
-		self.setColumnHidden(2, True)
-		self.setColumnHidden(3, True)
+		
 		#self.icon = QtGui.QIcon("images/tango/status/dialog-warning.svg")
 		#self.itemClicked.connect(self.goToLineOfItem)
 		
 		self.doubleClicked.connect(self.onItemClick)
+		
+	def loadFSModel(self):
+		self.fsModel = QtGui.QFileSystemModel()
+		#self.fsModel.setNameFilters(["*.flua"])
+		fsModelIndex = self.fsModel.setRootPath(self.rootPath)
+		self.setModel(self.fsModel)
+		self.setRootIndex(fsModelIndex) #self.proxyModel.mapFromSource(fsModelIndex))
+		
+		# Hide colums with irrelevant information
+		self.setColumnHidden(1, True)
+		self.setColumnHidden(2, True)
+		self.setColumnHidden(3, True)
+		
+	def showEvent(self, event):
+		if not self.fsModel:
+			self.loadFSModel()
+		
+		super().showEvent(event)
 		
 	def onItemClick(self, item):
 		filePath = self.fsModel.filePath(item)
