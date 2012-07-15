@@ -77,6 +77,7 @@ class PythonOutputFile(BaseOutputFile):
 		self.yieldSyntax = "__flua_yield_var = %s\n__flua_yield_code"
 		self.templateSyntax = "%s<%s>"
 		self.powerSyntax = "(%s ** %s)"
+		self.commentChar = "#"
 	
 	def compile(self):
 		# Header

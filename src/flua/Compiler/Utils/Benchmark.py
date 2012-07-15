@@ -34,22 +34,25 @@ import time
 ####################################################################
 class Benchmarkable:
 	def __init__(self):
-		self.benchmarkName = ""
-		self.benchmarkTimerStart = 0
+		self.benchmarkName = []
+		self.benchmarkTimerStart = []
 		self.benchmarkTimerEnd = 0
 	
 	def startBenchmark(self, name = ""):
-		self.benchmarkName = name
-		self.benchmarkTimerStart = time.time()
+		self.benchmarkName.append(name)
+		self.benchmarkTimerStart.append(time.time())
 		
 	def endBenchmark(self):
 		self.benchmarkTimerEnd = time.time()
-		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart
+		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart.pop()
 		
-		if self.benchmarkName:
-			bName = self.benchmarkName + ":"
+		benchmarkName = self.benchmarkName.pop()
+		
+		if benchmarkName:
+			bName = benchmarkName + ":"
 		else:
 			bName = ""
+		
 		print((bName).ljust(69) + str(int(buildTime * 1000)).rjust(7) + " ms")
 		
 		return int(buildTime * 1000)

@@ -33,10 +33,10 @@
 					<meta/>
 				</function>
 				<function depth="1" id="8">
+					<name>doSomething</name>
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
-					<name>doSomething</name>
 					<code>
 						<call depth="2" id="9">
 							<function>print</function>

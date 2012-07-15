@@ -50,6 +50,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	
 	def __init__(self, parent, modDir):
 		super().__init__(parent)
+		Benchmarkable.__init__(self)
+		
 		self.bpIDE = parent
 		self.bpcModel = None
 		self.modDir = modDir
@@ -327,7 +329,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		rootLen = len(rootPath)
 		self.modCount = 0
 		
-		self.startBenchmark("Load module directory")
+		self.startBenchmark(" * Load module directory")
 		for root, subFolders, files in os.walk(rootPath):
 			if fixPath(root) == self.bpIDE.tmpPath:
 				continue

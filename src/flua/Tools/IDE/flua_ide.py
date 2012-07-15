@@ -43,6 +43,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def __init__(self, multiThreaded = True):
 		super().__init__()
+		Benchmarkable.__init__(self)
+		
+		# Before showing
+		self.geometryState = None
+		
+		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
+		self.showMaximized()
 		
 		# Print this first to identify wrong paths
 		print("Module directory: " + getModuleDir())
@@ -66,7 +73,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.uiCache = dict()
 		self.config = None
 		self.gitThread = None
-		self.geometryState = None
 		self.authorName = ""
 		self.previousScopes = None
 		self.lastCodeEdit = None
@@ -122,11 +128,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		#self.bindFunctionToTimer(self.onProcessEvents, 5)
 		self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
-		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
-		self.setCentralWidget(self.workspacesContainer)
-		self.showMaximized()
-		
 		# Apply settings
+		self.setCentralWidget(self.workspacesContainer)
+		
+		self.initDocks()
+		
 		self.config.applySettings()
 		
 		# We love hard coding! ... or maybe not.
@@ -138,9 +144,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 
 # Check flua.Documentation in the module browser on the left for some beginner topics.
 """)
-		else:
-			self.openFile(getModuleDir() + "eurbach/Namespaces.bp")
-		
 		cursor = self.codeEdit.textCursor()
 		cursor.movePosition(QtGui.QTextCursor.End)
 		self.codeEdit.setTextCursor(cursor)
@@ -210,6 +213,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.firstStartUpdateTimer.stop()
 			self.progressBar.hide()
 			self.searchEdit.show()
+			self.loadSession()
 		
 	def onProcessEvents(self):
 		QtGui.QApplication.instance().processEvents()
@@ -539,9 +543,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		print("Done.")
 		
 	def loadConfig(self):
-		if os.path.isfile(getIDERoot() + "settings.ini"):
+		if os.path.isfile(getConfigDir() + "studio/settings.ini"):
 			try:
-				self.config = BPConfiguration(self, getIDESettingsRoot() + "settings.ini")
+				self.config = BPConfiguration(self, getConfigDir() + "studio/settings.ini")
 			except:
 				self.config = BPConfiguration(self, getIDERoot() + "default-settings.ini")
 		else:
@@ -998,6 +1002,7 @@ def main(multiThreading = True):
 	
 	# Save config
 	editor.config.saveSettings()
+	editor.saveSession()
 	
 	print("--- EOP: %d ---" % exitCode)
 	#sys.exit(exitCode)

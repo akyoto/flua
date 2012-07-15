@@ -59,6 +59,8 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 	
 	def __init__(self, parent = None):
+		Benchmarkable.__init__(self)
+		
 		self.shortCuts = dict()
 		self.shortCutList = list(self.shortCuts)
 		
@@ -213,6 +215,8 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	STATE_OPENED_BY_USER = 3
 	
 	def __init__(self, parent = None):
+		Benchmarkable.__init__(self)
+		
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 		self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
@@ -369,6 +373,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def __init__(self, bpIDE = None, parent = None):
 		super().__init__(parent)
+		Benchmarkable.__init__(self)
 		
 		self.threaded = True
 		

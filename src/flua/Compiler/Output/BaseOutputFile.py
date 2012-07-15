@@ -205,6 +205,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.externCallSyntax = self.callSyntax
 		self.templateSyntax = ""
 		self.powerSyntax = ""
+		self.commentChar = ""
 		
 		# Callback
 		self.perParseChilds = None

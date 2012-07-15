@@ -17,12 +17,6 @@ def getIDERoot():
 	global globalIDERoot
 	return globalIDERoot
 
-def getIDESettingsRoot():
-	if os.name == "nt":
-		return getIDERoot()
-	else:
-		return "~/.flua/studio/"
-
 def getGitPath():
 	if os.name == "nt":
 		global globalGitPath
@@ -52,7 +46,6 @@ class BPConfiguration:
 		self.bpIDE = bpIDE
 		self.fileName = fileName
 		self.parser = configparser.SafeConfigParser()
-		self.defaultParser = configparser.SafeConfigParser()
 		
 		self.darkStyleEnabled = False
 		
@@ -134,9 +127,6 @@ class BPConfiguration:
 		
 		with codecs.open(self.fileName, "r", "utf-8") as inStream:
 			self.parser.readfp(inStream)
-			
-		with codecs.open(getIDERoot() + "default-settings.ini", "r", "utf-8") as inStream:
-			self.defaultParser.readfp(inStream)
 		
 		self.gcMemoryThreshold = self.getInt("Application", "GCMemoryThreshold")
 		self.developerMode = self.getBool("Application", "DeveloperMode")
@@ -189,9 +179,12 @@ class BPConfiguration:
 			self.applyMenuFont(self.standardFont)
 		
 	def saveSettings(self):
-		pass
-		#with open(getIDERoot() + "settings.ini", "wb") as configFileStream:
-		#	self.parser.write(configFileStream)
+		studioConfig = getConfigDir() + "studio/"
+		if not os.path.isdir(studioConfig):
+			os.makedirs(studioConfig)
+		
+		with open(studioConfig + "settings.ini", "w") as configFileStream:
+			self.parser.write(configFileStream)
 		
 	def applyTheme(self, themeName):
 		if isinstance(themeName, str):

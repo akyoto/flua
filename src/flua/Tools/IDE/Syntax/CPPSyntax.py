@@ -345,6 +345,8 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	
 	def __init__(self, document, bpIDE):
 		QtGui.QSyntaxHighlighter.__init__(self, document)
+		Benchmarkable.__init__(self)
+		
 		self.bpIDE = bpIDE
 		#self.updateCharFormatFlag = False
 

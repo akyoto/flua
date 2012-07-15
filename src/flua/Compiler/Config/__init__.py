@@ -35,6 +35,13 @@ def getDLLDir():
 	else:
 		return fixPath(os.path.abspath(configScriptPath + "../../../../libs/cpp/linux/x86/DLLs"))
 
+def getConfigDir():
+	if os.name == "nt":
+		# TODO: ...
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../"))
+	else:
+		return fixPath(os.path.expanduser("~")) + ".flua/"
+
 def getModuleDir():
 	return fixPath(os.path.abspath(configScriptPath + "../../../"))
 	#return extractDir(os.path.abspath("../../"))

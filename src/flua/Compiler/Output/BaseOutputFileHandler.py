@@ -581,7 +581,7 @@ class BaseOutputFileHandler:
 			code = "%s %s = %s;\n" % (self.adjustDataType(exprType), self.onVariable, value)
 		else:
 			self.onVariable = exprNode.nodeValue
-			code = "// on „%s“\n" % self.onVariable
+			code = "%s on „%s“\n" % (self.commentChar, self.onVariable)
 		
 		code += self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.onVariable = ""

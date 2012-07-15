@@ -7,6 +7,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	def __init__(self, bpIDE):
 		super().__init__(bpIDE)
 		Benchmarkable.__init__(self)
+		
 		self.bpIDE = bpIDE
 		self.lastException = None
 		self.codeEdit = None

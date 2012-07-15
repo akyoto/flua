@@ -3,6 +3,7 @@ from flua.Tools.IDE.Utils import *
 from flua.Tools.IDE.Editor import *
 from flua.Tools.IDE.Widgets import *
 from flua.Tools.IDE.MenuActions import *
+import configparser
 
 class Startup:
 	
@@ -25,10 +26,13 @@ class Startup:
 		self.initToolBar()
 		self.endBenchmark()
 		
-		self.startBenchmark("Init Docks")
+		self.startBenchmark("Init Dock Icons")
 		self.initDockIcons()
-		self.initDocks()
 		self.endBenchmark()
+		
+		#self.startBenchmark("Init Docks")
+		#self.initDocks()
+		#self.endBenchmark()
 		
 		self.startBenchmark("Init Compiler")
 		self.initCompiler()
@@ -159,35 +163,51 @@ class Startup:
 	def initDocks(self):
 		self.setDockOptions(QtGui.QMainWindow.AnimatedDocks)# | QtGui.QMainWindow.AllowNestedDocks)
 		
+		# Module view
+		self.startBenchmark(" * Module browser")
+		self.moduleView = BPModuleBrowser(self, getModuleDir())
+		self.endBenchmark()
+		
 		# Console
+		self.startBenchmark(" * Console")
 		self.console = BPConsoleWidget(self)
+		self.endBenchmark()
 		
 		# XML view
+		self.startBenchmark(" * XML view")
 		self.xmlView = XMLCodeEdit(self)
 		self.xmlView.setReadOnly(1)
+		self.endBenchmark()
 		
 		# Dependency view
+		self.startBenchmark(" * Dependency view")
 		self.dependencyView = BPDependencyView(self)
 		self.dependencyView.setReadOnly(1)
+		self.endBenchmark()
 		
 		# File view
+		self.startBenchmark(" * File browser")
 		self.fileView = BPFileBrowser(self, getModuleDir())
-		
-		# Module view
-		self.moduleView = BPModuleBrowser(self, getModuleDir())
+		self.endBenchmark()
 		
 		# Scribble - I absolutely love this feature in Geany!
 		# It's always the little things that are awesome :)
+		self.startBenchmark(" * Scribble")
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
+		self.endBenchmark()
 		
 		# Chat
 		#self.chatWidget = BPChatWidget(self)
 		
 		# Outline
+		self.startBenchmark(" * Outline")
 		self.outlineView = BPOutlineView(self)
+		self.endBenchmark()
 		
 		# Meta data
+		self.startBenchmark(" * Meta data")
 		self.metaData = BPMetaDataWidget(self)
+		self.endBenchmark()
 		
 		#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
 		#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)
@@ -300,6 +320,26 @@ class Startup:
 			BPWorkspace(self, 2),
 			BPWorkspace(self, 3),
 		]
+		
+	def loadSession(self):
+		# Disabled
+		return
+		
+		self.sessionParser = configparser.SafeConfigParser()
+		
+		try:
+			with codecs.open(getConfigDir() + "studio/session.ini", "r", "utf-8") as inStream:
+				self.sessionParser.readfp(inStream)
+		except:
+			for num in range(len(self.workspaces)):
+				self.sessionParser.add_section("Workspace %d" % num)
+		
+	def saveSession(self):
+		# Disabled
+		return
+		
+		with codecs.open(getConfigDir() + "studio/session.ini", "w", "utf-8") as outStream:
+			self.sessionParser.write(outStream)
 		
 	def initTheme(self):
 		if self.config.useBold:

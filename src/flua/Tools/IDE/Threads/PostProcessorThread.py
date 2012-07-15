@@ -7,6 +7,7 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	def __init__(self, codeEdit):
 		super().__init__(codeEdit)
 		Benchmarkable.__init__(self)
+		
 		self.bpIDE = codeEdit.bpIDE
 		self.codeEdit = codeEdit
 		self.processor = codeEdit.bpIDE.processor

@@ -1,11 +1,11 @@
 from PyQt4 import QtGui, QtCore, uic
 
-class XMLCodeEdit(QtGui.QTextEdit):
+class XMLCodeEdit(QtGui.QPlainTextEdit):
 	
 	def __init__(self, parent = None):
-		super(XMLCodeEdit, self).__init__(parent)
+		super().__init__(parent)
 		self.setTabStopWidth(4 * 8)
-		self.setLineWrapMode(QtGui.QTextEdit.NoWrap)
+		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.node = None
 		
 	def setNode(self, node):

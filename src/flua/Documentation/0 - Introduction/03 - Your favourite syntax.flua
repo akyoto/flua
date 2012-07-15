@@ -68,6 +68,7 @@
 			<name>MyClass</name>
 			<code>
 				<function depth="1" id="10">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -76,7 +77,6 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<noop depth="2" id="11"/>
 					</code>

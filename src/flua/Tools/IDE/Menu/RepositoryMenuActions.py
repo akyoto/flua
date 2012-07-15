@@ -7,6 +7,8 @@ class RepositoryDownloadThread(QtCore.QThread, Benchmarkable):
 	
 	def __init__(self, bpIDE, repoName):
 		super().__init__(bpIDE)
+		Benchmarkable.__init__(self)
+		
 		self.bpIDE = bpIDE
 		self.repoName = repoName
 		self.finished.connect(self.bpIDE.onRepositoryDownloadFinished)

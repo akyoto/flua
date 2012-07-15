@@ -3,9 +3,17 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>flua.Collection.Map</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">2\S+\S3</string>
+			<string id="flua_string_0">\S</string>
+			<string id="flua_string_1">*</string>
+			<string id="flua_string_2">multiply</string>
+			<string id="flua_string_3">+</string>
+			<string id="flua_string_4">add</string>
+			<string id="flua_string_5">*</string>
+			<string id="flua_string_6">+</string>
+			<string id="flua_string_7">12\S+\S34\S*\S56</string>
 		</strings>
 	</header>
 	<code>
@@ -14,20 +22,511 @@
 			<name>parseExpr</name>
 			<parameters>
 				<parameter>expr</parameter>
+				<parameter>occurences</parameter>
 			</parameters>
 			<code>
-				<noop depth="1" id="2"/>
-			</code>
-			<meta/>
-		</function>
-		<test depth="0" id="3">
-			<code>
-				<call depth="1" id="4">
-					<function>parseExpr</function>
+				<call depth="1" id="2">
+					<function>
+						<access>
+							<value>expr</value>
+							<value>erase</value>
+						</access>
+					</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
 					</parameters>
 				</call>
+				<assign depth="1" id="3">
+					<value>start</value>
+					<value>
+						<negative>
+							<value>1</value>
+						</negative>
+					</value>
+				</assign>
+				<foreach depth="1" id="4">
+					<counter>pos</counter>
+					<iterator>x</iterator>
+					<collection>
+						<access>
+							<value>expr</value>
+							<value>bytes</value>
+						</access>
+					</collection>
+					<code>
+						<if-block depth="2" id="5">
+							<if>
+								<condition>
+									<not>
+										<value>
+											<call>
+												<function>isAlnum</function>
+												<parameters>
+													<parameter>x</parameter>
+												</parameters>
+											</call>
+										</value>
+									</not>
+								</condition>
+								<code>
+									<if-block depth="3" id="6">
+										<if>
+											<condition>
+												<equal>
+													<value>start</value>
+													<value>
+														<negative>
+															<value>1</value>
+														</negative>
+													</value>
+												</equal>
+											</condition>
+											<code>
+												<assign depth="4" id="7">
+													<value>start</value>
+													<value>pos</value>
+												</assign>
+											</code>
+										</if>
+									</if-block>
+								</code>
+							</if>
+							<else depth="2" id="8">
+								<code>
+									<if-block depth="3" id="9">
+										<if>
+											<condition>
+												<not-equal>
+													<value>start</value>
+													<value>
+														<negative>
+															<value>1</value>
+														</negative>
+													</value>
+												</not-equal>
+											</condition>
+											<code>
+												<assign depth="4" id="10">
+													<value>op</value>
+													<value>
+														<call>
+															<function>
+																<access>
+																	<value>expr</value>
+																	<value>substrBytes</value>
+																</access>
+															</function>
+															<parameters>
+																<parameter>start</parameter>
+																<parameter>pos</parameter>
+															</parameters>
+														</call>
+													</value>
+												</assign>
+												<call depth="4" id="11">
+													<function>
+														<access>
+															<value>
+																<index>
+																	<value>occurences</value>
+																	<value>op</value>
+																</index>
+															</value>
+															<value>add</value>
+														</access>
+													</function>
+													<parameters>
+														<parameter>start</parameter>
+													</parameters>
+												</call>
+												<assign depth="4" id="12">
+													<value>start</value>
+													<value>
+														<negative>
+															<value>1</value>
+														</negative>
+													</value>
+												</assign>
+											</code>
+										</if>
+									</if-block>
+								</code>
+							</else>
+						</if-block>
+					</code>
+				</foreach>
+				<return depth="1" id="13">expr</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Sleft\Soperator</comment>
+		<function depth="0" id="14">
+			<name>getLeftOperator</name>
+			<parameters>
+				<parameter>expr</parameter>
+				<parameter>occ</parameter>
+			</parameters>
+			<code>
+				<assign depth="1" id="15">
+					<value>pos</value>
+					<value>occ</value>
+				</assign>
+				<assign-subtract depth="1" id="16">
+					<value>pos</value>
+					<value>1</value>
+				</assign-subtract>
+				<while depth="1" id="17">
+					<condition>
+						<call>
+							<function>isAlnum</function>
+							<parameters>
+								<parameter>
+									<index>
+										<value>
+											<access>
+												<value>expr</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>pos</value>
+									</index>
+								</parameter>
+							</parameters>
+						</call>
+					</condition>
+					<code>
+						<assign-subtract depth="2" id="18">
+							<value>pos</value>
+							<value>1</value>
+						</assign-subtract>
+					</code>
+				</while>
+				<return depth="1" id="19">
+					<call>
+						<function>
+							<access>
+								<value>expr</value>
+								<value>substrBytes</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>
+								<add>
+									<value>pos</value>
+									<value>1</value>
+								</add>
+							</parameter>
+							<parameter>occ</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SReturns\Sthe\Sright\Soperator</comment>
+		<function depth="0" id="20">
+			<name>getRightOperator</name>
+			<parameters>
+				<parameter>expr</parameter>
+				<parameter>occ</parameter>
+			</parameters>
+			<code>
+				<assign depth="1" id="21">
+					<value>pos</value>
+					<value>occ</value>
+				</assign>
+				<assign-add depth="1" id="22">
+					<value>pos</value>
+					<value>1</value>
+				</assign-add>
+				<while depth="1" id="23">
+					<condition>
+						<call>
+							<function>isAlnum</function>
+							<parameters>
+								<parameter>
+									<index>
+										<value>
+											<access>
+												<value>expr</value>
+												<value>data</value>
+											</access>
+										</value>
+										<value>pos</value>
+									</index>
+								</parameter>
+							</parameters>
+						</call>
+					</condition>
+					<code>
+						<assign-add depth="2" id="24">
+							<value>pos</value>
+							<value>1</value>
+						</assign-add>
+					</code>
+				</while>
+				<return depth="1" id="25">
+					<call>
+						<function>
+							<access>
+								<value>expr</value>
+								<value>substrBytes</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>occ</parameter>
+							<parameter>pos</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SOperator</comment>
+		<class depth="0" id="26">
+			<name>Operator</name>
+			<code>
+				<function depth="1" id="27">
+					<name>init</name>
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>text</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>nodeName</value>
+							</access>
+						</parameter>
+					</parameters>
+					<code>
+						<noop depth="2" id="28"/>
+					</code>
+					<meta/>
+				</function>
+				<get depth="1" id="29">
+					<getter depth="2" id="30">
+						<name>text</name>
+						<code>
+							<return depth="3" id="31">
+								<access>
+									<value>my</value>
+									<value>text</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+				</get>
+			</code>
+		</class>
+		<comment>\SUsage\Sexample</comment>
+		<test depth="0" id="32">
+			<code>
+				<assign depth="1" id="33">
+					<value>op1</value>
+					<value>
+						<new>
+							<type>Operator</type>
+							<parameters>
+								<parameter>flua_string_1</parameter>
+								<parameter>flua_string_2</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign depth="1" id="34">
+					<value>op2</value>
+					<value>
+						<new>
+							<type>Operator</type>
+							<parameters>
+								<parameter>flua_string_3</parameter>
+								<parameter>flua_string_4</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<comment>\SSave\Sthe\Slevels</comment>
+				<assign depth="1" id="35">
+					<value>opLevels</value>
+					<value>
+						<index>
+							<value>_flua_seq</value>
+							<value>
+								<parameters>
+									<parameter>
+										<index>
+											<value>_flua_seq</value>
+											<value>op1</value>
+										</index>
+									</parameter>
+									<parameter>
+										<index>
+											<value>_flua_seq</value>
+											<value>op2</value>
+										</index>
+									</parameter>
+								</parameters>
+							</value>
+						</index>
+					</value>
+				</assign>
+				<comment>\SOccurences\Sof\Sthe\Soperators</comment>
+				<assign depth="1" id="36">
+					<value>occurences</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Map</value>
+									<value>
+										<parameters>
+											<parameter>String</parameter>
+											<parameter>
+												<template-call>
+													<value>Vector</value>
+													<value>Int</value>
+												</template-call>
+											</parameter>
+										</parameters>
+									</value>
+								</template-call>
+							</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+				<assign depth="1" id="37">
+					<value>
+						<index>
+							<value>occurences</value>
+							<value>flua_string_5</value>
+						</index>
+					</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Vector</value>
+									<value>Int</value>
+								</template-call>
+							</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+				<assign depth="1" id="38">
+					<value>
+						<index>
+							<value>occurences</value>
+							<value>flua_string_6</value>
+						</index>
+					</value>
+					<value>
+						<new>
+							<type>
+								<template-call>
+									<value>Vector</value>
+									<value>Int</value>
+								</template-call>
+							</type>
+							<parameters/>
+						</new>
+					</value>
+				</assign>
+				<comment>\SParse\Sit</comment>
+				<assign depth="1" id="39">
+					<value>cleanExpr</value>
+					<value>
+						<call>
+							<function>parseExpr</function>
+							<parameters>
+								<parameter>flua_string_7</parameter>
+								<parameter>occurences</parameter>
+							</parameters>
+						</call>
+					</value>
+				</assign>
+				<comment>\S12\S+\S_1</comment>
+				<comment>\S\S\S\S\S\S34\S*\S56\S-&gt;\S_1</comment>
+				<comment>\S12\S+\S34\S*\S56</comment>
+				<comment>\S==================</comment>
+				<comment>\SCheck\Sall\Soperator\Slevels</comment>
+				<foreach depth="1" id="40">
+					<iterator>level</iterator>
+					<collection>opLevels</collection>
+					<code>
+						<foreach depth="2" id="41">
+							<iterator>op</iterator>
+							<collection>level</collection>
+							<code>
+								<foreach depth="3" id="42">
+									<iterator>occ</iterator>
+									<collection>
+										<index>
+											<value>occurences</value>
+											<value>
+												<access>
+													<value>op</value>
+													<value>text</value>
+												</access>
+											</value>
+										</index>
+									</collection>
+									<code>
+										<call depth="4" id="43">
+											<function>print</function>
+											<parameters>
+												<parameter>
+													<call>
+														<function>getLeftOperator</function>
+														<parameters>
+															<parameter>cleanExpr</parameter>
+															<parameter>occ</parameter>
+														</parameters>
+													</call>
+												</parameter>
+											</parameters>
+										</call>
+										<call depth="4" id="44">
+											<function>print</function>
+											<parameters>
+												<parameter>
+													<call>
+														<function>getRightOperator</function>
+														<parameters>
+															<parameter>cleanExpr</parameter>
+															<parameter>
+																<add>
+																	<value>occ</value>
+																	<value>
+																		<access>
+																			<value>
+																				<access>
+																					<value>op</value>
+																					<value>text</value>
+																				</access>
+																			</value>
+																			<value>lengthInBytes</value>
+																		</access>
+																	</value>
+																</add>
+															</parameter>
+														</parameters>
+													</call>
+												</parameter>
+											</parameters>
+										</call>
+									</code>
+								</foreach>
+							</code>
+						</foreach>
+					</code>
+				</foreach>
 			</code>
 		</test>
 	</code>

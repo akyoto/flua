@@ -466,10 +466,10 @@
 					</code>
 				</function>
 				<function depth="1" id="73">
+					<name>testOn</name>
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
-					<name>testOn</name>
 					<code>
 						<call depth="2" id="74">
 							<function>print</function>
@@ -478,6 +478,7 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<private depth="1" id="75">
 					<function depth="2" id="76">
@@ -515,10 +516,10 @@
 			</code>
 		</on>
 		<function depth="0" id="81">
+			<name>halfOf</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
-			<name>halfOf</name>
 			<code>
 				<return depth="1" id="82">
 					<divide>

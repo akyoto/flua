@@ -180,6 +180,7 @@ def addBrackets(line):
 class BPCFile(ScopeController, Benchmarkable):
 	def __init__(self, compiler, fileIn, isMainFile, perLineCallBack = None):
 		ScopeController.__init__(self)
+		Benchmarkable.__init__(self)
 		
 		import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 		self.currentSyntax = bpcUtils.currentSyntax

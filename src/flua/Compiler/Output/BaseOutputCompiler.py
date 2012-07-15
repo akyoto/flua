@@ -46,6 +46,8 @@ def checkInterfaceImplementation(classObj, interface):
 class BaseOutputCompiler(Benchmarkable):
 	
 	def __init__(self, inpCompiler, background = False, guiCallBack = None):
+		Benchmarkable.__init__(self)
+		
 		if inpCompiler:
 			self.inputCompiler = inpCompiler
 			self.inputFiles = inpCompiler.getCompiledFiles()

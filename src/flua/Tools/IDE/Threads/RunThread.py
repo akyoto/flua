@@ -27,6 +27,7 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 	def __init__(self, bpIDE):
 		super().__init__(bpIDE)
 		Benchmarkable.__init__(self)
+		
 		self.bpIDE = bpIDE
 		self.process = None
 		self.debugMode = False

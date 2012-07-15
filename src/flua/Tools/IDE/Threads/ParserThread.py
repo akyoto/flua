@@ -5,6 +5,8 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 	
 	def __init__(self, codeEdit):
 		super().__init__(codeEdit)
+		Benchmarkable.__init__(self)
+		
 		self.codeEdit = codeEdit
 		self.bpIDE = codeEdit.bpIDE
 		self.setDocument(codeEdit.qdoc)
