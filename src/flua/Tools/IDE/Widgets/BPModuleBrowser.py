@@ -333,7 +333,9 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		self.startBenchmark(" * Load module directory")
 		for root, subFolders, files in os.walk(rootPath):
-			if fixPath(root) == self.bpIDE.tmpPath:
+			root = fixPath(root)
+			
+			if root == self.bpIDE.tmpPath:
 				continue
 			
 			if root.endswith("__pycache__"):
