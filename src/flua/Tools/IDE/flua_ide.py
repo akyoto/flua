@@ -48,12 +48,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Before showing
 		self.geometryState = None
 		
-		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
-		self.showMaximized()
-		
 		# Print this first to identify wrong paths
 		print("Module directory: " + getModuleDir())
 		print("---")
+		
+		# For some weird reason you need to SHOW FIRST, THEN APPLY THE THEME
+		self.show()
 		
 		# Useless stuff
 		QtCore.QCoreApplication.setOrganizationName("Flua")
@@ -150,6 +150,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
+		
+		# Show maximized now
+		self.showMaximized()
 		
 		#self.openFile("/home/eduard/Projects/bp/src/flua.Core/String/UTF8String.bp")
 		
