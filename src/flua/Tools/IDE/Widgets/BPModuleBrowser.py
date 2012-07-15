@@ -329,7 +329,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		rootLen = len(rootPath)
 		self.modCount = 0
 		
-		tmpPath = self.bpIDE.tmpPath
+		ideRoot = getIDERoot()
 		
 		self.startBenchmark(" * Load module directory")
 		for root, subFolders, files in os.walk(rootPath):
@@ -339,7 +339,16 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if root.endswith("__pycache__"):
 				continue
 			
-			if tmpPath in root:
+			if ideRoot in root:
+				continue
+				
+			if ".git" in root:
+				continue
+				
+			if root.endswith("C++"):
+				continue
+			
+			if root.endswith("Python3"):
 				continue
 			
 			for file in files:
