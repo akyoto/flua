@@ -13,6 +13,8 @@ class BPLogWidget(QtGui.QPlainTextEdit):
 		self.highlighter = CLogHighlighter(self.document(), self.bpIDE)
 		self.inputEnabled = False
 		
+		self.setTabStopWidth(4 * 8)
+		
 		self.signal = QtCore.SIGNAL("newDataAvailable(QString)")
 		self.errorSignal = QtCore.SIGNAL("newErrorAvailable(QString)")
 		self.flushSignal = QtCore.SIGNAL("flushRequested()")
