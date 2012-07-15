@@ -139,7 +139,7 @@ class Startup:
 		self.codeEdit = None
 		
 		#self.statusBar.hide()
-		self.toolBar.hide()
+		#self.toolBar.hide()
 		#self.syntaxSwitcherBar.hide()
 		
 	def initDockIcons(self):

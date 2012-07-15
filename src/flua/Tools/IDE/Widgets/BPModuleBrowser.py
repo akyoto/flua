@@ -338,24 +338,27 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if not rootFixed.endswith("/"):
 				rootFixed += "/"
 			
-			if rootFixed == self.bpIDE.tmpPath:
-				continue
-			
+			# Filter Python cache directories
 			if rootFixed.endswith("__pycache__/"):
 				continue
 			
+			# Filter hidden git directories
+			if ".git" in rootFixed:
+				continue
+			
+			# Filter IDE root directory
 			if ideRoot in rootFixed:
 				continue
 				
-			if ".git" in rootFixed:
-				continue
-				
+			# Filter C++ output directories
 			if rootFixed.endswith("C++/"):
 				continue
 			
+			# Filter Python 3 output directories
 			if rootFixed.endswith("Python3/"):
 				continue
 			
+			# Find all modules
 			for file in files:
 				if file.endswith(".flua"):
 					# If there is a directory with the same name, delete the file
@@ -391,6 +394,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#	self.bpcModel.removeRows(1, self.bpcModel.rowCount())
 		#self.setModel(None)
 		
+		# Build the module tree
 		self.buildTree(rootItem)
 		
 		if expandedList:
