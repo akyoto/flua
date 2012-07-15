@@ -331,7 +331,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		
 		ideRoot = getIDERoot()
 		
-		self.startBenchmark(" * Load module directory")
+		self.startBenchmark("Init module directory")
 		for root, subFolders, files in os.walk(rootPath):
 			# Fix path
 			rootFixed = root.replace(OS_WRONG_SLASH, OS_SLASH)

@@ -636,6 +636,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if not selectedNode:
 			selectedNode = self.lastShownNode
 		
+		if not self.codeEdit:
+			return
+		
 		if self.codeEdit.outFile and selectedNode:
 			#print("Before")
 			#self.codeEdit.outFile.debugScopes()
@@ -707,6 +710,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def postProcessorFinished(self, ppThread = None):
 		if ppThread is None:
+			if not self.codeEdit:
+				return
+			
 			ppThread = self.codeEdit.postProcessorThread
 		
 		ppCodeEdit = ppThread.codeEdit

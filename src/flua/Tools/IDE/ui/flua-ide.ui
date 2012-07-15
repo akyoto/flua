@@ -119,10 +119,13 @@
      <string>Utilities</string>
     </property>
     <addaction name="actionCommand"/>
-    <addaction name="actionCreateDefaultImplementation"/>
+    <addaction name="separator"/>
     <addaction name="actionJumpToDefinition"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreateDefaultImplementation"/>
     <addaction name="actionDuplicateLine"/>
     <addaction name="actionToggleComment"/>
+    <addaction name="separator"/>
     <addaction name="actionFindPossibleParallelizationPoints"/>
    </widget>
    <addaction name="menuFile"/>

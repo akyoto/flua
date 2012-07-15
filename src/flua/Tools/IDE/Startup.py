@@ -164,50 +164,51 @@ class Startup:
 		self.setDockOptions(QtGui.QMainWindow.AnimatedDocks)# | QtGui.QMainWindow.AllowNestedDocks)
 		
 		# Module view
-		self.startBenchmark(" * Module browser")
+		self.startBenchmark("Init module browser")
 		self.moduleView = BPModuleBrowser(self, getModuleDir())
 		self.endBenchmark()
 		
 		# Console
-		self.startBenchmark(" * Console")
+		#self.startBenchmark(" * Console")
 		self.console = BPConsoleWidget(self)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# XML view
-		self.startBenchmark(" * XML view")
+		#self.startBenchmark(" * XML view")
 		self.xmlView = XMLCodeEdit(self)
 		self.xmlView.setReadOnly(1)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# Dependency view
-		self.startBenchmark(" * Dependency view")
+		#self.startBenchmark(" * Dependency view")
 		self.dependencyView = BPDependencyView(self)
 		self.dependencyView.setReadOnly(1)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# File view
-		self.startBenchmark(" * File browser")
+		#self.startBenchmark(" * File browser")
 		self.fileView = BPFileBrowser(self, getModuleDir())
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# Scribble - I absolutely love this feature in Geany!
 		# It's always the little things that are awesome :)
-		self.startBenchmark(" * Scribble")
+		
+		#self.startBenchmark(" * Scribble")
 		self.scribble = BPScribbleWidget(self, getIDERoot() + "miscellaneous/scribble.txt")
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# Chat
 		#self.chatWidget = BPChatWidget(self)
 		
 		# Outline
-		self.startBenchmark(" * Outline")
+		#self.startBenchmark(" * Outline")
 		self.outlineView = BPOutlineView(self)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		# Meta data
-		self.startBenchmark(" * Meta data")
+		#self.startBenchmark(" * Meta data")
 		self.metaData = BPMetaDataWidget(self)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 		#self.workspacesViewDock = self.createDockWidget("Workspaces", self.workspacesView, QtCore.Qt.LeftDockWidgetArea)
 		#self.msgViewDock = self.createDockWidget("Messages", self.msgView, QtCore.Qt.LeftDockWidgetArea)

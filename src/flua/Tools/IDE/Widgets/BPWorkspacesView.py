@@ -37,6 +37,9 @@ class BPWorkspacesView(QtGui.QWidget):
 		return "<em style='font-size: 10px;'>Alt + %d</em>" % number
 		
 	def setCurrentWorkspace(self, button):
+		#if not self.bpIDE.loadingFinished:
+		#	return
+		
 		index = int(button.text()) - 1
 		self.bpIDE.setCurrentWorkspace(index)
 		
