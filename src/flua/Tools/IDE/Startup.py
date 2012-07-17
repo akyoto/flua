@@ -285,8 +285,10 @@ class Startup:
 			self.actionRepositoryList : self.showRepositoryList,
 			self.actionConnectWithGitHub : self.connectWithGitHub,
 			
-			# Workspace
+			# Window
 			self.actionToggleFullscreen : self.toggleFullScreen,
+			
+			# Workspaces
 			self.actionWorkspace_1 : lambda: self.setCurrentWorkspace(0),
 			self.actionWorkspace_2 : lambda: self.setCurrentWorkspace(1),
 			self.actionWorkspace_3 : lambda: self.setCurrentWorkspace(2),

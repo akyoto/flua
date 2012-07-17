@@ -117,4 +117,5 @@ QStatusBar, QLabel, QLineEdit, QComboBox {
 	font-family: Ubuntu;
 	font-size: 10pt;
 	max-width: 30px;
+	max-height: 21px;
 }

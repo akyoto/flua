@@ -702,6 +702,11 @@
     <string>Alt+R</string>
    </property>
   </action>
+  <action name="actionHideMainMenu">
+   <property name="text">
+    <string>Hide main menu</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

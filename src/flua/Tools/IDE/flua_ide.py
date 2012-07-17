@@ -548,7 +548,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def setCurrentWorkspace(self, index, activateButton = True):
 		if activateButton:
 			button = self.workspacesView.group.button(index)
-			button.setChecked(True) #.clicked.emit(True)
+			button.setChecked(True)
 			self.workspacesView.setCurrentWorkspaceByButton(button)
 		else:
 			if self.currentWorkspace is not None:
