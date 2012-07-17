@@ -239,6 +239,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				#):
 				pass
 			else:
+				#if self.loadingFinished:
 				return
 		
 		# Create output compiler

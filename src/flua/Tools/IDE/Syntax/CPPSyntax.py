@@ -349,7 +349,7 @@ class CPPHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		
 		self.bpIDE = bpIDE
 		#self.updateCharFormatFlag = False
-
+	
 	def highlightBlock(self, text):
 		"""Apply syntax highlighting to the given block of text.
 		"""

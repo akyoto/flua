@@ -31,6 +31,7 @@
 			<name>GraphicsWindow</name>
 			<code>
 				<function depth="1" id="4">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -85,7 +86,6 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<if-block depth="2" id="5">
 							<if>
@@ -296,6 +296,7 @@
 				</function>
 				<comment>\SClears\Sthe\Sscreen\Swith\Sthe\Scolor\Sindicated\Sby\S#r,\S#g,\S#b\Sand\S#a</comment>
 				<function depth="1" id="17">
+					<name>cls</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -322,7 +323,6 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>cls</name>
 					<code>
 						<call depth="2" id="18">
 							<function>glClearColor</function>
@@ -482,6 +482,7 @@
 				<set depth="1" id="43">
 					<comment>\SSets\Sthe\Snew\Swindow\Stitle</comment>
 					<setter depth="2" id="44">
+						<name>title</name>
 						<parameters>
 							<parameter>
 								<access>
@@ -490,7 +491,6 @@
 								</access>
 							</parameter>
 						</parameters>
-						<name>title</name>
 						<code>
 							<call depth="3" id="45">
 								<function>glutSetWindowTitle</function>
@@ -512,10 +512,10 @@
 					</setter>
 					<comment>\SSets\Sthe\Svisibility\Sof\Sthe\Swindow</comment>
 					<setter depth="2" id="46">
+						<name>visible</name>
 						<parameters>
 							<parameter>isVisible</parameter>
 						</parameters>
-						<name>visible</name>
 						<code>
 							<if-block depth="3" id="47">
 								<if>
@@ -672,10 +672,10 @@
 					</code>
 				</function>
 				<function depth="1" id="70">
+					<name>setWindow</name>
 					<parameters>
 						<parameter>gfxWindow</parameter>
 					</parameters>
-					<name>setWindow</name>
 					<code>
 						<comment>fluaActiveWindow\S=\SgfxWindow</comment>
 						<call depth="2" id="71">

@@ -924,6 +924,16 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			popup = None
 		
+		# Escape disables AC
+		if eventKey == QtCore.Qt.Key_Escape:
+			if not self.bpIDE.config.developerMode:
+				self.bpIDE.consoleDock.hide()
+			
+			self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
+			popup.hide()
+			event.ignore()
+			return
+		
 		# Auto Complete
 		isShortcut = (eventModifiers == QtCore.Qt.ControlModifier and eventKey == QtCore.Qt.Key_Space)
 		
@@ -940,16 +950,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					QtCore.Qt.Key_Return,
 					QtCore.Qt.Key_Escape,
 					QtCore.Qt.Key_Tab,
-					QtCore.Qt.Key_Backtab,
-					QtCore.Qt.Key_Escape):
-				
-				# Escape disables AC
-				if eventKey == QtCore.Qt.Key_Escape:
-					if not self.bpIDE.config.developerMode:
-						self.bpIDE.consoleDock.hide()
-					
-					self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
-					popup.hide()
+					QtCore.Qt.Key_Backtab):
 				
 				event.ignore()
 				return
