@@ -5,7 +5,7 @@ from flua.Compiler.Config import *
 from flua.Compiler.Input.bpc import *
 import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 
-class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
+class FluaHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Syntax highlighter for the Flua language.
 	"""
 	# Flua keywords - used by the highlighter.
@@ -147,7 +147,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					continue
 				
 				#print(ord(expr[0]))
-				#print(BPCHighlighter.keywords[ord(expr[0])])
+				#print(FluaHighlighter.keywords[ord(expr[0])])
 				if (userData and userData.node):
 					node = userData.node
 					if userData.node.nodeType != Node.TEXT_NODE:
@@ -179,7 +179,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							i = h
 							return
 				
-				if expr in (BPCHighlighter.keywords[ascii]):
+				if expr in (FluaHighlighter.keywords[ascii]):
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
@@ -285,7 +285,7 @@ class BPCHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#	h += 1
 				self.setFormat(i, 1, style['operator'])
 				#i = h
-			elif char in BPCHighlighter.braces:
+			elif char in FluaHighlighter.braces:
 				self.setFormat(i, 1, style['brace'])
 				
 			i += 1

@@ -42,6 +42,9 @@ class Benchmarkable:
 		self.benchmarkName.append(name)
 		self.benchmarkTimerStart.append(time.time())
 		
+	def quitBenchmark(self):
+		self.benchmarkName.pop()
+		
 	def endBenchmark(self):
 		self.benchmarkTimerEnd = time.time()
 		buildTime = self.benchmarkTimerEnd - self.benchmarkTimerStart.pop()

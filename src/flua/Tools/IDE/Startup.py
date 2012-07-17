@@ -3,6 +3,7 @@ from flua.Tools.IDE.Utils import *
 from flua.Tools.IDE.Editor import *
 from flua.Tools.IDE.Widgets import *
 from flua.Tools.IDE.MenuActions import *
+from flua.Tools.IDE.Environment import *
 import configparser
 
 class Startup:
@@ -284,8 +285,16 @@ class Startup:
 			self.actionRepositoryList : self.showRepositoryList,
 			self.actionConnectWithGitHub : self.connectWithGitHub,
 			
-			# Window
+			# Workspace
 			self.actionToggleFullscreen : self.toggleFullScreen,
+			self.actionWorkspace_1 : lambda: self.setCurrentWorkspace(0),
+			self.actionWorkspace_2 : lambda: self.setCurrentWorkspace(1),
+			self.actionWorkspace_3 : lambda: self.setCurrentWorkspace(2),
+			self.actionWorkspace_4 : lambda: self.setCurrentWorkspace(3),
+			self.actionWorkspace_Q : lambda: self.setCurrentWorkspace(4),
+			self.actionWorkspace_W : lambda: self.setCurrentWorkspace(5),
+			self.actionWorkspace_E : lambda: self.setCurrentWorkspace(6),
+			self.actionWorkspace_R : lambda: self.setCurrentWorkspace(7),
 			
 			# Help
 			self.actionIntroduction : self.showIntroduction,
@@ -311,6 +320,7 @@ class Startup:
 		self.currentWorkspace = None
 		self.workspacesContainer = QtGui.QWidget(self)
 		self.workspacesContainer.setContentsMargins(0, 0, 0, 0)
+		
 		hBox = QtGui.QHBoxLayout()
 		hBox.setContentsMargins(0, 0, 0, 0)
 		self.workspacesContainer.setLayout(hBox)
@@ -320,6 +330,10 @@ class Startup:
 			BPWorkspace(self, 1),
 			BPWorkspace(self, 2),
 			BPWorkspace(self, 3),
+			BPWorkspace(self, 4),
+			BPWorkspace(self, 5),
+			BPWorkspace(self, 6),
+			BPWorkspace(self, 7),
 		]
 		
 	def loadSession(self):
@@ -471,6 +485,12 @@ class Startup:
 		self.config.theme = self.themes[self.config.themeName]
 		
 	def initCompiler(self):
+		self.environments = {
+			FluaEnvironment(getModuleDir()),
+			CPPEnvironment("/usr/include/"),
+			PythonEnvironment("/usr/lib/python3.2/"),
+		}
+		
 		self.inputCompiler = BPCCompiler(getModuleDir(), ".flua")
 		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None

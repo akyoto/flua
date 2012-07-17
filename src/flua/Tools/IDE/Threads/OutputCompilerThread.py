@@ -65,7 +65,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		except KeyError:
 			pass
 		finally:
-			if self.benchmarkTimerStart != 0:
+			if self.benchmarkTimerStart:
 				self.endBenchmark()
 		
 		#self.bpIDE.backgroundCompilerRan = True

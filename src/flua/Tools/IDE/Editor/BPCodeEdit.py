@@ -1,5 +1,6 @@
 from PyQt4 import QtGui, QtCore, uic
-from flua.Tools.IDE.Syntax.BPCSyntax import *
+from flua.Tools.IDE.Syntax import *
+from flua.Tools.IDE.Environment import *
 from flua.Tools.IDE.Threads import *
 from flua.Tools.IDE.Widgets import *
 from flua.Compiler import *
@@ -149,6 +150,8 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		if modified:
 			self.updateStringList()
 			self.endBenchmark()
+		else:
+			self.quitBenchmark()
 		
 	#def setShortCutDict(self, shortCuts):
 	#	self.shortCuts = shortCuts
@@ -388,7 +391,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.qdoc = self.document()
 		self.completer = None
 		self.docNavigator = None
-		self.highlighter = BPCHighlighter(self.qdoc, self.bpIDE)
+		self.highlighter = FluaHighlighter(self.qdoc, self.bpIDE)
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)
@@ -1465,6 +1468,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	
 	def setFilePath(self, filePath):
 		self.filePath = fixPath(filePath)
+		self.environment = self.bpIDE.getEnvironmentByFilePath(self.filePath)
 		
 		if self.bpcFile:
 			self.bpcFile.setFilePath(self.filePath)

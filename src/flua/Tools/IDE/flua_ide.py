@@ -116,7 +116,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer = BPCAutoCompleter(self)
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
-		self.completer.bpcModel.setKeywordList(list(BPCHighlighter.keywordList))
+		self.completer.bpcModel.setKeywordList(list(FluaHighlighter.keywordList))
 		
 		if os.name != "nt":
 			self.showMaximized()
@@ -148,9 +148,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 
 # Check flua.Documentation in the module browser on the left for some beginner topics.
 """)
-		cursor = self.codeEdit.textCursor()
-		cursor.movePosition(QtGui.QTextCursor.End)
-		self.codeEdit.setTextCursor(cursor)
+			cursor = self.codeEdit.textCursor()
+			cursor.movePosition(QtGui.QTextCursor.End)
+			self.codeEdit.setTextCursor(cursor)
 		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
@@ -245,6 +245,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Create output compiler
 		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
 		self.outputCompilerThread.startWith(tmpOutputCompiler)
+	
+	def getEnvironmentByFilePath(self, filePath):
+		fileName, fileExt = os.path.splitext(filePath)
+		
+		for env in self.environments:
+			if fileExt in env.fileExtensions:
+				return env
 	
 	def backgroundCompilerFinished(self):
 		#if self.outputCompilerThread.lastException:
@@ -538,12 +545,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.geometryState:
 			self.restoreState(self.geometryState)
 		
-	def setCurrentWorkspace(self, index):
-		if self.currentWorkspace is not None:
-			self.currentWorkspace.deactivateWorkspace()
-		
-		self.currentWorkspace = self.workspaces[index]
-		self.currentWorkspace.activateWorkspace()
+	def setCurrentWorkspace(self, index, activateButton = True):
+		if activateButton:
+			button = self.workspacesView.group.button(index)
+			button.setChecked(True) #.clicked.emit(True)
+			self.workspacesView.setCurrentWorkspaceByButton(button)
+		else:
+			if self.currentWorkspace is not None:
+				self.currentWorkspace.deactivateWorkspace()
+			
+			self.currentWorkspace = self.workspaces[index]
+			self.currentWorkspace.activateWorkspace()
 		
 	def closeCurrentTab(self):
 		self.currentWorkspace.closeCurrentCodeEdit()

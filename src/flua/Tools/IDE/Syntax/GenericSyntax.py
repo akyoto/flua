@@ -81,7 +81,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#			i = h
 				#			return
 				
-				if expr in (BPCHighlighter.keywords[ascii]):
+				if expr in (FluaHighlighter.keywords[ascii]):
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
@@ -187,7 +187,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#	h += 1
 				self.setFormat(i, 1, style['operator'])
 				#i = h
-			elif char in BPCHighlighter.braces:
+			elif char in FluaHighlighter.braces:
 				self.setFormat(i, 1, style['brace'])
 				
 			i += 1

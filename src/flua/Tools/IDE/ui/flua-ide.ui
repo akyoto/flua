@@ -103,9 +103,17 @@
    </widget>
    <widget class="QMenu" name="menuWindows">
     <property name="title">
-     <string>Window</string>
+     <string>Workspaces</string>
     </property>
-    <addaction name="actionToggleFullscreen"/>
+    <addaction name="actionWorkspace_1"/>
+    <addaction name="actionWorkspace_2"/>
+    <addaction name="actionWorkspace_3"/>
+    <addaction name="actionWorkspace_4"/>
+    <addaction name="separator"/>
+    <addaction name="actionWorkspace_Q"/>
+    <addaction name="actionWorkspace_W"/>
+    <addaction name="actionWorkspace_E"/>
+    <addaction name="actionWorkspace_R"/>
    </widget>
    <widget class="QMenu" name="menuRepository">
     <property name="title">
@@ -128,11 +136,18 @@
     <addaction name="separator"/>
     <addaction name="actionFindPossibleParallelizationPoints"/>
    </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionToggleFullscreen"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuModule"/>
    <addaction name="menuRepository"/>
    <addaction name="menuUtilities"/>
+   <addaction name="menuWindow"/>
    <addaction name="menuWindows"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -516,6 +531,9 @@
    <property name="text">
     <string>Repository list</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
   </action>
   <action name="actionConnectWithGitHub">
    <property name="icon">
@@ -618,6 +636,70 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_1">
+   <property name="text">
+    <string>Workspace 1</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+1</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_2">
+   <property name="text">
+    <string>Workspace 2</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_3">
+   <property name="text">
+    <string>Workspace 3</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+3</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_4">
+   <property name="text">
+    <string>Workspace 4</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_Q">
+   <property name="text">
+    <string>Workspace Q</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Q</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_W">
+   <property name="text">
+    <string>Workspace W</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+W</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_E">
+   <property name="text">
+    <string>Workspace E</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+E</string>
+   </property>
+  </action>
+  <action name="actionWorkspace_R">
+   <property name="text">
+    <string>Workspace R</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
    </property>
   </action>
  </widget>
