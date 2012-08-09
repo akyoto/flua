@@ -1,6 +1,12 @@
 /*QWidget {
 	background-color: #272727;
 	color: #eeeeee;
+	border: 1px solid #eeeeee;
+}*/
+
+/*QWidget {
+	background-color: #272727;
+	border-color: #eeeeee;
 }*/
 
 QPlainTextEdit, QTreeView, QListView {

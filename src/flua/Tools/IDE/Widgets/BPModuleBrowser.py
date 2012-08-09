@@ -48,13 +48,15 @@ class BPModuleItem(QtGui.QStandardItem):
 		
 class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	
-	def __init__(self, parent, modDir):
+	def __init__(self, parent, environment):
 		super().__init__(parent)
 		Benchmarkable.__init__(self)
 		
 		self.bpIDE = parent
+		self.environment = environment
 		self.bpcModel = None
-		self.modDir = modDir
+		self.modules = None
+		self.modCount = 0
 		self.setExpandsOnDoubleClick(False)
 		#self.setAnimated(True)
 		self.oldImportedMods = []
@@ -98,7 +100,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.bpcModel = BPModuleViewModel()
 		self.setModel(self.bpcModel)
 		
-		self.reloadModuleDirectory(expand = True)
+		#self.reloadModuleDirectory(expand = True)
 		
 	# On renaming
 	def commitData(self, editor):
@@ -126,7 +128,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				sharesName = True
 				parts[-2] = newName
 			
-			parts[-1] = newName + ".flua"
+			parts[-1] = newName + self.environment.standardFileExtension
 		else:
 			if parts:
 				parts[-1] = newName
@@ -203,7 +205,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			if not os.path.exists(path):
 				os.makedirs(path)
 			
-			shutil.copyfile(getIDERoot() + "Templates/Empty.flua", path + "Empty.flua")
+			shutil.copyfile(getIDERoot() + "Templates/Empty" + self.environment.standardFileExtension, path + "Empty" + self.environment.standardFileExtension)
 			self.reloadModuleDirectory(expand = False)
 		
 	# New module
@@ -249,8 +251,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		#print(newPath)
 		#print(name)
 		
-		copyFrom = getIDERoot() + "Templates/Empty.flua"
-		copyTo = newPath + name + ".flua"
+		copyFrom = getIDERoot() + "Templates/Empty" + self.environment.standardFileExtension
+		copyTo = newPath + name + self.environment.standardFileExtension
 		
 		#print(copyFrom)
 		#print(copyTo)
@@ -311,6 +313,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def reloadModuleDirectory(self, rootItem = None, expand = True):
 		expandedList = []
 		
+		# Delete all existing rows 
 		if self.bpcModel:
 			# Save expanded state
 			indices = self.bpcModel.persistentIndexList()
@@ -318,13 +321,18 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			for index in indices:
 				expandedList.append((index.data(QtCore.Qt.UserRole + 1).path, self.isExpanded(index)))
 			
-			# Delete all existing rows
+			# The actual deletion
 			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
 		
 		self.modules = BPModuleItem("root")
-		self.modules.realPath = self.modDir
 		
-		extLen = len(".flua")
+		if not self.environment.rootDir:
+			return
+		
+		self.modules.realPath = self.bpIDE.environment.rootDir
+		
+		fileExtensions = self.environment.fileExtensions
+		
 		rootPath = extractDir(self.modules.realPath)
 		rootLen = len(rootPath)
 		self.modCount = 0
@@ -360,8 +368,15 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			
 			# Find all modules
 			for file in files:
-				if file.endswith(".flua"):
-					# If there is a directory with the same name, delete the file
+				fileExt = extractExt(file)
+				
+				if not fileExt in fileExtensions:
+					continue
+				
+				extLen = len(fileExt)
+				
+				# If there is a directory with the same name, delete the file
+				if self.environment == self.bpIDE.fluaEnvironment:
 					if os.path.isdir(fixPath(root) + "/" + stripExt(file)):
 						try:
 							os.unlink(fixPath(root) + "/" + file)
@@ -369,24 +384,24 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 							pass
 						
 						continue
-					
-					lastDir = fixPath(root).split(OS_SLASH)[-2]
-					modName = file[:-extLen]
-					if modName == lastDir:
-						mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".")[:-1]
-					else:
-						mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".") + modName
-					mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".") + "." + file[:-extLen]
-					
-					parts = mod.split(".")
-					
-					modulesRoot = self.modules
-					for part in parts:
-						if not part in modulesRoot.subModules:
-							modulesRoot.subModules[part] = BPModuleItem(part)
-						modulesRoot = modulesRoot.subModules[part]
-					
-					self.modCount += 1
+				
+				lastDir = fixPath(root).split(OS_SLASH)[-2]
+				modName = file[:-extLen]
+				if modName == lastDir:
+					mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".")[:-1]
+				else:
+					mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".") + modName
+				mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".") + "." + file[:-extLen]
+				
+				parts = mod.split(".")
+				
+				modulesRoot = self.modules
+				for part in parts:
+					if not part in modulesRoot.subModules:
+						modulesRoot.subModules[part] = BPModuleItem(part)
+					modulesRoot = modulesRoot.subModules[part]
+				
+				self.modCount += 1
 					
 		self.endBenchmark()
 		#print(self.modules.subModules["bp"].subModules)
@@ -484,7 +499,8 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.brushSimpleFolder = self.bpIDE.config.theme['module-browser-directory']
 		self.brushModule = self.bpIDE.config.theme['module-browser-module']
 		
-		self.forEachModItemDo(self.modules, self.resetHighlight)
+		if self.modules:
+			self.forEachModItemDo(self.modules, self.resetHighlight)
 		
 		# Reset to enable rehighlighting on a file reload
 		self.oldImportedMods = []

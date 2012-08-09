@@ -68,10 +68,17 @@ class BPWorkspace(QtGui.QTabWidget):
 				self.tabBar().setTabTextColor(i, self.bpIDE.config.theme["doc-unmodified"])
 		
 	def changeCodeEdit(self, index):
-		#print("CODE EDIT CHANGED TO INDEX %d" % index)
+		print("CODE EDIT CHANGED TO INDEX %d" % index)
+		
 		if index != -1:
 			del self.bpIDE.codeEdit
 			self.bpIDE.codeEdit = self.widget(index)
+			
+			# Set environment
+			#env = self.bpIDE.codeEdit.environment
+			#if env:
+			#	self.bpIDE.setEnvironment(env)
+			
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)
 			
@@ -87,7 +94,7 @@ class BPWorkspace(QtGui.QTabWidget):
 			
 			if self.currentIndex() != index:
 				self.setCurrentIndex(index)
-			
+				
 			# Text file or not?
 			isText = self.bpIDE.codeEdit.isTextFile
 			self.bpIDE.syntaxSwitcher.setEnabled(not isText)
@@ -157,6 +164,9 @@ class BPWorkspace(QtGui.QTabWidget):
 			
 			self.setTabText(self.currentIndex(), tabName)
 			self.setTabToolTip(self.currentIndex(), filePath)
+			
+			# Set environment
+			#self.bpIDE.setEnvironment(self.bpIDE.codeEdit.environment)
 		
 	def activateWorkspace(self):
 		#self.tabWidget.show()

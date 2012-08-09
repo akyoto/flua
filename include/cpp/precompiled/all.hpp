@@ -57,10 +57,11 @@
 	#endif
 	
 	#ifdef _WIN32
-		#include "../gc-7.2/gc_cpp.h"
+		#include "../gc-7.2c/gc_cpp.h"
 	#else
 		#define GC_LINUX_THREADS
-		#include "../gc-7.3/gc_cpp.h"
+		#include "../gc-7.2c/gc_cpp.h"
+	//	#include "../gc-7.3/gc_cpp.h"
 	#endif
 	
 	#include <pthread.h>

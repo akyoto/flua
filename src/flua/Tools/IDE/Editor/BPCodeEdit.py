@@ -390,8 +390,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.updateQueue = collections.deque()
 		self.qdoc = self.document()
 		self.completer = None
+		self.environment = None
 		self.docNavigator = None
-		self.highlighter = FluaHighlighter(self.qdoc, self.bpIDE)
+		self.highlighter = None
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)
@@ -780,6 +781,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.completer.codeEdit = self
 		completer.disconnect(self.completer, signal, self.insertCompletion)
 		self.connect(self.completer, signal, self.insertCompletion)
+		
+		# Set keyword list to the local environment
+		if self.environment:
+			self.completer.bpcModel.setKeywordList(list(self.environment.autoCompleteKeywords))
 	
 	def insertCompletion(self, completion):
 		if self.bpIDE.codeEdit != self:
@@ -1373,7 +1378,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.setTextCursor(cursor)
 		
 		# Rehighlight
-		#self.rehighlightFunctionUsage()	
+		#self.rehighlightFunctionUsage()
 	
 	def indentSelection(self):
 		self.processSelection(self.indentLine, 1)
@@ -1465,14 +1470,43 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			if msgStatusBar:
 				self.bpIDE.statusBar.showMessage("Error saving " + newPath, 3000)
+		
+	# Sets the language environment
+	def setEnvironment(self, environment):
+		if environment == self.environment:
+			return
+		
+		self.environment = environment
+		self.highlighter = GenericHighlighter(self.environment, self.qdoc, self.bpIDE)
+		
+		if environment == self.bpIDE.fluaEnvironment:
+			self.isTextFile = False
+			text = self.toPlainText()
+			self.setPlainText("")
+			self.setPlainText(text)
+			self.runUpdater()
+		else:
+			self.isTextFile = True
+		
+		self.highlighter.rehighlight()
+		
+		if self.bubble:
+			self.bubble.setEnvironment(environment)
+		#self.setCompleter(self.completer)
+	
+	def setFileExtension(self, ext):
+		self.setFilePath(stripExt(self.filePath) + ext)
 	
 	def setFilePath(self, filePath):
 		self.filePath = fixPath(filePath)
-		self.environment = self.bpIDE.getEnvironmentByFilePath(self.filePath)
+		
+		# Environment
+		env = self.bpIDE.getEnvironmentByFilePath(self.filePath)
+		self.setEnvironment(env)
 		
 		if self.bpcFile:
 			self.bpcFile.setFilePath(self.filePath)
-			
+		
 		if not self.docNavigator:
 			if self.isDocFile():
 				self.docNavigator = BPDocNavigator(self)
@@ -1673,6 +1707,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		self.runUpdater()
 		
+	# Sets the Flua XML code
 	def setXML(self, xmlCode):
 		self.disableUpdatesFlag = True
 		

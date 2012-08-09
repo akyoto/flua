@@ -97,6 +97,14 @@ def extractDir(path):
 	#else:
 	#	return fixPath(os.path.dirname(path))
 	
+def extractExt(path):
+	pos = path.find(".")
+	
+	if pos == -1:
+		return ""
+	
+	return path[pos:]
+	
 def getNextWhitespacePos(stri, fromIndex):
 	striLen = len(stri)
 	while fromIndex < striLen and not stri[fromIndex].isspace():

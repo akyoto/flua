@@ -8,10 +8,11 @@ import flua.Compiler.Input.bpc.BPCUtils as bpcUtils
 class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 	"""Generic syntax highlighter
 	"""
-	def __init__(self, bpIDE):
+	def __init__(self, environment, document, bpIDE):
 		QtGui.QSyntaxHighlighter.__init__(self, document)
 		Benchmarkable.__init__(self)
 		
+		self.environment = environment
 		self.bpIDE = bpIDE
 		
 	def highlightBlock(self, text):
@@ -19,7 +20,18 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		"""
 		bpIDE = self.bpIDE
 		ce = bpIDE.codeEdit
-		externFuncs = bpIDE.currentEnvironment.externFunctions
+		
+		# Environment
+		externFuncs = self.environment.mainNamespace.externFunctions
+		keywords = self.environment.highlightKeywords
+		operators = self.environment.operators
+		braces = self.environment.braces
+		singleLineCommentIndicators = self.environment.singleLineCommentIndicators
+		preprocessorIndicators = self.environment.preprocessorIndicators
+		specialKeywords = self.environment.specialKeywords
+		internalDataTypes = self.environment.internalDataTypes
+		internalFunctions = self.environment.internalFunctions
+		selfReferences = self.environment.selfReferences
 		
 		if not text:
 			return
@@ -33,11 +45,6 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		expr = ""
 		previousExpr = ""
 		
-		# Ruby
-		if text.strip() == "end":
-			self.setFormat(0, textLen, style['keyword'])
-			return
-		
 		while i < textLen:
 			char = text[i]
 			
@@ -49,39 +56,38 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				previousExpr = expr
 				expr = text[i:h]
 				
-				#if (userData and userData.node):
-				#	node = userData.node
-				#	
-				#	if userData.node.nodeType != Node.TEXT_NODE:
-				#		inClass = node.parentNode.tagName != "module" and (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
-				#		if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
-				#			if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
-				#				self.setFormat(i, h - i, style['class-' + userData.node.tagName])
-				#				i = h
-				#				continue
-				#			else:
-				#				pos = text.find("(")
-				#				#self.setFormat(i, h - i, style['keyword']) # def keyword
-				#				self.setFormat(h, pos - h, style['class-' + userData.node.tagName]) # class element
-				#			
-				#		elif userData.node.tagName == "class":
-				#			if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
-				#				self.setFormat(i, h - i, style['class-name'])
-				#				i = h
-				#				continue
-				#		elif userData.node.tagName == "extern-function": #and expr.startswith("flua_"):
-				#			# TODO: Optimize using bpIDE.processor
-				#			if isMetaDataTrue(getMetaData(node, "no-side-effects")):
-				#				if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
-				#					self.setFormat(i, h - i, style['ref-transparent-extern-function'])
-				#				else:
-				#					self.setFormat(i, h - i, style['no-side-effects-extern-function'])
-				#			else:
-				#				self.setFormat(i, h - i, style['side-effects-extern-function'])
-				#			i = h
-				#			return
+				if (userData and userData.node):
+					node = userData.node
+					if userData.node.nodeType != Node.TEXT_NODE:
+						inClass = node.parentNode.tagName != "module" and (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
+						if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
+							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
+								self.setFormat(i, h - i, style['class-' + userData.node.tagName])
+								i = h
+								continue
+							else:
+								pos = text.find("(")
+								#self.setFormat(i, h - i, style['keyword']) # def keyword
+								self.setFormat(h, pos - h, style['class-' + userData.node.tagName]) # class element
+							
+						elif userData.node.tagName == "class":
+							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
+								self.setFormat(i, h - i, style['class-name'])
+								i = h
+								continue
+						elif userData.node.tagName == "extern-function": #and expr.startswith("flua_"):
+							# TODO: Optimize using bpIDE.processor
+							if isMetaDataTrue(getMetaData(node, "no-side-effects")):
+								if isMetaDataTrue(getMetaData(node, "same-output-for-input")):
+									self.setFormat(i, h - i, style['ref-transparent-extern-function'])
+								else:
+									self.setFormat(i, h - i, style['no-side-effects-extern-function'])
+							else:
+								self.setFormat(i, h - i, style['side-effects-extern-function'])
+							i = h
+							return
 				
-				if expr in (FluaHighlighter.keywords[ascii]):
+				if expr in keywords:
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
 						j = h + 1
@@ -132,8 +138,21 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					
 					i = h
 					continue
-				elif expr in {"my", "this", "self"}:
+				elif expr in selfReferences:
 					self.setFormat(i, h - i, style['self'])
+					i = h
+					continue
+				elif expr in internalFunctions:
+					self.setFormat(i, h - i, style['internal-function'])
+					i = h
+					continue
+				elif expr in internalDataTypes: #or expr in nonPointerClasses or expr.startswith("GL") or expr.endswith("_t"):
+					# Quick hack
+					self.setFormat(i, h - i, style['internal-datatype'])
+					i = h
+					continue
+				elif expr in specialKeywords:
+					self.setFormat(i, h - i, style['keyword'])
 					i = h
 					continue
 				elif bpIDE.processor.getFirstDTreeByFunctionName(expr):
@@ -173,7 +192,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#		self.setFormat(i, h - i, style['string'])
 				#else:
 				i = h
-			elif char == '#':
+			elif char in singleLineCommentIndicators:
 				if i < textLen - 1 and text[i + 1].isspace():
 					self.setFormat(i, textLen - i, style['comment'])
 				else:
@@ -181,13 +200,16 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				return
 			elif char == ',':
 				self.setFormat(i, 1, style['comma'])
-			elif char in '+-*/=<>%&|:!\\~^':
+			elif char in preprocessorIndicators:
+				self.setFormat(i, textLen - i, style['preprocessor'])
+				return
+			elif char in operators:
 				#h = i + 1
 				#while h < textLen and text[h]:
 				#	h += 1
 				self.setFormat(i, 1, style['operator'])
 				#i = h
-			elif char in FluaHighlighter.braces:
+			elif char in braces:
 				self.setFormat(i, 1, style['brace'])
 				
 			i += 1

@@ -165,9 +165,12 @@ class Startup:
 		self.setDockOptions(QtGui.QMainWindow.AnimatedDocks)# | QtGui.QMainWindow.AllowNestedDocks)
 		
 		# Module view
-		self.startBenchmark("Init module browser")
-		self.moduleView = BPModuleBrowser(self, getModuleDir())
-		self.endBenchmark()
+		#self.startBenchmark("Init module browser")
+		for env in self.environments:
+			env.moduleView = BPModuleBrowser(self, env)
+		
+		self.moduleView = self.environment.moduleView
+		#self.endBenchmark()
 		
 		# Console
 		#self.startBenchmark(" * Console")
@@ -285,9 +288,6 @@ class Startup:
 			self.actionRepositoryList : self.showRepositoryList,
 			self.actionConnectWithGitHub : self.connectWithGitHub,
 			
-			# Window
-			self.actionToggleFullscreen : self.toggleFullScreen,
-			
 			# Workspaces
 			self.actionWorkspace_1 : lambda: self.setCurrentWorkspace(0),
 			self.actionWorkspace_2 : lambda: self.setCurrentWorkspace(1),
@@ -297,6 +297,15 @@ class Startup:
 			self.actionWorkspace_W : lambda: self.setCurrentWorkspace(5),
 			self.actionWorkspace_E : lambda: self.setCurrentWorkspace(6),
 			self.actionWorkspace_R : lambda: self.setCurrentWorkspace(7),
+			
+			# Environments
+			self.actionEnvFlua : lambda: self.setEnvironment(self.fluaEnvironment),
+			self.actionEnvPython : lambda: self.setEnvironment(self.pythonEnvironment),
+			self.actionEnvCPP : lambda: self.setEnvironment(self.cppEnvironment),
+			self.actionEnvNone : lambda: self.setEnvironment(self.baseEnvironment),
+			
+			# Window
+			self.actionToggleFullscreen : self.toggleFullScreen,
 			
 			# Help
 			self.actionIntroduction : self.showIntroduction,
@@ -417,8 +426,9 @@ class Startup:
 				'traceback' : cf("#333333"),
 				'compiler-error' : cf("#ff0000"),
 				
-				'c-datatypes' : cf('#aa11aa', useBold),
-				'c-main' : cf('#0000ff', useBold),
+				'internal-function' : cf('#ffa0c0', useBold),
+				'internal-datatype' : cf('#aa11aa', useBold),
+				'internal-main' : cf('#0000ff', useBold),
 			},
 			
 			# Dark theme
@@ -475,9 +485,9 @@ class Startup:
 				'traceback' : cf("#ffffcc"),
 				'compiler-error' : cf("#ff9000"),
 				
-				'c-function' : cf('#ffa0c0', useBold),
-				'c-datatypes' : cf('#ffff00', useBold),
-				'c-main' : cf('#00ffff', useBold),
+				'internal-function' : cf('#ffa0c0', useBold),
+				'internal-datatype' : cf('#ffff00', useBold),
+				'internal-main' : cf('#00ffff', useBold),
 			},
 		}
 		
@@ -487,12 +497,29 @@ class Startup:
 		self.config.theme = self.themes[self.config.themeName]
 		
 	def initCompiler(self):
+		# Set up the environments we have
+		self.fluaEnvironment = FluaEnvironment(getModuleDir(), self.actionEnvFlua)
+		self.pythonEnvironment = PythonEnvironment(getPython3ModuleDir(), self.actionEnvPython)
+		self.cppEnvironment = CPPEnvironment(getCPPModuleDir(), self.actionEnvCPP)
+		self.baseEnvironment = BaseEnvironment(self.actionEnvNone)
+		
 		self.environments = {
-			FluaEnvironment(getModuleDir()),
-			CPPEnvironment("/usr/include/"),
-			PythonEnvironment("/usr/lib/python3.2/"),
+			self.fluaEnvironment,
+			self.pythonEnvironment,
+			self.cppEnvironment,
+			self.baseEnvironment,
 		}
 		
+		# This is used for pure text files
+		self.setEnvironment(self.baseEnvironment)
+		
+		# Create file extension -> environment mapping
+		self.fileExtensionToEnvironment = dict()
+		for environment in self.environments:
+			for ext in environment.fileExtensions:
+				self.fileExtensionToEnvironment[ext] = environment
+		
+		# Create a compiler for Flua
 		self.inputCompiler = BPCCompiler(getModuleDir(), ".flua")
 		self.processor = BPPostProcessor(self.inputCompiler)
 		self.processorOutFile = None

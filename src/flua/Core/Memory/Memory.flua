@@ -57,6 +57,7 @@
 					</extern-function>
 					<extern-function depth="2" id="13">
 						<name>gcPrintStats</name>
+						<meta/>
 					</extern-function>
 				</code>
 			</namespace>

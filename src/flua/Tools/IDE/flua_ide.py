@@ -64,6 +64,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Init
 		self.threaded = multiThreaded
 		
+		self.environment = None
 		self.tmpCount = 0
 		self.lastBlockPos = -1
 		self.lastFunctionCount = -1
@@ -116,7 +117,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer = BPCAutoCompleter(self)
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
-		self.completer.bpcModel.setKeywordList(list(FluaHighlighter.keywordList))
 		
 		if os.name != "nt":
 			self.showMaximized()
@@ -130,7 +130,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.bindFunctionToTimer(self.showDependencies, 150)
 		self.bindFunctionToTimer(self.onCompileTimeout, self.config.compilerUpdateInterval)
 		#self.bindFunctionToTimer(self.onProcessEvents, 5)
-		self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# Apply settings
 		self.setCentralWidget(self.workspacesContainer)
@@ -144,6 +143,13 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		if 1:
 			self.newFile()
+			self.onLoadingFinished()
+			
+			# TODO: Remove hardcoding
+			if self.config.defaultEnvironmentName == "Flua":
+				self.setEnvironment(self.fluaEnvironment)
+		else:
+			self.newFile()
 			self.codeEdit.setPlainText("""import playground.Everything
 
 # Check flua.Documentation in the module browser on the left for some beginner topics.
@@ -151,6 +157,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			cursor = self.codeEdit.textCursor()
 			cursor.movePosition(QtGui.QTextCursor.End)
 			self.codeEdit.setTextCursor(cursor)
+			
+			self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
@@ -178,6 +186,51 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def sendToRunningProgram(self, data):
 		self.runThread.sendData(data)
+		
+	def setEnvironment(self, env):
+		if env == None:
+			return
+			#env = self.baseEnvironment
+			
+		if self.codeEdit:
+			self.codeEdit.setEnvironment(env)
+			
+		if env == self.environment:
+			return
+		
+		if self.loadingFinished:
+			print("Switching environment to %s" % env.name)
+		
+		# Unload the old environment
+		if self.environment:
+			self.environment.action.setChecked(False)
+		
+		# Set the new environment
+		self.environment = env
+		
+		# Load the new environment
+		self.environment.action.setChecked(True)
+		
+		if self.loadingFinished:
+			self.moduleView.hide()
+			self.moduleView = self.environment.moduleView
+			
+			self.moduleViewDock.setWidget(self.moduleView)
+			self.moduleViewDock.setObjectName("Modules")
+			
+			if self.environment != self.baseEnvironment and self.moduleView.modCount == 0:
+				if self.environment == self.fluaEnvironment:
+					self.moduleView.reloadModuleDirectory(expand = True)
+				else:
+					self.moduleView.reloadModuleDirectory(expand = False)
+			
+			self.moduleInfoLabel.setText("%d modules. " % (self.moduleView.modCount))
+			
+			self.moduleView.resetAllHighlights()
+			self.moduleView.show()
+			
+			#if self.codeEdit and self.isTmpFile():
+			#	self.codeEdit.setFileExtension(self.environment.standardFileExtension)
 		
 	def bindFunctionToTimer(self, func, interval):
 		timer = QtCore.QTimer(self)
@@ -217,11 +270,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.progressBar.show()
 			#self.searchEdit.hide()
 		else:
-			self.loadingFinished = True
 			self.firstStartUpdateTimer.stop()
-			self.progressBar.hide()
-			self.searchEdit.show()
-			self.loadSession()
+			self.onLoadingFinished()
+		
+	def onLoadingFinished(self):
+		self.loadingFinished = True
+		self.progressBar.hide()
+		self.searchEdit.show()
+		self.loadSession()
 		
 	def onProcessEvents(self):
 		QtGui.QApplication.instance().processEvents()
@@ -247,11 +303,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.outputCompilerThread.startWith(tmpOutputCompiler)
 	
 	def getEnvironmentByFilePath(self, filePath):
-		fileName, fileExt = os.path.splitext(filePath)
+		ext = extractExt(filePath)
 		
-		for env in self.environments:
-			if fileExt in env.fileExtensions:
-				return env
+		if ext in self.fileExtensionToEnvironment:
+			return self.fileExtensionToEnvironment[ext]
+		
+		return self.baseEnvironment
 	
 	def backgroundCompilerFinished(self):
 		#if self.outputCompilerThread.lastException:
@@ -325,7 +382,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			)
 		
 		# Take previous cache
-		if self.outputCompiler: #and takeCache:
+		if self.outputCompiler and self.outputCompiler.mainFile == self.getFilePath():
 			tmp.takeOverCache(self.outputCompiler)
 		
 		if temporary:
@@ -623,7 +680,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				self.processorOutFile = None
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
-			self.moduleInfoLabel.setText("%d modules. " % (self.moduleView.modCount))
 			
 			#expr = self.codeEdit.getCurrentLine()
 			#if expr:
@@ -903,7 +959,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.codeEdit:
 			self.codeEdit.disableUpdatesFlag = True
 			#del self.codeEdit.highlighter
-			self.codeEdit.highlighter = CPPHighlighter(self.codeEdit.qdoc, self)
+			#self.codeEdit.highlighter = CPPHighlighter(self.codeEdit.qdoc, self)
 			self.codeEdit.setPlainText(codeText)
 		
 		# Enable dependency view for first line

@@ -388,8 +388,9 @@ inline BPTextureInfo *flua_loadTexture(
 		return NULL;
 
 	//check that the plugin has reading capabilities and load the file
-	if(FreeImage_FIFSupportsReading(fif))
+	if(FreeImage_FIFSupportsReading(fif)) {
 		dib = FreeImage_Load(fif, filename);
+	}
 	
 	//if the image failed to load, return failure
 	if(!dib)
@@ -422,9 +423,12 @@ inline BPTextureInfo *flua_loadTexture(
 	
 	//Free FreeImage's copy of the data
 	// TODO: This needs to work instead of leading to a segfault at the end of the program.
-	#ifndef USING_GC
-		FreeImage_Unload(dib);
-	#endif
+	//#ifndef USING_GC
+	//flua_gcPrintStats();
+	//std::cout << "\nPointer address to FreeImage_Unload: " << dib << std::endl;
+	//FreeImage_Unload(dib);
+	free(dib);
+	//#endif
 	
 	//return success
 	return new (UseGC) BPTextureInfo(gl_texID, width, height);

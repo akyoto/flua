@@ -86,6 +86,18 @@ def getPython3Version():
 	outp = getFirstLineFromProcess([getPython3Path() + getPython3CompilerName(), "--version"])
 	print("output: " + outp)
 	return outp
+
+def getPython3ModuleDir():
+	if os.name == "nt":
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../python/Lib/"))
+	else:
+		return "/usr/lib/python3.2/"
+
+def getCPPModuleDir():
+	if os.name == "nt":
+		return fixPath(os.path.abspath(configScriptPath + "../../../../../mingw/include/"))
+	else:
+		return "/usr/include/"
 	
 def isCore(path):
 	return path == getModuleDir() + "flua/Core/Core.flua"

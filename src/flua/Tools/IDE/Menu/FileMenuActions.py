@@ -6,18 +6,22 @@ class FileMenuActions:
 	def newFile(self, fileName = "", isOpeningFile = False):
 		self.tmpCount += 1
 		
-		# TODO:
-		if not fileName:
-			fileName = "./tmp/New file %d.flua" % (self.tmpCount)
 		newCodeEdit = BPCodeEdit(self)
 		newCodeEdit.openingFile = True
 		
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
-		# Is text file?
-		if not fileName.endswith(".flua"):
-			newCodeEdit.isTextFile = True
+		# TODO:
+		if not fileName:
+			fileName = "./tmp/New file %d%s" % (self.tmpCount, self.environment.standardFileExtension)
+			
+			# Is text file?
+			if self.environment != self.fluaEnvironment:
+				newCodeEdit.isTextFile = True
+		else:
+			if not fileName.endswith(".flua"):
+				newCodeEdit.isTextFile = True
 		
 		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
 		self.currentWorkspace.updateModifiedState(False)
@@ -75,8 +79,6 @@ class FileMenuActions:
 				
 				if fileName.endswith(".flua"):
 					self.loadFileToEditor(fileName)
-				elif fileName.endswith(".bpc"):
-					self.loadBPCFileToEditor(fileName)
 				else:
 					self.loadTextFileToEditor(fileName)
 				

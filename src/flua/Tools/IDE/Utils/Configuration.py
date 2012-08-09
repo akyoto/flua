@@ -130,6 +130,7 @@ class BPConfiguration:
 		
 		self.gcMemoryThreshold = self.getInt("Application", "GCMemoryThreshold")
 		self.developerMode = self.getBool("Application", "DeveloperMode")
+		self.defaultEnvironmentName = self.get("Application", "DefaultEnvironment")
 		
 		self.updateInterval = self.getInt("Parser", "UpdateInterval")
 		self.compilerUpdateInterval = self.getInt("Compiler", "UpdateInterval")
@@ -209,8 +210,6 @@ class BPConfiguration:
 			QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 			#QtGui.QApplication.instance().setStyleSheet(self.darkStyleSheet)
 		
-		self.bpIDE.moduleView.resetAllHighlights()
-		
 		# TODO: ...
 		for workspace in self.bpIDE.workspaces:
 			workspace.updateColors()
@@ -262,7 +261,7 @@ class BPConfiguration:
 		QtGui.QToolTip.setFont(font)
 		
 		# Widgets with normal font
-		self.bpIDE.moduleView.setFont(font)
+		#self.bpIDE.moduleView.setFont(font)
 		self.bpIDE.workspacesContainer.setFont(font)
 		
 		if self.bpIDE.fileView:

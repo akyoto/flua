@@ -83,6 +83,7 @@
 				</function>
 				<function depth="1" id="12">
 					<name>myMethod</name>
+					<parameters/>
 					<code>
 						<call depth="2" id="13">
 							<function>print</function>

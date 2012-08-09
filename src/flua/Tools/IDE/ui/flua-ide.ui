@@ -12,11 +12,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Flua Studio 0.4.4</string>
+   <string>Flua Studio 0.4.4 (9 Aug 2012)</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../images/flua.png</normaloff>../images/flua.png</iconset>
+    <normaloff>../images/icons/languages/flua.png</normaloff>../images/icons/languages/flua.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="mainMenuBar">
@@ -62,17 +62,6 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <widget class="QMenu" name="menuFAQ">
-     <property name="title">
-      <string>FAQ</string>
-     </property>
-     <addaction name="actionFAQUpdate"/>
-     <addaction name="actionFAQCompiling"/>
-     <addaction name="actionFAQTabs"/>
-    </widget>
-    <addaction name="menuFAQ"/>
-    <addaction name="actionIntroduction"/>
-    <addaction name="separator"/>
     <addaction name="actionChangeLog"/>
     <addaction name="actionDownloadUpdates"/>
     <addaction name="separator"/>
@@ -142,13 +131,27 @@
     </property>
     <addaction name="actionToggleFullscreen"/>
    </widget>
+   <widget class="QMenu" name="menuEnvironment">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Environments</string>
+    </property>
+    <addaction name="actionEnvFlua"/>
+    <addaction name="actionEnvPython"/>
+    <addaction name="actionEnvCPP"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnvNone"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuUtilities"/>
    <addaction name="menuModule"/>
    <addaction name="menuRepository"/>
-   <addaction name="menuUtilities"/>
-   <addaction name="menuWindow"/>
    <addaction name="menuWindows"/>
+   <addaction name="menuEnvironment"/>
+   <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -705,6 +708,56 @@
   <action name="actionHideMainMenu">
    <property name="text">
     <string>Hide main menu</string>
+   </property>
+  </action>
+  <action name="actionEnvNone">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>None</string>
+   </property>
+  </action>
+  <action name="actionEnvFlua">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/languages/flua.png</normaloff>../images/icons/languages/flua.png</iconset>
+   </property>
+   <property name="text">
+    <string>Flua</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionEnvPython">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/languages/python.png</normaloff>../images/icons/languages/python.png</iconset>
+   </property>
+   <property name="text">
+    <string>Python 3</string>
+   </property>
+  </action>
+  <action name="actionEnvCPP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/languages/c++.png</normaloff>../images/icons/languages/c++.png</iconset>
+   </property>
+   <property name="text">
+    <string>C++</string>
    </property>
   </action>
  </widget>
