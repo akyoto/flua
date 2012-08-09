@@ -7,7 +7,6 @@
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">Hello\SFlua!</string>
-			<string id="flua_string_1">Yo\Sokay,\Sthis\Sis\Scool.</string>
 		</strings>
 	</header>
 	<code>
@@ -16,17 +15,6 @@
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_0</parameter>
-			</parameters>
-		</call>
-		<call depth="0" id="2">
-			<function>print</function>
-			<parameters>
-				<parameter>
-					<access>
-						<value>flua_string_1</value>
-						<value>lengthInBytes</value>
-					</access>
-				</parameter>
 			</parameters>
 		</call>
 	</code>
