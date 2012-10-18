@@ -33,15 +33,16 @@
 import sys
 import os
 
-scriptPath = os.path.dirname(os.path.realpath(__file__))
+scriptPath = os.path.dirname(os.path.realpath(__file__)) + "/"
 
 if os.name == "nt":
-	appendPath = (os.path.abspath("src/") + "/").replace("\\", "/")
-	pyqtPath = (os.path.abspath("../python/Lib/site-packages/PyQt4")).replace("\\", "/")
+	scriptPath = scriptPath.replace("\\", "/")
+	appendPath = scriptPath + "src/"
+	pyqtPath = (os.path.abspath(scriptPath + "../python/Lib/site-packages/PyQt4"))
 	sys.path.append(pyqtPath)
 	print(sys.version)
 else:
-	appendPath = (scriptPath + "/src/")
+	appendPath = (scriptPath + "src/")
 
 ####################################################################
 # Temporarily add the module directory to PATH
@@ -61,7 +62,7 @@ except:
 # They see me runnin'. They hatin'.
 ####################################################################
 from flua.Tools.IDE.flua_ide import *
-os.chdir(scriptPath + "/src/flua/Tools/IDE/")
+os.chdir(scriptPath + "src/flua/Tools/IDE/")
 
 if __name__ == "__main__":
 	# Modes
