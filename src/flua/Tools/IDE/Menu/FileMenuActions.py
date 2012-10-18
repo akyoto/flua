@@ -7,7 +7,7 @@ class FileMenuActions:
 		self.tmpCount += 1
 		
 		newCodeEdit = BPCodeEdit(self)
-		newCodeEdit.openingFile = True
+		newCodeEdit.openingFile = True # ???
 		
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
@@ -15,18 +15,17 @@ class FileMenuActions:
 		# TODO:
 		if not fileName:
 			fileName = "./tmp/New file %d%s" % (self.tmpCount, self.environment.standardFileExtension)
-			
-			# Is text file?
-			if self.environment != self.fluaEnvironment:
-				newCodeEdit.isTextFile = True
-		else:
-			if not fileName.endswith(".flua"):
-				newCodeEdit.isTextFile = True
 		
+		if not fileName.endswith(".flua"):
+			newCodeEdit.isTextFile = True
+		
+		# Set file path
+		self.codeEdit = newCodeEdit
+		self.setFilePath(fileName)
+		
+		# Update workspace AFTER SETTING THE FILE PATH
 		self.currentWorkspace.addAndSelectTab(newCodeEdit, stripAll(fileName))
 		self.currentWorkspace.updateModifiedState(False)
-		
-		self.setFilePath(fileName)
 		
 		newCodeEdit.setFocus()
 		
@@ -98,7 +97,7 @@ class FileMenuActions:
 			# File is already opened in this workspace
 			elif self.workspaces[workspaceID] == self.currentWorkspace:
 				self.currentWorkspace.changeCodeEdit(index)
-			
+		
 		# Add to recent files list
 		#self.recentFiles
 		

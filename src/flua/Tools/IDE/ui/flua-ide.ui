@@ -12,7 +12,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Flua Studio 0.4.4 (9 Aug 2012)</string>
+   <string>Flua Studio 0.4.4 (19 Oct 2012)</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -25,7 +25,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -132,9 +132,6 @@
     <addaction name="actionToggleFullscreen"/>
    </widget>
    <widget class="QMenu" name="menuEnvironment">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
     <property name="title">
      <string>Environments</string>
     </property>
@@ -642,6 +639,10 @@
    </property>
   </action>
   <action name="actionWorkspace_1">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace 1</string>
    </property>
@@ -650,6 +651,10 @@
    </property>
   </action>
   <action name="actionWorkspace_2">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace 2</string>
    </property>
@@ -658,6 +663,10 @@
    </property>
   </action>
   <action name="actionWorkspace_3">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace 3</string>
    </property>
@@ -666,6 +675,10 @@
    </property>
   </action>
   <action name="actionWorkspace_4">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace 4</string>
    </property>
@@ -674,6 +687,10 @@
    </property>
   </action>
   <action name="actionWorkspace_Q">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace Q</string>
    </property>
@@ -682,6 +699,10 @@
    </property>
   </action>
   <action name="actionWorkspace_W">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace W</string>
    </property>
@@ -690,6 +711,10 @@
    </property>
   </action>
   <action name="actionWorkspace_E">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace E</string>
    </property>
@@ -698,6 +723,10 @@
    </property>
   </action>
   <action name="actionWorkspace_R">
+   <property name="icon">
+    <iconset>
+     <normaloff>../images/icons/places/user-desktop.png</normaloff>../images/icons/places/user-desktop.png</iconset>
+   </property>
    <property name="text">
     <string>Workspace R</string>
    </property>

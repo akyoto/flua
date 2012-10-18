@@ -96,9 +96,7 @@ class BPWorkspace(QtGui.QTabWidget):
 				self.setCurrentIndex(index)
 				
 			# Text file or not?
-			isText = self.bpIDE.codeEdit.isTextFile
-			self.bpIDE.syntaxSwitcher.setEnabled(not isText)
-			self.bpIDE.targetSwitcher.setEnabled(not isText)
+			self.updateIsTextFile()
 		
 		if self.bpIDE.viewsInitialized:
 			self.bpIDE.dependencyView.clear()
@@ -115,6 +113,12 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.show()
 		else:
 			self.hide()
+		
+	def updateIsTextFile(self):
+		# Text file or not?
+		isText = self.bpIDE.codeEdit.isTextFile
+		self.bpIDE.syntaxSwitcher.setEnabled(not isText)
+		self.bpIDE.targetSwitcher.setEnabled(not isText)
 			
 	def getCodeEditByPath(self, path):
 		for i in range(self.count()):

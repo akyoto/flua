@@ -179,6 +179,7 @@
 							<value>newSize</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 				<function depth="1" id="17">
 					<name>reverse</name>

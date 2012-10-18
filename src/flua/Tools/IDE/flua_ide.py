@@ -194,6 +194,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 		if self.codeEdit:
 			self.codeEdit.setEnvironment(env)
+			self.currentWorkspace.updateIsTextFile()
 			
 		if env == self.environment:
 			return
@@ -892,9 +893,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 	def setFilePath(self, path):
 		filePath = os.path.abspath(path)
+		
 		if self.processor:
 			self.processor.setMainFile(filePath)
-		self.codeEdit.setFilePath(filePath)
+			
+		if self.codeEdit:
+			self.codeEdit.setFilePath(filePath)
 		
 	def getProjectPath(self):
 		if self.codeEdit is None:
