@@ -68,10 +68,10 @@ class BPWorkspace(QtGui.QTabWidget):
 				self.tabBar().setTabTextColor(i, self.bpIDE.config.theme["doc-unmodified"])
 		
 	def changeCodeEdit(self, index):
-		print("CODE EDIT CHANGED TO INDEX %d" % index)
+		#print("CODE EDIT CHANGED TO INDEX %d" % index)
 		
 		if index != -1:
-			del self.bpIDE.codeEdit
+			#del self.bpIDE.codeEdit
 			self.bpIDE.codeEdit = self.widget(index)
 			
 			# Set environment

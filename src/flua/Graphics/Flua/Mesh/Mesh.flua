@@ -83,6 +83,7 @@
 					<meta/>
 				</function>
 				<function depth="1" id="10">
+					<name>addVertex</name>
 					<parameters>
 						<parameter>x</parameter>
 						<parameter>y</parameter>
@@ -100,7 +101,6 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>addVertex</name>
 					<code>
 						<on depth="2" id="11">
 							<expression>
@@ -146,12 +146,12 @@
 					<meta/>
 				</function>
 				<function depth="1" id="17">
+					<name>addTriangle</name>
 					<parameters>
 						<parameter>v1</parameter>
 						<parameter>v2</parameter>
 						<parameter>v3</parameter>
 					</parameters>
-					<name>addTriangle</name>
 					<code>
 						<on depth="2" id="18">
 							<expression>
@@ -296,7 +296,6 @@
 							</code>
 						</on>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="34">
 					<name>draw</name>
@@ -328,7 +327,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 					<getter depth="2" id="39">
 						<name>numIndices</name>
@@ -340,7 +338,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 			</code>
@@ -947,7 +944,6 @@
 						</on>
 						<return depth="2" id="93">obj</return>
 					</code>
-					<meta/>
 				</function>
 			</code>
 		</namespace>

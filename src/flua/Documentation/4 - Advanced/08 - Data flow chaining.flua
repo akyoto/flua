@@ -55,6 +55,7 @@
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta/>
@@ -73,10 +74,10 @@
 		</function>
 		<comment>\SProcess\Simage</comment>
 		<function depth="0" id="9">
+			<name>addFilters</name>
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
-			<name>addFilters</name>
 			<code>
 				<assign-add depth="1" id="10">
 					<value>
@@ -104,10 +105,10 @@
 		</function>
 		<comment>\SShow\Sit\Son\Sthe\Sscreen</comment>
 		<function depth="0" id="12">
+			<name>showOnScreen</name>
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
-			<name>showOnScreen</name>
 			<code>
 				<call depth="1" id="13">
 					<function>print</function>
@@ -121,6 +122,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<comment>\STheoretically\Syou\Scan\Screate\Sa\Smain\Sloop\Snow.</comment>
 		<comment>\STo\Sdemonstrate\Sthe\Sdata\Sflow\SI'm\Sjust\Sgoing\Sto\Sdo\Sthis\S10\Stimes:</comment>

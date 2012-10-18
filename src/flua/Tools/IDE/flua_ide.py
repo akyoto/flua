@@ -327,12 +327,15 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# The output compiler
 		comp = self.outputCompilerThread.outputCompiler
 		
+		# Set environment namespace to the main namespace of the compiler
+		self.environment.mainNamespace = comp.mainClass
+		
 		# If the number of functions changed, rehighlight
 		if self.codeEdit:
-			newFuncCount = comp.getFunctionCount()
+			newFuncCount = len(self.environment.mainNamespace.functions) #comp.getFunctionCount()
 			
 			#if not self.outputCompilerThread.lastException:
-			if self.lastCodeEdit == self.codeEdit and self.needsRehighlight(newFuncCount):
+			if self.needsRehighlight(newFuncCount): #self.lastCodeEdit == self.codeEdit
 				self.codeEdit.rehighlightFunctionUsage()
 			#else:
 			#	self.codeEdit.rehighlightFunctionUsage()
@@ -362,7 +365,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			ce.msgView.updateViewOutputCompiler()
 	
 	def needsRehighlight(self, newFuncCount):
-		return newFuncCount != self.lastFunctionCount and (self.lastFunctionCount != -1 or self.isTmpFile())
+		return newFuncCount != self.lastFunctionCount and (self.codeEdit != self.lastCodeEdit or self.lastFunctionCount != -1 or self.isTmpFile())
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		#if self.outputCompiler:

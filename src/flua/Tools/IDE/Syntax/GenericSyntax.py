@@ -23,6 +23,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		
 		# Environment
 		externFuncs = self.environment.mainNamespace.externFunctions
+		mainNamespaceFunctions = self.environment.mainNamespace.functions
 		keywords = self.environment.highlightKeywords
 		operators = self.environment.operators
 		braces = self.environment.braces
@@ -60,7 +61,8 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					node = userData.node
 					if userData.node.nodeType != Node.TEXT_NODE:
 						inClass = node.parentNode.tagName != "module" and (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
-						if inClass and node.tagName in functionNodeTagNames and i == countTabs(text):
+						isStart = (i == countTabs(text))
+						if inClass and node.tagName in functionNodeTagNames and isStart:
 							if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
 								self.setFormat(i, h - i, style['class-' + userData.node.tagName])
 								i = h
@@ -155,7 +157,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					self.setFormat(i, h - i, style['keyword'])
 					i = h
 					continue
-				elif bpIDE.processor.getFirstDTreeByFunctionName(expr):
+				elif expr in mainNamespaceFunctions: #bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['function'])
 					i = h
 					continue
