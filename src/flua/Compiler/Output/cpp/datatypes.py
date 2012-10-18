@@ -49,7 +49,7 @@ dataTypeDefinitions = {
 	"Float" : "float",
 	"Float32" : "float",
 	"Float64" : "double",
-	"CString" : "Byte *",
+	"CString" : "char*",
 	"BigInt" : "mpz_class",
 	"DataType" : "int",
 }
