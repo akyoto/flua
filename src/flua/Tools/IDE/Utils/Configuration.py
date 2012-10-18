@@ -6,10 +6,15 @@ from flua.Compiler.Utils import *
 from flua.Compiler.Config import *
 from PyQt4 import QtGui, QtCore, uic
 
-globalIDERoot = fixPath(os.path.abspath(extractDir(os.path.realpath(__file__)) + "../"))
+# Script path
+configScriptPath = extractDir(os.path.realpath(__file__))
 
+# Get IDE path
+globalIDERoot = fixPath(os.path.abspath(configScriptPath + "../"))
+
+# Get git path
 if os.name == "nt":
-	globalGitPath = fixPath(os.path.abspath("../msysgit/bin/"))
+	globalGitPath = fixPath(os.path.abspath(globalIDERoot + "../../../../../msysgit/bin/"))
 else:
 	globalGitPath = ""
 
