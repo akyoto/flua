@@ -31,7 +31,7 @@ This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based syste
 Installation on Windows
 ---------------------
 Just download and execute this self-extracting archive:
-https://github.com/downloads/blitzprog/flua/Flua-x86.exe
+https://github.com/downloads/blitzprog/flua/Flua-x86.7z
 
 Compiling dependencies manually
 ---------------------
