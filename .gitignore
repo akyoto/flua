@@ -16,6 +16,7 @@ src/flua/Tools/IDE/settings.ini
 src/flua-tests/
 
 bp.geany
+geany_run_script.bat
 flua_decls.hpp
 C++
 Python3
