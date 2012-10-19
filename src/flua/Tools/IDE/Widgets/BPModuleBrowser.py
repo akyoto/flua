@@ -507,6 +507,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.oldImportedModsLen = 0
 		
 	def updateView(self):
+		# Do we even have modules loaded?
+		if not self.modules:
+			return
+		
 		# Ugly
 		self.clearSelection()
 		
@@ -623,8 +627,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			parts = parts[:-1]
 		
 		currentModule = self.modules
+		
 		lastPart = len(parts)
 		currentPart = 0
+		
 		while currentPart < lastPart:
 			subMod = parts[currentPart]
 			

@@ -144,10 +144,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if 1:
 			self.newFile()
 			self.onLoadingFinished()
-			
-			# TODO: Remove hardcoding
-			if self.config.defaultEnvironmentName == "Flua":
-				self.setEnvironment(self.fluaEnvironment)
 		else:
 			self.newFile()
 			self.codeEdit.setPlainText("""import playground.Everything
@@ -159,6 +155,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.codeEdit.setTextCursor(cursor)
 			
 			self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
+		
+		# Set default environment
+		environmentNames = {
+			"Flua" : self.fluaEnvironment
+		}
+		
+		if self.config.defaultEnvironmentName in environmentNames:
+			self.setEnvironment(environmentNames[self.config.defaultEnvironmentName])
 		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
@@ -765,6 +769,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	
 	def getModuleImportType(self, importedModule):
 		return getModuleImportType(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
+		
+	def updateModuleBrowser(self):
+		self.moduleView.updateView()
 		
 	def runPostProcessor(self, codeEdit):
 		# TODO: Less cpu usage

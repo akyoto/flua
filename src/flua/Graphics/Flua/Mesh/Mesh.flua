@@ -422,6 +422,7 @@
 						</on>
 						<return depth="2" id="51">obj</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SCreates\Sa\Scube</comment>
 				<function depth="1" id="52">
