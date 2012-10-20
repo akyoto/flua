@@ -371,9 +371,10 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 					<operator depth="2" id="42">
-						<name>_flua_seq[:]</name>
+						<name>[:]</name>
 						<parameters>
 							<parameter>from</parameter>
 						</parameters>
@@ -398,9 +399,10 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 					<operator depth="2" id="45">
-						<name>_flua_seq[:]</name>
+						<name>[:]</name>
 						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
@@ -421,6 +423,7 @@
 								</call>
 							</return>
 						</code>
+						<meta/>
 					</operator>
 					<operator depth="2" id="48">
 						<name>==</name>
