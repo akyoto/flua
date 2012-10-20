@@ -17,46 +17,46 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target depth="0" id="12">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">Core.hpp</include>
+				<include depth="1" id="13">Core.hpp</include>
 			</code>
 		</target>
-		<target depth="0" id="3">
+		<target depth="0" id="15">
 			<name>Python3</name>
 			<code>
-				<include depth="1" id="4">Core.py</include>
+				<include depth="1" id="16">Core.py</include>
 			</code>
 		</target>
-		<extern depth="0" id="5">
-			<namespace depth="1" id="6">
+		<extern depth="0" id="18">
+			<namespace depth="1" id="19">
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="7">
+					<extern-function depth="2" id="20">
 						<name>usleep</name>
 						<type>Bool</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="8">
+					<extern-function depth="2" id="21">
 						<name>systemTime</name>
 						<type>Int64</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="9">
+					<extern-function depth="2" id="22">
 						<name>systemTimeMicro</name>
 						<type>Int64</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="10">
+					<extern-function depth="2" id="23">
 						<name>swap</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="11">
+					<extern-function depth="2" id="24">
 						<name>sizeOf</name>
 						<type>Size</type>
 						<meta>
@@ -64,7 +64,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="12">
+					<extern-function depth="2" id="25">
 						<name>exit</name>
 						<meta/>
 					</extern-function>
@@ -72,13 +72,13 @@
 			</namespace>
 		</extern>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#ms\Smilliseconds</comment>
-		<function depth="0" id="13">
+		<function depth="0" id="28">
 			<name>sleep</name>
 			<parameters>
 				<parameter>ms</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="14">
+				<call depth="1" id="29">
 					<function>
 						<access>
 							<value>flua</value>
@@ -97,13 +97,13 @@
 			</code>
 		</function>
 		<comment>\SBlocks\Sexecution\Sof\Sthe\Scurrent\Sthread\Sfor\S#us\Smicroseconds</comment>
-		<function depth="0" id="15">
+		<function depth="0" id="32">
 			<name>sleepMicro</name>
 			<parameters>
 				<parameter>us</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="16">
+				<call depth="1" id="33">
 					<function>
 						<access>
 							<value>flua</value>
@@ -120,13 +120,13 @@
 		<comment>\SReturns\Sthe\Ssize\Sin\Sbytes\Sfor\Sthe\Svalue\S#a.</comment>
 		<comment>\SThis\Sis\Sa\Ssystem\Sand\Starget\Sdependant\Svalue,</comment>
 		<comment>\Snever\Sassume\Sthat\Sthis\Swill\Sstay\Sthe\Ssame.</comment>
-		<function depth="0" id="17">
+		<function depth="0" id="38">
 			<name>sizeOf</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="18">
+				<return depth="1" id="39">
 					<call>
 						<function>
 							<access>
@@ -145,12 +145,12 @@
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smilliseconds\S(10\S^\S-3\Ssecs).</comment>
 		<comment>\SThe\Svalue\Smight\Sbe\Sdifferent\Sfor\Sdifferent\Ssystems,\Showever\Sit\Sis</comment>
 		<comment>\Sguaranteed\Sthat\Syou\Scan\Suse\Sit\Sas\Sa\Sway\Sto\Smeasure\Stime\Sin\Smilliseconds.</comment>
-		<function depth="0" id="19">
+		<function depth="0" id="44">
 			<name>getSystemTime</name>
 			<code>
-				<test depth="1" id="20">
+				<test depth="1" id="45">
 					<code>
-						<assign depth="2" id="21">
+						<assign depth="2" id="46">
 							<value>start</value>
 							<value>
 								<call>
@@ -159,7 +159,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign depth="2" id="47">
 							<value>end</value>
 							<value>
 								<call>
@@ -168,7 +168,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="23">
+						<assert depth="2" id="48">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -181,7 +181,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="24">
+				<return depth="1" id="50">
 					<call>
 						<function>
 							<access>
@@ -196,12 +196,12 @@
 		</function>
 		<comment>\SOn\Smost\Ssystems\Sthis\Sreturns\Sthe\Ssystem\Suptime\Sin\Smicroseconds\S(10\S^\S-6\Ssecs).</comment>
 		<comment>\SSee\S#systemTime</comment>
-		<function depth="0" id="25">
+		<function depth="0" id="54">
 			<name>getSystemTimeMicro</name>
 			<code>
-				<test depth="1" id="26">
+				<test depth="1" id="55">
 					<code>
-						<assign depth="2" id="27">
+						<assign depth="2" id="56">
 							<value>start</value>
 							<value>
 								<call>
@@ -210,7 +210,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="28">
+						<assign depth="2" id="57">
 							<value>end</value>
 							<value>
 								<call>
@@ -219,7 +219,7 @@
 								</call>
 							</value>
 						</assign>
-						<assert depth="2" id="29">
+						<assert depth="2" id="58">
 							<greater-or-equal>
 								<value>
 									<subtract>
@@ -232,7 +232,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="30">
+				<return depth="1" id="60">
 					<call>
 						<function>
 							<access>
@@ -246,7 +246,7 @@
 			</code>
 		</function>
 		<comment>\SExits\Sthe\Sapplication\Swith\San\Soptional\S#status\Scode</comment>
-		<function depth="0" id="31">
+		<function depth="0" id="63">
 			<name>exit</name>
 			<parameters>
 				<parameter>
@@ -257,7 +257,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="32">
+				<call depth="1" id="64">
 					<function>
 						<access>
 							<value>flua</value>
@@ -272,14 +272,14 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmaller\Snumber</comment>
-		<function depth="0" id="33">
+		<function depth="0" id="67">
 			<name>min</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<code>
-				<if-block depth="1" id="34">
+				<if-block depth="1" id="68">
 					<if>
 						<condition>
 							<less>
@@ -288,26 +288,26 @@
 							</less>
 						</condition>
 						<code>
-							<return depth="2" id="35">a</return>
+							<return depth="2" id="69">a</return>
 						</code>
 					</if>
-					<else depth="1" id="36">
+					<else depth="1" id="70">
 						<code>
-							<return depth="2" id="37">b</return>
+							<return depth="2" id="71">b</return>
 						</code>
 					</else>
 				</if-block>
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sbigger\Snumber</comment>
-		<function depth="0" id="38">
+		<function depth="0" id="74">
 			<name>max</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<code>
-				<if-block depth="1" id="39">
+				<if-block depth="1" id="75">
 					<if>
 						<condition>
 							<greater>
@@ -316,12 +316,12 @@
 							</greater>
 						</condition>
 						<code>
-							<return depth="2" id="40">a</return>
+							<return depth="2" id="76">a</return>
 						</code>
 					</if>
-					<else depth="1" id="41">
+					<else depth="1" id="77">
 						<code>
-							<return depth="2" id="42">b</return>
+							<return depth="2" id="78">b</return>
 						</code>
 					</else>
 				</if-block>

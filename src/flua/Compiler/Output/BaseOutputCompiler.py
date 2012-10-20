@@ -50,7 +50,7 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		if inpCompiler:
 			self.inputCompiler = inpCompiler
-			self.inputFiles = inpCompiler.getCompiledFiles()
+			self.inputFiles = inpCompiler.getCompiledFiles() #inputFiles
 			self.projectDir = self.inputCompiler.getProjectDir()
 		else:
 			self.projectDir = ""
@@ -82,7 +82,9 @@ class BaseOutputCompiler(Benchmarkable):
 		self.functionsAsPointers = dict()
 		self.functionPointerCalls = dict()
 		self.loopStack = list()
+		self.lastParsedNodes = list()
 		
+		self.lastParsedFile = None
 		self.guiCallBack = guiCallBack
 		self.hasExternCache = False
 		
@@ -99,6 +101,18 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		# Expression parser
 		self.initExprParser()
+	
+	def getLastParsedNode(self):
+		if not self.lastParsedNodes:
+			return None
+		
+		return self.lastParsedNodes[-1]
+		
+	def getLastParsedNodes(self):
+		if not self.lastParsedNodes:
+			return None
+		
+		return self.lastParsedNodes
 	
 	def getFunctionCount(self):
 		count = len(self.mainClass.functions)
@@ -307,6 +321,7 @@ class BaseOutputCompiler(Benchmarkable):
 		# This needs to be executed BEFORE the imported files have been compiled
 		# It'll prevent a file from being processed twice
 		self.compiledFiles[inpFile] = cppOut
+		cppOut.inpFile = inpFile
 		
 		# Compile imported files first
 		#for imp in inpFile.getImportedFiles():
@@ -334,7 +349,10 @@ class BaseOutputCompiler(Benchmarkable):
 		except OutputCompilerException:
 			raise
 		except CompilerException as e:
-			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
+			if self.lastParsedFile:
+				raise OutputCompilerException(e.getMsg(), self.lastParsedFile, self.lastParsedFile.inpFile)
+			else:
+				raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		
 		# Change string class
 		#if self.mainClass.hasClassByName("UTF8String"):

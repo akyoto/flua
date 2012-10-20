@@ -216,7 +216,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.outputEnabled = not self.compiler.background
 		
 		# Debugging
-		self.lastParsedNode = list()
+		#self.lastParsedNode = list()
 		
 	def handleClass(self, node):
 		className = getElementByTagName(node, "name").firstChild.nodeValue
@@ -427,18 +427,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 	def popClass(self):
 		self.currentClass = self.currentClass.parent
-	
-	def getLastParsedNode(self):
-		if not self.lastParsedNode:
-			return None
-		
-		return self.lastParsedNode[-1]
-		
-	def getLastParsedNodes(self):
-		if not self.lastParsedNode:
-			return None
-		
-		return self.lastParsedNode
 	
 	def getExprDataType(self, node):
 		dataType = self.getExprDataTypeClean(node)
@@ -1265,9 +1253,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		parseExpr = self.parseExpr
 		
 		for node in parent.childNodes:
-			self.lastParsedNode.append(node)
+			self.compiler.lastParsedFile = self
+			self.compiler.lastParsedNodes.append(node)
 			line = parseExpr(node)
-			self.lastParsedNode.pop()
+			self.compiler.lastParsedNodes.pop()
 			
 			if self.additionalCodePerLine:
 				line = "%s%s%s%s" % ((postfix + prefix).join(self.additionalCodePerLine), postfix, prefix, line)
@@ -1290,7 +1279,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	
 	def parseExpr(self, node, keepUnmanagedSign = True):
 		# Set last node for debugging purposes
-		#self.lastParsedNode.append(node)
+		#self.compiler.lastParsedNodes.append(node)
 		
 		if not keepUnmanagedSign:
 			expr = self.parseExpr(node, True)

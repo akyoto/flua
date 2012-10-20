@@ -80,11 +80,11 @@ class BaseOutputFileHandler:
 			
 			try:
 				# For improved debug messages
-				#self.lastParsedNode.append(node)
+				#self.compiler.lastParsedNodes.append(node)
 				
 				code = self.handleAssign(virtualAssign)
 				
-				#self.lastParsedNode.pop()
+				#self.compiler.lastParsedNodes.pop()
 			except CompilerException:
 				raise
 			except:
@@ -345,6 +345,7 @@ class BaseOutputFileHandler:
 			# MemPointer dereferencing is a special case
 			if callerClassName == "MemPointer" and op2.nodeType == Node.TEXT_NODE:
 				if op2.nodeValue == "data":
+					# TODO: Remove hardcoding.
 					return "(*(%s))" % (self.parseExpr(op1))
 			
 			# GET access - are we accessing a member outside the class?
@@ -1129,11 +1130,15 @@ class BaseOutputFileHandler:
 			
 			try:
 				# For improved debug messages
-				#self.lastParsedNode.append(node)
+				#self.compiler.lastParsedNodes.append(node)
 				
+				#debug("NODE:")
+				#debug(node.toprettyxml())
+				#debug("VIRTUAL CALL:")
+				#debug(virtualCall.toprettyxml())
 				code = self.handleCall(virtualCall)
 				
-				#self.lastParsedNode.pop()
+				#self.compiler.lastParsedNodes.pop()
 			except CompilerException:
 				raise
 			#except:

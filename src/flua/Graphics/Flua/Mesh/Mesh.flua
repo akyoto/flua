@@ -11,17 +11,17 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class depth="0" id="7">
 			<name>Mesh</name>
 			<code>
-				<function depth="1" id="2">
+				<function depth="1" id="8">
 					<name>init</name>
 					<code>
-						<on depth="2" id="3">
+						<on depth="2" id="9">
 							<expression>my</expression>
 							<code>
 								<comment>\SBuffers</comment>
-								<assign depth="3" id="4">
+								<assign depth="3" id="11">
 									<value>vertices</value>
 									<value>
 										<new>
@@ -35,7 +35,7 @@
 										</new>
 									</value>
 								</assign>
-								<assign depth="3" id="5">
+								<assign depth="3" id="12">
 									<value>indices</value>
 									<value>
 										<new>
@@ -50,16 +50,16 @@
 									</value>
 								</assign>
 								<comment>\SNumbers</comment>
-								<assign depth="3" id="6">
+								<assign depth="3" id="15">
 									<value>numVertices</value>
 									<value>0</value>
 								</assign>
-								<assign depth="3" id="7">
+								<assign depth="3" id="16">
 									<value>numIndices</value>
 									<value>0</value>
 								</assign>
 								<comment>\SVBO\S&amp;\SIBO</comment>
-								<assign depth="3" id="8">
+								<assign depth="3" id="19">
 									<value>vb</value>
 									<value>
 										<new>
@@ -68,7 +68,7 @@
 										</new>
 									</value>
 								</assign>
-								<assign depth="3" id="9">
+								<assign depth="3" id="20">
 									<value>ib</value>
 									<value>
 										<new>
@@ -82,7 +82,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="10">
+				<function depth="1" id="22">
 					<name>addVertex</name>
 					<parameters>
 						<parameter>x</parameter>
@@ -102,7 +102,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<on depth="2" id="11">
+						<on depth="2" id="23">
 							<expression>
 								<access>
 									<value>my</value>
@@ -110,31 +110,31 @@
 								</access>
 							</expression>
 							<code>
-								<call depth="3" id="12">
+								<call depth="3" id="24">
 									<function>add</function>
 									<parameters>
 										<parameter>x</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="13">
+								<call depth="3" id="25">
 									<function>add</function>
 									<parameters>
 										<parameter>y</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="14">
+								<call depth="3" id="26">
 									<function>add</function>
 									<parameters>
 										<parameter>z</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="15">
+								<call depth="3" id="27">
 									<function>add</function>
 									<parameters>
 										<parameter>u</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="16">
+								<call depth="3" id="28">
 									<function>add</function>
 									<parameters>
 										<parameter>v</parameter>
@@ -145,7 +145,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="17">
+				<function depth="1" id="30">
 					<name>addTriangle</name>
 					<parameters>
 						<parameter>v1</parameter>
@@ -153,7 +153,7 @@
 						<parameter>v3</parameter>
 					</parameters>
 					<code>
-						<on depth="2" id="18">
+						<on depth="2" id="31">
 							<expression>
 								<access>
 									<value>my</value>
@@ -161,19 +161,19 @@
 								</access>
 							</expression>
 							<code>
-								<call depth="3" id="19">
+								<call depth="3" id="32">
 									<function>add</function>
 									<parameters>
 										<parameter>v1</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="20">
+								<call depth="3" id="33">
 									<function>add</function>
 									<parameters>
 										<parameter>v2</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="21">
+								<call depth="3" id="34">
 									<function>add</function>
 									<parameters>
 										<parameter>v3</parameter>
@@ -185,13 +185,13 @@
 					<meta/>
 				</function>
 				<comment>\SSends\Svertices\Sto\Sthe\SVBO</comment>
-				<function depth="1" id="22">
+				<function depth="1" id="37">
 					<name>updateVertices</name>
 					<code>
-						<on depth="2" id="23">
+						<on depth="2" id="38">
 							<expression>my</expression>
 							<code>
-								<assign depth="3" id="24">
+								<assign depth="3" id="39">
 									<value>
 										<access>
 											<value>vb</value>
@@ -205,7 +205,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="25">
+								<assign depth="3" id="40">
 									<value>numVertices</value>
 									<value>
 										<divide>
@@ -230,13 +230,13 @@
 					<meta/>
 				</function>
 				<comment>\SSends\Sindices\Sto\Sthe\SIBO</comment>
-				<function depth="1" id="26">
+				<function depth="1" id="43">
 					<name>updateTriangles</name>
 					<code>
-						<on depth="2" id="27">
+						<on depth="2" id="44">
 							<expression>my</expression>
 							<code>
-								<assign depth="3" id="28">
+								<assign depth="3" id="45">
 									<value>
 										<access>
 											<value>ib</value>
@@ -250,7 +250,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="29">
+								<assign depth="3" id="46">
 									<value>numIndices</value>
 									<value>
 										<access>
@@ -269,13 +269,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="30">
+				<function depth="1" id="48">
 					<name>activate</name>
 					<code>
-						<on depth="2" id="31">
+						<on depth="2" id="49">
 							<expression>my</expression>
 							<code>
-								<call depth="3" id="32">
+								<call depth="3" id="50">
 									<function>
 										<access>
 											<value>vb</value>
@@ -284,7 +284,7 @@
 									</function>
 									<parameters/>
 								</call>
-								<call depth="3" id="33">
+								<call depth="3" id="51">
 									<function>
 										<access>
 											<value>ib</value>
@@ -296,11 +296,12 @@
 							</code>
 						</on>
 					</code>
+					<meta/>
 				</function>
-				<function depth="1" id="34">
+				<function depth="1" id="53">
 					<name>draw</name>
 					<code>
-						<call depth="2" id="35">
+						<call depth="2" id="54">
 							<function>glDrawElements</function>
 							<parameters>
 								<parameter>GL_TRIANGLES</parameter>
@@ -316,11 +317,11 @@
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="36">
-					<getter depth="2" id="37">
+				<get depth="1" id="56">
+					<getter depth="2" id="57">
 						<name>numVertices</name>
 						<code>
-							<return depth="3" id="38">
+							<return depth="3" id="58">
 								<access>
 									<value>my</value>
 									<value>numVertices</value>
@@ -328,10 +329,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="39">
+					<getter depth="2" id="60">
 						<name>numIndices</name>
 						<code>
-							<return depth="3" id="40">
+							<return depth="3" id="61">
 								<access>
 									<value>my</value>
 									<value>numIndices</value>
@@ -344,14 +345,14 @@
 			<meta/>
 		</class>
 		<comment>\SSome\Ssimple\Sobjects</comment>
-		<namespace depth="0" id="41">
+		<namespace depth="0" id="64">
 			<name>Primitive</name>
 			<code>
 				<comment>\SCreates\Sa\Striangle</comment>
-				<function depth="1" id="42">
+				<function depth="1" id="66">
 					<name>createTriangle</name>
 					<code>
-						<assign depth="2" id="43">
+						<assign depth="2" id="67">
 							<value>obj</value>
 							<value>
 								<new>
@@ -360,11 +361,11 @@
 								</new>
 							</value>
 						</assign>
-						<on depth="2" id="44">
+						<on depth="2" id="69">
 							<expression>obj</expression>
 							<code>
 								<comment>\S3\Svertices</comment>
-								<call depth="3" id="45">
+								<call depth="3" id="71">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>0.0</parameter>
@@ -372,7 +373,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="46">
+								<call depth="3" id="72">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -388,7 +389,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="47">
+								<call depth="3" id="73">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -401,7 +402,7 @@
 									</parameters>
 								</call>
 								<comment>\SIndices</comment>
-								<call depth="3" id="48">
+								<call depth="3" id="76">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>0</parameter>
@@ -410,25 +411,24 @@
 									</parameters>
 								</call>
 								<comment>\SUpdate!</comment>
-								<call depth="3" id="49">
+								<call depth="3" id="79">
 									<function>updateVertices</function>
 									<parameters/>
 								</call>
-								<call depth="3" id="50">
+								<call depth="3" id="80">
 									<function>updateTriangles</function>
 									<parameters/>
 								</call>
 							</code>
 						</on>
-						<return depth="2" id="51">obj</return>
+						<return depth="2" id="82">obj</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SCreates\Sa\Scube</comment>
-				<function depth="1" id="52">
+				<function depth="1" id="85">
 					<name>createCube</name>
 					<code>
-						<assign depth="2" id="53">
+						<assign depth="2" id="86">
 							<value>obj</value>
 							<value>
 								<new>
@@ -437,11 +437,11 @@
 								</new>
 							</value>
 						</assign>
-						<on depth="2" id="54">
+						<on depth="2" id="88">
 							<expression>obj</expression>
 							<code>
 								<comment>\Sfront</comment>
-								<call depth="3" id="55">
+								<call depth="3" id="90">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -459,7 +459,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="56">
+								<call depth="3" id="91">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -473,7 +473,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="57">
+								<call depth="3" id="92">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -483,7 +483,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="58">
+								<call depth="3" id="93">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -498,7 +498,7 @@
 									</parameters>
 								</call>
 								<comment>\Stop</comment>
-								<call depth="3" id="59">
+								<call depth="3" id="96">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -512,7 +512,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="60">
+								<call depth="3" id="97">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -522,7 +522,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="61">
+								<call depth="3" id="98">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -536,7 +536,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="62">
+								<call depth="3" id="99">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -555,7 +555,7 @@
 									</parameters>
 								</call>
 								<comment>\Sback</comment>
-								<call depth="3" id="63">
+								<call depth="3" id="102">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -573,7 +573,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="64">
+								<call depth="3" id="103">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -595,7 +595,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="65">
+								<call depth="3" id="104">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -613,7 +613,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="66">
+								<call depth="3" id="105">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -628,7 +628,7 @@
 									</parameters>
 								</call>
 								<comment>\Sbottom</comment>
-								<call depth="3" id="67">
+								<call depth="3" id="108">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -650,7 +650,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="68">
+								<call depth="3" id="109">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -668,7 +668,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="69">
+								<call depth="3" id="110">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -682,7 +682,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="70">
+								<call depth="3" id="111">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -701,7 +701,7 @@
 									</parameters>
 								</call>
 								<comment>\Sleft</comment>
-								<call depth="3" id="71">
+								<call depth="3" id="114">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -723,7 +723,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="72">
+								<call depth="3" id="115">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -741,7 +741,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="73">
+								<call depth="3" id="116">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -755,7 +755,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="74">
+								<call depth="3" id="117">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>
@@ -774,7 +774,7 @@
 									</parameters>
 								</call>
 								<comment>\Sright</comment>
-								<call depth="3" id="75">
+								<call depth="3" id="120">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -788,7 +788,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="76">
+								<call depth="3" id="121">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -806,7 +806,7 @@
 										<parameter>0.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="77">
+								<call depth="3" id="122">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -820,7 +820,7 @@
 										<parameter>1.0</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="78">
+								<call depth="3" id="123">
 									<function>addVertex</function>
 									<parameters>
 										<parameter>1.0</parameter>
@@ -831,7 +831,7 @@
 									</parameters>
 								</call>
 								<comment>\SFront</comment>
-								<call depth="3" id="79">
+								<call depth="3" id="126">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>0</parameter>
@@ -839,7 +839,7 @@
 										<parameter>2</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="80">
+								<call depth="3" id="127">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>2</parameter>
@@ -848,7 +848,7 @@
 									</parameters>
 								</call>
 								<comment>\STop</comment>
-								<call depth="3" id="81">
+								<call depth="3" id="130">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>4</parameter>
@@ -856,7 +856,7 @@
 										<parameter>6</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="82">
+								<call depth="3" id="131">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>6</parameter>
@@ -865,7 +865,7 @@
 									</parameters>
 								</call>
 								<comment>\SBack</comment>
-								<call depth="3" id="83">
+								<call depth="3" id="134">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>8</parameter>
@@ -873,7 +873,7 @@
 										<parameter>10</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="84">
+								<call depth="3" id="135">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>10</parameter>
@@ -882,7 +882,7 @@
 									</parameters>
 								</call>
 								<comment>\SBottom</comment>
-								<call depth="3" id="85">
+								<call depth="3" id="138">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>12</parameter>
@@ -890,7 +890,7 @@
 										<parameter>14</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="86">
+								<call depth="3" id="139">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>14</parameter>
@@ -899,7 +899,7 @@
 									</parameters>
 								</call>
 								<comment>\SLeft</comment>
-								<call depth="3" id="87">
+								<call depth="3" id="142">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>16</parameter>
@@ -907,7 +907,7 @@
 										<parameter>18</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="88">
+								<call depth="3" id="143">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>18</parameter>
@@ -916,7 +916,7 @@
 									</parameters>
 								</call>
 								<comment>\SRight</comment>
-								<call depth="3" id="89">
+								<call depth="3" id="146">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>20</parameter>
@@ -924,7 +924,7 @@
 										<parameter>22</parameter>
 									</parameters>
 								</call>
-								<call depth="3" id="90">
+								<call depth="3" id="147">
 									<function>addTriangle</function>
 									<parameters>
 										<parameter>22</parameter>
@@ -933,17 +933,17 @@
 									</parameters>
 								</call>
 								<comment>\SUpdate!</comment>
-								<call depth="3" id="91">
+								<call depth="3" id="150">
 									<function>updateVertices</function>
 									<parameters/>
 								</call>
-								<call depth="3" id="92">
+								<call depth="3" id="151">
 									<function>updateTriangles</function>
 									<parameters/>
 								</call>
 							</code>
 						</on>
-						<return depth="2" id="93">obj</return>
+						<return depth="2" id="153">obj</return>
 					</code>
 				</function>
 			</code>

@@ -11,7 +11,7 @@
 	</header>
 	<code>
 		<comment>\SPress\SF5\Sto\Ssee\Sif\SFlua\Sis\Srunning\Son\Syour\Scomputer!</comment>
-		<call depth="0" id="1">
+		<call depth="0" id="4">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_0</parameter>

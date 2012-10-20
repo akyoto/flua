@@ -8,11 +8,12 @@
 	</header>
 	<code>
 		<comment>\SUTF8String\Soperators</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="2">
 			<name>UTF8String</name>
 			<code>
-				<operators depth="1" id="2">
-					<operator depth="2" id="3">
+				<operators depth="1" id="3">
+					<operator depth="2" id="4">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -21,9 +22,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
-							<return depth="3" id="4">
+							<return depth="3" id="5">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -35,42 +35,13 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="5">
-						<parameters>
-							<parameter>
-								<declare-type>
-									<value>s1</value>
-									<value>UTF8String</value>
-								</declare-type>
-							</parameter>
-							<parameter>
-								<declare-type>
-									<value>s2</value>
-									<value>UTF8String</value>
-								</declare-type>
-							</parameter>
-						</parameters>
-						<name>+</name>
-						<code>
-							<return depth="3" id="6">
-								<new>
-									<type>UTF8String</type>
-									<parameters>
-										<parameter>my</parameter>
-										<parameter>s1</parameter>
-										<parameter>s2</parameter>
-									</parameters>
-								</new>
-							</return>
-						</code>
-						<meta/>
-					</operator>
 					<operator depth="2" id="7">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
 									<value>s1</value>
-									<value>Int</value>
+									<value>UTF8String</value>
 								</declare-type>
 							</parameter>
 							<parameter>
@@ -80,7 +51,6 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
 							<return depth="3" id="8">
 								<new>
@@ -95,7 +65,38 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="9">
+					<operator depth="2" id="10">
+						<name>+</name>
+						<parameters>
+							<parameter>
+								<declare-type>
+									<value>s1</value>
+									<value>Int</value>
+								</declare-type>
+							</parameter>
+							<parameter>
+								<declare-type>
+									<value>s2</value>
+									<value>UTF8String</value>
+								</declare-type>
+							</parameter>
+						</parameters>
+						<code>
+							<return depth="3" id="11">
+								<new>
+									<type>UTF8String</type>
+									<parameters>
+										<parameter>my</parameter>
+										<parameter>s1</parameter>
+										<parameter>s2</parameter>
+									</parameters>
+								</new>
+							</return>
+						</code>
+						<meta/>
+					</operator>
+					<operator depth="2" id="13">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -110,9 +111,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
-							<return depth="3" id="10">
+							<return depth="3" id="14">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -125,7 +125,8 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="11">
+					<operator depth="2" id="16">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -140,9 +141,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
-							<return depth="3" id="12">
+							<return depth="3" id="17">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -155,7 +155,8 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="13">
+					<operator depth="2" id="19">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -173,9 +174,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
-							<return depth="3" id="14">
+							<return depth="3" id="20">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -187,7 +187,8 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="15">
+					<operator depth="2" id="22">
+						<name>+</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -196,9 +197,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>+</name>
 						<code>
-							<return depth="3" id="16">
+							<return depth="3" id="23">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -210,7 +210,8 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="17">
+					<operator depth="2" id="25">
+						<name>*</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -219,9 +220,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>*</name>
 						<code>
-							<if-block depth="3" id="18">
+							<if-block depth="3" id="26">
 								<if>
 									<condition>
 										<less-or-equal>
@@ -230,11 +230,11 @@
 										</less-or-equal>
 									</condition>
 									<code>
-										<return depth="4" id="19">EMPTY_STRING</return>
+										<return depth="4" id="27">EMPTY_STRING</return>
 									</code>
 								</if>
 							</if-block>
-							<assign depth="3" id="20">
+							<assign depth="3" id="29">
 								<value>mem</value>
 								<value>
 									<new>
@@ -260,7 +260,7 @@
 									</new>
 								</value>
 							</assign>
-							<if-block depth="3" id="21">
+							<if-block depth="3" id="31">
 								<if>
 									<condition>
 										<equal>
@@ -274,7 +274,7 @@
 										</equal>
 									</condition>
 									<code>
-										<call depth="4" id="22">
+										<call depth="4" id="32">
 											<function>setMem</function>
 											<parameters>
 												<parameter>mem</parameter>
@@ -294,14 +294,14 @@
 										</call>
 									</code>
 								</if>
-								<else depth="3" id="23">
+								<else depth="3" id="33">
 									<code>
-										<for depth="4" id="24">
+										<for depth="4" id="34">
 											<iterator>i</iterator>
 											<from>0</from>
 											<until>num</until>
 											<code>
-												<call depth="5" id="25">
+												<call depth="5" id="35">
 													<function>copyMem</function>
 													<parameters>
 														<parameter>
@@ -339,7 +339,7 @@
 									</code>
 								</else>
 							</if-block>
-							<return depth="3" id="26">
+							<return depth="3" id="37">
 								<new>
 									<type>UTF8String</type>
 									<parameters>
@@ -350,13 +350,13 @@
 						</code>
 						<meta/>
 					</operator>
-					<operator depth="2" id="27">
+					<operator depth="2" id="39">
+						<name>[]</name>
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
-						<name>[]</name>
 						<code>
-							<return depth="3" id="28">
+							<return depth="3" id="40">
 								<call>
 									<function>
 										<access>
@@ -372,13 +372,13 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="29">
+					<operator depth="2" id="42">
+						<name>_flua_seq[:]</name>
 						<parameters>
 							<parameter>from</parameter>
 						</parameters>
-						<name>[:]</name>
 						<code>
-							<return depth="3" id="30">
+							<return depth="3" id="43">
 								<call>
 									<function>
 										<access>
@@ -399,14 +399,14 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="31">
+					<operator depth="2" id="45">
+						<name>_flua_seq[:]</name>
 						<parameters>
 							<parameter>from</parameter>
 							<parameter>to</parameter>
 						</parameters>
-						<name>[:]</name>
 						<code>
-							<return depth="3" id="32">
+							<return depth="3" id="46">
 								<call>
 									<function>
 										<access>
@@ -422,7 +422,8 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="33">
+					<operator depth="2" id="48">
+						<name>==</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -431,9 +432,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>==</name>
 						<code>
-							<if-block depth="3" id="34">
+							<if-block depth="3" id="49">
 								<if>
 									<condition>
 										<not-equal>
@@ -452,11 +452,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="35">false</return>
+										<return depth="4" id="50">false</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="36">
+							<if-block depth="3" id="52">
 								<if>
 									<condition>
 										<equal>
@@ -475,11 +475,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="37">true</return>
+										<return depth="4" id="53">true</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="38">
+							<return depth="3" id="55">
 								<call>
 									<function>compareMem</function>
 									<parameters>
@@ -506,7 +506,8 @@
 							</return>
 						</code>
 					</operator>
-					<operator depth="2" id="39">
+					<operator depth="2" id="57">
+						<name>!=</name>
 						<parameters>
 							<parameter>
 								<declare-type>
@@ -515,9 +516,8 @@
 								</declare-type>
 							</parameter>
 						</parameters>
-						<name>!=</name>
 						<code>
-							<if-block depth="3" id="40">
+							<if-block depth="3" id="58">
 								<if>
 									<condition>
 										<not-equal>
@@ -536,11 +536,11 @@
 										</not-equal>
 									</condition>
 									<code>
-										<return depth="4" id="41">true</return>
+										<return depth="4" id="59">true</return>
 									</code>
 								</if>
 							</if-block>
-							<if-block depth="3" id="42">
+							<if-block depth="3" id="61">
 								<if>
 									<condition>
 										<equal>
@@ -559,11 +559,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="43">false</return>
+										<return depth="4" id="62">false</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="44">
+							<return depth="3" id="64">
 								<not>
 									<value>
 										<call>
@@ -593,7 +593,6 @@
 								</not>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 				</operators>
 			</code>

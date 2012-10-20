@@ -46,7 +46,7 @@ class BPMessageView(QtGui.QListWidget):
 			self.bpIDE.openFile(errorFilePath)
 		
 		if lineNum is not None and lineNum != -1:
-			self.bpIDE.goToLineEnd(lineNum)
+			self.bpIDE.highlightError(lineNum)
 		
 	def addMessage(self, msg):
 		#newItem = QtGui.QListWidgetItem(self.icon, msg)
@@ -143,7 +143,8 @@ class BPMessageView(QtGui.QListWidget):
 		e = self.lastException = self.bpIDE.outputCompilerThread.lastException
 		
 		if e:
-			#node = e.getLastParsedNode()
+			#node = e.outFile.compiler.getLastParsedNode()
+			#inpFile = self.bpIDE.
 			
 			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
 			

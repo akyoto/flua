@@ -122,30 +122,41 @@ class OutputCompilerException(CompilerException):
 		return self.outFile.getFilePath()
 		
 	def getLineNumber(self):
-		if not self.inpFile:
-			return -1
-		
-		nodes = self.outFile.getLastParsedNodes()
-		nodeToOriginalLineNumber = self.inpFile.nodeToOriginalLineNumber
-		
-		# Very useful debugging info here!
-		#c = 0
-		#for x in nodes:
-		#	print(str(c) + ": " + x.toprettyxml())
-		#	c += 1
+		nodes = self.outFile.compiler.getLastParsedNodes()
 		
 		while nodes:
 			node = nodes.pop()
 			
-			if node:
-				if nodeToOriginalLineNumber:
-					while node and not node in nodeToOriginalLineNumber:
-						node = node.parentNode
-					
-					if node:
-						return nodeToOriginalLineNumber[node]
+			if node.hasAttribute("id"):
+				return int(node.getAttribute("id"))
 		
 		return -1
+		
+	#def getLineNumber(self):
+		#if not self.inpFile:
+			#return -1
+		
+		#nodes = self.outFile.compiler.getLastParsedNodes()
+		#nodeToOriginalLineNumber = self.inpFile.nodeToOriginalLineNumber
+		
+		## Very useful debugging info here!
+		##c = 0
+		##for x in nodes:
+		##	print(str(c) + ": " + x.toprettyxml())
+		##	c += 1
+		
+		#while nodes:
+			#node = nodes.pop()
+			
+			#if node:
+				#if nodeToOriginalLineNumber:
+					#while node and not node in nodeToOriginalLineNumber:
+						#node = node.parentNode
+					
+					#if node:
+						#return nodeToOriginalLineNumber[node]
+		
+		#return -1
 		
 	#def getLastParsedNode(self):
 	#	return self.outFile.getLastParsedNode()
@@ -155,7 +166,7 @@ class OutputCompilerException(CompilerException):
 		sep = "\n" + basicSep
 		
 		filePath = self.outFile.getFilePath()
-		nodes = self.outFile.getLastParsedNodes()
+		nodes = self.outFile.compiler.getLastParsedNodes()
 		
 		nodeXML = ""
 		nodeExpr = ""
@@ -163,6 +174,12 @@ class OutputCompilerException(CompilerException):
 		
 		if self.inpFile and self.inpFile.nodeToOriginalLine:
 			nodeToOriginalLine = self.inpFile.nodeToOriginalLine
+		
+		# Very useful debugging info here!
+		#c = 0
+		#for x in nodes:
+		#	print(str(c) + ": " + x.toprettyxml())
+		#	c += 1
 		
 		while nodes:
 			node = nodes.pop()
