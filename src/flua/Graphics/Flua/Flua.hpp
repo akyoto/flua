@@ -405,9 +405,9 @@ inline BPTextureInfo *flua_loadTexture(
 
 	//get correct image_format
 	switch ( FreeImage_GetColorType(dib) ) {
-		case FIC_RGB:		image_format = GL_RGB;
+		case FIC_RGB:		image_format = GL_BGR;
 							break;
-		case FIC_RGBALPHA:	image_format = GL_RGBA;
+		case FIC_RGBALPHA:	image_format = GL_BGRA;
 							break;
 		default:	        break;
 	}
