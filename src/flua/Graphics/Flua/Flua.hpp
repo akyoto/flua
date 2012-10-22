@@ -93,10 +93,10 @@ inline bool glutWindowOpen() {
 inline void flua_onReshape(int width, int height) {
 	flua_projectionMatrix = glm::perspective(flua_fovAngle, 1.0f * width / height, 0.1f, 1000.0f);
 	glViewport(0, 0, width, height);
-	
+
 	flua_width = width;
 	flua_height = height;
-	
+
 	//std::cout << "Reshape!" << std::endl;
 }
 
@@ -125,30 +125,30 @@ inline void flua_initGLUT() {
 inline void flua_setActiveProgram(GLint program) {
 	if(program == flua_currentProgram)
 		return;
-	
+
 	glUseProgram(program);
 	flua_currentProgram = program;
 }
 
 inline void flua_setCamera(float x, float y, float z, float camAngleX, float camAngleY) {
 	glm::vec3 lookat(0, 0, 0);
-	
+
 	lookat.x = sinf(camAngleX) * cosf(camAngleY);
 	lookat.y = sinf(camAngleY);
 	lookat.z = -cosf(camAngleX) * cosf(camAngleY);
-	
+
 	glm::vec3 camPos(x, y, z);
 	glm::vec3 camUp(0.0, 1.0, 0.0);
-	
+
 #ifdef _WIN32
 	int nWidth = glutGet(GLUT_WINDOW_WIDTH);
 	int nHeight = glutGet(GLUT_WINDOW_HEIGHT);
-	
+
 	if(flua_width != nWidth || flua_height != nHeight) {
 		flua_onReshape(nWidth, nHeight);
 	}
 #endif
-	
+
 	flua_viewMatrix = glm::lookAt(camPos, camPos + lookat, camUp);
 	flua_viewAndProjectionMatrix = flua_projectionMatrix * flua_viewMatrix;
 }
@@ -165,49 +165,49 @@ inline void flua_setTransform(
 	 glm::rotate(flua_identityMatrix, rot->_x, flua_xAxis) *  // X axis
 	 glm::rotate(flua_identityMatrix, rot->_y, flua_yAxis) *  // Y axis
 	 glm::rotate(flua_identityMatrix, rot->_z, flua_zAxis);   // Z axis
-	
+
 	glm::mat4 translation = glm::translate(flua_identityMatrix, glm::vec3(pos->_x, pos->_y, -pos->_z));
 	glm::mat4 mvp = flua_viewAndProjectionMatrix * translation * rotation;
-	
+
 	glUniformMatrix4fv(flua_transformAttr, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 inline GLuint flua_createGLSLProgram(GLuint vs, GLuint fs) {
 	GLint link_ok = GL_FALSE;
-	
+
 	GLuint program = glCreateProgram();
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
-	
+
 	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
 	if (!link_ok) {
 		fprintf(stderr, "glLinkProgram:");
 		return 0;
 	}
-	
+
 	return program;
 }
 
 inline GLint flua_createGLSLProgramAttribute(GLuint program, char* attributeName) {
 	GLint attrib = glGetAttribLocation(program, attributeName);
-	
+
 	if (attrib == -1) {
 		fprintf(stderr, "Could not bind attribute '%s'\n", attributeName);
 		return 0;
 	}
-	
+
 	return attrib;
 }
 
 inline GLint flua_createGLSLProgramUniform(GLuint program, char* attributeName) {
 	GLint attrib = glGetUniformLocation(program, attributeName);
-	
+
 	if (attrib == -1) {
 		fprintf(stderr, "Could not bind uniform '%s'\n", attributeName);
 		return 0;
 	}
-	
+
 	return attrib;
 }
 
@@ -233,31 +233,31 @@ inline Int flua_createGLUTWindow(char* title, int width, int height, bool fullsc
 	glutInitWindowPosition((flua_getScreenWidth() - width) / 2, (flua_getScreenHeight() - height) / 2);
 	glutInitWindowSize(width, height);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_ALPHA | GLUT_RGB | GLUT_DEPTH);
-	
+
 	int winId = glutCreateWindow(title);
-	
+
 	//flua_setVSync(true);
-	
+
 	// Force first call (not called automatically on Windows)
 #ifdef _WIN32
 	flua_onReshape(width, height);
 #endif
-	
+
 
 	// Mouse
 	glutMotionFunc(flua_onMouseMove);
 	glutPassiveMotionFunc(flua_onMouseMove);
 	glutReshapeFunc(flua_onReshape);
-	
+
 	// Keyboard
 	glutKeyboardFunc(flua_onKeyDown);
 	glutKeyboardUpFunc(flua_onKeyUp);
 	glutSpecialFunc(flua_onSpecialKeyDown);
 	glutSpecialUpFunc(flua_onSpecialKeyUp);
-	
+
 	glutCloseFunc(flua_onClose);
 	flua_glutRunFlag = true;
-	
+
 	return winId;
 }
 
@@ -267,7 +267,7 @@ inline BPUTF8String* flua_getLastGLError() {
 
 void flua_printGLError(GLuint object) {
 	GLint log_length = 0;
-	
+
 	if (glIsShader(object))
 		glGetShaderiv(object, GL_INFO_LOG_LENGTH, &log_length);
 	else if (glIsProgram(object))
@@ -276,14 +276,14 @@ void flua_printGLError(GLuint object) {
 		fprintf(stderr, "printlog: Not a shader or a program\n");
 		return;
 	}
-	
+
 	char* error = (char*)malloc(log_length);
-	
+
 	if (glIsShader(object))
 		glGetShaderInfoLog(object, log_length, NULL, error);
 	else if (glIsProgram(object))
 		glGetProgramInfoLog(object, log_length, NULL, error);
-	
+
 	fprintf(stderr, "%s", error);
 	free(error);
 }
@@ -292,7 +292,7 @@ GLuint flua_createShader(const GLchar* source, GLenum type) {
 	if (source == NULL) {
 		return 0;
 	}
-	
+
 	GLuint res = glCreateShader(type);
 	const GLchar* sources[] = {
 #ifdef GL_ES_VERSION_2_0
@@ -323,19 +323,19 @@ GLuint flua_createShader(const GLchar* source, GLenum type) {
 		,
 		source
 	};
-	
+
 	glShaderSource(res, 3, sources, NULL);
-	
+
 	glCompileShader(res);
 	GLint compileStatus = GL_FALSE;
 	glGetShaderiv(res, GL_COMPILE_STATUS, &compileStatus);
-	
+
 	if (compileStatus == GL_FALSE) {
 		flua_printGLError(res);
 		glDeleteShader(res);
 		return 0;
 	}
-	
+
 	return res;
 }
 
@@ -348,7 +348,7 @@ inline GLuint flua_createBuffer() {
 class BPTextureInfo: public gc {
 public:
 	inline BPTextureInfo(GLuint handle, UInt width, UInt height) : _handle(handle), _width(width), _height() {}
-	
+
 	GLuint _handle;
 	UInt _width;
 	UInt _height;
@@ -363,26 +363,26 @@ inline BPTextureInfo *flua_loadTexture(
 ) {
 	//image format
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	
+
 	//pointer to the image, once loaded
 	FIBITMAP* dib(0);
-	
+
 	//pointer to the image data
 	BYTE* bits(0);
-	
+
 	//image width and height
 	unsigned int width(0), height(0);
-	
+
 	//OpenGL's image ID to map to
 	GLuint gl_texID;
-	
+
 	//check the file signature and deduce its format
 	fif = FreeImage_GetFileType(filename, 0);
-	
+
 	//if still unknown, try to guess the file format from the file extension
-	if(fif == FIF_UNKNOWN) 
+	if(fif == FIF_UNKNOWN)
 		fif = FreeImage_GetFIFFromFilename(filename);
-	
+
 	//if still unkown, return failure
 	if(fif == FIF_UNKNOWN)
 		return NULL;
@@ -391,36 +391,45 @@ inline BPTextureInfo *flua_loadTexture(
 	if(FreeImage_FIFSupportsReading(fif)) {
 		dib = FreeImage_Load(fif, filename);
 	}
-	
+
 	//if the image failed to load, return failure
 	if(!dib)
 		return NULL;
-	
+
 	//retrieve the image data
 	bits = FreeImage_GetBits(dib);
-	
+
 	//get the image width and height
 	width = FreeImage_GetWidth(dib);
 	height = FreeImage_GetHeight(dib);
-	
+
+	//get correct image_format
+	switch ( FreeImage_GetColorType(dib) ) {
+		case FIC_RGB:		image_format = GL_RGB;
+							break;
+		case FIC_RGBALPHA:	image_format = GL_RGBA;
+							break;
+		default:	        break;
+	}
+
 	//if this somehow one of these failed (they shouldn't), return failure
 	if((bits == 0) || (width == 0) || (height == 0))
 		return NULL;
-	
+
 	//generate an OpenGL texture ID for this texture
 	glGenTextures(1, &gl_texID);
-	
+
 	//bind to the new texture ID
 	glBindTexture(GL_TEXTURE_2D, gl_texID);
-	
+
 	//store the texture data for OpenGL use
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
+
 	glTexImage2D(GL_TEXTURE_2D, level, internal_format, width, height, border, image_format, GL_UNSIGNED_BYTE, bits);
-	
+
 	gluBuild2DMipmaps(GL_TEXTURE_2D, internal_format, width, height, image_format, GL_UNSIGNED_BYTE, bits);
-	
+
 	//Free FreeImage's copy of the data
 	// TODO: This needs to work instead of leading to a segfault at the end of the program.
 	//#ifndef USING_GC
@@ -429,7 +438,7 @@ inline BPTextureInfo *flua_loadTexture(
 	//FreeImage_Unload(dib);
 	free(dib);
 	//#endif
-	
+
 	//return success
 	return new (UseGC) BPTextureInfo(gl_texID, width, height);
 }
