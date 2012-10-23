@@ -684,6 +684,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			elif self.inOperators or self.inCasts or line[0].islower() or self.inClass or self.inIterators:
 				return self.handleFunction(line)
 			else:
+				if self.inFunction:
+					raise CompilerException("A class definition may not exist inside a function definition")
+				
 				return self.handleClass(line)
 		else:
 			if self.inTemplate:
@@ -1459,6 +1462,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			raise CompilerException("'extends' must be written as a block inside the class")
 		
 		className = line
+		
+		# TODO: Add a few more criteria
+		if " " in className:
+			raise CompilerException("„%s“ is not a valid class name" % (className))
 		
 		node = self.doc.createElement("class")
 		nameNode = self.doc.createElement("name")
