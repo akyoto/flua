@@ -24,7 +24,7 @@ If you use Debian or Ubuntu just execute this:
 
     sudo apt-get install python3 python3-pyqt4 git g++ build-essential xorg-dev libx11-dev libxt-dev libxext-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libfreeimage3 libfreeimage-dev freeglut3 freeglut3-dev
     git clone git://github.com/blitzprog/flua.git
-    ./flua/flua-studio.py
+    python3 ./flua/flua-studio.py
 
 This works on Ubuntu 12.04 and higher. On Ubuntu 11.xx or non-debian based systems you need to compile these dependencies manually or install the equivalent packages.
 
@@ -64,7 +64,7 @@ Download Flua via git (unless you already downloaded it):
     
 Start flua-studio.py which is in the top-level flua directory:
     
-    ./flua/flua-studio.py
+    python3 ./flua/flua-studio.py
     
 On 64-Bit systems you might need to install libc-i386-dev as well.
 If you want to compile the graphics examples you'll need X11 and OpenGL
