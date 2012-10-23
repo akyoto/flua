@@ -347,7 +347,7 @@ inline GLuint flua_createBuffer() {
 
 class BPTextureInfo: public gc {
 public:
-	inline BPTextureInfo(GLuint handle, UInt width, UInt height) : _handle(handle), _width(width), _height() {}
+	inline BPTextureInfo(GLuint handle, UInt width, UInt height) : _handle(handle), _width(width), _height(height) {}
 
 	GLuint _handle;
 	UInt _width;
@@ -408,15 +408,15 @@ inline BPTextureInfo *flua_loadTexture(
 		case FIC_RGB:
 			image_format = GL_BGR;
 			break;
-			
+
 		case FIC_RGBALPHA:
 			image_format = GL_BGRA;
 			break;
-			
+
 		default:
 			break;
 	}
-	
+
 	//if somehow one of these failed (they shouldn't), return failure
 	if((bits == 0) || (width == 0) || (height == 0))
 		return NULL;
