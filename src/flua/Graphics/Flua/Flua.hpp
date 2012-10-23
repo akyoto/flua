@@ -404,15 +404,20 @@ inline BPTextureInfo *flua_loadTexture(
 	height = FreeImage_GetHeight(dib);
 
 	//get correct image_format
-	switch ( FreeImage_GetColorType(dib) ) {
-		case FIC_RGB:		image_format = GL_BGR;
-							break;
-		case FIC_RGBALPHA:	image_format = GL_BGRA;
-							break;
-		default:	        break;
+	switch(FreeImage_GetColorType(dib)) {
+		case FIC_RGB:
+			image_format = GL_BGR;
+			break;
+			
+		case FIC_RGBALPHA:
+			image_format = GL_BGRA;
+			break;
+			
+		default:
+			break;
 	}
-
-	//if this somehow one of these failed (they shouldn't), return failure
+	
+	//if somehow one of these failed (they shouldn't), return failure
 	if((bits == 0) || (width == 0) || (height == 0))
 		return NULL;
 
