@@ -1149,7 +1149,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			defaultValue = ""
 			defaultValueType = ""
 			
-			if node.tagName == "noop":
+			if node.tagName == "noop" or node.tagName == "comment":
 				continue
 			
 			exprNode = node.childNodes[0]
