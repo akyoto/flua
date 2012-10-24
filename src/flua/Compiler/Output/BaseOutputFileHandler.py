@@ -40,6 +40,8 @@ class BaseOutputFileHandler:
 	def handleAssign(self, node):
 		self.inAssignment += 1
 		
+		#debug("handleAssign: " + node.toxml())
+		
 		# 'on' block
 		if self.onVariable:
 			op1 = node.childNodes[0].firstChild
@@ -66,14 +68,16 @@ class BaseOutputFileHandler:
 			virtualAccess = "><access><value>%s</value><value>%s</value></access><" % (self.onVariable, innerOp1XML)
 			op1ModifiedXML = op1XML.replace(replaced, virtualAccess)[1:-1]
 			
-			#print(replaced, " -> ", virtualAccess)
-			#print(op1XML)
-			#print(op1ModifiedXML)
-			
 			virtualAssign = self.makeXMLAssign(op1ModifiedXML, op2.toxml())
 			
 			# Set parent node (hacks!)
 			virtualAssign.parentNode = node.parentNode
+			
+			#print("'on' usage:")
+			#print(replaced, " -> ", virtualAccess)
+			#print(op1XML)
+			#print(op1ModifiedXML)
+			#print(virtualAssign.toprettyxml())
 			
 			saved = self.onVariable
 			self.onVariable = ""
@@ -240,6 +244,7 @@ class BaseOutputFileHandler:
 			
 			isSelfMemberAccess = True
 		
+		#debug("Variable: %s (%d)" % (variableName, isSelfMemberAccess))
 		if isSelfMemberAccess or publicMemberAccess:
 			memberName = self.fixMemberName(memberName)
 			var = self.createVariable(memberName, valueType, value, self.inConst, not valueType in nonPointerClasses, False)
@@ -351,9 +356,11 @@ class BaseOutputFileHandler:
 			# GET access - are we accessing a member outside the class?
 			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 			
-			#debug(op1.toxml())
-			#debug(op2.toxml())
-			#debug(publicMemberAccess)
+			if "vb" in op2.toxml() or "vertices" in op2.toxml():
+				debug(op1.toxml())
+				debug(op2.toxml())
+				debug(isMemberAccess)
+				debug(publicMemberAccess)
 			
 			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:

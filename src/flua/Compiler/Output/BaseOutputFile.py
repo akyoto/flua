@@ -640,8 +640,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				#	print("%s not found in base classes of %s" % (memberName, callerType))
 				
 				if not callerClassImpl.hasConstructorImplementation(): #and not callerClass.isExtern:
-					#print("XML:", node.toxml())
-					#print("Implementing init default for „%s“" % (callerType))
+					#debug("Implementing init default for „%s“" % (callerType))
 					allFuncs = callerClassImpl.classObj.functions
 					
 					if "init" in allFuncs:
@@ -651,20 +650,25 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						#callerClassImpl.requestFuncImplementation("init", paramTypes)
 						
 						self.implementFunction(callerType, "init", paramTypes)
-						#print("Implemented.")
+						#debug("Implemented %s %s %s." % (callerType, "init", paramTypes))
 					else:
 						raise CompilerException("„%s“ is missing an 'init' constructor" % callerType)
+				else:
+					pass
+					#debug("%s already has a constructor implementation." % (callerType))
 				
 				#debug("Member list:")
 				#for member in callerClassImpl.members.keys():
-				#	#debug(" * " + member)
+				#	debug(" * " + member)
 				
-				#	memberName = "_" + memberName
+					#memberName = "_" + memberName
 					
-					#print("impl.members:", callerClassImpl.members)
-					#print("class.properties:", callerClassImpl.classObj.properties)
-					#print("class.publicMembers:", callerClassImpl.classObj.publicMembers)
-					#print("<<")
+				#print(callerClassImpl.getName())
+				#print(memberName)
+				#print("impl.members:", callerClassImpl.members)
+				#print("class.properties:", callerClassImpl.classObj.properties)
+				#print("class.publicMembers:", callerClassImpl.classObj.publicMembers)
+				#print("<<")
 				
 				if memberName in callerClassImpl.members:
 					#debug("Member '" + memberName + "' does exist")
