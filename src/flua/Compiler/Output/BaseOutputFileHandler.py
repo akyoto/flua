@@ -356,11 +356,11 @@ class BaseOutputFileHandler:
 			# GET access - are we accessing a member outside the class?
 			isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(op1, op2)
 			
-			if "vb" in op2.toxml() or "vertices" in op2.toxml():
-				debug(op1.toxml())
-				debug(op2.toxml())
-				debug(isMemberAccess)
-				debug(publicMemberAccess)
+			#if "vb" in op2.toxml() or "vertices" in op2.toxml():
+			#	debug(op1.toxml())
+			#	debug(op2.toxml())
+			#	debug(isMemberAccess)
+			#	debug(publicMemberAccess)
 			
 			# If yes, convert it to a getXYZ() call
 			if isMemberAccess:
