@@ -116,7 +116,7 @@ class BaseOutputFileScan:
 			
 			if not memberType:
 				# Last parsed node for debugging purposes
-				self.lastParsedNode.append(node.childNodes[i])
+				self.compiler.lastParsedNodes.append(node.childNodes[i])
 				
 				raise CompilerException("The member variable declaration of „%s“ in a public block of class „%s“ must be given a type" % (memberName, self.currentClass.name))
 			
