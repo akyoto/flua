@@ -13,9 +13,9 @@
 	<code>
 		<comment>\SEach\Sline\Sin\Sa\S„begin“\Sblock\Swill\Sbe\Sexecuted\Sparallely</comment>
 		<comment>\Swithout\Swaiting\Sfor\Sthe\Stermination\Sof\Sthose\Stasks.</comment>
-		<begin depth="0" id="1">
+		<begin depth="0" id="3">
 			<code>
-				<call depth="1" id="2">
+				<call depth="1" id="4">
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
@@ -24,13 +24,13 @@
 			</code>
 		</begin>
 		<comment>\SAfter\Sthe\Stasks\Shave\Sbeen\Sstarted\Swe\Scan\Scontinue\Swith\Sour\Snormal\Sprogram\Sflow:</comment>
-		<call depth="0" id="3">
+		<call depth="0" id="7">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_1</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="4">
+		<call depth="0" id="8">
 			<function>print</function>
 			<parameters>
 				<parameter>flua_string_2</parameter>

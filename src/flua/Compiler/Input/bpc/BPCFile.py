@@ -1403,6 +1403,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				node.setAttribute("implemented", "true")
 			else:
 				node.setAttribute("implemented", "false")
+				self.inFunction -= 1
 		
 		if not self.inCasts:
 			nameNode.appendChild(self.doc.createTextNode(funcName))

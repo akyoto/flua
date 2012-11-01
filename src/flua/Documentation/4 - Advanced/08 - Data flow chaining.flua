@@ -9,7 +9,7 @@
 	<code>
 		<comment>\SDataflow\Schaining\Sis\Sthe\Scombination\Sof\Smore\Sthan\S2\Sfunctions.</comment>
 		<comment>\SThis\Sis\Show\Sthe\Sdata\Sflows\Sin\Sthis\Sexample\Scode:</comment>
-		<flow-to depth="0" id="1">
+		<flow-to depth="0" id="3">
 			<value>
 				<flow-to>
 					<value>getWebcamImage</value>
@@ -19,21 +19,21 @@
 			<value>showOnScreen</value>
 		</flow-to>
 		<comment>\SThis\Sclass\Ssymbolizes\Sour\Simage\Sdata\Swhich\Sis\Sa\Ssimple\Sinteger\Sin\Sthis\Scase</comment>
-		<class depth="0" id="2">
+		<class depth="0" id="6">
 			<name>WebcamImage</name>
 			<code>
-				<public depth="1" id="3">
-					<public-member depth="2" id="4">
+				<public depth="1" id="7">
+					<public-member depth="2" id="8">
 						<declare-type>
 							<value>data</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="5">
+				<function depth="1" id="10">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="6">
+						<assign depth="2" id="11">
 							<value>
 								<access>
 									<value>my</value>
@@ -61,10 +61,10 @@
 			<meta/>
 		</class>
 		<comment>\SCapture\Sone\Sframe</comment>
-		<function depth="0" id="7">
+		<function depth="0" id="14">
 			<name>getWebcamImage</name>
 			<code>
-				<return depth="1" id="8">
+				<return depth="1" id="15">
 					<new>
 						<type>WebcamImage</type>
 						<parameters/>
@@ -73,13 +73,13 @@
 			</code>
 		</function>
 		<comment>\SProcess\Simage</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="18">
 			<name>addFilters</name>
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
 			<code>
-				<assign-add depth="1" id="10">
+				<assign-add depth="1" id="19">
 					<value>
 						<access>
 							<value>image</value>
@@ -100,17 +100,17 @@
 						</call>
 					</value>
 				</assign-add>
-				<return depth="1" id="11">image</return>
+				<return depth="1" id="21">image</return>
 			</code>
 		</function>
 		<comment>\SShow\Sit\Son\Sthe\Sscreen</comment>
-		<function depth="0" id="12">
+		<function depth="0" id="24">
 			<name>showOnScreen</name>
 			<parameters>
 				<parameter>image</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="13">
+				<call depth="1" id="25">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -122,20 +122,20 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\STheoretically\Syou\Scan\Screate\Sa\Smain\Sloop\Snow.</comment>
 		<comment>\STo\Sdemonstrate\Sthe\Sdata\Sflow\SI'm\Sjust\Sgoing\Sto\Sdo\Sthis\S10\Stimes:</comment>
-		<for depth="0" id="14">
+		<for depth="0" id="29">
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>10</to>
 			<code>
-				<call depth="1" id="15">
+				<call depth="1" id="30">
 					<function>getWebcamImage</function>
 					<parameters/>
 				</call>
 			</code>
+			<meta/>
 		</for>
 	</code>
 </module>
