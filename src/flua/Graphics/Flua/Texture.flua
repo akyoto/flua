@@ -4,7 +4,7 @@
 		<dependencies>
 			<import>flua.Core</import>
 			<import>flua.FileSystem</import>
-			<import>flua.Graphics.Flua</import>
+			<import>flua.Graphics.Flua.Functions</import>
 		</dependencies>
 		<strings/>
 	</header>

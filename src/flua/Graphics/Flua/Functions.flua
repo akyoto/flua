@@ -1,0 +1,353 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>public.Graphics.GLEW</import>
+			<import>public.Graphics.GLU</import>
+			<import>public.Graphics.GLUT</import>
+			<import>public.Graphics.OpenGL</import>
+			<import>public.Graphics.FreeImage</import>
+			<import>public.Math.GLM</import>
+			<import>flua.Math.Geometry</import>
+			<import>flua.FileSystem</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<target depth="0" id="11">
+			<name>C++</name>
+			<code>
+				<include depth="1" id="12">Functions.hpp</include>
+			</code>
+		</target>
+		<extern depth="0" id="14">
+			<namespace depth="1" id="15">
+				<name>flua</name>
+				<code>
+					<extern-function depth="2" id="16">
+						<name>createGLUTWindow</name>
+						<type>Int</type>
+					</extern-function>
+					<extern-function depth="2" id="17">
+						<name>createShader</name>
+						<type>GLuint</type>
+					</extern-function>
+					<extern-function depth="2" id="18">
+						<name>createGLSLProgram</name>
+						<type>GLuint</type>
+					</extern-function>
+					<extern-function depth="2" id="19">
+						<name>createGLSLProgramAttribute</name>
+						<type>GLint</type>
+					</extern-function>
+					<extern-function depth="2" id="20">
+						<name>createGLSLProgramUniform</name>
+						<type>GLint</type>
+					</extern-function>
+					<extern-function depth="2" id="21">
+						<name>createBuffer</name>
+						<type>GLuint</type>
+					</extern-function>
+					<extern-function depth="2" id="22">
+						<name>loadTexture</name>
+						<type>TextureInfo</type>
+					</extern-function>
+					<extern-function depth="2" id="23">
+						<name>initGLUT</name>
+					</extern-function>
+					<extern-function depth="2" id="24">
+						<name>printGLError</name>
+					</extern-function>
+					<extern-function depth="2" id="25">
+						<name>setActiveProgram</name>
+					</extern-function>
+					<extern-function depth="2" id="26">
+						<name>setTransform</name>
+					</extern-function>
+					<extern-function depth="2" id="27">
+						<name>setCamera</name>
+					</extern-function>
+					<extern-function depth="2" id="28">
+						<name>setVSync</name>
+					</extern-function>
+					<extern-function depth="2" id="29">
+						<name>getLastGLError</name>
+						<type>String</type>
+					</extern-function>
+					<extern-function depth="2" id="30">
+						<name>getMouseX</name>
+						<type>Int</type>
+					</extern-function>
+					<extern-function depth="2" id="31">
+						<name>getMouseY</name>
+						<type>Int</type>
+					</extern-function>
+					<extern-function depth="2" id="32">
+						<name>getScreenWidth</name>
+						<type>UInt</type>
+					</extern-function>
+					<extern-function depth="2" id="33">
+						<name>getScreenHeight</name>
+						<type>UInt</type>
+					</extern-function>
+					<extern-function depth="2" id="34">
+						<name>isKeyDown</name>
+						<type>Bool</type>
+					</extern-function>
+				</code>
+			</namespace>
+			<class depth="1" id="36">
+				<name>TextureInfo</name>
+				<code>
+					<public depth="2" id="37">
+						<public-member depth="3" id="38">
+							<declare-type>
+								<value>handle</value>
+								<value>GLuint</value>
+							</declare-type>
+						</public-member>
+						<public-member depth="3" id="39">
+							<declare-type>
+								<value>width</value>
+								<value>UInt</value>
+							</declare-type>
+						</public-member>
+						<public-member depth="3" id="40">
+							<declare-type>
+								<value>height</value>
+								<value>UInt</value>
+							</declare-type>
+						</public-member>
+					</public>
+					<function depth="2" id="42">
+						<name>init</name>
+						<code>
+							<noop depth="3" id="43"/>
+						</code>
+					</function>
+				</code>
+			</class>
+		</extern>
+		<comment>\SReturns\Sthe\Slast\SOpenGL\Serror\Sas\Sa\Sstring</comment>
+		<function depth="0" id="46">
+			<name>getLastGLError</name>
+			<code>
+				<return depth="1" id="47">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getLastGLError</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
+		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
+		<function depth="0" id="51">
+			<name>getMouseX</name>
+			<code>
+				<return depth="1" id="52">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getMouseX</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
+		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
+		<function depth="0" id="56">
+			<name>getMouseY</name>
+			<code>
+				<return depth="1" id="57">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getMouseY</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
+		<function depth="0" id="60">
+			<name>getScreenWidth</name>
+			<parameters>
+				<parameter>
+					<assign>
+						<value>id</value>
+						<value>
+							<negative>
+								<value>1</value>
+							</negative>
+						</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<code>
+				<return depth="1" id="61">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getScreenWidth</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
+		<function depth="0" id="64">
+			<name>getScreenHeight</name>
+			<parameters>
+				<parameter>
+					<assign>
+						<value>id</value>
+						<value>
+							<negative>
+								<value>1</value>
+							</negative>
+						</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<code>
+				<return depth="1" id="65">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getScreenHeight</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SReturns\Swidth\Sdivided\Sby\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
+		<function depth="0" id="68">
+			<name>getScreenRatio</name>
+			<parameters>
+				<parameter>
+					<assign>
+						<value>id</value>
+						<value>
+							<negative>
+								<value>1</value>
+							</negative>
+						</value>
+					</assign>
+				</parameter>
+			</parameters>
+			<code>
+				<return depth="1" id="69">
+					<divide>
+						<value>
+							<call>
+								<function>getScreenWidth</function>
+								<parameters>
+									<parameter>id</parameter>
+								</parameters>
+							</call>
+						</value>
+						<value>
+							<call>
+								<function>getScreenHeight</function>
+								<parameters>
+									<parameter>id</parameter>
+								</parameters>
+							</call>
+						</value>
+					</divide>
+				</return>
+			</code>
+		</function>
+		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
+		<function depth="0" id="72">
+			<name>setVSync</name>
+			<parameters>
+				<parameter>enabled</parameter>
+			</parameters>
+			<code>
+				<call depth="1" id="73">
+					<function>
+						<access>
+							<value>flua</value>
+							<value>setVSync</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>enabled</parameter>
+					</parameters>
+				</call>
+			</code>
+		</function>
+		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#key\Sis\Sbeing\Spressed,\Sfalse\Sotherwise</comment>
+		<function depth="0" id="76">
+			<name>isKeyDown</name>
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>key</value>
+						<value>Key</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<code>
+				<return depth="1" id="77">
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>isKeyDown</value>
+							</access>
+						</function>
+						<parameters>
+							<parameter>key</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+		<comment>\SToggles\Sfullscreen\Smode</comment>
+		<function depth="0" id="80">
+			<name>toggleFullScreen</name>
+			<code>
+				<call depth="1" id="81">
+					<function>glutFullScreenToggle</function>
+					<parameters/>
+				</call>
+			</code>
+		</function>
+		<comment>\SReturns\Swhether\Sthe\Scurrent\Swindows\Sis\Sin\Sfullscreen\Smode</comment>
+		<function depth="0" id="84">
+			<name>isFullScreen</name>
+			<code>
+				<return depth="1" id="85">
+					<call>
+						<function>glutGet</function>
+						<parameters>
+							<parameter>GLUT_FULL_SCREEN</parameter>
+						</parameters>
+					</call>
+				</return>
+			</code>
+		</function>
+	</code>
+</module>

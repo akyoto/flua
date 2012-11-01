@@ -3,7 +3,7 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Graphics.Flua</import>
+			<import>flua.Graphics.Flua.Functions</import>
 			<import>flua.Collection.Vector</import>
 			<import>VertexBuffer</import>
 			<import>IndexBuffer</import>

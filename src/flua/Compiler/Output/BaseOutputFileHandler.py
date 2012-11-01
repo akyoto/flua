@@ -111,16 +111,29 @@ class BaseOutputFileHandler:
 				accessOp1 = op1.childNodes[0].childNodes[0]
 				accessOp2 = op1.childNodes[1].childNodes[0]
 				
+				#if "vb" in accessOp2.toxml():
+				#	debug("OP1:")
+				#	debug(accessOp1.toprettyxml())
+				#	debug("OP2:")
+				#	debug(accessOp2.toprettyxml())
+				
 				# data access from a pointer
 				accessOp1Type = self.getExprDataType(accessOp1)
+				
+				#if "vb" in accessOp2.toxml():
+				#	debug("Type:")
+				#	debug(accessOp1Type)
+				
 				if extractClassName(accessOp1Type) == "MemPointer" and accessOp2.nodeValue == "data": #and isUnmanaged(accessOp1Type):
 					return self.pointerDerefAssignSyntax % (self.parseExpr(accessOp1), self.parseExpr(node.childNodes[1]))
 				
-				#debug(accessOp1)
-				#debug(".")
-				#debug(accessOp2)
-				
 				isMemberAccess, publicMemberAccess = self.isMemberAccessFromOutside(accessOp1, accessOp2)
+				
+				#if "vb" in accessOp2.toxml():
+				#	debug("Member access:")
+				#	debug(isMemberAccess)
+				#	debug(publicMemberAccess)
+				
 				if isMemberAccess and not accessOp1.nodeValue == "my":
 					if self.currentFunctionImpl:
 						self.currentFunctionImpl.addSideEffect()
@@ -131,7 +144,10 @@ class BaseOutputFileHandler:
 				elif publicMemberAccess:
 					if self.currentFunctionImpl:
 						self.currentFunctionImpl.addGlobalStateAccess()
-					
+				
+				#if "vb" in accessOp2.toxml():
+				#	debug("[1] None of the cases match.")
+				
 				#pass
 				#variableType = self.getExprDataType(op1)
 				#variableClass = self.compiler.classes[removeGenerics(variableType)]
@@ -191,15 +207,26 @@ class BaseOutputFileHandler:
 				
 				return ''.join(code)
 		
+		#if "vb" in node.toxml():
+		#	debug("[2] None of the cases match:")
+		#	debug(node.toprettyxml())
+		
 		# Inline type declarations
 		declaredInline = (tagName(node.childNodes[0].childNodes[0]) == "declare-type")
 		
 		# Inline declaration + top level scope = don't include type name
 		variableName = self.getNamespacePrefix()
+		
+		#if "vb" in node.toxml():
+		#	debug(variableName + "<---------")
+		
 		if declaredInline and self.getCurrentScope() == self.getTopLevelScope():
 			variableName += self.handleTypeDeclaration(node.childNodes[0].childNodes[0], insertTypeName = False)
 		else:
 			variableName += self.parseExpr(node.childNodes[0].childNodes[0])
+		
+		#if "vb" in node.toxml():
+		#	debug(variableName + "<<---------")
 		
 		# In parameter definition?
 		if (not isinstance(node.parentNode, Document)) and node.parentNode.tagName == "parameter":
@@ -208,12 +235,15 @@ class BaseOutputFileHandler:
 			#print(variableName)
 			#print(self.getNamespacePrefix())
 			#print("--xxx--")
+			#if "vb" in variableName:
+			#	debug("In parameter definition: %s" % (variableName))
 			return variableName
 		
 		# Parse value
 		if len(node.childNodes) == 2:
 			if len(node.childNodes[1].childNodes) == 1:
-				value = self.parseExpr(node.childNodes[1].childNodes[0], False)
+				op2 = node.childNodes[1].childNodes[0]
+				value = self.parseExpr(op2, False)
 			else:
 				raise CompilerException("Invalid assignment value for „%s“" % (variableName))
 		else:
@@ -237,6 +267,10 @@ class BaseOutputFileHandler:
 			variableType = ""
 		
 		# Member access?
+		#if "vb" in variableName:
+		#	debug("Variable name: %s" % (variableName))
+		#	debug("Member name: %s" % (memberName))
+		
 		if variableName.startswith(self.memberAccessSyntax):
 			memberName = variableName[len(self.memberAccessSyntax):]
 			# TODO: Save it for the IDE
@@ -443,7 +477,9 @@ class BaseOutputFileHandler:
 		if "init" in classObj.functions:
 			paramTypes, paramsString = self.addDefaultParameters(typeName, "init", paramTypes, paramsString)
 			
+			#debug("Implementing constructor for „%s“" % (classObj.name))
 			funcImpl = self.implementFunction(typeName, "init", paramTypes)
+			#debug("Implemented constructor for „%s“" % (classObj.name))
 		else:
 			# Make sure the class will exist:
 			forcedClassImpl = self.getClassImplementationByTypeName(typeName)

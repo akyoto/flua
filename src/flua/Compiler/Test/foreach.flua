@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign depth="0" id="3">
 			<value>testArray</value>
 			<value>
 				<new>
@@ -25,7 +25,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="2">
+		<call depth="0" id="4">
 			<function>
 				<access>
 					<value>testArray</value>
@@ -36,7 +36,7 @@
 				<parameter>1</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="3">
+		<call depth="0" id="5">
 			<function>
 				<access>
 					<value>testArray</value>
@@ -47,7 +47,7 @@
 				<parameter>2</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="4">
+		<call depth="0" id="6">
 			<function>
 				<access>
 					<value>testArray</value>
@@ -58,21 +58,21 @@
 				<parameter>3</parameter>
 			</parameters>
 		</call>
-		<assign depth="0" id="5">
+		<assign depth="0" id="7">
 			<value>s</value>
 			<value>0</value>
 		</assign>
-		<foreach depth="0" id="6">
+		<foreach depth="0" id="9">
 			<iterator>val</iterator>
 			<collection>testArray</collection>
 			<code>
-				<assign-add depth="1" id="7">
+				<assign-add depth="1" id="10">
 					<value>s</value>
 					<value>val</value>
 				</assign-add>
 			</code>
 		</foreach>
-		<if-block depth="0" id="8">
+		<if-block depth="0" id="12">
 			<if>
 				<condition>
 					<equal>
@@ -81,7 +81,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="9">
+					<call depth="1" id="13">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -89,9 +89,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="10">
+			<else depth="0" id="14">
 				<code>
-					<call depth="1" id="11">
+					<call depth="1" id="15">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

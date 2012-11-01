@@ -1223,8 +1223,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					# Default parameters for init
 					paramTypes, paramsString = addDefaultParameters(type, "init", [], "")
 					funcImpl = implementFunction(type, "init", paramTypes)
-				except:
+				except CompilerException:
 					pass
+				except:
+					raise
 			
 			pTypesAppend(type)
 			pDefaultAppend(defaultValue)

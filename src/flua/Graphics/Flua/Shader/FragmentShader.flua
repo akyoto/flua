@@ -3,15 +3,16 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
-			<import>flua.Graphics.Flua</import>
+			<import>flua.Graphics.Flua.Functions</import>
 		</dependencies>
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class depth="0" id="3">
 			<name>FragmentShader</name>
 			<code>
-				<function depth="1" id="2">
+				<function depth="1" id="4">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -20,9 +21,8 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="5">
 							<value>content</value>
 							<value>
 								<call>
@@ -38,7 +38,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="4">
+						<assign depth="2" id="6">
 							<value>
 								<access>
 									<value>my</value>
@@ -68,11 +68,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="5">
-					<getter depth="2" id="6">
+				<get depth="1" id="8">
+					<getter depth="2" id="9">
 						<name>handle</name>
 						<code>
-							<return depth="3" id="7">
+							<return depth="3" id="10">
 								<access>
 									<value>my</value>
 									<value>handle</value>
