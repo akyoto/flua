@@ -803,7 +803,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.currentWorkspace.changeCodeEdit(index)
 		
 		# Update line info
-		#self.updateLineInfo(force=True)#, updateDependencyView=False)
+		self.updateLineInfo(force=True)#, updateDependencyView=False)
 		
 		# Exists?
 		if ppCodeEdit is None or ppCodeEdit.isTextFile:

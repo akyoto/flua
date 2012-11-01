@@ -130,9 +130,13 @@ class OutputCompilerException(CompilerException):
 			if node.hasAttribute("id"):
 				return int(node.getAttribute("id"))
 		
+		#try:
+		#	return self.getLineNumber2()
+		#except:
+		
 		return -1
 		
-	#def getLineNumber(self):
+	#def getLineNumber2(self):
 		#if not self.inpFile:
 			#return -1
 		
