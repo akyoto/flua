@@ -28,6 +28,7 @@
 					<extern-function depth="2" id="16">
 						<name>createGLUTWindow</name>
 						<type>Int</type>
+						<meta/>
 					</extern-function>
 					<extern-function depth="2" id="17">
 						<name>createShader</name>
@@ -78,22 +79,38 @@
 					<extern-function depth="2" id="30">
 						<name>getMouseX</name>
 						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+							<same-output-for-input>false</same-output-for-input>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="31">
 						<name>getMouseY</name>
 						<type>Int</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="32">
 						<name>getScreenWidth</name>
 						<type>UInt</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="33">
 						<name>getScreenHeight</name>
 						<type>UInt</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 					<extern-function depth="2" id="34">
 						<name>isKeyDown</name>
 						<type>Bool</type>
+						<meta>
+							<no-side-effects>true</no-side-effects>
+						</meta>
 					</extern-function>
 				</code>
 			</namespace>
