@@ -52,6 +52,13 @@ def fixID(stri):
 
 def isVarChar(char):
 	return char.isalnum() or char == '_'
+	
+def isVarName(name):
+	for x in name:
+		if not isVarChar(x):
+			return False
+	
+	return True
 
 def countTabs(line):
 	tabCount = 0

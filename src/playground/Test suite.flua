@@ -17,5 +17,28 @@
 				<parameter>flua_string_0</parameter>
 			</parameters>
 		</call>
+		<foreach depth="0" id="6">
+			<iterator>x</iterator>
+			<collection>
+				<index>
+					<value>_flua_seq</value>
+					<value>
+						<parameters>
+							<parameter>2</parameter>
+							<parameter>3</parameter>
+							<parameter>4</parameter>
+						</parameters>
+					</value>
+				</index>
+			</collection>
+			<code>
+				<call depth="1" id="7">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
 	</code>
 </module>

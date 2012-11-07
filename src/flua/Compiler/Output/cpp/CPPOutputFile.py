@@ -275,12 +275,15 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		# Performance optimization:
 		# Do we need a temporary variable to hold the collExpr value?
 		# TODO: We might ignore this for "this", "self", "my" etc.
-		if collExpr.find("->") != -1:
+		if not isVarName(collExpr):
 			newCollExpr = "_flua_tmp_coll_%d" % localForVarCounter
 			collInitCode = self.buildLine("%s %s = %s" % (adjustDataTypeCPP(collExprType), newCollExpr, collExpr))
 			collExpr = newCollExpr
 		else:
 			collInitCode = ""
+			
+		#debug("Expr: " + collExpr)
+		#debug("Init: " + collInitCode)
 		
 		# Do this BEFORE fixing member names
 		iterImplCode = iterImplCode.replace("this->", collExpr + "->")
