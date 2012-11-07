@@ -533,7 +533,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					pass
 				elif self.inIterator and self.currentFunction.isIterator and self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName):
 					#print("getExprDataType: " + nodeName)
-					return self.getVariableTypeAnywhere("_flua_iter_" + nodeName)
+					return self.getVariableTypeAnywhere("_flua_iter_%d_%s" % (self.compiler.loopStack[-1], nodeName))
 				
 				#translatedName = self.currentClassImpl.translateTemplateName(nodeName)
 				#if translatedName != nodeName:
@@ -1396,7 +1396,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						#print("parseExpr: " + nodeName)
 						#print(self.currentClassImpl.members)
 						#print("=ITER")
-						return "_flua_iter_" + nodeName
+						return "_flua_iter_%d_%s" % (self.compiler.loopStack[-1], nodeName)
 				
 				#print("=MORE THAN NORMAL")
 				return nodeName
