@@ -999,6 +999,7 @@ class BaseOutputFileHandler:
 		# TODO: Generic
 		tabs = "\t" * self.currentTabLevel
 		iterImplCode = iteratorImpl.getCode().replace("_continue_point_", "_continue_point_%d_" % localForVarCounter)
+		iterImplCode = iteratorImpl.getCode().replace("_flua_iter_", "_flua_iter_%d_" % localForVarCounter)
 		
 		#if self.outputEnabled:
 		resultingCode = self.buildForEachLoop(

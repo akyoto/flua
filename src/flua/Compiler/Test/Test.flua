@@ -20,13 +20,14 @@
 			<import>defaultinit</import>
 			<import>inheritance</import>
 			<import>baseclass</import>
+			<import>foreach</import>
+			<import>foreachptrs</import>
 			<import>stringoperations</import>
 			<import>filesystem</import>
 			<import>exceptions</import>
 			<import>multireturn</import>
 			<import>dataflow</import>
 			<import>unicode</import>
-			<import>foreach</import>
 			<import>parallel</import>
 		</dependencies>
 		<strings/>

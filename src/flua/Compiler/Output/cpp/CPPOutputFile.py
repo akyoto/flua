@@ -267,7 +267,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		# In Flua you'd write:
 		#     paramsInit = paramTypes.each + " " + paramNames.each + " = " + paramValues.each + ";\n"
 		
-		paramsInit = "".join(["%s%s _flua_iter_%d_%s = %s;\n" % (tabs, adjustDataTypeCPP(paramTypes[i]), self.compiler.loopStack[-1], paramNames[i], paramValues[i]) for i in range(len(paramNames))])
+		paramsInit = "".join(["%s%s _flua_iter_%d_%s = %s;\n" % (tabs, adjustDataTypeCPP(paramTypes[i]), localForVarCounter, paramNames[i], paramValues[i]) for i in range(len(paramNames))])
 		
 		# Get class impl
 		classImpl = self.getClassImplementationByTypeName(collExprType)

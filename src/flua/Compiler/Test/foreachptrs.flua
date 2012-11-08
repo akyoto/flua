@@ -4,7 +4,10 @@
 		<dependencies>
 			<import>flua.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="flua_string_0">Nested\Sforeach\Sloops\Susing\Sthe\Ssame\Scollection\Sworking!</string>
+			<string id="flua_string_1">Nested\Sforeach\Sloops\Susing\Sthe\Ssame\Scollection\SNOT\Sworking!</string>
+		</strings>
 	</header>
 	<code>
 		<assign depth="0" id="1">
@@ -22,23 +25,58 @@
 				</index>
 			</value>
 		</assign>
-		<foreach depth="0" id="3">
+		<assign depth="0" id="2">
+			<value>sumAr</value>
+			<value>0</value>
+		</assign>
+		<foreach depth="0" id="4">
 			<iterator>x</iterator>
 			<collection>ar</collection>
 			<code>
-				<foreach depth="1" id="4">
+				<foreach depth="1" id="5">
 					<iterator>y</iterator>
 					<collection>ar</collection>
 					<code>
-						<call depth="2" id="5">
-							<function>print</function>
-							<parameters>
-								<parameter>x</parameter>
-							</parameters>
-						</call>
+						<assign-add depth="2" id="6">
+							<value>sumAr</value>
+							<value>
+								<add>
+									<value>x</value>
+									<value>y</value>
+								</add>
+							</value>
+						</assign-add>
 					</code>
 				</foreach>
 			</code>
 		</foreach>
+		<if-block depth="0" id="8">
+			<if>
+				<condition>
+					<equal>
+						<value>sumAr</value>
+						<value>36</value>
+					</equal>
+				</condition>
+				<code>
+					<call depth="1" id="9">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="10">
+				<code>
+					<call depth="1" id="11">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
 	</code>
 </module>
