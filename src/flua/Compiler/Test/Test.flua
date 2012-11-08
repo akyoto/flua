@@ -22,6 +22,7 @@
 			<import>baseclass</import>
 			<import>foreach</import>
 			<import>foreachptrs</import>
+			<import>pfor</import>
 			<import>stringoperations</import>
 			<import>filesystem</import>
 			<import>exceptions</import>

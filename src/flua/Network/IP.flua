@@ -9,11 +9,12 @@
 	</header>
 	<code>
 		<comment>\SIP\Srepresentation</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="4">
 			<name>IP</name>
 			<code>
 				<comment>\STries\Sto\Slook\Sup\Shost\Saddress\Son\Sconstruction</comment>
-				<function depth="1" id="2">
+				<function depth="1" id="6">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -22,9 +23,8 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="7">
 							<value>
 								<access>
 									<value>my</value>
@@ -45,7 +45,7 @@
 								</call>
 							</value>
 						</assign>
-						<if-block depth="2" id="4">
+						<if-block depth="2" id="9">
 							<if>
 								<condition>
 									<equal>
@@ -59,7 +59,7 @@
 									</equal>
 								</condition>
 								<code>
-									<throw depth="3" id="5">
+									<throw depth="3" id="10">
 										<new>
 											<type>ResolveHostIPException</type>
 											<parameters>
@@ -73,10 +73,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="12">
 					<name>createTCPSocket</name>
 					<code>
-						<return depth="2" id="7">
+						<return depth="2" id="13">
 							<call>
 								<function>
 									<access>
@@ -95,14 +95,14 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="8">
+				<function depth="1" id="15">
+					<name>connect</name>
 					<parameters>
 						<parameter>sock</parameter>
 						<parameter>port</parameter>
 					</parameters>
-					<name>connect</name>
 					<code>
-						<return depth="2" id="9">
+						<return depth="2" id="16">
 							<call>
 								<function>
 									<access>
@@ -124,10 +124,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="10">
+				<function depth="1" id="18">
 					<name>print</name>
 					<code>
-						<call depth="2" id="11">
+						<call depth="2" id="19">
 							<function>print</function>
 							<parameters>
 								<parameter>

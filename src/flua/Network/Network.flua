@@ -14,17 +14,17 @@
 		</strings>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target depth="0" id="6">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">Network.hpp</include>
+				<include depth="1" id="7">Network.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="3">
-			<namespace depth="1" id="4">
+		<extern depth="0" id="9">
+			<namespace depth="1" id="10">
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="5">
+					<extern-function depth="2" id="11">
 						<name>getHostIP</name>
 						<type>IPInfo</type>
 						<meta>
@@ -35,73 +35,76 @@
 				</code>
 			</namespace>
 			<comment>\SExternally\Sdefined\SIPInfo</comment>
-			<class depth="1" id="6">
+			<class depth="1" id="14">
 				<name>IPInfo</name>
 				<code>
-					<function depth="2" id="7">
+					<function depth="2" id="15">
 						<name>init</name>
 						<code>
-							<noop depth="3" id="8"/>
+							<noop depth="3" id="16"/>
 						</code>
 						<meta/>
 					</function>
-					<function depth="2" id="9">
+					<function depth="2" id="18">
 						<name>createTCPSocket</name>
 						<code>
-							<declare-type depth="3" id="10">
+							<declare-type depth="3" id="19">
 								<value>decl</value>
 								<value>Int</value>
 							</declare-type>
-							<return depth="3" id="11">decl</return>
+							<return depth="3" id="21">decl</return>
 						</code>
+						<meta/>
 					</function>
-					<function depth="2" id="12">
+					<function depth="2" id="23">
 						<name>createUDPSocket</name>
 						<code>
-							<declare-type depth="3" id="13">
+							<declare-type depth="3" id="24">
 								<value>decl</value>
 								<value>Int</value>
 							</declare-type>
-							<return depth="3" id="14">decl</return>
+							<return depth="3" id="26">decl</return>
 						</code>
 					</function>
-					<function depth="2" id="15">
+					<function depth="2" id="28">
 						<name>connect</name>
 						<parameters>
 							<parameter>sock</parameter>
 							<parameter>port</parameter>
 						</parameters>
 						<code>
-							<declare-type depth="3" id="16">
+							<declare-type depth="3" id="29">
 								<value>decl</value>
 								<value>Bool</value>
 							</declare-type>
-							<return depth="3" id="17">decl</return>
+							<return depth="3" id="31">decl</return>
 						</code>
+						<meta/>
 					</function>
-					<casts depth="2" id="18">
-						<cast-definition depth="3" id="19">
+					<casts depth="2" id="33">
+						<cast-definition depth="3" id="34">
 							<to>String</to>
 							<code>
-								<declare-type depth="4" id="20">
+								<declare-type depth="4" id="35">
 									<value>decl</value>
 									<value>String</value>
 								</declare-type>
-								<return depth="4" id="21">decl</return>
+								<return depth="4" id="37">decl</return>
 							</code>
 							<meta/>
 						</cast-definition>
 					</casts>
 				</code>
+				<meta/>
 			</class>
 		</extern>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="22">
+		<test depth="0" id="40">
 			<code>
-				<try-block depth="1" id="23">
+				<try-block depth="1" id="41">
 					<try>
 						<code>
-							<assign depth="2" id="24">
+							<assign depth="2" id="42">
 								<value>ip</value>
 								<value>
 									<new>
@@ -112,7 +115,7 @@
 									</new>
 								</value>
 							</assign>
-							<call depth="2" id="25">
+							<call depth="2" id="43">
 								<function>
 									<access>
 										<value>ip</value>
@@ -121,7 +124,7 @@
 								</function>
 								<parameters/>
 							</call>
-							<assign depth="2" id="26">
+							<assign depth="2" id="44">
 								<value>stream</value>
 								<value>
 									<new>
@@ -138,7 +141,7 @@
 									</new>
 								</value>
 							</assign>
-							<call depth="2" id="27">
+							<call depth="2" id="45">
 								<function>print</function>
 								<parameters>
 									<parameter>
@@ -156,7 +159,7 @@
 							</call>
 						</code>
 					</try>
-					<catch depth="1" id="28">
+					<catch depth="1" id="46">
 						<variable>
 							<declare-type>
 								<value>e</value>
@@ -164,7 +167,7 @@
 							</declare-type>
 						</variable>
 						<code>
-							<call depth="2" id="29">
+							<call depth="2" id="47">
 								<function>print</function>
 								<parameters>
 									<parameter>
