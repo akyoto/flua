@@ -42,7 +42,8 @@
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="8">
+				<function depth="1" id="9">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -56,9 +57,8 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<assign depth="2" id="9">
+						<assign depth="2" id="10">
 							<value>
 								<access>
 									<value>my</value>
@@ -67,12 +67,12 @@
 							</value>
 							<value>
 								<call>
-									<function>systemTime</function>
+									<function>getSystemTime</function>
 									<parameters/>
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="10">
+						<assign depth="2" id="11">
 							<value>
 								<access>
 									<value>my</value>
@@ -81,7 +81,7 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign depth="2" id="12">
 							<value>
 								<access>
 									<value>my</value>
@@ -93,10 +93,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="12">
+				<function depth="1" id="14">
 					<name>update</name>
 					<code>
-						<assign-add depth="2" id="13">
+						<assign-add depth="2" id="15">
 							<value>
 								<access>
 									<value>my</value>
@@ -105,7 +105,7 @@
 							</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="14">
+						<if-block depth="2" id="17">
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -134,7 +134,7 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="15">
+									<assign depth="3" id="18">
 										<value>
 											<access>
 												<value>my</value>
@@ -148,7 +148,7 @@
 											</access>
 										</value>
 									</assign>
-									<assign depth="3" id="16">
+									<assign depth="3" id="19">
 										<value>
 											<access>
 												<value>my</value>
@@ -157,7 +157,7 @@
 										</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="17">
+									<assign depth="3" id="20">
 										<value>
 											<access>
 												<value>my</value>
@@ -171,7 +171,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign-add depth="3" id="18">
+									<assign-add depth="3" id="21">
 										<value>
 											<access>
 												<value>my</value>
@@ -185,7 +185,7 @@
 											</access>
 										</value>
 									</assign-add>
-									<assign-add depth="3" id="19">
+									<assign-add depth="3" id="22">
 										<value>
 											<access>
 												<value>my</value>
@@ -200,11 +200,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="20">
-					<getter depth="2" id="21">
+				<get depth="1" id="24">
+					<getter depth="2" id="25">
 						<name>fps</name>
 						<code>
-							<return depth="3" id="22">
+							<return depth="3" id="26">
 								<access>
 									<value>my</value>
 									<value>fps</value>
@@ -212,10 +212,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="23">
+					<getter depth="2" id="28">
 						<name>averageFPS</name>
 						<code>
-							<if-block depth="3" id="24">
+							<if-block depth="3" id="29">
 								<if>
 									<condition>
 										<equal>
@@ -229,11 +229,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="25">0</return>
+										<return depth="4" id="30">0</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="26">
+							<return depth="3" id="32">
 								<divide>
 									<value>
 										<access>

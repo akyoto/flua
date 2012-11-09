@@ -106,8 +106,8 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		self.internFuncsList = internFuncsList
 		self.internDataTypesList = internDataTypesList
 		
-		print("Set internal data types:")
-		print(self.internDataTypesList)
+		#print("Set internal data types:")
+		#print(self.internDataTypesList)
 		
 		self.updateStringList()
 		
@@ -801,7 +801,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Set keyword list to the local environment
 		if self.environment:
-			print("Setting base lists of %s" % (self.environment.name))
+			#print("Setting base lists of %s" % (self.environment.name))
 			self.completer.bpcModel.setBaseLists(
 				list(self.environment.autoCompleteKeywords),
 				list(self.environment.internalFunctions),
