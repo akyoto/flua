@@ -89,6 +89,11 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							i = h
 							return
 				
+				# Ignore properties as keyword names
+				if i > 0 and text[i-1] == ".":
+					i = h
+					continue
+				
 				if expr in keywords:
 					if expr == "target":
 						self.setFormat(i, h - i, style['keyword'])
@@ -199,7 +204,9 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 			else:
 				# Single line comments
 				for indicator in singleLineCommentIndicators:
-					if text[i : i + len(indicator)] == indicator:
+					indLen = len(indicator)
+					
+					if i + indLen < textLen and text[i : i + indLen] == indicator:
 						if i < textLen - 1 and text[i + 1].isspace():
 							self.setFormat(i, textLen - i, style['comment'])
 						else:

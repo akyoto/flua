@@ -302,6 +302,7 @@ class Startup:
 			self.actionEnvFlua : lambda: self.setEnvironment(self.fluaEnvironment),
 			self.actionEnvPython : lambda: self.setEnvironment(self.pythonEnvironment),
 			self.actionEnvCPP : lambda: self.setEnvironment(self.cppEnvironment),
+			self.actionEnvGLSL : lambda: self.setEnvironment(self.glslEnvironment),
 			self.actionEnvNone : lambda: self.setEnvironment(self.baseEnvironment),
 			
 			# Window
@@ -501,12 +502,14 @@ class Startup:
 		self.fluaEnvironment = FluaEnvironment(getModuleDir(), self.actionEnvFlua)
 		self.pythonEnvironment = PythonEnvironment(getPython3ModuleDir(), self.actionEnvPython)
 		self.cppEnvironment = CPPEnvironment(getCPPModuleDir(), self.actionEnvCPP)
+		self.glslEnvironment = GLSLEnvironment("", self.actionEnvGLSL)
 		self.baseEnvironment = BaseEnvironment(self.actionEnvNone)
 		
 		self.environments = {
 			self.fluaEnvironment,
 			self.pythonEnvironment,
 			self.cppEnvironment,
+			self.glslEnvironment,
 			self.baseEnvironment,
 		}
 		

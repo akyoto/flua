@@ -18,7 +18,7 @@ class CPPEnvironment(BaseEnvironment):
 			'break', 'bool',
 			'class', 'continue', 'const', 'char', 'case', 'catch',
 			'double', 'default', 'delete',
-			'elif', 'else', 'ensure', 'extern', 'extends',
+			'elif', 'else', 'extern', 'extends',
 			'for', 'false', 'float',
 			'get',
 			'if', 'inline', 'include', 'int',
@@ -37,15 +37,7 @@ class CPPEnvironment(BaseEnvironment):
 		
 		self.internalDataTypes = {
 			# C
-			'char', 'bool', 'void', 'int', 'float', 'double', 'short',
-			
-			# GLSL
-			'vec2', 'vec3', 'vec4',
-			'bvec2', 'bvec3', 'bvec4',
-			'ivec2', 'ivec3', 'ivec4',
-			'mat2', 'mat3', 'mat4',
-			'sampler1D', 'sampler2D', 'sampler3D', 'samplerCube',
-			'sampler1DShadow', 'sampler2DShadow',
+			'char', 'bool', 'void', 'int', 'float', 'double', 'short', 'unsigned',
 		}
 		
 		self.internalFunctions = {

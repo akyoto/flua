@@ -1015,7 +1015,6 @@
 							</equal>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sends\Swith\Sthe\Sgiven\S#element</comment>
 				<function depth="1" id="136">
@@ -1254,7 +1253,6 @@
 							</and>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SSorts\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function depth="1" id="159">
@@ -1292,7 +1290,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<operators depth="1" id="163">
 					<comment>\SRetrieves\Sthe\Selement\Sat\Sposition\S#index</comment>

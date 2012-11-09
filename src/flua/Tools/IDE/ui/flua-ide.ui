@@ -138,6 +138,7 @@
     <addaction name="actionEnvFlua"/>
     <addaction name="actionEnvPython"/>
     <addaction name="actionEnvCPP"/>
+    <addaction name="actionEnvGLSL"/>
     <addaction name="separator"/>
     <addaction name="actionEnvNone"/>
    </widget>
@@ -787,6 +788,11 @@
    </property>
    <property name="text">
     <string>C++</string>
+   </property>
+  </action>
+  <action name="actionEnvGLSL">
+   <property name="text">
+    <string>GLSL</string>
    </property>
   </action>
  </widget>

@@ -35,8 +35,11 @@ class FluaEnvironment(BaseEnvironment):
 		
 		self.highlightKeywords = set(list(self.autoCompleteKeywords) + [
 			# Ruby syntax
-			'elsif',
+			'elsif', 'end',
 			
 			# C++ syntax
 			'new',
+			
+			# Python syntax
+			'def',
 		])
