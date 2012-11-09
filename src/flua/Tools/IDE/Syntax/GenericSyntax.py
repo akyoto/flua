@@ -194,25 +194,30 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				#		self.setFormat(i, h - i, style['string'])
 				#else:
 				i = h
-			elif char in singleLineCommentIndicators:
-				if i < textLen - 1 and text[i + 1].isspace():
-					self.setFormat(i, textLen - i, style['comment'])
-				else:
-					self.setFormat(i, textLen - i, style['disabled'])
-				return
 			elif char == ',':
 				self.setFormat(i, 1, style['comma'])
-			elif char in preprocessorIndicators:
-				self.setFormat(i, textLen - i, style['preprocessor'])
-				return
-			elif char in operators:
-				#h = i + 1
-				#while h < textLen and text[h]:
-				#	h += 1
-				self.setFormat(i, 1, style['operator'])
-				#i = h
-			elif char in braces:
-				self.setFormat(i, 1, style['brace'])
+			else:
+				# Single line comments
+				for indicator in singleLineCommentIndicators:
+					if text[i : i + len(indicator)] == indicator:
+						if i < textLen - 1 and text[i + 1].isspace():
+							self.setFormat(i, textLen - i, style['comment'])
+						else:
+							self.setFormat(i, textLen - i, style['disabled'])
+						return
+				
+				# Other cases
+				if char in preprocessorIndicators:
+					self.setFormat(i, textLen - i, style['preprocessor'])
+					return
+				elif char in operators:
+					#h = i + 1
+					#while h < textLen and text[h]:
+					#	h += 1
+					self.setFormat(i, 1, style['operator'])
+					#i = h
+				elif char in braces:
+					self.setFormat(i, 1, style['brace'])
 				
 			i += 1
 
