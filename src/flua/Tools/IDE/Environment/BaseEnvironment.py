@@ -3,7 +3,7 @@ from flua.Compiler.Output.BaseNamespace import *
 class BaseEnvironment:
 	
 	def __init__(self, action):
-		self.name = "None"
+		self.name = "Base"
 		self.rootDir = ""
 		self.mainNamespace = BaseNamespace("")
 		self.fileExtensions = {}

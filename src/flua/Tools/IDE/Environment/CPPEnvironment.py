@@ -15,13 +15,12 @@ class CPPEnvironment(BaseEnvironment):
 		
 		self.autoCompleteKeywords = {
 			'and', 'assert',
-			'break', 'bool',
-			'class', 'continue', 'const', 'char', 'case', 'catch',
-			'double', 'default', 'delete',
+			'break',
+			'class', 'continue', 'const', 'case', 'catch',
+			'default', 'delete',
 			'elif', 'else', 'extern', 'extends',
-			'for', 'false', 'float',
-			'get',
-			'if', 'inline', 'include', 'int',
+			'for', 'false',
+			'if', 'inline', 'include',
 			'long',
 			'not', 'null', 'namespace', 'new',
 			'or', 'operator',
@@ -29,8 +28,8 @@ class CPPEnvironment(BaseEnvironment):
 			'return',
 			'sizeof', 'switch', 'struct',
 			'try', 'typename', 'typedef', 'template', 'throw', 'true',
-			'until', 'unsigned',
-			'void', 'virtual', 'volatile',
+			'until',
+			'virtual', 'volatile',
 			'while',
 		}
 		self.highlightKeywords = self.autoCompleteKeywords

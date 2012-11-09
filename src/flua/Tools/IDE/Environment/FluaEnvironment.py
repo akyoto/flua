@@ -43,3 +43,24 @@ class FluaEnvironment(BaseEnvironment):
 			# Python syntax
 			'def',
 		])
+		
+		self.internalDataTypes = {
+			"Bool",
+			"Byte",
+			#"ConstChar",
+			"Int16",
+			"UInt16",
+			"Int",
+			"Int32",
+			"Int64",
+			"UInt",
+			"UInt32",
+			"UInt64",
+			"Size",
+			"Float",
+			"Float32",
+			"Float64",
+			"CString",
+			"BigInt",
+			#"DataType",
+		}

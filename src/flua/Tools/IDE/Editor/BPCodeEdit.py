@@ -76,6 +76,9 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		self.funcListLen = 0
 		self.classesListLen = 0
 		
+		self.internFuncsList = []
+		self.internDataTypesList = []
+		
 		self.externFuncs = {}
 		self.externVars = {}
 		
@@ -89,6 +92,8 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		
 		self.keywordIcon = QtGui.QIcon("images/icons/autocomplete/keyword.png")
 		self.functionIcon = QtGui.QIcon("images/icons/autocomplete/function.png")
+		self.internFuncIcon = QtGui.QIcon("images/icons/autocomplete/intern-function.png")
+		self.internDataTypeIcon = QtGui.QIcon("images/icons/autocomplete/intern-data-type.png")
 		self.externFuncIcon = QtGui.QIcon("images/icons/autocomplete/extern-function.png")
 		self.externVarIcon = QtGui.QIcon("images/icons/autocomplete/extern-variable.png")
 		self.classIcon = QtGui.QIcon("images/icons/autocomplete/class.png")
@@ -96,8 +101,14 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		self.shortcutFunctionIcon = QtGui.QIcon("images/icons/autocomplete/shortcut-function.png")
 		#self.index(0, 0).setData(QtCore.Qt.DecorationRole, self.icon)
 		
-	def setKeywordList(self, keywordList):
+	def setBaseLists(self, keywordList, internFuncsList, internDataTypesList):
 		self.keywordList = keywordList
+		self.internFuncsList = internFuncsList
+		self.internDataTypesList = internDataTypesList
+		
+		print("Set internal data types:")
+		print(self.internDataTypesList)
+		
 		self.updateStringList()
 		
 	#def setAutoCompleteLists(self, functionList, shortCuts, classesList):
@@ -165,6 +176,8 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 			self.classesList +
 			self.functionList +
 			self.keywordList +
+			self.internFuncsList +
+			self.internDataTypesList +
 			self.externFuncsList +
 			self.externVarsList +
 			self.shortCutList
@@ -198,6 +211,10 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 				return self.shortcutFunctionIcon
 			elif text in self.keywordList:
 				return self.keywordIcon
+			elif text in self.internFuncsList:
+				return self.internFuncIcon
+			elif text in self.internDataTypesList:
+				return self.internDataTypeIcon
 		
 		# TODO: Auto completion for shortcuts
 		if role == QtCore.Qt.DisplayRole:
@@ -784,7 +801,12 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Set keyword list to the local environment
 		if self.environment:
-			self.completer.bpcModel.setKeywordList(list(self.environment.autoCompleteKeywords))
+			print("Setting base lists of %s" % (self.environment.name))
+			self.completer.bpcModel.setBaseLists(
+				list(self.environment.autoCompleteKeywords),
+				list(self.environment.internalFunctions),
+				list(self.environment.internalDataTypes)
+			)
 	
 	def insertCompletion(self, completion):
 		if self.bpIDE.codeEdit != self:
@@ -1492,7 +1514,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if self.bubble:
 			self.bubble.setEnvironment(environment)
-		#self.setCompleter(self.completer)
+		
+		self.setCompleter(self.completer)
 	
 	def setFileExtension(self, ext):
 		self.setFilePath(stripExt(self.filePath) + ext)

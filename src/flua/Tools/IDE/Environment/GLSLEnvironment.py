@@ -31,3 +31,7 @@ class GLSLEnvironment(BaseEnvironment):
 			'sampler1D', 'sampler2D', 'sampler3D', 'samplerCube',
 			'sampler1DShadow', 'sampler2DShadow',
 		}
+		
+		self.internalFunctions = {
+			'texture2D'
+		}
