@@ -45,6 +45,39 @@ QStatusBar, QLabel, QLineEdit, QComboBox {
 	font-size: 9pt;
 }
 
+QTreeView::branch:has-siblings:!adjoins-item {
+	border-image: none;/*url(themes/Dark/images/vline.png) 0;*/
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+QTreeView::branch:has-siblings:adjoins-item {
+	border-image: none; /*url(themes/Dark/images/branch-more.png) 0;*/
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+	border-image: none; /*url(themes/Dark/images/branch-end.png) 0;*/
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings {
+	border-image: none;
+	image: url(themes/Dark/images/branch-closed.png);
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  {
+	border-image: none;
+	image: url(themes/Dark/images/branch-open.png);
+}
+
 #BPConsoleWidget QTabBar::tab:selected {
 	color: white;
 }

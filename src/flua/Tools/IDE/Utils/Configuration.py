@@ -91,7 +91,7 @@ class BPConfiguration:
 			}
 		"""
 		
-		self.darkStyleSheet = readFile(getIDERoot() + "themes/Dark.css")
+		self.darkStyleSheet = readFile(getIDERoot() + "themes/Dark/Dark.css")
 
 # QTabWidget::tab-bar {
 
