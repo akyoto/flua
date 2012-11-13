@@ -462,8 +462,6 @@ class BPCFile(ScopeController, Benchmarkable):
 		for lineIndex in range(0, len(lines)):
 			line = lines[lineIndex]
 			tabCount = countTabs(line)
-			#line = line.rstrip()
-			#line = line.lstrip()
 			line = line.strip()
 			
 			# Set last line for exception handling
@@ -473,12 +471,36 @@ class BPCFile(ScopeController, Benchmarkable):
 			# Remove strings, comments and check brackets
 			line = prepareLine(line)
 			
+			# Next line indented?
+			self.nextLineIndented = False
+			nextLineIndex = lineIndex + 1
+			tabCountNextLine = 0
+			
+			while nextLineIndex < len(lines):
+				nextLine = lines[nextLineIndex]
+				nextLineClean = nextLine.strip()
+				
+				if nextLineClean and not nextLineClean.startswith("#"):
+					tabCountNextLine = countTabs(nextLine)
+					if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
+						self.nextLineIndented = True
+					elif tabCountNextLine > tabCount + 1:
+						# Increase line count to have a correct line number for the error message
+						self.lastLineCount += 1
+						raise CompilerException("You only need to indent once.")
+					
+					break
+				
+				nextLineIndex += 1
+			
+			#debug(line, ">>", self.nextLineIndented)
+			
 			if not line and not self.currentLineComment:
 				# Function block error checking
 				if currentLine and currentLine.nodeType == Node.ELEMENT_NODE and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
 					codeNode = getElementByTagName(currentLine, "code")
 					
-					if (not self.inInterface) and ((not codeNode) or len(codeNode.childNodes) == 0): #and countTabs(lines[lineIndex + 1].rstrip()) <= tabCount:
+					if (not self.inInterface) and ((not codeNode) or len(codeNode.childNodes) == 0) and tabCountNextLine < tabCount:
 						raise CompilerException("If you need an empty block use '...' inside the block")
 				
 				# If we didn't add a comment, add an empty entry
@@ -486,16 +508,6 @@ class BPCFile(ScopeController, Benchmarkable):
 					self.nodes.append(None)
 				
 				continue
-			
-			self.nextLineIndented = False
-			if lineIndex < len(lines) - 1:
-				tabCountNextLine = countTabs(lines[lineIndex + 1])
-				if tabCountNextLine == tabCount + 1: #and lines[lineIndex + 1].strip() != "":
-					self.nextLineIndented = True
-				elif tabCountNextLine > tabCount + 1:
-					# Increase line count to have a correct line number for the error message
-					self.lastLineCount += 1
-					raise CompilerException("You only need to indent once.")
 			
 			# TODO: Enable all unicode characters
 			#line = line.replace("π", "pi")
