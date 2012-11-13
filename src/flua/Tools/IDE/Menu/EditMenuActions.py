@@ -69,5 +69,10 @@ class EditMenuActions:
 		
 	# Paste into console - forbidden, the police will hunt you if you dare.
 	def paste(self):
-		# Don't do anything
 		pass
+		#logWidget = self.console.getCurrentLog()
+		#
+		#if logWidget:
+		#	pass #logWidget.paste() # Don't paste!
+		#elif self.codeEdit:
+		#	self.codeEdit.paste()
