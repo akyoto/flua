@@ -120,6 +120,9 @@ class BaseOutputCompiler(Benchmarkable):
 		for classObj in self.mainClass.classes.values():
 			count += len(classObj.functions)
 			
+		#for namespaceObj in self.mainClass.namespaces.values():
+		#	count += len(namespaceObj.functions)
+			
 		return count
 	
 	# Take cache from another compiler instance - BE CAREFUL, THIS COULD LEAD TO MEMORY LEAKS

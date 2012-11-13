@@ -337,14 +337,15 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# If the number of functions changed, rehighlight
 		if self.codeEdit:
+			# This function also counts the class methods:
 			newFuncCount = comp.getFunctionCount()
+			
+			# Contrary to this one:
 			#newFuncCount = len(self.environment.mainNamespace.functions)
 			
 			#if not self.outputCompilerThread.lastException:
 			if self.needsRehighlight(newFuncCount): #self.lastCodeEdit == self.codeEdit
 				self.codeEdit.rehighlightFunctionUsage()
-			#else:
-			#	self.codeEdit.rehighlightFunctionUsage()
 			
 			self.lastFunctionCount = newFuncCount
 			self.lastCodeEdit = self.codeEdit
