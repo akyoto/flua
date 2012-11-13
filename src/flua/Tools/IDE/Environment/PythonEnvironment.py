@@ -1,4 +1,5 @@
 from flua.Tools.IDE.Environment.BaseEnvironment import *
+import keyword
 
 class PythonEnvironment(BaseEnvironment):
 	
@@ -9,3 +10,9 @@ class PythonEnvironment(BaseEnvironment):
 		self.rootDir = rootDir
 		self.fileExtensions = {".py"}
 		self.standardFileExtension = ".py"
+		self.singleLineCommentIndicators = {"#"}
+		self.selfReferences = {"self"}
+		
+		self.autoCompleteKeywords = keyword.kwlist
+		self.highlightKeywords = self.autoCompleteKeywords
+		self.internalFunctions = __builtins__.keys()

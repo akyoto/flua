@@ -207,7 +207,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					indLen = len(indicator)
 					
 					if i + indLen < textLen and text[i : i + indLen] == indicator:
-						if i < textLen - 1 and text[i + 1].isspace():
+						if ce.isTextFile or (i < textLen - 1 and text[i + 1].isspace()):
 							self.setFormat(i, textLen - i, style['comment'])
 						else:
 							self.setFormat(i, textLen - i, style['disabled'])
