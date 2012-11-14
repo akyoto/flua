@@ -84,7 +84,12 @@ def findNodes(node, nodeName):
 	return callList
 	
 def findCalls(node):
+	# Ignore text nodes
 	if node.nodeType != Node.ELEMENT_NODE:
+		return []
+	
+	# This will disable recursive block checking so that only the current line is being displayed
+	if node.tagName == "code":
 		return []
 	
 	callList = []

@@ -1,10 +1,43 @@
-﻿from flua.Tools.IDE.Threads import *
+﻿####################################################################
+# Header
+####################################################################
+# Module:   IDE startup
+# Author:   Eduard Urbach
+
+####################################################################
+# License
+####################################################################
+# (C) 2012  Eduard Urbach
+# 
+# This file is part of Flua.
+# 
+# Flua is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# Flua is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with Flua.  If not, see <http://www.gnu.org/licenses/>.
+
+####################################################################
+# Imports
+####################################################################
+from flua.Tools.IDE.Threads import *
 from flua.Tools.IDE.Utils import *
 from flua.Tools.IDE.Editor import *
 from flua.Tools.IDE.Widgets import *
 from flua.Tools.IDE.MenuActions import *
 from flua.Tools.IDE.Environment import *
 import configparser
+
+####################################################################
+# Classes
+####################################################################
 
 class Startup:
 	
@@ -349,21 +382,72 @@ class Startup:
 		]
 		
 	def loadSession(self):
-		# Disabled
-		return
+		self.progressBar.setValue(0)
 		
-		self.sessionParser = configparser.SafeConfigParser()
+		self.sessionParser = createConfigParser()
 		
 		try:
 			with codecs.open(getConfigDir() + "studio/session.ini", "r", "utf-8") as inStream:
 				self.sessionParser.readfp(inStream)
 		except:
-			for num in range(len(self.workspaces)):
-				self.sessionParser.add_section("Workspace %d" % num)
+			self.newFile()
+		else:
+			maxFileNum = self.sessionParser.getint("General", "FileCount")
+			
+			# Prevent division by zero
+			if maxFileNum == 0:
+				maxFileNum = 1
+			
+			# Load all workspaces
+			num = 0
+			for ws in self.workspaces:
+				section = "Workspace %d" % num
+				
+				try:
+					self.setCurrentWorkspace(num)
+					
+					fileNum = 0
+					while 1:
+						filePath = self.sessionParser.get(section, "File%d" % fileNum)
+						
+						# Open it
+						self.openFile(filePath, ignoreLoadingFinished = True)
+						
+						fileNum += 1
+						self.progressBar.setValue(fileNum / maxFileNum * 100)
+				except:
+					pass
+				
+				num += 1
+				
+			# Session settings
+			self.setCurrentWorkspace(self.sessionParser.getint("General", "CurrentWorkspace"))
 		
 	def saveSession(self):
-		# Disabled
-		return
+		self.sessionParser = createConfigParser()
+		
+		# Session settings
+		self.sessionParser.add_section("General")
+		self.sessionParser.set("General", "CurrentWorkspace", str(self.currentWorkspace.wsID))
+		
+		# Save all workspaces
+		num = 0
+		maxFileNum = 0
+		for ws in self.workspaces:
+			section = "Workspace %d" % num
+			self.sessionParser.add_section(section)
+			
+			fileNum = 0
+			for filePath in ws.getFilePaths():
+				if not self.isTmpPath(filePath):
+					self.sessionParser.set(section, "File%d" % fileNum, filePath)
+					fileNum += 1
+			
+			maxFileNum += fileNum
+			num += 1
+			
+		# Max file count
+		self.sessionParser.set("General", "FileCount", str(self.getFileCount()))
 		
 		with codecs.open(getConfigDir() + "studio/session.ini", "w", "utf-8") as outStream:
 			self.sessionParser.write(outStream)

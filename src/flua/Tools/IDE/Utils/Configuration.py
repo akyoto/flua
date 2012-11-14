@@ -50,7 +50,7 @@ class BPConfiguration:
 	def __init__(self, bpIDE, fileName):
 		self.bpIDE = bpIDE
 		self.fileName = fileName
-		self.parser = configparser.SafeConfigParser()
+		self.parser = createConfigParser()
 		
 		self.darkStyleEnabled = False
 		
@@ -92,24 +92,6 @@ class BPConfiguration:
 		"""
 		
 		self.darkStyleSheet = readFile(getIDERoot() + "themes/Dark/Dark.css")
-
-# QTabWidget::tab-bar {
-
- # }
-
- # QTabBar::tab {
-  # background: #000000;
-  # color: #ffffff;
-  # padding: 7px;
-  # padding-top: 4px;
-  # padding-bottom: 4px;
-  # border-top-right-radius: 7px 14px;
-  # border-top-left-radius: 7px 14px;
- # }
-
- # QTabBar::tab:selected {
-  # background: #888888;
- # }
 		
 		# Fonts
 		if QtGui.QFontDatabase.addApplicationFont(getIDERoot() + "fonts/Ubuntu-R.ttf") == -1:
@@ -312,3 +294,16 @@ class BPConfiguration:
 			widget.compilerName.setText(getPython3CompilerName())
 			widget.compilerPath.setText(getPython3Path())
 			widget.compilerVersion.setText(getPython3Version())
+
+####################################################################
+# Functions
+####################################################################
+
+# Creates a case sensitive config parser
+def createConfigParser():
+	parser = configparser.SafeConfigParser()
+	
+	# Make it case sensitive
+	parser.optionxform = str
+	
+	return parser

@@ -4,16 +4,15 @@ from flua.Compiler import *
 class FileMenuActions:
 	
 	def newFile(self, fileName = "", isOpeningFile = False):
-		self.tmpCount += 1
-		
 		newCodeEdit = BPCodeEdit(self)
 		newCodeEdit.openingFile = True # ???
 		
 		newCodeEdit.clear()
 		newCodeEdit.cursorPositionChanged.connect(self.onCursorPosChange)
 		
-		# TODO:
+		# TODO: ...
 		if not fileName:
+			self.tmpCount += 1
 			fileName = "./tmp/New file %d%s" % (self.tmpCount, self.environment.standardFileExtension)
 		
 		if not fileName.endswith(".flua"):
@@ -41,8 +40,8 @@ class FileMenuActions:
 		
 		self.openFile(self.currentWorkspace.filesClosed.pop())
 	
-	def openFile(self, path):
-		if not self.loadingFinished:
+	def openFile(self, path, ignoreLoadingFinished = False):
+		if (not self.loadingFinished) and (not ignoreLoadingFinished):
 			return
 		
 		fileName = path

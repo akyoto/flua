@@ -128,6 +128,10 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 		return -1, None
 		
+	def getFilePaths(self):
+		for i in range(self.count()):
+			yield self.widget(i).getFilePath()
+		
 	def closeCodeEdit(self, index):
 		ce = self.widget(index)
 		

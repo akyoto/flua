@@ -141,20 +141,29 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love hard coding! ... or maybe not.
 		#self.moduleView.highlightModule("playground.My playground")
 		
-		if 1:
-			self.newFile()
-			self.onLoadingFinished()
-		else:
-			self.newFile()
-			self.codeEdit.setPlainText("""import playground.Everything
-
-# Check flua.Documentation in the module browser on the left for some beginner topics.
-""")
-			cursor = self.codeEdit.textCursor()
-			cursor.movePosition(QtGui.QTextCursor.End)
-			self.codeEdit.setTextCursor(cursor)
+		# Intercept sys.stdout and sys.stderr
+		self.console.watch(self.console.log)
+		
+		# Load session
+		self.loadSession()
+		
+		# Loading finished
+		self.onLoadingFinished()
+		
+		#if 1:
+			#self.newFile()
+		#	
+		#else:
+		#	self.newFile()
+#			self.codeEdit.setPlainText("""import playground.Everything
+#
+## Check flua.Documentation in the module browser on the left for some beginner topics.
+#""")
+			#cursor = self.codeEdit.textCursor()
+			#cursor.movePosition(QtGui.QTextCursor.End)
+			#self.codeEdit.setTextCursor(cursor)
 			
-			self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
+			#self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# Set default environment
 		environmentNames = {
@@ -164,14 +173,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.config.defaultEnvironmentName in environmentNames:
 			self.setEnvironment(environmentNames[self.config.defaultEnvironmentName])
 		
-		# Intercept sys.stdout and sys.stderr
-		self.console.watch(self.console.log)
-		
 		# Show maximized now
 		if os.name == "nt":
 			self.showMaximized()
-		
-		#self.openFile("/home/eduard/Projects/bp/src/flua.Core/String/UTF8String.bp")
 		
 	#def eventFilter(self, obj, event):
 	#	
@@ -266,6 +270,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.updateCodeBubble(node)
 		
+	def getFileCount(self):
+		fileCount = 0
+		
+		for ws in self.workspaces:
+			fileCount += ws.count()
+		
+		return fileCount
+		
 	def onProgressUpdate(self):
 		if self.lastFunctionCount == -1: #and self.codeEdit and self.codeEdit.postProcessorThread:
 			val = time.time() - self.startTime
@@ -280,9 +292,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def onLoadingFinished(self):
 		self.loadingFinished = True
+		
 		self.progressBar.hide()
 		self.searchEdit.show()
-		self.loadSession()
 		
 	def onProcessEvents(self):
 		QtGui.QApplication.instance().processEvents()
