@@ -533,6 +533,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			'inline',
 			'case',
 			'default',
+			'enum',
 			
 			# More cheating!
 			"elsif",

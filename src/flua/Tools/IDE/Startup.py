@@ -486,8 +486,8 @@ class Startup:
 				'traceback' : cf("#ffffcc"),
 				'compiler-error' : cf("#ff9000"),
 				
-				'internal-function' : cf('#ffa0c0', useBold),
-				'internal-datatype' : cf('#ffff00', useBold),
+				'internal-function' : cf('#a0c0ff', useBold),
+				'internal-datatype' : cf('#dadada', useBold),
 				'internal-main' : cf('#00ffff', useBold),
 			},
 		}

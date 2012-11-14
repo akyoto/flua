@@ -14,11 +14,11 @@ class CPPEnvironment(BaseEnvironment):
 		self.selfReferences = {"this"}
 		
 		self.autoCompleteKeywords = {
-			'and', 'assert',
+			'and', 'asm', 'assert',
 			'break',
 			'class', 'continue', 'const', 'case', 'catch',
 			'default', 'delete',
-			'elif', 'else', 'extern', 'extends',
+			'elif', 'else', 'extern', 'extends', 'enum',
 			'for', 'false',
 			'if', 'inline', 'include',
 			'long',
@@ -253,7 +253,6 @@ class CPPEnvironment(BaseEnvironment):
 			"getpwnam",
 			"getpwuid",
 			"getuidx",
-			"index",
 			"putpwent",
 			"pclose",
 			"popen",
@@ -279,8 +278,8 @@ class CPPEnvironment(BaseEnvironment):
 			"reverse",
 		}
 		
-		self.specialKeywords = {
-			# GLSL
-			'in', 'out', 'inout',
-			'attribute', 'uniform', 'varying',
-		}
+		#self.specialKeywords = {
+		#	# GLSL
+		#	'in', 'out', 'inout',
+		#	'attribute', 'uniform', 'varying',
+		#}
