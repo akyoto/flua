@@ -141,8 +141,19 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love hard coding! ... or maybe not.
 		#self.moduleView.highlightModule("playground.My playground")
 		
+		# Loading finished
+		self.loadingFinished = True
+		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
+		
+		# Set default environment
+		environmentNames = {
+			"Flua" : self.fluaEnvironment
+		}
+		
+		if self.config.defaultEnvironmentName in environmentNames:
+			self.setEnvironment(environmentNames[self.config.defaultEnvironmentName])
 		
 		# Load session
 		self.loadSession()
@@ -164,14 +175,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.codeEdit.setTextCursor(cursor)
 			
 			#self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
-		
-		# Set default environment
-		environmentNames = {
-			"Flua" : self.fluaEnvironment
-		}
-		
-		if self.config.defaultEnvironmentName in environmentNames:
-			self.setEnvironment(environmentNames[self.config.defaultEnvironmentName])
 		
 		# Show maximized now
 		if os.name == "nt":
@@ -291,8 +294,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.onLoadingFinished()
 		
 	def onLoadingFinished(self):
-		self.loadingFinished = True
-		
 		self.progressBar.hide()
 		self.searchEdit.show()
 		

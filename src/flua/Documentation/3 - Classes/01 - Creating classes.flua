@@ -11,26 +11,26 @@
 	</header>
 	<code>
 		<comment>\SA\Sclass\Sin\Sthe\SBPC\Ssyntax\Sneeds\Sto\Sstart\Swith\San\Suppercase\Sletter</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="2">
 			<name>MyAwesomeClass</name>
 			<code>
 				<comment>\SEach\Sclass\Sneeds\Sa\Sconstructor\Swhich\Scan\Sbe\Sempty</comment>
-				<function depth="1" id="2">
+				<function depth="1" id="4">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop depth="2" id="5"/>
 					</code>
 					<meta/>
 				</function>
 				<comment>\SWe\Scan\Sdefine\Sa\Smethod</comment>
-				<function depth="1" id="4">
+				<function depth="1" id="8">
+					<name>doSomething</name>
 					<parameters>
 						<parameter>x</parameter>
 						<parameter>y</parameter>
 					</parameters>
-					<name>doSomething</name>
 					<code>
-						<call depth="2" id="5">
+						<call depth="2" id="9">
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -48,7 +48,7 @@
 			<meta/>
 		</class>
 		<comment>\SThen\Swe\Screate\San\Sinstance\Sof\Sthat\Sclass...</comment>
-		<assign depth="0" id="6">
+		<assign depth="0" id="12">
 			<value>a</value>
 			<value>
 				<new>
@@ -58,7 +58,7 @@
 			</value>
 		</assign>
 		<comment>\S...and\Scall\Sour\Snew\Smethod\Swhich\Sprints\Sthe\Sresult\Sof\S3\S+\S4\Son\Sthe\Sconsole:</comment>
-		<call depth="0" id="7">
+		<call depth="0" id="15">
 			<function>
 				<access>
 					<value>a</value>
@@ -71,7 +71,7 @@
 			</parameters>
 		</call>
 		<comment>\SSince\Swe\Sdidn't\Sspecify\Sa\Stype\Sfor\Sx\Sand\Sy\Swe\Scan\Scall\Sthis\Smethod\Swith\Sdifferent\Stypes:</comment>
-		<call depth="0" id="8">
+		<call depth="0" id="18">
 			<function>
 				<access>
 					<value>a</value>

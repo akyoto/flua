@@ -1502,8 +1502,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.environment = environment
 		self.highlighter = GenericHighlighter(self.environment, self.qdoc, self.bpIDE)
 		
-		if not extractExt(self.filePath) in environment.fileExtensions:
-			self.setFilePath(stripExt(self.filePath) + environment.standardFileExtension)
+		#if not extractExt(self.filePath) in environment.fileExtensions:
+		#	self.setFilePath(stripExt(self.filePath) + environment.standardFileExtension)
 		
 		if environment == self.bpIDE.fluaEnvironment:
 			self.isTextFile = False

@@ -18,13 +18,13 @@
 		<comment>\STo\Senable\Swrite\Saccess\Sto\Sa\Smember\Svariable\Syou</comment>
 		<comment>\Sneed\Sto\Smake\Sa\Sset\Sfunction.\SIn\Sother\Slanguages</comment>
 		<comment>\Syou'd\Swrite\SsetMember(new_value).\SIn\SFlua\Syou\Swrite:</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="5">
 			<name>MyClass</name>
 			<code>
-				<function depth="1" id="2">
+				<function depth="1" id="6">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="3">
+						<assign depth="2" id="7">
 							<value>
 								<access>
 									<value>my</value>
@@ -33,7 +33,7 @@
 							</value>
 							<value>flua_string_0</value>
 						</assign>
-						<assign depth="2" id="4">
+						<assign depth="2" id="8">
 							<value>
 								<access>
 									<value>my</value>
@@ -45,14 +45,14 @@
 					</code>
 					<meta/>
 				</function>
-				<set depth="1" id="5">
-					<setter depth="2" id="6">
+				<set depth="1" id="10">
+					<setter depth="2" id="11">
+						<name>memberOne</name>
 						<parameters>
 							<parameter>newValue</parameter>
 						</parameters>
-						<name>memberOne</name>
 						<code>
-							<assign depth="3" id="7">
+							<assign depth="3" id="12">
 								<value>
 									<access>
 										<value>my</value>
@@ -64,13 +64,13 @@
 						</code>
 						<meta/>
 					</setter>
-					<setter depth="2" id="8">
+					<setter depth="2" id="14">
+						<name>memberTwo</name>
 						<parameters>
 							<parameter>newValue</parameter>
 						</parameters>
-						<name>memberTwo</name>
 						<code>
-							<assign depth="3" id="9">
+							<assign depth="3" id="15">
 								<value>
 									<access>
 										<value>my</value>
@@ -87,7 +87,7 @@
 			<meta/>
 		</class>
 		<comment>\SCreate\San\Sinstance\Sof\Sthat\Sclass:</comment>
-		<assign depth="0" id="10">
+		<assign depth="0" id="18">
 			<value>a</value>
 			<value>
 				<new>
@@ -97,7 +97,7 @@
 			</value>
 		</assign>
 		<comment>\SNow\Swe\Shave\Swrite-only\Saccess\Sto\Sthese\Smembers:</comment>
-		<assign depth="0" id="11">
+		<assign depth="0" id="21">
 			<value>
 				<access>
 					<value>a</value>
@@ -106,7 +106,7 @@
 			</value>
 			<value>flua_string_2</value>
 		</assign>
-		<assign depth="0" id="12">
+		<assign depth="0" id="22">
 			<value>
 				<access>
 					<value>a</value>
@@ -116,14 +116,14 @@
 			<value>flua_string_3</value>
 		</assign>
 		<comment>\SAs\Sa\Sside-note,\Syou\Scan\Salso\Swrite:</comment>
-		<on depth="0" id="13">
+		<on depth="0" id="25">
 			<expression>a</expression>
 			<code>
-				<assign depth="1" id="14">
+				<assign depth="1" id="26">
 					<value>memberOne</value>
 					<value>flua_string_4</value>
 				</assign>
-				<assign depth="1" id="15">
+				<assign depth="1" id="27">
 					<value>memberTwo</value>
 					<value>flua_string_5</value>
 				</assign>

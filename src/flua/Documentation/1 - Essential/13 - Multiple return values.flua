@@ -10,10 +10,10 @@
 	</header>
 	<code>
 		<comment>\SCreate\Sa\Sfunction\Swhich\Sreturns\Ssome\Svalues:</comment>
-		<function depth="0" id="1">
+		<function depth="0" id="2">
 			<name>func</name>
 			<code>
-				<return depth="1" id="2">
+				<return depth="1" id="3">
 					<parameters>
 						<parameter>flua_string_0</parameter>
 						<parameter>4</parameter>
@@ -24,7 +24,7 @@
 			<meta/>
 		</function>
 		<comment>\SChoose\Ssome\Svariables\Swhere\Sthe\Svalues\Sshould\Sbe\Sstored:</comment>
-		<assign depth="0" id="3">
+		<assign depth="0" id="6">
 			<value>
 				<parameters>
 					<parameter>a</parameter>
@@ -40,19 +40,19 @@
 			</value>
 		</assign>
 		<comment>\SUse\Sthem:</comment>
-		<call depth="0" id="4">
+		<call depth="0" id="9">
 			<function>print</function>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="5">
+		<call depth="0" id="10">
 			<function>print</function>
 			<parameters>
 				<parameter>b</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="6">
+		<call depth="0" id="11">
 			<function>print</function>
 			<parameters>
 				<parameter>c</parameter>

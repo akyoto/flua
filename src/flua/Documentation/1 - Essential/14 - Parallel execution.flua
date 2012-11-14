@@ -29,13 +29,13 @@
 		<comment>\Sassignments\Saren't\Sworking\Syet.</comment>
 		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
 		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread:</comment>
-		<function depth="0" id="1">
+		<function depth="0" id="12">
 			<name>func</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="2">
+				<call depth="1" id="13">
 					<function>sleep</function>
 					<parameters>
 						<parameter>
@@ -49,7 +49,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="3">
+				<call depth="1" id="14">
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>
@@ -59,69 +59,69 @@
 			<meta/>
 		</function>
 		<comment>\SExecute\Sall\Scalls\Sto\Sfunc\Sin\Sparallel</comment>
-		<parallel depth="0" id="4">
+		<parallel depth="0" id="17">
 			<code>
-				<call depth="1" id="5">
+				<call depth="1" id="18">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="6">
+				<call depth="1" id="19">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_1</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="7">
+				<call depth="1" id="20">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_2</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="8">
+				<call depth="1" id="21">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_3</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="9">
+				<call depth="1" id="22">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_4</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="10">
+				<call depth="1" id="23">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_5</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="11">
+				<call depth="1" id="24">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_6</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="12">
+				<call depth="1" id="25">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_7</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="13">
+				<call depth="1" id="26">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_8</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="14">
+				<call depth="1" id="27">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_9</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="15">
+				<call depth="1" id="28">
 					<function>func</function>
 					<parameters>
 						<parameter>flua_string_10</parameter>
