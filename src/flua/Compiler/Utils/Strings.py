@@ -105,7 +105,7 @@ def extractDir(path):
 	#	return fixPath(os.path.dirname(path))
 	
 def extractExt(path):
-	pos = path.find(".")
+	pos = path.rfind(".")
 	
 	if pos == -1:
 		return ""

@@ -323,6 +323,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def getEnvironmentByFilePath(self, filePath):
 		ext = extractExt(filePath)
 		
+		#print(filePath)
+		#print(ext)
+		
 		if ext in self.fileExtensionToEnvironment:
 			return self.fileExtensionToEnvironment[ext]
 		

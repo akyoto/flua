@@ -24,24 +24,38 @@ class BPModuleItem(QtGui.QStandardItem):
 		self.subModules = dict()
 		self.setEditable(True)
 		self.isModule = False
+		self.inFluaEnvironment = False
 		self.selectedModItem = None
+		#self.environment = None
 		self.setData(self, QtCore.Qt.UserRole + 1)
 		#self.setData(self.icon, QtCore.Qt.DecorationRole)
 		
 	def addSubModule(self, name):
 		if not self.subModules:
-			self.realPath = stripExt(self.realPath) + "/" + stripAll(self.realPath) + ".flua"
+			self.realPath = stripExt(self.realPath) + "/" + stripAll(self.realPath) + self.environment.standardFileExtension
 		
 		mod = BPModuleItem(name)
+		mod.setEnvironment(self.environment)
 		mod.setModPath(self.path + "." + name)
 		mod.isModule = True
+		
 		self.subModules[name] = mod
 		self.appendRow(mod)
 		self.sortChildren(0)
 		
+	def setEnvironment(self, env):
+		self.environment = env
+		
+		if self.environment.name == "Flua":
+			self.inFluaEnvironment = True
+		else:
+			self.inFluaEnvironment = False
+		
 	def setModPath(self, path):
 		self.path = path
-		self.realPath = getModulePath(self.path)
+		
+		if self.inFluaEnvironment:
+			self.realPath = getModulePath(self.path) # self.environment.
 		
 		# Top level modules
 		#if not self.realPath:
@@ -325,6 +339,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 			self.bpcModel.removeRows(0, self.bpcModel.rowCount())
 		
 		self.modules = BPModuleItem("root")
+		self.modules.setEnvironment(self.environment)
 		
 		if not self.environment.rootDir:
 			return
@@ -377,28 +392,36 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 				
 				# If there is a directory with the same name, delete the file
 				if self.environment == self.bpIDE.fluaEnvironment:
-					if os.path.isdir(fixPath(root) + "/" + stripExt(file)):
+					if os.path.isdir(rootFixed + stripExt(file)):
 						try:
-							os.unlink(fixPath(root) + "/" + file)
+							os.unlink(rootFixed + file)
 						except OSError:
 							pass
 						
 						continue
 				
-				lastDir = fixPath(root).split(OS_SLASH)[-2]
+				lastDir = rootFixed.split(OS_SLASH)[-2]
 				modName = file[:-extLen]
 				if modName == lastDir:
 					mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".")[:-1]
 				else:
 					mod = extractDir(root[rootLen:]).replace(OS_SLASH, ".") + modName
-				mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".") + "." + file[:-extLen]
+				mod = fixPath(root[rootLen:]).replace(OS_SLASH, ".")
+				
+				if mod:
+					mod += "." + file[:-extLen]
+				else:
+					mod = file[:-extLen]
 				
 				parts = mod.split(".")
 				
 				modulesRoot = self.modules
 				for part in parts:
 					if not part in modulesRoot.subModules:
-						modulesRoot.subModules[part] = BPModuleItem(part)
+						item = BPModuleItem(part)
+						item.setEnvironment(self.environment)
+						item.realPath = rootFixed + file
+						modulesRoot.subModules[part] = item
 					modulesRoot = modulesRoot.subModules[part]
 				
 				self.modCount += 1
@@ -406,7 +429,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.endBenchmark()
 		#print(self.modules.subModules["bp"].subModules)
 		#if self.bpcModel and self.bpcModel.hasChildren():
-		#	self.bpcModel.removeRows(1, self.bpcModel.rowCount())
+		#	self.bpcModel.removeRows(1, self.bpcModel.rowCount())m
 		#self.setModel(None)
 		
 		# Build the module tree
@@ -458,8 +481,10 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 	def buildTreeRec(self, mod, parent, parentPath):
 		if parentPath:
 			mod.setModPath(parentPath + "." + mod.name)
+			#mod.path = parentPath + "." + mod.name
 		else:
 			mod.setModPath(mod.name)
+			#mod.path = mod.name
 		
 		mod.setForeground(self.brushSimpleFolder)
 		

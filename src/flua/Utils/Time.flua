@@ -8,7 +8,7 @@
 	</header>
 	<code>
 		<comment>\SCapture\Ssystem\Stime\Snow</comment>
-		<assign depth="0" id="1">
+		<assign depth="0" id="2">
 			<value>fluaProgramStart</value>
 			<value>
 				<call>
@@ -18,10 +18,10 @@
 			</value>
 		</assign>
 		<comment>\SReturns\Sthe\Snumber\Sof\Smilliseconds\Sthat\Shave\Spassed\Ssince\Sprogram\Sstart</comment>
-		<function depth="0" id="2">
+		<function depth="0" id="5">
 			<name>getAppTime</name>
 			<code>
-				<return depth="1" id="3">
+				<return depth="1" id="6">
 					<subtract>
 						<value>
 							<call>

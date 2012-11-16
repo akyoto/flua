@@ -75,9 +75,9 @@ class BPWorkspace(QtGui.QTabWidget):
 			self.bpIDE.codeEdit = self.widget(index)
 			
 			# Set environment
-			#env = self.bpIDE.codeEdit.environment
-			#if env:
-			#	self.bpIDE.setEnvironment(env)
+			env = self.bpIDE.codeEdit.environment
+			if env:
+				self.bpIDE.setEnvironment(env)
 			
 			self.bpIDE.codeEdit.setFocus()
 			self.bpIDE.codeEdit.setCompleter(self.bpIDE.completer)

@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SLet's\Screate\Sa\Slist:</comment>
-		<assign depth="0" id="1">
+		<assign depth="0" id="4">
 			<value>a</value>
 			<value>
 				<new>
@@ -27,7 +27,7 @@
 			</value>
 		</assign>
 		<comment>\SAdd\Ssome\Svalues\Sto\Sthe\Slist:</comment>
-		<call depth="0" id="2">
+		<call depth="0" id="7">
 			<function>
 				<access>
 					<value>a</value>
@@ -38,7 +38,7 @@
 				<parameter>1</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="3">
+		<call depth="0" id="8">
 			<function>
 				<access>
 					<value>a</value>
@@ -49,7 +49,7 @@
 				<parameter>3</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="4">
+		<call depth="0" id="9">
 			<function>
 				<access>
 					<value>a</value>
@@ -60,7 +60,7 @@
 				<parameter>3</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="5">
+		<call depth="0" id="10">
 			<function>
 				<access>
 					<value>a</value>
@@ -73,12 +73,12 @@
 		</call>
 		<comment>\SFor\Slazy\Sprogrammers\Sthere\Sis\Sa\Sway\Sto\Sautomatically</comment>
 		<comment>\Screate\Sa\Scounter\Sin\Sforeach\Sloops\Sby\Susing\S'counting':</comment>
-		<foreach depth="0" id="6">
+		<foreach depth="0" id="14">
 			<counter>myCounter</counter>
 			<iterator>x</iterator>
 			<collection>a</collection>
 			<code>
-				<call depth="1" id="7">
+				<call depth="1" id="15">
 					<function>print</function>
 					<parameters>
 						<parameter>
