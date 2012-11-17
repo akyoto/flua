@@ -16,8 +16,8 @@ Its main features are:
 
 It is currently in the Alpha phase.
 
-Website: http://flua-lang.org/
-More info: https://github.com/blitzprog/flua/wiki/Flua-design-document
+ * Website: http://flua-lang.org/
+ * More info: https://github.com/blitzprog/flua/wiki/Flua-design-document
 
 Installation on Debian
 ---------------------
