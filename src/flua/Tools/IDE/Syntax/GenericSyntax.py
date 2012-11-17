@@ -213,6 +213,17 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							self.setFormat(i, textLen - i, style['disabled'])
 						return
 				
+				# Check XML data
+				if userData and userData.node:
+					# Operators
+					if i == 0 and userData.node.tagName == "operator":
+						if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
+							start = getNextNonWhitespacePos(text, i)
+							end = getNextWhitespacePos(text, start + 1)
+							self.setFormat(start, end - start, style['class-operator'])
+							i = end + 1
+							continue
+				
 				# Other cases
 				if char in preprocessorIndicators:
 					self.setFormat(i, textLen - i, style['preprocessor'])

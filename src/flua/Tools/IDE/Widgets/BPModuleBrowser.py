@@ -115,7 +115,7 @@ class BPModuleBrowser(QtGui.QTreeView, Benchmarkable):
 		self.setModel(self.bpcModel)
 		
 		#self.reloadModuleDirectory(expand = True)
-		
+	
 	# On renaming
 	def commitData(self, editor):
 		item = self.currentIndex().data(QtCore.Qt.UserRole + 1)
