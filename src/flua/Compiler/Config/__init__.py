@@ -91,7 +91,7 @@ def getPython3ModuleDir():
 	if os.name == "nt":
 		return fixPath(os.path.abspath(configScriptPath + "../../../../../python/Lib/"))
 	else:
-		return "/usr/lib/python3.2/"
+		return extractDir(os.__file__) #"/usr/lib/python3.2/"
 
 def getCPPModuleDir():
 	if os.name == "nt":
