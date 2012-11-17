@@ -317,7 +317,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
 		<function depth="0" id="67">
@@ -340,7 +339,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Slargest\Sintegral\Svalue\Sthat\Sis\Snot\Sgreater\Sthan\S#x</comment>
 		<function depth="0" id="71">
@@ -363,7 +361,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SDetermines\Sif\S#x\Sis\Snot-a-number\S(NaN)</comment>
 		<function depth="0" id="75">
@@ -386,7 +383,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SDetermines\Sif\S#x\Sis\Sinfinite,\S1\Sfor\Spositive\Sinfinity</comment>
 		<comment>\Sand\S-1\Sfor\Snegative\Sinfinity.</comment>
@@ -410,7 +406,6 @@
 					</call>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SReturns\Se\S(Euler's\Snumber,\S2.7182818)\Sraised\Sto\Sthe\Sgiven\Spower\S#x</comment>
 		<function depth="0" id="84">

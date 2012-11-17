@@ -8,17 +8,17 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class depth="0" id="3">
 			<name>MutableQueue</name>
 			<code>
-				<template depth="1" id="2">
-					<parameter depth="2" id="3">TDataType</parameter>
+				<template depth="1" id="4">
+					<parameter depth="2" id="5">TDataType</parameter>
 				</template>
 				<comment>\SInitializes\Sa\Squeue</comment>
-				<function depth="1" id="4">
+				<function depth="1" id="8">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="5">
+						<assign depth="2" id="9">
 							<value>
 								<access>
 									<value>my</value>
@@ -41,13 +41,13 @@
 					<meta/>
 				</function>
 				<comment>\SAdds\Sthe\Selement\S#x\Sto\Sthe\Squeue</comment>
-				<function depth="1" id="6">
+				<function depth="1" id="12">
 					<name>add</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="7">
+						<call depth="2" id="13">
 							<function>
 								<access>
 									<value>
@@ -67,10 +67,10 @@
 					<meta/>
 				</function>
 				<comment>\SRemoves\Sthe\Soldest\Selement\Sfrom\Sthe\Squeue\Sand\Sreturns\Sit\S(FIFO)</comment>
-				<function depth="1" id="8">
+				<function depth="1" id="16">
 					<name>takeFirst</name>
 					<code>
-						<return depth="2" id="9">
+						<return depth="2" id="17">
 							<call>
 								<function>
 									<access>
@@ -90,10 +90,10 @@
 					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Squeue\Shas\Sat\Sleast\Sone\Selement</comment>
-				<function depth="1" id="10">
+				<function depth="1" id="20">
 					<name>hasElements</name>
 					<code>
-						<return depth="2" id="11">
+						<return depth="2" id="21">
 							<call>
 								<function>
 									<access>
@@ -112,11 +112,11 @@
 					</code>
 					<meta/>
 				</function>
-				<iterators depth="1" id="12">
-					<iterator-type depth="2" id="13">
+				<iterators depth="1" id="23">
+					<iterator-type depth="2" id="24">
 						<name>default</name>
 						<code>
-							<foreach depth="3" id="14">
+							<foreach depth="3" id="25">
 								<iterator>element</iterator>
 								<collection>
 									<access>
@@ -125,15 +125,15 @@
 									</access>
 								</collection>
 								<code>
-									<yield depth="4" id="15">element</yield>
+									<yield depth="4" id="26">element</yield>
 								</code>
 							</foreach>
 						</code>
 					</iterator-type>
-					<iterator-type depth="2" id="16">
+					<iterator-type depth="2" id="28">
 						<name>takeAll</name>
 						<code>
-							<while depth="3" id="17">
+							<while depth="3" id="29">
 								<condition>
 									<call>
 										<function>
@@ -146,7 +146,7 @@
 									</call>
 								</condition>
 								<code>
-									<yield depth="4" id="18">
+									<yield depth="4" id="30">
 										<call>
 											<function>
 												<access>
@@ -168,9 +168,9 @@
 			</meta>
 		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="19">
+		<test depth="0" id="33">
 			<code>
-				<assign depth="1" id="20">
+				<assign depth="1" id="34">
 					<value>q</value>
 					<value>
 						<new>
@@ -184,22 +184,22 @@
 						</new>
 					</value>
 				</assign>
-				<on depth="1" id="21">
+				<on depth="1" id="36">
 					<expression>q</expression>
 					<code>
-						<call depth="2" id="22">
+						<call depth="2" id="37">
 							<function>add</function>
 							<parameters>
 								<parameter>1</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="23">
+						<call depth="2" id="38">
 							<function>add</function>
 							<parameters>
 								<parameter>2</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="24">
+						<call depth="2" id="39">
 							<function>add</function>
 							<parameters>
 								<parameter>3</parameter>
@@ -207,11 +207,11 @@
 						</call>
 					</code>
 				</on>
-				<foreach depth="1" id="25">
+				<foreach depth="1" id="41">
 					<iterator>x</iterator>
 					<collection>q</collection>
 					<code>
-						<call depth="2" id="26">
+						<call depth="2" id="42">
 							<function>print</function>
 							<parameters>
 								<parameter>x</parameter>

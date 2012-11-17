@@ -11,6 +11,7 @@
 			<name>Range</name>
 			<code>
 				<function depth="1" id="2">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -19,7 +20,6 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
 						<assign depth="2" id="3">
 							<value>
@@ -33,7 +33,8 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="4">
+				<function depth="1" id="5">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -48,17 +49,16 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop depth="2" id="6"/>
 					</code>
 					<meta/>
 				</function>
-				<iterators depth="1" id="6">
-					<iterator-type depth="2" id="7">
+				<iterators depth="1" id="8">
+					<iterator-type depth="2" id="9">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="8">
+							<assign depth="3" id="10">
 								<value>pos</value>
 								<value>
 									<access>
@@ -67,7 +67,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="9">
+							<while depth="3" id="12">
 								<condition>
 									<less>
 										<value>pos</value>
@@ -80,8 +80,8 @@
 									</less>
 								</condition>
 								<code>
-									<yield depth="4" id="10">pos</yield>
-									<assign-add depth="4" id="11">
+									<yield depth="4" id="13">pos</yield>
+									<assign-add depth="4" id="14">
 										<value>pos</value>
 										<value>1</value>
 									</assign-add>

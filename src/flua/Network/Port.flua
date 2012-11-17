@@ -61,9 +61,9 @@
 			</code>
 		</namespace>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="14">
+		<test depth="0" id="16">
 			<code>
-				<call depth="1" id="15">
+				<call depth="1" id="17">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -74,7 +74,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="16">
+				<call depth="1" id="18">
 					<function>print</function>
 					<parameters>
 						<parameter>

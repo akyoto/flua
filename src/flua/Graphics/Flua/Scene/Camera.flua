@@ -8,13 +8,14 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class depth="0" id="3">
 			<name>Camera</name>
 			<code>
-				<extends depth="1" id="2">
-					<extends-class depth="2" id="3">SceneNode</extends-class>
+				<extends depth="1" id="4">
+					<extends-class depth="2" id="5">SceneNode</extends-class>
 				</extends>
-				<function depth="1" id="4">
+				<function depth="1" id="7">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -33,17 +34,16 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop depth="2" id="8"/>
 						<comment>SceneNode.init(my.parent)</comment>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="12">
 					<name>activate</name>
 					<code>
-						<call depth="2" id="7">
+						<call depth="2" id="13">
 							<function>
 								<access>
 									<value>flua</value>
@@ -114,9 +114,9 @@
 			</code>
 			<meta/>
 		</class>
-		<test depth="0" id="8">
+		<test depth="0" id="15">
 			<code>
-				<assign depth="1" id="9">
+				<assign depth="1" id="16">
 					<value>cam</value>
 					<value>
 						<new>

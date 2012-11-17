@@ -8,48 +8,48 @@
 	</header>
 	<code>
 		<comment>\SInterface\Sfor\Sreadable\Sstreams</comment>
-		<interface depth="0" id="1">
+		<interface depth="0" id="2">
 			<name>ReadStream</name>
 			<code>
-				<function depth="1" id="2" implemented="false">
+				<function depth="1" id="3" implemented="false">
+					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
-					<name>read</name>
 					<code/>
 					<meta/>
 				</function>
 			</code>
 		</interface>
 		<comment>\SInterface\Sfor\Swriteable\Sstreams</comment>
-		<interface depth="0" id="3">
+		<interface depth="0" id="6">
 			<name>WriteStream</name>
 			<code>
-				<function depth="1" id="4" implemented="false">
+				<function depth="1" id="7" implemented="false">
+					<name>write</name>
 					<parameters>
 						<parameter>collection</parameter>
 					</parameters>
-					<name>write</name>
 					<code/>
 					<meta/>
 				</function>
 			</code>
 		</interface>
 		<comment>\SNullStream</comment>
-		<class depth="0" id="5">
+		<class depth="0" id="10">
 			<name>NullStream</name>
 			<code>
-				<implements depth="1" id="6">
-					<implements-interface depth="2" id="7">ReadStream</implements-interface>
-					<implements-interface depth="2" id="8">WriteStream</implements-interface>
+				<implements depth="1" id="11">
+					<implements-interface depth="2" id="12">ReadStream</implements-interface>
+					<implements-interface depth="2" id="13">WriteStream</implements-interface>
 				</implements>
-				<function depth="1" id="9">
+				<function depth="1" id="15">
+					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
-					<name>read</name>
 					<code>
-						<return depth="2" id="10">
+						<return depth="2" id="16">
 							<new>
 								<type>
 									<template-call>
@@ -65,13 +65,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="11">
+				<function depth="1" id="18">
+					<name>write</name>
 					<parameters>
 						<parameter>collection</parameter>
 					</parameters>
-					<name>write</name>
 					<code>
-						<noop depth="2" id="12"/>
+						<noop depth="2" id="19"/>
 					</code>
 					<meta/>
 				</function>

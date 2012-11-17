@@ -13,109 +13,109 @@
 				<value>Byte</value>
 			</assign>
 		</define>
-		<extern depth="0" id="3">
-			<const depth="1" id="4">
-				<extern-variable depth="2" id="5">
+		<extern depth="0" id="4">
+			<const depth="1" id="5">
+				<extern-variable depth="2" id="6">
 					<name>KEY_DOWN</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="6">
+				<extern-variable depth="2" id="7">
 					<name>KEY_END</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="7">
+				<extern-variable depth="2" id="8">
 					<name>KEY_F1</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="8">
+				<extern-variable depth="2" id="9">
 					<name>KEY_F10</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="9">
+				<extern-variable depth="2" id="10">
 					<name>KEY_F11</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="10">
+				<extern-variable depth="2" id="11">
 					<name>KEY_F12</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="11">
+				<extern-variable depth="2" id="12">
 					<name>KEY_F2</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="12">
+				<extern-variable depth="2" id="13">
 					<name>KEY_F3</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="13">
+				<extern-variable depth="2" id="14">
 					<name>KEY_F4</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="14">
+				<extern-variable depth="2" id="15">
 					<name>KEY_F5</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="15">
+				<extern-variable depth="2" id="16">
 					<name>KEY_F6</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="16">
+				<extern-variable depth="2" id="17">
 					<name>KEY_F7</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="17">
+				<extern-variable depth="2" id="18">
 					<name>KEY_F8</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="18">
+				<extern-variable depth="2" id="19">
 					<name>KEY_F9</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="19">
+				<extern-variable depth="2" id="20">
 					<name>KEY_HOME</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="20">
+				<extern-variable depth="2" id="21">
 					<name>KEY_INSERT</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="21">
+				<extern-variable depth="2" id="22">
 					<name>KEY_LEFT</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="22">
+				<extern-variable depth="2" id="23">
 					<name>KEY_PAGE_DOWN</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="23">
+				<extern-variable depth="2" id="24">
 					<name>KEY_PAGE_UP</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="24">
+				<extern-variable depth="2" id="25">
 					<name>KEY_REPEAT_DEFAULT</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="25">
+				<extern-variable depth="2" id="26">
 					<name>KEY_REPEAT_OFF</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="26">
+				<extern-variable depth="2" id="27">
 					<name>KEY_REPEAT_ON</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="27">
+				<extern-variable depth="2" id="28">
 					<name>KEY_RIGHT</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="28">
+				<extern-variable depth="2" id="29">
 					<name>KEY_UP</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="29">
+				<extern-variable depth="2" id="30">
 					<name>KEY_ESCAPE</name>
 					<type>Key</type>
 				</extern-variable>
-				<extern-variable depth="2" id="30">
+				<extern-variable depth="2" id="31">
 					<name>KEY_ENTER</name>
 					<type>Key</type>
 				</extern-variable>

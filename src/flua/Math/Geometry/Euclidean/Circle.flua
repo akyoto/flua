@@ -12,34 +12,35 @@
 	</header>
 	<code>
 		<comment>\SRepresents\Sa\Scircle\Swith\Sa\Scenter\Spoint\Sand\Sa\Sradius</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="8">
 			<name>Circle</name>
 			<code>
-				<template depth="1" id="2">
-					<parameter depth="2" id="3">
+				<template depth="1" id="9">
+					<parameter depth="2" id="10">
 						<name>TCenter</name>
 						<default-value>Point</default-value>
 					</parameter>
-					<parameter depth="2" id="4">
+					<parameter depth="2" id="11">
 						<name>TRadius</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<public depth="1" id="5">
-					<public-member depth="2" id="6">
+				<public depth="1" id="13">
+					<public-member depth="2" id="14">
 						<declare-type>
 							<value>center</value>
 							<value>TCenter</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="7">
+					<public-member depth="2" id="15">
 						<declare-type>
 							<value>radius</value>
 							<value>TRadius</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="8">
+				<function depth="1" id="17">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -64,19 +65,18 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="9"/>
+						<noop depth="2" id="18"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="10">
+				<function depth="1" id="20">
+					<name>contains</name>
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
-					<name>contains</name>
 					<code>
-						<return depth="2" id="11">
+						<return depth="2" id="21">
 							<less-or-equal>
 								<value>
 									<call>
@@ -136,13 +136,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="12">
+				<function depth="1" id="23">
+					<name>intersects</name>
 					<parameters>
 						<parameter>circle</parameter>
 					</parameters>
-					<name>intersects</name>
 					<code>
-						<assign depth="2" id="13">
+						<assign depth="2" id="24">
 							<value>dist</value>
 							<value>
 								<call>
@@ -196,7 +196,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign depth="2" id="25">
 							<value>sumRadi</value>
 							<value>
 								<add>
@@ -215,7 +215,7 @@
 								</add>
 							</value>
 						</assign>
-						<return depth="2" id="15">
+						<return depth="2" id="27">
 							<less>
 								<value>dist</value>
 								<value>
@@ -231,14 +231,14 @@
 					</code>
 					<meta/>
 				</function>
-				<set depth="1" id="16">
-					<setter depth="2" id="17">
+				<set depth="1" id="29">
+					<setter depth="2" id="30">
+						<name>diameter</name>
 						<parameters>
 							<parameter>nDiameter</parameter>
 						</parameters>
-						<name>diameter</name>
 						<code>
-							<assign depth="3" id="18">
+							<assign depth="3" id="31">
 								<value>
 									<access>
 										<value>my</value>
@@ -255,11 +255,11 @@
 						</code>
 					</setter>
 				</set>
-				<get depth="1" id="19">
-					<getter depth="2" id="20">
+				<get depth="1" id="33">
+					<getter depth="2" id="34">
 						<name>diameter</name>
 						<code>
-							<return depth="3" id="21">
+							<return depth="3" id="35">
 								<multiply>
 									<value>
 										<access>
@@ -272,10 +272,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="22">
+					<getter depth="2" id="37">
 						<name>perimeter</name>
 						<code>
-							<return depth="3" id="23">
+							<return depth="3" id="38">
 								<multiply>
 									<value>
 										<multiply>

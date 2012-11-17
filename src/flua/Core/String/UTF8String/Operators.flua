@@ -371,7 +371,6 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 					<operator depth="2" id="42">
 						<name>[:]</name>
@@ -399,7 +398,6 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 					<operator depth="2" id="45">
 						<name>[:]</name>
@@ -423,7 +421,6 @@
 								</call>
 							</return>
 						</code>
-						<meta/>
 					</operator>
 					<operator depth="2" id="48">
 						<name>==</name>

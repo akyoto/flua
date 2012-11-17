@@ -8,46 +8,46 @@
 	</header>
 	<code>
 		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
-		<function depth="0" id="1">
+		<function depth="0" id="2">
 			<name>map</name>
 			<code>
-				<noop depth="1" id="2"/>
+				<noop depth="1" id="3"/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
-		<function depth="0" id="3">
+		<function depth="0" id="6">
 			<name>reduce</name>
 			<code>
-				<noop depth="1" id="4"/>
+				<noop depth="1" id="7"/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
-		<function depth="0" id="5">
+		<function depth="0" id="10">
+			<name>merge</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
-			<name>merge</name>
 			<code>
-				<noop depth="1" id="6"/>
+				<noop depth="1" id="11"/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
-		<function depth="0" id="7">
+		<function depth="0" id="14">
 			<name>qsort</name>
 			<code>
-				<noop depth="1" id="8"/>
+				<noop depth="1" id="15"/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="18">
 			<name>bsearch</name>
 			<code>
-				<noop depth="1" id="10"/>
+				<noop depth="1" id="19"/>
 			</code>
 			<meta/>
 		</function>

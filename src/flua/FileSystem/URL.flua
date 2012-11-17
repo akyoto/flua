@@ -19,7 +19,8 @@
 				<extends depth="1" id="2">
 					<extends-class depth="2" id="3">UTF8String</extends-class>
 				</extends>
-				<function depth="1" id="4">
+				<function depth="1" id="5">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -28,9 +29,8 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<call depth="2" id="5">
+						<call depth="2" id="6">
 							<function>
 								<access>
 									<value>UTF8String</value>
@@ -43,11 +43,11 @@
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="6">
-					<getter depth="2" id="7">
+				<get depth="1" id="8">
+					<getter depth="2" id="9">
 						<name>hostName</name>
 						<code>
-							<if-block depth="3" id="8">
+							<if-block depth="3" id="10">
 								<if>
 									<condition>
 										<call>
@@ -63,7 +63,7 @@
 										</call>
 									</condition>
 									<code>
-										<return depth="4" id="9">
+										<return depth="4" id="11">
 											<call>
 												<function>
 													<access>
@@ -90,9 +90,9 @@
 										</return>
 									</code>
 								</if>
-								<else depth="3" id="10">
+								<else depth="3" id="12">
 									<code>
-										<return depth="4" id="11">
+										<return depth="4" id="13">
 											<call>
 												<function>
 													<access>
@@ -124,6 +124,7 @@
 					</getter>
 				</get>
 			</code>
+			<meta/>
 		</class>
 	</code>
 </module>

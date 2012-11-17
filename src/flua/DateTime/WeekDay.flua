@@ -12,10 +12,10 @@
 	</header>
 	<code>
 		<comment>\SRepresents\Sa\Sweekday</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="4">
 			<name>WeekDay</name>
 			<code>
-				<function depth="1" id="2">
+				<function depth="1" id="5">
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -26,15 +26,15 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop depth="2" id="6"/>
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="4">
-					<getter depth="2" id="5">
+				<get depth="1" id="8">
+					<getter depth="2" id="9">
 						<name>name</name>
 						<code>
-							<return depth="3" id="6">
+							<return depth="3" id="10">
 								<call>
 									<function>
 										<access>
@@ -54,10 +54,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="7">
+					<getter depth="2" id="12">
 						<name>number</name>
 						<code>
-							<return depth="3" id="8">
+							<return depth="3" id="13">
 								<call>
 									<function>
 										<access>
@@ -79,11 +79,11 @@
 						<meta/>
 					</getter>
 				</get>
-				<casts depth="1" id="9">
-					<cast-definition depth="2" id="10">
+				<casts depth="1" id="15">
+					<cast-definition depth="2" id="16">
 						<to>String</to>
 						<code>
-							<return depth="3" id="11">
+							<return depth="3" id="17">
 								<call>
 									<function>
 										<access>

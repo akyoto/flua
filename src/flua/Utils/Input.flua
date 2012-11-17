@@ -18,11 +18,11 @@
 				<include depth="1" id="2">Input.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="3">
-			<namespace depth="1" id="4">
+		<extern depth="0" id="4">
+			<namespace depth="1" id="5">
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="5">
+					<extern-function depth="2" id="6">
 						<name>input</name>
 						<type>String</type>
 						<meta/>
@@ -31,19 +31,19 @@
 			</namespace>
 		</extern>
 		<comment>\SWrites\S#text\Son\Sthe\Soutput\Sstream\Sand\Sreads\Sone\Sline\Sfrom\Sthe\Sinput\Sstream.</comment>
-		<function depth="0" id="6">
+		<function depth="0" id="9">
+			<name>consoleInput</name>
 			<parameters>
 				<parameter>text</parameter>
 			</parameters>
-			<name>consoleInput</name>
 			<code>
-				<call depth="1" id="7">
+				<call depth="1" id="10">
 					<function>print</function>
 					<parameters>
 						<parameter>text</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="8">
+				<return depth="1" id="12">
 					<call>
 						<function>
 							<access>
@@ -58,9 +58,9 @@
 			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="9">
+		<test depth="0" id="15">
 			<code>
-				<assign depth="1" id="10">
+				<assign depth="1" id="16">
 					<value>a</value>
 					<value>
 						<call>
@@ -71,7 +71,7 @@
 						</call>
 					</value>
 				</assign>
-				<call depth="1" id="11">
+				<call depth="1" id="17">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -87,7 +87,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="12">
+				<call depth="1" id="18">
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_3</parameter>

@@ -10,34 +10,35 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class depth="0" id="3">
 			<name>Point</name>
 			<code>
-				<template depth="1" id="2">
-					<parameter depth="2" id="3">
+				<template depth="1" id="4">
+					<parameter depth="2" id="5">
 						<name>TX</name>
 						<default-value>Float</default-value>
 					</parameter>
-					<parameter depth="2" id="4">
+					<parameter depth="2" id="6">
 						<name>TY</name>
 						<default-value>Float</default-value>
 					</parameter>
 				</template>
-				<public depth="1" id="5">
-					<public-member depth="2" id="6">
+				<public depth="1" id="8">
+					<public-member depth="2" id="9">
 						<declare-type>
 							<value>x</value>
 							<value>TX</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="7">
+					<public-member depth="2" id="10">
 						<declare-type>
 							<value>y</value>
 							<value>TY</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="8">
+				<function depth="1" id="12">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -52,20 +53,19 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="9"/>
+						<noop depth="2" id="13"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="10">
+				<function depth="1" id="15">
+					<name>move</name>
 					<parameters>
 						<parameter>offX</parameter>
 						<parameter>offY</parameter>
 					</parameters>
-					<name>move</name>
 					<code>
-						<assign-add depth="2" id="11">
+						<assign-add depth="2" id="16">
 							<value>
 								<access>
 									<value>my</value>
@@ -74,7 +74,7 @@
 							</value>
 							<value>offX</value>
 						</assign-add>
-						<assign-add depth="2" id="12">
+						<assign-add depth="2" id="17">
 							<value>
 								<access>
 									<value>my</value>
@@ -86,13 +86,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="13">
+				<function depth="1" id="19">
+					<name>distanceTo</name>
 					<parameters>
 						<parameter>point</parameter>
 					</parameters>
-					<name>distanceTo</name>
 					<code>
-						<return depth="2" id="14">
+						<return depth="2" id="20">
 							<call>
 								<function>distance</function>
 								<parameters>
@@ -126,12 +126,12 @@
 					</code>
 					<meta/>
 				</function>
-				<casts depth="1" id="15">
-					<cast-definition depth="2" id="16">
+				<casts depth="1" id="22">
+					<cast-definition depth="2" id="23">
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SImplement\SInt\S-&gt;\SString\Sautocast</comment>
-							<return depth="3" id="17">
+							<return depth="3" id="25">
 								<add>
 									<value>
 										<add>
