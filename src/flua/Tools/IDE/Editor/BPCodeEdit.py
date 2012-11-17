@@ -528,6 +528,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"on",
 			"interface",
 			"iterator",
+			"implements",
 			
 			# A dirty hack so that C++ gets some auto indent
 			'inline',

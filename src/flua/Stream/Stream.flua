@@ -28,7 +28,29 @@
 				<function depth="1" id="7" implemented="false">
 					<name>write</name>
 					<parameters>
-						<parameter>collection</parameter>
+						<parameter>object</parameter>
+					</parameters>
+					<code/>
+					<meta/>
+				</function>
+			</code>
+		</interface>
+		<comment>\SInterface\Sfor\Sobjects\Swhich\Scan\Sbe\Sserialized</comment>
+		<interface depth="0" id="10">
+			<name>Serializable</name>
+			<code>
+				<function depth="1" id="11" implemented="false">
+					<name>writeToStream</name>
+					<parameters>
+						<parameter>stream</parameter>
+					</parameters>
+					<code/>
+					<meta/>
+				</function>
+				<function depth="1" id="12" implemented="false">
+					<name>readFromStream</name>
+					<parameters>
+						<parameter>stream</parameter>
 					</parameters>
 					<code/>
 					<meta/>
@@ -36,20 +58,20 @@
 			</code>
 		</interface>
 		<comment>\SNullStream</comment>
-		<class depth="0" id="10">
+		<class depth="0" id="15">
 			<name>NullStream</name>
 			<code>
-				<implements depth="1" id="11">
-					<implements-interface depth="2" id="12">ReadStream</implements-interface>
-					<implements-interface depth="2" id="13">WriteStream</implements-interface>
+				<implements depth="1" id="16">
+					<implements-interface depth="2" id="17">ReadStream</implements-interface>
+					<implements-interface depth="2" id="18">WriteStream</implements-interface>
 				</implements>
-				<function depth="1" id="15">
+				<function depth="1" id="20">
 					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
 					<code>
-						<return depth="2" id="16">
+						<return depth="2" id="21">
 							<new>
 								<type>
 									<template-call>
@@ -65,13 +87,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="18">
+				<function depth="1" id="23">
 					<name>write</name>
 					<parameters>
-						<parameter>collection</parameter>
+						<parameter>object</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="19"/>
+						<noop depth="2" id="24"/>
 					</code>
 					<meta/>
 				</function>
