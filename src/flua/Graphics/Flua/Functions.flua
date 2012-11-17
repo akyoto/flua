@@ -3,10 +3,10 @@
 		<title/>
 		<dependencies>
 			<import>flua.Core</import>
+			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.GLEW</import>
 			<import>public.Graphics.GLU</import>
 			<import>public.Graphics.GLUT</import>
-			<import>public.Graphics.OpenGL</import>
 			<import>public.Graphics.FreeImage</import>
 			<import>public.Math.GLM</import>
 			<import>flua.Math.Geometry</import>
