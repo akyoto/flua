@@ -117,6 +117,10 @@ def correctOperators(sign):
 		return "operatorMultiply"
 	elif sign == "/":# or sign == "divide":
 		return "operatorDivide"
+	elif sign == "&":# or sign == "bitwise-and":
+		return "operatorBitwiseAnd"
+	elif sign == "|":# or sign == "bitwise-or":
+		return "operatorBitwiseOr"
 	elif sign == "=":# or sign == "assign":
 		return "operatorAssign"
 	elif sign == "==":# or sign == "equal":
@@ -163,5 +167,9 @@ def correctOperatorsTagName(sign):
 		return "operatorAssignMultiply"
 	elif sign == "assign-divide":
 		return "operatorAssignDivide"
+	elif sign == "bitwise-and":
+		return "operatorBitwiseAnd"
+	elif sign == "bitwise-or":
+		return "operatorBitwiseOr"
 	
 	return sign

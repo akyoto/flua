@@ -51,6 +51,9 @@ enableOperatorOverloading = {
 	"assign-substract",
 	"assign-multiply",
 	"assign-divide",
+	
+	"bitwise-and",
+	"bitwise-or",
 }
 
 replacedNodeValues = {

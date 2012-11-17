@@ -1326,88 +1326,20 @@
 					</code>
 					<meta/>
 				</function>
-				<comment>\SReturns\Sa\Svector\Swhich\Sonly\Scontains\Selements\Sexisting\Sin\S#collection</comment>
-				<comment>\Sand\Sthe\Scalling\Svector\Sitself.</comment>
-				<comment>\SO(n\S*\Sm)</comment>
-				<function depth="1" id="175">
-					<name>intersection</name>
-					<parameters>
-						<parameter>collection</parameter>
-					</parameters>
-					<code>
-						<assign depth="2" id="176">
-							<value>result</value>
-							<value>
-								<new>
-									<type>
-										<template-call>
-											<value>Vector</value>
-											<value>TDataType</value>
-										</template-call>
-									</type>
-									<parameters>
-										<parameter>
-											<call>
-												<function>
-													<access>
-														<value>my</value>
-														<value>getLength</value>
-													</access>
-												</function>
-												<parameters/>
-											</call>
-										</parameter>
-									</parameters>
-								</new>
-							</value>
-						</assign>
-						<foreach depth="2" id="178">
-							<iterator>x</iterator>
-							<collection>my</collection>
-							<code>
-								<if-block depth="3" id="179">
-									<if>
-										<condition>
-											<exists-in>
-												<value>x</value>
-												<value>collection</value>
-											</exists-in>
-										</condition>
-										<code>
-											<call depth="4" id="180">
-												<function>
-													<access>
-														<value>result</value>
-														<value>add</value>
-													</access>
-												</function>
-												<parameters>
-													<parameter>x</parameter>
-												</parameters>
-											</call>
-										</code>
-									</if>
-								</if-block>
-							</code>
-						</foreach>
-						<return depth="2" id="182">result</return>
-					</code>
-					<meta/>
-				</function>
-				<operators depth="1" id="184">
+				<operators depth="1" id="172">
 					<comment>\SRetrieves\Sthe\Selement\Sat\Sposition\S#index</comment>
-					<operator depth="2" id="186">
+					<operator depth="2" id="174">
 						<name>[]</name>
 						<parameters>
 							<parameter>index</parameter>
 						</parameters>
 						<code>
-							<require depth="3" id="187">
-								<greater-or-equal depth="4" id="188">
+							<require depth="3" id="175">
+								<greater-or-equal depth="4" id="176">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="189">
+								<less depth="4" id="177">
 									<value>index</value>
 									<value>
 										<call>
@@ -1422,7 +1354,7 @@
 									</value>
 								</less>
 							</require>
-							<return depth="3" id="191">
+							<return depth="3" id="179">
 								<index>
 									<value>
 										<access>
@@ -1436,19 +1368,19 @@
 						</code>
 					</operator>
 					<comment>\SSets\Sthe\Selement\Sat\Sposition\S#index\Sto\S#value</comment>
-					<operator depth="2" id="194">
+					<operator depth="2" id="182">
 						<name>[]=</name>
 						<parameters>
 							<parameter>index</parameter>
 							<parameter>value</parameter>
 						</parameters>
 						<code>
-							<require depth="3" id="195">
-								<greater-or-equal depth="4" id="196">
+							<require depth="3" id="183">
+								<greater-or-equal depth="4" id="184">
 									<value>index</value>
 									<value>0</value>
 								</greater-or-equal>
-								<less depth="4" id="197">
+								<less depth="4" id="185">
 									<value>index</value>
 									<value>
 										<call>
@@ -1463,7 +1395,7 @@
 									</value>
 								</less>
 							</require>
-							<assign depth="3" id="199">
+							<assign depth="3" id="187">
 								<value>
 									<index>
 										<value>
@@ -1480,13 +1412,13 @@
 						</code>
 					</operator>
 					<comment>\SCreates\Sa\Snew\Svector\Swith\Selements\Sof\Sboth\Scollections</comment>
-					<operator depth="2" id="202">
+					<operator depth="2" id="190">
 						<name>+</name>
 						<parameters>
 							<parameter>collection</parameter>
 						</parameters>
 						<code>
-							<assign depth="3" id="203">
+							<assign depth="3" id="191">
 								<value>ptr</value>
 								<value>
 									<access>
@@ -1495,7 +1427,7 @@
 									</access>
 								</value>
 							</assign>
-							<assign depth="3" id="204">
+							<assign depth="3" id="192">
 								<value>newVec</value>
 								<value>
 									<new>
@@ -1509,7 +1441,7 @@
 									</new>
 								</value>
 							</assign>
-							<while depth="3" id="206">
+							<while depth="3" id="194">
 								<condition>
 									<not-equal>
 										<value>ptr</value>
@@ -1522,7 +1454,7 @@
 									</not-equal>
 								</condition>
 								<code>
-									<call depth="4" id="207">
+									<call depth="4" id="195">
 										<function>
 											<access>
 												<value>newVec</value>
@@ -1538,17 +1470,17 @@
 											</parameter>
 										</parameters>
 									</call>
-									<assign-add depth="4" id="208">
+									<assign-add depth="4" id="196">
 										<value>ptr</value>
 										<value>1</value>
 									</assign-add>
 								</code>
 							</while>
-							<foreach depth="3" id="210">
+							<foreach depth="3" id="198">
 								<iterator>x</iterator>
 								<collection>collection</collection>
 								<code>
-									<call depth="4" id="211">
+									<call depth="4" id="199">
 										<function>
 											<access>
 												<value>newVec</value>
@@ -1561,15 +1493,154 @@
 									</call>
 								</code>
 							</foreach>
-							<return depth="3" id="213">newVec</return>
+							<return depth="3" id="201">newVec</return>
+						</code>
+						<meta/>
+					</operator>
+					<comment>\SReturns\Sa\Svector\Swhich\Sonly\Scontains\Selements\Sexisting\Sin\S#collection</comment>
+					<comment>\Sand\Sthe\Scalling\Svector\Sitself.</comment>
+					<operator depth="2" id="205">
+						<name>&amp;</name>
+						<parameters>
+							<parameter>collection</parameter>
+						</parameters>
+						<code>
+							<assign depth="3" id="206">
+								<value>result</value>
+								<value>
+									<new>
+										<type>
+											<template-call>
+												<value>Vector</value>
+												<value>TDataType</value>
+											</template-call>
+										</type>
+										<parameters>
+											<parameter>
+												<call>
+													<function>
+														<access>
+															<value>my</value>
+															<value>getLength</value>
+														</access>
+													</function>
+													<parameters/>
+												</call>
+											</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<foreach depth="3" id="208">
+								<iterator>x</iterator>
+								<collection>my</collection>
+								<code>
+									<if-block depth="4" id="209">
+										<if>
+											<condition>
+												<exists-in>
+													<value>x</value>
+													<value>collection</value>
+												</exists-in>
+											</condition>
+											<code>
+												<call depth="5" id="210">
+													<function>
+														<access>
+															<value>result</value>
+															<value>add</value>
+														</access>
+													</function>
+													<parameters>
+														<parameter>x</parameter>
+													</parameters>
+												</call>
+											</code>
+										</if>
+									</if-block>
+								</code>
+							</foreach>
+							<return depth="3" id="212">result</return>
+						</code>
+						<meta/>
+					</operator>
+					<comment>\SReturns\Sa\Svector\Swhich\Sonly\Scontains\Selements\Sexisting\Sin\Sthe\Scalling\Svector</comment>
+					<comment>\Sbut\Snot\Sin\Sthe\S#collection.</comment>
+					<comment>\SO(n\S*\Sm)</comment>
+					<operator depth="2" id="217">
+						<name>-</name>
+						<parameters>
+							<parameter>collection</parameter>
+						</parameters>
+						<code>
+							<assign depth="3" id="218">
+								<value>result</value>
+								<value>
+									<new>
+										<type>
+											<template-call>
+												<value>Vector</value>
+												<value>TDataType</value>
+											</template-call>
+										</type>
+										<parameters>
+											<parameter>
+												<call>
+													<function>
+														<access>
+															<value>my</value>
+															<value>getLength</value>
+														</access>
+													</function>
+													<parameters/>
+												</call>
+											</parameter>
+										</parameters>
+									</new>
+								</value>
+							</assign>
+							<foreach depth="3" id="220">
+								<iterator>x</iterator>
+								<collection>my</collection>
+								<code>
+									<if-block depth="4" id="221">
+										<if>
+											<condition>
+												<not>
+													<value>
+														<exists-in>
+															<value>x</value>
+															<value>collection</value>
+														</exists-in>
+													</value>
+												</not>
+											</condition>
+											<code>
+												<call depth="5" id="222">
+													<function>
+														<access>
+															<value>result</value>
+															<value>add</value>
+														</access>
+													</function>
+													<parameters>
+														<parameter>x</parameter>
+													</parameters>
+												</call>
+											</code>
+										</if>
+									</if-block>
+								</code>
+							</foreach>
+							<return depth="3" id="224">result</return>
 						</code>
 					</operator>
 				</operators>
-				<iterators depth="1" id="215">
-					<iterator-type depth="2" id="216">
+				<iterators depth="1" id="226">
+					<iterator-type depth="2" id="227">
 						<name>default</name>
 						<code>
-							<assign depth="3" id="217">
+							<assign depth="3" id="228">
 								<value>ptr</value>
 								<value>
 									<access>
@@ -1578,7 +1649,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="219">
+							<while depth="3" id="230">
 								<condition>
 									<not-equal>
 										<value>ptr</value>
@@ -1591,13 +1662,13 @@
 									</not-equal>
 								</condition>
 								<code>
-									<yield depth="4" id="220">
+									<yield depth="4" id="231">
 										<access>
 											<value>ptr</value>
 											<value>data</value>
 										</access>
 									</yield>
-									<assign-add depth="4" id="221">
+									<assign-add depth="4" id="232">
 										<value>ptr</value>
 										<value>1</value>
 									</assign-add>
@@ -1606,17 +1677,17 @@
 						</code>
 					</iterator-type>
 				</iterators>
-				<get depth="1" id="223">
-					<getter depth="2" id="224">
+				<get depth="1" id="234">
+					<getter depth="2" id="235">
 						<name>length</name>
 						<code>
-							<ensure depth="3" id="225">
-								<greater-or-equal depth="4" id="226">
+							<ensure depth="3" id="236">
+								<greater-or-equal depth="4" id="237">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="228">
+							<return depth="3" id="239">
 								<subtract>
 									<value>
 										<access>
@@ -1634,16 +1705,16 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="230">
+					<getter depth="2" id="241">
 						<name>size</name>
 						<code>
-							<ensure depth="3" id="231">
-								<greater-or-equal depth="4" id="232">
+							<ensure depth="3" id="242">
+								<greater-or-equal depth="4" id="243">
 									<value>result</value>
 									<value>0</value>
 								</greater-or-equal>
 							</ensure>
-							<return depth="3" id="234">
+							<return depth="3" id="245">
 								<subtract>
 									<value>
 										<access>
@@ -1661,10 +1732,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="236">
+					<getter depth="2" id="247">
 						<name>data</name>
 						<code>
-							<return depth="3" id="237">
+							<return depth="3" id="248">
 								<access>
 									<value>my</value>
 									<value>start</value>
@@ -1673,20 +1744,20 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="239">
-					<setter depth="2" id="240">
+				<set depth="1" id="250">
+					<setter depth="2" id="251">
 						<name>length</name>
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<code>
-							<require depth="3" id="241">
-								<greater-or-equal depth="4" id="242">
+							<require depth="3" id="252">
+								<greater-or-equal depth="4" id="253">
 									<value>newLength</value>
 									<value>0</value>
 								</greater-or-equal>
 							</require>
-							<assign depth="3" id="244">
+							<assign depth="3" id="255">
 								<value>
 									<access>
 										<value>my</value>
@@ -1705,7 +1776,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block depth="3" id="246">
+							<if-block depth="3" id="257">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -1724,7 +1795,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call depth="4" id="247">
+										<call depth="4" id="258">
 											<function>
 												<access>
 													<value>my</value>
@@ -1764,11 +1835,11 @@
 			</meta>
 		</class>
 		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>
-		<class depth="0" id="250">
+		<class depth="0" id="261">
 			<name>UTF8String</name>
 			<code>
 				<comment>\SInit\Sfrom\Sbyte\Svector</comment>
-				<function depth="1" id="252">
+				<function depth="1" id="263">
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1784,7 +1855,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="253">
+						<assign depth="2" id="264">
 							<value>
 								<access>
 									<value>my</value>
@@ -1810,7 +1881,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="254">
+						<call depth="2" id="265">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -1833,7 +1904,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="255">
+						<assign depth="2" id="266">
 							<value>
 								<access>
 									<value>my</value>
@@ -1847,7 +1918,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="256">
+						<assign depth="2" id="267">
 							<value>
 								<access>
 									<value>my</value>
