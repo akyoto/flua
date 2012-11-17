@@ -1009,7 +1009,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			text = block.text()
 			relPos = cursor.positionInBlock() #cursor.position() - block.position()
 			
-			if relPos == 1:
+			if (not isShortcut) and relPos == 1:
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
 				return
@@ -1242,7 +1242,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			elif self.autoCompleteState == BPCAutoCompleter.STATE_OPENED_BY_USER:
 				pass
 			
-			# pop it up!
+			# Pop it up!
 			cr = self.cursorRect()
 			cr.setWidth(popup.sizeHintForColumn(0) + popup.verticalScrollBar().sizeHint().width())
 			self.completer.complete(cr)
