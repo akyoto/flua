@@ -476,7 +476,8 @@ class Startup:
 				'number': cf('brown'),
 				'hex-number': cf('brown'),
 				'preprocessor': cf('#005000'),
-				'file-link': cf('#0000ff', 'bold'),
+				'file-link': cf('#0000ff', useBold),
+				'matching-brackets': cf('red', 'underline'),
 				
 				'function': cf('#171717', useBold),
 				'side-effects-extern-function': cf('#ee0000', useBold),
@@ -534,7 +535,8 @@ class Startup:
 				'number': cf('#ff6020'),
 				'hex-number': cf('#ff6020'),
 				'preprocessor': cf('#00d000'),
-				'file-link': cf('#0000ff', 'bold'),
+				'file-link': cf('#0000ff', useBold),
+				'matching-brackets': cf('#aaaaaa', 'underline'),
 				
 				'function': cf('#10b0ff', useBold),
 				

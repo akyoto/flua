@@ -601,12 +601,75 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if self.bpIDE.ctrlPressed:
 			font = self.font()
 			ptSize = font.pointSize() + ((event.delta() > 0) * 2 - 1)
-			print(ptSize)
+			
 			if abs(ptSize) > 5:
 				font.setPointSize(abs(ptSize))
+			
 			self.bpIDE.config.applyMonospaceFont(font)
 		else:
 			super().wheelEvent(event)
+	
+	def highlightBrackets(self):
+		print("- Highlight Brackets -")
+		
+		cursor = self.textCursor()
+		position = cursor.position()
+		doc = self.qdoc
+		bracketMatchFormat = self.bpIDE.config.theme["matching-brackets"]
+		bracketMismatchFormat = self.bpIDE.config.theme["operator"]
+		
+		if (not cursor.atBlockEnd() and doc.characterAt(position) == '(') or (not cursor.atBlockStart() and doc.characterAt(position - 1) == ')'):
+			if doc.characterAt(position) == '(':
+				forward = True
+				position += 1
+				move = QtGui.QTextCursor.NextCharacter
+				begin = '('
+				end = ')'
+			else:
+				forward = False
+				position -= 2
+				move = QtGui.QTextCursor.PreviousCharacter
+				begin = ')'
+				end = '('
+			
+			print("Forward:", forward)
+			
+			bracketBeginCursor = QtGui.QTextCursor(cursor)
+			bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
+			
+			charFormat = bracketMismatchFormat
+			
+			braceDepth = 1
+			while 1:
+				c = doc.characterAt(position)
+				
+				if not c:
+					break
+				
+				if c == begin:
+					braceDepth += 1
+				elif c == end:
+					braceDepth -= 1
+					
+					if braceDepth == 0:
+						bracketEndCursor = QtGui.QTextCursor(cursor)
+						bracketEndCursor.setPosition(position)
+						bracketEndCursor.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
+						bracketEndCursor.setCharFormat(bracketMatchFormat)
+						print("A2 Format: %d" % bracketEndCursor.position())
+						#self.setTextCursor(bracketEndCursor)
+						
+						charFormat = bracketMatchFormat
+						
+						break
+				
+				if forward:
+					position += 1
+				else:
+					position -= 1
+			
+			bracketBeginCursor.setCharFormat(charFormat)
+			print("A1 Format: %d" % bracketBeginCursor.position())
 	
 	def locationBackward(self):
 		print("Backward not implemented!")
@@ -1458,6 +1521,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.endBenchmark()
 		
 	def rehighlightCurrentLine(self):
+		#print("Rehighlight current line")
 		self.highlighter.rehighlightBlock(self.textCursor().block())
 	
 	def save(self, newPath = "", msgStatusBar = False):

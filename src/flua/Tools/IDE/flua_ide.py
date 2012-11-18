@@ -1050,6 +1050,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onCursorPosChange(self):
 		self.updateLineInfo()
 		
+		#if self.codeEdit:
+		#	self.codeEdit.highlightBrackets()
+		
 	def createDockWidget(self, name, widget, area):
 		shortcut = self.dockShortcuts[len(self.docks)]
 		

@@ -12,5 +12,7 @@ def cf(color, style=''):
 		_format.setFontWeight(QtGui.QFont.Bold)
 	if 'italic' in style:
 		_format.setFontItalic(True)
+	if 'underline' in style:
+		_format.setFontUnderline(True)
 	
 	return _format

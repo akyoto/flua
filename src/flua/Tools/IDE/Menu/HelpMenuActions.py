@@ -55,7 +55,7 @@ class HelpMenuActions:
 			self.gitThread = BPGitThread(self)
 		
 		return True
-			
+		
 	def showChangeLog(self):
 		self.acquireGitThread()
 		
