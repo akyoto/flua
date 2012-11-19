@@ -618,14 +618,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		position = cursor.position()
 		doc = self.qdoc
 		modified = doc.isModified()
+		theme = self.bpIDE.config.theme
 		
-		#if (not cursor.atBlockEnd() and doc.characterAt(position) == '(')
-		#or (not cursor.atBlockStart() and doc.characterAt(position - 1) == ')'):
-		#	return
-		
-		bracketMatchFormat = self.bpIDE.config.theme["matching-brackets"]
-		#bracketMismatchFormat = self.bpIDE.config.theme["brace"]
-		defaultFormat = self.bpIDE.config.theme["default"] #self.currentCharFormat()
+		bracketMatchFormat = theme["matching-brackets"]
+		defaultFormat = theme["default"]
 		
 		# Remove old highlighting
 		if self.bracketBeginCursor and self.bracketEndCursor:
@@ -634,12 +630,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			
 			self.bracketEndCursor.setCharFormat(defaultFormat)
 			self.bracketEndCursor = None
-			
-			#self.setCurrentCharFormat(defaultFormat)
-			
-			#formatCursor = self.textCursor()
-			#formatCursor.select(QtGui.QTextCursor.Document)
-			#formatCursor.setCharFormat(defaultFormat)
 			
 			# Reset modification state
 			doc.setModified(modified)
@@ -658,12 +648,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			move = QtGui.QTextCursor.NextCharacter
 			begin = '('
 			end = ')'
+			movement = 1
 		else:
 			forward = False
 			position -= 2
 			move = QtGui.QTextCursor.PreviousCharacter
 			begin = ')'
 			end = '('
+			movement = -1
 		
 		self.bracketBeginCursor = QtGui.QTextCursor(cursor)
 		self.bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
@@ -695,10 +687,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					
 					break
 			
-			if forward:
-				position += 1
-			else:
-				position -= 1
+			position += movement
 	
 	def locationBackward(self):
 		print("Backward not implemented!")

@@ -1050,7 +1050,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onCursorPosChange(self):
 		self.updateLineInfo()
 		
-		if self.codeEdit:
+		if self.config.bracketHighlightingEnabled and self.codeEdit:
 			self.codeEdit.highlightBrackets()
 		
 	def createDockWidget(self, name, widget, area):
