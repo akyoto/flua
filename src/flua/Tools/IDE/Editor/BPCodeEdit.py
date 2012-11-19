@@ -421,6 +421,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.ppOutstandingTasks = 0
 		self.selectionChanged.connect(self.onSelectionChange)
 		
+		# Bracket highlighting
+		self.bracketBeginCursor = None
+		self.bracketEndCursor = None
+		
 		self.autoReplace = {
 			# Simple data flow
 			#"->" : "→",
@@ -610,66 +614,91 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			super().wheelEvent(event)
 	
 	def highlightBrackets(self):
-		print("- Highlight Brackets -")
-		
 		cursor = self.textCursor()
 		position = cursor.position()
 		doc = self.qdoc
-		bracketMatchFormat = self.bpIDE.config.theme["matching-brackets"]
-		bracketMismatchFormat = self.bpIDE.config.theme["operator"]
+		modified = doc.isModified()
 		
-		if (not cursor.atBlockEnd() and doc.characterAt(position) == '(') or (not cursor.atBlockStart() and doc.characterAt(position - 1) == ')'):
-			if doc.characterAt(position) == '(':
-				forward = True
-				position += 1
-				move = QtGui.QTextCursor.NextCharacter
-				begin = '('
-				end = ')'
-			else:
-				forward = False
-				position -= 2
-				move = QtGui.QTextCursor.PreviousCharacter
-				begin = ')'
-				end = '('
+		#if (not cursor.atBlockEnd() and doc.characterAt(position) == '(')
+		#or (not cursor.atBlockStart() and doc.characterAt(position - 1) == ')'):
+		#	return
+		
+		bracketMatchFormat = self.bpIDE.config.theme["matching-brackets"]
+		#bracketMismatchFormat = self.bpIDE.config.theme["brace"]
+		defaultFormat = self.bpIDE.config.theme["default"] #self.currentCharFormat()
+		
+		# Remove old highlighting
+		if self.bracketBeginCursor and self.bracketEndCursor:
+			self.bracketBeginCursor.setCharFormat(defaultFormat)
+			self.bracketBeginCursor = None
 			
-			print("Forward:", forward)
+			self.bracketEndCursor.setCharFormat(defaultFormat)
+			self.bracketEndCursor = None
 			
-			bracketBeginCursor = QtGui.QTextCursor(cursor)
-			bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
+			#self.setCurrentCharFormat(defaultFormat)
 			
-			charFormat = bracketMismatchFormat
+			#formatCursor = self.textCursor()
+			#formatCursor.select(QtGui.QTextCursor.Document)
+			#formatCursor.setCharFormat(defaultFormat)
 			
-			braceDepth = 1
-			while 1:
-				c = doc.characterAt(position)
+			# Reset modification state
+			doc.setModified(modified)
+		
+		# Do nothing on selected text
+		if cursor.hasSelection():
+			return
+		
+		# Check if we really need to highlight
+		if (cursor.atBlockEnd() or doc.characterAt(position) != '(') and (cursor.atBlockStart() or doc.characterAt(position - 1) != ')'):
+			return
+		
+		if doc.characterAt(position) == '(':
+			forward = True
+			position += 1
+			move = QtGui.QTextCursor.NextCharacter
+			begin = '('
+			end = ')'
+		else:
+			forward = False
+			position -= 2
+			move = QtGui.QTextCursor.PreviousCharacter
+			begin = ')'
+			end = '('
+		
+		self.bracketBeginCursor = QtGui.QTextCursor(cursor)
+		self.bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
+		
+		charCount = doc.characterCount()
+		
+		braceDepth = 1
+		while position >= 0 and position < charCount:
+			c = doc.characterAt(position)
+			
+			#if not c:
+			#	break
+			
+			if c == begin:
+				braceDepth += 1
+			elif c == end:
+				braceDepth -= 1
 				
-				if not c:
-					break
-				
-				if c == begin:
-					braceDepth += 1
-				elif c == end:
-					braceDepth -= 1
+				if braceDepth == 0:
+					self.bracketEndCursor = QtGui.QTextCursor(cursor)
+					self.bracketEndCursor.setPosition(position)
+					self.bracketEndCursor.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
 					
-					if braceDepth == 0:
-						bracketEndCursor = QtGui.QTextCursor(cursor)
-						bracketEndCursor.setPosition(position)
-						bracketEndCursor.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
-						bracketEndCursor.setCharFormat(bracketMatchFormat)
-						print("A2 Format: %d" % bracketEndCursor.position())
-						#self.setTextCursor(bracketEndCursor)
-						
-						charFormat = bracketMatchFormat
-						
-						break
-				
-				if forward:
-					position += 1
-				else:
-					position -= 1
+					self.bracketBeginCursor.setCharFormat(bracketMatchFormat)
+					self.bracketEndCursor.setCharFormat(bracketMatchFormat)
+					
+					# Reset modification state
+					doc.setModified(modified)
+					
+					break
 			
-			bracketBeginCursor.setCharFormat(charFormat)
-			print("A1 Format: %d" % bracketBeginCursor.position())
+			if forward:
+				position += 1
+			else:
+				position -= 1
 	
 	def locationBackward(self):
 		print("Backward not implemented!")

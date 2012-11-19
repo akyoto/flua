@@ -59,7 +59,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 				
 				if (userData and userData.node):
 					node = userData.node
-					if userData.node.nodeType != Node.TEXT_NODE:
+					if node.nodeType != Node.TEXT_NODE:
 						inClass = node.parentNode.tagName != "module" and (node.parentNode.parentNode.tagName == "class" or (node.parentNode.parentNode.tagName != "module" and node.parentNode.parentNode.parentNode.tagName == "class"))
 						isStart = (i == countTabs(text))
 						if inClass and node.tagName in functionNodeTagNames and isStart:
@@ -214,7 +214,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						return
 				
 				# Check XML data
-				if userData and userData.node:
+				if userData and userData.node and userData.node.nodeType != Node.TEXT_NODE:
 					# Operators
 					if i == 0 and userData.node.tagName == "operator":
 						if not bpcUtils.currentSyntax == SYNTAX_PYTHON:
