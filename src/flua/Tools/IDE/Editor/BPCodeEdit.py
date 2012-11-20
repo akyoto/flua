@@ -422,6 +422,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.selectionChanged.connect(self.onSelectionChange)
 		
 		# Bracket highlighting
+		self.highlightingBrackets = False
 		self.bracketBeginCursor = None
 		self.bracketEndCursor = None
 		
@@ -620,6 +621,10 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		modified = doc.isModified()
 		theme = self.bpIDE.config.theme
 		
+		# Set this flag so that we'll ignore the contentsChanged event
+		self.highlightingBrackets = True
+		
+		# Format
 		bracketMatchFormat = theme["matching-brackets"]
 		defaultFormat = theme["default"]
 		
@@ -636,26 +641,44 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		# Do nothing on selected text
 		if cursor.hasSelection():
+			self.highlightingBrackets = False
 			return
+		
+		bracketsBegin = {
+			'(' : ')',
+			'[' : ']',
+			'{' : '}',
+		}
+		
+		bracketsEnd = {
+			')' : '(',
+			']' : '[',
+			'}' : '{',
+		}
 		
 		# Check if we really need to highlight
-		if (cursor.atBlockEnd() or doc.characterAt(position) != '(') and (cursor.atBlockStart() or doc.characterAt(position - 1) != ')'):
-			return
+		#if (cursor.atBlockEnd() or doc.characterAt(position) != '(') and (cursor.atBlockStart() or doc.characterAt(position - 1) != ')'):
+		#	self.highlightingBrackets = False
+		#	return
 		
-		if doc.characterAt(position) == '(':
-			forward = True
-			position += 1
+		isBeginBracket = doc.characterAt(position) in bracketsBegin
+		isEndBracket = doc.characterAt(position - 1) in bracketsEnd
+		
+		if isBeginBracket:
 			move = QtGui.QTextCursor.NextCharacter
-			begin = '('
-			end = ')'
+			begin = doc.characterAt(position)
+			end = bracketsBegin[begin]
 			movement = 1
-		else:
-			forward = False
-			position -= 2
+			position += 1
+		elif isEndBracket:
 			move = QtGui.QTextCursor.PreviousCharacter
-			begin = ')'
-			end = '('
+			begin = doc.characterAt(position - 1)
+			end = bracketsEnd[begin]
 			movement = -1
+			position -= 2
+		else:
+			self.highlightingBrackets = False
+			return
 		
 		self.bracketBeginCursor = QtGui.QTextCursor(cursor)
 		self.bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
@@ -688,6 +711,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 					break
 			
 			position += movement
+		
+		self.highlightingBrackets = False
 	
 	def locationBackward(self):
 		print("Backward not implemented!")
@@ -1653,9 +1678,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# #print("Update user data for line: " + str(block.text()))
 			# self.setLineEdited(i, True)
 		
+		if self.highlightingBrackets:
+			return
+		
 		# Run bpc -> xml updater
 		#print(self.disableUpdatesFlag)
-		
 		self.bpIDE.backgroundCompileIsUpToDate = False
 		self.bpIDE.somethingModified = True
 		
