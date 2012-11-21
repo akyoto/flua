@@ -523,7 +523,7 @@ class Startup:
 				'default-background': "#272727",
 				'keyword': cf('#eeccaa'),
 				'operator': cf('#aaaaaa'),
-				'brace': cf('darkGray'),
+				'brace': cf('#808080'),
 				'comma': cf('#acacac'),
 				'output-target': cf('#aa9988'),
 				'include-file': cf('#aa9988'),
@@ -536,7 +536,7 @@ class Startup:
 				'hex-number': cf('#ff6020'),
 				'preprocessor': cf('#00d000'),
 				'file-link': cf('#0000ff', useBold),
-				'matching-brackets': cf('', 'bold'),
+				'matching-brackets': cf('#00ffff', 'bold', '#303030'),
 				
 				'function': cf('#10b0ff', useBold),
 				

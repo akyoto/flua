@@ -421,11 +421,28 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.ppOutstandingTasks = 0
 		self.selectionChanged.connect(self.onSelectionChange)
 		
-		# Bracket highlighting
-		self.highlightingBrackets = False
-		self.bracketBeginCursor = None
-		self.bracketEndCursor = None
+		self.highlightLineSelection = QtGui.QTextEdit.ExtraSelection()
+		self.highlightLineSelection.format.setProperty(QtGui.QTextFormat.FullWidthSelection, True)
+		self.highlightLineSelection.cursor = self.textCursor()
 		
+		# Bracket highlighting
+		self.bracketHighlightingActive = False
+		self.bracketBeginSelection = QtGui.QTextEdit.ExtraSelection()
+		self.bracketEndSelection = QtGui.QTextEdit.ExtraSelection()
+		
+		self.bracketsBegin = {
+			'(' : ')',
+			'[' : ']',
+			'{' : '}',
+		}
+		
+		self.bracketsEnd = {
+			')' : '(',
+			']' : '[',
+			'}' : '{',
+		}
+		
+		# Auto Replace
 		self.autoReplace = {
 			# Simple data flow
 			#"->" : "→",
@@ -618,70 +635,46 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		cursor = self.textCursor()
 		position = cursor.position()
 		doc = self.qdoc
-		modified = doc.isModified()
 		theme = self.bpIDE.config.theme
-		
-		# Set this flag so that we'll ignore the contentsChanged event
-		self.highlightingBrackets = True
 		
 		# Format
 		bracketMatchFormat = theme["matching-brackets"]
 		defaultFormat = theme["default"]
 		
 		# Remove old highlighting
-		if self.bracketBeginCursor and self.bracketEndCursor:
-			self.bracketBeginCursor.setCharFormat(defaultFormat)
-			self.bracketBeginCursor = None
-			
-			self.bracketEndCursor.setCharFormat(defaultFormat)
-			self.bracketEndCursor = None
-			
-			# Reset modification state
-			doc.setModified(modified)
+		if self.bracketHighlightingActive:
+			self.bracketHighlightingActive = False
+			self.setExtraSelections(self.getActiveExtraSelections())
 		
 		# Do nothing on selected text
 		if cursor.hasSelection():
-			self.highlightingBrackets = False
 			return
-		
-		bracketsBegin = {
-			'(' : ')',
-			'[' : ']',
-			'{' : '}',
-		}
-		
-		bracketsEnd = {
-			')' : '(',
-			']' : '[',
-			'}' : '{',
-		}
 		
 		# Check if we really need to highlight
 		#if (cursor.atBlockEnd() or doc.characterAt(position) != '(') and (cursor.atBlockStart() or doc.characterAt(position - 1) != ')'):
 		#	self.highlightingBrackets = False
 		#	return
 		
-		isBeginBracket = doc.characterAt(position) in bracketsBegin
-		isEndBracket = doc.characterAt(position - 1) in bracketsEnd
+		isBeginBracket = doc.characterAt(position) in self.bracketsBegin
+		isEndBracket = doc.characterAt(position - 1) in self.bracketsEnd
 		
 		if isBeginBracket:
 			move = QtGui.QTextCursor.NextCharacter
 			begin = doc.characterAt(position)
-			end = bracketsBegin[begin]
+			end = self.bracketsBegin[begin]
 			movement = 1
 			position += 1
 		elif isEndBracket:
 			move = QtGui.QTextCursor.PreviousCharacter
 			begin = doc.characterAt(position - 1)
-			end = bracketsEnd[begin]
+			end = self.bracketsEnd[begin]
 			movement = -1
 			position -= 2
 		else:
-			self.highlightingBrackets = False
 			return
 		
-		self.bracketBeginCursor = QtGui.QTextCursor(cursor)
-		self.bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
+		bracketBeginCursor = QtGui.QTextCursor(cursor)
+		bracketBeginCursor.movePosition(move, QtGui.QTextCursor.KeepAnchor)
 		
 		charCount = doc.characterCount()
 		
@@ -698,21 +691,30 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				braceDepth -= 1
 				
 				if braceDepth == 0:
-					self.bracketEndCursor = QtGui.QTextCursor(cursor)
-					self.bracketEndCursor.setPosition(position)
-					self.bracketEndCursor.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
+					self.bracketEndSelection.format = bracketMatchFormat
+					self.bracketEndSelection.cursor = QtGui.QTextCursor(cursor)
+					self.bracketEndSelection.cursor.setPosition(position)
+					self.bracketEndSelection.cursor.movePosition(QtGui.QTextCursor.NextCharacter, QtGui.QTextCursor.KeepAnchor)
 					
-					self.bracketBeginCursor.setCharFormat(bracketMatchFormat)
-					self.bracketEndCursor.setCharFormat(bracketMatchFormat)
+					self.bracketBeginSelection.format = bracketMatchFormat
+					self.bracketBeginSelection.cursor = bracketBeginCursor
 					
-					# Reset modification state
-					doc.setModified(modified)
+					self.bracketHighlightingActive = True
+					
+					self.setExtraSelections(self.getActiveExtraSelections())
 					
 					break
 			
 			position += movement
+	
+	def getActiveExtraSelections(self):
+		extraSelections = [self.highlightLineSelection]
 		
-		self.highlightingBrackets = False
+		if self.bracketHighlightingActive: #and self.bracketEndSelection:
+			extraSelections.append(self.bracketBeginSelection)
+			extraSelections.append(self.bracketEndSelection)
+			
+		return extraSelections
 	
 	def locationBackward(self):
 		print("Backward not implemented!")
@@ -1678,9 +1680,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			# #print("Update user data for line: " + str(block.text()))
 			# self.setLineEdited(i, True)
 		
-		if self.highlightingBrackets:
-			return
-		
 		# Run bpc -> xml updater
 		#print(self.disableUpdatesFlag)
 		self.bpIDE.backgroundCompileIsUpToDate = False
@@ -1881,19 +1880,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			lineColor = self.getCurrentTheme()["current-line"]
 		
 		if lineColor:
-			extraSelections = []
+			#if(not self.isReadOnly()):
+			self.highlightLineSelection.format.setBackground(lineColor)
+			if lineIndex:
+				self.highlightLineSelection.cursor.setPosition(self.qdoc.findBlockByLineNumber(lineIndex).position())
+			self.highlightLineSelection.cursor.clearSelection()
 			
-			if(not self.isReadOnly()):
-				selection = QtGui.QTextEdit.ExtraSelection()
-				selection.format.setBackground(lineColor)
-				selection.format.setProperty(QtGui.QTextFormat.FullWidthSelection, True)
-				selection.cursor = self.textCursor()
-				if lineIndex:
-					selection.cursor.setPosition(self.qdoc.findBlockByLineNumber(lineIndex).position())
-				selection.cursor.clearSelection()
-				extraSelections.append(selection)
-			
-			self.setExtraSelections(extraSelections)
+			self.setExtraSelections(self.getActiveExtraSelections())
 		
 	def isDocFile(self):
 		if self.isTextFile:
