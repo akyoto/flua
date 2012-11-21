@@ -1,0 +1,163 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.Collection</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">QuickSort\Sworking!</string>
+			<string id="flua_string_1">QuickSort\SNOT\Sworking!</string>
+		</strings>
+	</header>
+	<code>
+		<assign depth="0" id="3">
+			<value>ascendWorking</value>
+			<value>false</value>
+		</assign>
+		<assign depth="0" id="4">
+			<value>descendWorking</value>
+			<value>false</value>
+		</assign>
+		<assign depth="0" id="6">
+			<value>sortVec</value>
+			<value>
+				<index>
+					<value>_flua_seq</value>
+					<value>
+						<parameters>
+							<parameter>1</parameter>
+							<parameter>3</parameter>
+							<parameter>1</parameter>
+							<parameter>0</parameter>
+							<parameter>1</parameter>
+							<parameter>9</parameter>
+							<parameter>9</parameter>
+							<parameter>1</parameter>
+						</parameters>
+					</value>
+				</index>
+			</value>
+		</assign>
+		<call depth="0" id="7">
+			<function>
+				<access>
+					<value>sortVec</value>
+					<value>sort</value>
+				</access>
+			</function>
+			<parameters/>
+		</call>
+		<if-block depth="0" id="9">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<equal>
+								<value>
+									<access>
+										<value>sortVec</value>
+										<value>first</value>
+									</access>
+								</value>
+								<value>0</value>
+							</equal>
+						</value>
+						<value>
+							<equal>
+								<value>
+									<access>
+										<value>sortVec</value>
+										<value>last</value>
+									</access>
+								</value>
+								<value>9</value>
+							</equal>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<assign depth="1" id="10">
+						<value>ascendWorking</value>
+						<value>true</value>
+					</assign>
+				</code>
+			</if>
+		</if-block>
+		<call depth="0" id="12">
+			<function>
+				<access>
+					<value>sortVec</value>
+					<value>sort</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>false</parameter>
+			</parameters>
+		</call>
+		<if-block depth="0" id="14">
+			<if>
+				<condition>
+					<and>
+						<value>
+							<equal>
+								<value>
+									<access>
+										<value>sortVec</value>
+										<value>first</value>
+									</access>
+								</value>
+								<value>9</value>
+							</equal>
+						</value>
+						<value>
+							<equal>
+								<value>
+									<access>
+										<value>sortVec</value>
+										<value>last</value>
+									</access>
+								</value>
+								<value>0</value>
+							</equal>
+						</value>
+					</and>
+				</condition>
+				<code>
+					<assign depth="1" id="15">
+						<value>descendWorking</value>
+						<value>true</value>
+					</assign>
+				</code>
+			</if>
+		</if-block>
+		<if-block depth="0" id="17">
+			<if>
+				<condition>
+					<and>
+						<value>ascendWorking</value>
+						<value>descendWorking</value>
+					</and>
+				</condition>
+				<code>
+					<call depth="1" id="18">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_0</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="19">
+				<code>
+					<call depth="1" id="20">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+	</code>
+</module>

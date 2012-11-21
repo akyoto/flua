@@ -10,6 +10,7 @@
 			<import>memory</import>
 			<import>array</import>
 			<import>vectorlist</import>
+			<import>sorting</import>
 			<import>map</import>
 			<import>overloading</import>
 			<import>namespaces</import>

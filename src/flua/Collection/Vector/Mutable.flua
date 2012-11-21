@@ -672,20 +672,16 @@
 						<return depth="2" id="90">
 							<access>
 								<value>
-									<add>
-										<value>
-											<access>
-												<value>my</value>
-												<value>end</value>
-											</access>
-										</value>
-										<value>1</value>
-									</add>
+									<access>
+										<value>my</value>
+										<value>end</value>
+									</access>
 								</value>
 								<value>data</value>
 							</access>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReverses\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function depth="1" id="93">
@@ -2123,22 +2119,84 @@
 								</access>
 							</return>
 						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="300">
+						<name>first</name>
+						<code>
+							<require depth="3" id="301">
+								<call depth="4" id="302">
+									<function>
+										<access>
+											<value>my</value>
+											<value>hasElements</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</require>
+							<return depth="3" id="304">
+								<access>
+									<value>
+										<access>
+											<value>my</value>
+											<value>start</value>
+										</access>
+									</value>
+									<value>data</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
+					</getter>
+					<getter depth="2" id="306">
+						<name>last</name>
+						<code>
+							<require depth="3" id="307">
+								<call depth="4" id="308">
+									<function>
+										<access>
+											<value>my</value>
+											<value>hasElements</value>
+										</access>
+									</function>
+									<parameters/>
+								</call>
+							</require>
+							<return depth="3" id="310">
+								<access>
+									<value>
+										<subtract>
+											<value>
+												<access>
+													<value>my</value>
+													<value>end</value>
+												</access>
+											</value>
+											<value>1</value>
+										</subtract>
+									</value>
+									<value>data</value>
+								</access>
+							</return>
+						</code>
+						<meta/>
 					</getter>
 				</get>
-				<set depth="1" id="300">
-					<setter depth="2" id="301">
+				<set depth="1" id="312">
+					<setter depth="2" id="313">
 						<name>length</name>
 						<parameters>
 							<parameter>newLength</parameter>
 						</parameters>
 						<code>
-							<require depth="3" id="302">
-								<greater-or-equal depth="4" id="303">
+							<require depth="3" id="314">
+								<greater-or-equal depth="4" id="315">
 									<value>newLength</value>
 									<value>0</value>
 								</greater-or-equal>
 							</require>
-							<assign depth="3" id="305">
+							<assign depth="3" id="317">
 								<value>
 									<access>
 										<value>my</value>
@@ -2157,7 +2215,7 @@
 									</add>
 								</value>
 							</assign>
-							<if-block depth="3" id="307">
+							<if-block depth="3" id="319">
 								<if>
 									<condition>
 										<greater-or-equal>
@@ -2176,7 +2234,7 @@
 										</greater-or-equal>
 									</condition>
 									<code>
-										<call depth="4" id="308">
+										<call depth="4" id="320">
 											<function>
 												<access>
 													<value>my</value>
@@ -2216,11 +2274,11 @@
 			</meta>
 		</class>
 		<comment>\SAdd\Sanother\Sconstructor\Sto\SUTF8String</comment>
-		<class depth="0" id="311">
+		<class depth="0" id="323">
 			<name>UTF8String</name>
 			<code>
 				<comment>\SInit\Sfrom\Sbyte\Svector</comment>
-				<function depth="1" id="313">
+				<function depth="1" id="325">
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -2236,7 +2294,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="314">
+						<assign depth="2" id="326">
 							<value>
 								<access>
 									<value>my</value>
@@ -2262,7 +2320,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="315">
+						<call depth="2" id="327">
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -2285,7 +2343,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="316">
+						<assign depth="2" id="328">
 							<value>
 								<access>
 									<value>my</value>
@@ -2299,7 +2357,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="317">
+						<assign depth="2" id="329">
 							<value>
 								<access>
 									<value>my</value>

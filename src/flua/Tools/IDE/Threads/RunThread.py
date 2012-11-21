@@ -21,7 +21,7 @@ exitCodeMeaning = {
 	77 : "permission denied",
 	78 : "configuration error",
 }
-
+ 
 class BPRunThread(QtCore.QThread, Benchmarkable):
 	
 	def __init__(self, bpIDE):
