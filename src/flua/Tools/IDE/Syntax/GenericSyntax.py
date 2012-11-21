@@ -120,7 +120,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						h = j
 					elif expr in {"until", "to", "counting"}:
 						# Possible bug, but ignorable
-						if (len(text) >= 4 and text.lstrip()[:4] in {"for ", "pfor"}) or text.lstrip()[:2] == "to":
+						if (len(text) >= 4 and text.lstrip()[:4] in {"for ", "pfor"}) or text.strip() == "to":
 							self.setFormat(i, h - i, style['keyword'])
 					elif expr == "parallel":
 						if (len(text) >= 8 and text.lstrip()[:8] == "parallel"):

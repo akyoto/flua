@@ -691,6 +691,9 @@ class BPCFile(ScopeController, Benchmarkable):
 			#print(line)
 			return self.handleFunction(line)
 		elif self.nextLineIndented:
+			if line == "to":
+				return self.handleCasts(line)
+			
 			if self.inSwitch > 0:
 				return self.handleCase(line)
 			elif self.inOperators or self.inCasts or line[0].islower() or self.inClass or self.inIterators:
@@ -726,8 +729,6 @@ class BPCFile(ScopeController, Benchmarkable):
 				return self.handleFunction(line)
 			
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
-				if self.keyword == "to":
-					return self.handleCasts(line)
 				raise CompilerException("A class definition may not contain top-level executable code: „%s“" % (line))
 			
 			line = addBrackets(line)
