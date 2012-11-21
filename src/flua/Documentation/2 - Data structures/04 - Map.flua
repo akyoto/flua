@@ -17,7 +17,7 @@
 	<code>
 		<comment>\SA\SMap\S(hash\Smap)\Sallows\Syou\Sto\Sstore\Svalues\Sfor\Sarbitrary\Skeys</comment>
 		<comment>\SYou\Scan\Screate\Sit\Slike\Sthis:</comment>
-		<assign depth="0" id="1">
+		<assign depth="0" id="5">
 			<value>p</value>
 			<value>
 				<new>
@@ -37,7 +37,7 @@
 			</value>
 		</assign>
 		<comment>\SAfterwards\Sadd\Ssome\Skey/value\Spairs\Sto\Sthe\Smap:</comment>
-		<assign depth="0" id="2">
+		<assign depth="0" id="8">
 			<value>
 				<index>
 					<value>p</value>
@@ -46,7 +46,7 @@
 			</value>
 			<value>5</value>
 		</assign>
-		<assign depth="0" id="3">
+		<assign depth="0" id="9">
 			<value>
 				<index>
 					<value>p</value>
@@ -56,7 +56,7 @@
 			<value>8</value>
 		</assign>
 		<comment>\SNow\Swe\Scan\Saccess\Sthose\Svalues:</comment>
-		<call depth="0" id="4">
+		<call depth="0" id="12">
 			<function>print</function>
 			<parameters>
 				<parameter>

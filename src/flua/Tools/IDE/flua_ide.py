@@ -350,6 +350,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# Set environment namespace to the main namespace of the compiler
 		self.environment.mainNamespace = comp.mainClass
+		self.environment.defines = comp.defines
 		
 		# If the number of functions changed, rehighlight
 		if self.codeEdit:

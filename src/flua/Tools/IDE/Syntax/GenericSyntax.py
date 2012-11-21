@@ -24,6 +24,8 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		# Environment
 		externFuncs = self.environment.mainNamespace.externFunctions
 		mainNamespaceFunctions = self.environment.mainNamespace.functions
+		mainNamespaceClasses = self.environment.mainNamespace.classes
+		typeDefinitions = self.environment.defines
 		keywords = self.environment.highlightKeywords
 		operators = self.environment.operators
 		braces = self.environment.braces
@@ -164,6 +166,10 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					continue
 				elif expr in mainNamespaceFunctions: #bpIDE.processor.getFirstDTreeByFunctionName(expr):
 					self.setFormat(i, h - i, style['function'])
+					i = h
+					continue
+				elif expr in mainNamespaceClasses or expr in typeDefinitions:
+					self.setFormat(i, h - i, style['class-name'])
 					i = h
 					continue
 				

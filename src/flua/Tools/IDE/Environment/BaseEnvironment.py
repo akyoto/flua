@@ -16,6 +16,7 @@ class BaseEnvironment:
 		self.internalFunctions = {}
 		self.specialKeywords = {}
 		self.selfReferences = {}
+		self.defines = {}
 		self.action = action
 		
 		self.operators = {

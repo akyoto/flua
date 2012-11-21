@@ -53,10 +53,6 @@ Compiling these libraries can be done via:
 
     python3 configure.py
     make
-    sudo checkinstall
-
-If checkinstall doesn't work try
-
     sudo make install
 
 Download Flua via git (unless you already downloaded it):

@@ -550,7 +550,7 @@ class Startup:
 				'class-operator': cf('#eeaa00', useBold),
 				'class-iterator-type': cf('#eeaa00', useBold),
 				'class-cast-definition': cf('#eeaa00', useBold),
-				'class-name': cf('#ffffff'),
+				'class-name': cf('#ffdd44'),
 				
 				'local-module-import': cf('#dfaf00', useBold), #cf2000
 				'project-module-import': cf('#378737', useBold),
@@ -573,7 +573,7 @@ class Startup:
 				'compiler-error' : cf("#ff9000"),
 				
 				'internal-function' : cf('#a0c0ff', useBold),
-				'internal-datatype' : cf('#dadada', useBold),
+				'internal-datatype' : cf('#ffdd44', useBold),
 				'internal-main' : cf('#00ffff', useBold),
 			},
 		}
