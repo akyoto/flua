@@ -100,6 +100,10 @@ class CPPOutputFile(BaseOutputFile):
 			if node.nodeType == Node.ELEMENT_NODE and node.tagName == "import":
 				self.header += self.handleImport(node)
 		
+		#print(self.file)
+		#for className, classObj in self.visibleClasses.items():
+		#	print(className)
+		
 		# Strings
 		for node in self.strings.childNodes:
 			self.stringsHeader += "\t" + self.handleString(node)

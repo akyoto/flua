@@ -126,6 +126,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.tupleTypes = dict()
 		self.parallelForFuncs = list()
 		self.onVariable = ""
+		self.visibleClasses = dict()#None
 		
 		# TODO: Read from module meta data
 		# Speed / Correctness
@@ -1773,6 +1774,26 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if self.inCastDefinition:
 			# For casts
 			funcName = self.prepareTypeName(funcName)
+		
+		#print("..->", typeName)
+		#
+		for pType in paramTypes:
+			pTypeClass = extractClassName(pType)
+			
+			if pTypeClass in nonPointerClasses:
+				continue
+			
+			#if not pTypeClass in self.visibleClasses:
+			#	print("Needs to be compiled outside of the file")
+			#	print(pTypeClass)
+			#	print("---------")
+		
+		#	if pTypeClass and not pTypeClass in self.visibleClasses:
+		#		print("Not visible:", pTypeClass)
+		#print(">>>")
+		#print(className)
+		#print(paramTypes)
+		#print(self.visibleClasses)
 		
 		# Implement it
 		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)

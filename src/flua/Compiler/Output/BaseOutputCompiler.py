@@ -306,6 +306,14 @@ class BaseOutputCompiler(Benchmarkable):
 		except CompilerException as e:
 			raise OutputCompilerException(e.getMsg(), cppOut, inpFile)
 		
+		# Class visibility
+		#if "FileWriteStream" in cppOut.file:
+		#	print("Visibility:")
+		#	print(len(self.mainClass.classes.items()))
+		#	for className, classObj in self.mainClass.classes.items():
+		#		print("->", className)
+		cppOut.visibleClasses = dict(self.mainClass.classes)
+		
 	def compile(self, inpFile, silent = False):
 		#self.startBenchmark("Scanning")
 		self.scan(inpFile, silent)

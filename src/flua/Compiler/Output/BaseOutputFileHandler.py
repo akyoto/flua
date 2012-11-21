@@ -1222,6 +1222,7 @@ class BaseOutputFileHandler:
 		#debug(("--> [CALL] " + caller + "." + funcName + "(" + paramsString + ")").ljust(70) + " [my : " + callerType + "]")
 		
 		callerClassName = extractClassName(callerType)
+		
 		#if callerClassName == "void":
 		#	raise CompilerException("Function „%s“ has no return value" % getElementByTagName(node, "function"))
 		callerClass = self.getClass(callerClassName)
@@ -1311,6 +1312,10 @@ class BaseOutputFileHandler:
 			previousParamTypes = list(paramTypes)
 			
 			for i in range(len(paramTypes)):
+				#requiredClassName = extractClassName(paramTypes[i])
+				#if not requiredClassName in self.visibleClasses:
+				#	print("Not visible:", requiredClassName, "in", paramTypes, nodeToBPC(node))
+				
 				if paramTypes[i] == "void":
 					raise CompilerException("„%s“ does not return a value" % nodeToBPC(params.childNodes[i]))
 			
