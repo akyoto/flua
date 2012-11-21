@@ -258,7 +258,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			"atomic" : self.handleAtomic,
 			"assert" : self.handleAssert,
 			"break" : self.handleBreak,
-			"to" : self.handleCasts,
+			#"to" : self.handleCasts,
 			"catch" : self.handleCatch,
 			"begin" : self.handleBegin,
 			"compilerflags" : self.handleCompilerFlags,
@@ -726,6 +726,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				return self.handleFunction(line)
 			
 			if self.inClass and not (self.inFunction or self.inSetter or self.inGetter or self.inOperators or self.inIterators or self.inCasts):
+				if self.keyword == "to":
+					return self.handleCasts(line)
 				raise CompilerException("A class definition may not contain top-level executable code: „%s“" % (line))
 			
 			line = addBrackets(line)

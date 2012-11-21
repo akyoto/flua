@@ -39,7 +39,7 @@ dataTypeDefinitions = {
 	"ConstChar" : "const char",
 	"Int16" : "short",
 	"UInt16" : "unsigned short",
-	"Int" : "int_fast32_t",
+	"Int" : "int", # Using int_fast32_t leads to weird va_arg bugs
 	"Int32" : "int32_t",
 	"Int64" : "int64_t",
 	"UInt" : "uint32_t",

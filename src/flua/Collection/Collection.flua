@@ -4,12 +4,12 @@
 		<dependencies>
 			<import>flua.Core</import>
 			<import>Interface</import>
+			<import>Utils</import>
 			<import>Array</import>
 			<import>List</import>
 			<import>Map</import>
 			<import>Queue</import>
 			<import>Vector</import>
-			<import>Utils</import>
 		</dependencies>
 		<strings/>
 	</header>
