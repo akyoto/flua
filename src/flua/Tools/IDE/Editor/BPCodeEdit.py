@@ -1879,14 +1879,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if not lineColor:
 			lineColor = self.getCurrentTheme()["current-line"]
 		
-		if lineColor:
-			#if(not self.isReadOnly()):
-			self.highlightLineSelection.format.setBackground(lineColor)
-			if lineIndex:
-				self.highlightLineSelection.cursor.setPosition(self.qdoc.findBlockByLineNumber(lineIndex).position())
-			self.highlightLineSelection.cursor.clearSelection()
-			
-			self.setExtraSelections(self.getActiveExtraSelections())
+		#if(not self.isReadOnly()):
+		self.highlightLineSelection.format.setBackground(lineColor)
+		if lineIndex:
+			self.highlightLineSelection.cursor.setPosition(self.qdoc.findBlockByLineNumber(lineIndex).position())
+		self.highlightLineSelection.cursor.clearSelection()
+		
+		self.setExtraSelections(self.getActiveExtraSelections())
 		
 	def isDocFile(self):
 		if self.isTextFile:
