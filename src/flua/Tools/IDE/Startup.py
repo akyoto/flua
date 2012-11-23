@@ -408,8 +408,9 @@ class Startup:
 					
 					fileNum = 0
 					while 1:
-						filePath = self.sessionParser.get(section, "File%d" % fileNum)
-						cursorPos = self.sessionParser.getint(section, "CursorPosition%d" % fileNum)
+						filePath = self.sessionParser.get(section, "%d.File" % fileNum)
+						cursorPos = self.sessionParser.getint(section, "%d.CursorPosition" % fileNum)
+						#self.currentWorkspace.changeCodeEdit(self.sessionParser.getint("General", "TabIndex%d" % fileNum))
 						
 						# Open it
 						ce = self.openFile(filePath, ignoreLoadingFinished = True)
@@ -422,11 +423,14 @@ class Startup:
 				except:
 					pass
 				
+				tabIndex = self.sessionParser.getint(section, "TabIndex")
+				if tabIndex < self.currentWorkspace.count():
+					self.currentWorkspace.changeCodeEdit(tabIndex)
+				
 				num += 1
 				
 			# Session settings
 			self.setCurrentWorkspace(self.sessionParser.getint("General", "CurrentWorkspace"))
-			self.currentWorkspace.changeCodeEdit(self.sessionParser.getint("General", "CurrentIndex"))
 		
 	def saveSession(self):
 		self.sessionParser = createConfigParser()
@@ -434,7 +438,6 @@ class Startup:
 		# Session settings
 		self.sessionParser.add_section("General")
 		self.sessionParser.set("General", "CurrentWorkspace", str(self.currentWorkspace.wsID))
-		self.sessionParser.set("General", "CurrentIndex", str(self.currentWorkspace.currentIndex()))
 		#self.sessionParser.set("General", "CurrentCursorPosition", str(self.codeEdit.getCursorPosition()))
 		
 		# Save all workspaces
@@ -443,12 +446,13 @@ class Startup:
 		for ws in self.workspaces:
 			section = "Workspace %d" % num
 			self.sessionParser.add_section(section)
+			self.sessionParser.set(section, "TabIndex", str(ws.currentIndex()))
 			
 			fileNum = 0
 			for filePath, cursorPos in ws.getSessionInfo():
 				if not self.isTmpPath(filePath):
-					self.sessionParser.set(section, "File%d" % fileNum, filePath)
-					self.sessionParser.set(section, "CursorPosition%d" % fileNum, str(cursorPos))
+					self.sessionParser.set(section, "%d.File" % fileNum, filePath)
+					self.sessionParser.set(section, "%d.CursorPosition" % fileNum, str(cursorPos))
 					fileNum += 1
 			
 			maxFileNum += fileNum
@@ -612,7 +616,11 @@ class Startup:
 		
 		# Create file extension -> environment mapping
 		self.fileExtensionToEnvironment = dict()
+		self.environmentByName = dict()
+		
 		for environment in self.environments:
+			self.environmentByName[environment.name] = environment
+			
 			for ext in environment.fileExtensions:
 				self.fileExtensionToEnvironment[ext] = environment
 		

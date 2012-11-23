@@ -417,6 +417,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 		self.reloading = False
 		self.outFile = None
+		self.lastFunctionCount = -1
 		self.backgroundCompilerOutstandingTasks = 0
 		self.ppOutstandingTasks = 0
 		self.selectionChanged.connect(self.onSelectionChange)
@@ -618,6 +619,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	p.setColor(QtGui.QPalette.Window, bgColor)
 	#	self.setPalette(p)
 	#	self.setBackgroundVisible(True)
+	
+	def updateFunctionCount(self, newFuncCount):
+		if newFuncCount != self.lastFunctionCount: #and (self.lastFunctionCount != -1 or self.isTmpFile()):
+			self.rehighlightFunctionUsage()
+		
+		self.lastFunctionCount = newFuncCount
+	
+	def isTmpFile(self):
+		return self.bpIDE.isTmpPath(self.getFilePath())
 	
 	def wheelEvent(self, event):
 		if self.bpIDE.ctrlPressed:

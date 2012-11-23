@@ -244,6 +244,7 @@ class BaseOutputCompiler(Benchmarkable):
 	
 	def scan(self, inpFile, silent = False):
 		cppOut = self.createOutputFile(inpFile)
+		#print("Scanning %s" % cppOut.getFilePath())
 		
 		if len(self.outFiles) == 0:
 			self.mainFile = cppOut
@@ -321,11 +322,11 @@ class BaseOutputCompiler(Benchmarkable):
 		
 		# 330 ms for flua.Compiler.Benchmark on my Core 2 Duo.
 		# Can we do this faster?
-		self.startBenchmark("Compiling")
+		#self.startBenchmark("Compiling")
 		for inpFile, outFile in self.outFilesList:
 			#print("Compiling: %s" % outFile.file)
 			self.genericCompile(inpFile, outFile, silent)
-		self.endBenchmark()
+		#self.endBenchmark()
 		
 	# Building and executing
 	def genericCompile(self, inpFile, cppOut, silent = False):

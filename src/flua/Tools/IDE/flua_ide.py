@@ -77,7 +77,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.gitThread = None
 		self.authorName = ""
 		self.previousScopes = None
-		self.lastCodeEdit = None
 		self.outputCompiler = None
 		self.lastShownNode = None
 		self.lastShownOutputCompiler = None
@@ -141,19 +140,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love hard coding! ... or maybe not.
 		#self.moduleView.highlightModule("playground.My playground")
 		
-		# Loading finished
-		self.loadingFinished = True
-		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)
 		
 		# Set default environment
-		environmentNames = {
-			"Flua" : self.fluaEnvironment
-		}
-		
-		if self.config.defaultEnvironmentName in environmentNames:
-			self.setEnvironment(environmentNames[self.config.defaultEnvironmentName])
+		if self.config.defaultEnvironmentName in self.environmentByName:
+			self.setEnvironment(self.environmentByName[self.config.defaultEnvironmentName], ignoreLoadingFinished = True)
 		
 		# Load session
 		self.loadSession()
@@ -198,19 +190,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def sendToRunningProgram(self, data):
 		self.runThread.sendData(data)
 		
-	def setEnvironment(self, env):
+	def setEnvironment(self, env, ignoreLoadingFinished = False):
 		if env == None:
 			return
 			#env = self.baseEnvironment
 			
-		if self.codeEdit:
-			self.codeEdit.setEnvironment(env)
-			self.currentWorkspace.updateIsTextFile()
+		#if self.codeEdit:
+		#	self.codeEdit.setEnvironment(env)
+		#	self.currentWorkspace.updateIsTextFile()
 			
-		if env == self.environment:
-			return
-		
-		if self.loadingFinished:
+		if env != self.environment and self.loadingFinished:
 			print("Switching environment to %s" % env.name)
 		
 		# Unload the old environment
@@ -223,7 +212,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Load the new environment
 		self.environment.action.setChecked(True)
 		
-		if self.loadingFinished:
+		if self.loadingFinished or ignoreLoadingFinished:
 			self.moduleView.hide()
 			self.moduleView = self.environment.moduleView
 			
@@ -296,6 +285,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onLoadingFinished(self):
 		self.progressBar.hide()
 		self.searchEdit.show()
+		self.loadingFinished = True
 		
 	def onProcessEvents(self):
 		QtGui.QApplication.instance().processEvents()
@@ -347,29 +337,25 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		# The output compiler
 		comp = self.outputCompilerThread.outputCompiler
+		ce = self.outputCompilerThread.codeEdit
 		
-		# Set environment namespace to the main namespace of the compiler
-		self.environment.mainNamespace = comp.mainClass
-		self.environment.defines = comp.defines
-		
-		# If the number of functions changed, rehighlight
-		if self.codeEdit:
+		if ce:
+			# Set environment namespace to the main namespace of the compiler
+			ce.environment.mainNamespace = comp.mainClass
+			ce.environment.defines = comp.defines
+			
 			# This function also counts the class methods:
 			newFuncCount = comp.getFunctionCount()
 			
 			# Contrary to this one:
 			#newFuncCount = len(self.environment.mainNamespace.functions)
 			
-			#if not self.outputCompilerThread.lastException:
-			if self.needsRehighlight(newFuncCount): #self.lastCodeEdit == self.codeEdit
-				self.codeEdit.rehighlightFunctionUsage()
+			# If the number of functions changed, rehighlight
+			ce.updateFunctionCount(newFuncCount)
 			
 			self.lastFunctionCount = newFuncCount
-			self.lastCodeEdit = self.codeEdit
-		
-		# We love long variable names, don't we?
-		ce = self.outputCompilerThread.codeEdit
-		if ce:
+			
+			# Set code edit outFile to the main file
 			ce.outFile = comp.getMainFile()
 			
 			# Restore the scopes if possible
@@ -384,12 +370,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			if ce.backgroundCompilerOutstandingTasks < 0:
 				ce.backgroundCompilerOutstandingTasks = 0
-				
+			
 			# Messages
 			ce.msgView.updateViewOutputCompiler()
-	
-	def needsRehighlight(self, newFuncCount):
-		return newFuncCount != self.lastFunctionCount and (self.codeEdit != self.lastCodeEdit or self.lastFunctionCount != -1 or self.isTmpFile())
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		#if self.outputCompiler:
