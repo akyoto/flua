@@ -167,6 +167,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			"unmanaged" : self.handleUnmanaged,
 			"compiler-flag" : self.handleCompilerFlag,
 			"template-call" : self.handleTemplateCall,
+			"in-range" : self.handleInRange,
 			
 			# Ignored
 			"class" : self.handleClass,
@@ -252,8 +253,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			self.compiler.needToInitStringClass = True
 	
 	def parseBinaryOperator(self, node, connector, checkPointer = False):
-		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
-		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
+		op1Node = node.childNodes[0].childNodes[0]
+		op2Node = node.childNodes[1].childNodes[0]
+		
+		op1 = self.parseExpr(op1Node)
+		op2 = self.parseExpr(op2Node)
 		
 		if op2 == "my":
 			op2 = self.myself
@@ -277,15 +281,31 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		if self.checkDivisionByZero and (connector == " / " or connector == " \\ "):
 			self.addDivisionByZeroCheck(op2)
 		
-		if connector == " ^ ":
-			return self.powerSyntax % (op1, op2)
-		
-		if connector in {" + ", " - ", " * ", " / ", " \\ ", " & ", " | ", " && ", " || ", " % "}:
+		if connector in {
+			" + ",
+			" - ",
+			" * ",
+			" / ",
+			" \\ ",
+			" & ",
+			" | ",
+			" && ",
+			" || ",
+			" < ",
+			" > ",
+			" <= ",
+			" >= ",
+			" % "}:
 			self.exprPrefix = "("
 			self.exprPostfix = ")"
 		else:
 			self.exprPrefix = ""
 			self.exprPostfix = ""
+		
+		if connector == " ^ ":
+			#if op2 == "2":
+			#	return self.binaryOperatorSyntax % (self.exprPrefix, op1, " * ", op1, self.exprPostfix)
+			return self.powerSyntax % (op1, op2)
 		
 		# Float conversion if needed
 		if connector != " / ":
@@ -758,6 +778,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif node.tagName == "negative":
 				return self.getExprDataTypeClean(node.childNodes[0].childNodes[0])
 			elif node.tagName == "exists-in":
+				return "Bool"
+			elif node.tagName == "in-range":
 				return "Bool"
 			elif len(node.childNodes) == 2: # Any binary operation
 				op1 = node.childNodes[0].childNodes[0]

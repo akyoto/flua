@@ -815,6 +815,21 @@ class BaseOutputFileHandler:
 		
 		return self.buildTemplateCall(op1, op2)
 		
+	def handleInRange(self, node):
+		lowerOperation = node.getAttribute("lower-operation")
+		upperOperation = node.getAttribute("upper-operation")
+		
+		lower = self.parseExpr(node.childNodes[0].childNodes[0])
+		value = self.parseExpr(node.childNodes[1].childNodes[0])
+		upper = self.parseExpr(node.childNodes[2].childNodes[0])
+		
+		key = lowerOperation + upperOperation
+		
+		if not key in self.compiler.inRangeFuncs:
+			self.compiler.inRangeFuncs[key] = self.buildInRangeFunc(lowerOperation, upperOperation)
+		
+		return "flua_inRange_%s_%s(%s, %s, %s)" % (lowerOperation.replace("-", "_"), upperOperation.replace("-", "_"), lower, value, upper)
+		
 	def handleConst(self, node):
 		self.inConst += 1
 		code = self.parseChilds(node, "\t" * self.currentTabLevel, self.lineLimiter)

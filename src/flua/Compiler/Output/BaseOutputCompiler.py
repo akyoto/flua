@@ -83,6 +83,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.functionPointerCalls = dict()
 		self.loopStack = list()
 		self.lastParsedNodes = list()
+		self.inRangeFuncs = dict()
 		
 		self.lastParsedFile = None
 		self.guiCallBack = guiCallBack

@@ -627,7 +627,7 @@ class Startup:
 		# Create a compiler for Flua
 		self.inputCompiler = BPCCompiler(getModuleDir(), ".flua")
 		self.processor = BPPostProcessor(self.inputCompiler)
-		self.processorOutFile = None
+		#self.processorOutFile = None
 		
 		# Threads
 		self.outputCompilerThread = BPOutputCompilerThread(self)

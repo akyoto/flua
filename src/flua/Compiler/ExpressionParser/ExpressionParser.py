@@ -529,6 +529,13 @@ class ExpressionParser:
 		return opNode#node.firstChild
 	
 	def adjustXMLTree(self, node):
+		self.lessGreaterTags = {
+			"less",
+			"greater",
+			"less-or-equal",
+			"greater-or-equal",
+		}
+		
 		# Adjust node
 		if node.nodeType == Node.ELEMENT_NODE:
 			if node.tagName == "separate":
@@ -599,6 +606,37 @@ class ExpressionParser:
 					value2.tagName = "range"
 					value2.childNodes[0].tagName = "from"
 					value2.childNodes[1].tagName = "to"
+			# Range operator
+			elif node.tagName in self.lessGreaterTags:
+				value1And2 = node.childNodes[0].childNodes[0]
+				
+				if value1And2.nodeType != Node.TEXT_NODE and value1And2.tagName in self.lessGreaterTags:
+					toTag = node.tagName
+					fromTag = value1And2.tagName
+					
+					node.tagName = "in-range"
+					node.setAttribute("lower-operation", fromTag)
+					node.setAttribute("upper-operation", toTag)
+					
+					value1 = value1And2.childNodes[0]#.childNodes[0]
+					value2 = value1And2.childNodes[1]#.childNodes[0]
+					value3 = node.childNodes[1]#.childNodes[0]
+					
+					value1.tagName = "lower"
+					value2.tagName = "value"
+					value3.tagName = "upper"
+					
+					node.insertBefore(value1, value3)
+					node.insertBefore(value2, value3)
+					node.removeChild(node.childNodes[0])
+				
+				#if op1Node.nodeType != Node.TEXT_NODE and op1Node.tagName in lessGreaterTags:
+				#	return "flua_rangeCheck(%s, %s, %s)" % (
+				#		self.parseExpr(op1Node.childNodes[0].childNodes[0]),
+				#		self.parseExpr(op1Node.childNodes[1].childNodes[0])
+				#	)
+				#	#return self.binaryOperatorSyntax % (self.exprPrefix, op1, " && ", "(%s%s%s)" % (self.parseExpr(op1Node.childNodes[1].childNodes[0]), connector, op2), self.exprPostfix)
+			
 			
 			# Object-oriented call
 #			elif node.tagName == "access":

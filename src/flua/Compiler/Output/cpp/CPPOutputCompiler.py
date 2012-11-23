@@ -223,12 +223,17 @@ int main(int argc, char *argv[]) {
 			outStream.write("\n// Prototypes\n")
 			outStream.write(''.join(self.prototypes))
 			
+			# In-Range funcs
+			outStream.write("\n// In-Range\n")
+			outStream.write('\n'.join(self.inRangeFuncs.values()))
+			
 			# Extern functions
 			#for externFunc in self.mainClass.externFunctions:
 			#	outStream.write("// extern func %s;\n" % (externFunc))
 			
 			# Function pointers
-			outStream.write("""
+			outStream.write("""\n
+// Function pointers
 typedef struct BPFunction {
 	%s
 } BPFunction;

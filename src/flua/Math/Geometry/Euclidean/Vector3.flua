@@ -109,7 +109,54 @@
 					<getter depth="2" id="20">
 						<name>length</name>
 						<code>
-							<noop depth="3" id="21"/>
+							<return depth="3" id="21">
+								<call>
+									<function>sqr</function>
+									<parameters>
+										<parameter>
+											<add>
+												<value>
+													<add>
+														<value>
+															<power>
+																<value>
+																	<access>
+																		<value>my</value>
+																		<value>x</value>
+																	</access>
+																</value>
+																<value>2</value>
+															</power>
+														</value>
+														<value>
+															<power>
+																<value>
+																	<access>
+																		<value>my</value>
+																		<value>y</value>
+																	</access>
+																</value>
+																<value>2</value>
+															</power>
+														</value>
+													</add>
+												</value>
+												<value>
+													<power>
+														<value>
+															<access>
+																<value>my</value>
+																<value>z</value>
+															</access>
+														</value>
+														<value>2</value>
+													</power>
+												</value>
+											</add>
+										</parameter>
+									</parameters>
+								</call>
+							</return>
 						</code>
 						<meta/>
 					</getter>

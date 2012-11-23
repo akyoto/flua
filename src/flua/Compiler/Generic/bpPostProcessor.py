@@ -589,21 +589,21 @@ class BPPostProcessorFile:
 		#	pass#print(self.inpFile.doc.toprettyxml())
 		
 	def processXML(self):
-		self.findDefinitions(getElementByTagName(self.root, "code"))
+		#self.findDefinitions(getElementByTagName(self.root, "code"))
 		self.processNode(getElementByTagName(self.root, "code"))
 		self.processor.funcCount += self.funcCount
 		
-	def findDefinitions(self, node):
-		for child in node.childNodes:
-			self.findDefinitions(child)
-		
-		if node.nodeType == Node.TEXT_NODE:
-			return
-		elif node.tagName == "class":
-			className = getElementByTagName(node, "name").childNodes[0].nodeValue
-			
-			# TODO: Class extending
-			self.processor.classes[className] = BPClass(className)
+	#def findDefinitions(self, node):
+	#	for child in node.childNodes:
+	#		self.findDefinitions(child)
+	#	
+	#	if node.nodeType == Node.TEXT_NODE:
+	#		return
+	#	elif node.tagName == "class":
+	#		className = getElementByTagName(node, "name").childNodes[0].nodeValue
+	#		
+	#		# TODO: Class extending
+	#		self.processor.classes[className] = BPClass(className)
 		
 	def getInstructionDependencies(self, tree, xmlNode):
 		if xmlNode.nodeType == Node.TEXT_NODE:

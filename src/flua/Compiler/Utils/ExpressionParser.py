@@ -232,6 +232,7 @@ def getBPCExpressionParser():
 	
 	binaryOperatorTagToSymbol["slice"] = "[:]"
 	binaryOperatorTagToSymbol["range"] = ":"
+	binaryOperatorTagToSymbol["in-range"] = ""
 	
 	globalBPCParser = parser
 	return parser

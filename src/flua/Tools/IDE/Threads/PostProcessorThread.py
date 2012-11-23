@@ -31,14 +31,17 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.ceQueue.append(codeEdit)
 		
 	def run(self):
+		filePath = self.codeEdit.getFilePath()
+		
 		try:
-			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("[%s] PostProcessor" % stripDir(filePath))
 			self.processor.resetDTreesForFile(filePath)
 			self.processor.cleanUpFile(filePath)
+			
+			self.startBenchmark("[%s] PostProcessor" % stripDir(filePath))
 			self.ppFile = self.processor.process(self.codeEdit.root, filePath)
-			#self.bpIDE.processorOutFile = self.processor.processExistingInputFile(self.codeEdit.bpcFile)
 			self.endBenchmark()
+			
+			#self.bpIDE.processorOutFile = self.processor.processExistingInputFile(self.codeEdit.bpcFile)
 			self.lastException = None
 		except PostProcessorException as e:
 			self.lastException = e

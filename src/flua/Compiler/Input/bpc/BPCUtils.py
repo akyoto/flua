@@ -843,11 +843,6 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		else:
 			operationAbove = node.parentNode.tagName
 		
-		# Translate
-		opSymbol = binaryOperatorTagToSymbol[nodeName]
-		if opSymbol in translateLogicalOperatorSign:
-			opSymbol = translateLogicalOperatorSign[opSymbol]
-		
 		if nodeName == "access":
 			space = ""
 			prefix = ""
@@ -856,6 +851,18 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		elif hasHigherPriority(operationAbove, nodeName):
 			prefix = "("
 			postfix = ")"
+		
+		if nodeName == "in-range":
+			op3 = node.childNodes[2].childNodes[0]
+			op3bpc = nodeToBPC(op3, 0, conv)
+			lowerSymbol = binaryOperatorTagToSymbol[node.getAttribute("lower-operation")]
+			upperSymbol = binaryOperatorTagToSymbol[node.getAttribute("upper-operation")]
+			return ''.join([prefix, op1bpc, space, lowerSymbol, space, op2bpc, space, upperSymbol, space, op3bpc, postfix])
+		
+		# Translate
+		opSymbol = binaryOperatorTagToSymbol[nodeName]
+		if opSymbol in translateLogicalOperatorSign:
+			opSymbol = translateLogicalOperatorSign[opSymbol]
 		
 		return ''.join([prefix, op1bpc, space, opSymbol, space, op2bpc, postfix])
 	

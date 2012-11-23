@@ -153,6 +153,8 @@ def getElementByTagName(node, name):
 	for child in node.childNodes:
 		if child.nodeType == Node.ELEMENT_NODE and child.tagName == name:
 			return child
+	
+	return None
 
 def getFuncNameNode(node):
 	if getElementByTagName(node, "function"):

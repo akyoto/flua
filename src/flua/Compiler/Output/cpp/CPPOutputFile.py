@@ -523,6 +523,14 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	def buildLine(self, line):
 		return line + ";\n" + "\t" * self.currentTabLevel
 		
+	def buildInRangeFunc(self, lowerOperation, upperOperation):
+		lowerOpPostfix = lowerOperation.replace("-", "_")
+		upperOpPostfix = upperOperation.replace("-", "_")
+		lowerOpSymbol = binaryOperatorTagToSymbol[lowerOperation]
+		upperOpSymbol = binaryOperatorTagToSymbol[upperOperation]
+		
+		return "template<typename _T1, typename _T2, typename _T3> inline bool flua_inRange_%s_%s(_T1 lower, _T2 value, _T3 upper){ return (lower %s value) && (value %s upper); };" % (lowerOpPostfix, upperOpPostfix, lowerOpSymbol, upperOpSymbol)
+		
 	def buildDataFlowListenerIteration(self, listenersForObject, params):
 		paramType = "Int"
 		iterExpr = "_currentListener"

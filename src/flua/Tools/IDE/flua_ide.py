@@ -683,11 +683,11 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			lineIndex = self.codeEdit.getLineIndex()
 			
-			funcCount = 0
-			if self.processorOutFile:
-				funcCount = self.processorOutFile.funcCount
-				del self.processorOutFile
-				self.processorOutFile = None
+			#funcCount = 0
+			#if self.processorOutFile:
+			#	funcCount = self.processorOutFile.funcCount
+			#	del self.processorOutFile
+			#	self.processorOutFile = None
 			
 			self.lineNumberLabel.setText(" Line %d / %d" % (lineIndex + 1, self.codeEdit.blockCount()))
 			
@@ -798,7 +798,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			ppThread = self.codeEdit.postProcessorThread
 		
 		ppCodeEdit = ppThread.codeEdit
-		self.processorOutFile = ppThread.ppFile
+		#self.processorOutFile = ppThread.ppFile
 		
 		if self.codeEdit and self.codeEdit.reloading:
 			index = self.currentWorkspace.currentIndex()

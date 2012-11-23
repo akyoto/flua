@@ -8,10 +8,12 @@
 		<strings>
 			<string id="flua_string_0">Geometry\Smodule\Sworking!</string>
 			<string id="flua_string_1">Geometry\Smodule\SNOT\Sworking!</string>
+			<string id="flua_string_2">Range\Schecks\Sworking!</string>
+			<string id="flua_string_3">Range\Schecks\SNOT\Sworking!</string>
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign depth="0" id="3">
 			<value>circleA</value>
 			<value>
 				<new>
@@ -31,7 +33,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign depth="0" id="4">
 			<value>circleB</value>
 			<value>
 				<new>
@@ -51,7 +53,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="3">
+		<assign depth="0" id="5">
 			<value>pointA</value>
 			<value>
 				<new>
@@ -63,7 +65,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign depth="0" id="6">
 			<value>pointB</value>
 			<value>
 				<new>
@@ -83,7 +85,51 @@
 				</new>
 			</value>
 		</assign>
-		<if-block depth="0" id="5">
+		<assign depth="0" id="7">
+			<value>vec3D_A</value>
+			<value>
+				<new>
+					<type>Vector3</type>
+					<parameters/>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="8">
+			<value>vec3D_B</value>
+			<value>
+				<new>
+					<type>Vector3</type>
+					<parameters>
+						<parameter>1</parameter>
+						<parameter>2</parameter>
+						<parameter>3</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign depth="0" id="9">
+			<value>vec3D_C</value>
+			<value>
+				<new>
+					<type>
+						<template-call>
+							<value>Vector3</value>
+							<value>Int</value>
+						</template-call>
+					</type>
+					<parameters>
+						<parameter>4</parameter>
+						<parameter>5</parameter>
+						<parameter>6</parameter>
+					</parameters>
+				</new>
+			</value>
+		</assign>
+		<assign-add depth="0" id="10">
+			<value>vec3D_A</value>
+			<value>vec3D_B</value>
+		</assign-add>
+		<if-block depth="0" id="12">
 			<if>
 				<condition>
 					<and>
@@ -138,7 +184,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="6">
+					<call depth="1" id="13">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -146,12 +192,46 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="7">
+			<else depth="0" id="14">
 				<code>
-					<call depth="1" id="8">
+					<call depth="1" id="15">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>
+						</parameters>
+					</call>
+				</code>
+			</else>
+		</if-block>
+		<if-block depth="0" id="17">
+			<if>
+				<condition>
+					<in-range lower-operation="less" upper-operation="less">
+						<lower>3</lower>
+						<value>
+							<access>
+								<value>vec3D_A</value>
+								<value>length</value>
+							</access>
+						</value>
+						<upper>4</upper>
+					</in-range>
+				</condition>
+				<code>
+					<call depth="1" id="18">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_2</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+			<else depth="0" id="19">
+				<code>
+					<call depth="1" id="20">
+						<function>print</function>
+						<parameters>
+							<parameter>flua_string_3</parameter>
 						</parameters>
 					</call>
 				</code>
