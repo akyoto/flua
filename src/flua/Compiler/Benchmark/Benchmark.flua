@@ -20,8 +20,8 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SLet's\Smake\Ssure\Sthat\Sstupid\Susers\Swho\Suse\SF5\Sget</comment>
-		<comment>\Sat\Sleast\Ssome\Soptimization...</comment>
+		<comment>\SLet's\Smake\Ssure\Sthat\Speople\Swho\Suse\SF5\Sinstead\Sof\SF6</comment>
+		<comment>\Shave\Sat\Sleast\Ssome\Soptimization\Senabled...</comment>
 		<target depth="0" id="9">
 			<name>C++</name>
 			<code>

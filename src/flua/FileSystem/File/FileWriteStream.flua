@@ -116,7 +116,6 @@
 					<code>
 						<noop depth="2" id="20"/>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="22">
 					<name>exit</name>
@@ -131,7 +130,6 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="25">
 					<name>write</name>
@@ -182,7 +180,6 @@
 							</code>
 						</foreach>
 					</code>
-					<meta/>
 				</function>
 				<function depth="1" id="32">
 					<name>write</name>

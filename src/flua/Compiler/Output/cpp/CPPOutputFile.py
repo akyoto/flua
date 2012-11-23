@@ -293,8 +293,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		iterImplCode = iterImplCode.replace("this->", collExpr + "->")
 		
 		# Fix member names
-		for member in classImpl.members.values():
-			iterImplCode = self.addMemberPrefix(iterImplCode, member.name, collExpr)
+		iterImplCode = self.addMemberPrefixes(iterImplCode, classImpl, collExpr)
 		#	old = "%s->%s" % (collExpr, member.name)
 		#	new = "%s->_%s" % (collExpr, member.name)
 		#	
@@ -594,9 +593,16 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 						elif funcImpl.func.isIterator:
 							continue
 						else:
-							code += "\t" + funcImpl.getFullCode() + "\n"
+							if funcImpl.hasInvisibleParamTypes:
+								#print("Add implementation", funcImpl.getName())
+								code += "\t" + funcImpl.getPrototype() + "\n"
+								self.compiler.delayedFuncImplementations.append(funcImpl)
+							else:
+								code += "\t" + funcImpl.getFullCode() + "\n"
 							
-							if funcImpl.getFuncName() == "add":
+							# TODO: Remove hardcoded
+							# This is needed for the Flua core flua_buildCollection which uses add()
+							if classObj.name == "MutableVector" and funcImpl.getFuncName() == "add":
 								code += "\t" + funcImpl.getFullCode(noPostfix = True) + "\n"
 					
 					# Virtual destructor
@@ -620,10 +626,10 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 					for member in classImpl.members.values():
 						#print(member.name + " is of type " + member.type
 						#if not member.name in writtenMembers:
-						code = self.addMemberPrefix(code, member.name) + "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
+						code += "\t" + adjustDataTypeCPP(member.type, True) + " _" + member.name + ";\n"
 						writtenMembers[member.name] = True
 					
-					# ClassObj public members
+					# ClassObj public members which have not been added yet
 					for memberName, memberType in classImpl.classObj.publicMembersDefined.items():
 						if not memberName in writtenMembers:
 							code += "\t" + adjustDataTypeCPP(classImpl.translateTemplateName(memberType), True) + " _" + memberName + ";\n"

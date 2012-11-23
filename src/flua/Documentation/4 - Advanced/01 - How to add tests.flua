@@ -15,27 +15,27 @@
 		<comment>\SCurrently\Sthere\Sis\Sno\S&quot;Run\Sunit\Stest&quot;\Sfunction\Sbut</comment>
 		<comment>\Syou\Scan\Sspecify\Scontracts\Sand\Stests\Sfor\Sfunctions.</comment>
 		<comment>\SConsider\Sthis\Swrapper\Sfor\Sthe\Ssquare\Sroot\Sfunction:</comment>
-		<function depth="0" id="1">
+		<function depth="0" id="10">
+			<name>func</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
-			<name>func</name>
 			<code>
-				<ensure depth="1" id="2">
-					<greater-or-equal depth="2" id="3">
+				<ensure depth="1" id="11">
+					<greater-or-equal depth="2" id="12">
 						<value>result</value>
 						<value>0</value>
 					</greater-or-equal>
 				</ensure>
-				<require depth="1" id="4">
-					<greater-or-equal depth="2" id="5">
+				<require depth="1" id="13">
+					<greater-or-equal depth="2" id="14">
 						<value>a</value>
 						<value>0</value>
 					</greater-or-equal>
 				</require>
-				<test depth="1" id="6">
+				<test depth="1" id="15">
 					<code>
-						<assert depth="2" id="7">
+						<assert depth="2" id="16">
 							<equal>
 								<value>
 									<call>
@@ -50,7 +50,7 @@
 						</assert>
 					</code>
 				</test>
-				<return depth="1" id="8">
+				<return depth="1" id="18">
 					<call>
 						<function>sqr</function>
 						<parameters>
@@ -62,13 +62,13 @@
 			<meta/>
 		</function>
 		<comment>\SWithout\Sall\Sthe\Scontracts\Sand\Stests\Sit\Swould\Slook\Slike\Sthat:</comment>
-		<function depth="0" id="9">
+		<function depth="0" id="21">
+			<name>funcNoContracts</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
-			<name>funcNoContracts</name>
 			<code>
-				<return depth="1" id="10">
+				<return depth="1" id="22">
 					<call>
 						<function>sqr</function>
 						<parameters>
@@ -80,7 +80,7 @@
 			<meta/>
 		</function>
 		<comment>\SA\S&quot;Run\Smodule\Stest&quot;\Swould\Stry\Sto\Sexecute\Sthis:</comment>
-		<assert depth="0" id="11">
+		<assert depth="0" id="25">
 			<equal>
 				<value>
 					<call>

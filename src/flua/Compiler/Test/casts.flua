@@ -13,10 +13,11 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0">
+		<class depth="0" id="1">
 			<name>MyClass</name>
 			<code>
-				<function depth="1">
+				<function depth="1" id="2">
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -25,17 +26,16 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop depth="2" id="3"/>
 					</code>
 					<meta/>
 				</function>
-				<casts depth="1">
-					<cast-definition depth="2">
+				<casts depth="1" id="5">
+					<cast-definition depth="2" id="6">
 						<to>String</to>
 						<code>
-							<return depth="3">flua_string_0</return>
+							<return depth="3" id="7">flua_string_0</return>
 						</code>
 						<meta/>
 					</cast-definition>
@@ -43,7 +43,7 @@
 			</code>
 			<meta/>
 		</class>
-		<assign depth="0">
+		<assign depth="0" id="9">
 			<value>testInstance</value>
 			<value>
 				<new>
@@ -54,15 +54,15 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="10">
 			<value>someString</value>
 			<value>flua_string_2</value>
 		</assign>
-		<assign depth="0">
+		<assign depth="0" id="11">
 			<value>someString</value>
 			<value>testInstance</value>
 		</assign>
-		<if-block depth="0">
+		<if-block depth="0" id="13">
 			<if>
 				<condition>
 					<equal>
@@ -71,7 +71,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1">
+					<call depth="1" id="14">
 						<function>print</function>
 						<parameters>
 							<parameter>testInstance</parameter>
@@ -79,9 +79,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else depth="0" id="15">
 				<code>
-					<call depth="1">
+					<call depth="1" id="16">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_4</parameter>

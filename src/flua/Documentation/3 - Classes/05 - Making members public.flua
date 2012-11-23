@@ -13,22 +13,22 @@
 		<comment>\SMember\Svariables\Sin\SFlua\Sare\Sprivate\Sby\Sdefault.</comment>
 		<comment>\STherefore\Sif\Syou\Swant\Sto\Saccess\Sa\Sproperty\Sfrom\Soutside</comment>
 		<comment>\Sthe\Sclass\Syou\Sneed\Sto\Sdeclare\Sit\Sas\Spublic:</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="4">
 			<name>MyClass</name>
 			<code>
 				<comment>\SHere\Swe\Sdeclare\Sa\Spublic\Smember</comment>
-				<public depth="1" id="2">
-					<public-member depth="2" id="3">
+				<public depth="1" id="6">
+					<public-member depth="2" id="7">
 						<declare-type>
 							<value>member</value>
 							<value>String</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="4">
+				<function depth="1" id="9">
 					<name>init</name>
 					<code>
-						<assign depth="2" id="5">
+						<assign depth="2" id="10">
 							<value>
 								<access>
 									<value>my</value>
@@ -44,7 +44,7 @@
 			<meta/>
 		</class>
 		<comment>\SCreate\San\Sinstance\Sof\Sthat\Sclass:</comment>
-		<assign depth="0" id="6">
+		<assign depth="0" id="13">
 			<value>a</value>
 			<value>
 				<new>
@@ -54,7 +54,7 @@
 			</value>
 		</assign>
 		<comment>\SNow\Swe\Scan\Sread\Sits\Svalue:</comment>
-		<call depth="0" id="7">
+		<call depth="0" id="16">
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -66,7 +66,7 @@
 			</parameters>
 		</call>
 		<comment>\S...and\Swe\Scan\Sdirectly\Schange\Sthe\Svalue:</comment>
-		<assign depth="0" id="8">
+		<assign depth="0" id="19">
 			<value>
 				<access>
 					<value>a</value>

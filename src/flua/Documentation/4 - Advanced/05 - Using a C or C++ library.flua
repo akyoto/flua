@@ -9,10 +9,10 @@
 	<code>
 		<comment>\SBefore\Syou\Sinclude\Syour\SC++\Slibrary\Smake\Ssure\Sthat\Syou\Sonly\Sdo\Sit\Sfor\Sthe\SC++\Starget.</comment>
 		<comment>\SWe\Sdo\Snot\Swant\Sto\Suse\SC++\Slibraries\Swhen\Sswitching\Sto\SJavaScript/HTML5\Soutput\S;)</comment>
-		<target depth="0" id="1">
+		<target depth="0" id="3">
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">MyLibrary.hpp</include>
+				<include depth="1" id="4">MyLibrary.hpp</include>
 			</code>
 		</target>
 		<comment>\SMyLibrary.hpp\Sneeds\Sto\Sexist\Sin\Sthe\Ssame\Sfolder\Sas\Sthis\Smodule\Sand\Sneeds\Sto\Sbe\Sa\Svalid\SC++\Sheader\Sfile.</comment>
@@ -23,8 +23,8 @@
 		<comment>\SYou\Scan\Shold\SCtrl\Sfor\Ssome\Stime\Sand\Sclick\Son\S'MyLibrary.hpp'\Sin\Sthe\Sabove\Sinclude\Sinstruction.</comment>
 		<comment>\SIf\Sthe\Sfile\Sexists\Sit\Swill\Sbe\Sopened,\Sotherwise\Sa\Snew\Sfile\Swith\Sthat\Sname\S(MyLibrary.hpp)\Swill\Sbe\Screated.</comment>
 		<comment>\SNow\Swe\Sneed\Sto\Sdeclare\San\Sextern\Sfunction\Swith\Sthe\Sprefix\S'bp_'\Sand\Sits\Sreturn\Stype:</comment>
-		<extern depth="0" id="3">
-			<extern-function depth="1" id="4">
+		<extern depth="0" id="14">
+			<extern-function depth="1" id="15">
 				<name>bp_myCFunction</name>
 				<type>Int</type>
 				<meta>
@@ -36,7 +36,7 @@
 		<comment>\SWhy\Sit\Sgets\Shighlighted\Sin\Sa\Sgreen\Scolor?\SClick\Son\Sit\Sand\Sedit\Sthe\Smeta\Sdata.\SMaybe\Syou\Scan\Sguess\Sit\S:)</comment>
 		<comment>\SIf\Sits\Stype\Sis\Svoid\Sjust\Sleave\Sout\Sthe\Stype\Sdeclaration.</comment>
 		<comment>\SWe\Scan\Snow\Scall\Sit\Slike\Sany\Sother\Sfunction:</comment>
-		<assign depth="0" id="5">
+		<assign depth="0" id="20">
 			<value>a</value>
 			<value>
 				<call>
@@ -48,18 +48,18 @@
 				</call>
 			</value>
 		</assign>
-		<call depth="0" id="6">
+		<call depth="0" id="21">
 			<function>print</function>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 		</call>
 		<comment>\SHow\Sto\Sdynamically\Sadd\Scompiler,\Sinterpreter\Sor\Slinker\Sflags:</comment>
-		<target depth="0" id="7">
+		<target depth="0" id="24">
 			<name>C++</name>
 			<code>
-				<compiler-flags depth="1" id="8">
-					<compiler-flag depth="2" id="9">-lpthread</compiler-flag>
+				<compiler-flags depth="1" id="25">
+					<compiler-flag depth="2" id="26">-lpthread</compiler-flag>
 				</compiler-flags>
 			</code>
 		</target>

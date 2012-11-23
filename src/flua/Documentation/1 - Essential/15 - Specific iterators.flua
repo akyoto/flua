@@ -13,27 +13,9 @@
 	<code>
 		<comment>\SIn\SFlua\Syou\Scan\Shave\Smultiple\Siterators\Sfor\Sa\Sclass.</comment>
 		<comment>\SThe\Sdefault\Siterator\Scan\Sbe\Sused\Slike\Sthis:</comment>
-		<foreach depth="0" id="1">
-			<iterator>x</iterator>
-			<collection>flua_string_0</collection>
-			<code>
-				<call depth="1" id="2">
-					<function>print</function>
-					<parameters>
-						<parameter>x</parameter>
-					</parameters>
-				</call>
-			</code>
-		</foreach>
-		<comment>\SIf\Syou\Sneed\Sthe\Sbyte\Svalues\Sof\Sthe\Sstring\Syou\Scan\Suse\Sthe\Sbyte\Sgenerator\S/\Siterator:</comment>
 		<foreach depth="0" id="3">
 			<iterator>x</iterator>
-			<collection>
-				<access>
-					<value>flua_string_1</value>
-					<value>bytes</value>
-				</access>
-			</collection>
+			<collection>flua_string_0</collection>
 			<code>
 				<call depth="1" id="4">
 					<function>print</function>
@@ -43,8 +25,26 @@
 				</call>
 			</code>
 		</foreach>
+		<comment>\SIf\Syou\Sneed\Sthe\Sbyte\Svalues\Sof\Sthe\Sstring\Syou\Scan\Suse\Sthe\Sbyte\Sgenerator\S/\Siterator:</comment>
+		<foreach depth="0" id="7">
+			<iterator>x</iterator>
+			<collection>
+				<access>
+					<value>flua_string_1</value>
+					<value>bytes</value>
+				</access>
+			</collection>
+			<code>
+				<call depth="1" id="8">
+					<function>print</function>
+					<parameters>
+						<parameter>x</parameter>
+					</parameters>
+				</call>
+			</code>
+		</foreach>
 		<comment>\SOr\Swe\Scould\Siterate\Sover\Sall\Slines\Sin\Sthe\Sstring\Sin\Sa\Svery\Sefficient\Sway:</comment>
-		<foreach depth="0" id="5">
+		<foreach depth="0" id="11">
 			<iterator>x</iterator>
 			<collection>
 				<access>
@@ -53,7 +53,7 @@
 				</access>
 			</collection>
 			<code>
-				<call depth="1" id="6">
+				<call depth="1" id="12">
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>

@@ -68,6 +68,7 @@ class CPPOutputCompiler(BaseOutputCompiler):
 		self.customLinkerFlags = []
 		self.customThreadsCount = 0
 		self.usingSTDAlgorithms = False
+		self.delayedFuncImplementations = []
 		
 		if os.name == "nt":
 			self.staticStdcppLinking = False#True
@@ -130,22 +131,37 @@ class CPPOutputCompiler(BaseOutputCompiler):
 				#fileOut = stripExt(cppFile.file[len(self.projectDir):]) + "-out.cpp"
 				#fileOut = stripExt(cppFile.file) + "-out.cpp"
 				
-				fileOut = dirName + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
-				self.mainCppFile = fileOut
-				
-				initCode = ""
-				exitCode = ""
-				
-				if self.boehmGCEnabled:
-					initCode += "\tGC_INIT();\n"
-				
-				if self.tinySTMEnabled:
-					initCode += "\tstm_init();\n"
-					exitCode += "\tstm_exit();\n"
-				
-				# Write main file
-				with open(fileOut, "w") as outStream:
-					outStream.write("#include <flua_decls.hpp>\n#include \"" + hppFile + "\"\n\nint main(int argc, char *argv[]) {\n" + initCode + self.getFileExecList() + exitCode + "\treturn 0;\n}\n")
+				mainCpp = dirName + self.getTargetName() + "/" + stripAll(cppFile.file) + ".cpp"
+				self.mainCppFile = mainCpp
+		
+		# Main file		
+		initCode = ""
+		exitCode = ""
+		
+		if self.boehmGCEnabled:
+			initCode += "\tGC_INIT();\n"
+		
+		if self.tinySTMEnabled:
+			initCode += "\tstm_init();\n"
+			exitCode += "\tstm_exit();\n"
+		
+		# Function implementations
+		delayedImplementations = []
+		for funcImpl in self.delayedFuncImplementations:
+			delayedImplementations.append(funcImpl.getFullCode(includeNamespace = True))
+		
+		# Write main file
+		with open(mainCpp, "w") as outStream:
+			outStream.write(
+				"""#include <flua_decls.hpp>
+#include \"%s\"
+
+int main(int argc, char *argv[]) {
+%s%s%s\treturn 0;
+}
+
+%s
+""" % (hppFile, initCode, self.getFileExecList(), exitCode, ''.join(delayedImplementations)))
 		
 		# Decls file
 		self.outputDir = extractDir(os.path.abspath(self.mainCppFile))

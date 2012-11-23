@@ -8,6 +8,10 @@ class BaseFunctionImplementation:
 		self.func = func
 		self.paramTypes = paramTypes
 		
+		# Types not visible from the file itself
+		self.invisibleParamTypes = None
+		self.hasInvisibleParamTypes = False
+		
 		# This impl adds these classImpl members
 		#self.introducesMembers = dict()
 		

@@ -1312,10 +1312,6 @@ class BaseOutputFileHandler:
 			previousParamTypes = list(paramTypes)
 			
 			for i in range(len(paramTypes)):
-				#requiredClassName = extractClassName(paramTypes[i])
-				#if not requiredClassName in self.visibleClasses:
-				#	print("Not visible:", requiredClassName, "in", paramTypes, nodeToBPC(node))
-				
 				if paramTypes[i] == "void":
 					raise CompilerException("„%s“ does not return a value" % nodeToBPC(params.childNodes[i]))
 			

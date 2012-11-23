@@ -11,8 +11,12 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 		stri = ""
 		paramNames = self.func.getParamNames()
 		paramTypesLen = len(self.paramTypes)
+		#invisibleParamTypesLen = len(self.invisibleParamTypes)
 		
 		for i in range(len(paramNames)):
+			#if self.hasInvisibleParamTypes and i < invisibleParamTypesLen and self.invisibleParamTypes[i]:
+			#	stri += "%s %s, " % ("__flua_T%d" % i, paramNames[i])
+			#else:
 			if i < paramTypesLen:
 				paramType = self.paramTypes[i]
 			else:
@@ -21,6 +25,7 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 			
 			paramType = self.classImpl.translateTemplateName(paramType)
 			stri += "%s %s, " % (adjustDataTypeCPP(paramType), paramNames[i])
+		
 		return stri[:-2]
 		
 	def getParamTypeString(self):
@@ -47,7 +52,7 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 	def getPrototype(self):
 		return "inline %s %s(%s);\n" % (adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), self.getName(), self.getParamTypeString())
 		
-	def getFullCode(self, noPostfix = False):
+	def getFullCode(self, noPostfix = False, includeNamespace = False):
 		if self.func.overwritten:
 			inlineVirtual = "virtual"
 		else:
@@ -66,8 +71,10 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 			
 			return funcIntern + "\n\t" + funcCppComfort
 		
+		classImplName = self.classImpl.getName()
+		
 		# TODO: Remove hardcoded stuff (here: Operator = for ~MemPointer<ConstChar> is directly used by C++ and therefore needs no name change)
-		if self.getFuncName() == "operatorAssign" and self.classImpl.getName() == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":
+		if self.getFuncName() == "operatorAssign" and classImplName == "UTF8String" and self.paramTypes[0] == "~MemPointer<ConstChar>":
 			funcName = "operator="
 		else:
 			if noPostfix:
@@ -75,12 +82,37 @@ class CPPFunctionImplementation(BaseFunctionImplementation):
 			else:
 				funcName = self.getName()
 		
-		if self.classImpl.getName():
+		if classImplName:
 			tabs = "\t"
+			
+			if includeNamespace:
+				funcName = "%s::%s" % (adjustDataTypeCPP(classImplName, adjustOuterAsWell = False), funcName)
 		else:
 			tabs = ""
+			
+			if includeNamespace:
+				funcName = "::" + funcName
 		
-		return "// %s\n%s%s %s %s(%s) {\n%s%s}\n" % (funcName, tabs, inlineVirtual, adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(), funcName, self.getParamString(), self.code, tabs)
+		#if self.hasInvisibleParamTypes:
+		#	templateList = []
+		#	for i in range(len(self.invisibleParamTypes)):
+		#		if self.invisibleParamTypes[i]:
+		#			templateList.append("typename __flua_T%d" % i)
+		#	templates = "template <%s>\n%s" % (", ".join(templateList), tabs)
+		#else:
+		#	templates = ""
+		
+		return "// %s\n%s%s %s %s(%s) {\n%s%s}\n" % (
+			funcName,
+			tabs,
+			#templates,
+			inlineVirtual,
+			adjustDataTypeCPP(self.getReturnType()) + self.getReferenceString(),
+			funcName,
+			self.getParamString(),
+			self.code,
+			tabs
+		)
 	
 	# Constructor
 	def getConstructorCode(self):

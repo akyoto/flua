@@ -1775,15 +1775,30 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			# For casts
 			funcName = self.prepareTypeName(funcName)
 		
-		#print("..->", typeName)
-		#
-		for pType in paramTypes:
-			pTypeClass = extractClassName(pType)
+		# TODO: Invisible param types
+		# BUG:  This doesn't work when the compiler cache is involved (?)
+		hasInvisibleParamTypes = False
+		paramTypesInvisible = list()
+		
+		for i in range(len(paramTypes)):
+			pType = self.currentClassImpl.translateTemplateName(paramTypes[i])
+			pType = self.prepareTypeName(pType)
+			pTypeClass = removeUnmanaged(extractClassName(pType))
 			
-			if pTypeClass in nonPointerClasses:
+			if pTypeClass in nonPointerClasses or pTypeClass == "MemPointer":
 				continue
 			
-			#if not pTypeClass in self.visibleClasses:
+			if (not pType) or pTypeClass in self.visibleClasses:
+				paramTypesInvisible.append(False)
+			else:
+				#print("--------------")
+				#print("Type:", typeName)
+				#print("Function:", funcName)
+				#print("ParamTypes:", paramTypes)
+				#print("ParamType:", pType)
+				#print("ParamTypeClass:", pTypeClass)
+				paramTypesInvisible.append(True)
+				hasInvisibleParamTypes = True
 			#	print("Needs to be compiled outside of the file")
 			#	print(pTypeClass)
 			#	print("---------")
@@ -1797,6 +1812,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		
 		# Implement it
 		funcImpl, codeExists = self.currentClassImpl.requestFuncImplementation(funcName, paramTypes)
+		
+		funcImpl.invisibleParamTypes = paramTypesInvisible
+		funcImpl.hasInvisibleParamTypes = hasInvisibleParamTypes
+		
 		self.currentFunctionImpl = funcImpl
 		
 		if not codeExists:
@@ -1849,7 +1868,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#print(varsAtStartCode)
 			
 			# Set code
-			funcImpl.setCode(funcStartCode + varsAtStartCode + funcImplCode)
+			resultingCode = self.addMemberPrefixes(funcStartCode + varsAtStartCode + funcImplCode, self.currentClassImpl)
+			funcImpl.setCode(resultingCode)
 			
 			self.currentTabLevel = oldTabLevel - 1
 			
@@ -1912,6 +1932,11 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			else:
 				code = "%s%s%s" % (code[:pos], new, code[pos + oldLen:])
 				pos += newLen
+	
+	def addMemberPrefixes(self, code, classImpl, myself = ""):
+		for member in classImpl.members.values():
+			code = self.addMemberPrefix(code, member.name, myself)
+		return code
 	
 	def isInvalidType(self, typeNode):
 		return (typeNode.nodeType != Node.TEXT_NODE) and (not typeNode.tagName in {"template-call", "unmanaged"})

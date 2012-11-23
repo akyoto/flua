@@ -11,23 +11,23 @@
 	</header>
 	<code>
 		<comment>\SBase\Sclass</comment>
-		<class depth="0" id="1">
+		<class depth="0" id="2">
 			<name>MyBaseClass</name>
 			<code>
-				<function depth="1" id="2">
+				<function depth="1" id="3">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop depth="2" id="4"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="4">
+				<function depth="1" id="6">
+					<name>doSomething</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomething</name>
 					<code>
-						<return depth="2" id="5">
+						<return depth="2" id="7">
 							<multiply>
 								<value>x</value>
 								<value>2</value>
@@ -36,13 +36,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function depth="1" id="9">
+					<name>doSomethingOverwritten</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverwritten</name>
 					<code>
-						<return depth="2" id="7">
+						<return depth="2" id="10">
 							<multiply>
 								<value>x</value>
 								<value>3</value>
@@ -55,26 +55,26 @@
 			<meta/>
 		</class>
 		<comment>\SDerived\Sclass</comment>
-		<class depth="0" id="8">
+		<class depth="0" id="13">
 			<name>MyDerivedClass</name>
 			<code>
-				<extends depth="1" id="9">
-					<extends-class depth="2" id="10">MyBaseClass</extends-class>
+				<extends depth="1" id="14">
+					<extends-class depth="2" id="15">MyBaseClass</extends-class>
 				</extends>
-				<function depth="1" id="11">
+				<function depth="1" id="17">
 					<name>init</name>
 					<code>
-						<noop depth="2" id="12"/>
+						<noop depth="2" id="18"/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="13">
+				<function depth="1" id="20">
+					<name>doSomethingOverwritten</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverwritten</name>
 					<code>
-						<return depth="2" id="14">
+						<return depth="2" id="21">
 							<multiply>
 								<value>x</value>
 								<value>4</value>
@@ -87,7 +87,7 @@
 			<meta/>
 		</class>
 		<comment>\STest\Sit</comment>
-		<assign depth="0" id="15">
+		<assign depth="0" id="24">
 			<value>obj</value>
 			<value>
 				<new>
@@ -97,7 +97,7 @@
 			</value>
 		</assign>
 		<comment>\SCall\San\Soverwritten\Smethod\Sof\SMyDerivedClass\Sand\Sa\Snormal\Sone\Sof\SMyBaseClass</comment>
-		<if-block depth="0" id="16">
+		<if-block depth="0" id="27">
 			<if>
 				<condition>
 					<and>
@@ -140,7 +140,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="17">
+					<call depth="1" id="28">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -148,9 +148,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="18">
+			<else depth="0" id="29">
 				<code>
-					<call depth="1" id="19">
+					<call depth="1" id="30">
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>
@@ -160,7 +160,8 @@
 			</else>
 		</if-block>
 		<comment>\SHere's\Sa\Sfunction\Swhich\Sexpects\Sobjects\Sof\Sthe\Stype\SMyBaseClass</comment>
-		<function depth="0" id="20">
+		<function depth="0" id="33">
+			<name>func</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -169,9 +170,8 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>func</name>
 			<code>
-				<call depth="1" id="21">
+				<call depth="1" id="34">
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -192,7 +192,7 @@
 			</code>
 		</function>
 		<comment>\SHowever\Swe\Scan\Scall\Sit\Swith\San\Sobject\Sthat\Sextends\SMyBaseClass,\Se.g.\SMyDerivedClasses</comment>
-		<call depth="0" id="22">
+		<call depth="0" id="37">
 			<function>func</function>
 			<parameters>
 				<parameter>obj</parameter>
