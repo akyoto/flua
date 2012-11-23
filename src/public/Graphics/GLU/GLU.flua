@@ -9,22 +9,22 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<target depth="1" id="2">
+				<target>
 					<name>Windows</name>
 					<code>
-						<compiler-flags depth="2" id="3">
-							<compiler-flag depth="3" id="4">-lglu32</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lglu32</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
-				<target depth="1" id="5">
+				<target>
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2" id="6">
-							<compiler-flag depth="3" id="7">-lGLU</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lGLU</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

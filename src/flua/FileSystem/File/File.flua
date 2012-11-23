@@ -9,86 +9,86 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="4">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="5">File.hpp</include>
+				<include>File.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="7">
-			<namespace depth="1" id="8">
+		<extern>
+			<namespace>
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="9">
+					<extern-function>
 						<name>fileModificationTime</name>
 						<type>Int64</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="10">
+					<extern-function>
 						<name>fileExists</name>
 						<type>Bool</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="11">
+					<extern-function>
 						<name>fileSize</name>
 						<type>Size</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="12">
+					<extern-function>
 						<name>deleteFile</name>
 						<type>Bool</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="13">
+					<extern-function>
 						<name>renameFile</name>
 						<type>Bool</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="14">
+					<extern-function>
 						<name>fopen</name>
 						<type>FileHandle</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="15">
+					<extern-function>
 						<name>fwrite</name>
 						<type>Size</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="16">
+					<extern-function>
 						<name>fread</name>
 						<type>Size</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="17">
+					<extern-function>
 						<name>fclose</name>
 						<type>Bool</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="18">
+					<extern-function>
 						<name>fflush</name>
 						<type>Bool</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="19">
+					<extern-function>
 						<name>readLine</name>
 						<type>String</type>
 						<meta/>
 					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="21">
+			<class>
 				<name>FileHandle</name>
 				<code>
-					<function depth="2" id="22">
+					<function>
 						<name>init</name>
 						<code>
-							<noop depth="3" id="23"/>
+							<noop/>
 						</code>
 						<meta/>
 					</function>
@@ -96,10 +96,10 @@
 			</class>
 		</extern>
 		<comment>\SImmutable\Sfile\Sobject</comment>
-		<class depth="0" id="26">
+		<class>
 			<name>File</name>
 			<code>
-				<function depth="1" id="27">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -110,13 +110,13 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="28"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="30">
+				<function>
 					<name>createReadStream</name>
 					<code>
-						<return depth="2" id="31">
+						<return>
 							<new>
 								<type>FileReadStream</type>
 								<parameters>
@@ -131,10 +131,10 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="33">
+				<function>
 					<name>createWriteStream</name>
 					<code>
-						<return depth="2" id="34">
+						<return>
 							<new>
 								<type>FileWriteStream</type>
 								<parameters>
@@ -150,26 +150,26 @@
 					</code>
 				</function>
 				<comment>\STODO:\SImplement\Sit.</comment>
-				<function depth="1" id="37">
+				<function>
 					<name>relativePathTo</name>
 					<parameters>
 						<parameter>otherPath</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="38"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="40">
-					<getter depth="2" id="41">
+				<get>
+					<getter>
 						<name>creationTime</name>
 						<code>
-							<return depth="3" id="42">0</return>
+							<return>0</return>
 						</code>
 					</getter>
-					<getter depth="2" id="44">
+					<getter>
 						<name>modificationTime</name>
 						<code>
-							<return depth="3" id="45">
+							<return>
 								<call>
 									<function>fileModificationTime</function>
 									<parameters>
@@ -184,10 +184,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="47">
+					<getter>
 						<name>exists</name>
 						<code>
-							<return depth="3" id="48">
+							<return>
 								<call>
 									<function>fileExists</function>
 									<parameters>
@@ -202,10 +202,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="50">
+					<getter>
 						<name>path</name>
 						<code>
-							<return depth="3" id="51">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -213,24 +213,24 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="53">
+					<getter>
 						<name>absolutePath</name>
 						<code>
-							<noop depth="3" id="54"/>
+							<noop/>
 						</code>
 					</getter>
-					<getter depth="2" id="56">
+					<getter>
 						<name>relativePath</name>
 						<code>
-							<noop depth="3" id="57"/>
+							<noop/>
 						</code>
 					</getter>
 				</get>
-				<casts depth="1" id="59">
-					<cast-definition depth="2" id="60">
+				<casts>
+					<cast-definition>
 						<to>String</to>
 						<code>
-							<return depth="3" id="61">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -242,13 +242,13 @@
 			</code>
 		</class>
 		<comment>\SDeletes\Sthe\Sgiven\Sfile\S#path\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="64">
+		<function>
 			<name>deleteFile</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="65">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -264,14 +264,14 @@
 			</code>
 		</function>
 		<comment>\SRenames\Sa\Sfile\Sfrom\S#from\Sto\S#to\Sand\Sreturns\Strue\Sif\Sit\Swas\Ssuccessful</comment>
-		<function depth="0" id="68">
+		<function>
 			<name>renameFile</name>
 			<parameters>
 				<parameter>from</parameter>
 				<parameter>to</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="69">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -288,13 +288,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sfile\Sat\S#path\Sexists,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="72">
+		<function>
 			<name>fileExists</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="73">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -310,13 +310,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sfile\Ssize\Sof\S#path\Sin\Sbytes</comment>
-		<function depth="0" id="76">
+		<function>
 			<name>fileSize</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="77">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -332,13 +332,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Stime\Sstamp\Sthe\Sfile\Sat\Spath\Shas\Sbeen\Smodified\Slast</comment>
-		<function depth="0" id="80">
+		<function>
 			<name>fileModificationTime</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="81">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -354,13 +354,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path</comment>
-		<function depth="0" id="84">
+		<function>
 			<name>readFile</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<in depth="1" id="85">
+				<in>
 					<expression>
 						<assign>
 							<value>f</value>
@@ -375,7 +375,7 @@
 						</assign>
 					</expression>
 					<code>
-						<assign depth="2" id="86">
+						<assign>
 							<value>data</value>
 							<value>
 								<call>
@@ -391,18 +391,18 @@
 						</assign>
 					</code>
 				</in>
-				<return depth="1" id="88">data</return>
+				<return>data</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Swhole\Sfile\Scontent\Sof\S#path\Sas\Sa\SByte\Sarray</comment>
-		<function depth="0" id="91">
+		<function>
 			<name>readBinaryFile</name>
 			<parameters>
 				<parameter>path</parameter>
 			</parameters>
 			<code>
-				<in depth="1" id="92">
+				<in>
 					<expression>
 						<assign>
 							<value>f</value>
@@ -417,7 +417,7 @@
 						</assign>
 					</expression>
 					<code>
-						<assign depth="2" id="93">
+						<assign>
 							<value>data</value>
 							<value>
 								<call>
@@ -442,19 +442,19 @@
 						</assign>
 					</code>
 				</in>
-				<return depth="1" id="95">data</return>
+				<return>data</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SWrites\Sall\S#data\Sto\S#path\Sat\Sonce</comment>
-		<function depth="0" id="98">
+		<function>
 			<name>writeFile</name>
 			<parameters>
 				<parameter>path</parameter>
 				<parameter>data</parameter>
 			</parameters>
 			<code>
-				<in depth="1" id="99">
+				<in>
 					<expression>
 						<assign>
 							<value>f</value>
@@ -469,7 +469,7 @@
 						</assign>
 					</expression>
 					<code>
-						<call depth="2" id="100">
+						<call>
 							<function>
 								<access>
 									<value>f</value>
@@ -486,14 +486,14 @@
 			<meta/>
 		</function>
 		<comment>\SCopies\Sa\Sfile\Sfrom\Slocation\S#from\Sto\S#to,\Sboth\Sneed\Sto\Sbe\Sfile\Snames,\Snot\Sdirectories</comment>
-		<function depth="0" id="103">
+		<function>
 			<name>copyFile</name>
 			<parameters>
 				<parameter>from</parameter>
 				<parameter>to</parameter>
 			</parameters>
 			<code>
-				<if-block depth="1" id="104">
+				<if-block>
 					<if>
 						<condition>
 							<equal>
@@ -502,11 +502,11 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="105"/>
+							<return/>
 						</code>
 					</if>
 				</if-block>
-				<call depth="1" id="107">
+				<call>
 					<function>writeFile</function>
 					<parameters>
 						<parameter>to</parameter>

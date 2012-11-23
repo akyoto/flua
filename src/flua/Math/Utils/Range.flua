@@ -7,10 +7,10 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>Range</name>
 			<code>
-				<function depth="1" id="2">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -21,7 +21,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="3">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -33,7 +33,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="5">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -50,15 +50,15 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="6"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<iterators depth="1" id="8">
-					<iterator-type depth="2" id="9">
+				<iterators>
+					<iterator-type>
 						<name>default</name>
 						<code>
-							<assign depth="3" id="10">
+							<assign>
 								<value>pos</value>
 								<value>
 									<access>
@@ -67,7 +67,7 @@
 									</access>
 								</value>
 							</assign>
-							<while depth="3" id="12">
+							<while>
 								<condition>
 									<less>
 										<value>pos</value>
@@ -80,8 +80,8 @@
 									</less>
 								</condition>
 								<code>
-									<yield depth="4" id="13">pos</yield>
-									<assign-add depth="4" id="14">
+									<yield>pos</yield>
+									<assign-add>
 										<value>pos</value>
 										<value>1</value>
 									</assign-add>

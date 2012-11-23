@@ -9,27 +9,27 @@
 	</header>
 	<code>
 		<comment>\SCalculates\Sthe\Sfactorial\Sof\Sn\Srecursively</comment>
-		<function depth="0" id="4">
+		<function>
 			<name>factorial</name>
 			<parameters>
 				<parameter>n</parameter>
 			</parameters>
 			<code>
-				<require depth="1" id="5">
-					<greater-or-equal depth="2" id="6">
+				<require>
+					<greater-or-equal>
 						<value>n</value>
 						<value>0</value>
 					</greater-or-equal>
 				</require>
-				<ensure depth="1" id="7">
-					<greater depth="2" id="8">
+				<ensure>
+					<greater>
 						<value>result</value>
 						<value>0</value>
 					</greater>
 				</ensure>
-				<test depth="1" id="9">
+				<test>
 					<code>
-						<assert depth="2" id="10">
+						<assert>
 							<equal>
 								<value>
 									<call>
@@ -42,7 +42,7 @@
 								<value>1</value>
 							</equal>
 						</assert>
-						<assert depth="2" id="11">
+						<assert>
 							<equal>
 								<value>
 									<call>
@@ -55,7 +55,7 @@
 								<value>3628800</value>
 							</equal>
 						</assert>
-						<assert depth="2" id="12">
+						<assert>
 							<equal>
 								<value>
 									<call>
@@ -70,7 +70,7 @@
 						</assert>
 					</code>
 				</test>
-				<if-block depth="1" id="14">
+				<if-block>
 					<if>
 						<condition>
 							<equal>
@@ -79,11 +79,11 @@
 							</equal>
 						</condition>
 						<code>
-							<return depth="2" id="15">1</return>
+							<return>1</return>
 						</code>
 					</if>
 				</if-block>
-				<return depth="1" id="17">
+				<return>
 					<multiply>
 						<value>n</value>
 						<value>
@@ -105,13 +105,13 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Spower\Sof\S2,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="20">
+		<function>
 			<name>isPowerOf2</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="21">
+				<return>
 					<and>
 						<value>x</value>
 						<value>
@@ -134,13 +134,13 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sodd,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="24">
+		<function>
 			<name>isOdd</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="25">
+				<return>
 					<not-equal>
 						<value>
 							<modulo>
@@ -154,13 +154,13 @@
 			</code>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\Seven,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="28">
+		<function>
 			<name>isEven</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="29">
+				<return>
 					<equal>
 						<value>
 							<modulo>

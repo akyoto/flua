@@ -7,15 +7,15 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1">OpenCL.hpp</include>
-				<target depth="1">
+				<include>OpenCL.hpp</include>
+				<target>
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2">
-							<compiler-flag depth="3">-lOpenCL</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lOpenCL</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

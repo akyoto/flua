@@ -7,29 +7,29 @@
 		<strings/>
 	</header>
 	<code>
-		<extern depth="0" id="1">
-			<extern-function depth="1" id="2">
+		<extern>
+			<extern-function>
 				<name>glewInit</name>
 				<type>Int</type>
 			</extern-function>
-			<extern-function depth="1" id="3">
+			<extern-function>
 				<name>glewGetErrorString</name>
 				<type>CString</type>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="4">
+			<extern-function>
 				<name>glewExperimental</name>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="5">
+			<extern-function>
 				<name>glewGetExtension</name>
 			</extern-function>
-			<extern-function depth="1" id="6">
+			<extern-function>
 				<name>glewGetString</name>
 				<type>CString</type>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="7">
+			<extern-function>
 				<name>glewIsSupported</name>
 				<meta/>
 			</extern-function>

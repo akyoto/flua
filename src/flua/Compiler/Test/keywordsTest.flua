@@ -38,11 +38,11 @@
 	</header>
 	<code>
 		<comment>\SComment\Shere</comment>
-		<if-block depth="0" id="1">
+		<if-block>
 			<if>
 				<condition>1</condition>
 				<code>
-					<call depth="1" id="2">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -52,11 +52,11 @@
 			</if>
 		</if-block>
 		<comment>\SComment\Sfor\Sthis\Sblock</comment>
-		<if-block depth="0" id="3">
+		<if-block>
 			<if>
 				<condition>0</condition>
 				<code>
-					<call depth="1" id="4">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>
@@ -64,10 +64,10 @@
 					</call>
 				</code>
 			</if>
-			<else-if depth="0" id="5">
+			<else-if>
 				<condition>1</condition>
 				<code>
-					<call depth="1" id="6">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_2</parameter>
@@ -75,9 +75,9 @@
 					</call>
 				</code>
 			</else-if>
-			<else depth="0" id="7">
+			<else>
 				<code>
-					<call depth="1" id="8">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_3</parameter>
@@ -87,11 +87,11 @@
 			</else>
 		</if-block>
 		<comment>\SComment\S3rd\Sblock</comment>
-		<if-block depth="0" id="9">
+		<if-block>
 			<if>
 				<condition>0</condition>
 				<code>
-					<call depth="1" id="10">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_4</parameter>
@@ -99,9 +99,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="11">
+			<else>
 				<code>
-					<call depth="1" id="12">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_5</parameter>
@@ -110,20 +110,20 @@
 				</code>
 			</else>
 		</if-block>
-		<switch depth="0" id="13">
+		<switch>
 			<value>
 				<add>
 					<value>21</value>
 					<value>21</value>
 				</add>
 			</value>
-			<case depth="1" id="14">
+			<case>
 				<values>
 					<value>40</value>
 					<value>41</value>
 				</values>
 				<code>
-					<call depth="2" id="15">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_6</parameter>
@@ -131,13 +131,13 @@
 					</call>
 				</code>
 			</case>
-			<case depth="1" id="16">
+			<case>
 				<values>
 					<value>42</value>
 					<value>43</value>
 				</values>
 				<code>
-					<call depth="2" id="17">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_7</parameter>
@@ -145,13 +145,13 @@
 					</call>
 				</code>
 			</case>
-			<case depth="1" id="18">
+			<case>
 				<values>
 					<value>44</value>
 					<value>45</value>
 				</values>
 				<code>
-					<call depth="2" id="19">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_8</parameter>
@@ -160,16 +160,16 @@
 				</code>
 			</case>
 		</switch>
-		<assign depth="0" id="20">
+		<assign>
 			<value>xTest</value>
 			<value>0</value>
 		</assign>
-		<for depth="0" id="21">
+		<for>
 			<iterator>xTest</iterator>
 			<from>1</from>
 			<to>10</to>
 			<code>
-				<assign depth="1" id="22">
+				<assign>
 					<value>xTest</value>
 					<value>
 						<divide>
@@ -185,7 +185,7 @@
 				</assign>
 			</code>
 		</for>
-		<if-block depth="0" id="23">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -194,7 +194,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="24">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_9</parameter>
@@ -202,15 +202,15 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="25">
+			<else>
 				<code>
-					<call depth="1" id="26">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_10</parameter>
 						</parameters>
 					</call>
-					<call depth="1" id="27">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>xTest</parameter>
@@ -219,11 +219,11 @@
 				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="28">
+		<assign>
 			<value>cTest</value>
 			<value>0</value>
 		</assign>
-		<while depth="0" id="29">
+		<while>
 			<condition>
 				<less>
 					<value>cTest</value>
@@ -231,13 +231,13 @@
 				</less>
 			</condition>
 			<code>
-				<assign-add depth="1" id="30">
+				<assign-add>
 					<value>cTest</value>
 					<value>2</value>
 				</assign-add>
 			</code>
 		</while>
-		<if-block depth="0" id="31">
+		<if-block>
 			<if>
 				<condition>
 					<greater-or-equal>
@@ -246,7 +246,7 @@
 					</greater-or-equal>
 				</condition>
 				<code>
-					<call depth="1" id="32">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_11</parameter>
@@ -254,9 +254,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="33">
+			<else>
 				<code>
-					<call depth="1" id="34">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_12</parameter>
@@ -265,14 +265,14 @@
 				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="35">
+		<assign>
 			<value>worked</value>
 			<value>0</value>
 		</assign>
-		<try-block depth="0" id="36">
+		<try-block>
 			<try>
 				<code>
-					<assign depth="1" id="37">
+					<assign>
 						<value>testInf</value>
 						<value>
 							<divide>
@@ -281,7 +281,7 @@
 							</divide>
 						</value>
 					</assign>
-					<call depth="1" id="38">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>testInf</parameter>
@@ -289,21 +289,21 @@
 					</call>
 				</code>
 			</try>
-			<catch depth="0" id="39">
+			<catch>
 				<variable/>
 				<code>
-					<assign depth="1" id="40">
+					<assign>
 						<value>worked</value>
 						<value>1</value>
 					</assign>
 				</code>
 			</catch>
 		</try-block>
-		<if-block depth="0" id="41">
+		<if-block>
 			<if>
 				<condition>worked</condition>
 				<code>
-					<call depth="1" id="42">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_13</parameter>
@@ -311,9 +311,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="43">
+			<else>
 				<code>
-					<call depth="1" id="44">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_14</parameter>
@@ -322,14 +322,14 @@
 				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="45">
+		<assign>
 			<value>worked</value>
 			<value>0</value>
 		</assign>
-		<try-block depth="0" id="46">
+		<try-block>
 			<try>
 				<code>
-					<assign depth="1" id="47">
+					<assign>
 						<value>testInf</value>
 						<value>
 							<divide>
@@ -338,7 +338,7 @@
 							</divide>
 						</value>
 					</assign>
-					<call depth="1" id="48">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>testInf</parameter>
@@ -346,7 +346,7 @@
 					</call>
 				</code>
 			</try>
-			<catch depth="0" id="49">
+			<catch>
 				<variable>
 					<declare-type>
 						<value>e</value>
@@ -354,11 +354,11 @@
 					</declare-type>
 				</variable>
 				<code>
-					<if-block depth="1" id="50">
+					<if-block>
 						<if>
 							<condition>e</condition>
 							<code>
-								<assign depth="2" id="51">
+								<assign>
 									<value>worked</value>
 									<value>1</value>
 								</assign>
@@ -367,18 +367,18 @@
 					</if-block>
 				</code>
 			</catch>
-			<catch depth="0" id="52">
+			<catch>
 				<variable/>
 				<code>
-					<noop depth="1" id="53"/>
+					<noop/>
 				</code>
 			</catch>
 		</try-block>
-		<if-block depth="0" id="54">
+		<if-block>
 			<if>
 				<condition>worked</condition>
 				<code>
-					<call depth="1" id="55">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_15</parameter>
@@ -386,9 +386,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="56">
+			<else>
 				<code>
-					<call depth="1" id="57">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_16</parameter>
@@ -397,31 +397,31 @@
 				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="58">
+		<assign>
 			<value>worked</value>
 			<value>0</value>
 		</assign>
-		<try-block depth="0" id="59">
+		<try-block>
 			<try>
 				<code>
-					<throw depth="1" id="60">flua_string_17</throw>
+					<throw>flua_string_17</throw>
 				</code>
 			</try>
-			<catch depth="0" id="61">
+			<catch>
 				<variable>e</variable>
 				<code>
-					<assign depth="1" id="62">
+					<assign>
 						<value>worked</value>
 						<value>1</value>
 					</assign>
 				</code>
 			</catch>
 		</try-block>
-		<if-block depth="0" id="63">
+		<if-block>
 			<if>
 				<condition>worked</condition>
 				<code>
-					<call depth="1" id="64">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_18</parameter>
@@ -429,9 +429,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="65">
+			<else>
 				<code>
-					<call depth="1" id="66">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_19</parameter>
@@ -440,13 +440,13 @@
 				</code>
 			</else>
 		</if-block>
-		<class depth="0" id="67">
+		<class>
 			<name>StaticClass</name>
 			<code>
-				<function depth="1" id="68">
+				<function>
 					<name>init</name>
 					<code>
-						<call depth="2" id="69">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_20</parameter>
@@ -456,35 +456,34 @@
 				</function>
 			</code>
 		</class>
-		<class depth="0" id="70">
+		<class>
 			<name>TestClass</name>
 			<code>
-				<function depth="1" id="71">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="72"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="73">
+				<function>
 					<name>testOn</name>
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="74">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>msg</parameter>
 							</parameters>
 						</call>
 					</code>
-					<meta/>
 				</function>
-				<private depth="1" id="75">
-					<function depth="2" id="76">
+				<private>
+					<function>
 						<name>privateFunc</name>
 						<code>
-							<call depth="3" id="77">
+							<call>
 								<function>print</function>
 								<parameters>
 									<parameter>flua_string_21</parameter>
@@ -495,7 +494,7 @@
 				</private>
 			</code>
 		</class>
-		<assign depth="0" id="78">
+		<assign>
 			<value>obj</value>
 			<value>
 				<new>
@@ -504,10 +503,10 @@
 				</new>
 			</value>
 		</assign>
-		<on depth="0" id="79">
+		<on>
 			<expression>obj</expression>
 			<code>
-				<call depth="1" id="80">
+				<call>
 					<function>testOn</function>
 					<parameters>
 						<parameter>flua_string_22</parameter>
@@ -515,13 +514,13 @@
 				</call>
 			</code>
 		</on>
-		<function depth="0" id="81">
+		<function>
 			<name>halfOf</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="82">
+				<return>
 					<divide>
 						<value>a</value>
 						<value>2</value>
@@ -529,7 +528,7 @@
 				</return>
 			</code>
 		</function>
-		<if-block depth="0" id="83">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -545,7 +544,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="84">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_23</parameter>
@@ -554,13 +553,13 @@
 				</code>
 			</if>
 		</if-block>
-		<const depth="0" id="85">
-			<assign depth="1" id="86">
+		<const>
+			<assign>
 				<value>myConst</value>
 				<value>13.0</value>
 			</assign>
 		</const>
-		<if-block depth="0" id="87">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -569,7 +568,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="88">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_24</parameter>
@@ -578,11 +577,11 @@
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0" id="89">
+		<assign>
 			<value>yTest</value>
 			<value>0</value>
 		</assign>
-		<while depth="0" id="90">
+		<while>
 			<condition>
 				<less>
 					<value>yTest</value>
@@ -590,7 +589,7 @@
 				</less>
 			</condition>
 			<code>
-				<if-block depth="1" id="91">
+				<if-block>
 					<if>
 						<condition>
 							<greater>
@@ -599,17 +598,17 @@
 							</greater>
 						</condition>
 						<code>
-							<break depth="2" id="92"/>
+							<break/>
 						</code>
 					</if>
 				</if-block>
-				<assign-add depth="1" id="93">
+				<assign-add>
 					<value>yTest</value>
 					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
-		<if-block depth="0" id="94">
+		<if-block>
 			<if>
 				<condition>
 					<less>
@@ -618,7 +617,7 @@
 					</less>
 				</condition>
 				<code>
-					<call depth="1" id="95">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_25</parameter>
@@ -626,9 +625,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="96">
+			<else>
 				<code>
-					<call depth="1" id="97">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_26</parameter>
@@ -637,15 +636,15 @@
 				</code>
 			</else>
 		</if-block>
-		<assign depth="0" id="98">
+		<assign>
 			<value>xTest</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="99">
+		<assign>
 			<value>yTest</value>
 			<value>0</value>
 		</assign>
-		<while depth="0" id="100">
+		<while>
 			<condition>
 				<less>
 					<value>xTest</value>
@@ -653,11 +652,11 @@
 				</less>
 			</condition>
 			<code>
-				<assign-add depth="1" id="101">
+				<assign-add>
 					<value>xTest</value>
 					<value>1</value>
 				</assign-add>
-				<if-block depth="1" id="102">
+				<if-block>
 					<if>
 						<condition>
 							<not-equal>
@@ -671,17 +670,17 @@
 							</not-equal>
 						</condition>
 						<code>
-							<continue depth="2" id="103"/>
+							<continue/>
 						</code>
 					</if>
 				</if-block>
-				<assign-add depth="1" id="104">
+				<assign-add>
 					<value>yTest</value>
 					<value>1</value>
 				</assign-add>
 			</code>
 		</while>
-		<if-block depth="0" id="105">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -700,7 +699,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="106">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_27</parameter>
@@ -708,9 +707,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="107">
+			<else>
 				<code>
-					<call depth="1" id="108">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_28</parameter>

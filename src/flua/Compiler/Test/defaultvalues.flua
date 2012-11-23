@@ -10,7 +10,8 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0">
+		<function>
+			<name>defaultValueFunc</name>
 			<parameters>
 				<parameter>x</parameter>
 				<parameter>
@@ -20,17 +21,17 @@
 					</assign>
 				</parameter>
 			</parameters>
-			<name>defaultValueFunc</name>
 			<code>
-				<return depth="1">
+				<return>
 					<add>
 						<value>x</value>
 						<value>y</value>
 					</add>
 				</return>
 			</code>
+			<meta/>
 		</function>
-		<if-block depth="0">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -64,7 +65,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -72,9 +73,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else>
 				<code>
-					<call depth="1">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

@@ -11,13 +11,13 @@
 	</header>
 	<code>
 		<comment>\SCreate\San\Simmutable\Sstring</comment>
-		<assign depth="0" id="0">
+		<assign>
 			<value>immutableString</value>
 			<value>flua_string_0</value>
 		</assign>
 		<comment>\SThis\Sis\San\Simperative\Scall\Sto\San\Simmutable\Sstring,</comment>
 		<comment>\Sbut\Swe\Scan\Sautomatically\Stransform\Sit\Sto\Sx\S=\Sx.eraseRight(...)</comment>
-		<call depth="0" id="1">
+		<call>
 			<function>
 				<access>
 					<value>immutableString</value>
@@ -29,7 +29,7 @@
 			</parameters>
 		</call>
 		<comment>\SLet's\Ssee\Sif\Sit\Sworked</comment>
-		<call depth="0" id="2">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>immutableString</parameter>

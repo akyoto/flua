@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SFunctions\Sin\Sthe\SFlua\Ssyntax\Sneed\Sto\Sstart\Swith\Sa\Slowercase\Sletter</comment>
-		<function depth="0" id="2">
+		<function>
 			<name>func</name>
 			<parameters>
 				<parameter>a</parameter>
@@ -20,7 +20,7 @@
 				<parameter>c</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="3">
+				<return>
 					<add>
 						<value>
 							<add>
@@ -35,7 +35,7 @@
 			<meta/>
 		</function>
 		<comment>\SWe\Sdidn't\Sspecify\Sa\Stype\Sfor\Sa,\Sb\Sand\Sc\S-\Stherefore\Swe\Scan\Scall\Sfunc\Swith\Sany\Stype:</comment>
-		<call depth="0" id="6">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -50,7 +50,7 @@
 				</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="7">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -72,7 +72,7 @@
 		<comment>\Scan\Sthen\Sbe\Sused\Swith\Smany\Spossible\Stypes,\Snot\Sjust\Sthe\Sones</comment>
 		<comment>\Syou\Sthought\Sof.\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour</comment>
 		<comment>\Sfunction\Sto\Sa\Sspecific\Stype,\Syou\Sneed\Sto\Swrite:</comment>
-		<function depth="0" id="16">
+		<function>
 			<name>func2</name>
 			<parameters>
 				<parameter>
@@ -95,7 +95,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="17">
+				<return>
 					<add>
 						<value>
 							<add>
@@ -109,7 +109,7 @@
 			</code>
 			<meta/>
 		</function>
-		<call depth="0" id="19">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>

@@ -9,23 +9,23 @@
 	<code>
 		<comment>\SThough\SFlua\Shas\Sno\Sexplicit\S&quot;struct&quot;\Stype\Syou</comment>
 		<comment>\Scan\Ssimply\Screate\Sa\Sblock\Sof\Spublic\Smembers:</comment>
-		<class depth="0" id="3">
+		<class>
 			<name>MyStruct</name>
 			<code>
-				<public depth="1" id="4">
-					<public-member depth="2" id="5">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>x</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="6">
+					<public-member>
 						<declare-type>
 							<value>y</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="7">
+					<public-member>
 						<declare-type>
 							<value>z</value>
 							<value>Int</value>
@@ -36,7 +36,7 @@
 			<meta/>
 		</class>
 		<comment>\SAllocate\Sit</comment>
-		<assign depth="0" id="10">
+		<assign>
 			<value>p</value>
 			<value>
 				<new>
@@ -46,7 +46,7 @@
 			</value>
 		</assign>
 		<comment>\SSet\Sa\Smember</comment>
-		<assign depth="0" id="13">
+		<assign>
 			<value>
 				<access>
 					<value>p</value>
@@ -56,7 +56,7 @@
 			<value>5</value>
 		</assign>
 		<comment>\SGet\Sa\Smember</comment>
-		<call depth="0" id="16">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>

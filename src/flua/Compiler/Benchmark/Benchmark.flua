@@ -22,38 +22,38 @@
 	<code>
 		<comment>\SLet's\Smake\Ssure\Sthat\Speople\Swho\Suse\SF5\Sinstead\Sof\SF6</comment>
 		<comment>\Shave\Sat\Sleast\Ssome\Soptimization\Senabled...</comment>
-		<target depth="0" id="9">
+		<target>
 			<name>C++</name>
 			<code>
-				<compiler-flags depth="1" id="10">
-					<compiler-flag depth="2" id="11">-O3</compiler-flag>
-					<compiler-flag depth="2" id="12">-march=native</compiler-flag>
-					<compiler-flag depth="2" id="13">-mtune=native</compiler-flag>
+				<compiler-flags>
+					<compiler-flag>-O3</compiler-flag>
+					<compiler-flag>-march=native</compiler-flag>
+					<compiler-flag>-mtune=native</compiler-flag>
 				</compiler-flags>
 			</code>
 		</target>
 		<comment>\SRun\Swith\SF6\Sfor\Sthe\Soptimized\Sversion</comment>
-		<function depth="0" id="16">
+		<function>
 			<name>benchAll</name>
 			<parameters>
 				<parameter>para</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="17">
+				<call>
 					<function>benchWarmUp</function>
 					<parameters/>
 				</call>
-				<call depth="1" id="18">
+				<call>
 					<function>benchWarmUp</function>
 					<parameters/>
 				</call>
-				<call depth="1" id="19">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
 					</parameters>
 				</call>
-				<in depth="1" id="21">
+				<in>
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -63,25 +63,25 @@
 						</new>
 					</expression>
 					<code>
-						<if-block depth="2" id="22">
+						<if-block>
 							<if>
 								<condition>para</condition>
 								<code>
-									<parallel depth="3" id="23">
+									<parallel>
 										<code>
-											<call depth="4" id="24">
+											<call>
 												<function>benchFileIO</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="25">
+											<call>
 												<function>benchMath</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="26">
+											<call>
 												<function>benchStrings</function>
 												<parameters/>
 											</call>
-											<call depth="4" id="27">
+											<call>
 												<function>benchTime</function>
 												<parameters/>
 											</call>
@@ -89,28 +89,28 @@
 									</parallel>
 								</code>
 							</if>
-							<else depth="2" id="28">
+							<else>
 								<code>
-									<call depth="3" id="29">
+									<call>
 										<function>benchFileIO</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="30">
+									<call>
 										<function>benchMath</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="31">
+									<call>
 										<function>benchStrings</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="32">
+									<call>
 										<function>benchTime</function>
 										<parameters/>
 									</call>
 								</code>
 							</else>
 						</if-block>
-						<call depth="2" id="34">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -127,10 +127,10 @@
 			<meta/>
 		</function>
 		<comment>\SRun\Sit!</comment>
-		<target depth="0" id="37">
+		<target>
 			<name>Linux</name>
 			<code>
-				<call depth="1" id="38">
+				<call>
 					<function>benchAll</function>
 					<parameters>
 						<parameter>
@@ -150,10 +150,10 @@
 				</call>
 			</code>
 		</target>
-		<target depth="0" id="40">
+		<target>
 			<name>Windows</name>
 			<code>
-				<call depth="1" id="41">
+				<call>
 					<function>benchAll</function>
 					<parameters>
 						<parameter>

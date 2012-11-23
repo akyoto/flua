@@ -11,12 +11,12 @@
 		<comment>\SPress\SF5\Sto\Srun\Sthis.</comment>
 		<comment>\S------------------------------</comment>
 		<comment>\Sfor\Svariable\S=\Sstart\Suntil\Send</comment>
-		<for depth="0" id="5">
+		<for>
 			<iterator>i</iterator>
 			<from>1</from>
 			<until>10</until>
 			<code>
-				<call depth="1" id="6">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>i</parameter>

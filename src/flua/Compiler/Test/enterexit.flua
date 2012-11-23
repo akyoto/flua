@@ -9,36 +9,36 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>MyAwesomeClass</name>
 			<code>
-				<function depth="1" id="2">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="4">
+				<function>
 					<name>enter</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function>
 					<name>exit</name>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="8">
+				<function>
 					<name>doSomething</name>
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="9">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>msg</parameter>
@@ -52,7 +52,7 @@
 		<comment>\SLet's\Sassume\Syou\Soften\Sneed\Sto\Sinitialize\Ssomething\Sin\Sa\Sblock\Sand\Safterwards\Sremove\Sit.</comment>
 		<comment>\SYou\Scan\Srealize\Sthis\Susing\Sthe\S'in'\Skeyword.</comment>
 		<comment>\S'in'\Sautomatically\Scalls\Sthe\S.enter()\Sand\S.exit()\Smethods\Sfor\Sthe\Sobject\Syou\Sused:</comment>
-		<in depth="0" id="10">
+		<in>
 			<expression>
 				<new>
 					<type>MyAwesomeClass</type>
@@ -60,11 +60,11 @@
 				</new>
 			</expression>
 			<code>
-				<noop depth="1" id="11"/>
+				<noop/>
 			</code>
 		</in>
 		<comment>\STo\Suse\Sthe\Sobject\Sinstance\Sinside\Sthe\Sblock\Syou\Sneed\Sto\Sname\Sit:</comment>
-		<in depth="0" id="12">
+		<in>
 			<expression>
 				<assign>
 					<value>testObj</value>
@@ -77,7 +77,7 @@
 				</assign>
 			</expression>
 			<code>
-				<call depth="1" id="13">
+				<call>
 					<function>
 						<access>
 							<value>testObj</value>

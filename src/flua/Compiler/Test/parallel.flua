@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>numCores</value>
 			<value>
 				<call>
@@ -20,9 +20,9 @@
 				</call>
 			</value>
 		</assign>
-		<parallel depth="0" id="2">
+		<parallel>
 			<code>
-				<call depth="1" id="3">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>

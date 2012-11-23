@@ -11,12 +11,12 @@
 	</header>
 	<code>
 		<comment>\SNumber\Sof\Stasks</comment>
-		<assign depth="0" id="2">
+		<assign>
 			<value>numTasks</value>
 			<value>20</value>
 		</assign>
 		<comment>\SShared\Svariable</comment>
-		<assign depth="0" id="5">
+		<assign>
 			<value>gVec</value>
 			<value>
 				<new>
@@ -30,7 +30,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="6">
+		<assign>
 			<value>
 				<access>
 					<value>gVec</value>
@@ -40,12 +40,12 @@
 			<value>numTasks</value>
 		</assign>
 		<comment>\SCreate\Sone\Stask\Sfor\Seach\Sslot</comment>
-		<parallel-for depth="0" id="9">
+		<parallel-for>
 			<iterator>i</iterator>
 			<from>0</from>
 			<until>numTasks</until>
 			<code>
-				<assign depth="1" id="10">
+				<assign>
 					<value>
 						<index>
 							<value>gVec</value>
@@ -62,22 +62,22 @@
 			</code>
 		</parallel-for>
 		<comment>\SCount\Sthe\Ssum</comment>
-		<assign depth="0" id="13">
+		<assign>
 			<value>vecSum</value>
 			<value>0</value>
 		</assign>
-		<foreach depth="0" id="15">
+		<foreach>
 			<iterator>x</iterator>
 			<collection>gVec</collection>
 			<code>
-				<assign-add depth="1" id="16">
+				<assign-add>
 					<value>vecSum</value>
 					<value>x</value>
 				</assign-add>
 			</code>
 		</foreach>
 		<comment>\SAny\Serrors?</comment>
-		<if-block depth="0" id="19">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -86,7 +86,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="20">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -94,9 +94,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="21">
+			<else>
 				<code>
-					<call depth="1" id="22">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

@@ -8,14 +8,14 @@
 	</header>
 	<code>
 		<comment>\SA\Snode\Swith\Sa\Sparent\Sand\Ssome\Schild\Snodes</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>MutableTree</name>
 			<code>
-				<template depth="1" id="3">
-					<parameter depth="2" id="4">TDataType</parameter>
+				<template>
+					<parameter>TDataType</parameter>
 				</template>
-				<public depth="1" id="6">
-					<public-member depth="2" id="7">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>parent</value>
 							<value>
@@ -26,7 +26,7 @@
 							</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="8">
+					<public-member>
 						<declare-type>
 							<value>children</value>
 							<value>
@@ -38,10 +38,10 @@
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="10">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="11"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>

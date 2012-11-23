@@ -10,14 +10,14 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
+			<name>sum</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
-			<name>sum</name>
 			<code>
-				<return depth="1" id="2">
+				<return>
 					<add>
 						<value>a</value>
 						<value>b</value>
@@ -26,13 +26,13 @@
 			</code>
 			<meta/>
 		</function>
-		<flow-to depth="0" id="3">
+		<flow-to>
 			<value>sum</value>
 			<value>print</value>
 		</flow-to>
-		<parallel depth="0" id="4">
+		<parallel>
 			<code>
-				<call depth="1" id="5">
+				<call>
 					<function>sum</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
@@ -40,7 +40,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</parallel>
 	</code>
 </module>

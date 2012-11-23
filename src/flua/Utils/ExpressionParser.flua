@@ -18,14 +18,14 @@
 	</header>
 	<code>
 		<comment>\SCreates\San\SXML\Stree\Sout\Sof\Sa\Sstring\Sexpression</comment>
-		<function depth="0" id="4">
+		<function>
 			<name>parseExpr</name>
 			<parameters>
 				<parameter>expr</parameter>
 				<parameter>occurences</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="5">
+				<call>
 					<function>
 						<access>
 							<value>expr</value>
@@ -36,7 +36,7 @@
 						<parameter>flua_string_0</parameter>
 					</parameters>
 				</call>
-				<assign depth="1" id="6">
+				<assign>
 					<value>start</value>
 					<value>
 						<negative>
@@ -44,7 +44,7 @@
 						</negative>
 					</value>
 				</assign>
-				<foreach depth="1" id="8">
+				<foreach>
 					<counter>pos</counter>
 					<iterator>x</iterator>
 					<collection>
@@ -54,7 +54,7 @@
 						</access>
 					</collection>
 					<code>
-						<if-block depth="2" id="9">
+						<if-block>
 							<if>
 								<condition>
 									<not>
@@ -69,7 +69,7 @@
 									</not>
 								</condition>
 								<code>
-									<if-block depth="3" id="10">
+									<if-block>
 										<if>
 											<condition>
 												<equal>
@@ -82,7 +82,7 @@
 												</equal>
 											</condition>
 											<code>
-												<assign depth="4" id="11">
+												<assign>
 													<value>start</value>
 													<value>pos</value>
 												</assign>
@@ -91,9 +91,9 @@
 									</if-block>
 								</code>
 							</if>
-							<else depth="2" id="12">
+							<else>
 								<code>
-									<if-block depth="3" id="13">
+									<if-block>
 										<if>
 											<condition>
 												<not-equal>
@@ -106,7 +106,7 @@
 												</not-equal>
 											</condition>
 											<code>
-												<assign depth="4" id="14">
+												<assign>
 													<value>op</value>
 													<value>
 														<call>
@@ -123,7 +123,7 @@
 														</call>
 													</value>
 												</assign>
-												<call depth="4" id="15">
+												<call>
 													<function>
 														<access>
 															<value>
@@ -139,7 +139,7 @@
 														<parameter>start</parameter>
 													</parameters>
 												</call>
-												<assign depth="4" id="16">
+												<assign>
 													<value>start</value>
 													<value>
 														<negative>
@@ -155,27 +155,27 @@
 						</if-block>
 					</code>
 				</foreach>
-				<return depth="1" id="18">expr</return>
+				<return>expr</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Sleft\Soperator</comment>
-		<function depth="0" id="21">
+		<function>
 			<name>getLeftOperator</name>
 			<parameters>
 				<parameter>expr</parameter>
 				<parameter>occ</parameter>
 			</parameters>
 			<code>
-				<assign depth="1" id="22">
+				<assign>
 					<value>pos</value>
 					<value>occ</value>
 				</assign>
-				<assign-subtract depth="1" id="23">
+				<assign-subtract>
 					<value>pos</value>
 					<value>1</value>
 				</assign-subtract>
-				<while depth="1" id="25">
+				<while>
 					<condition>
 						<call>
 							<function>isAlnum</function>
@@ -195,13 +195,13 @@
 						</call>
 					</condition>
 					<code>
-						<assign-subtract depth="2" id="26">
+						<assign-subtract>
 							<value>pos</value>
 							<value>1</value>
 						</assign-subtract>
 					</code>
 				</while>
-				<return depth="1" id="28">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -223,22 +223,22 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sright\Soperator</comment>
-		<function depth="0" id="31">
+		<function>
 			<name>getRightOperator</name>
 			<parameters>
 				<parameter>expr</parameter>
 				<parameter>occ</parameter>
 			</parameters>
 			<code>
-				<assign depth="1" id="32">
+				<assign>
 					<value>pos</value>
 					<value>occ</value>
 				</assign>
-				<assign-add depth="1" id="33">
+				<assign-add>
 					<value>pos</value>
 					<value>1</value>
 				</assign-add>
-				<while depth="1" id="35">
+				<while>
 					<condition>
 						<call>
 							<function>isAlnum</function>
@@ -258,13 +258,13 @@
 						</call>
 					</condition>
 					<code>
-						<assign-add depth="2" id="36">
+						<assign-add>
 							<value>pos</value>
 							<value>1</value>
 						</assign-add>
 					</code>
 				</while>
-				<return depth="1" id="38">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -281,10 +281,10 @@
 			</code>
 		</function>
 		<comment>\SOperator</comment>
-		<class depth="0" id="41">
+		<class>
 			<name>Operator</name>
 			<code>
-				<function depth="1" id="42">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -301,14 +301,14 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="43"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="45">
-					<getter depth="2" id="46">
+				<get>
+					<getter>
 						<name>text</name>
 						<code>
-							<return depth="3" id="47">
+							<return>
 								<access>
 									<value>my</value>
 									<value>text</value>
@@ -320,9 +320,9 @@
 			</code>
 		</class>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="50">
+		<test>
 			<code>
-				<assign depth="1" id="51">
+				<assign>
 					<value>op1</value>
 					<value>
 						<new>
@@ -334,7 +334,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign depth="1" id="52">
+				<assign>
 					<value>op2</value>
 					<value>
 						<new>
@@ -347,7 +347,7 @@
 					</value>
 				</assign>
 				<comment>\SSave\Sthe\Slevels</comment>
-				<assign depth="1" id="55">
+				<assign>
 					<value>opLevels</value>
 					<value>
 						<index>
@@ -372,7 +372,7 @@
 					</value>
 				</assign>
 				<comment>\SOccurences\Sof\Sthe\Soperators</comment>
-				<assign depth="1" id="58">
+				<assign>
 					<value>occurences</value>
 					<value>
 						<new>
@@ -396,7 +396,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign depth="1" id="59">
+				<assign>
 					<value>
 						<index>
 							<value>occurences</value>
@@ -415,7 +415,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign depth="1" id="60">
+				<assign>
 					<value>
 						<index>
 							<value>occurences</value>
@@ -435,7 +435,7 @@
 					</value>
 				</assign>
 				<comment>\SParse\Sit</comment>
-				<assign depth="1" id="63">
+				<assign>
 					<value>cleanExpr</value>
 					<value>
 						<call>
@@ -452,15 +452,15 @@
 				<comment>\S12\S+\S34\S*\S56</comment>
 				<comment>\S==================</comment>
 				<comment>\SCheck\Sall\Soperator\Slevels</comment>
-				<foreach depth="1" id="70">
+				<foreach>
 					<iterator>level</iterator>
 					<collection>opLevels</collection>
 					<code>
-						<foreach depth="2" id="71">
+						<foreach>
 							<iterator>op</iterator>
 							<collection>level</collection>
 							<code>
-								<foreach depth="3" id="72">
+								<foreach>
 									<iterator>occ</iterator>
 									<collection>
 										<index>
@@ -474,7 +474,7 @@
 										</index>
 									</collection>
 									<code>
-										<call depth="4" id="73">
+										<call>
 											<function>print</function>
 											<parameters>
 												<parameter>

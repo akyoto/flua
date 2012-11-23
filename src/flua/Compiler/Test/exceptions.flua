@@ -14,11 +14,11 @@
 		</strings>
 	</header>
 	<code>
-		<try-block depth="0" id="1">
+		<try-block>
 			<try>
 				<code>
 					<comment>\SLet's\Stry\Sto\Sread\Sthe\Scontents\Sof\Sa\Stext\Sfile</comment>
-					<assign depth="1" id="2">
+					<assign>
 						<value>contents</value>
 						<value>
 							<call>
@@ -30,13 +30,13 @@
 						</value>
 					</assign>
 					<comment>\SWe\Sshouldn't\Sever\Sget\Sto\Sthis\Spoint\Sas\Slong\Sas\Sthe\Sfile\Sdoes\Snot\Sexist</comment>
-					<call depth="1" id="3">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>
 						</parameters>
 					</call>
-					<call depth="1" id="4">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>contents</parameter>
@@ -44,7 +44,7 @@
 					</call>
 				</code>
 			</try>
-			<catch depth="0" id="5">
+			<catch>
 				<variable>
 					<declare-type>
 						<value>e</value>
@@ -55,7 +55,7 @@
 					<comment>\SWe\Ssave\Sexceptions\Sof\Stype\S'FileNotFoundException'\Sin\Sthe\Svariable\S'e'.</comment>
 					<comment>\SThis\Sexception\Sclass\Sdefines\Sa\Sproperty\S'path'\Swhich\Swe\Scan\Saccess</comment>
 					<comment>\Sto\Sknow\Swhich\Sfile\Sis\Smissing:</comment>
-					<if-block depth="1" id="6">
+					<if-block>
 						<if>
 							<condition>
 								<not-equal>
@@ -69,7 +69,7 @@
 								</not-equal>
 							</condition>
 							<code>
-								<call depth="2" id="7">
+								<call>
 									<function>print</function>
 									<parameters>
 										<parameter>flua_string_3</parameter>
@@ -77,9 +77,9 @@
 								</call>
 							</code>
 						</if>
-						<else depth="1" id="8">
+						<else>
 							<code>
-								<call depth="2" id="9">
+								<call>
 									<function>print</function>
 									<parameters>
 										<parameter>flua_string_4</parameter>

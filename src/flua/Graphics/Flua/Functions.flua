@@ -15,68 +15,68 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="11">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="12">Functions.hpp</include>
+				<include>Functions.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="14">
-			<namespace depth="1" id="15">
+		<extern>
+			<namespace>
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="16">
+					<extern-function>
 						<name>createGLUTWindow</name>
 						<type>Int</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="17">
+					<extern-function>
 						<name>createShader</name>
 						<type>GLuint</type>
 					</extern-function>
-					<extern-function depth="2" id="18">
+					<extern-function>
 						<name>createGLSLProgram</name>
 						<type>GLuint</type>
 					</extern-function>
-					<extern-function depth="2" id="19">
+					<extern-function>
 						<name>createGLSLProgramAttribute</name>
 						<type>GLint</type>
 					</extern-function>
-					<extern-function depth="2" id="20">
+					<extern-function>
 						<name>createGLSLProgramUniform</name>
 						<type>GLint</type>
 					</extern-function>
-					<extern-function depth="2" id="21">
+					<extern-function>
 						<name>createBuffer</name>
 						<type>GLuint</type>
 					</extern-function>
-					<extern-function depth="2" id="22">
+					<extern-function>
 						<name>loadTexture</name>
 						<type>TextureInfo</type>
 					</extern-function>
-					<extern-function depth="2" id="23">
+					<extern-function>
 						<name>initGLUT</name>
 					</extern-function>
-					<extern-function depth="2" id="24">
+					<extern-function>
 						<name>printGLError</name>
 					</extern-function>
-					<extern-function depth="2" id="25">
+					<extern-function>
 						<name>setActiveProgram</name>
 					</extern-function>
-					<extern-function depth="2" id="26">
+					<extern-function>
 						<name>setTransform</name>
 					</extern-function>
-					<extern-function depth="2" id="27">
+					<extern-function>
 						<name>setCamera</name>
 					</extern-function>
-					<extern-function depth="2" id="28">
+					<extern-function>
 						<name>setVSync</name>
 					</extern-function>
-					<extern-function depth="2" id="29">
+					<extern-function>
 						<name>getLastGLError</name>
 						<type>String</type>
 					</extern-function>
-					<extern-function depth="2" id="30">
+					<extern-function>
 						<name>getMouseX</name>
 						<type>Int</type>
 						<meta>
@@ -84,28 +84,28 @@
 							<same-output-for-input>false</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="31">
+					<extern-function>
 						<name>getMouseY</name>
 						<type>Int</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="32">
+					<extern-function>
 						<name>getScreenWidth</name>
 						<type>UInt</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="33">
+					<extern-function>
 						<name>getScreenHeight</name>
 						<type>UInt</type>
 						<meta>
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="34">
+					<extern-function>
 						<name>isKeyDown</name>
 						<type>Bool</type>
 						<meta>
@@ -114,43 +114,43 @@
 					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="36">
+			<class>
 				<name>TextureInfo</name>
 				<code>
-					<public depth="2" id="37">
-						<public-member depth="3" id="38">
+					<public>
+						<public-member>
 							<declare-type>
 								<value>handle</value>
 								<value>GLuint</value>
 							</declare-type>
 						</public-member>
-						<public-member depth="3" id="39">
+						<public-member>
 							<declare-type>
 								<value>width</value>
 								<value>UInt</value>
 							</declare-type>
 						</public-member>
-						<public-member depth="3" id="40">
+						<public-member>
 							<declare-type>
 								<value>height</value>
 								<value>UInt</value>
 							</declare-type>
 						</public-member>
 					</public>
-					<function depth="2" id="42">
+					<function>
 						<name>init</name>
 						<code>
-							<noop depth="3" id="43"/>
+							<noop/>
 						</code>
 					</function>
 				</code>
 			</class>
 		</extern>
 		<comment>\SReturns\Sthe\Slast\SOpenGL\Serror\Sas\Sa\Sstring</comment>
-		<function depth="0" id="46">
+		<function>
 			<name>getLastGLError</name>
 			<code>
-				<return depth="1" id="47">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -165,10 +165,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#x\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="51">
+		<function>
 			<name>getMouseX</name>
 			<code>
-				<return depth="1" id="52">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -183,10 +183,10 @@
 		</function>
 		<comment>\SReturns\Sthe\S#y\Scoordinate\Sof\Sthe\Smouse\Spointer</comment>
 		<comment>\Srelative\Sto\Sthe\Scurrent\Swindow.</comment>
-		<function depth="0" id="56">
+		<function>
 			<name>getMouseY</name>
 			<code>
-				<return depth="1" id="57">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -200,7 +200,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Swidth\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="60">
+		<function>
 			<name>getScreenWidth</name>
 			<parameters>
 				<parameter>
@@ -215,7 +215,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="61">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -229,7 +229,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="64">
+		<function>
 			<name>getScreenHeight</name>
 			<parameters>
 				<parameter>
@@ -244,7 +244,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="65">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -258,7 +258,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Swidth\Sdivided\Sby\Sthe\Sheight\Sof\Sthe\Sscreen</comment>
-		<function depth="0" id="68">
+		<function>
 			<name>getScreenRatio</name>
 			<parameters>
 				<parameter>
@@ -273,7 +273,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="69">
+				<return>
 					<divide>
 						<value>
 							<call>
@@ -296,13 +296,13 @@
 			</code>
 		</function>
 		<comment>\SSets\Swhether\SVSync\Sshould\Sbe\Senabled\Sor\Snot</comment>
-		<function depth="0" id="72">
+		<function>
 			<name>setVSync</name>
 			<parameters>
 				<parameter>enabled</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="73">
+				<call>
 					<function>
 						<access>
 							<value>flua</value>
@@ -316,7 +316,7 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#key\Sis\Sbeing\Spressed,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="76">
+		<function>
 			<name>isKeyDown</name>
 			<parameters>
 				<parameter>
@@ -327,7 +327,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="77">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -343,20 +343,20 @@
 			</code>
 		</function>
 		<comment>\SToggles\Sfullscreen\Smode</comment>
-		<function depth="0" id="80">
+		<function>
 			<name>toggleFullScreen</name>
 			<code>
-				<call depth="1" id="81">
+				<call>
 					<function>glutFullScreenToggle</function>
 					<parameters/>
 				</call>
 			</code>
 		</function>
 		<comment>\SReturns\Swhether\Sthe\Scurrent\Swindows\Sis\Sin\Sfullscreen\Smode</comment>
-		<function depth="0" id="84">
+		<function>
 			<name>isFullScreen</name>
 			<code>
-				<return depth="1" id="85">
+				<return>
 					<call>
 						<function>glutGet</function>
 						<parameters>

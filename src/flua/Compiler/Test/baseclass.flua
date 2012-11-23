@@ -10,21 +10,21 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>TestingBase</name>
 			<code>
-				<public depth="1" id="2">
-					<public-member depth="2" id="3">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>prop</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="4">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="5">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -39,16 +39,16 @@
 			</code>
 			<meta/>
 		</class>
-		<class depth="0" id="6">
+		<class>
 			<name>TestingDerived</name>
 			<code>
-				<extends depth="1" id="7">
-					<extends-class depth="2" id="8">TestingBase</extends-class>
+				<extends>
+					<extends-class>TestingBase</extends-class>
 				</extends>
-				<function depth="1" id="9">
+				<function>
 					<name>init</name>
 					<code>
-						<call depth="2" id="10">
+						<call>
 							<function>
 								<access>
 									<value>TestingBase</value>
@@ -63,7 +63,7 @@
 			</code>
 			<meta/>
 		</class>
-		<assign depth="0" id="11">
+		<assign>
 			<value>xyz</value>
 			<value>
 				<new>
@@ -72,7 +72,7 @@
 				</new>
 			</value>
 		</assign>
-		<if-block depth="0" id="12">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -86,7 +86,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="13">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -94,9 +94,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="14">
+			<else>
 				<code>
-					<call depth="1" id="15">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

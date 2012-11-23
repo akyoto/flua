@@ -10,13 +10,13 @@
 	</header>
 	<code>
 		<comment>\SSo\Syou\Swant\Syour\Sown\Smembers,\Shuh?\SOkay:</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>MyClass</name>
 			<code>
-				<function depth="1" id="3">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="4">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -28,10 +28,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function>
 					<name>doSomething</name>
 					<code>
-						<call depth="2" id="7">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -49,7 +49,7 @@
 			<meta/>
 		</class>
 		<comment>\SCreate\San\Sobject:</comment>
-		<assign depth="0" id="10">
+		<assign>
 			<value>a</value>
 			<value>
 				<new>
@@ -58,7 +58,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="11">
+		<call>
 			<function>
 				<access>
 					<value>a</value>

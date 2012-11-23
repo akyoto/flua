@@ -13,20 +13,20 @@
 	</header>
 	<code>
 		<comment>\SThis\Sclass\Sdefines\S'enter'\Sand\S'exit'\Smethods:</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>MyAwesomeClass</name>
 			<code>
-				<function depth="1" id="3">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="4"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="6">
+				<function>
 					<name>enter</name>
 					<code>
-						<call depth="2" id="7">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_0</parameter>
@@ -35,10 +35,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="9">
+				<function>
 					<name>exit</name>
 					<code>
-						<call depth="2" id="10">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_1</parameter>
@@ -47,13 +47,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="12">
+				<function>
 					<name>doSomething</name>
 					<parameters>
 						<parameter>msg</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="13">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>msg</parameter>
@@ -68,7 +68,7 @@
 		<comment>\SLet's\Sassume\Syou\Soften\Sneed\Sto\Sinitialize\Ssomething\Sin\Sa\Sblock\Sand\Safterwards\Sremove\Sit.</comment>
 		<comment>\SYou\Scan\Srealize\Sthis\Susing\Sthe\S'in'\Skeyword.</comment>
 		<comment>\S'in'\Sautomatically\Scalls\Sthe\S.enter()\Sand\S.exit()\Smethods\Sfor\Sthe\Sobject\Syou\Sused:</comment>
-		<in depth="0" id="18">
+		<in>
 			<expression>
 				<new>
 					<type>MyAwesomeClass</type>
@@ -76,7 +76,7 @@
 				</new>
 			</expression>
 			<code>
-				<call depth="1" id="19">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_2</parameter>
@@ -85,7 +85,7 @@
 			</code>
 		</in>
 		<comment>\STo\Suse\Sthe\Sobject\Sinstance\Sinside\Sthe\Sblock\Syou\Sneed\Sto\Sname\Sit:</comment>
-		<in depth="0" id="22">
+		<in>
 			<expression>
 				<assign>
 					<value>a</value>
@@ -98,7 +98,7 @@
 				</assign>
 			</expression>
 			<code>
-				<call depth="1" id="23">
+				<call>
 					<function>
 						<access>
 							<value>a</value>

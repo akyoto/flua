@@ -13,22 +13,22 @@
 		<comment>\SNote\Sthat\Sthis\Sis\Sa\Srecently\Sdeveloped\Sfeature\Swhich\Sis\Scurrently\Shighly\Sexperimental.</comment>
 		<comment>\SNonetheless\Syou\Scan\Stry\Sand\Ssee\Sif\Sit\Sworks\Sfor\Syou,\Spress\SF5.</comment>
 		<comment>\SBase\Sclass</comment>
-		<class depth="0">
+		<class>
 			<name>MyBaseClass</name>
 			<code>
-				<function depth="1">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1">
+				<function>
+					<name>doSomething</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomething</name>
 					<code>
-						<return depth="2">
+						<return>
 							<multiply>
 								<value>x</value>
 								<value>2</value>
@@ -36,13 +36,13 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1">
+				<function>
+					<name>doSomethingOverloaded</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverloaded</name>
 					<code>
-						<return depth="2">
+						<return>
 							<multiply>
 								<value>x</value>
 								<value>3</value>
@@ -54,25 +54,25 @@
 			<meta/>
 		</class>
 		<comment>\SDerived\Sclass</comment>
-		<class depth="0">
+		<class>
 			<name>MyDerivedClass</name>
 			<code>
-				<extends depth="1">
-					<extends-class depth="2">MyBaseClass</extends-class>
+				<extends>
+					<extends-class>MyBaseClass</extends-class>
 				</extends>
-				<function depth="1">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1">
+				<function>
+					<name>doSomethingOverloaded</name>
 					<parameters>
 						<parameter>x</parameter>
 					</parameters>
-					<name>doSomethingOverloaded</name>
 					<code>
-						<return depth="2">
+						<return>
 							<multiply>
 								<value>x</value>
 								<value>4</value>
@@ -84,7 +84,7 @@
 			<meta/>
 		</class>
 		<comment>\STest\Sit</comment>
-		<assign depth="0">
+		<assign>
 			<value>tbc</value>
 			<value>
 				<new>
@@ -94,7 +94,7 @@
 			</value>
 		</assign>
 		<comment>\SCall\San\Soverloaded\Smethod\Sof\SMyDerivedClass\Sand\Sa\Snormal\Sone\Sof\SMyBaseClass</comment>
-		<if-block depth="0">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -137,7 +137,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -145,9 +145,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0">
+			<else>
 				<code>
-					<call depth="1">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

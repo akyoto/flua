@@ -7,433 +7,433 @@
 		<strings/>
 	</header>
 	<code>
-		<extern depth="0" id="1">
-			<const depth="1" id="2">
-				<extern-variable depth="2" id="3">
+		<extern>
+			<const>
+				<extern-variable>
 					<name>EGL_ALPHA_FORMAT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="4">
+				<extern-variable>
 					<name>EGL_ALPHA_FORMAT_NONPRE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="5">
+				<extern-variable>
 					<name>EGL_ALPHA_FORMAT_PRE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="6">
+				<extern-variable>
 					<name>EGL_ALPHA_MASK_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="7">
+				<extern-variable>
 					<name>EGL_ALPHA_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="8">
+				<extern-variable>
 					<name>EGL_BACK_BUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="9">
+				<extern-variable>
 					<name>EGL_BAD_ACCESS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="10">
+				<extern-variable>
 					<name>EGL_BAD_ALLOC</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="11">
+				<extern-variable>
 					<name>EGL_BAD_ATTRIBUTE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="12">
+				<extern-variable>
 					<name>EGL_BAD_CONFIG</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="13">
+				<extern-variable>
 					<name>EGL_BAD_CONTEXT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="14">
+				<extern-variable>
 					<name>EGL_BAD_CURRENT_SURFACE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="15">
+				<extern-variable>
 					<name>EGL_BAD_DISPLAY</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="16">
+				<extern-variable>
 					<name>EGL_BAD_MATCH</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="17">
+				<extern-variable>
 					<name>EGL_BAD_NATIVE_PIXMAP</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="18">
+				<extern-variable>
 					<name>EGL_BAD_NATIVE_WINDOW</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="19">
+				<extern-variable>
 					<name>EGL_BAD_PARAMETER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="20">
+				<extern-variable>
 					<name>EGL_BAD_SURFACE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="21">
+				<extern-variable>
 					<name>EGL_BIND_TO_TEXTURE_RGB</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="22">
+				<extern-variable>
 					<name>EGL_BIND_TO_TEXTURE_RGBA</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="23">
+				<extern-variable>
 					<name>EGL_BLUE_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="24">
+				<extern-variable>
 					<name>EGL_BUFFER_DESTROYED</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="25">
+				<extern-variable>
 					<name>EGL_BUFFER_PRESERVED</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="26">
+				<extern-variable>
 					<name>EGL_BUFFER_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="27">
+				<extern-variable>
 					<name>EGL_CLIENT_APIS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="28">
+				<extern-variable>
 					<name>EGL_COLORSPACE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="29">
+				<extern-variable>
 					<name>EGL_COLORSPACE_LINEAR</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="30">
+				<extern-variable>
 					<name>EGL_COLORSPACE_sRGB</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="31">
+				<extern-variable>
 					<name>EGL_COLOR_BUFFER_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="32">
+				<extern-variable>
 					<name>EGL_CONFIG_CAVEAT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="33">
+				<extern-variable>
 					<name>EGL_CONFIG_ID</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="34">
+				<extern-variable>
 					<name>EGL_CONTEXT_CLIENT_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="35">
+				<extern-variable>
 					<name>EGL_CONTEXT_CLIENT_VERSION</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="36">
+				<extern-variable>
 					<name>EGL_CONTEXT_LOST</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="37">
+				<extern-variable>
 					<name>EGL_CORE_NATIVE_ENGINE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="38">
+				<extern-variable>
 					<name>EGL_DEFAULT_DISPLAY</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="39">
+				<extern-variable>
 					<name>EGL_DEPTH_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="40">
+				<extern-variable>
 					<name>EGL_DISPLAY_SCALING</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="41">
+				<extern-variable>
 					<name>EGL_DONT_CARE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="42">
+				<extern-variable>
 					<name>EGL_DRAW</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="43">
+				<extern-variable>
 					<name>EGL_EXTENSIONS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="44">
+				<extern-variable>
 					<name>EGL_FALSE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="45">
+				<extern-variable>
 					<name>EGL_GREEN_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="46">
+				<extern-variable>
 					<name>EGL_HEIGHT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="47">
+				<extern-variable>
 					<name>EGL_HORIZONTAL_RESOLUTION</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="48">
+				<extern-variable>
 					<name>EGL_LARGEST_PBUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="49">
+				<extern-variable>
 					<name>EGL_LEVEL</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="50">
+				<extern-variable>
 					<name>EGL_LUMINANCE_BUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="51">
+				<extern-variable>
 					<name>EGL_LUMINANCE_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="52">
+				<extern-variable>
 					<name>EGL_MATCH_NATIVE_PIXMAP</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="53">
+				<extern-variable>
 					<name>EGL_MAX_PBUFFER_HEIGHT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="54">
+				<extern-variable>
 					<name>EGL_MAX_PBUFFER_PIXELS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="55">
+				<extern-variable>
 					<name>EGL_MAX_PBUFFER_WIDTH</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="56">
+				<extern-variable>
 					<name>EGL_MAX_SWAP_INTERVAL</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="57">
+				<extern-variable>
 					<name>EGL_MIN_SWAP_INTERVAL</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="58">
+				<extern-variable>
 					<name>EGL_MIPMAP_LEVEL</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="59">
+				<extern-variable>
 					<name>EGL_MIPMAP_TEXTURE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="60">
+				<extern-variable>
 					<name>EGL_NATIVE_RENDERABLE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="61">
+				<extern-variable>
 					<name>EGL_NATIVE_VISUAL_ID</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="62">
+				<extern-variable>
 					<name>EGL_NATIVE_VISUAL_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="63">
+				<extern-variable>
 					<name>EGL_NONE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="64">
+				<extern-variable>
 					<name>EGL_NON_CONFORMANT_CONFIG</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="65">
+				<extern-variable>
 					<name>EGL_NOT_INITIALIZED</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="66">
+				<extern-variable>
 					<name>EGL_NO_CONTEXT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="67">
+				<extern-variable>
 					<name>EGL_NO_DISPLAY</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="68">
+				<extern-variable>
 					<name>EGL_NO_SURFACE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="69">
+				<extern-variable>
 					<name>EGL_NO_TEXTURE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="70">
+				<extern-variable>
 					<name>EGL_OPENGL_ES2_BIT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="71">
+				<extern-variable>
 					<name>EGL_OPENGL_ES_API</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="72">
+				<extern-variable>
 					<name>EGL_OPENGL_ES_BIT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="73">
+				<extern-variable>
 					<name>EGL_OPENVG_API</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="74">
+				<extern-variable>
 					<name>EGL_OPENVG_BIT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="75">
+				<extern-variable>
 					<name>EGL_OPENVG_IMAGE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="76">
+				<extern-variable>
 					<name>EGL_PBUFFER_BIT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="77">
+				<extern-variable>
 					<name>EGL_PIXEL_ASPECT_RATIO</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="78">
+				<extern-variable>
 					<name>EGL_PIXMAP_BIT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="79">
+				<extern-variable>
 					<name>EGL_PRESERVED_RESOURCES</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="80">
+				<extern-variable>
 					<name>EGL_READ</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="81">
+				<extern-variable>
 					<name>EGL_RED_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="82">
+				<extern-variable>
 					<name>EGL_RENDERABLE_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="83">
+				<extern-variable>
 					<name>EGL_RENDER_BUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="84">
+				<extern-variable>
 					<name>EGL_RGB_BUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="85">
+				<extern-variable>
 					<name>EGL_SAMPLES</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="86">
+				<extern-variable>
 					<name>EGL_SAMPLE_BUFFERS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="87">
+				<extern-variable>
 					<name>EGL_SINGLE_BUFFER</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="88">
+				<extern-variable>
 					<name>EGL_SLOW_CONFIG</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="89">
+				<extern-variable>
 					<name>EGL_STENCIL_SIZE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="90">
+				<extern-variable>
 					<name>EGL_SUCCESS</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="91">
+				<extern-variable>
 					<name>EGL_SURFACE_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="92">
+				<extern-variable>
 					<name>EGL_SWAP_BEHAVIOR</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="93">
+				<extern-variable>
 					<name>EGL_TEXTURE_2D</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="94">
+				<extern-variable>
 					<name>EGL_TEXTURE_FORMAT</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="95">
+				<extern-variable>
 					<name>EGL_TEXTURE_RGB</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="96">
+				<extern-variable>
 					<name>EGL_TEXTURE_RGBA</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="97">
+				<extern-variable>
 					<name>EGL_TEXTURE_TARGET</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="98">
+				<extern-variable>
 					<name>EGL_TRANSPARENT_BLUE_VALUE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="99">
+				<extern-variable>
 					<name>EGL_TRANSPARENT_GREEN_VALUE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="100">
+				<extern-variable>
 					<name>EGL_TRANSPARENT_RED_VALUE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="101">
+				<extern-variable>
 					<name>EGL_TRANSPARENT_RGB</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="102">
+				<extern-variable>
 					<name>EGL_TRANSPARENT_TYPE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="103">
+				<extern-variable>
 					<name>EGL_TRUE</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="104">
+				<extern-variable>
 					<name>EGL_UNKNOWN</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="105">
+				<extern-variable>
 					<name>EGL_VENDOR</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="106">
+				<extern-variable>
 					<name>EGL_VERSION</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="107">
+				<extern-variable>
 					<name>EGL_VERTICAL_RESOLUTION</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="108">
+				<extern-variable>
 					<name>EGL_WIDTH</name>
 					<type>Int</type>
 				</extern-variable>
-				<extern-variable depth="2" id="109">
+				<extern-variable>
 					<name>EGL_WINDOW_BIT</name>
 					<type>Int</type>
 				</extern-variable>

@@ -8,14 +8,14 @@
 	</header>
 	<code>
 		<comment>\SLet's\Sdefine\Sa\Sdata\Ssource:</comment>
-		<function depth="0" id="2">
+		<function>
 			<name>sum</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="3">
+				<return>
 					<add>
 						<value>a</value>
 						<value>b</value>
@@ -25,13 +25,13 @@
 			<meta/>
 		</function>
 		<comment>\S...and\Sa\Ssimple\Sreceiver\Sfor\Sthe\Sdata:</comment>
-		<function depth="0" id="6">
+		<function>
 			<name>receive</name>
 			<parameters>
 				<parameter>a</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="7">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>a</parameter>
@@ -42,21 +42,21 @@
 		</function>
 		<comment>\SActivate\Sthe\Sdata\Sflow\Sso\Sthat\Sthe\Sreturn\Svalue\Sof\S#sum</comment>
 		<comment>\Sis\Sgiven\Sto\Sthe\S#receive\Sfunction\Seach\Stime\S#sum\Sis\Scalled:</comment>
-		<flow-to depth="0" id="11">
+		<flow-to>
 			<value>sum</value>
 			<value>receive</value>
 		</flow-to>
 		<comment>\SExecute\Sit</comment>
-		<parallel depth="0" id="14">
+		<parallel>
 			<code>
-				<call depth="1" id="15">
+				<call>
 					<function>sum</function>
 					<parameters>
 						<parameter>10</parameter>
 						<parameter>10</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="16">
+				<call>
 					<function>sum</function>
 					<parameters>
 						<parameter>17</parameter>

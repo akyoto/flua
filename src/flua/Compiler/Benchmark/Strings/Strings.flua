@@ -9,14 +9,14 @@
 		<strings/>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchStrings</name>
 			<code>
-				<call depth="1" id="2">
+				<call>
 					<function>benchConcat</function>
 					<parameters/>
 				</call>
-				<call depth="1" id="3">
+				<call>
 					<function>benchReplace</function>
 					<parameters/>
 				</call>

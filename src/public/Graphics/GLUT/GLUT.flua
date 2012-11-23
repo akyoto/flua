@@ -9,23 +9,23 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">GLUT.hpp</include>
-				<target depth="1" id="3">
+				<include>GLUT.hpp</include>
+				<target>
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2" id="4">
-							<compiler-flag depth="3" id="5">-lglut</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lglut</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
-				<target depth="1" id="6">
+				<target>
 					<name>Windows</name>
 					<code>
-						<compiler-flags depth="2" id="7">
-							<compiler-flag depth="3" id="8">-lfreeglut</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lfreeglut</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

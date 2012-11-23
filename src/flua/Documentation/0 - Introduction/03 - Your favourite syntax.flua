@@ -15,11 +15,11 @@
 		<comment>\S&quot;Flua\SSyntax&quot;\Sin\Sthe\Sstatus\Sbar\Sto\Sone\Syou\Slike\Sor\Sjust</comment>
 		<comment>\Sleave\Sit\Sas\Sit\Sis\Sif\Syou\Slike\Sthe\SFlua\Sdefault\Ssyntax.</comment>
 		<comment>\SHere's\Ssome\Spreview\Scode:</comment>
-		<if-block depth="0" id="7">
+		<if-block>
 			<if>
 				<condition>1</condition>
 				<code>
-					<call depth="1" id="8">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>1</parameter>
@@ -28,28 +28,28 @@
 				</code>
 			</if>
 		</if-block>
-		<while depth="0" id="10">
+		<while>
 			<condition>2</condition>
 			<code>
-				<call depth="1" id="11">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>3</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="12">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>4</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="13">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>5</parameter>
 					</parameters>
 				</call>
-				<if-block depth="1" id="15">
+				<if-block>
 					<if>
 						<condition>
 							<equal>
@@ -58,16 +58,16 @@
 							</equal>
 						</condition>
 						<code>
-							<break depth="2" id="16"/>
+							<break/>
 						</code>
 					</if>
 				</if-block>
 			</code>
 		</while>
-		<class depth="0" id="18">
+		<class>
 			<name>MyClass</name>
 			<code>
-				<function depth="1" id="19">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -78,13 +78,13 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="20"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="22">
+				<function>
 					<name>myMethod</name>
 					<code>
-						<call depth="2" id="23">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -99,7 +99,7 @@
 				</function>
 			</code>
 		</class>
-		<assign depth="0" id="25">
+		<assign>
 			<value>obj</value>
 			<value>
 				<new>

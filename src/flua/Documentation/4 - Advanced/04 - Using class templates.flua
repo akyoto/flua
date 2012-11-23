@@ -8,16 +8,16 @@
 	</header>
 	<code>
 		<comment>\SOne\Stemplate\Sparameter\Sper\Sline\Sin\Sthe\S'template'\Sblock</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>MyAwesomeClass</name>
 			<code>
-				<template depth="1" id="3">
-					<parameter depth="2" id="4">
+				<template>
+					<parameter>
 						<name>TDataType</name>
 						<default-value>Int</default-value>
 					</parameter>
 				</template>
-				<function depth="1" id="6">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -44,14 +44,14 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="9">
+				<function>
 					<name>doSomething</name>
 					<code>
-						<call depth="2" id="10">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -62,7 +62,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="11">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>
@@ -80,7 +80,7 @@
 			<meta/>
 		</class>
 		<comment>\SCreate\S2\Sfloats</comment>
-		<assign depth="0" id="14">
+		<assign>
 			<value>x</value>
 			<value>
 				<divide>
@@ -89,7 +89,7 @@
 				</divide>
 			</value>
 		</assign>
-		<assign depth="0" id="15">
+		<assign>
 			<value>y</value>
 			<value>
 				<divide>
@@ -99,7 +99,7 @@
 			</value>
 		</assign>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Susing\Sthe\Sdefault\Stype\S'Int':</comment>
-		<assign depth="0" id="18">
+		<assign>
 			<value>a</value>
 			<value>
 				<new>
@@ -111,7 +111,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="19">
+		<call>
 			<function>
 				<access>
 					<value>a</value>
@@ -121,7 +121,7 @@
 			<parameters/>
 		</call>
 		<comment>\SCreate\San\Sinstance\Sof\Sour\Stemplate\Sclass\Sexplicitly\Susing\S'Float'\Sas\Sthe\Sdata\Stype:</comment>
-		<assign depth="0" id="22">
+		<assign>
 			<value>b</value>
 			<value>
 				<new>
@@ -138,7 +138,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="23">
+		<call>
 			<function>
 				<access>
 					<value>b</value>

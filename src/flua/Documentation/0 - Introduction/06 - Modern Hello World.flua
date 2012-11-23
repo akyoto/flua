@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SGet\Sthe\Snumber\Sof\SCPU\Scores</comment>
-		<assign depth="0" id="4">
+		<assign>
 			<value>numTasks</value>
 			<value>
 				<call>
@@ -22,12 +22,12 @@
 			</value>
 		</assign>
 		<comment>\SCreate\Sone\Stask\Sfor\Seach\SCPU\Score</comment>
-		<parallel-for depth="0" id="7">
+		<parallel-for>
 			<iterator>i</iterator>
 			<from>1</from>
 			<to>numTasks</to>
 			<code>
-				<call depth="1" id="8">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>

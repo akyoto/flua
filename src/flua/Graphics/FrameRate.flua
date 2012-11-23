@@ -7,42 +7,42 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>FrameRate</name>
 			<code>
-				<public depth="1" id="2">
-					<public-member depth="2" id="3">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>lastUpdate</value>
 							<value>Int64</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="4">
+					<public-member>
 						<declare-type>
 							<value>frames</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="5">
+					<public-member>
 						<declare-type>
 							<value>sumFps</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="6">
+					<public-member>
 						<declare-type>
 							<value>sumFpsCounted</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="7">
+					<public-member>
 						<declare-type>
 							<value>updateInterval</value>
 							<value>Int</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="9">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -58,7 +58,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="10">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -72,7 +72,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -81,7 +81,7 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<assign depth="2" id="12">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -93,10 +93,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="14">
+				<function>
 					<name>update</name>
 					<code>
-						<assign-add depth="2" id="15">
+						<assign-add>
 							<value>
 								<access>
 									<value>my</value>
@@ -105,7 +105,7 @@
 							</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="17">
+						<if-block>
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -134,7 +134,7 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="18">
+									<assign>
 										<value>
 											<access>
 												<value>my</value>
@@ -148,7 +148,7 @@
 											</access>
 										</value>
 									</assign>
-									<assign depth="3" id="19">
+									<assign>
 										<value>
 											<access>
 												<value>my</value>
@@ -157,7 +157,7 @@
 										</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="20">
+									<assign>
 										<value>
 											<access>
 												<value>my</value>
@@ -171,7 +171,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign-add depth="3" id="21">
+									<assign-add>
 										<value>
 											<access>
 												<value>my</value>
@@ -185,7 +185,7 @@
 											</access>
 										</value>
 									</assign-add>
-									<assign-add depth="3" id="22">
+									<assign-add>
 										<value>
 											<access>
 												<value>my</value>
@@ -200,11 +200,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="24">
-					<getter depth="2" id="25">
+				<get>
+					<getter>
 						<name>fps</name>
 						<code>
-							<return depth="3" id="26">
+							<return>
 								<access>
 									<value>my</value>
 									<value>fps</value>
@@ -212,10 +212,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="28">
+					<getter>
 						<name>averageFPS</name>
 						<code>
-							<if-block depth="3" id="29">
+							<if-block>
 								<if>
 									<condition>
 										<equal>
@@ -229,11 +229,11 @@
 										</equal>
 									</condition>
 									<code>
-										<return depth="4" id="30">0</return>
+										<return>0</return>
 									</code>
 								</if>
 							</if-block>
-							<return depth="3" id="32">
+							<return>
 								<divide>
 									<value>
 										<access>

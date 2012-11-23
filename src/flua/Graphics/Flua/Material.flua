@@ -12,30 +12,30 @@
 	</header>
 	<code>
 		<comment>\SA\Smaterial\Scontains\Sa\Svertex\Sand\Sa\Sfragment\Sshader</comment>
-		<class depth="0" id="8">
+		<class>
 			<name>Material</name>
 			<code>
-				<public depth="1" id="9">
-					<public-member depth="2" id="10">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>color</value>
 							<value>Color</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="11">
+					<public-member>
 						<declare-type>
 							<value>shader</value>
 							<value>Shader</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="12">
+					<public-member>
 						<declare-type>
 							<value>texture</value>
 							<value>Texture</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="14">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -51,7 +51,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="15">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -68,7 +68,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="17">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -79,7 +79,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="18">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -93,7 +93,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="19">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -114,7 +114,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="20">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -131,10 +131,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="22">
+				<function>
 					<name>activate</name>
 					<code>
-						<call depth="2" id="23">
+						<call>
 							<function>
 								<access>
 									<value>
@@ -149,7 +149,7 @@
 							<parameters/>
 						</call>
 						<comment>\SSet\Scolor</comment>
-						<call depth="2" id="26">
+						<call>
 							<function>glUniform4f</function>
 							<parameters>
 								<parameter>
@@ -210,7 +210,7 @@
 							</parameters>
 						</call>
 						<comment>\SSet\Stexture</comment>
-						<if-block depth="2" id="29">
+						<if-block>
 							<if>
 								<condition>
 									<access>
@@ -219,7 +219,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="30">
+									<call>
 										<function>
 											<access>
 												<value>
@@ -233,7 +233,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<call depth="3" id="31">
+									<call>
 										<function>glUniform1i</function>
 										<parameters>
 											<parameter>

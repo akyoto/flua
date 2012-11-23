@@ -11,34 +11,34 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchDistance</name>
 			<code>
-				<assign depth="1" id="2">
+				<assign>
 					<value>n</value>
 					<value>1600000</value>
 				</assign>
-				<assign depth="1" id="3">
+				<assign>
 					<value>a1</value>
 					<value>1</value>
 				</assign>
-				<assign depth="1" id="4">
+				<assign>
 					<value>b1</value>
 					<value>2</value>
 				</assign>
-				<assign depth="1" id="5">
+				<assign>
 					<value>a2</value>
 					<value>256</value>
 				</assign>
-				<assign depth="1" id="6">
+				<assign>
 					<value>b2</value>
 					<value>278</value>
 				</assign>
-				<assign depth="1" id="7">
+				<assign>
 					<value>resDist</value>
 					<value>0</value>
 				</assign>
-				<in depth="1" id="8">
+				<in>
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -48,12 +48,12 @@
 						</new>
 					</expression>
 					<code>
-						<for depth="2" id="9">
+						<for>
 							<iterator>i</iterator>
 							<from>1</from>
 							<to>n</to>
 							<code>
-								<assign depth="3" id="10">
+								<assign>
 									<value>resDist</value>
 									<value>
 										<call>

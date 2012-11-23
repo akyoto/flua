@@ -18,7 +18,7 @@
 		<comment>\SAs\SFlua\Sis\Spurely\Sbased\Son\SXML\Scode\S(basically\San\Sabstract\Ssyntax\Stree)</comment>
 		<comment>\Syou\Scan\Sswitch\Sthe\Ssyntax\Sof\Sthe\Seditor\Sto\Sone\Syou\Slike\Swriting\Sor\Sreading\Sin.</comment>
 		<comment>\SI\Spersonally\Slike\S&quot;Flua\Sgoes\SC++&quot;\Sfor\Sreading\Swhile\SI\Slove\Swriting\Sin\SFlua\SSyntax.</comment>
-		<if-block depth="0" id="4">
+		<if-block>
 			<if>
 				<condition>
 					<exists-in>
@@ -27,7 +27,7 @@
 					</exists-in>
 				</condition>
 				<code>
-					<call depth="1" id="5">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_2</parameter>
@@ -35,9 +35,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="6">
+			<else>
 				<code>
-					<call depth="1" id="7">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_3</parameter>
@@ -47,13 +47,13 @@
 			</else>
 		</if-block>
 		<comment>\SDo\Sit!\SSwitch\Sthe\Ssyntax\Sin\Sthe\Sstatus\Sbar.</comment>
-		<class depth="0" id="10">
+		<class>
 			<name>MyClass</name>
 			<code>
-				<function depth="1" id="11">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="12">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -64,10 +64,10 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1" id="14">
+				<function>
 					<name>methodOne</name>
 					<code>
-						<call depth="2" id="15">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_5</parameter>
@@ -75,10 +75,10 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="17">
+				<function>
 					<name>methodTwo</name>
 					<code>
-						<call depth="2" id="18">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_6</parameter>
@@ -86,11 +86,11 @@
 						</call>
 					</code>
 				</function>
-				<get depth="1" id="20">
-					<getter depth="2" id="21">
+				<get>
+					<getter>
 						<name>member</name>
 						<code>
-							<return depth="3" id="22">
+							<return>
 								<access>
 									<value>my</value>
 									<value>member</value>

@@ -7,36 +7,37 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>ColorRGBA</name>
 			<code>
-				<public depth="1" id="2">
-					<public-member depth="2" id="3">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>red</value>
 							<value>Float</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="4">
+					<public-member>
 						<declare-type>
 							<value>green</value>
 							<value>Float</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="5">
+					<public-member>
 						<declare-type>
 							<value>blue</value>
 							<value>Float</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="6">
+					<public-member>
 						<declare-type>
 							<value>alpha</value>
 							<value>Float</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="7">
+				<function>
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -83,13 +84,13 @@
 							</assign>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="8"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="9">
+				<function>
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<declare-type>
@@ -98,12 +99,11 @@
 							</declare-type>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<on depth="2" id="10">
+						<on>
 							<expression>my</expression>
 							<code>
-								<assign depth="3" id="11">
+								<assign>
 									<value>red</value>
 									<value>
 										<access>
@@ -112,7 +112,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="12">
+								<assign>
 									<value>green</value>
 									<value>
 										<access>
@@ -121,7 +121,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="13">
+								<assign>
 									<value>blue</value>
 									<value>
 										<access>
@@ -130,7 +130,7 @@
 										</access>
 									</value>
 								</assign>
-								<assign depth="3" id="14">
+								<assign>
 									<value>alpha</value>
 									<value>
 										<access>
@@ -144,25 +144,25 @@
 					</code>
 					<meta/>
 				</function>
-				<operators depth="1" id="15">
-					<operator depth="2" id="16">
+				<operators>
+					<operator>
+						<name>=</name>
 						<parameters>
 							<parameter>value</parameter>
 						</parameters>
-						<name>=</name>
 						<code>
-							<on depth="3" id="17">
+							<on>
 								<expression>my</expression>
 								<code>
-									<assign depth="4" id="18">
+									<assign>
 										<value>red</value>
 										<value>value</value>
 									</assign>
-									<assign depth="4" id="19">
+									<assign>
 										<value>green</value>
 										<value>value</value>
 									</assign>
-									<assign depth="4" id="20">
+									<assign>
 										<value>blue</value>
 										<value>value</value>
 									</assign>
@@ -175,8 +175,8 @@
 			<meta/>
 		</class>
 		<comment>\SDefault</comment>
-		<define depth="0" id="21">
-			<assign depth="1" id="22">
+		<define>
+			<assign>
 				<value>Color</value>
 				<value>ColorRGBA</value>
 			</assign>

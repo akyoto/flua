@@ -11,11 +11,11 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>errorCode</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign>
 			<value>array</value>
 			<value>
 				<new>
@@ -29,7 +29,7 @@
 				</new>
 			</value>
 		</assign>
-		<if-block depth="0" id="3">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -43,14 +43,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="4">
+					<assign-add>
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<call depth="0" id="5">
+		<call>
 			<function>
 				<access>
 					<value>array</value>
@@ -61,7 +61,7 @@
 				<parameter>5</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="6">
+		<call>
 			<function>
 				<access>
 					<value>array</value>
@@ -72,7 +72,7 @@
 				<parameter>8</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="7">
+		<call>
 			<function>
 				<access>
 					<value>array</value>
@@ -83,7 +83,7 @@
 				<parameter>13</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0" id="8">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -112,14 +112,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="9">
+					<assign-add>
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="10">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -133,14 +133,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="11">
+					<assign-add>
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0" id="12">
+		<assign>
 			<value>array2</value>
 			<value>
 				<new>
@@ -159,7 +159,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="13">
+		<call>
 			<function>
 				<access>
 					<value>array2</value>
@@ -170,7 +170,7 @@
 				<parameter>array</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0" id="14">
+		<if-block>
 			<if>
 				<condition>
 					<or>
@@ -244,18 +244,18 @@
 					</or>
 				</condition>
 				<code>
-					<assign-add depth="1" id="15">
+					<assign-add>
 						<value>errorCode</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="16">
+		<if-block>
 			<if>
 				<condition>errorCode</condition>
 				<code>
-					<call depth="1" id="17">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -263,9 +263,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="18">
+			<else>
 				<code>
-					<call depth="1" id="19">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

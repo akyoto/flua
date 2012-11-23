@@ -7,10 +7,10 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>ResolveHostIPException</name>
 			<code>
-				<function depth="1" id="2">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -21,14 +21,14 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="5">
-					<getter depth="2" id="6">
+				<get>
+					<getter>
 						<name>hostName</name>
 						<code>
-							<return depth="3" id="7">
+							<return>
 								<access>
 									<value>my</value>
 									<value>hostName</value>

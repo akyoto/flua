@@ -9,21 +9,21 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="4">
+		<class>
 			<name>Scene</name>
 			<code>
-				<public depth="1" id="5">
-					<public-member depth="2" id="6">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>root</value>
 							<value>SceneNode</value>
 						</declare-type>
 					</public-member>
 				</public>
-				<function depth="1" id="8">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="9">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -39,10 +39,10 @@
 						</assign>
 					</code>
 				</function>
-				<function depth="1" id="11">
+				<function>
 					<name>render</name>
 					<code>
-						<foreach depth="2" id="12">
+						<foreach>
 							<iterator>node</iterator>
 							<collection>
 								<access>
@@ -56,7 +56,7 @@
 								</access>
 							</collection>
 							<code>
-								<call depth="3" id="13">
+								<call>
 									<function>
 										<access>
 											<value>node</value>

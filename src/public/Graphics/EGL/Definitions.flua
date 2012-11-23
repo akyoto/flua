@@ -7,12 +7,12 @@
 		<strings/>
 	</header>
 	<code>
-		<define depth="0" id="1">
-			<assign depth="1" id="2">
+		<define>
+			<assign>
 				<value>EGLenum</value>
 				<value>Int</value>
 			</assign>
-			<assign depth="1" id="3">
+			<assign>
 				<value>EGLint</value>
 				<value>Int</value>
 			</assign>

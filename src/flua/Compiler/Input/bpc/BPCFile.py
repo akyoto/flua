@@ -582,8 +582,11 @@ class BPCFile(ScopeController, Benchmarkable):
 				#	perLineCallBack()
 				
 				if currentLine.nodeType != Node.TEXT_NODE:
-					currentLine.setAttribute("id", str(self.lastLineCount))
-					currentLine.setAttribute("depth", str(tabCount))
+					#currentLine.setAttribute("id", str(self.lastLineCount))
+					#currentLine.setAttribute("depth", str(tabCount))
+					currentLine.lineNumber = self.lastLineCount
+					currentLine.depth = tabCount
+					
 					#self.idCount += 1
 					if currentLine.tagName == "assign":
 						variableNode = currentLine.childNodes[0].childNodes[0]

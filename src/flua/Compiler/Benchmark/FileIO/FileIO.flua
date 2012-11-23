@@ -8,10 +8,10 @@
 		<strings/>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchFileIO</name>
 			<code>
-				<call depth="1" id="2">
+				<call>
 					<function>benchReadAll</function>
 					<parameters/>
 				</call>

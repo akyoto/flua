@@ -11,10 +11,10 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchFactorial</name>
 			<code>
-				<assign depth="1" id="2">
+				<assign>
 					<value>
 						<declare-type>
 							<value>resFact</value>
@@ -24,7 +24,7 @@
 					<value>0</value>
 				</assign>
 				<comment>\SA\Svalue\Saround\S50000\Swould\Smake\Sit\Scrash</comment>
-				<assign depth="1" id="3">
+				<assign>
 					<value>
 						<declare-type>
 							<value>bigA</value>
@@ -33,7 +33,7 @@
 					</value>
 					<value>50000</value>
 				</assign>
-				<in depth="1" id="4">
+				<in>
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -43,7 +43,7 @@
 						</new>
 					</expression>
 					<code>
-						<assign depth="2" id="5">
+						<assign>
 							<value>resFact</value>
 							<value>
 								<call>

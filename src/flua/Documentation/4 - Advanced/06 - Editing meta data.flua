@@ -16,18 +16,18 @@
 		<comment>\SAt\Sleast\Sit\Sshould\Sbe\Son\Sthe\Stop\S-\Sunless\SCanonical\Sdecided\Sto\Stry\Sout\Ssome\Snew\Sand\Sweird\Smenu\Sinterface.</comment>
 		<comment>\SIn\Sany\Scase...meta\Sdata\Sis\Sall\Sthe\Sdata\S'between'\Sthe\Slines\Swhich\Syou\Scan't\Ssee\Sin\Stext\Sform.</comment>
 		<comment>\SYou\Smight\Ssee\Sit\Sin\Sthe\Sform\Sof\Sdifferent\Ssyntax\Shighlighting:</comment>
-		<extern depth="0" id="8">
-			<extern-function depth="1" id="9">
+		<extern>
+			<extern-function>
 				<name>bp_terribleSideEffectsFunction</name>
 				<meta/>
 			</extern-function>
-			<extern-function depth="1" id="10">
+			<extern-function>
 				<name>bp_noSideEffectsFunction</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
 				</meta>
 			</extern-function>
-			<extern-function depth="1" id="11">
+			<extern-function>
 				<name>bp_referentiallyTransparentFunction</name>
 				<meta>
 					<no-side-effects>true</no-side-effects>
@@ -41,19 +41,19 @@
 		<comment>\Swhether\Sthese\Sfunctions\Sare\Sthread\Ssafe\Sand\S/\Sor\Sreferentially\Stransparent.</comment>
 		<comment>\SWe\Scan\Suse\Sthat\Smeta\Sdata\Sfor\Sall\Ssorts\Sof\Sinformation.</comment>
 		<comment>\SYou\Smight\Salready\Ssee\Sthat\Sthis\Sis\Sa\Sclass\Sdefinition...</comment>
-		<class depth="0" id="19">
+		<class>
 			<name>ClickOnMe</name>
 			<code>
-				<function depth="1" id="20">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="21"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="23">
+				<function>
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="24">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>flua_string_0</parameter>
@@ -70,10 +70,10 @@
 		<comment>\Sedited\Sis\Shidden\Sfrom\Sthe\Sview\Suntil\Syou\Sneed\Sit\S/\Sclick\Son\Sit.</comment>
 		<comment>\SWe\Scould\Salso\Ssave\Sseveral\Sforms\Sof\Sdocumentation\Sfor\Sany\Sinstruction,\Sclass\Sor\Sfunction.</comment>
 		<comment>\SIn\Sfact\Sfunctions\Salready\Shave\Sa\Sgood\Samount\Sof\Smeta\Sdata:</comment>
-		<function depth="0" id="31">
+		<function>
 			<name>clickOnMe</name>
 			<code>
-				<return depth="1" id="32">42</return>
+				<return>42</return>
 			</code>
 		</function>
 		<comment>\SThey\Saren't\Sfully\Sworking\Sin\Sthe\Scurrent\Sversion,\Sthough.</comment>

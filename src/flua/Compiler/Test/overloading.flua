@@ -11,13 +11,13 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
+			<name>testFunc</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
-			<name>testFunc</name>
 			<code>
-				<call depth="1" id="2">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_0</parameter>
@@ -25,7 +25,8 @@
 				</call>
 			</code>
 		</function>
-		<function depth="0" id="3">
+		<function>
+			<name>testFunc</name>
 			<parameters>
 				<parameter>
 					<declare-type>
@@ -34,9 +35,8 @@
 					</declare-type>
 				</parameter>
 			</parameters>
-			<name>testFunc</name>
 			<code>
-				<call depth="1" id="4">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>flua_string_1</parameter>
@@ -45,7 +45,7 @@
 			</code>
 			<meta/>
 		</function>
-		<assign depth="0" id="5">
+		<assign>
 			<value>testA</value>
 			<value>
 				<new>
@@ -57,7 +57,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="6">
+		<call>
 			<function>testFunc</function>
 			<parameters>
 				<parameter>testA</parameter>

@@ -15,7 +15,7 @@
 		<comment>\Sthey\Sexist\Sin\Sthe\Smodule\Sheader\Sonly.\STherefore</comment>
 		<comment>\Syou\Scan\Snot\Sexecute\Sany\Scommands\Sbefore\S'import'.</comment>
 		<comment>\SNow\Suse\Sa\Sfunction\Sof\Sthat\Smodule:</comment>
-		<call depth="0" id="8">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -27,14 +27,14 @@
 			</parameters>
 		</call>
 		<comment>\SHow\Sabout\Sanother\Sone?</comment>
-		<call depth="0" id="11">
+		<call>
 			<function>changeDir</function>
 			<parameters>
 				<parameter>flua_string_0</parameter>
 			</parameters>
 		</call>
 		<comment>\SLet's\Scheck\Sif\Sit\Sworked</comment>
-		<call depth="0" id="14">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>

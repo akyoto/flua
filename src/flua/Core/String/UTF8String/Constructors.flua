@@ -8,14 +8,14 @@
 	</header>
 	<code>
 		<comment>\SUTF8String\Sconstructors</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>UTF8String</name>
 			<code>
 				<comment>\SDefault\Sconstructor</comment>
-				<function depth="1" id="4">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="5">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -40,7 +40,7 @@
 								</unmanaged>
 							</value>
 						</assign>
-						<assign depth="2" id="6">
+						<assign>
 							<value>
 								<declare-type>
 									<value>
@@ -54,7 +54,7 @@
 							</value>
 							<value>0</value>
 						</assign>
-						<assign depth="2" id="7">
+						<assign>
 							<value>
 								<declare-type>
 									<value>
@@ -72,7 +72,7 @@
 					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\SInteger</comment>
-				<function depth="1" id="10">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -84,7 +84,7 @@
 					</parameters>
 					<code>
 						<comment>\SMaximum\Scharacter\Scount\Sfor\S&quot;-2147483648&quot;\S=\S11\Scharacters</comment>
-						<assign depth="2" id="12">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -105,7 +105,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="13">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -133,7 +133,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="14">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -150,7 +150,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\Sanother\Sstring</comment>
-				<function depth="1" id="17">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -161,7 +161,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="18">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -175,7 +175,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="19">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -189,7 +189,7 @@
 								</access>
 							</value>
 						</assign>
-						<assign depth="2" id="20">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -207,7 +207,7 @@
 					<meta/>
 				</function>
 				<comment>\SInit\Sfrom\S2\Sstrings</comment>
-				<function depth="1" id="23">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -224,7 +224,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="24">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -248,7 +248,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="25">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -272,7 +272,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="26">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -298,7 +298,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="27">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -321,7 +321,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="28">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -357,7 +357,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\S3\Sstrings</comment>
-				<function depth="1" id="31">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -380,7 +380,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="32">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -414,7 +414,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="33">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -448,7 +448,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="34">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -474,7 +474,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="35">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -497,7 +497,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="36">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -530,7 +530,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="37">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -576,7 +576,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
-				<function depth="1" id="40">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -594,7 +594,7 @@
 					</parameters>
 					<code>
 						<comment>\SMaximum\Scharacter\Scount\Sfor\S&quot;-2147483648&quot;\S=\S11\Scharacters</comment>
-						<assign depth="2" id="42">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -625,7 +625,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="43">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -648,7 +648,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="44">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -691,7 +691,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="45">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -720,7 +720,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger</comment>
-				<function depth="1" id="48">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -743,7 +743,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="49">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -774,7 +774,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="50">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -797,7 +797,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="51">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -840,7 +840,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign-add depth="2" id="52">
+						<assign-add>
 							<value>
 								<access>
 									<value>my</value>
@@ -873,7 +873,7 @@
 								</call>
 							</value>
 						</assign-add>
-						<assign depth="2" id="53">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -902,7 +902,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SInteger\S+\SUTF8String</comment>
-				<function depth="1" id="56">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -926,7 +926,7 @@
 					</parameters>
 					<code>
 						<comment>\SMaximum\Scharacter\Scount\Sfor\S&quot;-2147483648&quot;\S=\S11\Scharacters</comment>
-						<assign depth="2" id="58">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -967,7 +967,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="59">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -990,7 +990,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="60">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1033,7 +1033,7 @@
 								</add>
 							</value>
 						</assign>
-						<call depth="2" id="61">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -1066,7 +1066,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign-add depth="2" id="62">
+						<assign-add>
 							<value>
 								<access>
 									<value>my</value>
@@ -1080,7 +1080,7 @@
 								</access>
 							</value>
 						</assign-add>
-						<assign depth="2" id="63">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1109,7 +1109,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SUTF8String\S+\SInteger</comment>
-				<function depth="1" id="66">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1132,7 +1132,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="67">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1173,7 +1173,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="68">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -1196,7 +1196,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="69">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -1229,7 +1229,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="70">
+						<assign>
 							<value>numLen</value>
 							<value>
 								<call>
@@ -1267,7 +1267,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="71">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1296,7 +1296,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="72">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1328,7 +1328,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SUTF8String\S+\SCString</comment>
-				<function depth="1" id="75">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1354,7 +1354,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="76">
+						<assign>
 							<value>cs2len</value>
 							<value>
 								<call>
@@ -1370,7 +1370,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="77">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1401,7 +1401,7 @@
 								</new>
 							</value>
 						</assign>
-						<call depth="2" id="78">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>
@@ -1424,7 +1424,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="79">
+						<call>
 							<function>copyMem</function>
 							<parameters>
 								<parameter>cs2</parameter>
@@ -1447,7 +1447,7 @@
 								<parameter>cs2len</parameter>
 							</parameters>
 						</call>
-						<assign depth="2" id="80">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1466,7 +1466,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="81">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1495,7 +1495,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SC-String</comment>
-				<function depth="1" id="84">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1515,7 +1515,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="85">
+						<assign>
 							<value>
 								<declare-type>
 									<value>
@@ -1538,7 +1538,7 @@
 							</value>
 							<value>bytes</value>
 						</assign>
-						<assign depth="2" id="86">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1559,7 +1559,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="87">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1588,7 +1588,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\Sindex\Sup\Sto\ScharacterCount\Scharacters</comment>
-				<function depth="1" id="90">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1620,10 +1620,10 @@
 						</parameter>
 					</parameters>
 					<code>
-						<target depth="2" id="91">
+						<target>
 							<name>C++</name>
 							<code>
-								<call depth="3" id="92">
+								<call>
 									<function>
 										<access>
 											<value>flua</value>
@@ -1656,10 +1656,10 @@
 								</call>
 							</code>
 						</target>
-						<target depth="2" id="94">
+						<target>
 							<name>Python3</name>
 							<code>
-								<call depth="3" id="95">
+								<call>
 									<function>
 										<access>
 											<value>flua</value>
@@ -1678,7 +1678,7 @@
 					</code>
 				</function>
 				<comment>\SInit\Sfrom\SC-String,\Sfrom\S#byteFrom\Sup\Sto\S#byteTo\Sbytes</comment>
-				<function depth="1" id="98">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -1716,7 +1716,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="99">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1730,7 +1730,7 @@
 								</add>
 							</value>
 						</assign>
-						<assign depth="2" id="100">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -1744,7 +1744,7 @@
 								</subtract>
 							</value>
 						</assign>
-						<assign depth="2" id="101">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>

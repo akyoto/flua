@@ -13,13 +13,13 @@
 		</strings>
 	</header>
 	<code>
-		<class depth="0" id="5">
+		<class>
 			<name>FileWriteStream</name>
 			<code>
-				<implements depth="1" id="6">
-					<implements-interface depth="2" id="7">WriteStream</implements-interface>
+				<implements>
+					<implements-interface>WriteStream</implements-interface>
 				</implements>
-				<function depth="1" id="9">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -30,7 +30,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="10">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -57,7 +57,7 @@
 								</call>
 							</value>
 						</assign>
-						<assign depth="2" id="11">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -66,7 +66,7 @@
 							</value>
 							<value>flua_string_1</value>
 						</assign>
-						<if-block depth="2" id="13">
+						<if-block>
 							<if>
 								<condition>
 									<not>
@@ -79,7 +79,7 @@
 									</not>
 								</condition>
 								<code>
-									<throw depth="3" id="14">
+									<throw>
 										<new>
 											<type>FileWriteException</type>
 											<parameters>
@@ -97,10 +97,10 @@
 						</if-block>
 					</code>
 				</function>
-				<function depth="1" id="16">
+				<function>
 					<name>finalize</name>
 					<code>
-						<call depth="2" id="17">
+						<call>
 							<function>
 								<access>
 									<value>my</value>
@@ -111,16 +111,16 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="19">
+				<function>
 					<name>enter</name>
 					<code>
-						<noop depth="2" id="20"/>
+						<noop/>
 					</code>
 				</function>
-				<function depth="1" id="22">
+				<function>
 					<name>exit</name>
 					<code>
-						<call depth="2" id="23">
+						<call>
 							<function>
 								<access>
 									<value>my</value>
@@ -131,13 +131,13 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="25">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>object</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="26">
+						<call>
 							<function>
 								<access>
 									<value>object</value>
@@ -151,7 +151,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="28">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>
@@ -162,11 +162,11 @@
 						</parameter>
 					</parameters>
 					<code>
-						<foreach depth="2" id="29">
+						<foreach>
 							<iterator>obj</iterator>
 							<collection>collection</collection>
 							<code>
-								<call depth="3" id="30">
+								<call>
 									<function>
 										<access>
 											<value>my</value>
@@ -181,7 +181,7 @@
 						</foreach>
 					</code>
 				</function>
-				<function depth="1" id="32">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>
@@ -192,7 +192,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="33">
+						<call>
 							<function>
 								<access>
 									<value>flua</value>
@@ -219,7 +219,7 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="35">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>
@@ -230,7 +230,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="36">
+						<call>
 							<function>
 								<access>
 									<value>flua</value>
@@ -260,7 +260,7 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="38">
+				<function>
 					<name>writeLine</name>
 					<parameters>
 						<parameter>
@@ -271,7 +271,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<call depth="2" id="39">
+						<call>
 							<function>
 								<access>
 									<value>flua</value>
@@ -299,7 +299,7 @@
 								</parameter>
 							</parameters>
 						</call>
-						<call depth="2" id="40">
+						<call>
 							<function>
 								<access>
 									<value>flua</value>
@@ -339,10 +339,10 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="42">
+				<function>
 					<name>flush</name>
 					<code>
-						<call depth="2" id="43">
+						<call>
 							<function>
 								<access>
 									<value>flua</value>
@@ -360,10 +360,10 @@
 						</call>
 					</code>
 				</function>
-				<function depth="1" id="45">
+				<function>
 					<name>close</name>
 					<code>
-						<if-block depth="2" id="46">
+						<if-block>
 							<if>
 								<condition>
 									<access>
@@ -372,7 +372,7 @@
 									</access>
 								</condition>
 								<code>
-									<assign depth="3" id="47">
+									<assign>
 										<value>success</value>
 										<value>
 											<call>
@@ -393,7 +393,7 @@
 											</call>
 										</value>
 									</assign>
-									<assign depth="3" id="48">
+									<assign>
 										<value>
 											<access>
 												<value>my</value>
@@ -402,18 +402,18 @@
 										</value>
 										<value>null</value>
 									</assign>
-									<return depth="3" id="50">success</return>
+									<return>success</return>
 								</code>
 							</if>
 						</if-block>
-						<return depth="2" id="52">false</return>
+						<return>false</return>
 					</code>
 				</function>
-				<get depth="1" id="54">
-					<getter depth="2" id="55">
+				<get>
+					<getter>
 						<name>path</name>
 						<code>
-							<return depth="3" id="56">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -421,10 +421,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="58">
+					<getter>
 						<name>newline</name>
 						<code>
-							<return depth="3" id="59">
+							<return>
 								<access>
 									<value>my</value>
 									<value>newline</value>
@@ -433,14 +433,14 @@
 						</code>
 					</getter>
 				</get>
-				<set depth="1" id="61">
-					<setter depth="2" id="62">
+				<set>
+					<setter>
 						<name>newline</name>
 						<parameters>
 							<parameter>newlineCharacter</parameter>
 						</parameters>
 						<code>
-							<assign depth="3" id="63">
+							<assign>
 								<value>
 									<access>
 										<value>my</value>

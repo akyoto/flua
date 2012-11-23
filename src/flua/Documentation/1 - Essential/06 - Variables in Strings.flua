@@ -11,11 +11,11 @@
 	</header>
 	<code>
 		<comment>\SLet's\Sget\Ssome\SPHP\Sfeeling\S(wait,\Sthat\Slanguage\Sactually\SDID\Ssomething\Sright?!)</comment>
-		<assign depth="0" id="2">
+		<assign>
 			<value>age</value>
 			<value>20</value>
 		</assign>
-		<call depth="0" id="3">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>

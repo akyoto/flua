@@ -8,11 +8,11 @@
 	</header>
 	<code>
 		<comment>\SCollection</comment>
-		<interface depth="0" id="2">
+		<interface>
 			<name>Collection</name>
 			<code>
-				<operators depth="1" id="3">
-					<operator depth="2" id="4" implemented="false">
+				<operators>
+					<operator implemented="false">
 						<name>[]</name>
 						<parameters>
 							<parameter>index</parameter>
@@ -20,7 +20,7 @@
 						<code/>
 						<meta/>
 					</operator>
-					<operator depth="2" id="5" implemented="false">
+					<operator implemented="false">
 						<name>[]=</name>
 						<parameters>
 							<parameter>index</parameter>
@@ -33,10 +33,10 @@
 			</code>
 		</interface>
 		<comment>\SSequence</comment>
-		<interface depth="0" id="8">
+		<interface>
 			<name>Sequence</name>
 			<code>
-				<function depth="1" id="9" implemented="false">
+				<function implemented="false">
 					<name>add</name>
 					<parameters>
 						<parameter>element</parameter>
@@ -44,7 +44,7 @@
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="10" implemented="false">
+				<function implemented="false">
 					<name>remove</name>
 					<parameters>
 						<parameter>element</parameter>
@@ -52,22 +52,22 @@
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="11" implemented="false">
+				<function implemented="false">
 					<name>takeFirst</name>
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="12" implemented="false">
+				<function implemented="false">
 					<name>takeLast</name>
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="13" implemented="false">
+				<function implemented="false">
 					<name>removeFirst</name>
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="14" implemented="false">
+				<function implemented="false">
 					<name>removeLast</name>
 					<code/>
 					<meta/>

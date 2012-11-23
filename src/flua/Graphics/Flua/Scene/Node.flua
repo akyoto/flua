@@ -9,35 +9,35 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="4">
+		<class>
 			<name>SceneNode</name>
 			<code>
-				<public depth="1" id="5">
-					<public-member depth="2" id="6">
+				<public>
+					<public-member>
 						<declare-type>
 							<value>parent</value>
 							<value>SceneNode</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="7">
+					<public-member>
 						<declare-type>
 							<value>position</value>
 							<value>Vector3</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="8">
+					<public-member>
 						<declare-type>
 							<value>rotation</value>
 							<value>Vector3</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="9">
+					<public-member>
 						<declare-type>
 							<value>scaling</value>
 							<value>Vector3</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="10">
+					<public-member>
 						<declare-type>
 							<value>childNodes</value>
 							<value>
@@ -48,13 +48,13 @@
 							</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="11">
+					<public-member>
 						<declare-type>
 							<value>mesh</value>
 							<value>Mesh</value>
 						</declare-type>
 					</public-member>
-					<public-member depth="2" id="12">
+					<public-member>
 						<declare-type>
 							<value>material</value>
 							<value>Material</value>
@@ -62,10 +62,10 @@
 					</public-member>
 				</public>
 				<comment>\SProvide\Sa\Sdefault\Sconstructor</comment>
-				<function depth="1" id="15">
+				<function>
 					<name>init</name>
 					<code>
-						<assign depth="2" id="16">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -74,7 +74,7 @@
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="17">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -83,7 +83,7 @@
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="18">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -92,7 +92,7 @@
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="19">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -106,7 +106,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="20">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -120,7 +120,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="21">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -138,7 +138,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="22">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -163,7 +163,7 @@
 					<meta/>
 				</function>
 				<comment>\SConstructs\Sa\Snode\Swith\Sthe\Sgiven\S#parent</comment>
-				<function depth="1" id="25">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -179,7 +179,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<if-block depth="2" id="26">
+						<if-block>
 							<if>
 								<condition>
 									<access>
@@ -188,7 +188,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="27">
+									<call>
 										<function>
 											<access>
 												<value>
@@ -212,7 +212,7 @@
 								</code>
 							</if>
 						</if-block>
-						<assign depth="2" id="29">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -221,7 +221,7 @@
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="30">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -230,7 +230,7 @@
 							</value>
 							<value>null</value>
 						</assign>
-						<assign depth="2" id="31">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -244,7 +244,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="32">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -258,7 +258,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="33">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -276,7 +276,7 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="34">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -300,7 +300,7 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="36">
+				<function>
 					<name>translate</name>
 					<parameters>
 						<parameter>mX</parameter>
@@ -308,7 +308,7 @@
 						<parameter>mZ</parameter>
 					</parameters>
 					<code>
-						<assign-add depth="2" id="37">
+						<assign-add>
 							<value>
 								<access>
 									<value>
@@ -322,7 +322,7 @@
 							</value>
 							<value>mX</value>
 						</assign-add>
-						<assign-add depth="2" id="38">
+						<assign-add>
 							<value>
 								<access>
 									<value>
@@ -336,7 +336,7 @@
 							</value>
 							<value>mY</value>
 						</assign-add>
-						<assign-add depth="2" id="39">
+						<assign-add>
 							<value>
 								<access>
 									<value>
@@ -353,10 +353,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="41">
+				<function>
 					<name>render</name>
 					<code>
-						<foreach depth="2" id="42">
+						<foreach>
 							<iterator>node</iterator>
 							<collection>
 								<access>
@@ -365,7 +365,7 @@
 								</access>
 							</collection>
 							<code>
-								<call depth="3" id="43">
+								<call>
 									<function>
 										<access>
 											<value>node</value>
@@ -376,7 +376,7 @@
 								</call>
 							</code>
 						</foreach>
-						<if-block depth="2" id="45">
+						<if-block>
 							<if>
 								<condition>
 									<access>
@@ -385,7 +385,7 @@
 									</access>
 								</condition>
 								<code>
-									<call depth="3" id="46">
+									<call>
 										<function>
 											<access>
 												<value>
@@ -399,7 +399,7 @@
 										</function>
 										<parameters/>
 									</call>
-									<if-block depth="3" id="48">
+									<if-block>
 										<if>
 											<condition>
 												<access>
@@ -408,7 +408,7 @@
 												</access>
 											</condition>
 											<code>
-												<call depth="4" id="49">
+												<call>
 													<function>
 														<access>
 															<value>
@@ -422,7 +422,7 @@
 													</function>
 													<parameters/>
 												</call>
-												<call depth="4" id="50">
+												<call>
 													<function>
 														<access>
 															<value>flua</value>
@@ -463,7 +463,7 @@
 											</code>
 										</if>
 									</if-block>
-									<call depth="3" id="52">
+									<call>
 										<function>
 											<access>
 												<value>

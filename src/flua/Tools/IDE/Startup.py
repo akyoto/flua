@@ -382,8 +382,9 @@ class Startup:
 		]
 		
 	def loadSession(self):
-		self.progressBar.setValue(0)
+		self.startBenchmark("Load session")
 		
+		self.progressBar.setValue(0)
 		self.sessionParser = createConfigParser()
 		
 		try:
@@ -431,6 +432,8 @@ class Startup:
 				
 			# Session settings
 			self.setCurrentWorkspace(self.sessionParser.getint("General", "CurrentWorkspace"))
+			
+			self.endBenchmark()
 		
 	def saveSession(self):
 		self.sessionParser = createConfigParser()

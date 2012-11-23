@@ -11,15 +11,15 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="3">
+		<assign>
 			<value>ascendWorking</value>
 			<value>false</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign>
 			<value>descendWorking</value>
 			<value>false</value>
 		</assign>
-		<assign depth="0" id="6">
+		<assign>
 			<value>sortVec</value>
 			<value>
 				<index>
@@ -39,7 +39,7 @@
 				</index>
 			</value>
 		</assign>
-		<call depth="0" id="7">
+		<call>
 			<function>
 				<access>
 					<value>sortVec</value>
@@ -48,7 +48,7 @@
 			</function>
 			<parameters/>
 		</call>
-		<if-block depth="0" id="9">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -77,14 +77,14 @@
 					</and>
 				</condition>
 				<code>
-					<assign depth="1" id="10">
+					<assign>
 						<value>ascendWorking</value>
 						<value>true</value>
 					</assign>
 				</code>
 			</if>
 		</if-block>
-		<call depth="0" id="12">
+		<call>
 			<function>
 				<access>
 					<value>sortVec</value>
@@ -95,7 +95,7 @@
 				<parameter>false</parameter>
 			</parameters>
 		</call>
-		<if-block depth="0" id="14">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -124,14 +124,14 @@
 					</and>
 				</condition>
 				<code>
-					<assign depth="1" id="15">
+					<assign>
 						<value>descendWorking</value>
 						<value>true</value>
 					</assign>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="17">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -140,7 +140,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="18">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -148,9 +148,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="19">
+			<else>
 				<code>
-					<call depth="1" id="20">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

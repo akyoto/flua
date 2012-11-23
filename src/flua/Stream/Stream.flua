@@ -8,10 +8,10 @@
 	</header>
 	<code>
 		<comment>\SInterface\Sfor\Sreadable\Sstreams</comment>
-		<interface depth="0" id="2">
+		<interface>
 			<name>ReadStream</name>
 			<code>
-				<function depth="1" id="3" implemented="false">
+				<function implemented="false">
 					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
@@ -22,10 +22,10 @@
 			</code>
 		</interface>
 		<comment>\SInterface\Sfor\Swriteable\Sstreams</comment>
-		<interface depth="0" id="6">
+		<interface>
 			<name>WriteStream</name>
 			<code>
-				<function depth="1" id="7" implemented="false">
+				<function implemented="false">
 					<name>write</name>
 					<parameters>
 						<parameter>object</parameter>
@@ -36,10 +36,10 @@
 			</code>
 		</interface>
 		<comment>\SInterface\Sfor\Sobjects\Swhich\Scan\Sbe\Sserialized</comment>
-		<interface depth="0" id="10">
+		<interface>
 			<name>Serializable</name>
 			<code>
-				<function depth="1" id="11" implemented="false">
+				<function implemented="false">
 					<name>writeToStream</name>
 					<parameters>
 						<parameter>stream</parameter>
@@ -47,7 +47,7 @@
 					<code/>
 					<meta/>
 				</function>
-				<function depth="1" id="12" implemented="false">
+				<function implemented="false">
 					<name>readFromStream</name>
 					<parameters>
 						<parameter>stream</parameter>
@@ -58,20 +58,20 @@
 			</code>
 		</interface>
 		<comment>\SNullStream</comment>
-		<class depth="0" id="15">
+		<class>
 			<name>NullStream</name>
 			<code>
-				<implements depth="1" id="16">
-					<implements-interface depth="2" id="17">ReadStream</implements-interface>
-					<implements-interface depth="2" id="18">WriteStream</implements-interface>
+				<implements>
+					<implements-interface>ReadStream</implements-interface>
+					<implements-interface>WriteStream</implements-interface>
 				</implements>
-				<function depth="1" id="20">
+				<function>
 					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
 					<code>
-						<return depth="2" id="21">
+						<return>
 							<new>
 								<type>
 									<template-call>
@@ -87,13 +87,13 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="23">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>object</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="24"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>

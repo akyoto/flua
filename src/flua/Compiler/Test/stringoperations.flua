@@ -25,23 +25,23 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>strErrors</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign>
 			<value>stringTestA</value>
 			<value>flua_string_0</value>
 		</assign>
-		<assign depth="0" id="3">
+		<assign>
 			<value>stringTestB</value>
 			<value>flua_string_1</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign>
 			<value>stringTestC</value>
 			<value>flua_string_2</value>
 		</assign>
-		<if-block depth="0" id="5">
+		<if-block>
 			<if>
 				<condition>
 					<not>
@@ -108,14 +108,14 @@
 					</not>
 				</condition>
 				<code>
-					<assign-add depth="1" id="6">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="7">
+		<if-block>
 			<if>
 				<condition>
 					<or>
@@ -138,14 +138,14 @@
 					</or>
 				</condition>
 				<code>
-					<assign-add depth="1" id="8">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="9">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -178,19 +178,19 @@
 					</and>
 				</condition>
 				<code>
-					<noop depth="1" id="10"/>
+					<noop/>
 				</code>
 			</if>
-			<else depth="0" id="11">
+			<else>
 				<code>
-					<assign-add depth="1" id="12">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</else>
 		</if-block>
-		<if-block depth="0" id="13">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -204,14 +204,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="14">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="15">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -230,14 +230,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="16">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="17">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -256,14 +256,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="18">
+					<assign-add>
 						<value>strErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="19">
+		<if-block>
 			<if>
 				<condition>
 					<greater>
@@ -272,7 +272,7 @@
 					</greater>
 				</condition>
 				<code>
-					<call depth="1" id="20">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_15</parameter>
@@ -280,9 +280,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="21">
+			<else>
 				<code>
-					<call depth="1" id="22">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_16</parameter>

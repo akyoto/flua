@@ -7,17 +7,17 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">CharTypes.hpp</include>
+				<include>CharTypes.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="4">
-			<namespace depth="1" id="5">
+		<extern>
+			<namespace>
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="6">
+					<extern-function>
 						<name>isAlnum</name>
 						<type>Bool</type>
 						<meta>
@@ -25,7 +25,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="7">
+					<extern-function>
 						<name>isAlpha</name>
 						<type>Bool</type>
 						<meta>
@@ -33,7 +33,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="8">
+					<extern-function>
 						<name>isDigit</name>
 						<type>Bool</type>
 						<meta>
@@ -41,7 +41,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="9">
+					<extern-function>
 						<name>isSpace</name>
 						<type>Bool</type>
 						<meta>
@@ -49,7 +49,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="10">
+					<extern-function>
 						<name>isUpper</name>
 						<type>Bool</type>
 						<meta>
@@ -57,7 +57,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="11">
+					<extern-function>
 						<name>isLower</name>
 						<type>Bool</type>
 						<meta>
@@ -65,7 +65,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="12">
+					<extern-function>
 						<name>toUpper</name>
 						<type>Byte</type>
 						<meta>
@@ -73,7 +73,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="13">
+					<extern-function>
 						<name>toLower</name>
 						<type>Byte</type>
 						<meta>
@@ -85,7 +85,7 @@
 			</namespace>
 		</extern>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Salpha-numeric,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="16">
+		<function>
 			<name>isAlnum</name>
 			<parameters>
 				<parameter>
@@ -96,7 +96,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="17">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -113,7 +113,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturn\Strue\Sif\S#x\Sis\San\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="20">
+		<function>
 			<name>isAlpha</name>
 			<parameters>
 				<parameter>
@@ -124,7 +124,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="21">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -141,7 +141,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Sdigit,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="24">
+		<function>
 			<name>isDigit</name>
 			<parameters>
 				<parameter>
@@ -152,7 +152,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="25">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -169,7 +169,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Swhitespace\Scharacter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="28">
+		<function>
 			<name>isSpace</name>
 			<parameters>
 				<parameter>
@@ -180,7 +180,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="29">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -197,7 +197,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\San\Suppercase\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="32">
+		<function>
 			<name>isUpper</name>
 			<parameters>
 				<parameter>
@@ -208,7 +208,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="33">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -225,7 +225,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\S#x\Sis\Sa\Slowercase\Salphabetic\Sletter,\Sfalse\Sotherwise</comment>
-		<function depth="0" id="36">
+		<function>
 			<name>isLower</name>
 			<parameters>
 				<parameter>
@@ -236,7 +236,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="37">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -253,7 +253,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Slowercase\Sversion\Sof\S#x</comment>
-		<function depth="0" id="40">
+		<function>
 			<name>toLower</name>
 			<parameters>
 				<parameter>
@@ -264,7 +264,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="41">
+				<return>
 					<call>
 						<function>
 							<access>
@@ -281,7 +281,7 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Suppercase\Sversion\Sof\S#x</comment>
-		<function depth="0" id="44">
+		<function>
 			<name>toUpper</name>
 			<parameters>
 				<parameter>
@@ -292,7 +292,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<return depth="1" id="45">
+				<return>
 					<call>
 						<function>
 							<access>

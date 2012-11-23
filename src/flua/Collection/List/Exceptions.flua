@@ -8,13 +8,13 @@
 	</header>
 	<code>
 		<comment>\SException\Sthrown\Swhen\Sattempting\Sto\Stake\San\Selement\Sfrom\San\Sempty\Slist</comment>
-		<class depth="0" id="2">
+		<class>
 			<name>NoElementsAvailableException</name>
 			<code>
-				<extends depth="1" id="3">
-					<extends-class depth="2" id="4">Exception</extends-class>
+				<extends>
+					<extends-class>Exception</extends-class>
 				</extends>
-				<function depth="1" id="6">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -25,14 +25,14 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="7"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="9">
-					<getter depth="2" id="10">
+				<get>
+					<getter>
 						<name>container</name>
 						<code>
-							<return depth="3" id="11">
+							<return>
 								<access>
 									<value>my</value>
 									<value>container</value>

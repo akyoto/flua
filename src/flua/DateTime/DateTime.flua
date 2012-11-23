@@ -31,28 +31,28 @@
 		</strings>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">DateTime.hpp</include>
+				<include>DateTime.hpp</include>
 			</code>
 		</target>
-		<target depth="0" id="4">
+		<target>
 			<name>Python3</name>
 			<code>
-				<include depth="1" id="5">DateTime.py</include>
+				<include>DateTime.py</include>
 			</code>
 		</target>
-		<extern depth="0" id="7">
-			<namespace depth="1" id="8">
+		<extern>
+			<namespace>
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="9">
+					<extern-function>
 						<name>now</name>
 						<type>TimeStamp</type>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="10">
+					<extern-function>
 						<name>formatTimeStamp</name>
 						<type>String</type>
 						<meta>
@@ -62,13 +62,13 @@
 					</extern-function>
 				</code>
 			</namespace>
-			<class depth="1" id="12">
+			<class>
 				<name>TimeStamp</name>
 				<code>
-					<function depth="2" id="13">
+					<function>
 						<name>init</name>
 						<code>
-							<noop depth="3" id="14"/>
+							<noop/>
 						</code>
 						<meta/>
 					</function>
@@ -77,10 +77,10 @@
 			</class>
 		</extern>
 		<comment>\SRepresents\Sdate\Sand\Stime</comment>
-		<class depth="0" id="17">
+		<class>
 			<name>DateTime</name>
 			<code>
-				<function depth="1" id="18">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -91,11 +91,11 @@
 						</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="19"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="21">
+				<function>
 					<name>format</name>
 					<parameters>
 						<parameter>
@@ -106,8 +106,8 @@
 						</parameter>
 					</parameters>
 					<code>
-						<require depth="2" id="22">
-							<less depth="3" id="23">
+						<require>
+							<less>
 								<value>
 									<access>
 										<value>formatString</value>
@@ -117,7 +117,7 @@
 								<value>32</value>
 							</less>
 						</require>
-						<return depth="2" id="25">
+						<return>
 							<call>
 								<function>
 									<access>
@@ -139,11 +139,11 @@
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="27">
-					<getter depth="2" id="28">
+				<get>
+					<getter>
 						<name>date</name>
 						<code>
-							<return depth="3" id="29">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -158,10 +158,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="31">
+					<getter>
 						<name>time</name>
 						<code>
-							<return depth="3" id="32">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -177,10 +177,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="34">
+					<getter>
 						<name>year</name>
 						<code>
-							<return depth="3" id="35">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -195,10 +195,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="37">
+					<getter>
 						<name>day</name>
 						<code>
-							<return depth="3" id="38">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -213,10 +213,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="40">
+					<getter>
 						<name>hour</name>
 						<code>
-							<return depth="3" id="41">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -231,10 +231,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="43">
+					<getter>
 						<name>minute</name>
 						<code>
-							<return depth="3" id="44">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -249,10 +249,10 @@
 							</return>
 						</code>
 					</getter>
-					<getter depth="2" id="46">
+					<getter>
 						<name>second</name>
 						<code>
-							<return depth="3" id="47">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -268,10 +268,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="49">
+					<getter>
 						<name>week</name>
 						<code>
-							<return depth="3" id="50">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -287,10 +287,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="52">
+					<getter>
 						<name>month</name>
 						<code>
-							<return depth="3" id="53">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -306,10 +306,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="55">
+					<getter>
 						<name>monthName</name>
 						<code>
-							<return depth="3" id="56">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -325,10 +325,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="58">
+					<getter>
 						<name>weekDay</name>
 						<code>
-							<return depth="3" id="59">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -344,10 +344,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="61">
+					<getter>
 						<name>weekDayName</name>
 						<code>
-							<return depth="3" id="62">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -363,10 +363,10 @@
 						</code>
 						<meta/>
 					</getter>
-					<getter depth="2" id="64">
+					<getter>
 						<name>timeStamp</name>
 						<code>
-							<return depth="3" id="65">
+							<return>
 								<access>
 									<value>my</value>
 									<value>timeStamp</value>
@@ -379,12 +379,12 @@
 				<comment>\Soperator</comment>
 				<comment>\T-\Sdate\S:\SDateTime</comment>
 				<comment>\T\Treturn\SDuration(date,\Smy)</comment>
-				<casts depth="1" id="70">
-					<cast-definition depth="2" id="71">
+				<casts>
+					<cast-definition>
 						<to>String</to>
 						<code>
 							<comment>\STODO:\SISO</comment>
-							<return depth="3" id="73">
+							<return>
 								<call>
 									<function>
 										<access>
@@ -405,10 +405,10 @@
 			<meta/>
 		</class>
 		<comment>\SReturns\Sa\SDateTime\Sobject\Sfor\Sthe\Scurrent\Slocal\Stime</comment>
-		<function depth="0" id="76">
+		<function>
 			<name>getCurrentDateTime</name>
 			<code>
-				<return depth="1" id="77">
+				<return>
 					<new>
 						<type>DateTime</type>
 						<parameters>
@@ -430,10 +430,10 @@
 			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Sdate\Sin\Sthe\Sformat\SYYYY-MM-DD</comment>
-		<function depth="0" id="80">
+		<function>
 			<name>getCurrentDate</name>
 			<code>
-				<return depth="1" id="81">
+				<return>
 					<access>
 						<value>
 							<call>
@@ -447,10 +447,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Sthe\Scurrent\Slocal\Stime\Sin\S24-hour\Sformat\SHH:MM:SS</comment>
-		<function depth="0" id="84">
+		<function>
 			<name>getCurrentTime</name>
 			<code>
-				<return depth="1" id="85">
+				<return>
 					<access>
 						<value>
 							<call>
@@ -464,10 +464,10 @@
 			</code>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#year\Sis\Sa\Sleap\Syear,\Sotherwise\Sfalse</comment>
-		<function depth="0" id="88">
+		<function>
 			<name>isLeapYear</name>
 			<code>
-				<return depth="1" id="89">
+				<return>
 					<and>
 						<value>
 							<equal>
@@ -512,9 +512,9 @@
 			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="92">
+		<test>
 			<code>
-				<assign depth="1" id="93">
+				<assign>
 					<value>now</value>
 					<value>
 						<call>
@@ -523,13 +523,13 @@
 						</call>
 					</value>
 				</assign>
-				<call depth="1" id="94">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>now</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="95">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -545,7 +545,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="96">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -561,7 +561,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="97">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -577,7 +577,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="98">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -593,7 +593,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="99">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -609,7 +609,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="100">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -625,7 +625,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="101">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -641,7 +641,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="102">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -657,7 +657,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="103">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -673,7 +673,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="104">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>

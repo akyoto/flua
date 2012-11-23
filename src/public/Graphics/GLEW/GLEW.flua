@@ -9,24 +9,24 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">GLEW.hpp</include>
-				<target depth="1" id="3">
+				<include>GLEW.hpp</include>
+				<target>
 					<name>Linux</name>
 					<code>
-						<compiler-flags depth="2" id="4">
-							<compiler-flag depth="3" id="5">-lGLEW</compiler-flag>
-							<compiler-flag depth="3" id="6">-lXrandr</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lGLEW</compiler-flag>
+							<compiler-flag>-lXrandr</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>
-				<target depth="1" id="7">
+				<target>
 					<name>Windows</name>
 					<code>
-						<compiler-flags depth="2" id="8">
-							<compiler-flag depth="3" id="9">-lglew32</compiler-flag>
+						<compiler-flags>
+							<compiler-flag>-lglew32</compiler-flag>
 						</compiler-flags>
 					</code>
 				</target>

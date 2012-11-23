@@ -11,18 +11,18 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchConcat</name>
 			<code>
-				<assign depth="1" id="2">
+				<assign>
 					<value>n</value>
 					<value>1000000</value>
 				</assign>
-				<assign depth="1" id="3">
+				<assign>
 					<value>a</value>
 					<value>flua_string_0</value>
 				</assign>
-				<in depth="1" id="4">
+				<in>
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -32,12 +32,12 @@
 						</new>
 					</expression>
 					<code>
-						<for depth="2" id="5">
+						<for>
 							<iterator>i</iterator>
 							<from>1</from>
 							<to>n</to>
 							<code>
-								<assign depth="3" id="6">
+								<assign>
 									<value>result</value>
 									<value>
 										<add>

@@ -7,10 +7,10 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">GLM.hpp</include>
+				<include>GLM.hpp</include>
 			</code>
 		</target>
 	</code>

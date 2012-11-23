@@ -9,11 +9,11 @@
 	</header>
 	<code>
 		<comment>\SIP\Srepresentation</comment>
-		<class depth="0" id="4">
+		<class>
 			<name>IP</name>
 			<code>
 				<comment>\STries\Sto\Slook\Sup\Shost\Saddress\Son\Sconstruction</comment>
-				<function depth="1" id="6">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -24,7 +24,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="7">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -45,7 +45,7 @@
 								</call>
 							</value>
 						</assign>
-						<if-block depth="2" id="9">
+						<if-block>
 							<if>
 								<condition>
 									<equal>
@@ -59,7 +59,7 @@
 									</equal>
 								</condition>
 								<code>
-									<throw depth="3" id="10">
+									<throw>
 										<new>
 											<type>ResolveHostIPException</type>
 											<parameters>
@@ -73,10 +73,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="12">
+				<function>
 					<name>createTCPSocket</name>
 					<code>
-						<return depth="2" id="13">
+						<return>
 							<call>
 								<function>
 									<access>
@@ -95,14 +95,14 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="15">
+				<function>
 					<name>connect</name>
 					<parameters>
 						<parameter>sock</parameter>
 						<parameter>port</parameter>
 					</parameters>
 					<code>
-						<return depth="2" id="16">
+						<return>
 							<call>
 								<function>
 									<access>
@@ -124,10 +124,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="18">
+				<function>
 					<name>print</name>
 					<code>
-						<call depth="2" id="19">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>

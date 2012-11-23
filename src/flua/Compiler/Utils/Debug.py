@@ -127,8 +127,8 @@ class OutputCompilerException(CompilerException):
 		while nodes:
 			node = nodes.pop()
 			
-			if node.hasAttribute("id"):
-				return int(node.getAttribute("id"))
+			if hasattr(node, "lineNumber"):
+				return int(node.lineNumber)
 		
 		#try:
 		#	return self.getLineNumber2()

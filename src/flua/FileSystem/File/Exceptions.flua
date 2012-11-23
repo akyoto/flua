@@ -8,13 +8,14 @@
 	</header>
 	<code>
 		<comment>\SFile\Snot\Sfound</comment>
-		<class depth="0" id="1">
+		<class>
 			<name>FileNotFoundException</name>
 			<code>
-				<extends depth="1" id="2">
-					<extends-class depth="2" id="3">Exception</extends-class>
+				<extends>
+					<extends-class>Exception</extends-class>
 				</extends>
-				<function depth="1" id="4">
+				<function>
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -23,16 +24,15 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="6">
-					<getter depth="2" id="7">
+				<get>
+					<getter>
 						<name>path</name>
 						<code>
-							<return depth="3" id="8">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>
@@ -44,13 +44,14 @@
 			</code>
 		</class>
 		<comment>\SFile\Scould\Snot\Sbe\Screated\Sor\Swritten\Sto</comment>
-		<class depth="0" id="9">
+		<class>
 			<name>FileWriteException</name>
 			<code>
-				<extends depth="1" id="10">
-					<extends-class depth="2" id="11">Exception</extends-class>
+				<extends>
+					<extends-class>Exception</extends-class>
 				</extends>
-				<function depth="1" id="12">
+				<function>
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -59,16 +60,15 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="13"/>
+						<noop/>
 					</code>
 				</function>
-				<get depth="1" id="14">
-					<getter depth="2" id="15">
+				<get>
+					<getter>
 						<name>path</name>
 						<code>
-							<return depth="3" id="16">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>

@@ -7,61 +7,61 @@
 		<strings/>
 	</header>
 	<code>
-		<define depth="0" id="1">
-			<assign depth="1" id="2">
+		<define>
+			<assign>
 				<value>GLenum</value>
 				<value>Int</value>
 			</assign>
-			<assign depth="1" id="3">
+			<assign>
 				<value>GLboolean</value>
 				<value>Bool</value>
 			</assign>
-			<assign depth="1" id="4">
+			<assign>
 				<value>GLbitfield</value>
 				<value>Int</value>
 			</assign>
-			<assign depth="1" id="5">
+			<assign>
 				<value>GLbyte</value>
 				<value>Byte</value>
 			</assign>
-			<assign depth="1" id="6">
+			<assign>
 				<value>GLint</value>
 				<value>Int</value>
 			</assign>
-			<assign depth="1" id="7">
+			<assign>
 				<value>GLfloat</value>
 				<value>Float</value>
 			</assign>
-			<assign depth="1" id="8">
+			<assign>
 				<value>GLclampf</value>
 				<value>Float</value>
 			</assign>
-			<assign depth="1" id="9">
+			<assign>
 				<value>GLdouble</value>
 				<value>Float64</value>
 			</assign>
-			<assign depth="1" id="10">
+			<assign>
 				<value>GLclampd</value>
 				<value>Float64</value>
 			</assign>
-			<assign depth="1" id="11">
+			<assign>
 				<value>GLuint</value>
 				<value>UInt</value>
 			</assign>
 			<comment>\STODO:\S...</comment>
-			<assign depth="1" id="12">
+			<assign>
 				<value>GLshort</value>
 				<value>Int16</value>
 			</assign>
-			<assign depth="1" id="13">
+			<assign>
 				<value>GLubyte</value>
 				<value>Byte</value>
 			</assign>
-			<assign depth="1" id="14">
+			<assign>
 				<value>GLushort</value>
 				<value>UInt16</value>
 			</assign>
-			<assign depth="1" id="15">
+			<assign>
 				<value>GLsizei</value>
 				<value>Size</value>
 			</assign>

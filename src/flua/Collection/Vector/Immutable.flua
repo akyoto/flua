@@ -8,13 +8,13 @@
 	</header>
 	<code>
 		<comment>\STODO:\SImmutable\Svector</comment>
-		<class depth="0" id="1">
+		<class>
 			<name>ImmutableVector</name>
 			<code>
-				<function depth="1" id="2">
+				<function>
 					<name>init</name>
 					<code>
-						<noop depth="2" id="3"/>
+						<noop/>
 					</code>
 				</function>
 			</code>

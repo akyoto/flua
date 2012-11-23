@@ -16,18 +16,18 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>fsErrors</value>
 			<value>0</value>
 		</assign>
-		<call depth="0" id="2">
+		<call>
 			<function>writeFile</function>
 			<parameters>
 				<parameter>flua_string_0</parameter>
 				<parameter>flua_string_1</parameter>
 			</parameters>
 		</call>
-		<assign depth="0" id="3">
+		<assign>
 			<value>testReadStream</value>
 			<value>
 				<new>
@@ -38,7 +38,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign>
 			<value>streamContents</value>
 			<value>
 				<call>
@@ -52,7 +52,7 @@
 				</call>
 			</value>
 		</assign>
-		<call depth="0" id="5">
+		<call>
 			<function>
 				<access>
 					<value>testReadStream</value>
@@ -61,7 +61,7 @@
 			</function>
 			<parameters/>
 		</call>
-		<if-block depth="0" id="6">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -70,14 +70,14 @@
 					</equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="7">
+					<assign-add>
 						<value>fsErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0" id="8">
+		<assign>
 			<value>currentDir</value>
 			<value>
 				<call>
@@ -86,7 +86,7 @@
 				</call>
 			</value>
 		</assign>
-		<if-block depth="0" id="9">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -95,14 +95,14 @@
 					</equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="10">
+					<assign-add>
 						<value>fsErrors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="11">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -111,7 +111,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="12">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_5</parameter>
@@ -119,9 +119,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="13">
+			<else>
 				<code>
-					<call depth="1" id="14">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_6</parameter>

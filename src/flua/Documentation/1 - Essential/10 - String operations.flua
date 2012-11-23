@@ -25,7 +25,7 @@
 	</header>
 	<code>
 		<comment>\SFor\Sconcatenation\Ssimply\Suse\Sthe\S'+'\Soperator</comment>
-		<call depth="0" id="2">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -43,7 +43,7 @@
 		</call>
 		<comment>\SIf\Syou\Swant\Sto\Scheck\Swhether\Sa\Sstring\Soccurs\Sin\Sanother\Sstring</comment>
 		<comment>\Suse\Sthe\S'in'\Skeyword:</comment>
-		<if-block depth="0" id="6">
+		<if-block>
 			<if>
 				<condition>
 					<exists-in>
@@ -52,7 +52,7 @@
 					</exists-in>
 				</condition>
 				<code>
-					<call depth="1" id="7">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_5</parameter>
@@ -62,11 +62,11 @@
 			</if>
 		</if-block>
 		<comment>\SReplacing\Sall\Soccurences\Sof\Sa\Sstring\Sin\Sanother\Sone:</comment>
-		<assign depth="0" id="10">
+		<assign>
 			<value>myString</value>
 			<value>flua_string_6</value>
 		</assign>
-		<call depth="0" id="11">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -86,7 +86,7 @@
 			</parameters>
 		</call>
 		<comment>\SYou\Scan\Smultiply\Sstrings\Swith\San\Sinteger:</comment>
-		<call depth="0" id="14">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>
@@ -99,13 +99,13 @@
 		</call>
 		<comment>\SNote\Sthat\Sstrings\Sare\Simmutable\Sand\Stherefore\Scan\Ssafely\Sbe\Saccessed\Sby</comment>
 		<comment>\Smultiple\Sthreads:</comment>
-		<function depth="0" id="18">
+		<function>
 			<name>func1</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="19">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -132,13 +132,13 @@
 			</code>
 			<meta/>
 		</function>
-		<function depth="0" id="21">
+		<function>
 			<name>func2</name>
 			<parameters>
 				<parameter>x</parameter>
 			</parameters>
 			<code>
-				<call depth="1" id="22">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -166,15 +166,15 @@
 			<meta/>
 		</function>
 		<comment>\SCall\Sfunc1\Sand\Sfunc2\Sparallely</comment>
-		<parallel depth="0" id="25">
+		<parallel>
 			<code>
-				<call depth="1" id="26">
+				<call>
 					<function>func1</function>
 					<parameters>
 						<parameter>myString</parameter>
 					</parameters>
 				</call>
-				<call depth="1" id="27">
+				<call>
 					<function>func2</function>
 					<parameters>
 						<parameter>myString</parameter>

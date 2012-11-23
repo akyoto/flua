@@ -140,12 +140,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# We love hard coding! ... or maybe not.
 		#self.moduleView.highlightModule("playground.My playground")
 		
-		# Intercept sys.stdout and sys.stderr
-		self.console.watch(self.console.log)
-		
 		# Set default environment
 		if self.config.defaultEnvironmentName in self.environmentByName:
 			self.setEnvironment(self.environmentByName[self.config.defaultEnvironmentName], ignoreLoadingFinished = True)
+		
+		# Intercept sys.stdout and sys.stderr
+		self.console.watch(self.console.log)
 		
 		# Load session
 		self.loadSession()
@@ -724,8 +724,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			savedNode = selectedNode
 			
-			if savedNode.nodeType != Node.TEXT_NODE and savedNode.hasAttribute("id"):
-				savedNodeId = savedNode.getAttribute("id")
+			if savedNode.nodeType != Node.TEXT_NODE and hasattr(savedNode, "lineNumber"):
+				savedNodeId = savedNode.lineNumber
 			else:
 				savedNodeId = -1
 			
@@ -734,7 +734,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 				savedNode = savedNode.parentNode
 				
 				try:
-					savedNodeId = savedNode.getAttribute("id")
+					savedNodeId = savedNode.lineNumber
 				except:
 					savedNodeId = None
 			

@@ -9,7 +9,7 @@
 	</header>
 	<code>
 		<comment>\SLet's\Screate\Sa\Spoint\Swith\Sx\Sand\Sy\Scoordinates:</comment>
-		<assign depth="0" id="4">
+		<assign>
 			<value>p</value>
 			<value>
 				<new>
@@ -22,7 +22,7 @@
 			</value>
 		</assign>
 		<comment>\SWe\Scan\Snow\Sset\Sthe\Scoordinates\Sto\S(5\S|\S6):</comment>
-		<assign depth="0" id="7">
+		<assign>
 			<value>
 				<access>
 					<value>p</value>
@@ -31,7 +31,7 @@
 			</value>
 			<value>5</value>
 		</assign>
-		<assign depth="0" id="8">
+		<assign>
 			<value>
 				<access>
 					<value>p</value>
@@ -41,14 +41,14 @@
 			<value>6</value>
 		</assign>
 		<comment>\SUsing\Sthe\S'on'\Skeyword\Syou\Scan\Sachieve\Sthe\Ssame\Sresult:</comment>
-		<on depth="0" id="11">
+		<on>
 			<expression>p</expression>
 			<code>
-				<assign depth="1" id="12">
+				<assign>
 					<value>x</value>
 					<value>5</value>
 				</assign>
-				<assign depth="1" id="13">
+				<assign>
 					<value>y</value>
 					<value>6</value>
 				</assign>
@@ -59,7 +59,7 @@
 		<comment>\Sis\Sstrongly\Sencouraged\Sover\Srepeating\Sthe\Ssame\Svariable</comment>
 		<comment>\Sagain\Sand\Sagain\Sas\Sit's\Salso\Sfaster\Sfor\Smore\Scomplex</comment>
 		<comment>\Sexpressions.</comment>
-		<call depth="0" id="20">
+		<call>
 			<function>print</function>
 			<parameters>
 				<parameter>p</parameter>

@@ -7,24 +7,24 @@
 		<strings/>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">FreeImage.hpp</include>
-				<compiler-flags depth="1" id="3">
-					<compiler-flag depth="2" id="4">-lfreeimage</compiler-flag>
+				<include>FreeImage.hpp</include>
+				<compiler-flags>
+					<compiler-flag>-lfreeimage</compiler-flag>
 				</compiler-flags>
 			</code>
 		</target>
-		<extern depth="0" id="5">
-			<namespace depth="1" id="6">
+		<extern>
+			<namespace>
 				<name>FreeImage</name>
 				<code>
-					<extern-function depth="2" id="7">
+					<extern-function>
 						<name>init</name>
 						<meta/>
 					</extern-function>
-					<extern-function depth="2" id="8">
+					<extern-function>
 						<name>exit</name>
 						<meta/>
 					</extern-function>

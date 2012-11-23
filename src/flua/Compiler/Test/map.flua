@@ -26,7 +26,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>website</value>
 			<value>
 				<new>
@@ -45,7 +45,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign>
 			<value>
 				<index>
 					<value>website</value>
@@ -54,7 +54,7 @@
 			</value>
 			<value>flua_string_1</value>
 		</assign>
-		<assign depth="0" id="3">
+		<assign>
 			<value>
 				<index>
 					<value>website</value>
@@ -63,10 +63,10 @@
 			</value>
 			<value>flua_string_3</value>
 		</assign>
-		<try-block depth="0" id="4">
+		<try-block>
 			<try>
 				<code>
-					<assign depth="1" id="5">
+					<assign>
 						<value>url</value>
 						<value>
 							<index>
@@ -75,7 +75,7 @@
 							</index>
 						</value>
 					</assign>
-					<assign depth="1" id="6">
+					<assign>
 						<value>desc</value>
 						<value>
 							<index>
@@ -84,7 +84,7 @@
 							</index>
 						</value>
 					</assign>
-					<if-block depth="1" id="7">
+					<if-block>
 						<if>
 							<condition>
 								<or>
@@ -113,12 +113,12 @@
 								</or>
 							</condition>
 							<code>
-								<throw depth="2" id="8">flua_string_10</throw>
+								<throw>flua_string_10</throw>
 							</code>
 						</if>
-						<else depth="1" id="9">
+						<else>
 							<code>
-								<assign depth="2" id="10">
+								<assign>
 									<value>anotherMap</value>
 									<value>
 										<new>
@@ -137,7 +137,7 @@
 										</new>
 									</value>
 								</assign>
-								<assign depth="2" id="11">
+								<assign>
 									<value>
 										<index>
 											<value>anotherMap</value>
@@ -146,10 +146,10 @@
 									</value>
 									<value>67</value>
 								</assign>
-								<try-block depth="2" id="12">
+								<try-block>
 									<try>
 										<code>
-											<assign depth="3" id="13">
+											<assign>
 												<value>tmpVal</value>
 												<value>
 													<index>
@@ -158,7 +158,7 @@
 													</index>
 												</value>
 											</assign>
-											<assign depth="3" id="14">
+											<assign>
 												<value>tmpVal</value>
 												<value>
 													<index>
@@ -168,7 +168,7 @@
 												</value>
 											</assign>
 											<comment>\SMake\SGCC\Shappy.</comment>
-											<call depth="3" id="15">
+											<call>
 												<function>print</function>
 												<parameters>
 													<parameter>tmpVal</parameter>
@@ -176,7 +176,7 @@
 											</call>
 										</code>
 									</try>
-									<catch depth="2" id="16">
+									<catch>
 										<variable>
 											<declare-type>
 												<value>e</value>
@@ -184,7 +184,7 @@
 											</declare-type>
 										</variable>
 										<code>
-											<if-block depth="3" id="17">
+											<if-block>
 												<if>
 													<condition>
 														<equal>
@@ -198,7 +198,7 @@
 														</equal>
 													</condition>
 													<code>
-														<call depth="4" id="18">
+														<call>
 															<function>print</function>
 															<parameters>
 																<parameter>flua_string_15</parameter>
@@ -214,20 +214,20 @@
 						</else>
 					</if-block>
 					<comment>\SMake\SGCC\Shappy.</comment>
-					<assign depth="1" id="19">
+					<assign>
 						<value>url</value>
 						<value>desc</value>
 					</assign>
-					<assign depth="1" id="20">
+					<assign>
 						<value>desc</value>
 						<value>url</value>
 					</assign>
 				</code>
 			</try>
-			<catch depth="0" id="21">
+			<catch>
 				<variable/>
 				<code>
-					<call depth="1" id="22">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_16</parameter>

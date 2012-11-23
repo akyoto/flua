@@ -12,17 +12,17 @@
 		</strings>
 	</header>
 	<code>
-		<target depth="0" id="1">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="2">Compression.hpp</include>
+				<include>Compression.hpp</include>
 			</code>
 		</target>
-		<extern depth="0" id="4">
-			<namespace depth="1" id="5">
+		<extern>
+			<namespace>
 				<name>flua</name>
 				<code>
-					<extern-function depth="2" id="6">
+					<extern-function>
 						<name>compress</name>
 						<type>Vector&lt;Byte&gt;</type>
 						<meta>
@@ -30,7 +30,7 @@
 							<same-output-for-input>true</same-output-for-input>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="7">
+					<extern-function>
 						<name>uncompress</name>
 						<type>Vector&lt;Byte&gt;</type>
 						<meta>
@@ -38,7 +38,7 @@
 							<no-side-effects>true</no-side-effects>
 						</meta>
 					</extern-function>
-					<extern-function depth="2" id="8">
+					<extern-function>
 						<name>compressMaxSize</name>
 						<type>Size</type>
 						<meta>
@@ -51,7 +51,7 @@
 		</extern>
 		<comment>\SCompresses\Sa\Sstring\Sand\Sreturns\San\Sarray\Sof\Sbytes</comment>
 		<comment>\Scontaining\Sthe\Scompressed\Sdata.</comment>
-		<function depth="0" id="12">
+		<function>
 			<name>compress</name>
 			<parameters>
 				<parameter>
@@ -62,7 +62,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<assign depth="1" id="13">
+				<assign>
 					<value>bytes</value>
 					<value>
 						<new>
@@ -95,7 +95,7 @@
 						</new>
 					</value>
 				</assign>
-				<call depth="1" id="14">
+				<call>
 					<function>
 						<access>
 							<value>flua</value>
@@ -118,13 +118,13 @@
 						</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="16">bytes</return>
+				<return>bytes</return>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SUncompresses\Sa\Scompressed\Sarray\Sof\Sbytes\Sand\Sreturns</comment>
 		<comment>\San\Sarray\Sof\Sbytes\Scontaining\Sthe\Soriginal\Sdata.</comment>
-		<function depth="0" id="20">
+		<function>
 			<name>uncompress</name>
 			<parameters>
 				<parameter>
@@ -140,7 +140,7 @@
 				</parameter>
 			</parameters>
 			<code>
-				<assign depth="1" id="21">
+				<assign>
 					<value>uncBytes</value>
 					<value>
 						<new>
@@ -161,7 +161,7 @@
 						</new>
 					</value>
 				</assign>
-				<call depth="1" id="22">
+				<call>
 					<function>
 						<access>
 							<value>flua</value>
@@ -173,17 +173,17 @@
 						<parameter>uncBytes</parameter>
 					</parameters>
 				</call>
-				<return depth="1" id="24">uncBytes</return>
+				<return>uncBytes</return>
 			</code>
 		</function>
 		<comment>\SUsage\Sexample</comment>
-		<test depth="0" id="27">
+		<test>
 			<code>
-				<assign depth="1" id="28">
+				<assign>
 					<value>text</value>
 					<value>flua_string_0</value>
 				</assign>
-				<assign depth="1" id="29">
+				<assign>
 					<value>bytes</value>
 					<value>
 						<call>
@@ -194,7 +194,7 @@
 						</call>
 					</value>
 				</assign>
-				<call depth="1" id="30">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>
@@ -230,7 +230,7 @@
 						</parameter>
 					</parameters>
 				</call>
-				<assign depth="1" id="31">
+				<assign>
 					<value>original</value>
 					<value>
 						<call>
@@ -241,11 +241,11 @@
 						</call>
 					</value>
 				</assign>
-				<foreach depth="1" id="33">
+				<foreach>
 					<iterator>x</iterator>
 					<collection>original</collection>
 					<code>
-						<call depth="2" id="34">
+						<call>
 							<function>write</function>
 							<parameters>
 								<parameter>x</parameter>

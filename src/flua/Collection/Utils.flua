@@ -8,43 +8,43 @@
 	</header>
 	<code>
 		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
-		<function depth="0" id="2">
+		<function>
 			<name>map</name>
 			<code>
-				<noop depth="1" id="3"/>
+				<noop/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
-		<function depth="0" id="6">
+		<function>
 			<name>reduce</name>
 			<code>
-				<noop depth="1" id="7"/>
+				<noop/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
-		<function depth="0" id="10">
+		<function>
 			<name>merge</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
 			</parameters>
 			<code>
-				<noop depth="1" id="11"/>
+				<noop/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\STODO:\SImplement\Sthis</comment>
-		<function depth="0" id="14">
+		<function>
 			<name>bsearch</name>
 			<code>
-				<noop depth="1" id="15"/>
+				<noop/>
 			</code>
 			<meta/>
 		</function>
 		<comment>\SRecursive\SQuickSort</comment>
-		<function depth="0" id="18">
+		<function>
 			<name>quickSort</name>
 			<parameters>
 				<parameter>vec</parameter>
@@ -52,7 +52,7 @@
 				<parameter>to</parameter>
 			</parameters>
 			<code>
-				<assign depth="1" id="19">
+				<assign>
 					<value>pivot</value>
 					<value>
 						<index>
@@ -71,15 +71,15 @@
 						</index>
 					</value>
 				</assign>
-				<assign depth="1" id="20">
+				<assign>
 					<value>i</value>
 					<value>from</value>
 				</assign>
-				<assign depth="1" id="21">
+				<assign>
 					<value>j</value>
 					<value>to</value>
 				</assign>
-				<while depth="1" id="23">
+				<while>
 					<condition>
 						<less-or-equal>
 							<value>i</value>
@@ -87,7 +87,7 @@
 						</less-or-equal>
 					</condition>
 					<code>
-						<while depth="2" id="24">
+						<while>
 							<condition>
 								<less>
 									<value>
@@ -100,13 +100,13 @@
 								</less>
 							</condition>
 							<code>
-								<assign-add depth="3" id="25">
+								<assign-add>
 									<value>i</value>
 									<value>1</value>
 								</assign-add>
 							</code>
 						</while>
-						<while depth="2" id="27">
+						<while>
 							<condition>
 								<greater>
 									<value>
@@ -119,13 +119,13 @@
 								</greater>
 							</condition>
 							<code>
-								<assign-subtract depth="3" id="28">
+								<assign-subtract>
 									<value>j</value>
 									<value>1</value>
 								</assign-subtract>
 							</code>
 						</while>
-						<if-block depth="2" id="30">
+						<if-block>
 							<if>
 								<condition>
 									<less-or-equal>
@@ -135,7 +135,7 @@
 								</condition>
 								<code>
 									<comment>\STODO:\SReplace\Swith\Sswap</comment>
-									<assign depth="3" id="32">
+									<assign>
 										<value>tmp</value>
 										<value>
 											<index>
@@ -144,7 +144,7 @@
 											</index>
 										</value>
 									</assign>
-									<assign depth="3" id="33">
+									<assign>
 										<value>
 											<index>
 												<value>vec</value>
@@ -158,7 +158,7 @@
 											</index>
 										</value>
 									</assign>
-									<assign depth="3" id="34">
+									<assign>
 										<value>
 											<index>
 												<value>vec</value>
@@ -167,11 +167,11 @@
 										</value>
 										<value>tmp</value>
 									</assign>
-									<assign-add depth="3" id="35">
+									<assign-add>
 										<value>i</value>
 										<value>1</value>
 									</assign-add>
-									<assign-subtract depth="3" id="36">
+									<assign-subtract>
 										<value>j</value>
 										<value>1</value>
 									</assign-subtract>
@@ -180,7 +180,7 @@
 						</if-block>
 					</code>
 				</while>
-				<if-block depth="1" id="38">
+				<if-block>
 					<if>
 						<condition>
 							<less>
@@ -189,7 +189,7 @@
 							</less>
 						</condition>
 						<code>
-							<call depth="2" id="39">
+							<call>
 								<function>quickSort</function>
 								<parameters>
 									<parameter>vec</parameter>
@@ -200,7 +200,7 @@
 						</code>
 					</if>
 				</if-block>
-				<if-block depth="1" id="41">
+				<if-block>
 					<if>
 						<condition>
 							<less>
@@ -209,7 +209,7 @@
 							</less>
 						</condition>
 						<code>
-							<call depth="2" id="42">
+							<call>
 								<function>quickSort</function>
 								<parameters>
 									<parameter>vec</parameter>

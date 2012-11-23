@@ -18,7 +18,7 @@
 	</header>
 	<code>
 		<comment>\SMain\Swindow</comment>
-		<assign depth="0" id="6">
+		<assign>
 			<value>win</value>
 			<value>
 				<new>
@@ -31,7 +31,7 @@
 			</value>
 		</assign>
 		<comment>\SLoad</comment>
-		<in depth="0" id="9">
+		<in>
 			<expression>
 				<new>
 					<type>Directory</type>
@@ -41,7 +41,7 @@
 				</new>
 			</expression>
 			<code>
-				<assign depth="1" id="10">
+				<assign>
 					<value>vs</value>
 					<value>
 						<new>
@@ -52,7 +52,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign depth="1" id="11">
+				<assign>
 					<value>fs</value>
 					<value>
 						<new>
@@ -63,7 +63,7 @@
 						</new>
 					</value>
 				</assign>
-				<assign depth="1" id="12">
+				<assign>
 					<value>tex1</value>
 					<value>
 						<new>
@@ -77,7 +77,7 @@
 			</code>
 		</in>
 		<comment>\SMix\Sit!</comment>
-		<assign depth="0" id="15">
+		<assign>
 			<value>composed</value>
 			<value>
 				<new>
@@ -90,7 +90,7 @@
 			</value>
 		</assign>
 		<comment>\SOur\Smaterial\Sshould\Shave\Sa\Stexture</comment>
-		<assign depth="0" id="18">
+		<assign>
 			<value>mat</value>
 			<value>
 				<new>
@@ -101,7 +101,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="19">
+		<assign>
 			<value>
 				<access>
 					<value>mat</value>
@@ -111,7 +111,7 @@
 			<value>tex1</value>
 		</assign>
 		<comment>\SCreate\Sa\Sscene</comment>
-		<assign depth="0" id="22">
+		<assign>
 			<value>scene</value>
 			<value>
 				<new>
@@ -120,7 +120,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="23">
+		<assign>
 			<value>cam</value>
 			<value>
 				<new>
@@ -136,7 +136,7 @@
 				</new>
 			</value>
 		</assign>
-		<assign depth="0" id="24">
+		<assign>
 			<value>cubeModel</value>
 			<value>
 				<call>
@@ -151,15 +151,15 @@
 			</value>
 		</assign>
 		<comment>\SCreate\Ssome\Scubes</comment>
-		<assign depth="0" id="27">
+		<assign>
 			<value>sinRadius</value>
 			<value>4</value>
 		</assign>
-		<assign depth="0" id="28">
+		<assign>
 			<value>ringRadius</value>
 			<value>90</value>
 		</assign>
-		<for depth="0" id="30">
+		<for>
 			<iterator>i</iterator>
 			<from>
 				<negative>
@@ -168,7 +168,7 @@
 			</from>
 			<to>600</to>
 			<code>
-				<assign depth="1" id="31">
+				<assign>
 					<value>cube</value>
 					<value>
 						<new>
@@ -184,10 +184,10 @@
 						</new>
 					</value>
 				</assign>
-				<on depth="1" id="33">
+				<on>
 					<expression>cube</expression>
 					<code>
-						<assign depth="2" id="34">
+						<assign>
 							<value>position</value>
 							<value>
 								<new>
@@ -249,11 +249,11 @@
 								</new>
 							</value>
 						</assign>
-						<assign depth="2" id="35">
+						<assign>
 							<value>mesh</value>
 							<value>cubeModel</value>
 						</assign>
-						<assign depth="2" id="36">
+						<assign>
 							<value>material</value>
 							<value>
 								<new>
@@ -270,20 +270,20 @@
 			<meta/>
 		</for>
 		<comment>\SVariables</comment>
-		<assign depth="0" id="39">
+		<assign>
 			<value>lastFrameUpdate</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="40">
+		<assign>
 			<value>frames</value>
 			<value>0</value>
 		</assign>
-		<assign depth="0" id="41">
+		<assign>
 			<value>fps</value>
 			<value>0</value>
 		</assign>
 		<comment>\SMain\Sloop</comment>
-		<while depth="0" id="44">
+		<while>
 			<condition>
 				<access>
 					<value>win</value>
@@ -291,11 +291,11 @@
 				</access>
 			</condition>
 			<code>
-				<in depth="1" id="45">
+				<in>
 					<expression>win</expression>
 					<code>
 						<comment>\SBackground</comment>
-						<call depth="2" id="47">
+						<call>
 							<function>
 								<access>
 									<value>win</value>
@@ -309,7 +309,7 @@
 							</parameters>
 						</call>
 						<comment>\STime</comment>
-						<assign depth="2" id="50">
+						<assign>
 							<value>ms</value>
 							<value>
 								<call>
@@ -319,7 +319,7 @@
 							</value>
 						</assign>
 						<comment>\SPlay\Saround\Swith\Sthe\Scubes</comment>
-						<foreach depth="2" id="53">
+						<foreach>
 							<counter>i</counter>
 							<iterator>cube</iterator>
 							<collection>
@@ -334,7 +334,7 @@
 								</access>
 							</collection>
 							<code>
-								<assign depth="3" id="54">
+								<assign>
 									<value>
 										<access>
 											<value>
@@ -370,7 +370,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="55">
+								<assign>
 									<value>val</value>
 									<value>
 										<add>
@@ -389,7 +389,7 @@
 										</add>
 									</value>
 								</assign>
-								<on depth="3" id="57">
+								<on>
 									<expression>
 										<access>
 											<value>
@@ -402,7 +402,7 @@
 										</access>
 									</expression>
 									<code>
-										<assign depth="4" id="58">
+										<assign>
 											<value>red</value>
 											<value>
 												<call>
@@ -420,7 +420,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="59">
+										<assign>
 											<value>green</value>
 											<value>
 												<call>
@@ -443,7 +443,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="60">
+										<assign>
 											<value>blue</value>
 											<value>
 												<call>
@@ -466,7 +466,7 @@
 												</call>
 											</value>
 										</assign>
-										<assign depth="4" id="61">
+										<assign>
 											<value>alpha</value>
 											<value>
 												<call>
@@ -494,7 +494,7 @@
 							</code>
 						</foreach>
 						<comment>\SPick\Sa\Scamera</comment>
-						<on depth="2" id="64">
+						<on>
 							<expression>
 								<access>
 									<value>cam</value>
@@ -502,7 +502,7 @@
 								</access>
 							</expression>
 							<code>
-								<assign depth="3" id="65">
+								<assign>
 									<value>x</value>
 									<value>
 										<multiply>
@@ -531,7 +531,7 @@
 										</multiply>
 									</value>
 								</assign>
-								<assign depth="3" id="66">
+								<assign>
 									<value>y</value>
 									<value>
 										<multiply>
@@ -566,7 +566,7 @@
 								</assign>
 							</code>
 						</on>
-						<call depth="2" id="68">
+						<call>
 							<function>
 								<access>
 									<value>cam</value>
@@ -576,7 +576,7 @@
 							<parameters/>
 						</call>
 						<comment>\SDraw</comment>
-						<call depth="2" id="71">
+						<call>
 							<function>
 								<access>
 									<value>scene</value>
@@ -586,11 +586,11 @@
 							<parameters/>
 						</call>
 						<comment>\SCount\Sframes</comment>
-						<assign-add depth="2" id="74">
+						<assign-add>
 							<value>frames</value>
 							<value>1</value>
 						</assign-add>
-						<if-block depth="2" id="76">
+						<if-block>
 							<if>
 								<condition>
 									<greater-or-equal>
@@ -604,19 +604,19 @@
 									</greater-or-equal>
 								</condition>
 								<code>
-									<assign depth="3" id="77">
+									<assign>
 										<value>fps</value>
 										<value>frames</value>
 									</assign>
-									<assign depth="3" id="78">
+									<assign>
 										<value>frames</value>
 										<value>0</value>
 									</assign>
-									<assign depth="3" id="79">
+									<assign>
 										<value>lastFrameUpdate</value>
 										<value>ms</value>
 									</assign>
-									<assign depth="3" id="80">
+									<assign>
 										<value>
 											<access>
 												<value>win</value>

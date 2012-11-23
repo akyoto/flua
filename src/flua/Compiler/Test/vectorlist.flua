@@ -14,7 +14,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>vecTest</value>
 			<value>
 				<index>
@@ -30,7 +30,7 @@
 				</index>
 			</value>
 		</assign>
-		<call depth="0" id="2">
+		<call>
 			<function>
 				<access>
 					<value>vecTest</value>
@@ -41,11 +41,11 @@
 				<parameter>flua_string_4</parameter>
 			</parameters>
 		</call>
-		<foreach depth="0" id="3">
+		<foreach>
 			<iterator>x</iterator>
 			<collection>vecTest</collection>
 			<code>
-				<call depth="1" id="4">
+				<call>
 					<function>write</function>
 					<parameters>
 						<parameter>x</parameter>
@@ -53,7 +53,7 @@
 				</call>
 			</code>
 		</foreach>
-		<call depth="0" id="5">
+		<call>
 			<function>write</function>
 			<parameters>
 				<parameter>flua_string_5</parameter>

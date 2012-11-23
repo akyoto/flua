@@ -12,7 +12,7 @@
 	</header>
 	<code>
 		<comment>\SOur\Swindow</comment>
-		<assign depth="0" id="5">
+		<assign>
 			<value>win</value>
 			<value>
 				<new>
@@ -25,20 +25,20 @@
 			</value>
 		</assign>
 		<comment>\SBackground\Scolor</comment>
-		<assign depth="0" id="8">
+		<assign>
 			<value>r</value>
 			<value>0.0</value>
 		</assign>
-		<assign depth="0" id="9">
+		<assign>
 			<value>g</value>
 			<value>0.0</value>
 		</assign>
-		<assign depth="0" id="10">
+		<assign>
 			<value>b</value>
 			<value>0.0</value>
 		</assign>
 		<comment>\SMain\Sloop</comment>
-		<foreach depth="0" id="13">
+		<foreach>
 			<iterator>frame</iterator>
 			<collection>
 				<access>
@@ -47,7 +47,7 @@
 				</access>
 			</collection>
 			<code>
-				<assign depth="1" id="14">
+				<assign>
 					<value>g</value>
 					<value>
 						<multiply>
@@ -68,7 +68,7 @@
 						</multiply>
 					</value>
 				</assign>
-				<assign depth="1" id="15">
+				<assign>
 					<value>b</value>
 					<value>
 						<call>
@@ -84,7 +84,7 @@
 						</call>
 					</value>
 				</assign>
-				<assign depth="1" id="16">
+				<assign>
 					<value>r</value>
 					<value>
 						<multiply>
@@ -94,7 +94,7 @@
 					</value>
 				</assign>
 				<comment>\SClear\Sthe\Sscreen\Swith\Sour\SRGB\Scolor</comment>
-				<call depth="1" id="19">
+				<call>
 					<function>
 						<access>
 							<value>win</value>

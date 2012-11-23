@@ -11,7 +11,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="3">
+		<assign>
 			<value>ptrA</value>
 			<value>
 				<unmanaged>
@@ -31,11 +31,11 @@
 				</unmanaged>
 			</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign>
 			<value>ptrB</value>
 			<value>ptrA</value>
 		</assign>
-		<assign depth="0" id="5">
+		<assign>
 			<value>
 				<access>
 					<value>ptrA</value>
@@ -44,11 +44,11 @@
 			</value>
 			<value>5</value>
 		</assign>
-		<assign-add depth="0" id="6">
+		<assign-add>
 			<value>ptrB</value>
 			<value>1</value>
 		</assign-add>
-		<assign depth="0" id="7">
+		<assign>
 			<value>
 				<access>
 					<value>ptrB</value>
@@ -57,11 +57,11 @@
 			</value>
 			<value>7</value>
 		</assign>
-		<assign-subtract depth="0" id="8">
+		<assign-subtract>
 			<value>ptrB</value>
 			<value>1</value>
 		</assign-subtract>
-		<assign depth="0" id="9">
+		<assign>
 			<value>ptrB</value>
 			<value>
 				<subtract>
@@ -75,7 +75,7 @@
 				</subtract>
 			</value>
 		</assign>
-		<if-block depth="0" id="11">
+		<if-block>
 			<if>
 				<condition>
 					<and>
@@ -104,7 +104,7 @@
 					</and>
 				</condition>
 				<code>
-					<call depth="1" id="12">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -112,9 +112,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="13">
+			<else>
 				<code>
-					<call depth="1" id="14">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

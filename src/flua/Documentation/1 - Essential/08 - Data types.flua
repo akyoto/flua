@@ -8,63 +8,63 @@
 	</header>
 	<code>
 		<comment>\SThese\Sare\Sthe\Sdata\Stypes\Swhich\Sare\Scurrently\Savailable:</comment>
-		<declare-type depth="0" id="2">
+		<declare-type>
 			<value>a</value>
 			<value>Bool</value>
 		</declare-type>
-		<declare-type depth="0" id="3">
+		<declare-type>
 			<value>b</value>
 			<value>Byte</value>
 		</declare-type>
-		<declare-type depth="0" id="4">
+		<declare-type>
 			<value>c</value>
 			<value>Int16</value>
 		</declare-type>
-		<declare-type depth="0" id="5">
+		<declare-type>
 			<value>d</value>
 			<value>UInt16</value>
 		</declare-type>
-		<declare-type depth="0" id="6">
+		<declare-type>
 			<value>e</value>
 			<value>Int</value>
 		</declare-type>
-		<declare-type depth="0" id="7">
+		<declare-type>
 			<value>f</value>
 			<value>UInt</value>
 		</declare-type>
-		<declare-type depth="0" id="8">
+		<declare-type>
 			<value>g</value>
 			<value>Size</value>
 		</declare-type>
-		<declare-type depth="0" id="9">
+		<declare-type>
 			<value>h</value>
 			<value>Int32</value>
 		</declare-type>
-		<declare-type depth="0" id="10">
+		<declare-type>
 			<value>i</value>
 			<value>UInt32</value>
 		</declare-type>
-		<declare-type depth="0" id="11">
+		<declare-type>
 			<value>j</value>
 			<value>Int64</value>
 		</declare-type>
-		<declare-type depth="0" id="12">
+		<declare-type>
 			<value>k</value>
 			<value>UInt64</value>
 		</declare-type>
-		<declare-type depth="0" id="13">
+		<declare-type>
 			<value>l</value>
 			<value>BigInt</value>
 		</declare-type>
-		<declare-type depth="0" id="14">
+		<declare-type>
 			<value>m</value>
 			<value>Float</value>
 		</declare-type>
-		<declare-type depth="0" id="15">
+		<declare-type>
 			<value>n</value>
 			<value>Float32</value>
 		</declare-type>
-		<declare-type depth="0" id="16">
+		<declare-type>
 			<value>o</value>
 			<value>Float64</value>
 		</declare-type>

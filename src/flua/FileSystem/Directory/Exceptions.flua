@@ -7,13 +7,14 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="1">
+		<class>
 			<name>AccessDeniedException</name>
 			<code>
-				<extends depth="1" id="2">
-					<extends-class depth="2" id="3">Exception</extends-class>
+				<extends>
+					<extends-class>Exception</extends-class>
 				</extends>
-				<function depth="1" id="4">
+				<function>
+					<name>init</name>
 					<parameters>
 						<parameter>
 							<access>
@@ -22,17 +23,16 @@
 							</access>
 						</parameter>
 					</parameters>
-					<name>init</name>
 					<code>
-						<noop depth="2" id="5"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>
-				<get depth="1" id="6">
-					<getter depth="2" id="7">
+				<get>
+					<getter>
 						<name>path</name>
 						<code>
-							<return depth="3" id="8">
+							<return>
 								<access>
 									<value>my</value>
 									<value>path</value>

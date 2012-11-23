@@ -10,7 +10,7 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>ar</value>
 			<value>
 				<index>
@@ -25,19 +25,19 @@
 				</index>
 			</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign>
 			<value>sumAr</value>
 			<value>0</value>
 		</assign>
-		<foreach depth="0" id="4">
+		<foreach>
 			<iterator>x</iterator>
 			<collection>ar</collection>
 			<code>
-				<foreach depth="1" id="5">
+				<foreach>
 					<iterator>y</iterator>
 					<collection>ar</collection>
 					<code>
-						<assign-add depth="2" id="6">
+						<assign-add>
 							<value>sumAr</value>
 							<value>
 								<add>
@@ -50,7 +50,7 @@
 				</foreach>
 			</code>
 		</foreach>
-		<if-block depth="0" id="8">
+		<if-block>
 			<if>
 				<condition>
 					<equal>
@@ -59,7 +59,7 @@
 					</equal>
 				</condition>
 				<code>
-					<call depth="1" id="9">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_0</parameter>
@@ -67,9 +67,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="10">
+			<else>
 				<code>
-					<call depth="1" id="11">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_1</parameter>

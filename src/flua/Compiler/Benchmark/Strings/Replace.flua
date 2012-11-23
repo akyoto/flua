@@ -14,22 +14,22 @@
 		</strings>
 	</header>
 	<code>
-		<function depth="0" id="1">
+		<function>
 			<name>benchReplace</name>
 			<code>
-				<assign depth="1" id="2">
+				<assign>
 					<value>n</value>
 					<value>4000000</value>
 				</assign>
-				<assign depth="1" id="3">
+				<assign>
 					<value>t</value>
 					<value>flua_string_0</value>
 				</assign>
-				<assign depth="1" id="4">
+				<assign>
 					<value>result</value>
 					<value>flua_string_1</value>
 				</assign>
-				<in depth="1" id="5">
+				<in>
 					<expression>
 						<new>
 							<type>Benchmark</type>
@@ -39,12 +39,12 @@
 						</new>
 					</expression>
 					<code>
-						<for depth="2" id="6">
+						<for>
 							<iterator>i</iterator>
 							<from>1</from>
 							<to>n</to>
 							<code>
-								<assign depth="3" id="7">
+								<assign>
 									<value>result</value>
 									<value>
 										<call>

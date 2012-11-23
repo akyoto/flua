@@ -12,10 +12,10 @@
 	</header>
 	<code>
 		<comment>\SWe\Scan\Siterate\Sover\Sa\Sdirectory\Susing\Sthe\SDirectory\Sclass</comment>
-		<target depth="0" id="4">
+		<target>
 			<name>Linux</name>
 			<code>
-				<foreach depth="1" id="5">
+				<foreach>
 					<iterator>x</iterator>
 					<collection>
 						<new>
@@ -26,7 +26,7 @@
 						</new>
 					</collection>
 					<code>
-						<call depth="2" id="6">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>x</parameter>
@@ -36,10 +36,10 @@
 				</foreach>
 			</code>
 		</target>
-		<target depth="0" id="8">
+		<target>
 			<name>Windows</name>
 			<code>
-				<foreach depth="1" id="9">
+				<foreach>
 					<iterator>x</iterator>
 					<collection>
 						<new>
@@ -50,7 +50,7 @@
 						</new>
 					</collection>
 					<code>
-						<call depth="2" id="10">
+						<call>
 							<function>print</function>
 							<parameters>
 								<parameter>x</parameter>

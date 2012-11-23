@@ -26,28 +26,28 @@
 		</strings>
 	</header>
 	<code>
-		<assign depth="0" id="1">
+		<assign>
 			<value>utf8Test1</value>
 			<value>flua_string_0</value>
 		</assign>
-		<assign depth="0" id="2">
+		<assign>
 			<value>utf8Test2</value>
 			<value>flua_string_1</value>
 		</assign>
-		<assign depth="0" id="3">
+		<assign>
 			<value>utf8Test3</value>
 			<value>flua_string_2</value>
 		</assign>
-		<assign depth="0" id="4">
+		<assign>
 			<value>utf8Test4</value>
 			<value>flua_string_3</value>
 		</assign>
-		<assign depth="0" id="5">
+		<assign>
 			<value>errors</value>
 			<value>0</value>
 		</assign>
 		<comment>\SLength\Stest</comment>
-		<if-block depth="0" id="6">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -61,14 +61,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="7">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="8">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -82,14 +82,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="9">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="10">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -103,14 +103,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="11">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="12">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -124,14 +124,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="13">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="14">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -145,14 +145,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="15">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="16">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -166,14 +166,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="17">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="18">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -187,14 +187,14 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="19">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
 				</code>
 			</if>
 		</if-block>
-		<if-block depth="0" id="20">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -208,7 +208,7 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="21">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
@@ -216,7 +216,7 @@
 			</if>
 		</if-block>
 		<comment>\SArray\Sof\SUTF-8\Sstrings</comment>
-		<assign depth="0" id="22">
+		<assign>
 			<value>utfArray</value>
 			<value>
 				<new>
@@ -230,7 +230,7 @@
 				</new>
 			</value>
 		</assign>
-		<call depth="0" id="23">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -241,7 +241,7 @@
 				<parameter>flua_string_4</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="24">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -252,7 +252,7 @@
 				<parameter>flua_string_5</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="25">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -263,7 +263,7 @@
 				<parameter>flua_string_6</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="26">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -274,7 +274,7 @@
 				<parameter>flua_string_7</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="27">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -285,7 +285,7 @@
 				<parameter>flua_string_8</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="28">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -296,7 +296,7 @@
 				<parameter>flua_string_9</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="29">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -307,7 +307,7 @@
 				<parameter>flua_string_10</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="30">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -318,7 +318,7 @@
 				<parameter>flua_string_11</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="31">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -329,7 +329,7 @@
 				<parameter>flua_string_12</parameter>
 			</parameters>
 		</call>
-		<call depth="0" id="32">
+		<call>
 			<function>
 				<access>
 					<value>utfArray</value>
@@ -340,11 +340,11 @@
 				<parameter>flua_string_13</parameter>
 			</parameters>
 		</call>
-		<assign depth="0" id="33">
+		<assign>
 			<value>cumulativeLength</value>
 			<value>0</value>
 		</assign>
-		<for depth="0" id="34">
+		<for>
 			<iterator>i</iterator>
 			<from>0</from>
 			<until>
@@ -354,7 +354,7 @@
 				</access>
 			</until>
 			<code>
-				<assign-add depth="1" id="35">
+				<assign-add>
 					<value>cumulativeLength</value>
 					<value>
 						<access>
@@ -370,7 +370,7 @@
 				</assign-add>
 			</code>
 		</for>
-		<if-block depth="0" id="36">
+		<if-block>
 			<if>
 				<condition>
 					<not-equal>
@@ -379,7 +379,7 @@
 					</not-equal>
 				</condition>
 				<code>
-					<assign-add depth="1" id="37">
+					<assign-add>
 						<value>errors</value>
 						<value>1</value>
 					</assign-add>
@@ -387,7 +387,7 @@
 			</if>
 		</if-block>
 		<comment>\SWorking?</comment>
-		<if-block depth="0" id="38">
+		<if-block>
 			<if>
 				<condition>
 					<greater>
@@ -396,7 +396,7 @@
 					</greater>
 				</condition>
 				<code>
-					<call depth="1" id="39">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>flua_string_14</parameter>
@@ -404,9 +404,9 @@
 					</call>
 				</code>
 			</if>
-			<else depth="0" id="40">
+			<else>
 				<code>
-					<call depth="1" id="41">
+					<call>
 						<function>print</function>
 						<parameters>
 							<parameter>

@@ -10,7 +10,7 @@
 	<code>
 		<comment>\SAn\Sarray\Sis\Sbasically\Sa\Sstatic\Sblock\Sof\Smemory.</comment>
 		<comment>\SA\Ssize\Sparameter\Sis\Srequired\Sfor\Sits\Screation:</comment>
-		<assign depth="0" id="5">
+		<assign>
 			<value>a</value>
 			<value>
 				<new>
@@ -27,7 +27,7 @@
 			</value>
 		</assign>
 		<comment>\SAfterwards\Sset\Ssome\Svalues</comment>
-		<assign depth="0" id="8">
+		<assign>
 			<value>
 				<index>
 					<value>a</value>
@@ -36,7 +36,7 @@
 			</value>
 			<value>1</value>
 		</assign>
-		<assign depth="0" id="9">
+		<assign>
 			<value>
 				<index>
 					<value>a</value>
@@ -45,7 +45,7 @@
 			</value>
 			<value>3</value>
 		</assign>
-		<assign depth="0" id="10">
+		<assign>
 			<value>
 				<index>
 					<value>a</value>
@@ -54,7 +54,7 @@
 			</value>
 			<value>3</value>
 		</assign>
-		<assign depth="0" id="11">
+		<assign>
 			<value>
 				<index>
 					<value>a</value>
@@ -64,11 +64,11 @@
 			<value>7</value>
 		</assign>
 		<comment>\SNow\Swe\Scan\Siterate\Sover\Sthe\Swhole\Sarray</comment>
-		<foreach depth="0" id="14">
+		<foreach>
 			<iterator>x</iterator>
 			<collection>a</collection>
 			<code>
-				<call depth="1" id="15">
+				<call>
 					<function>print</function>
 					<parameters>
 						<parameter>x</parameter>

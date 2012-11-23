@@ -9,10 +9,10 @@
 	<code>
 		<comment>\SThis\Sfile\Sincludes\Severything\Sthat\Sis\Sneeded\Sat\Sthe\Sstart</comment>
 		<comment>\Sof\Sa\Sflua\Sprogram.</comment>
-		<target depth="0" id="3">
+		<target>
 			<name>C++</name>
 			<code>
-				<include depth="1" id="4">Startup.hpp</include>
+				<include>Startup.hpp</include>
 			</code>
 		</target>
 	</code>

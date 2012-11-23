@@ -8,14 +8,14 @@
 		<strings/>
 	</header>
 	<code>
-		<class depth="0" id="3">
+		<class>
 			<name>TCPStream</name>
 			<code>
-				<implements depth="1" id="4">
-					<implements-interface depth="2" id="5">ReadStream</implements-interface>
-					<implements-interface depth="2" id="6">WriteStream</implements-interface>
+				<implements>
+					<implements-interface>ReadStream</implements-interface>
+					<implements-interface>WriteStream</implements-interface>
 				</implements>
-				<function depth="1" id="8">
+				<function>
 					<name>init</name>
 					<parameters>
 						<parameter>
@@ -37,7 +37,7 @@
 						</parameter>
 					</parameters>
 					<code>
-						<assign depth="2" id="9">
+						<assign>
 							<value>
 								<access>
 									<value>my</value>
@@ -64,10 +64,10 @@
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="11">
+				<function>
 					<name>connect</name>
 					<code>
-						<return depth="2" id="12">
+						<return>
 							<call>
 								<function>
 									<access>
@@ -98,23 +98,23 @@
 						</return>
 					</code>
 				</function>
-				<function depth="1" id="14">
+				<function>
 					<name>read</name>
 					<parameters>
 						<parameter>numBytes</parameter>
 					</parameters>
 					<code>
-						<return depth="2" id="15">null</return>
+						<return>null</return>
 					</code>
 					<meta/>
 				</function>
-				<function depth="1" id="17">
+				<function>
 					<name>write</name>
 					<parameters>
 						<parameter>collection</parameter>
 					</parameters>
 					<code>
-						<noop depth="2" id="18"/>
+						<noop/>
 					</code>
 					<meta/>
 				</function>

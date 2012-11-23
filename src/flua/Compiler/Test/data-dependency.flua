@@ -7,41 +7,41 @@
 		<strings/>
 	</header>
 	<code>
-		<assign depth="0">
+		<assign>
 			<value>x</value>
 			<value>4</value>
 		</assign>
-		<assign depth="0">
+		<assign>
 			<value>e</value>
 			<value>0</value>
 		</assign>
-		<comment> Test</comment>
-		<if-block depth="0">
+		<comment>\STest</comment>
+		<if-block>
 			<if>
 				<condition>x</condition>
 				<code>
-					<assign depth="1">
+					<assign>
 						<value>a</value>
 						<value>5</value>
 					</assign>
-					<assign depth="1">
+					<assign>
 						<value>b</value>
 						<value>3</value>
 					</assign>
-					<assign depth="1">
+					<assign>
 						<value>c</value>
 						<value>4</value>
 					</assign>
-					<assign depth="1">
+					<assign>
 						<value>d</value>
 						<value>0</value>
 					</assign>
-					<for depth="1">
+					<for>
 						<iterator>i</iterator>
 						<from>1</from>
 						<to>c</to>
 						<code>
-							<assign depth="2">
+							<assign>
 								<value>d</value>
 								<value>
 									<add>
@@ -57,14 +57,14 @@
 							</assign>
 						</code>
 					</for>
-					<assign depth="1">
+					<assign>
 						<value>e</value>
 						<value>d</value>
 					</assign>
 				</code>
 			</if>
 		</if-block>
-		<assign depth="0">
+		<assign>
 			<value>b</value>
 			<value>e</value>
 		</assign>
