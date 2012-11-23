@@ -128,9 +128,14 @@ class BPWorkspace(QtGui.QTabWidget):
 		
 		return -1, None
 		
-	def getFilePaths(self):
+	#def getFilePaths(self):
+	#	for i in range(self.count()):
+	#		yield self.widget(i).getFilePath()
+			
+	def getSessionInfo(self):
 		for i in range(self.count()):
-			yield self.widget(i).getFilePath()
+			ce = self.widget(i)
+			yield ce.getFilePath(), ce.getCursorPosition()
 		
 	def closeCodeEdit(self, index):
 		ce = self.widget(index)

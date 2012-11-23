@@ -631,6 +631,14 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			super().wheelEvent(event)
 	
+	def getCursorPosition(self):
+		return self.textCursor().position()
+		
+	def setCursorPosition(self, pos):
+		cursor = self.textCursor()
+		cursor.setPosition(pos)
+		self.setTextCursor(cursor)
+	
 	def highlightBrackets(self):
 		cursor = self.textCursor()
 		position = cursor.position()

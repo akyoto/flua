@@ -409,9 +409,13 @@ class Startup:
 					fileNum = 0
 					while 1:
 						filePath = self.sessionParser.get(section, "File%d" % fileNum)
+						cursorPos = self.sessionParser.getint(section, "CursorPosition%d" % fileNum)
 						
 						# Open it
-						self.openFile(filePath, ignoreLoadingFinished = True)
+						ce = self.openFile(filePath, ignoreLoadingFinished = True)
+						
+						if ce:
+							ce.setCursorPosition(cursorPos)
 						
 						fileNum += 1
 						self.progressBar.setValue(fileNum / maxFileNum * 100)
@@ -422,6 +426,7 @@ class Startup:
 				
 			# Session settings
 			self.setCurrentWorkspace(self.sessionParser.getint("General", "CurrentWorkspace"))
+			self.currentWorkspace.changeCodeEdit(self.sessionParser.getint("General", "CurrentIndex"))
 		
 	def saveSession(self):
 		self.sessionParser = createConfigParser()
@@ -429,6 +434,8 @@ class Startup:
 		# Session settings
 		self.sessionParser.add_section("General")
 		self.sessionParser.set("General", "CurrentWorkspace", str(self.currentWorkspace.wsID))
+		self.sessionParser.set("General", "CurrentIndex", str(self.currentWorkspace.currentIndex()))
+		#self.sessionParser.set("General", "CurrentCursorPosition", str(self.codeEdit.getCursorPosition()))
 		
 		# Save all workspaces
 		num = 0
@@ -438,9 +445,10 @@ class Startup:
 			self.sessionParser.add_section(section)
 			
 			fileNum = 0
-			for filePath in ws.getFilePaths():
+			for filePath, cursorPos in ws.getSessionInfo():
 				if not self.isTmpPath(filePath):
 					self.sessionParser.set(section, "File%d" % fileNum, filePath)
+					self.sessionParser.set(section, "CursorPosition%d" % fileNum, str(cursorPos))
 					fileNum += 1
 			
 			maxFileNum += fileNum
