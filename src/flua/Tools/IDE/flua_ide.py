@@ -135,14 +135,15 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		self.initDocks()
 		
-		self.config.applySettings()
-		
 		# We love hard coding! ... or maybe not.
 		#self.moduleView.highlightModule("playground.My playground")
 		
 		# Set default environment
 		if self.config.defaultEnvironmentName in self.environmentByName:
 			self.setEnvironment(self.environmentByName[self.config.defaultEnvironmentName], ignoreLoadingFinished = True)
+		
+		# Apply configuration settings
+		self.config.applySettings()
 		
 		# Intercept sys.stdout and sys.stderr
 		self.console.watch(self.console.log)

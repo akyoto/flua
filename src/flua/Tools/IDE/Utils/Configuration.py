@@ -249,11 +249,14 @@ class BPConfiguration:
 		QtGui.QToolTip.setFont(font)
 		
 		# Widgets with normal font
-		#self.bpIDE.moduleView.setFont(font)
 		self.bpIDE.workspacesContainer.setFont(font)
 		
 		if self.bpIDE.fileView:
 			self.bpIDE.fileView.setFont(font)
+		
+		# All module views
+		for env in self.bpIDE.environments:
+			env.moduleView.setFont(font)
 		
 		# All docks
 		for dock in self.bpIDE.docks:
