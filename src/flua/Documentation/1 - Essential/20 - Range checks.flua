@@ -1,0 +1,103 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">\E</string>
+			<string id="flua_string_1">\Sis\Sgreater\Sthan\S3\Sand\S</string>
+			<string id="flua_string_2">\Sis\Sless\Sthan\S5.</string>
+			<string id="flua_string_3">\E</string>
+			<string id="flua_string_4">\S&lt;=\S5\Sand\S</string>
+			<string id="flua_string_5">\S&gt;=\S4</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SThis\Sis\Sthe\Svariable\Swe're\Sgoing\Sto\Suse:</comment>
+		<assign>
+			<value>x</value>
+			<value>4</value>
+		</assign>
+		<comment>\SYou\Scan\Scheck\Sif\Sthe\Svalue\Sis\Sin\Sa\Scertain\Srange:</comment>
+		<if-block>
+			<if>
+				<condition>
+					<in-range lower-operation="less" upper-operation="less">
+						<lower>3</lower>
+						<value>x</value>
+						<upper>5</upper>
+					</in-range>
+				</condition>
+				<code>
+					<call>
+						<function>print</function>
+						<parameters>
+							<parameter>
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>
+														<add>
+															<value>flua_string_0</value>
+															<value>x</value>
+														</add>
+													</value>
+													<value>flua_string_1</value>
+												</add>
+											</value>
+											<value>x</value>
+										</add>
+									</value>
+									<value>flua_string_2</value>
+								</add>
+							</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+		<comment>\SThis\Sworks\Swith\Soperators\Slike\S„&lt;“,\S„&gt;“,\S„&lt;=“\Sand\S„&gt;=“</comment>
+		<if-block>
+			<if>
+				<condition>
+					<in-range lower-operation="greater-or-equal" upper-operation="greater-or-equal">
+						<lower>5</lower>
+						<value>x</value>
+						<upper>4</upper>
+					</in-range>
+				</condition>
+				<code>
+					<call>
+						<function>print</function>
+						<parameters>
+							<parameter>
+								<add>
+									<value>
+										<add>
+											<value>
+												<add>
+													<value>
+														<add>
+															<value>flua_string_3</value>
+															<value>x</value>
+														</add>
+													</value>
+													<value>flua_string_4</value>
+												</add>
+											</value>
+											<value>x</value>
+										</add>
+									</value>
+									<value>flua_string_5</value>
+								</add>
+							</parameter>
+						</parameters>
+					</call>
+				</code>
+			</if>
+		</if-block>
+	</code>
+</module>
