@@ -390,9 +390,7 @@ class Startup:
 		try:
 			with codecs.open(getConfigDir() + "studio/session.ini", "r", "utf-8") as inStream:
 				self.sessionParser.readfp(inStream)
-		except:
-			self.newFile()
-		else:
+			
 			maxFileNum = self.sessionParser.getint("General", "FileCount")
 			
 			# Prevent division by zero
@@ -409,8 +407,8 @@ class Startup:
 					
 					fileNum = 0
 					while 1:
-						filePath = self.sessionParser.get(section, "%d.File" % fileNum)
-						cursorPos = self.sessionParser.getint(section, "%d.CursorPosition" % fileNum)
+						filePath = self.sessionParser[section]["%d.File" % fileNum]
+						cursorPos = int(self.sessionParser[section]["%d.CursorPosition" % fileNum])
 						#self.currentWorkspace.changeCodeEdit(self.sessionParser.getint("General", "TabIndex%d" % fileNum))
 						
 						# Open it
@@ -421,18 +419,23 @@ class Startup:
 						
 						fileNum += 1
 						self.progressBar.setValue(fileNum / maxFileNum * 100)
-				except:
+				except KeyError:
 					pass
 				
-				tabIndex = self.sessionParser.getint(section, "TabIndex")
+				tabIndex = int(self.sessionParser[section]["TabIndex"])
 				if tabIndex < self.currentWorkspace.count():
 					self.currentWorkspace.changeCodeEdit(tabIndex)
 				
 				num += 1
 				
 			# Session settings
-			self.setCurrentWorkspace(self.sessionParser.getint("General", "CurrentWorkspace"))
-			
+			try:
+				self.setCurrentWorkspace(int(self.sessionParser["General"]["CurrentWorkspace"]))
+			except KeyError:
+				pass
+		except:
+			self.newFile()
+		finally:
 			self.endBenchmark()
 		
 	def saveSession(self):
