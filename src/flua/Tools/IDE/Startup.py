@@ -33,13 +33,14 @@ from flua.Tools.IDE.Editor import *
 from flua.Tools.IDE.Widgets import *
 from flua.Tools.IDE.MenuActions import *
 from flua.Tools.IDE.Environment import *
+from flua.Tools.IDE.UI import *
 import configparser
 
 ####################################################################
 # Classes
 ####################################################################
 
-class Startup:
+class Startup(Ui_MainWindow):
 	
 	def initAll(self):
 		self.startBenchmark("Init Theme")
@@ -87,12 +88,18 @@ class Startup:
 		self.repos = [x for x in readFile(getIDERoot() + "repositories.txt").split("\n") if x]
 	
 	def initPreferences(self):
-		self.preferences = uic.loadUi("ui/preferences.ui")
+		self.preferences = uic.loadUi("UI/preferences.ui")
 		self.preferences.settings.expandToDepth(0)
 		self.preferences.settings.currentItemChanged.connect(self.onSettingsItemChange)
 		
 	def initUI(self):
-		uic.loadUi(getIDERoot() + "ui/flua-ide.ui", self)
+		# Setup main window
+		self.setupUi(self)
+		
+		#uic.loadUi(getIDERoot() + "UI/flua-ide.ui", self)
+		
+		#with open(getIDERoot() + "UI/MainWindow.py", "w") as f:
+		#	uic.compileUi(getIDERoot() + "UI/flua-ide.ui", f)
 		
 		# StatusBar
 		self.statusBar.setFont(QtGui.QFont("Ubuntu", 9))

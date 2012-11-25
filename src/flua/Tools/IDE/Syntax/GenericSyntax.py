@@ -118,6 +118,14 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 						elif importType == 5 or importType == 6:
 							self.setFormat(h, j - h, style['global-module-import'])
 						h = j
+					# Flua includes
+					elif expr == "include":
+						self.setFormat(i, h - i, style['keyword'])
+						i = text.find("#")
+						if i != -1:
+							continue
+						else:
+							return
 					elif expr in {"until", "to", "counting"}:
 						# Possible bug, but ignorable
 						if (len(text) >= 4 and text.lstrip()[:4] in {"for ", "pfor"}) or text.strip() == "to":

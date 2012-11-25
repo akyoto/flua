@@ -1,0 +1,1 @@
+pyuic4 ./flua-ide.ui > MainWindow.py

@@ -108,6 +108,6 @@ class MenuActions(
 		#	event.accept()
 		#else:
 		#	event.ignore()
-			
+		
 	def notImplemented(self):
 		self.notify("Not implemented yet.")
