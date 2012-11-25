@@ -851,7 +851,12 @@ class BPPostProcessorFile:
 			
 			# Check
 			if node.tagName == "assign" and op2.nodeType == Node.ELEMENT_NODE and op2.tagName == "template-call":
-				raise CompilerException("You forgot the parentheses to initialize the object", node)
+				templateBase = op2.childNodes[0].childNodes[0]
+				if templateBase.nodeType == Node.TEXT_NODE and templateBase.nodeValue and templateBase.nodeValue[0].islower():
+					# Function pointer
+					pass
+				else:
+					raise CompilerException("You forgot the parentheses to initialize the object", node)
 		elif node.tagName == "call":
 			functionNode = getElementByTagName(node, "function")
 			

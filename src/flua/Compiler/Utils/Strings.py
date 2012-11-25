@@ -131,6 +131,14 @@ def getNextNonWhitespacePos(stri, fromIndex):
 def capitalize(stri):
 	return stri[0].upper() + stri[1:]
 
+def getFunctionPointerReturnTypeSeparator():
+	return "→"
+
+def extractReturnType(typeName):
+	# TODO: Need another algorithm because this is bugged
+	# The return type might have → inside it as well.
+	return typeName[typeName.rfind(getFunctionPointerReturnTypeSeparator())+1:].lstrip()
+
 def extractClassName(typeName):
 	#return removeUnmanaged(removeGenerics(typeName))
 	
@@ -158,7 +166,6 @@ def removeUnmanaged(type):
 	return type.replace("~", "")
 
 def splitParams(line):
-	params = []
 	bracketCounter = 0
 	lastStart = 0
 	
@@ -171,15 +178,15 @@ def splitParams(line):
 		elif c == ',' and bracketCounter == 0:
 			param = line[lastStart:i]
 			lastStart = i + 1
-			params.append(param.strip())
+			yield param.strip()
 	
 	lastParam = line[lastStart:].strip()
+	
 	if lastParam:
-		params.append(lastParam)
-	return params
+		yield lastParam
 
 def normalizeName(name):
-	return name.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "")
+	return name.replace("<", "_").replace(">", "_").replace("~", "_").replace(",", "_").replace(" ", "").replace(getFunctionPointerReturnTypeSeparator(), "_x_").replace("(", "_").replace(")", "_")
 
 def normalizeModName(name):
 	return normalizeName(name.replace(" ", "_")).replace("-", "_")

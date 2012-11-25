@@ -467,6 +467,14 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		paramsString, paramTypes = self.handleParameters(params)
 		paramsString = ", ".join(paramsString)
 		
+		# Function pointers
+		try:
+			fp = self.getVariableTypeAnywhere(funcName)
+		except CompilerException:
+			pass
+		else:
+			return extractReturnType(fp)
+		
 		#if funcName == "distance":
 		#	debugStop()
 		#print(caller, callerType, funcName, "<<<<<<<<<<")
@@ -535,9 +543,12 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return "Size"
 			elif node.nodeValue in self.compiler.mainClass.classes:
 				return node.nodeValue
-			elif node.nodeValue in self.compiler.mainClass.functions:
-				self.compiler.functionsAsPointers[node.nodeValue] = self.compiler.mainClass.functions[node.nodeValue]
-				return "Function"
+			# Function pointers
+			#elif node.nodeValue in self.compiler.mainClass.functions:
+			#	self.compiler.functionsAsPointers[node.nodeValue] = self.compiler.mainClass.functions[node.nodeValue]
+			#	
+			#	self.implementFunction("", node.nodeValue, ["Int"])
+			#	return "Function<Int>»Int"
 			elif node.nodeValue.startswith("0x"):
 				return "Int"
 			else:
@@ -781,6 +792,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				return "Bool"
 			elif node.tagName == "in-range":
 				return "Bool"
+			elif node.tagName == "template-call":
+				op1 = node.childNodes[0].childNodes[0]
+				op2 = node.childNodes[1].childNodes[0]
+				
+				if op1.nodeType == Node.TEXT_NODE and op1.nodeValue and op1.nodeValue[0].islower():
+					paramTypes = self.getFunctionPointerParamTypes(op2)
+					funcImpl = self.implementFunction("", op1.nodeValue, paramTypes)
+					#self.compiler.functionsAsPointers[op1.nodeValue] = self.compiler.mainClass.functions[op1.nodeValue]
+					return "Function(%s)%s%s" % (", ".join(funcImpl.paramTypes), getFunctionPointerReturnTypeSeparator(), funcImpl.getReturnType())
 			elif len(node.childNodes) == 2: # Any binary operation
 				op1 = node.childNodes[0].childNodes[0]
 				op2 = node.childNodes[1].childNodes[0]
@@ -863,6 +883,13 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			tmpDoc = parseString(xmlCode)
 			self.compiler.parseStringCache[xmlCode] = tmpDoc
 			return tmpDoc
+	
+	def getFunctionPointerParamTypes(self, node):
+		if node.nodeType == Node.TEXT_NODE:
+			return [self.prepareTypeName(node.nodeValue)]
+		else:
+			paramTypes = [self.prepareTypeName(self.parseExpr(x)) for x in node.childNodes]
+			return paramTypes
 	
 	def getFunctionCallInfo(self, node):
 		funcNameNode = getFuncNameNode(node)
@@ -1147,7 +1174,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		# === END inlined version === #
 		
 		classObj = self.getClass(className)
-		templateValuesList = splitParams(templateValues)
+		templateValuesList = list(splitParams(templateValues))
 		
 		return classObj.requestImplementation(initTypes, templateValuesList)
 		
@@ -1398,10 +1425,10 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 					return nodeName
 				
 				# Function pointers
-				if nodeName in mainClass.functions:
-					if not node.parentNode.parentNode.tagName.startswith("flow"):
-						#print("=FUNCTION")
-						return "_FP_" + nodeName
+				#if nodeName in mainClass.functions:
+				#	if not node.parentNode.parentNode.tagName.startswith("flow"):
+				#		#print("=FUNCTION")
+				#		return "_FP_" + nodeName
 				
 				#if self.currentFunction:
 				#	print(self.inIterator)

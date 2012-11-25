@@ -178,7 +178,7 @@ class BaseOutputFileHandler:
 				op2Expr = self.parseExpr(op2)
 				valueType = self.getExprDataType(op2)
 				numAssignments = len(op1.childNodes)
-				tupleTypes = splitParams(valueType[valueType.find("<")+1:-1])
+				tupleTypes = list(splitParams(valueType[valueType.find("<")+1:-1]))
 				
 				if numAssignments != len(tupleTypes):
 					raise CompilerException("„%s“ returns %d values while there are %d assignments" % (nodeToBPC(op2), len(tupleTypes), numAssignments))
@@ -793,7 +793,21 @@ class BaseOutputFileHandler:
 		return line
 	
 	def handleTemplateCall(self, node):
+		# op1<op2>
 		op1 = self.parseExpr(node.childNodes[0].childNodes[0])
+		
+		# Function pointers
+		if op1 and op1[0].islower():
+			params = node.childNodes[1].childNodes[0]
+			
+			#paramTypes = [self.parseExpr(pNode.childNodes[0]) for pNode in params.childNodes]
+			#pList, pTypes, pDefault, pDefaultTypes = self.getParameterList(params)
+			#print(pList, pTypes, pDefault, pDefaultTypes)
+			paramTypes = self.getFunctionPointerParamTypes(params)
+			
+			return "%s%s" % (op1, buildPostfix(paramTypes))
+		
+		# op1<op2>
 		op2 = self.parseExpr(node.childNodes[1].childNodes[0])
 		
 		# Template translation
@@ -1249,6 +1263,12 @@ class BaseOutputFileHandler:
 			
 			return self.buildDeleteMemPointer(caller)
 		
+		# TODO: Function pointer variables
+		fp = self.getVariable(funcName)
+		if fp:
+			return "%s(%s)" % (funcName, paramsString)
+		
+		# Find the function
 		if not self.compiler.mainClass.hasExternFunction(funcName): #not funcName.startswith("flua_"):
 			# Check extended classes
 			callerClassImpl = self.getClassImplementationByTypeName(callerType)

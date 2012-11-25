@@ -1,5 +1,5 @@
 from flua.Compiler.Output import *
-from flua.Compiler.Output.cpp.datatypes import *
+from flua.Compiler.Output.cpp.DataTypes import *
 
 class CPPVariable(BaseVariable):
 	

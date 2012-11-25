@@ -31,7 +31,7 @@ from flua.Compiler.ExpressionParser import *
 from flua.Compiler.Utils import *
 from flua.Compiler.Config import *
 from flua.Compiler.Output.BaseOutputFile import *
-from flua.Compiler.Output.cpp.datatypes import *
+from flua.Compiler.Output.cpp.DataTypes import *
 from flua.Compiler.Output.cpp.CPPClass import *
 from flua.Compiler.Output.cpp.CPPFunction import *
 from flua.Compiler.Output.cpp.CPPVariable import *

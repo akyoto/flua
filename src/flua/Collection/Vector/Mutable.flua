@@ -102,6 +102,34 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SInitializes\Sthe\Svector</comment>
+				<function>
+					<name>init</name>
+					<parameters>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>start</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>end</value>
+							</access>
+						</parameter>
+						<parameter>
+							<access>
+								<value>my</value>
+								<value>endOfStorage</value>
+							</access>
+						</parameter>
+					</parameters>
+					<code>
+						<noop/>
+					</code>
+					<meta/>
+				</function>
 				<comment>\SFrees\Sthe\Sallocated\Smemory</comment>
 				<function>
 					<name>finalize</name>
@@ -121,7 +149,6 @@
 							<parameters/>
 						</call>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SAdds\San\S#element\Sto\Sthe\Sarray\Sand\Sresizes\Sit\Sif\Sthere\Sis\Snot\Senough\Sspace</comment>
 				<function>
@@ -314,7 +341,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\STODO:\SImplement\Sthis</comment>
 				<function>
@@ -681,7 +707,6 @@
 							</access>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReverses\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function>
@@ -787,7 +812,17 @@
 									</equal>
 								</condition>
 								<code>
-									<return/>
+									<return>
+										<new>
+											<type>
+												<template-call>
+													<value>Vector</value>
+													<value>TDataType</value>
+												</template-call>
+											</type>
+											<parameters/>
+										</new>
+									</return>
 								</code>
 							</if>
 						</if-block>
@@ -888,54 +923,43 @@
 								</assign>
 							</code>
 						</for>
-						<assign>
-							<value>
-								<access>
-									<value>my</value>
-									<value>start</value>
-								</access>
-							</value>
-							<value>newMem</value>
-						</assign>
-						<assign>
-							<value>
-								<access>
-									<value>my</value>
-									<value>end</value>
-								</access>
-							</value>
-							<value>
-								<subtract>
-									<value>
+						<return>
+							<new>
+								<type>
+									<template-call>
+										<value>Vector</value>
+										<value>TDataType</value>
+									</template-call>
+								</type>
+								<parameters>
+									<parameter>newMem</parameter>
+									<parameter>
+										<subtract>
+											<value>
+												<add>
+													<value>newMem</value>
+													<value>
+														<multiply>
+															<value>len</value>
+															<value>2</value>
+														</multiply>
+													</value>
+												</add>
+											</value>
+											<value>1</value>
+										</subtract>
+									</parameter>
+									<parameter>
 										<add>
 											<value>newMem</value>
-											<value>
-												<multiply>
-													<value>len</value>
-													<value>2</value>
-												</multiply>
-											</value>
+											<value>newSize</value>
 										</add>
-									</value>
-									<value>1</value>
-								</subtract>
-							</value>
-						</assign>
-						<assign>
-							<value>
-								<access>
-									<value>my</value>
-									<value>endOfStorage</value>
-								</access>
-							</value>
-							<value>
-								<add>
-									<value>newMem</value>
-									<value>newSize</value>
-								</add>
-							</value>
-						</assign>
+									</parameter>
+								</parameters>
+							</new>
+						</return>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SReturns\Strue\Sif\Sthe\Svector\Sis\Sempty</comment>
 				<function>
@@ -1215,7 +1239,6 @@
 							</value>
 						</assign>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SReturns\Swhether\Sthe\Svector\Sstarts\Sand\Sends\Swith\S#element</comment>
 				<function>
@@ -1255,7 +1278,6 @@
 							</and>
 						</return>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SSorts\Sthe\Selements\Sin\Sthe\Svector</comment>
 				<function>
@@ -1596,7 +1618,6 @@
 							</if>
 						</if-block>
 					</code>
-					<meta/>
 				</function>
 				<comment>\SWrites\Seach\Selement\Sof\S#vec\Sseparated\Sby\Scommas</comment>
 				<function>
@@ -2178,7 +2199,6 @@
 								</access>
 							</return>
 						</code>
-						<meta/>
 					</getter>
 				</get>
 				<set>

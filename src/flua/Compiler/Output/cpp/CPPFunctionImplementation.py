@@ -1,6 +1,6 @@
 from flua.Compiler.Utils import *
 from flua.Compiler.Output import *
-from flua.Compiler.Output.cpp.datatypes import *
+from flua.Compiler.Output.cpp.DataTypes import *
 
 class CPPFunctionImplementation(BaseFunctionImplementation):
 	

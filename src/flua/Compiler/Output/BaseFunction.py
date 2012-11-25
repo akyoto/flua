@@ -154,7 +154,7 @@ class BaseFunction:
 			
 			typeB = classImpl.translateTemplateName(typeB)
 			
-			if typeA in nonPointerClasses:
+			if typeA in nonPointerClasses or typeA.startswith("Function("):
 				classImplA = None
 			else:
 				classImplA = self.cppFile.getClassImplementationByTypeName(typeA)

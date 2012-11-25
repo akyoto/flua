@@ -21,6 +21,7 @@
 			<import>defaultinit</import>
 			<import>inheritance</import>
 			<import>baseclass</import>
+			<import>functionpointers</import>
 			<import>foreach</import>
 			<import>foreachptrs</import>
 			<import>pfor</import>

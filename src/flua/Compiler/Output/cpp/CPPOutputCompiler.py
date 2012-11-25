@@ -189,6 +189,10 @@ int main(int argc, char *argv[]) {
 				outStream.write("#include <gmpxx.h>\n")
 				outStream.write("#include <gmp.h>\n")
 			
+			# TODO: Change std::vector to BPVector
+			outStream.write("#include <vector>\n")
+			outStream.write("#include <functional>\n")
+			
 			for dataType, definition in dataTypeDefinitions.items():
 				if dataType == "BigInt" and not self.gmpEnabled:
 					continue
@@ -231,18 +235,18 @@ int main(int argc, char *argv[]) {
 			#for externFunc in self.mainClass.externFunctions:
 			#	outStream.write("// extern func %s;\n" % (externFunc))
 			
-			# Function pointers
-			outStream.write("""\n
-// Function pointers
-typedef struct BPFunction {
-	%s
-} BPFunction;
-""" % "".join(list(self.functionPointerCalls.keys())))
+#			# Function pointers
+#			outStream.write("""\n
+#// Function pointers
+#typedef struct BPFunction {
+#	%s
+#} BPFunction;
+#""" % "".join(list(self.functionPointerCalls.keys())))
 			
-			# Function pointer objects
-			for funcName, funcList in self.functionsAsPointers.items():
-				outStream.write("BPFunction* _FP_%s = new BPFunction();\n" % (funcName))
-				#"".join([func.getName() for func in funcList])
+			## Function pointer objects
+			#for funcName, funcList in self.functionsAsPointers.items():
+			#	outStream.write("BPFunction* _FP_%s = new BPFunction();\n" % (funcName))
+			#	#"".join([func.getName() for func in funcList])
 			
 			# Custom Threads
 			outStream.write('\n// Threads\n' + '\n'.join(self.customThreads.values()) + '\n')
@@ -250,9 +254,6 @@ typedef struct BPFunction {
 			# Includes
 			for incl, ifndef in self.includes:
 				outStream.write("#ifndef %s\n\t#define   %s\n\t#include <%s>\n#endif\n\n" % (ifndef, ifndef, incl))
-				
-			# TODO: Change std::vector to BPVector
-			outStream.write("#include <vector>\n")
 			
 			if self.usingSTDAlgorithms:
 				outStream.write("#include <algorithm>\n")
@@ -340,7 +341,7 @@ typedef struct BPFunction {
 			"-Wno-unused-label", # We create unused labels in loops but that's fine
 			"-Wno-attributes", # by hash map
 			
-			"-std=c++0x",
+			"-std=c++11",
 			["-m32", "-m64"][self.is64Bit],
 		]
 		

@@ -26,10 +26,11 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 				
 			self.setFormat(0, len(text), style['traceback'])
 			
+			# GCC errors
 			pos = text.find("error: ")
 			if pos != -1:
 				self.setFormat(pos, len(text) - pos, style['compiler-error'])
-				
+			
 			return
 		
 		if text.startswith("Traceback (most recent call last):"):
@@ -45,8 +46,14 @@ class CLogHighlighter(QtGui.QSyntaxHighlighter):
 				if text.startswith("    "):
 					self.setFormat(0, len(text), style['function'])
 					return
-				
+			
 			self.setFormat(0, len(text), style['traceback'])
+			
+			# 
+			pos = text.find(", in ")
+			if pos != -1:
+				self.setFormat(pos + 4, len(text) - pos - 4, style['compiler-error'])
+			
 			return
 		
 		if text.startswith("[Warning]") or text.startswith("/usr/bin/ld: cannot find"):

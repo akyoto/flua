@@ -74,6 +74,18 @@ def adjustDataTypeCPP(type, adjustOuterAsWell = True):
 	if type[:pos] == "Tuple":
 		return standardClassPrefix + type.replace("<", "_").replace(">", "_").replace(",", "_").replace(" ", "") + classPostfix
 	
+	# Function pointers
+	if type.startswith("Function("):
+		returnValue = extractReturnType(type)
+		pos = 8
+		paramsString = ", ".join(
+			[adjustDataTypeCPP(param) for param in splitParams(
+				type[pos+1:type.rfind(getFunctionPointerReturnTypeSeparator())-1]
+			)]
+		)
+		return "std::function<%s(%s)>" % (adjustDataTypeCPP(returnValue), paramsString)
+		#"→"
+	
 	if pos != -1:
 		paramsNew = [adjustDataTypeCPP(param) for param in splitParams(type[pos+1:-1])]
 		type = "%s<%s>" % (type[:pos], ", ".join(paramsNew))
