@@ -13,6 +13,7 @@
 	<code>
 		<function>
 			<name>benchFactorial</name>
+			<parameters/>
 			<code>
 				<assign>
 					<value>

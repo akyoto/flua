@@ -8,7 +8,7 @@
 		<strings/>
 	</header>
 	<code>
-		<comment>\SCalculates\Sthe\Sfactorial\Sof\Sn\Srecursively</comment>
+		<comment>\SCalculates\Sthe\Sfactorial\Sof\S#n</comment>
 		<function>
 			<name>factorial</name>
 			<parameters>
@@ -48,19 +48,6 @@
 									<call>
 										<function>factorial</function>
 										<parameters>
-											<parameter>10</parameter>
-										</parameters>
-									</call>
-								</value>
-								<value>3628800</value>
-							</equal>
-						</assert>
-						<assert>
-							<equal>
-								<value>
-									<call>
-										<function>factorial</function>
-										<parameters>
 											<parameter>20</parameter>
 										</parameters>
 									</call>
@@ -70,37 +57,186 @@
 						</assert>
 					</code>
 				</test>
+				<assign>
+					<value>
+						<declare-type>
+							<value>fac</value>
+							<value>BigInt</value>
+						</declare-type>
+					</value>
+					<value>1</value>
+				</assign>
+				<for>
+					<iterator>i</iterator>
+					<from>2</from>
+					<to>n</to>
+					<code>
+						<assign-multiply>
+							<value>fac</value>
+							<value>i</value>
+						</assign-multiply>
+					</code>
+					<meta/>
+				</for>
+				<return>fac</return>
+			</code>
+			<meta/>
+		</function>
+		<comment>\SDetermines\Sthe\Sposition\Sof\Sthe\Stopmost\Sbit\Sof\S#v\Sthat\Sis\Sone</comment>
+		<function>
+			<name>floorLog2</name>
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>v</value>
+						<value>UInt</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<code>
+				<assign>
+					<value>pos</value>
+					<value>0</value>
+				</assign>
+				<if-block>
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>v</value>
+								<value>
+									<shift-left>
+										<value>1</value>
+										<value>16</value>
+									</shift-left>
+								</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<assign-shift-right>
+								<value>v</value>
+								<value>16</value>
+							</assign-shift-right>
+							<assign-add>
+								<value>pos</value>
+								<value>16</value>
+							</assign-add>
+						</code>
+					</if>
+				</if-block>
+				<if-block>
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>v</value>
+								<value>
+									<shift-left>
+										<value>1</value>
+										<value>8</value>
+									</shift-left>
+								</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<assign-shift-right>
+								<value>v</value>
+								<value>8</value>
+							</assign-shift-right>
+							<assign-add>
+								<value>pos</value>
+								<value>8</value>
+							</assign-add>
+						</code>
+					</if>
+				</if-block>
+				<if-block>
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>v</value>
+								<value>
+									<shift-left>
+										<value>1</value>
+										<value>4</value>
+									</shift-left>
+								</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<assign-shift-right>
+								<value>v</value>
+								<value>4</value>
+							</assign-shift-right>
+							<assign-add>
+								<value>pos</value>
+								<value>4</value>
+							</assign-add>
+						</code>
+					</if>
+				</if-block>
+				<if-block>
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>v</value>
+								<value>
+									<shift-left>
+										<value>1</value>
+										<value>2</value>
+									</shift-left>
+								</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<assign-shift-right>
+								<value>v</value>
+								<value>2</value>
+							</assign-shift-right>
+							<assign-add>
+								<value>pos</value>
+								<value>2</value>
+							</assign-add>
+						</code>
+					</if>
+				</if-block>
+				<if-block>
+					<if>
+						<condition>
+							<greater-or-equal>
+								<value>v</value>
+								<value>
+									<shift-left>
+										<value>1</value>
+										<value>1</value>
+									</shift-left>
+								</value>
+							</greater-or-equal>
+						</condition>
+						<code>
+							<assign-add>
+								<value>pos</value>
+								<value>1</value>
+							</assign-add>
+						</code>
+					</if>
+				</if-block>
 				<if-block>
 					<if>
 						<condition>
 							<equal>
-								<value>n</value>
+								<value>v</value>
 								<value>0</value>
 							</equal>
 						</condition>
 						<code>
-							<return>1</return>
+							<return>
+								<negative>
+									<value>1</value>
+								</negative>
+							</return>
 						</code>
 					</if>
 				</if-block>
-				<return>
-					<multiply>
-						<value>n</value>
-						<value>
-							<call>
-								<function>factorial</function>
-								<parameters>
-									<parameter>
-										<subtract>
-											<value>n</value>
-											<value>1</value>
-										</subtract>
-									</parameter>
-								</parameters>
-							</call>
-						</value>
-					</multiply>
-				</return>
+				<return>pos</return>
 			</code>
 			<meta/>
 		</function>

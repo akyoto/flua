@@ -49,30 +49,20 @@ class EditMenuActions:
 		if self.codeEdit:
 			self.codeEdit.redo()
 	
-	# Copy console log
 	def copy(self):
-		logWidget = self.console.getCurrentLog()
+		try:
+			self.focusWidget().copy()
+		except:
+			pass
 		
-		if logWidget:
-			logWidget.copy()
-		elif self.codeEdit:
-			self.codeEdit.copy()
-		
-	# Cut console log
 	def cut(self):
-		logWidget = self.console.getCurrentLog()
+		try:
+			self.focusWidget().cut()
+		except:
+			pass
 		
-		if logWidget:
-			logWidget.copy() # Don't cut!
-		elif self.codeEdit:
-			self.codeEdit.cut()
-		
-	# Paste into console - forbidden, the police will hunt you if you dare.
 	def paste(self):
-		pass
-		#logWidget = self.console.getCurrentLog()
-		#
-		#if logWidget:
-		#	pass #logWidget.paste() # Don't paste!
-		#elif self.codeEdit:
-		#	self.codeEdit.paste()
+		try:
+			self.focusWidget().paste()
+		except:
+			pass

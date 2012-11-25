@@ -84,21 +84,30 @@ class MenuActions(
 			#ce.rehighlightFunctionUsage()
 	
 	def closeEvent(self, event):
+		# Save scribble text
 		self.scribble.saveScribble()
+		
+		# Replace clipboard references with an actual copy
+		# so that we can access the copied text after the
+		# application has quit.
+		clipboard = QtGui.QApplication.clipboard()
+		event = QtCore.QEvent(QtCore.QEvent.Clipboard)
+		QtGui.QApplication.sendEvent(clipboard, event)
+		
+		# Go ahead quitting the app
 		event.accept()
-		return
 		
-		# TODO: Check files opened
-		reply = QtGui.QMessageBox.question(self,
-				"Message",
-				"Are you sure you want to quit?",
-				QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
-				QtGui.QMessageBox.No)
-		
-		if reply == QtGui.QMessageBox.Yes:
-			event.accept()
-		else:
-			event.ignore()
+		## TODO: Check files opened
+		#reply = QtGui.QMessageBox.question(self,
+		#		"Message",
+		#		"Are you sure you want to quit?",
+		#		QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
+		#		QtGui.QMessageBox.No)
+		#
+		#if reply == QtGui.QMessageBox.Yes:
+		#	event.accept()
+		#else:
+		#	event.ignore()
 			
 	def notImplemented(self):
 		self.notify("Not implemented yet.")

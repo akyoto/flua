@@ -155,6 +155,8 @@ bpOperatorLevels = [
 		Operator("/=", "assign-divide", Operator.BINARY),
 		Operator("<<=", "assign-shift-left", Operator.BINARY),
 		Operator(">>=", "assign-shift-right", Operator.BINARY),
+		Operator("&=", "assign-bitwise-and", Operator.BINARY),
+		Operator("|=", "assign-bitwise-or", Operator.BINARY),
 		#Operator("}=", "assign-each-in", Operator.BINARY),
 		Operator("=", "assign", Operator.BINARY),
 	],
