@@ -94,7 +94,9 @@ class Startup(Ui_MainWindow):
 		
 	def initUI(self):
 		# Setup main window
+		os.chdir("./UI")
 		self.setupUi(self)
+		os.chdir("../")
 		
 		#uic.loadUi(getIDERoot() + "UI/flua-ide.ui", self)
 		
