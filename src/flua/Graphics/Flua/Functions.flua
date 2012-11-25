@@ -71,10 +71,15 @@
 					</extern-function>
 					<extern-function>
 						<name>setVSync</name>
+						<meta/>
+					</extern-function>
+					<extern-function>
+						<name>set2DMode</name>
 					</extern-function>
 					<extern-function>
 						<name>getLastGLError</name>
 						<type>String</type>
+						<meta/>
 					</extern-function>
 					<extern-function>
 						<name>getMouseX</name>
@@ -314,6 +319,28 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
+		</function>
+		<comment>\SActivates\Sor\Sdeactivates\S2D\Sprojection</comment>
+		<function>
+			<name>set2DMode</name>
+			<parameters>
+				<parameter>enabled</parameter>
+			</parameters>
+			<code>
+				<call>
+					<function>
+						<access>
+							<value>flua</value>
+							<value>set2DMode</value>
+						</access>
+					</function>
+					<parameters>
+						<parameter>enabled</parameter>
+					</parameters>
+				</call>
+			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Strue\Sif\Sthe\Sgiven\S#key\Sis\Sbeing\Spressed,\Sfalse\Sotherwise</comment>
 		<function>

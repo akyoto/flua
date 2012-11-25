@@ -98,7 +98,7 @@
 					<function>
 						<access>
 							<value>win</value>
-							<value>cls</value>
+							<value>clear</value>
 						</access>
 					</function>
 					<parameters>

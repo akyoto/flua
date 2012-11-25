@@ -296,7 +296,7 @@
 				</function>
 				<comment>\SClears\Sthe\Sscreen\Swith\Sthe\Scolor\Sindicated\Sby\S#r,\S#g,\S#b\Sand\S#a</comment>
 				<function>
-					<name>cls</name>
+					<name>clear</name>
 					<parameters>
 						<parameter>
 							<assign>
@@ -345,6 +345,7 @@
 							</parameters>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<comment>\SSwaps\Sthe\Sbuffers\Swhen\Susing\Sdouble\Sbuffering</comment>
 				<function>
@@ -374,12 +375,13 @@
 							<function>
 								<access>
 									<value>my</value>
-									<value>cls</value>
+									<value>clear</value>
 								</access>
 							</function>
 							<parameters/>
 						</call>
 					</code>
+					<meta/>
 				</function>
 				<function>
 					<name>exit</name>
