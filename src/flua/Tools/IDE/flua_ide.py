@@ -149,7 +149,12 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.console.watch(self.console.log)
 		
 		# Load session
+		self.loadWindowState()
 		self.loadSession()
+		
+		# New file if there are no files
+		if self.currentWorkspace.count() == 0:
+			self.newBeginnerHelpFile()
 		
 		# Loading finished
 		self.onLoadingFinished()
@@ -172,6 +177,9 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Show maximized now
 		if os.name == "nt":
 			self.showMaximized()
+			
+		# Restore docks
+		self.restoreDockVisibility()
 		
 	#def eventFilter(self, obj, event):
 	#	
@@ -218,7 +226,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.moduleView = self.environment.moduleView
 			
 			self.moduleViewDock.setWidget(self.moduleView)
-			self.moduleViewDock.setObjectName("Modules")
 			
 			if self.environment != self.baseEnvironment and self.moduleView.modCount == 0:
 				if self.environment == self.fluaEnvironment:

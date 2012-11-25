@@ -87,6 +87,10 @@ class MenuActions(
 		# Save scribble text
 		self.scribble.saveScribble()
 		
+		self.dockVisibility = dict()
+		for x in self.docks:
+			self.dockVisibility[x] = x.isVisible()
+		
 		# Replace clipboard references with an actual copy
 		# so that we can access the copied text after the
 		# application has quit.

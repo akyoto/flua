@@ -388,17 +388,63 @@ class Startup(Ui_MainWindow):
 			BPWorkspace(self, 7),
 		]
 		
+	def newBeginnerHelpFile(self):
+		self.newFile()
+		self.codeEdit.setPlainText("""import playground.Everything
+
+# Check flua.Documentation in the module browser on the left for some beginner topics.
+""")
+		cursor = self.codeEdit.textCursor()
+		cursor.movePosition(QtGui.QTextCursor.End)
+		self.codeEdit.setTextCursor(cursor)
+		
+	def loadWindowState(self):
+		# Load geometry
+		try:
+			geometry = None
+			with open(getConfigDir() + "studio/geometry.dat", "rb") as inStream:
+				geometry = inStream.read()
+		except FileNotFoundError:
+			pass
+		
+		# Load state
+		try:
+			state = None
+			with open(getConfigDir() + "studio/state.dat", "rb") as inStream:
+				state = inStream.read()
+		except FileNotFoundError:
+			pass
+		
+		if geometry:
+			self.restoreGeometry(geometry)
+		
+		if state:
+			self.restoreState(state)
+		
+	def restoreDockVisibility(self):
+		try:
+			for dock in self.docks:
+				dock.setVisible(self.session["Docks"].getboolean(dock.objectName()))
+				
+			# Console is always hidden
+			self.consoleDock.hide()
+		except KeyError:
+			pass
+		except:
+			printTraceback()
+		
 	def loadSession(self):
 		self.startBenchmark("Load session")
 		
 		self.progressBar.setValue(0)
-		self.sessionParser = createConfigParser()
+		self.session = createConfigParser()
 		
+		# Load files and other settings
 		try:
 			with codecs.open(getConfigDir() + "studio/session.ini", "r", "utf-8") as inStream:
-				self.sessionParser.readfp(inStream)
+				self.session.readfp(inStream)
 			
-			maxFileNum = self.sessionParser.getint("General", "FileCount")
+			maxFileNum = self.session["General"].getint("FileCount")
 			
 			# Prevent division by zero
 			if maxFileNum == 0:
@@ -414,9 +460,9 @@ class Startup(Ui_MainWindow):
 					
 					fileNum = 0
 					while 1:
-						filePath = self.sessionParser[section]["%d.File" % fileNum]
-						cursorPos = int(self.sessionParser[section]["%d.CursorPosition" % fileNum])
-						#self.currentWorkspace.changeCodeEdit(self.sessionParser.getint("General", "TabIndex%d" % fileNum))
+						filePath = self.session[section]["%d.File" % fileNum]
+						cursorPos = self.session[section].getint("%d.CursorPosition" % fileNum)
+						#self.currentWorkspace.changeCodeEdit(self.session.getint("General", "TabIndex%d" % fileNum))
 						
 						# Open it
 						ce = self.openFile(filePath, ignoreLoadingFinished = True)
@@ -429,7 +475,7 @@ class Startup(Ui_MainWindow):
 				except KeyError:
 					pass
 				
-				tabIndex = int(self.sessionParser[section]["TabIndex"])
+				tabIndex = int(self.session[section]["TabIndex"])
 				if tabIndex < self.currentWorkspace.count():
 					self.currentWorkspace.changeCodeEdit(tabIndex)
 				
@@ -437,52 +483,60 @@ class Startup(Ui_MainWindow):
 				
 			# Session settings
 			try:
-				self.setCurrentWorkspace(int(self.sessionParser["General"]["CurrentWorkspace"]))
+				self.setCurrentWorkspace(int(self.session["General"]["CurrentWorkspace"]))
 			except KeyError:
 				pass
+		except FileNotFoundError:
+			pass
 		except:
-			self.newFile()
-			self.codeEdit.setPlainText("""import playground.Everything
-
-# Check flua.Documentation in the module browser on the left for some beginner topics.
-""")
-			cursor = self.codeEdit.textCursor()
-			cursor.movePosition(QtGui.QTextCursor.End)
-			self.codeEdit.setTextCursor(cursor)
+			printTraceback()
 		finally:
 			self.endBenchmark()
 		
 	def saveSession(self):
-		self.sessionParser = createConfigParser()
+		self.session = createConfigParser()
 		
 		# Session settings
-		self.sessionParser.add_section("General")
-		self.sessionParser.set("General", "CurrentWorkspace", str(self.currentWorkspace.wsID))
-		#self.sessionParser.set("General", "CurrentCursorPosition", str(self.codeEdit.getCursorPosition()))
+		self.session.add_section("General")
+		self.session.set("General", "CurrentWorkspace", str(self.currentWorkspace.wsID))
+		
+		# Save dock visibility
+		self.session.add_section("Docks")
+		for dock, visible in self.dockVisibility.items():
+			self.session.set("Docks", dock.objectName(), str(visible))
 		
 		# Save all workspaces
 		num = 0
 		maxFileNum = 0
 		for ws in self.workspaces:
 			section = "Workspace %d" % num
-			self.sessionParser.add_section(section)
-			self.sessionParser.set(section, "TabIndex", str(ws.currentIndex()))
+			self.session.add_section(section)
+			self.session.set(section, "TabIndex", str(ws.currentIndex()))
 			
 			fileNum = 0
 			for filePath, cursorPos in ws.getSessionInfo():
 				if not self.isTmpPath(filePath):
-					self.sessionParser.set(section, "%d.File" % fileNum, filePath)
-					self.sessionParser.set(section, "%d.CursorPosition" % fileNum, str(cursorPos))
+					self.session.set(section, "%d.File" % fileNum, filePath)
+					self.session.set(section, "%d.CursorPosition" % fileNum, str(cursorPos))
 					fileNum += 1
 			
 			maxFileNum += fileNum
 			num += 1
 			
 		# Max file count
-		self.sessionParser.set("General", "FileCount", str(self.getFileCount()))
+		self.session.set("General", "FileCount", str(self.getFileCount()))
 		
 		with codecs.open(getConfigDir() + "studio/session.ini", "w", "utf-8") as outStream:
-			self.sessionParser.write(outStream)
+			self.session.write(outStream)
+		
+		geometry = self.saveGeometry()
+		state = self.saveState()
+		
+		with open(getConfigDir() + "studio/geometry.dat", "wb") as outStream:
+			outStream.write(bytes(geometry))
+		
+		with open(getConfigDir() + "studio/state.dat", "wb") as outStream:
+			outStream.write(bytes(state))
 		
 	def initTheme(self):
 		if self.config.useBold:
