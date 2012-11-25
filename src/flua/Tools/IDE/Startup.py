@@ -435,6 +435,13 @@ class Startup:
 				pass
 		except:
 			self.newFile()
+			self.codeEdit.setPlainText("""import playground.Everything
+
+# Check flua.Documentation in the module browser on the left for some beginner topics.
+""")
+			cursor = self.codeEdit.textCursor()
+			cursor.movePosition(QtGui.QTextCursor.End)
+			self.codeEdit.setTextCursor(cursor)
 		finally:
 			self.endBenchmark()
 		
