@@ -70,8 +70,8 @@
 					</function>
 					<parameters>
 						<parameter>255</parameter>
-						<parameter>255</parameter>
-						<parameter>255</parameter>
+						<parameter>128</parameter>
+						<parameter>0</parameter>
 					</parameters>
 				</call>
 				<call>
@@ -84,8 +84,8 @@
 					<parameters>
 						<parameter>300</parameter>
 						<parameter>300</parameter>
-						<parameter>100</parameter>
-						<parameter>100</parameter>
+						<parameter>200</parameter>
+						<parameter>200</parameter>
 					</parameters>
 				</call>
 			</code>
