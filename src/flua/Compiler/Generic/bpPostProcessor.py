@@ -888,7 +888,14 @@ class BPPostProcessorFile:
 			
 			#if depth == 1:
 			#	self.dTree.addTree(funcTree)
-		elif node.hasAttribute("depth") and not node.tagName in {
+		elif node.tagName == "extern-function":
+			funcName = getElementByTagName(node, "name").firstChild.nodeValue
+			metaNode = getElementByTagName(node, "meta")
+			if metaNode:
+				self.processor.externFuncNameToMetaDict[funcName] = createMetaDictFromNode(metaNode)
+			else:
+				self.processor.externFuncNameToMetaDict[funcName] = dict()
+		elif hasattr(node, "depth") and not node.tagName in {
 					# Have no dependencies
 					"class",
 					"getter",
@@ -909,14 +916,6 @@ class BPPostProcessorFile:
 			#debugPP("Getting dependencies for %s..." % node.tagName)
 			
 			#debugPush()
-			if node.tagName == "extern-function":
-				funcName = getElementByTagName(node, "name").firstChild.nodeValue
-				metaNode = getElementByTagName(node, "meta")
-				if metaNode:
-					self.processor.externFuncNameToMetaDict[funcName] = createMetaDictFromNode(metaNode)
-				else:
-					self.processor.externFuncNameToMetaDict[funcName] = dict()
-			
 			thisOperation = DTree("%s: %s" % (node.tagName, self.nodeToText(node).replace("\n", ":").replace("\t", "")), node)
 			self.getInstructionDependencies(thisOperation, node)
 			

@@ -1,7 +1,6 @@
 #define flua_glVertexAttribPointer(a, b, c, d, e, f) glVertexAttribPointer(a, b, c, d, e, reinterpret_cast<const GLvoid*>(f))
 
 #include <public/Graphics/GLUT/C++/GLUT.hpp>
-
 #include <flua/Math/Geometry/Euclidean/C++/Vector3.hpp>
 
 //#include <public/Graphics/GLEW/C++/GLEW.hpp>
@@ -58,7 +57,7 @@ float flua_fovAngle = 45.0f;
 // Global
 GLint flua_currentProgram;
 bool flua_glutRunFlag = false;
-bool flua_2DMode = false;
+//bool flua_2DMode = false;
 int flua_mouseX = 0;
 int flua_mouseY = 0;
 int flua_width, flua_height;
@@ -92,11 +91,12 @@ inline bool glutWindowOpen() {
 }
 
 inline void flua_onReshape(int width, int height) {
-	if(flua_2DMode) {
-		flua_projectionMatrix = glm::ortho(0, width, height, 0);
-	} else {
+	//if(flua_2DMode) {
+	//	flua_projectionMatrix = glm::ortho(0, width, height, 0);
+	//} else {
 		flua_projectionMatrix = glm::perspective(flua_fovAngle, 1.0f * width / height, 0.1f, 1000.0f);
-	}
+	//}
+	
 	glViewport(0, 0, width, height);
 
 	flua_width = width;
@@ -121,7 +121,7 @@ inline void flua_onSpecialKeyUp(int key, int x, int y) {
 	flua_keys[static_cast<unsigned char>(key)] = false;
 }
 
-inline void flua_set2DMode(bool enabled) {
+/*inline void flua_set2DMode(bool enabled) {
 	flua_2DMode = enabled;
 	flua_onReshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	
@@ -131,7 +131,7 @@ inline void flua_set2DMode(bool enabled) {
 	} else {
 		glEnable(GL_DEPTH_TEST);
 	}
-}
+}*/
 
 inline void flua_initGLUT() {
 	int argc = 0;

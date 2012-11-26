@@ -95,6 +95,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.id = "file_" + str(self.compiler.fileCounter)
 		
 		# Current
+		self.currentNamespace = self.compiler.mainClass
 		self.currentClass = self.compiler.mainClass
 		self.currentClassImpl = self.currentClass.requestImplementation([], [])
 		self.currentFunction = None
@@ -1123,16 +1124,21 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.currentFunctionImpl.declareVariableAtStart(var)
 	
 	def pushNamespace(self, name):
+		#print("push", name)
 		self.namespaceStack.append(name)
 		
-		if not name in self.currentClass.namespaces:
+		if not name in self.currentNamespace.namespaces:
 			#debug("Adding new namespace to „%s“: „%s“" % (self.currentClass.name, name))
-			self.currentClass.namespaces[name] = self.createNamespace(name)
+			newNamespace = self.createNamespace(name, self.currentNamespace)
+			self.currentNamespace.namespaces[name] = newNamespace
+			#self.currentNamespace = newNamespace
 		else:
 			pass#print("Namespace „%s“ already exists!" % name)
 		
 	def popNamespace(self):
 		self.namespaceStack.pop()
+		#print("pop", self.namespaceStack.pop())
+		#self.currentNamespace = self.currentNamespace.parent
 	
 	def getClass(self, className):
 		if className == "":

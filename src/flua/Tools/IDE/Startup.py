@@ -625,6 +625,7 @@ class Startup(Ui_MainWindow):
 				'preprocessor': cf('#00d000'),
 				'file-link': cf('#0000ff', useBold),
 				'matching-brackets': cf('#00ffff', 'bold', '#303030'),
+				'namespace': cf('#aaaaaa'),
 				
 				'function': cf('#10b0ff', useBold),
 				

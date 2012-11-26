@@ -29,8 +29,15 @@
 ####################################################################
 class BaseNamespace:
 	
-	def __init__(self, name):
+	def __init__(self, name, parent):
 		self.name = name
+		self.parent = parent
+		
+		#if self.parent:
+		#	print(name, " -> ", parent.name)
+		#else:
+		#	print(name, " -> None")
+		
 		self.namespaces = {}
 		self.classes = {}
 		self.functions = {}

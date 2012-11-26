@@ -58,7 +58,11 @@ def findPublicMemberInBaseClasses(callerClass, funcName):
 class BaseClass(BaseNamespace):
 	
 	def __init__(self, name, node, cppFile):
-		super().__init__(name)
+		if cppFile:
+			super().__init__(name, cppFile.currentNamespace)
+		else:
+			super().__init__(name, None)
+		
 		self.cppFile = cppFile
 		self.implementations = {}
 		self.templateNames = []

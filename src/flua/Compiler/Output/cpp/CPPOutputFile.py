@@ -144,8 +144,8 @@ class CPPOutputFile(BaseOutputFile):
 	def createVariable(self, name, type, value, isConst, isPointer, isPublic):
 		return CPPVariable(name, type, value, isConst, isPointer, isPublic)
 	
-	def createNamespace(self, name):
-		return CPPNamespace(name)
+	def createNamespace(self, name, parent):
+		return CPPNamespace(name, parent)
 		
 	def createClass(self, name, node):
 		return CPPClass(name, node, self)

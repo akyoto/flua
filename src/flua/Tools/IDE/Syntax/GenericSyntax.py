@@ -22,9 +22,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 		ce = bpIDE.codeEdit
 		
 		# Environment
-		externFuncs = self.environment.mainNamespace.externFunctions
-		mainNamespaceFunctions = self.environment.mainNamespace.functions
-		mainNamespaceClasses = self.environment.mainNamespace.classes
+		currentNamespace = self.environment.mainNamespace
 		typeDefinitions = self.environment.defines
 		keywords = self.environment.highlightKeywords
 		operators = self.environment.operators
@@ -135,7 +133,7 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 							self.setFormat(i, h - i, style['keyword'])
 					else:
 						self.setFormat(i, h - i, style['keyword'])
-				elif expr in externFuncs or (("%s_%s" % (previousExpr, expr)) in externFuncs):
+				elif expr in currentNamespace.externFunctions or (("%s_%s" % (previousExpr, expr)) in currentNamespace.externFunctions):
 					# Extern function call
 					if expr in bpIDE.processor.externFuncNameToMetaDict:
 						meta = bpIDE.processor.externFuncNameToMetaDict[expr]
@@ -172,15 +170,24 @@ class GenericHighlighter(QtGui.QSyntaxHighlighter, Benchmarkable):
 					self.setFormat(i, h - i, style['keyword'])
 					i = h
 					continue
-				elif expr in mainNamespaceFunctions: #bpIDE.processor.getFirstDTreeByFunctionName(expr):
+				elif expr in currentNamespace.functions: #bpIDE.processor.getFirstDTreeByFunctionName(expr):
+					currentNamespace = self.environment.mainNamespace
 					self.setFormat(i, h - i, style['function'])
 					i = h
 					continue
-				elif expr in mainNamespaceClasses or expr in typeDefinitions:
+				elif expr in currentNamespace.classes or expr in typeDefinitions:
+					currentNamespace = self.environment.mainNamespace
 					self.setFormat(i, h - i, style['class-name'])
 					i = h
 					continue
+				elif expr in currentNamespace.namespaces:
+					if text[h] == ".":
+						currentNamespace = currentNamespace.namespaces[expr]
+					self.setFormat(i, h - i, style['namespace'])
+					i = h
+					continue
 				
+				currentNamespace = self.environment.mainNamespace
 				i = h - 1
 			elif char.isdigit():
 				h = i + 1

@@ -33,6 +33,7 @@ Installation on Windows
 ---------------------
 Just download and extract this archive:
 https://github.com/downloads/blitzprog/flua/Flua-x86.7z
+If you don't have 7z yet, get it: http://www.7-zip.org/
 
 Compiling dependencies manually
 ---------------------

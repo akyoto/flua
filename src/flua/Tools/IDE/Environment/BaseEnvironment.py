@@ -5,7 +5,7 @@ class BaseEnvironment:
 	def __init__(self, action):
 		self.name = "Base"
 		self.rootDir = ""
-		self.mainNamespace = BaseNamespace("")
+		self.mainNamespace = BaseNamespace("", None)
 		self.fileExtensions = {}
 		self.standardFileExtension = ""
 		self.autoCompleteKeywords = {}

@@ -6,10 +6,12 @@
 			<import>flua.Math.Utils</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">Factorial\Sof\S</string>
-			<string id="flua_string_1">\Sas\SInt\Sis\S</string>
-			<string id="flua_string_2">Factorial\Sof\S</string>
-			<string id="flua_string_3">\Sas\SBigInt\Sis\S</string>
+			<string id="flua_string_0">\E</string>
+			<string id="flua_string_1">\S^\S</string>
+			<string id="flua_string_2">\Sas\SInt\Sis\S</string>
+			<string id="flua_string_3">\E</string>
+			<string id="flua_string_4">\S^\S</string>
+			<string id="flua_string_5">\Sas\SBigInt\Sis\S</string>
 		</strings>
 	</header>
 	<code>
@@ -21,7 +23,7 @@
 					<value>Int</value>
 				</declare-type>
 			</value>
-			<value>20</value>
+			<value>2</value>
 		</assign>
 		<assign>
 			<value>
@@ -30,29 +32,29 @@
 					<value>BigInt</value>
 				</declare-type>
 			</value>
-			<value>20</value>
+			<value>2</value>
 		</assign>
-		<comment>\SNow\Scompute\Sthe\Sfactorial\Sfor\Sthose\Svalues</comment>
+		<comment>\SSome\Scalculations:</comment>
 		<assign>
-			<value>factOfA</value>
+			<value>n</value>
+			<value>64</value>
+		</assign>
+		<assign>
+			<value>aResult</value>
 			<value>
-				<call>
-					<function>factorial</function>
-					<parameters>
-						<parameter>a</parameter>
-					</parameters>
-				</call>
+				<power>
+					<value>a</value>
+					<value>n</value>
+				</power>
 			</value>
 		</assign>
 		<assign>
-			<value>factOfB</value>
+			<value>bResult</value>
 			<value>
-				<call>
-					<function>factorial</function>
-					<parameters>
-						<parameter>b</parameter>
-					</parameters>
-				</call>
+				<power>
+					<value>b</value>
+					<value>n</value>
+				</power>
 			</value>
 		</assign>
 		<comment>\SWrong\Svalue\Sbecause\Sa\Sstandard\SInt\Scan\Snot\Sstore\Sthis\Svalue</comment>
@@ -65,14 +67,24 @@
 							<add>
 								<value>
 									<add>
-										<value>flua_string_0</value>
-										<value>a</value>
+										<value>
+											<add>
+												<value>
+													<add>
+														<value>flua_string_0</value>
+														<value>a</value>
+													</add>
+												</value>
+												<value>flua_string_1</value>
+											</add>
+										</value>
+										<value>n</value>
 									</add>
 								</value>
-								<value>flua_string_1</value>
+								<value>flua_string_2</value>
 							</add>
 						</value>
-						<value>factOfA</value>
+						<value>aResult</value>
 					</add>
 				</parameter>
 			</parameters>
@@ -87,14 +99,24 @@
 							<add>
 								<value>
 									<add>
-										<value>flua_string_2</value>
-										<value>b</value>
+										<value>
+											<add>
+												<value>
+													<add>
+														<value>flua_string_3</value>
+														<value>b</value>
+													</add>
+												</value>
+												<value>flua_string_4</value>
+											</add>
+										</value>
+										<value>n</value>
 									</add>
 								</value>
-								<value>flua_string_3</value>
+								<value>flua_string_5</value>
 							</add>
 						</value>
-						<value>factOfB</value>
+						<value>bResult</value>
 					</add>
 				</parameter>
 			</parameters>

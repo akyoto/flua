@@ -89,7 +89,7 @@
 				<parameter>
 					<declare-type>
 						<value>v</value>
-						<value>UInt</value>
+						<value>UInt32</value>
 					</declare-type>
 				</parameter>
 			</parameters>

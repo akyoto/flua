@@ -9,7 +9,7 @@
 	<code>
 		<comment>\SLet's\Sdefine\Sa\Sdata\Ssource:</comment>
 		<function>
-			<name>sum</name>
+			<name>calc</name>
 			<parameters>
 				<parameter>a</parameter>
 				<parameter>b</parameter>
@@ -40,24 +40,24 @@
 			</code>
 			<meta/>
 		</function>
-		<comment>\SActivate\Sthe\Sdata\Sflow\Sso\Sthat\Sthe\Sreturn\Svalue\Sof\S#sum</comment>
-		<comment>\Sis\Sgiven\Sto\Sthe\S#receive\Sfunction\Seach\Stime\S#sum\Sis\Scalled:</comment>
+		<comment>\SActivate\Sthe\Sdata\Sflow\Sso\Sthat\Sthe\Sreturn\Svalue\Sof\S#calc</comment>
+		<comment>\Sis\Sgiven\Sto\Sthe\S#receive\Sfunction\Seach\Stime\S#calc\Sis\Scalled:</comment>
 		<flow-to>
-			<value>sum</value>
+			<value>calc</value>
 			<value>receive</value>
 		</flow-to>
 		<comment>\SExecute\Sit</comment>
 		<parallel>
 			<code>
 				<call>
-					<function>sum</function>
+					<function>calc</function>
 					<parameters>
 						<parameter>10</parameter>
 						<parameter>10</parameter>
 					</parameters>
 				</call>
 				<call>
-					<function>sum</function>
+					<function>calc</function>
 					<parameters>
 						<parameter>17</parameter>
 						<parameter>17</parameter>

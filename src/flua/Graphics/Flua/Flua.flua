@@ -9,6 +9,7 @@
 			<import>Texture</import>
 			<import>Mesh</import>
 			<import>Scene</import>
+			<import>2D</import>
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">Desktop\Ssize:\S</string>
