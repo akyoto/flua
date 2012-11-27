@@ -364,14 +364,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.lastFunctionCount = newFuncCount
 			
 			# Set code edit outFile to the main file
-			ce.outFile = result.mainFile
+			#ce.outFile = result.mainFile
 			
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
 			
 			# Update auto complete
 			if ce.completer:
-				ce.completer.bpcModel.retrieveData(self.outputCompilerThread.outputCompiler)
+				ce.completer.bpcModel.retrieveData(ce.outputCompilerData)
 			
 			# Adjust number of outstanding tasks
 			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled

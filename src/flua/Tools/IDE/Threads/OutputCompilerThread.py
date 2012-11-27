@@ -8,6 +8,15 @@ class BPOutputCompilerThreadData:
 		self.mainNamespace = None
 		self.defines = None
 		self.functionCount = -1
+		self.exceptionMsg = ""
+		self.exceptionLineNumber = -1
+		self.exceptionFilePath = ""
+
+def duplicateDictKeys(d):
+	n = dict()
+	for x in d.keys():
+		n[x] = None
+	return n
 
 def compileXML(q, ppFile):
 	comp = CPPOutputCompiler(
@@ -15,37 +24,46 @@ def compileXML(q, ppFile):
 		background = True,
 		guiCallBack = None,
 	)
+	
+	data = BPOutputCompilerThreadData()
+	
 	try:
 		comp.compile(ppFile, silent = True)
-	except:
-		q.put("Error")
-	else:
-		#q.put(ppFile.root.toprettyxml())
-		allClasses = dict()
-		allFunctions = dict()
+		comp.tryGettingVariableTypesInUnimplementedFunctions()
+	except CompilerException as e:
+		data.exceptionMsg = e.getMsg()
+		data.exceptionFilePath = e.getFilePath()
+		data.exceptionLineNumber = e.getLineNumber()
+	
+	allClasses = dict()
+	
+	# Replicate class functions
+	for className, classObj in comp.mainClass.classes.items():
+		obj = BaseClass(className, None, None)
+		obj.functions = duplicateDictKeys(classObj.functions)
+		obj.properties = duplicateDictKeys(classObj.properties)
+		obj.publicMember = duplicateDictKeys(classObj.publicMembers)
 		
-		for className, classObj in comp.mainClass.classes.items():
-			obj = BaseClass(className, None, None)
-			obj.functions = dict()
-			for funcName in classObj.functions.keys():
-				obj.functions[funcName] = None
-			allClasses[className] = obj
+		# Auto complete
+		obj.publicACList = classObj.getAutoCompleteList(private = False)
+		obj.privateACList = classObj.getAutoCompleteList(private = True)
 		
-		for x in comp.mainClass.functions.keys():
-			allFunctions[x] = None
-		
-		data = BPOutputCompilerThreadData()
-		
-		ns = BaseNamespace("", None)
-		ns.classes = allClasses
-		ns.functions = allFunctions
-		
-		data.mainNamespace = ns
-		data.defines = dict()
-		data.functionCount = comp.getFunctionCount()
-		data.mainFile = None
-		
-		q.put(data)
+		allClasses[className] = obj
+	
+	# Replicate namespace
+	ns = BaseNamespace("", None)
+	ns.classes = allClasses
+	ns.functions = duplicateDictKeys(comp.mainClass.functions)
+	ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
+	ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
+	
+	# Set data
+	data.mainNamespace = ns
+	data.defines = dict()
+	data.functionCount = comp.getFunctionCount()
+	
+	# Send it
+	q.put(data)
 
 class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	
@@ -65,20 +83,13 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		
 		if (not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
 			self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
-			self.outputCompiler = outputCompiler
 			
 			# To make the GUI more responsive
 			eventLoop = QtCore.QEventLoop(self)
 			self.finished.connect(eventLoop.quit)
 			
 			if self.bpIDE.threaded:
-				q = Queue()
-				p = Process(target=compileXML, args=(q, self.bpIDE.getCurrentPostProcessorFile()))
-				p.start()
-				self.codeEdit.outputCompilerData = q.get()
-				p.join()
-				self.finished.emit()
-				#self.start(QtCore.QThread.InheritPriority)
+				self.start(QtCore.QThread.InheritPriority)
 			else:
 				self.run()
 				self.finished.emit()
@@ -96,13 +107,19 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			if self.codeEdit: #and not self.codeEdit.disableUpdatesFlag:
 				self.startBenchmark("[%s] Background compiler" % (stripDir(self.codeEdit.getFilePath())))
 				
-				self.outputCompiler.compile(self.ppFile, silent = True)
+				#self.outputCompiler.compile(self.ppFile, silent = True)
 				
 				# Try getting var types
-				self.outputCompiler.tryGettingVariableTypesInUnimplementedFunctions()
+				#self.outputCompiler.tryGettingVariableTypesInUnimplementedFunctions()
 				
-				if not self.bpIDE.running:
-					self.bpIDE.outputCompiler = self.outputCompiler
+				#if not self.bpIDE.running:
+				#	self.bpIDE.outputCompiler = self.outputCompiler
+				
+				q = Queue()
+				p = Process(target=compileXML, args=(q, self.ppFile))
+				p.start()
+				self.codeEdit.outputCompilerData = q.get()
+				p.join()
 				
 				self.lastException = None
 		except OutputCompilerException as e:
