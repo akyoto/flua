@@ -18,7 +18,7 @@ def duplicateDictKeys(d):
 		n[x] = None
 	return n
 
-def compileXML(q, ppFile):
+def compileXML(q, ppFile, jobs):
 	comp = CPPOutputCompiler(
 		ppFile.processor,
 		background = True,
@@ -64,6 +64,13 @@ def compileXML(q, ppFile):
 	
 	# Send it
 	q.put(data)
+	
+	while 1:
+		cmd = jobs.get()
+		
+		if cmd == 0:
+			print("Exit process")
+			return
 
 class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	
@@ -75,13 +82,14 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		self.lastException = None
 		self.codeEdit = None
 		self.numTasksHandled = 0
+		self.currentJobQueue = None
 		
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
 		
 	def startWith(self, outputCompiler):
 		self.codeEdit = self.bpIDE.codeEdit
 		
-		if (not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
+		if self.codeEdit.backgroundCompilerOutstandingTasks > 0: #(not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
 			self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
 			
 			# To make the GUI more responsive
@@ -115,11 +123,17 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				#if not self.bpIDE.running:
 				#	self.bpIDE.outputCompiler = self.outputCompiler
 				
+				# Exit old process
+				if self.currentJobQueue:
+					self.currentJobQueue.put(0)
+				
+				jobs = Queue()
 				q = Queue()
-				p = Process(target=compileXML, args=(q, self.ppFile))
+				p = Process(target=compileXML, args=(q, self.ppFile, jobs))
 				p.start()
 				self.codeEdit.outputCompilerData = q.get()
-				p.join()
+				self.currentJobQueue = jobs
+				#p.join()
 				
 				self.lastException = None
 		except OutputCompilerException as e:

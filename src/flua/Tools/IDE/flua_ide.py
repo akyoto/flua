@@ -304,15 +304,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			return
 		
 		if self.codeEdit.ppOutstandingTasks > 0:
-			if 0:#(
-				#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
-				#	or
-				#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
-				#):
-				pass
-			else:
-				#if self.loadingFinished:
-				return
+			return
+			
+			#if 0:#(
+			#	#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
+			#	#	or
+			#	#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
+			#	#):
+			#	pass
+			#else:
+			#	#if self.loadingFinished:
+			#	return
 		
 		# Create output compiler
 		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
