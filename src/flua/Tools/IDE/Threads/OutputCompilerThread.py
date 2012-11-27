@@ -1,6 +1,51 @@
 from PyQt4 import QtGui, QtCore, uic
 from flua.Compiler import *
+from multiprocessing import Process, Queue
 import collections
+
+class BPOutputCompilerThreadData:
+	def __init__(self):
+		self.mainNamespace = None
+		self.defines = None
+		self.functionCount = -1
+
+def compileXML(q, ppFile):
+	comp = CPPOutputCompiler(
+		ppFile.processor,
+		background = True,
+		guiCallBack = None,
+	)
+	try:
+		comp.compile(ppFile, silent = True)
+	except:
+		q.put("Error")
+	else:
+		#q.put(ppFile.root.toprettyxml())
+		allClasses = dict()
+		allFunctions = dict()
+		
+		for className, classObj in comp.mainClass.classes.items():
+			obj = BaseClass(className, None, None)
+			obj.functions = dict()
+			for funcName in classObj.functions.keys():
+				obj.functions[funcName] = None
+			allClasses[className] = obj
+		
+		for x in comp.mainClass.functions.keys():
+			allFunctions[x] = None
+		
+		data = BPOutputCompilerThreadData()
+		
+		ns = BaseNamespace("", None)
+		ns.classes = allClasses
+		ns.functions = allFunctions
+		
+		data.mainNamespace = ns
+		data.defines = dict()
+		data.functionCount = comp.getFunctionCount()
+		data.mainFile = None
+		
+		q.put(data)
 
 class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	
@@ -23,17 +68,23 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			self.outputCompiler = outputCompiler
 			
 			# To make the GUI more responsive
-			q = QtCore.QEventLoop(self)
-			self.finished.connect(q.quit)
+			eventLoop = QtCore.QEventLoop(self)
+			self.finished.connect(eventLoop.quit)
 			
 			if self.bpIDE.threaded:
-				self.start(QtCore.QThread.InheritPriority)
+				q = Queue()
+				p = Process(target=compileXML, args=(q, self.bpIDE.getCurrentPostProcessorFile()))
+				p.start()
+				self.codeEdit.outputCompilerData = q.get()
+				p.join()
+				self.finished.emit()
+				#self.start(QtCore.QThread.InheritPriority)
 			else:
 				self.run()
 				self.finished.emit()
 			
 			# Execute event loop
-			q.exec()
+			eventLoop.exec()
 			
 			#self.bpIDE.consoleDock.show()
 			#print("Compiling")

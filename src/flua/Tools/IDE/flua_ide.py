@@ -344,16 +344,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 					#msgView.clear()
 		
 		# The output compiler
-		comp = self.outputCompilerThread.outputCompiler
 		ce = self.outputCompilerThread.codeEdit
+		result = ce.outputCompilerData
 		
 		if ce:
 			# Set environment namespace to the main namespace of the compiler
-			ce.environment.mainNamespace = comp.mainClass
-			ce.environment.defines = comp.defines
+			ce.environment.mainNamespace = result.mainNamespace
+			ce.environment.defines = result.defines
 			
 			# This function also counts the class methods:
-			newFuncCount = comp.getFunctionCount()
+			newFuncCount = result.functionCount
 			
 			# Contrary to this one:
 			#newFuncCount = len(self.environment.mainNamespace.functions)
@@ -364,7 +364,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			self.lastFunctionCount = newFuncCount
 			
 			# Set code edit outFile to the main file
-			ce.outFile = comp.getMainFile()
+			ce.outFile = result.mainFile
 			
 			# Restore the scopes if possible
 			self.restoreScopesOfNode(self.currentNode)
