@@ -537,6 +537,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test>

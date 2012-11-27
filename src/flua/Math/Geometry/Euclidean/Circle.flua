@@ -120,21 +120,20 @@
 									</call>
 								</value>
 								<value>
-									<call>
-										<function>sq</function>
-										<parameters>
-											<parameter>
-												<access>
-													<value>my</value>
-													<value>radius</value>
-												</access>
-											</parameter>
-										</parameters>
-									</call>
+									<power>
+										<value>
+											<access>
+												<value>my</value>
+												<value>radius</value>
+											</access>
+										</value>
+										<value>2</value>
+									</power>
 								</value>
 							</less-or-equal>
 						</return>
 					</code>
+					<meta/>
 				</function>
 				<function>
 					<name>intersects</name>
@@ -219,12 +218,10 @@
 							<less>
 								<value>dist</value>
 								<value>
-									<call>
-										<function>sq</function>
-										<parameters>
-											<parameter>sumRadi</parameter>
-										</parameters>
-									</call>
+									<power>
+										<value>sumRadi</value>
+										<value>2</value>
+									</power>
 								</value>
 							</less>
 						</return>

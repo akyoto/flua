@@ -107,22 +107,6 @@
 				</code>
 			</namespace>
 		</extern>
-		<comment>\SReturns\Sthe\Ssquare\Sof\S#x</comment>
-		<function>
-			<name>sq</name>
-			<parameters>
-				<parameter>x</parameter>
-			</parameters>
-			<code>
-				<return>
-					<multiply>
-						<value>x</value>
-						<value>x</value>
-					</multiply>
-				</return>
-			</code>
-			<meta/>
-		</function>
 		<comment>\SReturns\Sthe\Ssquare\Sroot\Sof\S#x</comment>
 		<function>
 			<name>sqr</name>
@@ -317,6 +301,7 @@
 					</parameters>
 				</call>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SReturns\Sthe\Ssmallest\Sintegral\Svalue\Sthat\Sis\Snot\Sless\Sthan\S#x</comment>
 		<function>
@@ -428,6 +413,7 @@
 					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SUsage\Sexample</comment>
 		<test>
