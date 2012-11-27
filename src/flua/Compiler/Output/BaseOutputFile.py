@@ -1128,17 +1128,19 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.namespaceStack.append(name)
 		
 		if not name in self.currentNamespace.namespaces:
-			#debug("Adding new namespace to „%s“: „%s“" % (self.currentClass.name, name))
+			#debug("Adding new namespace to „%s“: „%s“" % (self.currentNamespace.name, name))
 			newNamespace = self.createNamespace(name, self.currentNamespace)
 			self.currentNamespace.namespaces[name] = newNamespace
-			#self.currentNamespace = newNamespace
 		else:
-			pass#print("Namespace „%s“ already exists!" % name)
+			newNamespace = self.currentNamespace.namespaces[name]
+		
+		self.currentNamespace = newNamespace
 		
 	def popNamespace(self):
 		self.namespaceStack.pop()
 		#print("pop", self.namespaceStack.pop())
-		#self.currentNamespace = self.currentNamespace.parent
+		#debug("Popping namespace: %s" % self.currentNamespace.name)
+		self.currentNamespace = self.currentNamespace.parent
 	
 	def getClass(self, className):
 		if className == "":

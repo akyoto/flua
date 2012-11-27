@@ -1552,6 +1552,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		else:
 			return 0
 	
+	# TODO: Make it work in different environments
 	def toggleCommentLine(self, cursor):
 		line = cursor.block().text()
 		

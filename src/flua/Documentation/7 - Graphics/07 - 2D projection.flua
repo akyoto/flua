@@ -60,7 +60,7 @@
 						</code>
 					</if>
 				</if-block>
-				<comment>\SRect</comment>
+				<comment>\SDraw\Sa\Srectangle</comment>
 				<call>
 					<function>
 						<access>

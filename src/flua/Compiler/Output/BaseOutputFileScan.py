@@ -187,6 +187,7 @@ class BaseOutputFileScan:
 	def scanNamespace(self, node):
 		name = getElementByTagName(node, "name").firstChild.nodeValue
 		codeNode = getElementByTagName(node, "code")
+		#debug("Namespace scan: %s" % name)
 		
 		self.pushNamespace(name)
 		self.scanAhead(codeNode)

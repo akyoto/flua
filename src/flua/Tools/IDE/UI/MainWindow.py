@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './flua-ide.ui'
 #
-# Created: Sun Nov 25 16:32:29 2012
+# Created: Tue Nov 27 16:34:26 2012
 #      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.mainMenuBar = QtGui.QMenuBar(MainWindow)
-        self.mainMenuBar.setGeometry(QtCore.QRect(0, 0, 800, 23))
+        self.mainMenuBar.setGeometry(QtCore.QRect(0, 0, 800, 25))
         self.mainMenuBar.setObjectName(_fromUtf8("mainMenuBar"))
         self.menuFile = QtGui.QMenu(self.mainMenuBar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -373,7 +373,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Flua Studio 0.4.6 (25 Nov 2012)", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Flua Studio 0.4.6 (27 Nov 2012)", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuModule.setTitle(QtGui.QApplication.translate("MainWindow", "Module", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))

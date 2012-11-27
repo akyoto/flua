@@ -145,6 +145,9 @@ class CPPOutputCompiler(BaseOutputCompiler):
 			initCode += "\tstm_init();\n"
 			exitCode += "\tstm_exit();\n"
 		
+		#if os.name != "nt":
+		#	initCode += "\tflua_backtraceOnSegv();\n"
+		
 		# Function implementations
 		delayedImplementations = []
 		for funcImpl in self.delayedFuncImplementations:
