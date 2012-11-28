@@ -175,11 +175,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# Show maximized now
-		if os.name == "nt":
-			self.showMaximized()
+		#if os.name == "nt":
+		#	self.showMaximized()
 			
 		# Restore docks
 		self.restoreDockVisibility()
+		
+		# Show
+		self.showMaximized()
 		
 	#def eventFilter(self, obj, event):
 	#	

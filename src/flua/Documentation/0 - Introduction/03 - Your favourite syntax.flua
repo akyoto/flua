@@ -80,6 +80,7 @@
 					<code>
 						<noop/>
 					</code>
+					<meta/>
 				</function>
 				<function>
 					<name>myMethod</name>
@@ -99,6 +100,7 @@
 					<meta/>
 				</function>
 			</code>
+			<meta/>
 		</class>
 		<assign>
 			<value>obj</value>

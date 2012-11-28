@@ -108,6 +108,12 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		
 		#self.bpIDE.backgroundCompilerRan = True
 
+class BaseFunctionWrapper:
+	def __init__(self, filePath, paramTypesByDefinition, node):
+		self.filePath = filePath
+		self.paramTypesByDefinition = paramTypesByDefinition
+		self.node = node
+
 ####################################################################
 # Functions
 ####################################################################
@@ -141,12 +147,21 @@ def compileXML(q, ppFile, jobs, jobResults):
 		obj.publicACList = classObj.getAutoCompleteList(private = False)
 		obj.privateACList = classObj.getAutoCompleteList(private = True)
 		
+		# Jump to definition
+		obj.filePath = classObj.cppFile.getFilePath()
+		
 		allClasses[className] = obj
+	
+	# Replicate functions
+	allFunctions = dict()
+	for funcName, funcList in comp.mainClass.functions.items():
+		newFuncs = [BaseFunctionWrapper(x.cppFile.getFilePath(), x.paramTypesByDefinition, x.node) for x in funcList]
+		allFunctions[funcName] = newFuncs
 	
 	# Replicate namespace
 	ns = BaseNamespace("", None)
 	ns.classes = allClasses
-	ns.functions = duplicateDictKeys(comp.mainClass.functions)
+	ns.functions = allFunctions
 	ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
 	ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
 	
@@ -168,9 +183,9 @@ def compileXML(q, ppFile, jobs, jobResults):
 		# getExprDataType
 		elif byteCode == 1:
 			node = cmd[1]
-			scopesOfNode = cmd[2]
 			
-			restoreScopesOfNode(comp.mainFile, scopesOfNode)
+			#scopesOfNode = cmd[2]
+			#restoreScopesOfNode(comp.mainFile, scopesOfNode)
 			
 			try:
 				dataType = comp.mainFile.getExprDataType(node)

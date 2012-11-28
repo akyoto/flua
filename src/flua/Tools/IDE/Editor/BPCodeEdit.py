@@ -584,7 +584,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	self.initLineNumberArea()
 	
 	def getExprDataType(self, node):
-		return self.sendOutputCompilerMsg((1, node, self.bpIDE.currentNode), "")
+		return self.sendOutputCompilerMsg((1, node), "")
 	
 	def requestBubbleCode(self, node):
 		return self.sendOutputCompilerMsg((3, node), [])
@@ -595,8 +595,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		results = thread.currentJobResultsQueue
 		
 		if jobs and thread.currentProcess.is_alive():
-			jobs.put(msg)
-			ret = results.get()
+			try:
+				jobs.put(msg)
+				ret = results.get()
+			except InterruptedError:
+				ret = defaultVal
 		else:
 			ret = defaultVal
 		
