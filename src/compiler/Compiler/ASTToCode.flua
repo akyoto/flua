@@ -1,0 +1,18 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SConverts\San\SAbstract\SSyntax\STree\Sto\Sreadable\Scode</comment>
+		<function>
+			<name>astToCode</name>
+			<code>
+				<noop/>
+			</code>
+		</function>
+	</code>
+</module>

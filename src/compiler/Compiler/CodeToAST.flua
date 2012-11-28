@@ -1,0 +1,38 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+			<import>flua.FileSystem</import>
+			<import>flua.Utils.Benchmark</import>
+			<import>AST</import>
+		</dependencies>
+		<strings>
+			<string id="flua_string_0">module</string>
+		</strings>
+	</header>
+	<code>
+		<comment>\SConverts\San\Sreadable\Scode\Sto\San\SAbstract\SSyntax\STree</comment>
+		<function>
+			<name>codeToAST</name>
+			<parameters>
+				<parameter>text</parameter>
+			</parameters>
+			<code>
+				<assign>
+					<value>root</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_0</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<return>root</return>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

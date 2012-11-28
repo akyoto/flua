@@ -169,6 +169,7 @@ class BaseOutputCompiler(Benchmarkable):
 		self.onVarCounter = 0
 		self.structCounter = 0
 		self.tupleUnbindCounter = 0
+		self.listComprehensionCounter = 0
 		
 		# Optimization
 		if self.background:

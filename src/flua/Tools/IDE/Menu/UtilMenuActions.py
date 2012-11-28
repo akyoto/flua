@@ -28,29 +28,30 @@ class UtilMenuActions:
 				self.jumpTo(obj)
 	
 	def jumpTo(self, obj):
+		if not (self.codeEdit and self.codeEdit.outputCompilerData):
+			return
+		
 		if obj[0].islower():
-			if self.outputCompiler:
-				allFuncs = self.outputCompiler.mainClass.functions
+			allFuncs = self.codeEdit.outputCompilerData.mainNamespace.functions
+			
+			if obj in allFuncs:
+				fileList = [x.filePath for x in allFuncs[obj]]
+				typesList = [x.paramTypesByDefinition for x in allFuncs[obj]]
 				
-				if obj in allFuncs:
-					fileList = [x.cppFile.getFilePath() for x in allFuncs[obj]]
-					typesList = [x.paramTypesByDefinition for x in allFuncs[obj]]
-					
-					# TODO: Make the user select a definition
-					if len(typesList) >= 1:
-						self.openFile(fileList[0])
-						if self.codeEdit:
-							self.codeEdit.jumpToFunction(allFuncs[obj][0].node)
-		else:
-			if self.outputCompiler:
-				allClasses = self.outputCompiler.mainClass.classes
-				
-				if obj in allClasses:
-					classObj = allClasses[obj]
-					
-					self.openFile(classObj.cppFile.getFilePath())
+				# TODO: Make the user select a definition
+				if len(typesList) >= 1:
+					self.openFile(fileList[0])
 					if self.codeEdit:
-						self.codeEdit.jumpToClass(obj)
+						self.codeEdit.jumpToFunction(allFuncs[obj][0].node)
+		else:
+			allClasses = self.codeEdit.outputCompilerData.mainNamespace.classes
+			
+			if obj in allClasses:
+				classObj = allClasses[obj]
+				
+				self.openFile(classObj.filePath)
+				if self.codeEdit:
+					self.codeEdit.jumpToClass(obj)
 	
 	def duplicateLine(self):
 		if self.codeEdit:

@@ -100,5 +100,3 @@ class BPRunThread(QtCore.QThread, Benchmarkable):
 			fhErr = self.bpIDE.console.output.writeError,
 			thread = self
 		)
-		
-		#self.bpIDE.backgroundCompilerRan = True

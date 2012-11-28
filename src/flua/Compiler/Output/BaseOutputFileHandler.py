@@ -929,6 +929,17 @@ class BaseOutputFileHandler:
 		#op1Type = self.getExprDataType(op1)
 		return ''.join(code)
 	
+	def implementIterator(self, collExprType, iterName, paramTypes):
+		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, paramTypes)
+		
+		iteratorType = iteratorImpl.getYieldType()
+		iteratorValue = iteratorImpl.getYieldValue()
+		
+		if not iteratorType:
+			raise CompilerException("Iterator for „%s“ doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
+		
+		return iteratorImpl, iteratorType, iteratorValue
+	
 	def handleForEach(self, node):
 		localForVarCounter = self.compiler.forVarCounter
 		
@@ -973,13 +984,7 @@ class BaseOutputFileHandler:
 		self.compiler.forVarCounter += 1
 		
 		# Implement the iterator
-		iteratorImpl = self.implementFunction(collExprType, "iterator" + iterName, paramTypes)
-		
-		iteratorType = iteratorImpl.getYieldType()
-		iteratorValue = iteratorImpl.getYieldValue()
-		
-		if not iteratorType:
-			raise CompilerException("Iterator for „%s“ doesn't pass any objects to the foreach loop using the yield keyword" % collExpr)
+		iteratorImpl, iteratorType, iteratorValue = self.implementIterator(collExprType, iterName, paramTypes)
 		
 		self.pushScope()
 		
@@ -1006,7 +1011,9 @@ class BaseOutputFileHandler:
 			counterVarName = ""
 			counterTypeInit = ""
 		
-		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		# Parse foreach body
+		codeNode = getElementByTagName(node, "code")
+		code = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		
 		# Remove last loop ID from the stack
 		self.compiler.loopStack.pop()

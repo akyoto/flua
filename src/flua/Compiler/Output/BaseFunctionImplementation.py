@@ -81,7 +81,20 @@ class BaseFunctionImplementation:
 		if heaviest:
 			return heaviest
 		else:
-			return "void"
+			# TODO: Check multiple return statements
+			# Recursive function calls before the return value comes
+			codeNode = getElementByTagName(self.func.node, "code")
+			returnNode = getElementByTagName(codeNode, "return")
+			if returnNode:
+				cppFile = self.func.cppFile
+				
+				cppFile.typeGuessingEnabled += 1
+				dataType = cppFile.getExprDataType(returnNode.childNodes[0])
+				cppFile.typeGuessingEnabled -= 1
+				
+				return dataType
+			else:
+				return "void"
 		
 	def buildPostfix(self):
 		return buildPostfix(self.paramTypes)

@@ -56,7 +56,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 				filePath,
 				True,
 				codeText,
-				perLineCallBack = QtGui.QApplication.instance().processEvents
+				perLineCallBack = None#QtGui.QApplication.instance().processEvents
 			)
 			
 			#if self.bpcFile.inFunction != 0:

@@ -137,19 +137,21 @@ class BPMessageView(QtGui.QListWidget):
 				self.clear()
 			else:
 				return
-		#else:
-		#	wasOutputCompilerException = False
 		
-		e = self.lastException = self.bpIDE.outputCompilerThread.lastException
+		#e = self.lastException = self.bpIDE.outputCompilerThread.lastException
 		
-		if e:
-			#node = e.outFile.compiler.getLastParsedNode()
-			#inpFile = self.bpIDE.
+		msg = self.ce.outputCompilerData.exceptionMsg
+		
+		if msg:
+			lineNumber = self.ce.outputCompilerData.exceptionLineNumber
+			filePath = self.ce.outputCompilerData.exceptionFilePath
 			
-			self.addLineBasedMessage(e.getFilePath(), e.getLineNumber(), e.getMsg())
+			self.addLineBasedMessage(filePath, lineNumber, msg)
 			
 			if not self.bpIDE.config.developerMode:
 				self.bpIDE.consoleDock.hide()
+				
+			self.lastException = OutputCompilerException(None, None, None)
 		
 		self.updateView()
 		

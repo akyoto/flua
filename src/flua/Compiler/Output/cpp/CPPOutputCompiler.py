@@ -344,6 +344,8 @@ int main(int argc, char *argv[]) {
 			"-Wno-unused-label", # We create unused labels in loops but that's fine
 			"-Wno-attributes", # by hash map
 			
+			"-fpermissive", # Allows conversion from void* to another pointer
+			
 			"-std=c++11",
 			["-m32", "-m64"][self.is64Bit],
 		]

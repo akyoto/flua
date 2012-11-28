@@ -1679,6 +1679,9 @@ class BPCFile(ScopeController, Benchmarkable):
 		seqPrefix = "_flua_seq"
 		seqPrefixLen = len(seqPrefix)
 		
+		comprPrefix = "_flua_compr"
+		comprPrefixLen = len(comprPrefix)
+		
 		self.currentLineComment = None
 		self.keyword = ""
 		
@@ -1705,11 +1708,20 @@ class BPCFile(ScopeController, Benchmarkable):
 				if (self.inOperators == False or self.inOperator == True) and (not self.inInterface) and not line.startswith("[] ") and not line.startswith("[:] "):
 					if i > 1 and i + 1 < len(line) and line[i+1] == ']':
 						raise CompilerException("You can't create a vector with 0 elements using this syntax. You can use 'Vector<YOUR_TYPE>()' if you really need an empty vector.")
-					
+						
 					# New sequences
 					if (i == 0 or (not isVarChar(line[i-1]) and line[i-1] != "]")):
-						line = "%s%s%s" % (line[:i], seqPrefix, line[i:])
-						i += seqPrefixLen
+						# TODO: Find the real end of the comprehension, this is buggy
+						comprExpr = line[i+1:]
+						
+						# List comprehensions
+						if " for " in comprExpr and " in " in comprExpr:
+							line = "%s%s%s" % (line[:i], comprPrefix, line[i:].replace(" for ", " |> ").replace(" in ", " <| ")) # TODO: Buggy replace
+							i += comprPrefixLen
+						# Normal vector
+						else:
+							line = "%s%s%s" % (line[:i], seqPrefix, line[i:])
+							i += seqPrefixLen
 			elif line[i] == ']':
 				squareBracketsBalance -= 1
 			elif line[i] == '{':

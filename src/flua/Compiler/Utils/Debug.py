@@ -229,10 +229,10 @@ def debugStop():
 
 def printTraceback(realStdout = sys.stdout, realStderr = sys.stderr):
 	import traceback
-	exc_type, exc_value, exc_traceback = sys.exc_info()
+	#exc_type, exc_value, exc_traceback = sys.exc_info()
 	
-	print ("*** STACK TRACE: ***")
-	traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
+	#print ("*** STACK TRACE: ***")
+	#traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
 	
 	print ("*** EXCEPTION: ***")
 	traceback.print_exc()
