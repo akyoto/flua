@@ -7,13 +7,17 @@
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">\S</string>
-			<string id="flua_string_1">*</string>
-			<string id="flua_string_2">multiply</string>
-			<string id="flua_string_3">+</string>
-			<string id="flua_string_4">add</string>
-			<string id="flua_string_5">*</string>
-			<string id="flua_string_6">+</string>
-			<string id="flua_string_7">12\S+\S34\S*\S56</string>
+			<string as-byte="true" id="flua_string_1">(</string>
+			<string id="flua_string_2">*</string>
+			<string id="flua_string_3">multiply</string>
+			<string id="flua_string_4">+</string>
+			<string id="flua_string_5">add</string>
+			<string id="flua_string_6">*</string>
+			<string id="flua_string_7">+</string>
+			<string id="flua_string_8">(</string>
+			<string id="flua_string_9">)</string>
+			<string id="flua_string_10">(12\S+\S34)\S*\S56</string>
+			<string id="flua_string_11">\Snot\Sfound.</string>
 		</strings>
 	</header>
 	<code>
@@ -69,6 +73,19 @@
 									</not>
 								</condition>
 								<code>
+									<if-block>
+										<if>
+											<condition>
+												<equal>
+													<value>x</value>
+													<value>flua_string_1</value>
+												</equal>
+											</condition>
+											<code>
+												<noop/>
+											</code>
+										</if>
+									</if-block>
 									<if-block>
 										<if>
 											<condition>
@@ -323,29 +340,30 @@
 		<test>
 			<code>
 				<assign>
-					<value>op1</value>
+					<value>mulOP</value>
 					<value>
 						<new>
 							<type>Operator</type>
 							<parameters>
-								<parameter>flua_string_1</parameter>
 								<parameter>flua_string_2</parameter>
+								<parameter>flua_string_3</parameter>
 							</parameters>
 						</new>
 					</value>
 				</assign>
 				<assign>
-					<value>op2</value>
+					<value>addOP</value>
 					<value>
 						<new>
 							<type>Operator</type>
 							<parameters>
-								<parameter>flua_string_3</parameter>
 								<parameter>flua_string_4</parameter>
+								<parameter>flua_string_5</parameter>
 							</parameters>
 						</new>
 					</value>
 				</assign>
+				<comment>leftBracket\S=\SOperator(&quot;(&quot;,\S&quot;call&quot;)</comment>
 				<comment>\SSave\Sthe\Slevels</comment>
 				<assign>
 					<value>opLevels</value>
@@ -357,13 +375,13 @@
 									<parameter>
 										<index>
 											<value>_flua_seq</value>
-											<value>op1</value>
+											<value>mulOP</value>
 										</index>
 									</parameter>
 									<parameter>
 										<index>
 											<value>_flua_seq</value>
-											<value>op2</value>
+											<value>addOP</value>
 										</index>
 									</parameter>
 								</parameters>
@@ -396,142 +414,173 @@
 						</new>
 					</value>
 				</assign>
-				<assign>
-					<value>
-						<index>
-							<value>occurences</value>
-							<value>flua_string_5</value>
-						</index>
-					</value>
-					<value>
-						<new>
-							<type>
-								<template-call>
-									<value>Vector</value>
-									<value>Int</value>
-								</template-call>
-							</type>
-							<parameters/>
-						</new>
-					</value>
-				</assign>
-				<assign>
-					<value>
-						<index>
-							<value>occurences</value>
-							<value>flua_string_6</value>
-						</index>
-					</value>
-					<value>
-						<new>
-							<type>
-								<template-call>
-									<value>Vector</value>
-									<value>Int</value>
-								</template-call>
-							</type>
-							<parameters/>
-						</new>
-					</value>
-				</assign>
-				<comment>\SParse\Sit</comment>
-				<assign>
-					<value>cleanExpr</value>
-					<value>
-						<call>
-							<function>parseExpr</function>
-							<parameters>
-								<parameter>flua_string_7</parameter>
-								<parameter>occurences</parameter>
-							</parameters>
-						</call>
-					</value>
-				</assign>
-				<comment>\S12\S+\S_1</comment>
-				<comment>\S\S\S\S\S\S34\S*\S56\S-&gt;\S_1</comment>
-				<comment>\S12\S+\S34\S*\S56</comment>
-				<comment>\S==================</comment>
-				<comment>\SCheck\Sall\Soperator\Slevels</comment>
 				<foreach>
-					<iterator>level</iterator>
-					<collection>opLevels</collection>
+					<iterator>x</iterator>
+					<collection>
+						<index>
+							<value>_flua_seq</value>
+							<value>
+								<parameters>
+									<parameter>flua_string_6</parameter>
+									<parameter>flua_string_7</parameter>
+									<parameter>flua_string_8</parameter>
+									<parameter>flua_string_9</parameter>
+								</parameters>
+							</value>
+						</index>
+					</collection>
 					<code>
-						<foreach>
-							<iterator>op</iterator>
-							<collection>level</collection>
-							<code>
-								<foreach>
-									<iterator>occ</iterator>
-									<collection>
-										<index>
-											<value>occurences</value>
-											<value>
-												<access>
-													<value>op</value>
-													<value>text</value>
-												</access>
-											</value>
-										</index>
-									</collection>
-									<code>
-										<call>
-											<function>print</function>
-											<parameters>
-												<parameter>
-													<add>
+						<assign>
+							<value>
+								<index>
+									<value>occurences</value>
+									<value>x</value>
+								</index>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Vector</value>
+											<value>Int</value>
+										</template-call>
+									</type>
+									<parameters/>
+								</new>
+							</value>
+						</assign>
+					</code>
+				</foreach>
+				<try-block>
+					<try>
+						<code>
+							<comment>\SParse\Sit</comment>
+							<assign>
+								<value>cleanExpr</value>
+								<value>
+									<call>
+										<function>parseExpr</function>
+										<parameters>
+											<parameter>flua_string_10</parameter>
+											<parameter>occurences</parameter>
+										</parameters>
+									</call>
+								</value>
+							</assign>
+							<comment>\S12\S+\S_1</comment>
+							<comment>\S\S\S\S\S\S34\S*\S56\S-&gt;\S_1</comment>
+							<comment>\S12\S+\S34\S*\S56</comment>
+							<comment>\S==================</comment>
+							<comment>\SCheck\Sall\Soperator\Slevels</comment>
+							<foreach>
+								<iterator>level</iterator>
+								<collection>opLevels</collection>
+								<code>
+									<foreach>
+										<iterator>op</iterator>
+										<collection>level</collection>
+										<code>
+											<foreach>
+												<iterator>occ</iterator>
+												<collection>
+													<index>
+														<value>occurences</value>
 														<value>
-															<add>
-																<value>
-																	<call>
-																		<function>getLeftOperator</function>
-																		<parameters>
-																			<parameter>cleanExpr</parameter>
-																			<parameter>occ</parameter>
-																		</parameters>
-																	</call>
-																</value>
-																<value>
-																	<access>
-																		<value>op</value>
-																		<value>text</value>
-																	</access>
-																</value>
-															</add>
+															<access>
+																<value>op</value>
+																<value>text</value>
+															</access>
 														</value>
-														<value>
-															<call>
-																<function>getRightOperator</function>
-																<parameters>
-																	<parameter>cleanExpr</parameter>
-																	<parameter>
+													</index>
+												</collection>
+												<code>
+													<call>
+														<function>print</function>
+														<parameters>
+															<parameter>
+																<add>
+																	<value>
 																		<add>
-																			<value>occ</value>
+																			<value>
+																				<call>
+																					<function>getLeftOperator</function>
+																					<parameters>
+																						<parameter>cleanExpr</parameter>
+																						<parameter>occ</parameter>
+																					</parameters>
+																				</call>
+																			</value>
 																			<value>
 																				<access>
-																					<value>
-																						<access>
-																							<value>op</value>
-																							<value>text</value>
-																						</access>
-																					</value>
-																					<value>lengthInBytes</value>
+																					<value>op</value>
+																					<value>text</value>
 																				</access>
 																			</value>
 																		</add>
-																	</parameter>
-																</parameters>
-															</call>
-														</value>
-													</add>
-												</parameter>
-											</parameters>
-										</call>
-									</code>
-								</foreach>
-							</code>
-						</foreach>
-					</code>
-				</foreach>
+																	</value>
+																	<value>
+																		<call>
+																			<function>getRightOperator</function>
+																			<parameters>
+																				<parameter>cleanExpr</parameter>
+																				<parameter>
+																					<add>
+																						<value>occ</value>
+																						<value>
+																							<access>
+																								<value>
+																									<access>
+																										<value>op</value>
+																										<value>text</value>
+																									</access>
+																								</value>
+																								<value>lengthInBytes</value>
+																							</access>
+																						</value>
+																					</add>
+																				</parameter>
+																			</parameters>
+																		</call>
+																	</value>
+																</add>
+															</parameter>
+														</parameters>
+													</call>
+												</code>
+											</foreach>
+										</code>
+									</foreach>
+								</code>
+							</foreach>
+						</code>
+					</try>
+					<catch>
+						<variable>
+							<declare-type>
+								<value>e</value>
+								<value>KeyNotFoundException</value>
+							</declare-type>
+						</variable>
+						<code>
+							<call>
+								<function>print</function>
+								<parameters>
+									<parameter>
+										<add>
+											<value>
+												<access>
+													<value>e</value>
+													<value>key</value>
+												</access>
+											</value>
+											<value>flua_string_11</value>
+										</add>
+									</parameter>
+								</parameters>
+							</call>
+						</code>
+					</catch>
+				</try-block>
 			</code>
 		</test>
 	</code>

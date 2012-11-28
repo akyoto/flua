@@ -18,7 +18,53 @@ def duplicateDictKeys(d):
 		n[x] = None
 	return n
 
-def compileXML(q, ppFile, jobs):
+def restoreScopesOfNode(outFile, selectedNode):
+	#if not selectedNode:
+	#	selectedNode = self.lastShownNode
+	
+	#if not self.codeEdit:
+	#	return
+	
+	if outFile and selectedNode:
+		#print("Before")
+		#self.codeEdit.outFile.debugScopes()
+		
+		savedNode = selectedNode
+		
+		if savedNode.nodeType != Node.TEXT_NODE and hasattr(savedNode, "lineNumber"):
+			savedNodeId = savedNode.lineNumber
+		else:
+			savedNodeId = None
+		
+		while (savedNode.nodeType == Node.TEXT_NODE or savedNode.tagName != "module") and ((not savedNodeId) or (not savedNodeId in outFile.nodeIdToScope)):
+			#print("Trying: " + savedNode.getAttribute("id"))
+			savedNode = savedNode.parentNode
+			
+			try:
+				savedNodeId = savedNode.lineNumber
+			except:
+				savedNodeId = None
+		
+		if savedNode and not (savedNode.nodeType == Node.ELEMENT_NODE and savedNode.tagName == "module"):
+			try:
+				outFile.restoreScopesForNodeId(savedNodeId)
+				#print("YAY! ID: %s" % savedNodeId)
+				return
+			except:
+				print("Could not find scope information for node %s" % tagName(savedNode))
+			#else:
+			#	self.previousScopes = outFile.scopes
+		else:
+			pass#print("Scopes:")
+			#self.codeEdit.outFile.debugNodeToScope()
+			#self.codeEdit.outFile.debugScopes()
+	
+	# Okay we have a problem, but maybe we have old scope data?
+	#if self.previousScopes and self.codeEdit.outFile:
+	#	print("USING OLD SCOPE DATA")
+	#	outFile.restoreScopes(self.previousScopes)
+
+def compileXML(q, ppFile, jobs, jobResults):
 	comp = CPPOutputCompiler(
 		ppFile.processor,
 		background = True,
@@ -42,7 +88,7 @@ def compileXML(q, ppFile, jobs):
 		obj = BaseClass(className, None, None)
 		obj.functions = duplicateDictKeys(classObj.functions)
 		obj.properties = duplicateDictKeys(classObj.properties)
-		obj.publicMember = duplicateDictKeys(classObj.publicMembers)
+		obj.publicMembers = duplicateDictKeys(classObj.publicMembers)
 		
 		# Auto complete
 		obj.publicACList = classObj.getAutoCompleteList(private = False)
@@ -67,10 +113,28 @@ def compileXML(q, ppFile, jobs):
 	
 	while 1:
 		cmd = jobs.get()
+		byteCode = cmd[0]
 		
-		if cmd == 0:
-			print("Exit process")
+		# Exit
+		if byteCode == 0:
 			return
+		# getExprDataType
+		elif byteCode == 1:
+			node = cmd[1]
+			scopesOfNode = cmd[2]
+			
+			restoreScopesOfNode(comp.mainFile, scopesOfNode)
+			
+			try:
+				dataType = comp.mainFile.getExprDataType(node)
+			except:
+				jobResults.put("")
+			else:
+				jobResults.put(dataType)
+		# restoreScopesOfNode
+		elif byteCode == 2:
+			scopesOfNode = cmd[1]
+			restoreScopesOfNode(comp.mainFile, scopesOfNode)
 
 class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	
@@ -123,16 +187,22 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				#if not self.bpIDE.running:
 				#	self.bpIDE.outputCompiler = self.outputCompiler
 				
-				# Exit old process
-				if self.currentJobQueue:
-					self.currentJobQueue.put(0)
-				
 				jobs = Queue()
+				jobResults = Queue()
 				q = Queue()
-				p = Process(target=compileXML, args=(q, self.ppFile, jobs))
+				p = Process(target=compileXML, args=(q, self.ppFile, jobs, jobResults))
 				p.start()
 				self.codeEdit.outputCompilerData = q.get()
+				
+				# Exit old process
+				if self.currentJobQueue:
+					#jobs = self.currentJobQueue
+					#self.currentJobQueue = None
+					#self.currentJobResultsQueue = None
+					self.currentJobQueue.put((0))
+				
 				self.currentJobQueue = jobs
+				self.currentJobResultsQueue = jobResults
 				#p.join()
 				
 				self.lastException = None

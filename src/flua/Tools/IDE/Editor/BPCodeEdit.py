@@ -340,7 +340,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			else:
 				return False
 		
-		if self.codeEdit.bpcFile and self.codeEdit.outFile:
+		if self.codeEdit.bpcFile: #and self.codeEdit.outFile:
 			try:
 				bpcFile = self.codeEdit.bpcFile
 				prepdLine = bpcFile.prepareLine(obj)
@@ -352,8 +352,8 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			#print("Translated expression to XML:\n%s\nNow trying to determine its data type." % (node.toprettyxml()))
 			
 			try:
-				bpIDE.restoreScopesOfNode(bpIDE.currentNode)
-				dataType = self.codeEdit.outFile.getExprDataType(node)
+				dataType = self.codeEdit.getExprDataType(node)
+				#dataType = self.codeEdit.outFile.getExprDataType(node)
 			except CompilerException as e:
 				print(str(e))
 				return False
@@ -582,6 +582,20 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Line numbers
 		#if self.bubble:
 		#	self.initLineNumberArea()
+	
+	def getExprDataType(self, node):
+		thread = self.bpIDE.outputCompilerThread
+		jobs = thread.currentJobQueue
+		results = thread.currentJobResultsQueue
+		
+		if jobs:
+			jobs.put((1, node, self.bpIDE.currentNode))
+			dataType = results.get()
+			print("RESPONSE: %s" % dataType)
+		else:
+			dataType = ""#return False
+		
+		return dataType
 	
 	def reload(self):
 		self.save()

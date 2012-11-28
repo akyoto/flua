@@ -369,7 +369,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#ce.outFile = result.mainFile
 			
 			# Restore the scopes if possible
-			self.restoreScopesOfNode(self.currentNode)
+			if self.outputCompilerThread.currentJobQueue:
+				self.outputCompilerThread.currentJobQueue.put((2, self.currentNode))
 			
 			# Update auto complete
 			if ce.completer:
@@ -720,52 +721,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
 			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
-		
-	def restoreScopesOfNode(self, selectedNode):
-		if not selectedNode:
-			selectedNode = self.lastShownNode
-		
-		if not self.codeEdit:
-			return
-		
-		if self.codeEdit.outFile and selectedNode:
-			#print("Before")
-			#self.codeEdit.outFile.debugScopes()
-			
-			savedNode = selectedNode
-			
-			if savedNode.nodeType != Node.TEXT_NODE and hasattr(savedNode, "lineNumber"):
-				savedNodeId = savedNode.lineNumber
-			else:
-				savedNodeId = -1
-			
-			while (savedNode.nodeType == Node.TEXT_NODE or savedNode.tagName != "module") and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
-				#print("Trying: " + savedNode.getAttribute("id"))
-				savedNode = savedNode.parentNode
-				
-				try:
-					savedNodeId = savedNode.lineNumber
-				except:
-					savedNodeId = None
-			
-			if savedNode and not savedNode.tagName == "module":
-				try:
-					self.codeEdit.outFile.restoreScopesForNodeId(savedNodeId)
-					#print("YAY! ID: %s" % savedNodeId)
-					return
-				except:
-					print("Could not find scope information for node %s" % tagName(savedNode))
-				else:
-					self.previousScopes = self.codeEdit.outFile.scopes
-			else:
-				pass#print("Scopes:")
-				#self.codeEdit.outFile.debugNodeToScope()
-				#self.codeEdit.outFile.debugScopes()
-		
-		# Okay we have a problem, but maybe we have old scope data?
-		if self.previousScopes and self.codeEdit.outFile:
-			print("USING OLD SCOPE DATA")
-			self.codeEdit.outFile.restoreScopes(self.previousScopes)
 		
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
