@@ -585,9 +585,15 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	self.initLineNumberArea()
 	
 	def getExprDataType(self, node):
+		if os.name == "nt" and self.bpIDE.outputCompiler:
+			return self.bpIDE.outputCompiler.mainFile.getExprDataType(node)
+		
 		return self.sendOutputCompilerMsg((1, node), "")
 	
 	def requestBubbleCode(self, node):
+		if os.name == "nt" and self.bpIDE.outputCompiler:
+			return getBubbleCode(self.bpIDE.outputCompiler, node)
+		
 		return self.sendOutputCompilerMsg((3, node), [])
 	
 	def sendOutputCompilerMsg(self, msg, defaultVal = None):

@@ -40,12 +40,12 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		self.currentJobResultsQueue = None
 		
 		# Higher recursion limit for Windows to accept bigger objects
-		if os.name == "nt":
-			factor = 200
-		else:
-			factor = 1
-		
-		sys.setrecursionlimit(sys.getrecursionlimit() * factor)
+		#if os.name == "nt":
+		#	factor = 200
+		#else:
+		#	factor = 1
+		#
+		#sys.setrecursionlimit(sys.getrecursionlimit() * factor)
 		
 		# Call bpIDE.backgroundCompilerFinished when finished
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
@@ -55,6 +55,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		
 		if self.codeEdit.backgroundCompilerOutstandingTasks > 0: #(not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
 			self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
+			self.outputCompiler = outputCompiler
 			
 			# To make the GUI more responsive
 			eventLoop = QtCore.QEventLoop(self)
@@ -79,46 +80,49 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			if self.codeEdit: #and not self.codeEdit.disableUpdatesFlag:
 				self.startBenchmark("[%s] Background compiler" % (stripDir(self.codeEdit.getFilePath())))
 				
-				#self.outputCompiler.compile(self.ppFile, silent = True)
-				
-				# Try getting var types
-				#self.outputCompiler.tryGettingVariableTypesInUnimplementedFunctions()
-				
-				#if not self.bpIDE.running:
-				#	self.bpIDE.outputCompiler = self.outputCompiler
-				
-				jobs = Pipe()
-				jobResults = Pipe()
-				
-				mainPipe = Pipe()
-				sendPipe = mainPipe[1]
-				recvPipe = mainPipe[0]
-				
-				try:
-					#print("Starting process...")
-					p = Process(target=compileXML, args=(sendPipe, self.ppFile, self.codeEdit.outputCompilerData, jobs[0], jobResults[0]))
+				if os.name == "nt":
+					self.outputCompiler.compile(self.ppFile, silent = True)
 					
-					#print("Start...")
-					p.start()
+					# Try getting var types
+					self.outputCompiler.tryGettingVariableTypesInUnimplementedFunctions()
 					
-					#print("Waiting...")
-					data = recvPipe.recv()
-					if data:
-						self.codeEdit.outputCompilerData = data
-				except:
-					printTraceback()
-				
-				# Exit old process
-				if self.currentJobQueue:
-					#jobs = self.currentJobQueue
-					#self.currentJobQueue = None
-					#self.currentJobResultsQueue = None
-					self.currentJobQueue.send((0))
-				
-				self.currentJobQueue = jobs[1]
-				self.currentJobResultsQueue = jobResults[1]
-				self.currentProcess = p
-				#p.join()
+					if not self.bpIDE.running:
+						self.bpIDE.outputCompiler = self.outputCompiler
+					
+					fillDataByCompiler(self.codeEdit.outputCompilerData, self.outputCompiler)
+				else:
+					jobs = Pipe()
+					jobResults = Pipe()
+					
+					mainPipe = Pipe()
+					sendPipe = mainPipe[1]
+					recvPipe = mainPipe[0]
+					
+					try:
+						#print("Starting process...")
+						p = Process(target=compileXML, args=(sendPipe, self.ppFile, self.codeEdit.outputCompilerData, jobs[0], jobResults[0]))
+						
+						#print("Start...")
+						p.start()
+						
+						#print("Waiting...")
+						data = recvPipe.recv()
+						if data:
+							self.codeEdit.outputCompilerData = data
+					except:
+						printTraceback()
+					
+					# Exit old process
+					if self.currentJobQueue:
+						#jobs = self.currentJobQueue
+						#self.currentJobQueue = None
+						#self.currentJobResultsQueue = None
+						self.currentJobQueue.send((0))
+					
+					self.currentJobQueue = jobs[1]
+					self.currentJobResultsQueue = jobResults[1]
+					self.currentProcess = p
+					#p.join()
 				
 				self.lastException = None
 		except OutputCompilerException as e:
@@ -146,6 +150,43 @@ class BaseFunctionWrapper:
 ####################################################################
 # Functions
 ####################################################################
+def fillDataByCompiler(data, comp):
+	allClasses = dict()
+	
+	# Replicate class functions
+	for className, classObj in comp.mainClass.classes.items():
+		obj = BaseClass(className, None, None)
+		obj.functions = duplicateDictKeys(classObj.functions)
+		obj.properties = duplicateDictKeys(classObj.properties)
+		obj.publicMembers = duplicateDictKeys(classObj.publicMembers)
+		
+		# Auto complete
+		obj.publicACList = classObj.getAutoCompleteList(private = False)
+		obj.privateACList = classObj.getAutoCompleteList(private = True)
+		
+		# Jump to definition
+		obj.filePath = classObj.cppFile.getFilePath()
+		
+		allClasses[className] = obj
+	
+	# Replicate functions
+	allFunctions = dict()
+	for funcName, funcList in comp.mainClass.functions.items():
+		newFuncs = [BaseFunctionWrapper(x.cppFile.getFilePath(), x.paramTypesByDefinition, x.node) for x in funcList]
+		allFunctions[funcName] = newFuncs
+	
+	# Replicate namespace
+	ns = BaseNamespace("", None)
+	ns.classes = allClasses
+	ns.functions = allFunctions
+	ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
+	ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
+	
+	# Set data
+	data.mainNamespace = ns
+	data.defines = dict()
+	data.functionCount = comp.getFunctionCount()
+
 def compileXML(q, ppFile, data, jobs, jobResults):
 	comp = CPPOutputCompiler(
 		ppFile.processor,
@@ -182,41 +223,7 @@ def compileXML(q, ppFile, data, jobs, jobResults):
 		return
 	
 	try:
-		allClasses = dict()
-		
-		# Replicate class functions
-		for className, classObj in comp.mainClass.classes.items():
-			obj = BaseClass(className, None, None)
-			obj.functions = duplicateDictKeys(classObj.functions)
-			obj.properties = duplicateDictKeys(classObj.properties)
-			obj.publicMembers = duplicateDictKeys(classObj.publicMembers)
-			
-			# Auto complete
-			obj.publicACList = classObj.getAutoCompleteList(private = False)
-			obj.privateACList = classObj.getAutoCompleteList(private = True)
-			
-			# Jump to definition
-			obj.filePath = classObj.cppFile.getFilePath()
-			
-			allClasses[className] = obj
-		
-		# Replicate functions
-		allFunctions = dict()
-		for funcName, funcList in comp.mainClass.functions.items():
-			newFuncs = [BaseFunctionWrapper(x.cppFile.getFilePath(), x.paramTypesByDefinition, x.node) for x in funcList]
-			allFunctions[funcName] = newFuncs
-		
-		# Replicate namespace
-		ns = BaseNamespace("", None)
-		ns.classes = allClasses
-		ns.functions = allFunctions
-		ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
-		ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
-		
-		# Set data
-		data.mainNamespace = ns
-		data.defines = dict()
-		data.functionCount = comp.getFunctionCount()
+		fillDataByCompiler(data, comp)
 	
 		# Send it
 		q.send(data)
