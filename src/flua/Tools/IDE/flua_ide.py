@@ -373,7 +373,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			
 			# Restore the scopes if possible
 			if self.outputCompilerThread.currentJobQueue:
-				self.outputCompilerThread.currentJobQueue.put((2, self.currentNode))
+				self.outputCompilerThread.currentJobQueue.send((2, self.currentNode))
 			
 			# Update auto complete
 			if ce.completer:

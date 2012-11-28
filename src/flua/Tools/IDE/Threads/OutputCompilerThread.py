@@ -3,7 +3,7 @@
 ####################################################################
 from PyQt4 import QtGui, QtCore, uic
 from flua.Compiler import *
-from multiprocessing import Process, Queue
+from multiprocessing import Process, Pipe
 import collections
 
 ####################################################################
@@ -72,22 +72,32 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				#if not self.bpIDE.running:
 				#	self.bpIDE.outputCompiler = self.outputCompiler
 				
-				jobs = Queue()
-				jobResults = Queue()
-				q = Queue()
-				p = Process(target=compileXML, args=(q, self.ppFile, jobs, jobResults))
+				jobs = Pipe()
+				jobResults = Pipe()
+				
+				mainPipe = Pipe()
+				sendPipe = mainPipe[1]
+				recvPipe = mainPipe[0]
+				
+				print("Starting process...")
+				p = Process(target=compileXML, args=(sendPipe, self.ppFile, jobs[0], jobResults[0]))
+				
+				print("Start...")
 				p.start()
-				self.codeEdit.outputCompilerData = q.get()
+				
+				print("Waiting...")
+				
+				self.codeEdit.outputCompilerData = recvPipe.recv()
 				
 				# Exit old process
 				if self.currentJobQueue:
 					#jobs = self.currentJobQueue
 					#self.currentJobQueue = None
 					#self.currentJobResultsQueue = None
-					self.currentJobQueue.put((0))
+					self.currentJobQueue.send((0))
 				
-				self.currentJobQueue = jobs
-				self.currentJobResultsQueue = jobResults
+				self.currentJobQueue = jobs[1]
+				self.currentJobResultsQueue = jobResults[1]
 				self.currentProcess = p
 				#p.join()
 				
@@ -171,10 +181,10 @@ def compileXML(q, ppFile, jobs, jobResults):
 	data.functionCount = comp.getFunctionCount()
 	
 	# Send it
-	q.put(data)
+	q.send(data)
 	
 	while 1:
-		cmd = jobs.get()
+		cmd = jobs.recv()
 		byteCode = cmd[0]
 		
 		# Exit
@@ -190,9 +200,9 @@ def compileXML(q, ppFile, jobs, jobResults):
 			try:
 				dataType = comp.mainFile.getExprDataType(node)
 			except:
-				jobResults.put("")
+				jobResults.send("")
 			else:
-				jobResults.put(dataType)
+				jobResults.send(dataType)
 		# restoreScopesOfNode
 		elif byteCode == 2:
 			scopesOfNode = cmd[1]
@@ -204,7 +214,7 @@ def compileXML(q, ppFile, jobs, jobResults):
 				code = getBubbleCode(comp, node)
 			except BaseException as e:
 				code = ["Error while trying to request doc bubble code:\n%s" % str(e)]
-			jobResults.put(code)
+			jobResults.send(code)
 
 def duplicateDictKeys(d):
 	n = dict()

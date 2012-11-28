@@ -596,8 +596,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if jobs and thread.currentProcess.is_alive():
 			try:
-				jobs.put(msg)
-				ret = results.get()
+				jobs.send(msg)
+				ret = results.recv()
 			except InterruptedError:
 				ret = defaultVal
 		else:
