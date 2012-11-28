@@ -411,90 +411,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		else:
 			self.outputCompiler = tmp
 	
-	# Old, old code...deprecated stuff, you know?
-	# But we need this in case we lack type data.
-	def bubbleAllFunctionVariants(self, code, call, shownFuncs, currentOutFile):
-		realFuncDefNode = None
-		
-		funcName = getCalledFuncName(call)
-		
-		# TODO: Don't depend on self.funcsDict, replace with outputCompiler data
-		if funcName in self.funcsDict:
-			for func in self.funcsDict[funcName].values():
-				funcDefinitionNode = func.instruction
-				
-				# Don't show the same function twice
-				if funcDefinitionNode in shownFuncs:
-					continue
-				
-				if realFuncDefNode and realFuncDefNode != funcDefinitionNode:
-					continue
-				
-				shownFuncs[funcDefinitionNode] = True
-				
-				# Documentation
-				doc = getNodeComments(funcDefinitionNode)
-				
-				# Code
-				bpcCode = nodeToBPC(funcDefinitionNode)
-				#bpcCode = self.truncateBubbleCode(bpcCode)
-				bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
-				code.append(bpcCode)
-				
-				# Add the documentation afterwards
-				if doc:
-					code.append(doc)
-	
-	def bubbleAddReturnType(self, bpcCode, call, currentOutFile):
-		# Do we have more information about that call?
-		if currentOutFile:
-			dataType = None
-			try:
-				# Return value
-				dataType = currentOutFile.getCallDataType(call)
-				if dataType and dataType != "void":
-					pos = bpcCode.find("\n")
-					bpcCode = (bpcCode[:pos] + "  → " + dataType + "") + bpcCode[pos:]
-					return bpcCode
-			except:
-				return bpcCode
-			
-		return bpcCode
-	
 	#def bubbleAddReturnTypeByDefinition(self, bpcCode, funcDefNode, classImpl):
 		#try:
 		#	classImpl.getFuncImplementation()
 	
-	def truncateBubbleCode(self, bpcCode):
-		lines = bpcCode.split("\n")
-		codeLen = len(lines)
-		
-		if codeLen >= self.maxBubbleCodeLength:
-			return '\n'.join(lines[:self.maxBubbleCodeLength]) + "\n\n[...]\n"
-		
-		return bpcCode
-	
-	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile, shownFuncs):
-		# Don't show the same function twice
-		if realFuncDefNode in shownFuncs:
-			return
-		
-		shownFuncs[realFuncDefNode] = True
-		
-		# Documentation
-		doc = getNodeComments(realFuncDefNode)
-		
-		# Code
-		bpcCode = nodeToBPC(realFuncDefNode)
-		#bpcCode = self.truncateBubbleCode(bpcCode)
-		bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
-		
-		# Add it
-		code.append(bpcCode)
-		
-		# Add the documentation afterwards
-		if doc:
-			code.append(doc)
+	#def truncateBubbleCode(self, bpcCode):
+	#	lines = bpcCode.split("\n")
+	#	codeLen = len(lines)
+	#	
+	#	if codeLen >= self.maxBubbleCodeLength:
+	#		return '\n'.join(lines[:self.maxBubbleCodeLength]) + "\n\n[...]\n"
+	#	
+	#	return bpcCode
 	
 	def updateCodeBubble(self, node):
 		if not self.config.enableDocBubbles:
@@ -502,83 +430,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		if self.codeEdit and self.codeEdit.bubble and (not self.running) and self.consoleDock.isHidden() and (self.codeEdit.hasFocus()):
 			if node:
-				#self.startBenchmark("Find calls in reversed order")
-				calls = findCallsReversed(node)
-				#self.endBenchmark()
-				
-				# TODO: Optimize as a dict lookup
-				# If we have output compiler information
-				currentOutFile = None
-				if self.outputCompiler:
-					self.lastShownOutputCompiler = self.outputCompiler
-					cePath = self.getFilePath()
-					for outFile in self.outputCompiler.outFiles.values():
-						if outFile.file == cePath:
-							currentOutFile = outFile
-							break
-				
-				# Let's see if we can get some information about those calls
-				code = []
-				shownFuncs = dict()
-				for call in calls:
-					callerType = ""
-					funcName = ""
-					
-					if currentOutFile:
-						# Exceptions are your friends! ... or not?
-						try:
-							# Params
-							if call.tagName == "call":
-								#print(call.toxml())
-								caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
-							elif call.tagName == "new":
-								#caller = ""
-								callerType = currentOutFile.getExprDataType(call)
-								funcName = "init"
-								
-							params = getElementByTagName(call, "parameters")
-							paramsString, paramTypes = currentOutFile.handleParameters(params)
-							
-							classImpl = currentOutFile.getClassImplementationByTypeName(callerType)
-							
-							try:
-								realFunc = classImpl.getMatchingFunction(funcName, paramTypes)
-								realFuncDefNode = realFunc.node
-								
-								if callerType:
-									code.append("# %s" % (callerType))
-								
-								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile, shownFuncs)
-							except:
-								try:
-									candidates = classImpl.getCandidates(funcName)
-									
-									if callerType:
-										code.append("# %s" % (callerType))
-									
-									for func in candidates:
-										self.bubbleFunction(code, func.node, call, currentOutFile, shownFuncs)
-									
-									continue
-								except:
-									continue
-						
-						except:
-							# Only show all function variants if code bubble is empty
-							if (not code) and call.tagName == "call":
-								if callerType:
-									code.append("# %s" % (callerType))
-								
-								self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
-							continue
-					else:
-						# Only show all function variants if code bubble is empty
-						if (not code) and call.tagName == "call":
-							if callerType:
-								code.append("# %s" % (callerType))
-							
-							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
-						continue
+				code = self.codeEdit.requestBubbleCode(node)
 				
 				if code:
 					codeText = "\n".join(code)

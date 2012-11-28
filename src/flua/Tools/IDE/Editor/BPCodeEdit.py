@@ -591,11 +591,23 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		if jobs:
 			jobs.put((1, node, self.bpIDE.currentNode))
 			dataType = results.get()
-			print("RESPONSE: %s" % dataType)
 		else:
-			dataType = ""#return False
+			dataType = ""
 		
 		return dataType
+	
+	def requestBubbleCode(self, node):
+		thread = self.bpIDE.outputCompilerThread
+		jobs = thread.currentJobQueue
+		results = thread.currentJobResultsQueue
+		
+		if jobs:
+			jobs.put((3, node))
+			code = results.get()
+		else:
+			code = ["Nothing!\nReally."]
+		
+		return code
 	
 	def reload(self):
 		self.save()
@@ -1179,6 +1191,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				):
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
+				
+				# When using backspace, only reset the member list if we're next to a dot: circle.center.[*]
+				if self.completer.completionPrefix() == "":
+					self.completer.deactivateMemberList()
+				
 				return
 			
 			# Modifier pressed?
