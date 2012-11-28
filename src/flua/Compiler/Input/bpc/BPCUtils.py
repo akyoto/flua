@@ -294,6 +294,8 @@ def nodeToBPCSaved(node, tabLevel, conv):
 	return codeAdded
 
 def nodeToBPC(node, tabLevel = 0, conv = None):
+	#global binaryOperatorTagToSymbol
+	
 	if node is None:
 		return ""
 	

@@ -20,6 +20,10 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 	def startWith(self):
 		self.numTasksHandled = self.codeEdit.ppOutstandingTasks
 		
+		# Temporarily disabled
+		self.finished.emit()
+		return
+		
 		if not self.codeEdit is None:
 			if self.bpIDE.threaded:
 				self.start(QtCore.QThread.InheritPriority)

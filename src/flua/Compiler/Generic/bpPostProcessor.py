@@ -390,6 +390,8 @@ class BPPostProcessor:
 			self.inputCompiler = compiler
 			self.inputFiles = compiler.getCompiledFiles()
 			self.compiledInputFiles = dict()
+		else:
+			self.inputCompiler = None
 		
 		self.compiledFiles = dict()
 		self.compiledFilesList = list()
@@ -590,7 +592,7 @@ class BPPostProcessorFile:
 		
 	def processXML(self):
 		#self.findDefinitions(getElementByTagName(self.root, "code"))
-		self.processNode(getElementByTagName(self.root, "code"))
+		#self.processNode(getElementByTagName(self.root, "code"))
 		self.processor.funcCount += self.funcCount
 		
 	#def findDefinitions(self, node):

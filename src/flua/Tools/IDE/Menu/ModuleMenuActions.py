@@ -91,26 +91,38 @@ class ModuleMenuActions:
 		#print(self.processor.getCompiledFilesList())
 		try:
 			if self.somethingModified or self.codeEdit != self.codeEditLastRun:
-				if not self.backgroundCompileIsUpToDate:
-					self.createOutputCompiler(outputTarget, takeCache = False)
-					
-					#exePath = cpp.getExePath().replace("/", "\\")
-					#if exePath and os.path.isfile(exePath):
-					#	print("Removing %s" % exePath)
-					#	os.remove(exePath)
-					
-					bpPostPFile = self.getCurrentPostProcessorFile()
-					
-					# Generate
-					self.startBenchmark("%s Generator" % outputTarget)
-					self.outputCompiler.compile(bpPostPFile)
-					self.outputCompiler.writeToFS()
-					self.endBenchmark()
-				else:
-					# Information is up to date, just write it to the disk
-					self.startBenchmark("%s Generator (write files to disk)" % outputTarget)
-					self.outputCompiler.writeToFS()
-					self.endBenchmark()
+				#if not self.backgroundCompileIsUpToDate:
+				#	self.createOutputCompiler(outputTarget, takeCache = False)
+				#	
+				#	#exePath = cpp.getExePath().replace("/", "\\")
+				#	#if exePath and os.path.isfile(exePath):
+				#	#	print("Removing %s" % exePath)
+				#	#	os.remove(exePath)
+				#	
+				#	#self.startBenchmark("%s Post Processor" % outputTarget)
+				#	#bpPostPFile = self.processor.process(self.codeEdit.root, self.codeEdit.getFilePath())
+				#	#self.endBenchmark()
+				#	#bpPostPFile = self.getCurrentPostProcessorFile()
+				#	
+				#	# Generate
+				#	self.startBenchmark("%s Generator" % outputTarget)
+				#	self.outputCompiler.compile(bpPostPFile)
+				#	self.outputCompiler.writeToFS()
+				#	self.endBenchmark()
+				#else:
+				#	# Information is up to date, just write it to the disk
+				#	self.startBenchmark("%s Generator (write files to disk)" % outputTarget)
+				#	self.outputCompiler.writeToFS()
+				#	self.endBenchmark()
+				
+				# writeToFS
+				self.createOutputCompiler(outputTarget, takeCache = False)
+				
+				ret = self.codeEdit.sendOutputCompilerMsg((10, 0), None)
+				self.outputCompiler.mainCppFile = ret[0]
+				self.outputCompiler.outputDir = ret[1]
+				self.outputCompiler.exePath = ret[2]
+				self.outputCompiler.customLinkerFlags = ret[3]
 				
 				# Build
 				self.startBenchmark("%s Build" % outputTarget)

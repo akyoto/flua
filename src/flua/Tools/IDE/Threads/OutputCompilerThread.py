@@ -35,6 +35,10 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
 		
+		#if os.name == "nt":
+		#	limit = sys.getrecursionlimit()
+		#	sys.setrecursionlimit(limit * 200)
+		
 	def startWith(self, outputCompiler):
 		self.codeEdit = self.bpIDE.codeEdit
 		
@@ -58,9 +62,9 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			#print("Compiling")
 		
 	def run(self):
+		#self.codeEdit.backgroundCompilerOutstandingTasks = 0
+		
 		try:
-			self.ppFile = self.bpIDE.getCurrentPostProcessorFile()
-			
 			if self.codeEdit: #and not self.codeEdit.disableUpdatesFlag:
 				self.startBenchmark("[%s] Background compiler" % (stripDir(self.codeEdit.getFilePath())))
 				
@@ -79,14 +83,22 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				sendPipe = mainPipe[1]
 				recvPipe = mainPipe[0]
 				
-				print("Starting process...")
-				p = Process(target=compileXML, args=(sendPipe, self.ppFile, jobs[0], jobResults[0]))
+				#self.ppFile = self.bpIDE.getCurrentPostProcessorFile()
+				#wrappedPPFile = wrapPostProcessorFile(self.ppFile)
 				
-				print("Start...")
+				#print("Starting process...")
+				p = Process(target=compileXML, args=(
+					sendPipe,
+					self.codeEdit.getFilePath(),
+					self.codeEdit.root,
+					jobs[0],
+					jobResults[0])
+				)
+				
+				#print("Start...")
 				p.start()
 				
-				print("Waiting...")
-				
+				#print("Waiting...")
 				self.codeEdit.outputCompilerData = recvPipe.recv()
 				
 				# Exit old process
@@ -94,7 +106,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 					#jobs = self.currentJobQueue
 					#self.currentJobQueue = None
 					#self.currentJobResultsQueue = None
-					self.currentJobQueue.send((0))
+					self.currentJobQueue.send((0, 0))
 				
 				self.currentJobQueue = jobs[1]
 				self.currentJobResultsQueue = jobResults[1]
@@ -112,6 +124,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				printTraceback()
 		except KeyError:
 			pass
+		except:
+			printTraceback()
 		finally:
 			if self.benchmarkTimerStart:
 				self.endBenchmark()
@@ -124,12 +138,50 @@ class BaseFunctionWrapper:
 		self.paramTypesByDefinition = paramTypesByDefinition
 		self.node = node
 
+#class BPPostProcessorWrapper:
+#	def __init__(self, projectDir):
+#		self.compiledFiles = None
+#		self.projectDir = projectDir
+#		
+#	def getCompiledFiles(self):
+#		return self.compiledFiles
+#		
+#	def getProjectDir(self):
+#		return self.projectDir
+#		
+#	def getFileInstanceByPath(self, filePath):
+#		return self.compiledFiles[filePath]
+
+#class BPPostProcessorFileWrapper:
+#	def __init__(self, processor, filePath, root, importedFiles):
+#		self.processor = processor
+#		self.filePath = filePath
+#		self.root = root
+#		self.importedFiles = importedFiles
+#		
+#	def getFilePath(self):
+#		return self.filePath()
+#		
+#	def getImportedFiles(self):
+#		return self.importedFiles
+#		
+#	def getRoot(self):
+#		return self.root
+
 ####################################################################
 # Functions
 ####################################################################
-def compileXML(q, ppFile, jobs, jobResults):
+def compileXML(q, filePath, root, jobs, jobResults):
+	processor = BPPostProcessor(None)
+	#processor.processFile(filePath)
+	#ppFile = processor.getCompiledFiles()[0]
+	
+	processor.resetDTreesForFile(filePath)
+	processor.cleanUpFile(filePath)
+	ppFile = processor.process(root, filePath)
+	
 	comp = CPPOutputCompiler(
-		ppFile.processor,
+		processor,
 		background = True,
 		guiCallBack = None,
 	)
@@ -215,6 +267,9 @@ def compileXML(q, ppFile, jobs, jobResults):
 			except BaseException as e:
 				code = ["Error while trying to request doc bubble code:\n%s" % str(e)]
 			jobResults.send(code)
+		elif byteCode == 10:
+			comp.writeToFS()
+			jobResults.send((comp.mainCppFile, comp.outputDir, comp.getExePath(), comp.customLinkerFlags))
 
 def duplicateDictKeys(d):
 	n = dict()
@@ -424,3 +479,19 @@ def restoreScopesOfNode(outFile, selectedNode):
 	#if self.previousScopes and self.codeEdit.outFile:
 	#	print("USING OLD SCOPE DATA")
 	#	outFile.restoreScopes(self.previousScopes)
+
+#def wrapPostProcessorFile(ppFile):
+#	realProcessor = ppFile.processor
+#	processor = BPPostProcessorWrapper(realProcessor.getProjectDir())
+#	compiledFiles = dict()
+#	ret = None
+#	
+#	for x in realProcessor.getCompiledFiles().values():
+#		newFile = BPPostProcessorFileWrapper(processor, x.filePath, x.root, x.importedFiles)
+#		compiledFiles[x.filePath] = newFile
+#		if ppFile.filePath == x.filePath:
+#			ret = x
+#	
+#	processor.compiledFiles = compiledFiles
+#	
+#	return ret

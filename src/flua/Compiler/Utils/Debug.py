@@ -113,7 +113,7 @@ class OutputCompilerException(CompilerException):
 		self.outFile = outFile
 		self.ppFile = ppFile
 		
-		if self.ppFile:
+		if self.ppFile and self.ppFile.processor.inputCompiler:
 			self.inpFile = self.ppFile.processor.inputCompiler.lastSpawnedFile
 		else:
 			self.inpFile = None
