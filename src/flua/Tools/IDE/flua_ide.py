@@ -353,40 +353,41 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		result = ce.outputCompilerData
 		
 		if ce:
-			# Set environment namespace to the main namespace of the compiler
-			ce.environment.mainNamespace = result.mainNamespace
-			ce.environment.defines = result.defines
-			
-			# This function also counts the class methods:
-			newFuncCount = result.functionCount
-			
-			# Contrary to this one:
-			#newFuncCount = len(self.environment.mainNamespace.functions)
-			
-			# If the number of functions changed, rehighlight
-			ce.updateFunctionCount(newFuncCount)
-			
-			self.lastFunctionCount = newFuncCount
-			
-			# Set code edit outFile to the main file
-			#ce.outFile = result.mainFile
-			
-			# Restore the scopes if possible
-			if self.outputCompilerThread.currentJobQueue:
-				self.outputCompilerThread.currentJobQueue.send((2, self.currentNode))
-			
-			# Update auto complete
-			if ce.completer:
-				ce.completer.bpcModel.retrieveData(ce.outputCompilerData)
+			if result:
+				# Set environment namespace to the main namespace of the compiler
+				ce.environment.mainNamespace = result.mainNamespace
+				ce.environment.defines = result.defines
+				
+				# This function also counts the class methods:
+				newFuncCount = result.functionCount
+				
+				# Contrary to this one:
+				#newFuncCount = len(self.environment.mainNamespace.functions)
+				
+				# If the number of functions changed, rehighlight
+				ce.updateFunctionCount(newFuncCount)
+				
+				self.lastFunctionCount = newFuncCount
+				
+				# Set code edit outFile to the main file
+				#ce.outFile = result.mainFile
+				
+				# Restore the scopes if possible
+				if self.outputCompilerThread.currentJobQueue:
+					self.outputCompilerThread.currentJobQueue.send((2, self.currentNode))
+				
+				# Update auto complete
+				if ce.completer:
+					ce.completer.bpcModel.retrieveData(ce.outputCompilerData)
+					
+			# Messages
+			ce.msgView.updateViewOutputCompiler()
 			
 			# Adjust number of outstanding tasks
 			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
 			
 			if ce.backgroundCompilerOutstandingTasks < 0:
 				ce.backgroundCompilerOutstandingTasks = 0
-			
-			# Messages
-			ce.msgView.updateViewOutputCompiler()
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		#if self.outputCompiler:

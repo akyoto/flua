@@ -420,6 +420,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.environment = None
 		self.docNavigator = None
 		self.highlighter = None
+		self.outputCompilerData = BPOutputCompilerThreadData()
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)

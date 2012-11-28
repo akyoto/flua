@@ -70,6 +70,7 @@ class CPPOutputFile(BaseOutputFile):
 		self.prototypesHeader = "\n// Prototypes\n\n"
 		self.includesHeader = "\n// Includes\n\n"
 		self.pForFuncsHeader = "\n// PFor funcs\n\n"
+		self.listCompBuildFuncHeader = ""
 		
 		# Syntax
 		self.lineLimiter = ";\n"
@@ -116,6 +117,9 @@ class CPPOutputFile(BaseOutputFile):
 		self.body += "\t// Code\n"
 		self.body += self.parseChilds(self.codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
 		self.body += "}\n"
+		
+		# List comprehension building funcs
+		self.listCompBuildFuncHeader = "\n// List comprehension build functions\n%s\n\n" % "\n\n".join(self.listComprehensionBuildFuncs)
 		
 		# Includes
 		incls = ["#ifndef %s\n#define %s\n#include <%s>\n#endif\n" % (ifndef, ifndef, incl) for incl, ifndef in self.includes]
@@ -468,6 +472,105 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		
 		return fullCode, protoType
 		
+	def getListComprehensionInfo(self, listFor):
+		seqType = "MutableVector"
+		
+		collection = listFor.childNodes[1].childNodes[0].childNodes[1].childNodes[0]
+		iterator   = listFor.childNodes[1].childNodes[0].childNodes[0].childNodes[0]
+		value      = listFor.childNodes[0].childNodes[0]
+		
+		collExprType = self.getExprDataType(collection)
+		iteratorType = extractTemplateValues(collExprType)
+		
+		iterVar = self.createVariable(self.parseExpr(iterator), iteratorType, "", False, not iteratorType in nonPointerClasses, False)
+		self.registerVariable(iterVar)
+		
+		iterExpr = self.parseExpr(iterator)
+		
+		iterVar = self.createVariable(iterExpr, iteratorType, "", False, not iteratorType in nonPointerClasses, False)
+		self.registerVariable(iterVar)
+		
+		newValueType = self.getExprDataType(value)
+		newCollectionType = "%s<%s>" % (seqType, newValueType)
+		
+		return collection, collExprType, iterator, iteratorType, iterExpr, value, newValueType, newCollectionType
+		
+	def buildNewListComprehension(self, listFor):
+		self.compiler.listComprehensionCounter += 1
+		funcName = "flua_buildList_%d" % self.compiler.listComprehensionCounter
+		
+		# Push var scope
+		self.pushScope()
+		
+		collection, collExprType, iterator, iteratorType, iterExpr, value, newValueType, newCollectionType = self.getListComprehensionInfo(listFor)
+		
+		collExpr = "_vec"
+		realCollExpr = self.parseExpr(collection)
+		
+		collVar = self.createVariable(collExpr, collExprType, realCollExpr, False, not collExprType in nonPointerClasses, False)
+		self.registerVariable(collVar)
+		
+		newCollVar = self.createVariable("_newVec", newCollectionType, "", False, not newCollectionType in nonPointerClasses, False)
+		self.registerVariable(newCollVar)
+		
+		iterXML = iterator.toxml()
+		
+		forEachXML = """<foreach>
+	<iterator>%s</iterator>
+	<collection>%s</collection>
+	<code>
+		<call>
+			<function>
+				<access>
+					<value>%s</value>
+					<value>add</value>
+				</access>
+			</function>
+			<parameters>
+				<parameter>%s</parameter>
+			</parameters>
+		</call>
+	</code>
+</foreach>""".replace('\t', '').replace('\n', '') % (iterXML, collExpr, "_newVec", value.toxml())
+		
+		forEachNode = parseString(forEachXML).documentElement
+		codeBody = self.handleForEach(forEachNode)
+		
+		# Pop var scope
+		self.popScope()
+		
+		# Build a function and add it to the global list
+		newCollectionTypeAdjusted = adjustDataTypeCPP(newCollectionType)
+		collExprTypeAdjusted = adjustDataTypeCPP(collExprType)
+		
+		protoType = "inline %s %s(%s);" % (
+			newCollectionTypeAdjusted,
+			funcName,
+			collExprTypeAdjusted,
+		)
+		self.compiler.prototypes.append(protoType)
+		
+		functionCode = """inline %s %s(%s %s) {
+	%s _newVec = new (UseGC) %s(%s->getLength());
+	%s
+	return _newVec;
+}""" % (
+			newCollectionTypeAdjusted,
+			funcName,
+			collExprTypeAdjusted,
+			collExpr,
+			#
+			newCollectionTypeAdjusted,
+			adjustDataTypeCPP(newCollectionType, False),
+			collExpr,
+			#
+			codeBody
+		)
+		
+		self.compiler.mainFile.listComprehensionBuildFuncs.append(functionCode)
+		
+		return self.buildCall("", funcName, "%s" % realCollExpr)
+		
 	def buildNewSequence(self, params):
 		seqType = "MutableVector"
 		#print(params.toxml())
@@ -691,7 +794,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 		self.writeFunctions()
 		self.writeClasses()
 		
-		return "%s%s%s%s%s%s%s%s%s%s%s" % (
+		return "%s%s%s%s%s%s%s%s%s%s%s%s" % (
 			self.header,
 			self.prototypesHeader,
 			self.includesHeader,
@@ -702,6 +805,7 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 			self.classesHeader,
 			#self.customThreadsString,
 			self.functionsHeader,
+			self.listCompBuildFuncHeader,
 			#self.actorClassesHeader,
 			self.body,
 			self.footer

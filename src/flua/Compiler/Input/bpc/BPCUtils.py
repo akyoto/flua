@@ -807,7 +807,7 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 		if nodeName == "template-call":
 			return op1bpc + "<" + op2bpc + ">"
 		elif nodeName == "index":
-			if op1bpc == "_flua_seq":
+			if op1bpc.startswith("_flua_"): #== "_flua_seq":
 				op1bpc = ""
 			
 			return op1bpc + "[" + op2bpc + "]"
@@ -815,6 +815,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			return op1bpc + "[" + op2bpc + "]"
 		elif nodeName == "range":
 			return op1bpc + ":" + op2bpc
+		elif nodeName == "list-for":
+			return "%s for %s" % (op1bpc, op2bpc)
+		elif nodeName == "list-in":
+			return "%s in %s" % (op1bpc, op2bpc)
 		elif nodeName == "exists-in":
 			return op1bpc + " in " + op2bpc
 		# String parameters

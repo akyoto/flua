@@ -1,0 +1,19 @@
+<module>
+	<header>
+		<title/>
+		<dependencies>
+			<import>flua.Core</import>
+		</dependencies>
+		<strings/>
+	</header>
+	<code>
+		<comment>\SGenerates\Scompilable\Sfiles\Sfrom\San\SAST</comment>
+		<function>
+			<name>astToOutput</name>
+			<code>
+				<noop/>
+			</code>
+			<meta/>
+		</function>
+	</code>
+</module>

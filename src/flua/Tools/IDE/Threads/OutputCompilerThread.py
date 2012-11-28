@@ -11,9 +11,15 @@ import collections
 ####################################################################
 class BPOutputCompilerThreadData:
 	def __init__(self):
-		self.mainNamespace = None
-		self.defines = None
+		self.mainNamespace = BaseNamespace("", None)
+		self.mainNamespace.classes = dict()
+		self.mainNamespace.functions = dict()
+		self.mainNamespace.externFunctions = dict()
+		self.mainNamespace.externVariables = dict()
+		
+		self.defines = dict()
 		self.functionCount = -1
+		
 		self.exceptionMsg = ""
 		self.exceptionLineNumber = -1
 		self.exceptionFilePath = ""
@@ -33,6 +39,15 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		self.currentJobQueue = None
 		self.currentJobResultsQueue = None
 		
+		# Higher recursion limit for Windows to accept bigger objects
+		if os.name == "nt":
+			factor = 200
+		else:
+			factor = 2
+			
+		sys.setrecursionlimit(sys.getrecursionlimit() * factor)
+		
+		# Call bpIDE.backgroundCompilerFinished when finished
 		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
 		
 	def startWith(self, outputCompiler):
@@ -79,15 +94,19 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				sendPipe = mainPipe[1]
 				recvPipe = mainPipe[0]
 				
-				print("Starting process...")
-				p = Process(target=compileXML, args=(sendPipe, self.ppFile, jobs[0], jobResults[0]))
-				
-				print("Start...")
-				p.start()
-				
-				print("Waiting...")
-				
-				self.codeEdit.outputCompilerData = recvPipe.recv()
+				try:
+					#print("Starting process...")
+					p = Process(target=compileXML, args=(sendPipe, self.ppFile, self.codeEdit.outputCompilerData, jobs[0], jobResults[0]))
+					
+					#print("Start...")
+					p.start()
+					
+					#print("Waiting...")
+					data = recvPipe.recv()
+					if data:
+						self.codeEdit.outputCompilerData = data
+				except:
+					printTraceback()
 				
 				# Exit old process
 				if self.currentJobQueue:
@@ -127,94 +146,120 @@ class BaseFunctionWrapper:
 ####################################################################
 # Functions
 ####################################################################
-def compileXML(q, ppFile, jobs, jobResults):
+def compileXML(q, ppFile, data, jobs, jobResults):
 	comp = CPPOutputCompiler(
 		ppFile.processor,
 		background = True,
 		guiCallBack = None,
 	)
 	
-	data = BPOutputCompilerThreadData()
+	data.exceptionMsg = ""
+	data.exceptionFilePath = ""
+	data.exceptionLineNumber = -1
 	
 	try:
 		comp.compile(ppFile, silent = True)
 		comp.tryGettingVariableTypesInUnimplementedFunctions()
 	except CompilerException as e:
+		# Traceback
+		with open(getConfigDir() + "studio/traceback.txt", "w") as f:
+			import traceback
+			traceback.print_exc(file = f)
+		
 		data.exceptionMsg = e.getMsg()
 		data.exceptionFilePath = e.getFilePath()
 		data.exceptionLineNumber = e.getLineNumber()
-	
-	allClasses = dict()
-	
-	# Replicate class functions
-	for className, classObj in comp.mainClass.classes.items():
-		obj = BaseClass(className, None, None)
-		obj.functions = duplicateDictKeys(classObj.functions)
-		obj.properties = duplicateDictKeys(classObj.properties)
-		obj.publicMembers = duplicateDictKeys(classObj.publicMembers)
+		q.send(data)
+		return
+	except BaseException as e:
+		# Traceback
+		with open(getConfigDir() + "studio/traceback.txt", "w") as f:
+			import traceback
+			traceback.print_exc(file = f)
 		
-		# Auto complete
-		obj.publicACList = classObj.getAutoCompleteList(private = False)
-		obj.privateACList = classObj.getAutoCompleteList(private = True)
+		data.exceptionMsg = str(e)
+		q.send(data)
+		return
+	
+	try:
+		allClasses = dict()
 		
-		# Jump to definition
-		obj.filePath = classObj.cppFile.getFilePath()
+		# Replicate class functions
+		for className, classObj in comp.mainClass.classes.items():
+			obj = BaseClass(className, None, None)
+			obj.functions = duplicateDictKeys(classObj.functions)
+			obj.properties = duplicateDictKeys(classObj.properties)
+			obj.publicMembers = duplicateDictKeys(classObj.publicMembers)
+			
+			# Auto complete
+			obj.publicACList = classObj.getAutoCompleteList(private = False)
+			obj.privateACList = classObj.getAutoCompleteList(private = True)
+			
+			# Jump to definition
+			obj.filePath = classObj.cppFile.getFilePath()
+			
+			allClasses[className] = obj
 		
-		allClasses[className] = obj
+		# Replicate functions
+		allFunctions = dict()
+		for funcName, funcList in comp.mainClass.functions.items():
+			newFuncs = [BaseFunctionWrapper(x.cppFile.getFilePath(), x.paramTypesByDefinition, x.node) for x in funcList]
+			allFunctions[funcName] = newFuncs
+		
+		# Replicate namespace
+		ns = BaseNamespace("", None)
+		ns.classes = allClasses
+		ns.functions = allFunctions
+		ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
+		ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
+		
+		# Set data
+		data.mainNamespace = ns
+		data.defines = dict()
+		data.functionCount = comp.getFunctionCount()
 	
-	# Replicate functions
-	allFunctions = dict()
-	for funcName, funcList in comp.mainClass.functions.items():
-		newFuncs = [BaseFunctionWrapper(x.cppFile.getFilePath(), x.paramTypesByDefinition, x.node) for x in funcList]
-		allFunctions[funcName] = newFuncs
-	
-	# Replicate namespace
-	ns = BaseNamespace("", None)
-	ns.classes = allClasses
-	ns.functions = allFunctions
-	ns.externFunctions = duplicateDictKeys(comp.mainClass.externFunctions)
-	ns.externVariables = duplicateDictKeys(comp.mainClass.externVariables)
-	
-	# Set data
-	data.mainNamespace = ns
-	data.defines = dict()
-	data.functionCount = comp.getFunctionCount()
-	
-	# Send it
-	q.send(data)
+		# Send it
+		q.send(data)
+	except BaseException as e:
+		data.exceptionMsg = str(e)
+		q.send(data)
+		return
 	
 	while 1:
-		cmd = jobs.recv()
-		byteCode = cmd[0]
-		
-		# Exit
-		if byteCode == 0:
-			return
-		# getExprDataType
-		elif byteCode == 1:
-			node = cmd[1]
+		try:
+			cmd = jobs.recv()
+			byteCode = cmd[0]
 			
-			#scopesOfNode = cmd[2]
-			#restoreScopesOfNode(comp.mainFile, scopesOfNode)
-			
-			try:
-				dataType = comp.mainFile.getExprDataType(node)
-			except:
-				jobResults.send("")
-			else:
-				jobResults.send(dataType)
-		# restoreScopesOfNode
-		elif byteCode == 2:
-			scopesOfNode = cmd[1]
-			restoreScopesOfNode(comp.mainFile, scopesOfNode)
-		# getBubbleCode
-		elif byteCode == 3:
-			node = cmd[1]
-			try:
-				code = getBubbleCode(comp, node)
-			except BaseException as e:
-				code = ["Error while trying to request doc bubble code:\n%s" % str(e)]
-			jobResults.send(code)
+			# Exit
+			if byteCode == 0:
+				return
+			# getExprDataType
+			elif byteCode == 1:
+				node = cmd[1]
+				
+				#scopesOfNode = cmd[2]
+				#restoreScopesOfNode(comp.mainFile, scopesOfNode)
+				
+				try:
+					dataType = comp.mainFile.getExprDataType(node)
+				except:
+					jobResults.send("")
+				else:
+					jobResults.send(dataType)
+			# restoreScopesOfNode
+			elif byteCode == 2:
+				scopesOfNode = cmd[1]
+				restoreScopesOfNode(comp.mainFile, scopesOfNode)
+			# getBubbleCode
+			elif byteCode == 3:
+				node = cmd[1]
+				try:
+					code = getBubbleCode(comp, node)
+				except BaseException as e:
+					code = ["Error while trying to request doc bubble code:\n%s" % str(e)]
+				jobResults.send(code)
+		except:
+			continue
 
 def duplicateDictKeys(d):
 	n = dict()

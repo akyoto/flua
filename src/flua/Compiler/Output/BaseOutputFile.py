@@ -123,6 +123,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
+		self.listComprehensionBuildFuncs = []
 		self.tuples = dict()
 		self.tupleTypes = dict()
 		self.parallelForFuncs = list()
@@ -220,6 +221,9 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.useGC = True
 		
 		self.outputEnabled = not self.compiler.background
+		
+		# Ignores errors and tries to guess types
+		self.typeGuessingEnabled = False
 		
 		# Debugging
 		#self.lastParsedNode = list()
@@ -453,15 +457,6 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	def popClass(self):
 		self.currentClass = self.currentClass.parent
 	
-	def getExprDataType(self, node):
-		dataType = self.getExprDataTypeClean(node)
-		dataType = self.addMissingTemplateValues(dataType)
-		
-		# Replace typedefs
-		dataType = self.prepareTypeName(dataType)
-		
-		return dataType#self.currentClassImpl.translateTemplateName(dataType)
-	
 	def getCallDataType(self, node):
 		caller, callerType, funcName = self.getFunctionCallInfo(node)
 		params = getElementByTagName(node, "parameters")
@@ -513,6 +508,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			#	templateValue = templateValue.strip()
 			#	print(templateValue)
 		return typeName
+	
+	def getExprDataType(self, node):
+		dataType = self.getExprDataTypeClean(node)
+		dataType = self.addMissingTemplateValues(dataType)
+		
+		# Replace typedefs
+		dataType = self.prepareTypeName(dataType)
+		
+		return dataType#self.currentClassImpl.translateTemplateName(dataType)
 	
 	def getExprDataTypeClean(self, node):
 		if node.nodeType == Node.TEXT_NODE:
@@ -757,6 +761,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 #					return memberType
 			elif node.tagName == "parameters":
 				return "Tuple<%s>" % ', '.join([self.getExprDataType(x.firstChild) for x in node.childNodes])
+			# List comprehensions
+			elif node.tagName == "index" and node.firstChild.firstChild.nodeValue == "_flua_compr":
+				listFor = node.childNodes[1].childNodes[0]
+				
+				self.pushScope()
+				collection, collExprType, iterator, iteratorType, iterExpr, value, newValueType, newCollectionType = self.getListComprehensionInfo(listFor)
+				self.popScope()
+				
+				return newCollectionType
 			# Inline vectors
 			elif node.tagName == "index" and node.firstChild.firstChild.nodeValue == "_flua_seq":
 				params = node.childNodes[1].firstChild
@@ -829,8 +842,25 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 						#else:
 						#	return self.getExprDataType(op2)
 				
-				op1Type = self.getExprDataType(op1)
-				op2Type = self.getExprDataType(op2)
+				if self.typeGuessingEnabled:
+					try:
+						op1Type = self.getExprDataType(op1)
+					except:
+						op1Type = ""
+						
+					try:
+						op2Type = self.getExprDataType(op2)
+					except:
+						op2Type = ""
+					
+					if not op2Type:
+						return op1Type
+						
+					if not op1Type:
+						return op2Type
+				else:
+					op1Type = self.getExprDataType(op1)
+					op2Type = self.getExprDataType(op2)
 				
 				#if op1Type == "UTF8String" and op2Type in nonPointerClasses:
 				#	return "UTF8String"
@@ -1533,6 +1563,8 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			
 			if caller == "_flua_seq":
 				return self.buildNewSequence(node.childNodes[1].childNodes[0])
+			elif caller == "_flua_compr":
+				return self.buildNewListComprehension(node.childNodes[1].childNodes[0])
 			
 			callerType = self.getExprDataType(node.childNodes[0].childNodes[0])
 			index = self.parseExpr(node.childNodes[1].childNodes[0])
