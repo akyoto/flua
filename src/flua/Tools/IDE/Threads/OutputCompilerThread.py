@@ -43,8 +43,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		if os.name == "nt":
 			factor = 200
 		else:
-			factor = 2
-			
+			factor = 1
+		
 		sys.setrecursionlimit(sys.getrecursionlimit() * factor)
 		
 		# Call bpIDE.backgroundCompilerFinished when finished
