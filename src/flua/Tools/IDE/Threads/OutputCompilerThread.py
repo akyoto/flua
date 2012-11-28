@@ -28,6 +28,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		self.lastException = None
 		self.codeEdit = None
 		self.numTasksHandled = 0
+		
+		self.currentProcess = None
 		self.currentJobQueue = None
 		self.currentJobResultsQueue = None
 		
@@ -86,6 +88,7 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 				
 				self.currentJobQueue = jobs
 				self.currentJobResultsQueue = jobResults
+				self.currentProcess = p
 				#p.join()
 				
 				self.lastException = None
@@ -182,8 +185,10 @@ def compileXML(q, ppFile, jobs, jobResults):
 		# getBubbleCode
 		elif byteCode == 3:
 			node = cmd[1]
-			code = ["Result!\nReally."]
-			code = getBubbleCode(comp, node)
+			try:
+				code = getBubbleCode(comp, node)
+			except BaseException as e:
+				code = ["Error while trying to request doc bubble code:\n%s" % str(e)]
 			jobResults.put(code)
 
 def duplicateDictKeys(d):
@@ -200,9 +205,10 @@ def bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile):
 	funcName = getCalledFuncName(call)
 	
 	# TODO: Don't depend on self.funcsDict, replace with outputCompiler data
+	funcsDict = currentOutFile.compiler.mainClass.functions
 	if funcName in funcsDict:
-		for func in funcsDict[funcName].values():
-			funcDefinitionNode = func.instruction
+		for func in funcsDict[funcName]: #.values():
+			funcDefinitionNode = func.node
 			
 			# Don't show the same function twice
 			if funcDefinitionNode in shownFuncs:

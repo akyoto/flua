@@ -584,30 +584,23 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		#	self.initLineNumberArea()
 	
 	def getExprDataType(self, node):
-		thread = self.bpIDE.outputCompilerThread
-		jobs = thread.currentJobQueue
-		results = thread.currentJobResultsQueue
-		
-		if jobs:
-			jobs.put((1, node, self.bpIDE.currentNode))
-			dataType = results.get()
-		else:
-			dataType = ""
-		
-		return dataType
+		return self.sendOutputCompilerMsg((1, node, self.bpIDE.currentNode), "")
 	
 	def requestBubbleCode(self, node):
+		return self.sendOutputCompilerMsg((3, node), [])
+	
+	def sendOutputCompilerMsg(self, msg, defaultVal = None):
 		thread = self.bpIDE.outputCompilerThread
 		jobs = thread.currentJobQueue
 		results = thread.currentJobResultsQueue
 		
-		if jobs:
-			jobs.put((3, node))
-			code = results.get()
+		if jobs and thread.currentProcess.is_alive():
+			jobs.put(msg)
+			ret = results.get()
 		else:
-			code = ["Nothing!\nReally."]
+			ret = defaultVal
 		
-		return code
+		return ret
 	
 	def reload(self):
 		self.save()
