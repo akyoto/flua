@@ -161,6 +161,15 @@ bpOperatorLevels = [
 		Operator("=", "assign", Operator.BINARY),
 	],
 	
+	# List comprehension
+	[
+		Operator("<|", "list-in", Operator.BINARY),
+	],
+	
+	[
+		Operator("|>", "list-for", Operator.BINARY),
+	],
+	
 	# Comma
 	[
 		Operator(",", "separate", Operator.BINARY),

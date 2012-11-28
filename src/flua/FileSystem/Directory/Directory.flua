@@ -262,24 +262,18 @@
 			<name>getCurrentDir</name>
 			<code>
 				<return>
-					<new>
-						<type>URL</type>
-						<parameters>
-							<parameter>
-								<call>
-									<function>
-										<access>
-											<value>flua</value>
-											<value>getCurrentDir</value>
-										</access>
-									</function>
-									<parameters/>
-								</call>
-							</parameter>
-						</parameters>
-					</new>
+					<call>
+						<function>
+							<access>
+								<value>flua</value>
+								<value>getCurrentDir</value>
+							</access>
+						</function>
+						<parameters/>
+					</call>
 				</return>
 			</code>
+			<meta/>
 		</function>
 		<comment>\SChange\Sthe\Scurrent\Sworking\Sdirectory\Sto\S#path</comment>
 		<function>

@@ -1,0 +1,63 @@
+import flua.Graphics
+import flua.Math.Geometry
+import flua.Utils.Time
+
+# Variables
+win = GraphicsWindow("Flua - Keyboard input", 1024)
+
+# Load
+in Directory("../")
+	vs = VertexShader("Shader/1-VS.glsl")
+	fs = FragmentShader("Shader/1-FS.glsl")
+	tex1 = Texture("Textures/1-Tiles.png")
+
+# Mix it!
+composed = Shader(vs, fs)
+mat = Material(composed)
+
+# Scene
+scene = Scene()
+cam = Camera(scene.root)
+
+# Our material should have a texture
+mat.texture = tex1
+
+# What do we want to map our material to...? Err, a cube will do!
+cube = SceneNode(scene.root)
+
+on cube
+	mesh = Primitive.createCube()
+	material = mat
+	position.z = 5
+
+# Main loop
+while win.open and not isKeyDown(KEY_ESCAPE)
+	in win
+		# Background
+		win.clear(0.65, 0.65, 0.65)
+		
+		# Rotate
+		if isKeyDown(KEY_LEFT)
+			cube.rotation.y -= 1
+		
+		if isKeyDown(KEY_RIGHT)
+			cube.rotation.y += 1
+		
+		if isKeyDown(KEY_UP)
+			cube.rotation.x -= 1
+		
+		if isKeyDown(KEY_DOWN)
+			cube.rotation.x += 1
+		
+		# Color for the material of the cube
+		on mat.color
+			red = abs(sin(getAppTime() * 0.0005 + 1))
+			green = abs(sin(getAppTime() * 0.0005 + 2))
+			blue = abs(sin(getAppTime() * 0.0005 + 3))
+			alpha = abs(sin(getAppTime() * 0.0005 + 4))
+		
+		# Activate
+		cam.activate()
+		
+		# Draw
+		scene.render()

@@ -4,7 +4,9 @@
 		<dependencies>
 			<import>flua.Core</import>
 		</dependencies>
-		<strings/>
+		<strings>
+			<string id="flua_string_0">\E</string>
+		</strings>
 	</header>
 	<code>
 		<comment>\STODO:\SImplement\Sthis\Sonce\SFunction\Spointers\Swork.</comment>
@@ -40,6 +42,40 @@
 			<name>bsearch</name>
 			<code>
 				<noop/>
+			</code>
+			<meta/>
+		</function>
+		<function>
+			<name>join</name>
+			<parameters>
+				<parameter>
+					<declare-type>
+						<value>vec</value>
+						<value>
+							<template-call>
+								<value>Vector</value>
+								<value>String</value>
+							</template-call>
+						</value>
+					</declare-type>
+				</parameter>
+			</parameters>
+			<code>
+				<assign>
+					<value>result</value>
+					<value>flua_string_0</value>
+				</assign>
+				<foreach>
+					<iterator>x</iterator>
+					<collection>vec</collection>
+					<code>
+						<assign-add>
+							<value>result</value>
+							<value>x</value>
+						</assign-add>
+					</code>
+				</foreach>
+				<return>result</return>
 			</code>
 			<meta/>
 		</function>
@@ -221,7 +257,6 @@
 					</if>
 				</if-block>
 			</code>
-			<meta/>
 		</function>
 	</code>
 </module>

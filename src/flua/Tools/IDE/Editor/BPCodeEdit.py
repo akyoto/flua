@@ -10,14 +10,20 @@ import collections
 # Auto Completion for class members
 class BPCClassMemberModel(QtGui.QStringListModel):
 	
-	def __init__(self, parent, classImpl, private = False):
+	def __init__(self, parent, codeEdit, dataType, private = False):
 		super().__init__([], parent)
 		
-		self.methods = classImpl.classObj.functions
-		self.members = classImpl.classObj.properties
-		self.publicMembers = classImpl.classObj.publicMembers
+		classObj = codeEdit.outputCompilerData.mainNamespace.classes[extractClassName(dataType)]
 		
-		self.methodList, self.memberList, self.iteratorList = classImpl.classObj.getAutoCompleteList(private)
+		self.methods = classObj.functions
+		self.members = classObj.properties
+		self.publicMembers = classObj.publicMembers
+		
+		#self.methodList, self.memberList, self.iteratorList = classObj.getAutoCompleteList(private)
+		if private:
+			self.methodList, self.memberList, self.iteratorList = classObj.privateACList
+		else:
+			self.methodList, self.memberList, self.iteratorList = classObj.publicACList
 		
 		#if private:
 		#	className = classImpl.classObj.name
@@ -31,7 +37,7 @@ class BPCClassMemberModel(QtGui.QStringListModel):
 		#self.methodList.sort()
 		#self.iteratorList.sort()
 		
-		resultingList = self.memberList + self.methodList + self.iteratorList
+		resultingList = self.methodList + self.memberList + self.iteratorList
 		resultingList.sort()
 		self.setStringList(resultingList)
 		
@@ -123,13 +129,13 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 	#	
 	#	self.updateStringList()
 		
-	def retrieveData(self, outComp):
+	def retrieveData(self, outCompData):
 		self.startBenchmark("Updated AutoComplete list")
 		
-		self.functions = outComp.mainClass.functions
-		self.classes = outComp.mainClass.classes
-		self.externFuncs = outComp.mainClass.externFunctions
-		self.externVars = outComp.mainClass.externVariables
+		self.functions = outCompData.mainNamespace.functions
+		self.classes = outCompData.mainNamespace.classes
+		self.externFuncs = outCompData.mainNamespace.externFunctions
+		self.externVars = outCompData.mainNamespace.externVariables
 		
 		modified = 0
 		
@@ -195,7 +201,7 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 		if role == QtCore.Qt.DecorationRole:
 			text = super().data(index, QtCore.Qt.DisplayRole)
 			
-			# TODO: Optimize for 'in' dict search instead of list search
+			# TODO: Optimize for dict search instead of list search
 			if text in self.functions:
 				return self.functionIcon
 			elif text in self.externFuncs:
@@ -216,7 +222,6 @@ class BPCAutoCompleterModel(QtGui.QStringListModel, Benchmarkable):
 			elif text in self.internDataTypesList:
 				return self.internDataTypeIcon
 		
-		# TODO: Auto completion for shortcuts
 		if role == QtCore.Qt.DisplayRole:
 			shortCut = super().data(index, role)
 			if shortCut in self.shortCuts:
@@ -237,6 +242,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	def __init__(self, parent = None):
 		Benchmarkable.__init__(self)
 		
+		self.parent = parent
 		self.bpcModel = BPCAutoCompleterModel()
 		QtGui.QCompleter.__init__(self, self.bpcModel, parent)
 		self.setModelSorting(QtGui.QCompleter.CaseSensitivelySortedModel)
@@ -252,13 +258,13 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	def createClassMemberModel(self, dataType, private = False):
 		self.startBenchmark("Create class member model for „%s“" % dataType)
 		
-		try:
-			classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
-		except BaseException as e:
-			print(str(e))
-			return False
+		#try:
+		#	classImpl = self.codeEdit.outFile.getClassImplementationByTypeName(dataType)
+		#except BaseException as e:
+		#	print(str(e))
+		#	return False
 		
-		classMemberModel = BPCClassMemberModel(self, classImpl, private)
+		classMemberModel = BPCClassMemberModel(self, self.codeEdit, dataType, private)
 		self.endBenchmark()
 		
 		self.startBenchmark("Setting new model")
@@ -281,7 +287,11 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 	def activateMemberList(self, cursorRelPos = -1):
 		# DON'T USE "or self.model() != self.bpcModel" because it will make types
 		# stay here and they won't change.
-		if not self.codeEdit.outFile:
+		
+		#if not self.codeEdit.outFile:
+		#	return False
+		
+		if not self.codeEdit.outputCompilerData:
 			return False
 		
 		bpIDE = self.codeEdit.bpIDE
@@ -330,7 +340,7 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			else:
 				return False
 		
-		if self.codeEdit.bpcFile and self.codeEdit.outFile:
+		if self.codeEdit.bpcFile: #and self.codeEdit.outFile:
 			try:
 				bpcFile = self.codeEdit.bpcFile
 				prepdLine = bpcFile.prepareLine(obj)
@@ -342,8 +352,8 @@ class BPCAutoCompleter(QtGui.QCompleter, Benchmarkable):
 			#print("Translated expression to XML:\n%s\nNow trying to determine its data type." % (node.toprettyxml()))
 			
 			try:
-				bpIDE.restoreScopesOfNode(bpIDE.currentNode)
-				dataType = self.codeEdit.outFile.getExprDataType(node)
+				dataType = self.codeEdit.getExprDataType(node)
+				#dataType = self.codeEdit.outFile.getExprDataType(node)
 			except CompilerException as e:
 				print(str(e))
 				return False
@@ -410,6 +420,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.environment = None
 		self.docNavigator = None
 		self.highlighter = None
+		self.outputCompilerData = BPOutputCompilerThreadData()
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
 		self.setFont(self.bpIDE.config.monospaceFont)
@@ -572,6 +583,28 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Line numbers
 		#if self.bubble:
 		#	self.initLineNumberArea()
+	
+	def getExprDataType(self, node):
+		return self.sendOutputCompilerMsg((1, node), "")
+	
+	def requestBubbleCode(self, node):
+		return self.sendOutputCompilerMsg((3, node), [])
+	
+	def sendOutputCompilerMsg(self, msg, defaultVal = None):
+		thread = self.bpIDE.outputCompilerThread
+		jobs = thread.currentJobQueue
+		results = thread.currentJobResultsQueue
+		
+		if jobs and thread.currentProcess.is_alive():
+			try:
+				jobs.send(msg)
+				ret = results.recv()
+			except InterruptedError:
+				ret = defaultVal
+		else:
+			ret = defaultVal
+		
+		return ret
 	
 	def reload(self):
 		self.save()
@@ -1155,6 +1188,11 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 				):
 				self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 				popup.hide()
+				
+				# When using backspace, only reset the member list if we're next to a dot: circle.center.[*]
+				if self.completer.completionPrefix() == "":
+					self.completer.deactivateMemberList()
+				
 				return
 			
 			# Modifier pressed?
@@ -1707,8 +1745,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Only invalidate the data if this code edit is not a code bubble
 		if (self.bubble) and (charsAdded or charsRemoved):
 			#print("%d chars added / %d chars removed!" % (charsAdded, charsRemoved))
-			self.backgroundCompilerOutstandingTasks += 1
 			self.ppOutstandingTasks += 1
+			self.backgroundCompilerOutstandingTasks += 1
 		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()

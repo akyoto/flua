@@ -175,11 +175,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
 		
 		# Show maximized now
-		if os.name == "nt":
-			self.showMaximized()
+		#if os.name == "nt":
+		#	self.showMaximized()
 			
 		# Restore docks
 		self.restoreDockVisibility()
+		
+		# Show
+		self.showMaximized()
 		
 	#def eventFilter(self, obj, event):
 	#	
@@ -304,15 +307,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			return
 		
 		if self.codeEdit.ppOutstandingTasks > 0:
-			if 0:#(
-				#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
-				#	or
-				#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
-				#):
-				pass
-			else:
-				#if self.loadingFinished:
-				return
+			return
+			
+			#if 0:#(
+			#	#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
+			#	#	or
+			#	#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
+			#	#):
+			#	pass
+			#else:
+			#	#if self.loadingFinished:
+			#	return
 		
 		# Create output compiler
 		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
@@ -344,43 +349,45 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 					#msgView.clear()
 		
 		# The output compiler
-		comp = self.outputCompilerThread.outputCompiler
 		ce = self.outputCompilerThread.codeEdit
+		result = ce.outputCompilerData
 		
 		if ce:
-			# Set environment namespace to the main namespace of the compiler
-			ce.environment.mainNamespace = comp.mainClass
-			ce.environment.defines = comp.defines
-			
-			# This function also counts the class methods:
-			newFuncCount = comp.getFunctionCount()
-			
-			# Contrary to this one:
-			#newFuncCount = len(self.environment.mainNamespace.functions)
-			
-			# If the number of functions changed, rehighlight
-			ce.updateFunctionCount(newFuncCount)
-			
-			self.lastFunctionCount = newFuncCount
-			
-			# Set code edit outFile to the main file
-			ce.outFile = comp.getMainFile()
-			
-			# Restore the scopes if possible
-			self.restoreScopesOfNode(self.currentNode)
-			
-			# Update auto complete
-			if ce.completer:
-				ce.completer.bpcModel.retrieveData(self.outputCompilerThread.outputCompiler)
+			if result:
+				# Set environment namespace to the main namespace of the compiler
+				ce.environment.mainNamespace = result.mainNamespace
+				ce.environment.defines = result.defines
+				
+				# This function also counts the class methods:
+				newFuncCount = result.functionCount
+				
+				# Contrary to this one:
+				#newFuncCount = len(self.environment.mainNamespace.functions)
+				
+				# If the number of functions changed, rehighlight
+				ce.updateFunctionCount(newFuncCount)
+				
+				self.lastFunctionCount = newFuncCount
+				
+				# Set code edit outFile to the main file
+				#ce.outFile = result.mainFile
+				
+				# Restore the scopes if possible
+				if self.outputCompilerThread.currentJobQueue:
+					self.outputCompilerThread.currentJobQueue.send((2, self.currentNode))
+				
+				# Update auto complete
+				if ce.completer:
+					ce.completer.bpcModel.retrieveData(ce.outputCompilerData)
+					
+			# Messages
+			ce.msgView.updateViewOutputCompiler()
 			
 			# Adjust number of outstanding tasks
 			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
 			
 			if ce.backgroundCompilerOutstandingTasks < 0:
 				ce.backgroundCompilerOutstandingTasks = 0
-			
-			# Messages
-			ce.msgView.updateViewOutputCompiler()
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		#if self.outputCompiler:
@@ -408,90 +415,18 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		else:
 			self.outputCompiler = tmp
 	
-	# Old, old code...deprecated stuff, you know?
-	# But we need this in case we lack type data.
-	def bubbleAllFunctionVariants(self, code, call, shownFuncs, currentOutFile):
-		realFuncDefNode = None
-		
-		funcName = getCalledFuncName(call)
-		
-		# TODO: Don't depend on self.funcsDict, replace with outputCompiler data
-		if funcName in self.funcsDict:
-			for func in self.funcsDict[funcName].values():
-				funcDefinitionNode = func.instruction
-				
-				# Don't show the same function twice
-				if funcDefinitionNode in shownFuncs:
-					continue
-				
-				if realFuncDefNode and realFuncDefNode != funcDefinitionNode:
-					continue
-				
-				shownFuncs[funcDefinitionNode] = True
-				
-				# Documentation
-				doc = getNodeComments(funcDefinitionNode)
-				
-				# Code
-				bpcCode = nodeToBPC(funcDefinitionNode)
-				#bpcCode = self.truncateBubbleCode(bpcCode)
-				bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
-				code.append(bpcCode)
-				
-				# Add the documentation afterwards
-				if doc:
-					code.append(doc)
-	
-	def bubbleAddReturnType(self, bpcCode, call, currentOutFile):
-		# Do we have more information about that call?
-		if currentOutFile:
-			dataType = None
-			try:
-				# Return value
-				dataType = currentOutFile.getCallDataType(call)
-				if dataType and dataType != "void":
-					pos = bpcCode.find("\n")
-					bpcCode = (bpcCode[:pos] + "  → " + dataType + "") + bpcCode[pos:]
-					return bpcCode
-			except:
-				return bpcCode
-			
-		return bpcCode
-	
 	#def bubbleAddReturnTypeByDefinition(self, bpcCode, funcDefNode, classImpl):
 		#try:
 		#	classImpl.getFuncImplementation()
 	
-	def truncateBubbleCode(self, bpcCode):
-		lines = bpcCode.split("\n")
-		codeLen = len(lines)
-		
-		if codeLen >= self.maxBubbleCodeLength:
-			return '\n'.join(lines[:self.maxBubbleCodeLength]) + "\n\n[...]\n"
-		
-		return bpcCode
-	
-	def bubbleFunction(self, code, realFuncDefNode, call, currentOutFile, shownFuncs):
-		# Don't show the same function twice
-		if realFuncDefNode in shownFuncs:
-			return
-		
-		shownFuncs[realFuncDefNode] = True
-		
-		# Documentation
-		doc = getNodeComments(realFuncDefNode)
-		
-		# Code
-		bpcCode = nodeToBPC(realFuncDefNode)
-		#bpcCode = self.truncateBubbleCode(bpcCode)
-		bpcCode = self.bubbleAddReturnType(bpcCode, call, currentOutFile)
-		
-		# Add it
-		code.append(bpcCode)
-		
-		# Add the documentation afterwards
-		if doc:
-			code.append(doc)
+	#def truncateBubbleCode(self, bpcCode):
+	#	lines = bpcCode.split("\n")
+	#	codeLen = len(lines)
+	#	
+	#	if codeLen >= self.maxBubbleCodeLength:
+	#		return '\n'.join(lines[:self.maxBubbleCodeLength]) + "\n\n[...]\n"
+	#	
+	#	return bpcCode
 	
 	def updateCodeBubble(self, node):
 		if not self.config.enableDocBubbles:
@@ -499,83 +434,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		if self.codeEdit and self.codeEdit.bubble and (not self.running) and self.consoleDock.isHidden() and (self.codeEdit.hasFocus()):
 			if node:
-				#self.startBenchmark("Find calls in reversed order")
-				calls = findCallsReversed(node)
-				#self.endBenchmark()
-				
-				# TODO: Optimize as a dict lookup
-				# If we have output compiler information
-				currentOutFile = None
-				if self.outputCompiler:
-					self.lastShownOutputCompiler = self.outputCompiler
-					cePath = self.getFilePath()
-					for outFile in self.outputCompiler.outFiles.values():
-						if outFile.file == cePath:
-							currentOutFile = outFile
-							break
-				
-				# Let's see if we can get some information about those calls
-				code = []
-				shownFuncs = dict()
-				for call in calls:
-					callerType = ""
-					funcName = ""
-					
-					if currentOutFile:
-						# Exceptions are your friends! ... or not?
-						try:
-							# Params
-							if call.tagName == "call":
-								#print(call.toxml())
-								caller, callerType, funcName = currentOutFile.getFunctionCallInfo(call)
-							elif call.tagName == "new":
-								#caller = ""
-								callerType = currentOutFile.getExprDataType(call)
-								funcName = "init"
-								
-							params = getElementByTagName(call, "parameters")
-							paramsString, paramTypes = currentOutFile.handleParameters(params)
-							
-							classImpl = currentOutFile.getClassImplementationByTypeName(callerType)
-							
-							try:
-								realFunc = classImpl.getMatchingFunction(funcName, paramTypes)
-								realFuncDefNode = realFunc.node
-								
-								if callerType:
-									code.append("# %s" % (callerType))
-								
-								self.bubbleFunction(code, realFuncDefNode, call, currentOutFile, shownFuncs)
-							except:
-								try:
-									candidates = classImpl.getCandidates(funcName)
-									
-									if callerType:
-										code.append("# %s" % (callerType))
-									
-									for func in candidates:
-										self.bubbleFunction(code, func.node, call, currentOutFile, shownFuncs)
-									
-									continue
-								except:
-									continue
-						
-						except:
-							# Only show all function variants if code bubble is empty
-							if (not code) and call.tagName == "call":
-								if callerType:
-									code.append("# %s" % (callerType))
-								
-								self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
-							continue
-					else:
-						# Only show all function variants if code bubble is empty
-						if (not code) and call.tagName == "call":
-							if callerType:
-								code.append("# %s" % (callerType))
-							
-							self.bubbleAllFunctionVariants(code, call, shownFuncs, currentOutFile)
-						continue
+				code = self.codeEdit.requestBubbleCode(node)
 				
 				if code:
 					codeText = "\n".join(code)
@@ -718,52 +577,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			# Clear all highlights
 			self.codeEdit.clearHighlights()
 			self.codeEdit.highlightLine(lineIndex, self.config.theme["current-line"])
-		
-	def restoreScopesOfNode(self, selectedNode):
-		if not selectedNode:
-			selectedNode = self.lastShownNode
-		
-		if not self.codeEdit:
-			return
-		
-		if self.codeEdit.outFile and selectedNode:
-			#print("Before")
-			#self.codeEdit.outFile.debugScopes()
-			
-			savedNode = selectedNode
-			
-			if savedNode.nodeType != Node.TEXT_NODE and hasattr(savedNode, "lineNumber"):
-				savedNodeId = savedNode.lineNumber
-			else:
-				savedNodeId = -1
-			
-			while (savedNode.nodeType == Node.TEXT_NODE or savedNode.tagName != "module") and ((not savedNodeId) or (not savedNodeId in self.codeEdit.outFile.nodeIdToScope)):
-				#print("Trying: " + savedNode.getAttribute("id"))
-				savedNode = savedNode.parentNode
-				
-				try:
-					savedNodeId = savedNode.lineNumber
-				except:
-					savedNodeId = None
-			
-			if savedNode and not savedNode.tagName == "module":
-				try:
-					self.codeEdit.outFile.restoreScopesForNodeId(savedNodeId)
-					#print("YAY! ID: %s" % savedNodeId)
-					return
-				except:
-					print("Could not find scope information for node %s" % tagName(savedNode))
-				else:
-					self.previousScopes = self.codeEdit.outFile.scopes
-			else:
-				pass#print("Scopes:")
-				#self.codeEdit.outFile.debugNodeToScope()
-				#self.codeEdit.outFile.debugScopes()
-		
-		# Okay we have a problem, but maybe we have old scope data?
-		if self.previousScopes and self.codeEdit.outFile:
-			print("USING OLD SCOPE DATA")
-			self.codeEdit.outFile.restoreScopes(self.previousScopes)
 		
 	def getModulePath(self, importedModule):
 		return getModulePath(importedModule, extractDir(self.getFilePath()), self.getProjectPath())
