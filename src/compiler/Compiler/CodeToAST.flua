@@ -14,7 +14,7 @@
 		</strings>
 	</header>
 	<code>
-		<comment>\SConverts\San\Sreadable\Scode\Sto\San\SAbstract\SSyntax\STree</comment>
+		<comment>\SConverts\Sa\Sreadable\Scode\Sto\San\SAbstract\SSyntax\STree</comment>
 		<function>
 			<name>codeToAST</name>
 			<parameters>

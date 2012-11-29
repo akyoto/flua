@@ -117,22 +117,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer.setCompletionMode(QtGui.QCompleter.PopupCompletion)
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		
-		if os.name != "nt":
-			self.show()
-		
 		# The beginning of the end.
 		self.initAll()
 		
-		# Timed
-		self.startTime = time.time()
+		# Show
+		self.show()
 		
-		bindFunctionToTimer(self, self.showDependencies, 150)
-		#self.bindFunctionToTimer(self.onProcessEvents, 5)
-		
+		# Docks
 		self.initDocks()
 		
-		# We love hard coding! ... or maybe not.
-		#self.moduleView.highlightModule("playground.My playground")
+		# Apply settings
+		self.setCentralWidget(self.workspacesContainer)
 		
 		# Set default environment
 		if self.config.defaultEnvironmentName in self.environmentByName:
@@ -152,17 +147,16 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		if self.currentWorkspace.count() == 0:
 			self.newBeginnerHelpFile()
 		
-		# Loading finished
-		self.onLoadingFinished()
-		
 		# Restore docks
 		self.restoreDockVisibility()
 		
-		# Show
-		self.show()
+		# Timed
+		self.initTimers()
 		
-		# Apply settings
-		self.setCentralWidget(self.workspacesContainer)
+		# Loading finished
+		self.onLoadingFinished()
+		
+		#self.bindFunctionToTimer(self.onProcessEvents, 5)
 		
 	#def eventFilter(self, obj, event):
 	#	
@@ -255,17 +249,17 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 		return fileCount
 		
-	def onProgressUpdate(self):
-		if self.lastFunctionCount == -1: #and self.codeEdit and self.codeEdit.postProcessorThread:
-			val = time.time() - self.startTime
-			self.progressBar.setValue(min(100, val * 40))
-			#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
-			
-			#self.progressBar.show()
-			#self.searchEdit.hide()
-		else:
-			self.firstStartUpdateTimer.stop()
-			self.onLoadingFinished()
+	#def onProgressUpdate(self):
+	#	if self.lastFunctionCount == -1: #and self.codeEdit and self.codeEdit.postProcessorThread:
+	#		val = time.time() - self.startTime
+	#		self.progressBar.setValue(min(100, val * 40))
+	#		#self.progressBar.setFormat("%p% " + stripAll(self.processor.lastFilePath))
+	#		
+	#		#self.progressBar.show()
+	#		#self.searchEdit.hide()
+	#	else:
+	#		self.firstStartUpdateTimer.stop()
+	#		self.onLoadingFinished()
 		
 	def onLoadingFinished(self):
 		self.progressBar.hide()
@@ -703,7 +697,12 @@ def main(multiThreading = True):
 	#gc.set_#debug(gc.DEBUG_LEAK)
 	#gc.enable()
 	app = QtGui.QApplication(sys.argv)
-	editor = BPMainWindow(multiThreading)
+	
+	try:
+		editor = BPMainWindow(multiThreading)
+	except:
+		printTraceback()
+	
 	exitCode = app.exec_()
 	
 	# In order to not have a segfault

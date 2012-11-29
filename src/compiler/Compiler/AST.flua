@@ -6,10 +6,11 @@
 			<import>flua.Collection</import>
 		</dependencies>
 		<strings>
-			<string id="flua_string_0">&lt;</string>
-			<string id="flua_string_1">&gt;</string>
-			<string id="flua_string_2">&lt;/</string>
-			<string id="flua_string_3">&gt;</string>
+			<string id="flua_string_0">\E</string>
+			<string id="flua_string_1">&lt;</string>
+			<string id="flua_string_2">&gt;</string>
+			<string id="flua_string_3">&lt;/</string>
+			<string id="flua_string_4">&gt;</string>
 		</strings>
 	</header>
 	<code>
@@ -59,6 +60,17 @@
 									</declare-type>
 								</value>
 								<value>null</value>
+							</assign>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<access>
+										<value>my</value>
+										<value>value</value>
+									</access>
+								</value>
+								<value>flua_string_0</value>
 							</assign>
 						</parameter>
 					</parameters>
@@ -121,40 +133,6 @@
 				<function>
 					<name>toXML</name>
 					<code>
-						<assign>
-							<value>vec</value>
-							<value>
-								<index>
-									<value>_flua_compr</value>
-									<value>
-										<list-for>
-											<value>
-												<call>
-													<function>
-														<access>
-															<value>x</value>
-															<value>toXML</value>
-														</access>
-													</function>
-													<parameters/>
-												</call>
-											</value>
-											<value>
-												<list-in>
-													<value>x</value>
-													<value>
-														<access>
-															<value>my</value>
-															<value>childNodes</value>
-														</access>
-													</value>
-												</list-in>
-											</value>
-										</list-for>
-									</value>
-								</index>
-							</value>
-						</assign>
 						<return>
 							<add>
 								<value>
@@ -167,7 +145,7 @@
 															<add>
 																<value>
 																	<add>
-																		<value>flua_string_0</value>
+																		<value>flua_string_1</value>
 																		<value>
 																			<access>
 																				<value>my</value>
@@ -176,20 +154,50 @@
 																		</value>
 																	</add>
 																</value>
-																<value>flua_string_1</value>
+																<value>flua_string_2</value>
 															</add>
 														</value>
 														<value>
 															<call>
 																<function>join</function>
 																<parameters>
-																	<parameter>vec</parameter>
+																	<parameter>
+																		<index>
+																			<value>_flua_compr</value>
+																			<value>
+																				<list-for>
+																					<value>
+																						<call>
+																							<function>
+																								<access>
+																									<value>x</value>
+																									<value>toXML</value>
+																								</access>
+																							</function>
+																							<parameters/>
+																						</call>
+																					</value>
+																					<value>
+																						<list-in>
+																							<value>x</value>
+																							<value>
+																								<access>
+																									<value>my</value>
+																									<value>childNodes</value>
+																								</access>
+																							</value>
+																						</list-in>
+																					</value>
+																				</list-for>
+																			</value>
+																		</index>
+																	</parameter>
 																</parameters>
 															</call>
 														</value>
 													</add>
 												</value>
-												<value>flua_string_2</value>
+												<value>flua_string_3</value>
 											</add>
 										</value>
 										<value>
@@ -200,10 +208,11 @@
 										</value>
 									</add>
 								</value>
-								<value>flua_string_3</value>
+								<value>flua_string_4</value>
 							</add>
 						</return>
 					</code>
+					<meta/>
 				</function>
 			</code>
 			<meta/>

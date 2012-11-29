@@ -80,5 +80,5 @@ if __name__ == "__main__":
 		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")
 	elif FLUA_STUDIO_MODE == MODE_PROFILE:
 		import cProfile
-		cProfile.run("main(multiThreading = False)", "/home/eduard/Projects/flua.prof")
+		cProfile.run("main(multiThreading = False)", "/home/eduard/flua.prof")
 		os.system("pyprof2calltree -i /home/eduard/Projects/flua.prof -k")

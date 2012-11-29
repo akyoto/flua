@@ -203,6 +203,9 @@ class Startup(Ui_MainWindow):
 		for iconName in self.dockIcons.keys():
 			self.dockIcons[iconName] = QtGui.QIcon("images/icons/docks/%s.png" % normalizeName(iconName).lower())
 		
+	def initTimers(self):
+		bindFunctionToTimer(self, self.showDependencies, 150)
+		
 	def initDocks(self):
 		self.setDockOptions(QtGui.QMainWindow.AnimatedDocks)# | QtGui.QMainWindow.AllowNestedDocks)
 		
@@ -274,6 +277,7 @@ class Startup(Ui_MainWindow):
 		self.scribbleDock.hide()
 		self.fileViewDock.hide()
 		self.dependenciesViewDock.hide()
+		#self.moduleViewDock.hide()
 		#self.chatViewDock.hide()
 		
 		#self.msgViewDock.hide()
