@@ -150,11 +150,10 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Restore docks
 		self.restoreDockVisibility()
 		
-		# Timed
+		# We're done
 		self.initTimers()
-		
-		# Loading finished
 		self.onLoadingFinished()
+		self.showMaximized()
 		
 		#self.bindFunctionToTimer(self.onProcessEvents, 5)
 		

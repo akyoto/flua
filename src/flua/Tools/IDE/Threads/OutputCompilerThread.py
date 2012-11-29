@@ -133,9 +133,10 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 					#p.join()
 				
 				# No exceptions
-				data.exceptionMsg = ""
-				data.exceptionFilePath = ""
-				data.exceptionLineNumber = -1
+				if os.name == "nt":
+					data.exceptionMsg = ""
+					data.exceptionFilePath = ""
+					data.exceptionLineNumber = -1
 				
 				self.lastException = None
 		except OutputCompilerException as e:

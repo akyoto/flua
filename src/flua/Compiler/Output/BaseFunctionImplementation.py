@@ -85,12 +85,23 @@ class BaseFunctionImplementation:
 			# Recursive function calls before the return value comes
 			codeNode = getElementByTagName(self.func.node, "code")
 			returnNode = getElementByTagName(codeNode, "return")
+			
 			if returnNode:
 				cppFile = self.func.cppFile
+				
+				# Prevent endless recursion
+				key = self.getName()
+				
+				if key in cppFile.recordedCalls:
+					raise CompilerException("Unknown return type in recursively used function: „%s“ (can't infer type)" % key)
+				
+				cppFile.recordedCalls[key] = True
 				
 				cppFile.typeGuessingEnabled += 1
 				dataType = cppFile.getExprDataType(returnNode.childNodes[0])
 				cppFile.typeGuessingEnabled -= 1
+				
+				cppFile.recordedCalls.pop(key)
 				
 				return dataType
 			else:

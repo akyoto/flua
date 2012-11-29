@@ -129,6 +129,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.parallelForFuncs = list()
 		self.onVariable = ""
 		self.visibleClasses = dict()#None
+		self.recordedCalls = dict()
 		
 		# TODO: Read from module meta data
 		# Speed / Correctness
@@ -603,11 +604,24 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			elif node.tagName == "call":
 				if self.inFunction:
 					# Recursive functions: Try to guess
-					if self.currentFunction and getElementByTagName(node, "function").childNodes[0].nodeValue == self.currentFunction.getName():
-						if self.currentFunctionImpl.returnTypes:
-							return self.currentFunctionImpl.getReturnType()
-						else:
-							raise CompilerException("Unknown data type for recursive call: " + self.currentFunction.getName())
+					if self.currentFunction:
+						calledFuncName = getFuncNameNode(node).nodeValue
+						#calledFuncName = getElementByTagName(node, "function").childNodes[0]
+						currentFuncName = self.currentFunction.getName()
+						
+						# Direct
+						if calledFuncName == currentFuncName:
+							if self.currentFunctionImpl.returnTypes:
+								return self.currentFunctionImpl.getReturnType()
+							else:
+								raise CompilerException("Unknown data type for recursive call: " + currentFuncName)
+				
+				# Indirectly recursive functions
+				#if calledFuncName in self.recordedCalls:
+				#	return calledFuncName
+				
+				#self.recordedCalls[calledFuncName] = True
+				#self.recordedCalls.pop(calledFuncName)
 				
 				return self.getCallDataType(node)
 			elif node.tagName == "assign":

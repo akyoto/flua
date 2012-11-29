@@ -13,7 +13,6 @@
 			<string id="flua_string_1">../Tests/Test.txt</string>
 			<string id="flua_string_2">Compilation</string>
 			<string id="flua_string_3">-c</string>
-			<string id="flua_string_4">Hello\SWorld</string>
 		</strings>
 	</header>
 	<code>
@@ -240,12 +239,6 @@
 										<parameters/>
 									</call>
 								</parameter>
-							</parameters>
-						</call>
-						<call>
-							<function>print</function>
-							<parameters>
-								<parameter>flua_string_4</parameter>
 							</parameters>
 						</call>
 					</code>
