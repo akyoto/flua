@@ -184,7 +184,24 @@ void* flua_thread_func_%s(void *flua_arg_struct_void) {
 	%s
 	return NULL;
 }
-""" % (struct, funcName, funcName, initCode, funcName, funcName, funcName, ', '.join(paramNames), exitCode)
+""" % (
+			#
+			struct,
+			#
+			funcName,
+			#
+			funcName,
+			#
+			initCode,
+			#
+			funcName,
+			funcName,
+			#
+			funcName,
+			', '.join(paramNames),
+			#
+			exitCode
+		)
 		self.compiler.customThreads[funcName] = func
 		
 	def buildFloat(self, value):

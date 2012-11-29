@@ -777,30 +777,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		# Msg view
 		self.msgView.updateViewPostProcessor()
 		
-		# Update auto completer data
-		#self.funcsDict = self.processor.getFunctionsDict()
-		
-		# TODO: Replace this as we don't need it anymore
-		if 0:
-			self.classesDict = self.processor.getClassesDict()
-			
-			if (
-					self.completer
-					and
-					(
-						len(self.funcsDict) != self.completer.bpcModel.funcListLen
-						or len(self.classesDict) != self.completer.bpcModel.classesListLen
-					)
-				):
-				funcsList = list(self.funcsDict)
-				classesList = list(self.classesDict)
-				
-				classesList.sort()
-				funcsList.sort()
-				
-				self.shortCuts = buildShortcutDict(funcsList)
-				self.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
-		
 		# After we parsed the functions, set the text and highlight the file
 		if self.disableUpdatesFlag:
 			self.disableUpdatesFlag = False
@@ -808,18 +784,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 		if (not self.bpIDE.dependenciesViewDock.isHidden()):
 			self.bpIDE.dependencyView.updateView()
-		
-		# If the function name changed, rehighlight
-		lineIndex = self.getLineIndex()
-		selectedNode = self.getNodeByLineIndex(lineIndex)
-		if tagName(selectedNode) in functionNodeTagNames:
-			selectedOldNode = self.getOldNodeByLineIndex(lineIndex)
-			if tagName(selectedOldNode) in functionNodeTagNames:
-				nameNew = getElementByTagName(selectedNode, "name")
-				nameOld = getElementByTagName(selectedOldNode, "name")
-				
-				if nameOld and nameNew and nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
-					self.rehighlightFunctionUsage()
 		
 		# Run compiler
 		self.onCompileTimeout()
@@ -926,6 +890,18 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	def updateFunctionCount(self, newFuncCount):
 		if newFuncCount != self.lastFunctionCount: #and (self.lastFunctionCount != -1 or self.isTmpFile()):
 			self.rehighlightFunctionUsage()
+		else:
+			# If the function name changed, rehighlight
+			lineIndex = self.getLineIndex()
+			selectedNode = self.getNodeByLineIndex(lineIndex)
+			if tagName(selectedNode) in functionNodeTagNames:
+				selectedOldNode = self.getOldNodeByLineIndex(lineIndex)
+				if tagName(selectedOldNode) in functionNodeTagNames:
+					nameNew = getElementByTagName(selectedNode, "name")
+					nameOld = getElementByTagName(selectedOldNode, "name")
+					
+					if nameOld and nameNew and nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
+						self.rehighlightFunctionUsage()
 		
 		self.lastFunctionCount = newFuncCount
 	

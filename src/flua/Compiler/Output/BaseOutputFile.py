@@ -58,6 +58,7 @@ enableOperatorOverloading = {
 
 replacedNodeValues = {
 	"from" : "flua__from",
+	"to" : "flua__to",
 	"do" : "flua__do",
 	"char" : "flua__char",
 	"int" : "flua__int",
@@ -120,6 +121,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 		self.inDefine = 0
 		self.inExtends = 0
 		self.inParallel = 0
+		self.inParallelFor = 0
 		self.inShared = 0
 		self.namespaceStack = []
 		self.parallelBlockStack = []
@@ -1341,6 +1343,7 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 	
 	def varInLocalScope(self, name):
 		return (name in self.getCurrentScope().variables or not name in self.getTopLevelScope().variables)
+		#and (not name.startswith("_flua_"))
 	
 	def getTypeDeclInfo(self, exprNode):
 		op1 = exprNode.childNodes[0].childNodes[0]
@@ -1489,14 +1492,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 				#	print(self.varInLocalScope(nodeName))
 				#	print(isNot2ndAccessNode(node))
 				
-				# Iterator variables need to be prefixed
+				# In pfor code?
+				if self.inParallelFor:
+					if self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
+						var = self.getVariable(nodeName)
+						if var:
+							self.parallelForArguments[nodeName] = var
+				
+				# Iterator variables need to be prefixed to prevent name clashes
 				if self.inIterator and self.currentFunction and self.currentFunction.isIterator:
-					#if nodeName in self.currentClassImpl.members:
-						#print(nodeName)
-						#print(self.currentClassImpl.members)
-						
-					#	return "_" + nodeName
-					
 					if self.compiler.enableIterVarPrefixes and self.varInLocalScope(nodeName) and isNot2ndAccessNode(node):
 						#print("parseExpr: " + nodeName)
 						#print(self.currentClassImpl.members)
@@ -1958,8 +1962,15 @@ class BaseOutputFile(ScopeController, BaseOutputFileHandler, BaseOutputFileScan)
 			# Set scope
 			funcImpl.setScope(self.getCurrentScope())
 			
+			# pfor
+			oldInParallelFor = self.inParallelFor
+			self.inParallelFor = 0
+			
 			# Here we parse the actual code node
 			funcImplCode = self.parseChilds(codeNode, "\t" * self.currentTabLevel, self.lineLimiter)
+			
+			# Reset pfor
+			self.inParallelFor = oldInParallelFor
 			
 			# Variables used in deeper scopes need to be initialized at the beginning
 			varsAtStart = []

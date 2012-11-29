@@ -1097,7 +1097,15 @@ class BaseOutputFileHandler:
 			typeInit = self.adjustDataType(var.type) + " "
 		
 		self.parallelBlockStack.append([])
+		
+		if parallel:
+			self.inParallelFor += 1
+			self.parallelForArguments = dict()
+		
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
+		
+		if parallel:
+			self.inParallelFor -= 1
 		
 		self.saveScopesForNode(node)
 		self.popScope()
@@ -1118,9 +1126,22 @@ class BaseOutputFileHandler:
 			threadFuncID = "flua_pfor_func_%d" % self.compiler.customThreadsCount
 			saveInCollection = "flua_pfor_collection_%d" % self.compiler.customThreadsCount
 			
+			# Used variables
+			varNameList = []
+			varDefList = []
+			varTypesToPass = []
+			
+			for argVar in self.parallelForArguments.values():
+				adjustedType = self.adjustDataType(argVar.type)
+				varDefList.append("%s %s" % (adjustedType, argVar.name))
+				varNameList.append(argVar.name)
+				varTypesToPass.append(argVar.type)
+			
+			varsToPass = ", ".join(varDefList)
+			varNamesToPass = ", ".join(varNameList)
+			
 			# Create a thread function
-			paramTypes = [var.type]
-			self.buildThreadFunc(threadFuncID, paramTypes)
+			self.buildThreadFunc(threadFuncID, varTypesToPass)
 			
 			# Append it to the last list on the stack
 			self.parallelBlockStack[-1].append(threadID)
@@ -1128,8 +1149,8 @@ class BaseOutputFileHandler:
 			self.compiler.customThreadsCount += 1
 			tabs = "\t" * self.currentTabLevel
 			
-			fullCode, protoType = self.buildPForFunc(threadFuncID, code, self.adjustDataType(var.type) + " " + var.name)
-			self.parallelForFuncs.append(fullCode)
+			fullCode, protoType = self.buildPForFunc(threadFuncID, code, varsToPass)
+			self.compiler.mainFile.parallelForFuncs.append(fullCode)
 			self.compiler.prototypes.append(protoType + ";\n")
 			#return self.buildThreadCreation(threadID, threadFuncID, paramTypes, paramsString, tabs)
 			
@@ -1141,7 +1162,7 @@ class BaseOutputFileHandler:
 			
 			# Replace code
 			tabs = "\t" * self.currentTabLevel
-			code = self.buildThreadCreation(threadID, threadFuncID, paramTypes, var.name, tabs, saveInCollection)
+			code = self.buildThreadCreation(threadID, threadFuncID, varTypesToPass, varNamesToPass, tabs, saveInCollection)
 		else:
 			initCode = ""
 			exitCode = ""

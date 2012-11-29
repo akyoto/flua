@@ -178,9 +178,10 @@
 						</access>
 					</value>
 				</assign>
-				<assign>
-					<value>maxTaskIndex</value>
-					<value>
+				<parallel-for>
+					<iterator>i</iterator>
+					<from>0</from>
+					<to>
 						<subtract>
 							<value>
 								<access>
@@ -190,12 +191,7 @@
 							</value>
 							<value>1</value>
 						</subtract>
-					</value>
-				</assign>
-				<parallel-for>
-					<iterator>i</iterator>
-					<from>0</from>
-					<to>maxTaskIndex</to>
+					</to>
 					<code>
 						<assign>
 							<value>
