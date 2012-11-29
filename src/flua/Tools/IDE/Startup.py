@@ -707,7 +707,6 @@ class Startup(Ui_MainWindow):
 		#self.processorOutFile = None
 		
 		# Threads
-		self.outputCompilerThread = BPOutputCompilerThread(self)
 		self.runThread = BPRunThread(self)
 		
 	def initToolBar(self):

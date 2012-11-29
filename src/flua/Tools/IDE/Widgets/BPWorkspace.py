@@ -85,7 +85,7 @@ class BPWorkspace(QtGui.QTabWidget):
 			if ((not self.bpIDE.codeEdit.openingFile) and (not self.bpIDE.codeEdit.isTextFile)):
 				self.bpIDE.codeEdit.runUpdater()
 				self.bpIDE.backgroundCompileIsUpToDate = False
-				self.bpIDE.codeEdit.backgroundCompilerOutstandingTasks = 1
+				#self.bpIDE.codeEdit.backgroundCompilerOutstandingTasks = 1
 				#self.bpIDE.codeEdit
 			
 			if self.bpIDE.codeEdit.reloading:

@@ -9,6 +9,8 @@
 		</dependencies>
 		<strings>
 			<string id="flua_string_0">module</string>
+			<string id="flua_string_1">header</string>
+			<string id="flua_string_2">code</string>
 		</strings>
 	</header>
 	<code>
@@ -26,6 +28,30 @@
 							<type>ASTNode</type>
 							<parameters>
 								<parameter>flua_string_0</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign>
+					<value>header</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_1</parameter>
+								<parameter>root</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign>
+					<value>code</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_2</parameter>
+								<parameter>root</parameter>
 							</parameters>
 						</new>
 					</value>

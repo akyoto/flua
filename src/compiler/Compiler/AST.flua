@@ -13,7 +13,6 @@
 		</strings>
 	</header>
 	<code>
-		<comment>join([x.toXML()\Sfor\Sx\Sin\Smy.childNodes])</comment>
 		<comment>\SAbstract\SSyntax\STree</comment>
 		<class>
 			<name>ASTNode</name>
@@ -25,6 +24,17 @@
 							<value>String</value>
 						</declare-type>
 					</public-member>
+					<public-member>
+						<declare-type>
+							<value>childNodes</value>
+							<value>
+								<template-call>
+									<value>Vector</value>
+									<value>ASTNode</value>
+								</template-call>
+							</value>
+						</declare-type>
+					</public-member>
 				</public>
 				<function>
 					<name>init</name>
@@ -34,6 +44,22 @@
 								<value>my</value>
 								<value>name</value>
 							</access>
+						</parameter>
+						<parameter>
+							<assign>
+								<value>
+									<declare-type>
+										<value>
+											<access>
+												<value>my</value>
+												<value>parent</value>
+											</access>
+										</value>
+										<value>ASTNode</value>
+									</declare-type>
+								</value>
+								<value>null</value>
+							</assign>
 						</parameter>
 					</parameters>
 					<code>
@@ -56,6 +82,39 @@
 								</new>
 							</value>
 						</assign>
+						<if-block>
+							<if>
+								<condition>
+									<access>
+										<value>my</value>
+										<value>parent</value>
+									</access>
+								</condition>
+								<code>
+									<call>
+										<function>
+											<access>
+												<value>
+													<access>
+														<value>
+															<access>
+																<value>my</value>
+																<value>parent</value>
+															</access>
+														</value>
+														<value>childNodes</value>
+													</access>
+												</value>
+												<value>add</value>
+											</access>
+										</function>
+										<parameters>
+											<parameter>my</parameter>
+										</parameters>
+									</call>
+								</code>
+							</if>
+						</if-block>
 					</code>
 					<meta/>
 				</function>
@@ -145,7 +204,6 @@
 							</add>
 						</return>
 					</code>
-					<meta/>
 				</function>
 			</code>
 			<meta/>

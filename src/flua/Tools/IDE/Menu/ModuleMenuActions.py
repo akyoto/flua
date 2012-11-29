@@ -150,7 +150,7 @@ class ModuleMenuActions:
 			else:
 				print("Couldn't find executable file.\nBuild for this target is probably not implemented yet.")
 		except OutputCompilerException as e:
-			self.outputCompilerThread.lastException = e
+			self.codeEdit.outputCompilerThread.lastException = e
 			self.codeEdit.msgView.updateViewOutputCompiler()
 		except:
 			printTraceback()

@@ -26,6 +26,7 @@
 ####################################################################
 from flua.Compiler.Utils import *
 from flua.Compiler.Input import *
+import _thread
 
 ####################################################################
 # Global
@@ -396,8 +397,9 @@ class BPPostProcessor:
 		self.externFuncNameToMetaDict = dict()
 		self.classes = {}
 		self.mainFilePath = ""
-		#self.lastFilePath = ""
+		self.lastFilePath = ""
 		self.funcCount = 0
+		self.lock = _thread.allocate_lock()
 		
 	def getFunctionCount(self):
 		return self.funcCount
@@ -503,6 +505,9 @@ class BPPostProcessor:
 		try:
 			bpOut = BPPostProcessorFile(self, root, filePath)
 			
+			# Get a list of imported files
+			bpOut.updateImportedFiles()
+			
 			if filePath:
 				if not self.compiledFiles:
 					self.setMainFile(filePath)
@@ -511,9 +516,6 @@ class BPPostProcessor:
 				self.compiledFilesList.append(bpOut)
 				#print("\n".join(self.compiledFiles))
 				#print("----")
-			
-			# Get a list of imported files
-			bpOut.updateImportedFiles()
 			
 			# Process imported files
 			for importedFile in bpOut.getImportedFiles():
@@ -555,7 +557,7 @@ class BPPostProcessorFile:
 		self.funcCount += 1
 		
 	def updateImportedFiles(self):
-		self.importedFiles = []
+		importedFiles = []
 		header = getElementByTagName(self.root, "header")
 		dependencies = getElementByTagName(header, "dependencies")
 		for child in dependencies.childNodes:
@@ -563,10 +565,12 @@ class BPPostProcessorFile:
 				importedModule = child.childNodes[0].nodeValue.strip()
 				modulePath = getModulePath(importedModule, extractDir(self.filePath), self.processor.getProjectDir(), ".flua")
 				if modulePath:
-					self.importedFiles.append(modulePath)
+					importedFiles.append(modulePath)
 				else:
 					#print(importedModule, "|", self.filePath, "|", extractDir(self.filePath), "|", self.processor.getProjectDir())
 					raise CompilerException("Module not found: %s" % importedModule)
+		
+		self.importedFiles = importedFiles
 		
 	def getFilePath(self):
 		return self.filePath

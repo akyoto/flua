@@ -14,7 +14,8 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		self.bpcFile = None
 		self.lastException = None
 		self.executionTime = 0
-		self.finished.connect(self.codeEdit.compilerFinished)
+		self.version = 0
+		self.finished.connect(self.codeEdit.parserFinished)
 		self.finished.connect(self.bpIDE.updateModuleBrowser)
 		
 	def setDocument(self, doc):
@@ -35,8 +36,11 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		q.exec()
 		
 	def run(self):
+		self.version = self.codeEdit.version
 		codeText = self.qdoc.toPlainText()
+		
 		#yappi.start()
+		
 		if self.codeEdit.openingFile:
 			# No delay when opening files
 			self.codeEdit.openingFile = False
@@ -51,7 +55,7 @@ class BPCodeUpdater(QtCore.QThread, Benchmarkable):
 		try:
 			# TODO: Remove unsafe benchmark
 			filePath = self.codeEdit.getFilePath()
-			self.startBenchmark("[%s] Parser" % stripDir(filePath))
+			self.startBenchmark("[%s : %d] Parser" % (stripDir(filePath), self.version))
 			self.bpcFile = self.bpc.spawnFileCompiler(
 				filePath,
 				True,

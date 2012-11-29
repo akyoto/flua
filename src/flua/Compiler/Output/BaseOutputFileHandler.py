@@ -1099,6 +1099,7 @@ class BaseOutputFileHandler:
 		self.parallelBlockStack.append([])
 		code = self.parseChilds(getElementByTagName(node, "code"), "\t" * self.currentTabLevel, self.lineLimiter)
 		
+		self.saveScopesForNode(node)
 		self.popScope()
 		
 		varDefs = ""

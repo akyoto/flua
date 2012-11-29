@@ -26,14 +26,15 @@ class BPOutputCompilerThreadData:
 
 class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 	
-	def __init__(self, bpIDE):
-		super().__init__(bpIDE)
+	def __init__(self, codeEdit):
+		super().__init__(codeEdit)
 		Benchmarkable.__init__(self)
 		
-		self.bpIDE = bpIDE
+		self.codeEdit = codeEdit
+		self.bpIDE = codeEdit.bpIDE
 		self.lastException = None
-		self.codeEdit = None
 		self.numTasksHandled = 0
+		self.version = 0
 		
 		self.currentProcess = None
 		self.currentJobQueue = None
@@ -48,14 +49,12 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 		#sys.setrecursionlimit(sys.getrecursionlimit() * factor)
 		
 		# Call bpIDE.backgroundCompilerFinished when finished
-		self.finished.connect(self.bpIDE.backgroundCompilerFinished)
+		self.finished.connect(self.codeEdit.backgroundCompilerFinished)
 		
-	def startWith(self, outputCompiler):
-		self.codeEdit = self.bpIDE.codeEdit
-		
-		if self.codeEdit.backgroundCompilerOutstandingTasks > 0: #(not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
-			self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
-			self.outputCompiler = outputCompiler
+	def startWith(self):
+		if 1:#self.codeEdit.backgroundCompilerOutstandingTasks > 0: #(not self.bpIDE.backgroundCompileIsUpToDate) and (self.codeEdit.backgroundCompilerOutstandingTasks > 0):
+			#self.numTasksHandled = self.codeEdit.backgroundCompilerOutstandingTasks
+			#self.outputCompiler = outputCompiler
 			
 			# To make the GUI more responsive
 			eventLoop = QtCore.QEventLoop(self)
@@ -74,13 +73,19 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 			#print("Compiling")
 		
 	def run(self):
+		self.version = self.codeEdit.version
+		self.ppFile = self.codeEdit.ppFile
+		
 		try:
-			self.ppFile = self.bpIDE.getCurrentPostProcessorFile()
-			
 			if self.codeEdit: #and not self.codeEdit.disableUpdatesFlag:
-				self.startBenchmark("[%s] Background compiler" % (stripDir(self.codeEdit.getFilePath())))
+				self.startBenchmark("[%s : %d] Background compiler" % (stripDir(self.codeEdit.getFilePath()), self.version))
 				
 				if os.name == "nt":
+					self.outputCompiler = CPPOutputCompiler(
+						self.ppFile.processor,
+						background = True,
+						guiCallBack = None,
+					)
 					self.outputCompiler.compile(self.ppFile, silent = True)
 					
 					# Try getting var types
@@ -89,7 +94,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 					if not self.bpIDE.running:
 						self.bpIDE.outputCompiler = self.outputCompiler
 					
-					fillDataByCompiler(self.codeEdit.outputCompilerData, self.outputCompiler)
+					data = self.codeEdit.outputCompilerData
+					fillDataByCompiler(data, self.outputCompiler)
 				else:
 					jobs = Pipe()
 					jobResults = Pipe()
@@ -109,6 +115,8 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 						data = recvPipe.recv()
 						if data:
 							self.codeEdit.outputCompilerData = data
+					#except InterruptedError:
+					#	print("[%s] Exception: InterruptedError" % self.ppFile.getFilePath())
 					except:
 						printTraceback()
 					
@@ -124,21 +132,28 @@ class BPOutputCompilerThread(QtCore.QThread, Benchmarkable):
 					self.currentProcess = p
 					#p.join()
 				
+				# No exceptions
+				data.exceptionMsg = ""
+				data.exceptionFilePath = ""
+				data.exceptionLineNumber = -1
+				
 				self.lastException = None
 		except OutputCompilerException as e:
 			if self.bpIDE.config.developerMode:
 				printTraceback()
 			else:
-				self.lastException = e
+				data = self.codeEdit.outputCompilerData
+				data.exceptionMsg = e.getMsg()
+				data.exceptionFilePath = e.getFilePath()
+				data.exceptionLineNumber = e.getLineNumber()
 		except CompilerException:
-			if self.bpIDE.developerFlag:
-				printTraceback()
+			printTraceback()
 		except KeyError:
-			pass
+			printTraceback()
 		finally:
 			if self.benchmarkTimerStart:
 				self.endBenchmark()
-		
+			
 		#self.bpIDE.backgroundCompilerRan = True
 
 class BaseFunctionWrapper:
@@ -206,7 +221,7 @@ def compileXML(q, ppFile, data, jobs, jobResults):
 		with open(getConfigDir() + "studio/traceback.txt", "w") as f:
 			import traceback
 			traceback.print_exc(file = f)
-		
+			
 		data.exceptionMsg = e.getMsg()
 		data.exceptionFilePath = e.getFilePath()
 		data.exceptionLineNumber = e.getLineNumber()
@@ -243,9 +258,6 @@ def compileXML(q, ppFile, data, jobs, jobResults):
 			# getExprDataType
 			elif byteCode == 1:
 				node = cmd[1]
-				
-				#scopesOfNode = cmd[2]
-				#restoreScopesOfNode(comp.mainFile, scopesOfNode)
 				
 				try:
 					dataType = comp.mainFile.getExprDataType(node)
@@ -374,6 +386,9 @@ def getBubbleCode(outputCompiler, node):
 		funcName = ""
 		
 		if currentOutFile:
+			# Restore scopes
+			restoreScopesOfNode(currentOutFile, node)
+			
 			# Exceptions are your friends! ... or not?
 			try:
 				# Params

@@ -51,7 +51,7 @@ class BaseOutputCompiler(Benchmarkable):
 		if inpCompiler:
 			self.inputCompiler = inpCompiler
 			self.inputFiles = inpCompiler.getCompiledFiles() #inputFiles
-			self.projectDir = self.inputCompiler.getProjectDir()
+			self.projectDir = inpCompiler.getProjectDir()
 		else:
 			self.projectDir = ""
 		

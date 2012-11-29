@@ -410,6 +410,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE = bpIDE
 		currentTheme = self.bpIDE.getCurrentTheme()
 		
+		self.version = 0
 		self.openingFile = False
 		self.isTextFile = False
 		self.hoveringFileName = ""
@@ -420,6 +421,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.environment = None
 		self.docNavigator = None
 		self.highlighter = None
+		self.outputCompilerThread = BPOutputCompilerThread(self)
 		self.outputCompilerData = BPOutputCompilerThreadData()
 		self.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
 		self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -427,9 +429,8 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.lastCompletionTime = 0
 		self.autoCompleteState = BPCAutoCompleter.STATE_SEARCHING_SUGGESTION
 		self.reloading = False
-		self.outFile = None
+		self.ppFile = None
 		self.lastFunctionCount = -1
-		self.backgroundCompilerOutstandingTasks = 0
 		self.ppOutstandingTasks = 0
 		self.selectionChanged.connect(self.onSelectionChange)
 		
@@ -574,6 +575,9 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			"elsif",
 		}
 		
+		# Execute compiler every few milliseconds
+		bindFunctionToTimer(self, self.runPostProcessor, self.bpIDE.config.compilerUpdateInterval)
+		
 		self.qdoc.contentsChange.connect(self.onTextChange)
 		self.lineNumberArea = None
 		
@@ -597,7 +601,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		return self.sendOutputCompilerMsg((3, node), [])
 	
 	def sendOutputCompilerMsg(self, msg, defaultVal = None):
-		thread = self.bpIDE.outputCompilerThread
+		thread = self.outputCompilerThread
 		jobs = thread.currentJobQueue
 		results = thread.currentJobResultsQueue
 		
@@ -658,6 +662,265 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 	#	p.setColor(QtGui.QPalette.Window, bgColor)
 	#	self.setPalette(p)
 	#	self.setBackgroundVisible(True)
+	
+	# Request parser run
+	def runUpdater(self):
+		if self.isTextFile:
+			return
+		
+		self.updateQueue.append(1)
+		
+		#if self.openingFile:
+		#	self.onUpdateTimeout()
+		
+	# Parser start
+	def onUpdateTimeout(self):
+		if self.isTextFile:
+			return
+		
+		if self.updateQueue:
+			#print("onUpdateTimeout: got some work")
+			self.version += 1
+			self.updateQueue.clear()
+			self.updater.setDocument(self.qdoc)
+			
+			if self.threaded:
+				self.updater.startWith()
+			else:
+				self.updater.run()
+				self.updater.finished.emit()
+	
+	# Parser finished
+	def parserFinished(self):
+		if self.updater.bpcFile:
+			del self.bpcFile
+			self.bpcFile = self.updater.bpcFile
+			self.updater.bpcFile = None
+		
+		#self.disableUpdatesFlag = True
+		
+		if self.bpcFile:
+			self.doc = self.bpcFile.doc
+			#self.bpIDE.startBenchmark("UpdateRootSafely")
+			self.updateRootSafely()
+			#self.bpIDE.endBenchmark()
+			
+			# Outdated version?
+			if self.updateQueue:
+				return
+			
+			self.ppOutstandingTasks += 1
+			#self.runPostProcessor()
+		
+		# Message view
+		self.msgView.updateViewParser()
+		
+		# Highlight if needed
+		if self.updater.lastException:
+			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
+			ce = self.updater.codeEdit
+			if ce and ce.disableUpdatesFlag:
+				ce.disableUpdatesFlag = False
+				ce.highlighter.rehighlight()
+		
+		# Any work in the queue left?
+		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
+		if self.updateQueue and abs(self.timer.interval() - interval) > 400:
+			print("Setting new update interval: %d ms" % (interval))
+			self.timer.setInterval(interval)
+		
+	def runPostProcessor(self):
+		if self.ppOutstandingTasks == 0 or not self.bpcFile:
+			return
+		
+		if self.updateQueue:
+			return
+		
+		# TODO: Less cpu usage
+		if self.bpIDE.threaded: #and not codeEdit.reloading:
+			#if not self.postProcessorThread.isRunning():
+			self.postProcessorThread.startWith()
+			#else:
+			#	codeEdit.disableUpdatesFlag = False
+		else:
+			#raise "Not implemented in single-threaded mode"
+			ppThread = BPPostProcessorThread(self)
+			ppThread.codeEdit = self
+			ppThread.numTasksHandled = self.ppOutstandingTasks
+			ppThread.run()
+			self.postProcessorFinished()
+	
+	def postProcessorFinished(self):
+		ppThread = self.postProcessorThread
+		self.ppFile = ppThread.ppFile
+		
+		if ppThread.version < self.version:
+			return
+		
+		if self.reloading:
+			index = self.bpIDE.currentWorkspace.currentIndex()
+			self.bpIDE.currentWorkspace.changeCodeEdit(index)
+		
+		# Update line info
+		self.bpIDE.updateLineInfo(force=True)#, updateDependencyView=False)
+		
+		# Text file?
+		if self.isTextFile:
+			return
+		
+		# Subtract number of tasks handled
+		self.ppOutstandingTasks -= ppThread.numTasksHandled
+		if self.ppOutstandingTasks < 0:
+			self.ppOutstandingTasks = 0
+		
+		# Msg view
+		self.msgView.updateViewPostProcessor()
+		
+		# Update auto completer data
+		#self.funcsDict = self.processor.getFunctionsDict()
+		
+		# TODO: Replace this as we don't need it anymore
+		if 0:
+			self.classesDict = self.processor.getClassesDict()
+			
+			if (
+					self.completer
+					and
+					(
+						len(self.funcsDict) != self.completer.bpcModel.funcListLen
+						or len(self.classesDict) != self.completer.bpcModel.classesListLen
+					)
+				):
+				funcsList = list(self.funcsDict)
+				classesList = list(self.classesDict)
+				
+				classesList.sort()
+				funcsList.sort()
+				
+				self.shortCuts = buildShortcutDict(funcsList)
+				self.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
+		
+		# After we parsed the functions, set the text and highlight the file
+		if self.disableUpdatesFlag:
+			self.disableUpdatesFlag = False
+			#self.rehighlightFunctionUsage()
+		
+		if (not self.bpIDE.dependenciesViewDock.isHidden()):
+			self.bpIDE.dependencyView.updateView()
+		
+		# If the function name changed, rehighlight
+		lineIndex = self.getLineIndex()
+		selectedNode = self.getNodeByLineIndex(lineIndex)
+		if tagName(selectedNode) in functionNodeTagNames:
+			selectedOldNode = self.getOldNodeByLineIndex(lineIndex)
+			if tagName(selectedOldNode) in functionNodeTagNames:
+				nameNew = getElementByTagName(selectedNode, "name")
+				nameOld = getElementByTagName(selectedOldNode, "name")
+				
+				if nameOld and nameNew and nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
+					self.rehighlightFunctionUsage()
+		
+		# Run compiler
+		self.onCompileTimeout()
+		
+		#lineIndex = self.codeEdit.getLineIndex()
+		#selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
+		#previousLineNode = self.codeEdit.getNodeByLineIndex(lineIndex - 1)
+		#previousLineOldNode = self.codeEdit.getOldNodeByLineIndex(lineIndex - 1)
+		
+		#currentLine = self.codeEdit.getCurrentLine()
+		#currentTag = tagName(selectedNode)
+		#previousLineTag = tagName(previousLineNode)
+		#previousLineOldTag = tagName(previousLineOldNode)
+		
+		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
+		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
+		
+		#del gc.garbage[:]
+		
+		# Leak detection
+		# if 0:
+			# import flua.Compiler.Utils.GC as gcInfo
+			# print("[--------")
+			# gcInfo.showMostCommonTypes()
+			# print("BPC Files: %d" % gcInfo.countByTypename("BPCFile"))
+			# print("PP Files: %d" % gcInfo.countByTypename("BPPostProcessorFile"))
+			# for x in gcInfo.byType("BPPostProcessorFile"):
+				# print(x.getFilePath())
+			# print("--------]")
+	
+	def onCompileTimeout(self):
+		if not self.bpIDE.loadingFinished:
+			return
+		
+		# Don't do this if we're actually compiling or if we have nothing to compile
+		if self.bpIDE.running or self.bpIDE.compiling: #or self.backgroundCompilerOutstandingTasks == 0:
+			return
+		
+		if not self.ppFile or not self.ppFile.importedFiles:
+			return
+		
+		#if self.ppOutstandingTasks > 0:
+		#	return
+		
+		self.outputCompilerThread.startWith()
+	
+	def backgroundCompilerFinished(self):
+		# Did we compile an already outdated version?
+		if self.outputCompilerThread.version < self.version:
+			#print("%d < %d" % (self.outputCompilerThread.version, self.version))
+			self.onCompileTimeout()
+			return
+		
+		#if self.outputCompilerThread.lastException:
+			#pass
+			
+			# Hmm...what should we do with background compiler error messages?
+			
+			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
+			#if self.codeEdit:
+				#msgView = self.codeEdit.msgView
+				#if 1:#msgView.count() == 0 or isinstance(msgView.lastException, OutputCompilerException):
+					#if msgView.lastException:
+					#	print(msgView.lastException.__class__)
+					#msgView.clear()
+		
+		# The output compiler
+		result = self.outputCompilerData
+		
+		if result:
+			# Set environment namespaself to the main namespaself of the compiler
+			self.environment.mainNamespace = result.mainNamespace
+			self.environment.defines = result.defines
+			
+			# This function also counts the class methods:
+			newFuncCount = result.functionCount
+			
+			# Contrary to this one:
+			#newFuncCount = len(self.environment.mainNamespaself.functions)
+			
+			# If the number of functions changed, rehighlight
+			self.updateFunctionCount(newFuncCount)
+			
+			# Set code edit outFile to the main file
+			#self.outFile = result.mainFile
+			
+			# Restore the scopes if possible
+			#if self.outputCompilerThread.currentJobQueue:
+			#	self.outputCompilerThread.currentJobQueue.send((2, self.bpIDE.currentNode))
+			
+			# Update auto complete
+			if self.completer:
+				self.completer.bpcModel.retrieveData(self.outputCompilerData)
+				
+		# Messages
+		self.msgView.updateViewOutputCompiler()
+		
+		# Adjust number of outstanding tasks
+		#self.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
+		
+		#if self.backgroundCompilerOutstandingTasks < 0:
+		#	self.backgroundCompilerOutstandingTasks = 0
 	
 	def updateFunctionCount(self, newFuncCount):
 		if newFuncCount != self.lastFunctionCount: #and (self.lastFunctionCount != -1 or self.isTmpFile()):
@@ -1624,7 +1887,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			return
 		
 		# TODO: Only highlight blocks where the function is used
-		self.startBenchmark("[%s] Syntax Highlighter" % (stripDir(self.filePath)))
+		self.startBenchmark("[%s : %d] Syntax Highlighter" % (stripDir(self.filePath), self.version))
 		self.highlighter.rehighlight()
 		self.endBenchmark()
 		
@@ -1749,36 +2012,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		self.bpIDE.somethingModified = True
 		
 		# Only invalidate the data if this code edit is not a code bubble
-		if (self.bubble) and (charsAdded or charsRemoved):
+		#if (self.bubble) and (charsAdded or charsRemoved):
 			#print("%d chars added / %d chars removed!" % (charsAdded, charsRemoved))
-			self.ppOutstandingTasks += 1
-			self.backgroundCompilerOutstandingTasks += 1
+			#self.ppOutstandingTasks += 1
+			#self.backgroundCompilerOutstandingTasks += 1
 		
 		if self.updater and not self.disableUpdatesFlag:
 			self.runUpdater()
-		
-	def runUpdater(self):
-		if self.isTextFile:
-			return
-		
-		self.updateQueue.append(1)
-		if self.openingFile:
-			self.onUpdateTimeout()
-		
-	def onUpdateTimeout(self):
-		if self.isTextFile:
-			return
-		
-		if self.updateQueue:
-			#print("onUpdateTimeout: got some work")
-			self.updateQueue.clear()
-			self.updater.setDocument(self.qdoc)
-			
-			if self.threaded:
-				self.updater.startWith()
-			else:
-				self.updater.run()
-				self.updater.finished.emit()
 		
 	def getLineIndex(self):
 		return self.textCursor().blockNumber()
@@ -1803,39 +2043,6 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			return lineInfo.oldNode
 		
 		return None
-		
-	def compilerFinished(self):
-		if self.updater.bpcFile:
-			del self.bpcFile
-			self.bpcFile = self.updater.bpcFile
-			self.updater.bpcFile = None
-		
-		#self.disableUpdatesFlag = True
-		
-		if self.bpcFile:
-			self.doc = self.bpcFile.doc
-			#self.bpIDE.startBenchmark("UpdateRootSafely")
-			self.updateRootSafely()
-			#self.bpIDE.endBenchmark()
-			
-			self.bpIDE.runPostProcessor(self)
-		
-		# Message view
-		self.msgView.updateViewParser()
-		
-		# Highlight if needed
-		if self.updater.lastException:
-			# IMPORTANT: If an exception occured, editing should be able to run the updater again!
-			ce = self.updater.codeEdit
-			if ce and ce.disableUpdatesFlag:
-				ce.disableUpdatesFlag = False
-				ce.highlighter.rehighlight()
-		
-		# Any work in the queue left?
-		interval = self.updater.executionTime + self.bpIDE.config.updateInterval
-		if self.updateQueue and abs(self.timer.interval() - interval) > 400:
-			print("Setting new update interval: %d ms" % (interval))
-			self.timer.setInterval(interval)
 		
 	def getCurrentLine(self):
 		lineIndex = self.getLineIndex()
@@ -1876,6 +2083,7 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 		
 	def setRoot(self, newRoot):
 		self.root = newRoot
+		#self.ppFile.root = newRoot
 		#header = getElementByTagName(self.root, "header")
 		codeNode = getElementByTagName(self.root, "code")
 		
@@ -2075,6 +2283,13 @@ class BPCodeEdit(QtGui.QPlainTextEdit, Benchmarkable):
 			blockNumber += 1
 			
 		self.setFont(oldFont)
+
+# Executes a function every few milliseconds
+def bindFunctionToTimer(parent, func, interval):
+	timer = QtCore.QTimer(parent)
+	timer.timeout.connect(func)
+	timer.start(interval)
+	return timer
 
 # Information stored per line
 class BPLineInformation(QtGui.QTextBlockUserData):

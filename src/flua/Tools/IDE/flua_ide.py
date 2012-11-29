@@ -118,7 +118,7 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		self.completer.setCaseSensitivity(QtCore.Qt.CaseSensitive)
 		
 		if os.name != "nt":
-			self.showMaximized()
+			self.show()
 		
 		# The beginning of the end.
 		self.initAll()
@@ -126,12 +126,8 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Timed
 		self.startTime = time.time()
 		
-		self.bindFunctionToTimer(self.showDependencies, 150)
-		self.bindFunctionToTimer(self.onCompileTimeout, self.config.compilerUpdateInterval)
+		bindFunctionToTimer(self, self.showDependencies, 150)
 		#self.bindFunctionToTimer(self.onProcessEvents, 5)
-		
-		# Apply settings
-		self.setCentralWidget(self.workspacesContainer)
 		
 		self.initDocks()
 		
@@ -159,30 +155,14 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		# Loading finished
 		self.onLoadingFinished()
 		
-		#if 1:
-			#self.newFile()
-		#	
-		#else:
-		#	self.newFile()
-#			self.codeEdit.setPlainText("""import playground.Everything
-#
-## Check flua.Documentation in the module browser on the left for some beginner topics.
-#""")
-			#cursor = self.codeEdit.textCursor()
-			#cursor.movePosition(QtGui.QTextCursor.End)
-			#self.codeEdit.setTextCursor(cursor)
-			
-			#self.firstStartUpdateTimer = self.bindFunctionToTimer(self.onProgressUpdate, 10)
-		
-		# Show maximized now
-		#if os.name == "nt":
-		#	self.showMaximized()
-			
 		# Restore docks
 		self.restoreDockVisibility()
 		
 		# Show
-		self.showMaximized()
+		self.show()
+		
+		# Apply settings
+		self.setCentralWidget(self.workspacesContainer)
 		
 	#def eventFilter(self, obj, event):
 	#	
@@ -244,12 +224,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			#if self.codeEdit and self.isTmpFile():
 			#	self.codeEdit.setFileExtension(self.environment.standardFileExtension)
 		
-	def bindFunctionToTimer(self, func, interval):
-		timer = QtCore.QTimer(self)
-		timer.timeout.connect(func)
-		timer.start(interval)
-		return timer
-		
 	def showDependencies(self):#, node, updateDependencyView = True):
 		node = self.currentNode
 		
@@ -301,28 +275,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 	def onProcessEvents(self):
 		QtGui.QApplication.instance().processEvents()
 	
-	def onCompileTimeout(self):
-		# Don't do this if we're actually compiling or if we have nothing to compile
-		if self.running or self.compiling or (not self.codeEdit) or self.codeEdit.backgroundCompilerOutstandingTasks == 0:
-			return
-		
-		if self.codeEdit.ppOutstandingTasks > 0:
-			return
-			
-			#if 0:#(
-			#	#	(self.currentNode and self.currentNode.nodeType == Node.ELEMENT_NODE and self.currentNode.tagName == "assign")
-			#	#	or
-			#	#	(self.nodeAboveCurrent and self.nodeAboveCurrent.nodeType == Node.ELEMENT_NODE and self.nodeAboveCurrent.tagName == "assign")
-			#	#):
-			#	pass
-			#else:
-			#	#if self.loadingFinished:
-			#	return
-		
-		# Create output compiler
-		tmpOutputCompiler = self.createOutputCompiler("C++", temporary = True)
-		self.outputCompilerThread.startWith(tmpOutputCompiler)
-	
 	def getEnvironmentByFilePath(self, filePath):
 		ext = extractExt(filePath)
 		
@@ -333,61 +285,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 			return self.fileExtensionToEnvironment[ext]
 		
 		return self.baseEnvironment
-	
-	def backgroundCompilerFinished(self):
-		#if self.outputCompilerThread.lastException:
-			#pass
-			
-			# Hmm...what should we do with background compiler error messages?
-			
-			#self.evalInfoLabel.setText(self.outputCompilerThread.lastException.getMsg())
-			#if self.codeEdit:
-				#msgView = self.codeEdit.msgView
-				#if 1:#msgView.count() == 0 or isinstance(msgView.lastException, OutputCompilerException):
-					#if msgView.lastException:
-					#	print(msgView.lastException.__class__)
-					#msgView.clear()
-		
-		# The output compiler
-		ce = self.outputCompilerThread.codeEdit
-		result = ce.outputCompilerData
-		
-		if ce:
-			if result:
-				# Set environment namespace to the main namespace of the compiler
-				ce.environment.mainNamespace = result.mainNamespace
-				ce.environment.defines = result.defines
-				
-				# This function also counts the class methods:
-				newFuncCount = result.functionCount
-				
-				# Contrary to this one:
-				#newFuncCount = len(self.environment.mainNamespace.functions)
-				
-				# If the number of functions changed, rehighlight
-				ce.updateFunctionCount(newFuncCount)
-				
-				self.lastFunctionCount = newFuncCount
-				
-				# Set code edit outFile to the main file
-				#ce.outFile = result.mainFile
-				
-				# Restore the scopes if possible
-				if self.outputCompilerThread.currentJobQueue:
-					self.outputCompilerThread.currentJobQueue.send((2, self.currentNode))
-				
-				# Update auto complete
-				if ce.completer:
-					ce.completer.bpcModel.retrieveData(ce.outputCompilerData)
-					
-			# Messages
-			ce.msgView.updateViewOutputCompiler()
-			
-			# Adjust number of outstanding tasks
-			ce.backgroundCompilerOutstandingTasks -= self.outputCompilerThread.numTasksHandled
-			
-			if ce.backgroundCompilerOutstandingTasks < 0:
-				ce.backgroundCompilerOutstandingTasks = 0
 	
 	def createOutputCompiler(self, outputTarget, temporary = False, takeCache = True):
 		#if self.outputCompiler:
@@ -595,120 +492,6 @@ class BPMainWindow(QtGui.QMainWindow, MenuActions, Startup, Benchmarkable):
 		
 	def updateModuleBrowser(self):
 		self.moduleView.updateView()
-		
-	def runPostProcessor(self, codeEdit):
-		# TODO: Less cpu usage
-		if self.threaded: #and not codeEdit.reloading:
-			if not codeEdit.postProcessorThread.isRunning():
-				codeEdit.postProcessorThread.startWith()
-			#else:
-			#	codeEdit.disableUpdatesFlag = False
-		else:
-			#raise "Not implemented in single-threaded mode"
-			ppThread = BPPostProcessorThread(self)
-			ppThread.codeEdit = codeEdit
-			ppThread.numTasksHandled = codeEdit.ppOutstandingTasks
-			ppThread.run()
-			self.postProcessorFinished(ppThread)
-		
-	def postProcessorFinished(self, ppThread = None):
-		if ppThread is None:
-			if not self.codeEdit:
-				return
-			
-			ppThread = self.codeEdit.postProcessorThread
-		
-		ppCodeEdit = ppThread.codeEdit
-		#self.processorOutFile = ppThread.ppFile
-		
-		if self.codeEdit and self.codeEdit.reloading:
-			index = self.currentWorkspace.currentIndex()
-			self.currentWorkspace.changeCodeEdit(index)
-		
-		# Update line info
-		self.updateLineInfo(force=True)#, updateDependencyView=False)
-		
-		# Exists?
-		if ppCodeEdit is None or ppCodeEdit.isTextFile:
-			return
-		
-		# Subtract number of tasks handled
-		ppCodeEdit.ppOutstandingTasks -= ppThread.numTasksHandled
-		if ppCodeEdit.ppOutstandingTasks < 0:
-			ppCodeEdit.ppOutstandingTasks = 0
-		
-		# Msg view
-		ppCodeEdit.msgView.updateViewPostProcessor()
-		
-		# Update auto completer data
-		self.funcsDict = self.processor.getFunctionsDict()
-		
-		# TODO: Replace this as we don't need it anymore
-		if 0:
-			self.classesDict = self.processor.getClassesDict()
-			
-			if (
-					ppCodeEdit.completer
-					and
-					(
-						len(self.funcsDict) != ppCodeEdit.completer.bpcModel.funcListLen
-						or len(self.classesDict) != ppCodeEdit.completer.bpcModel.classesListLen
-					)
-				):
-				funcsList = list(self.funcsDict)
-				classesList = list(self.classesDict)
-				
-				classesList.sort()
-				funcsList.sort()
-				
-				self.shortCuts = buildShortcutDict(funcsList)
-				ppCodeEdit.completer.bpcModel.setAutoCompleteLists(funcsList, self.shortCuts, classesList)
-		
-		# After we parsed the functions, set the text and highlight the file
-		if ppCodeEdit.disableUpdatesFlag:
-			ppCodeEdit.disableUpdatesFlag = False
-			ppCodeEdit.rehighlightFunctionUsage()
-		
-		if (not self.dependenciesViewDock.isHidden()):
-			self.dependencyView.updateView()
-		
-		# If the function name changed, rehighlight
-		lineIndex = ppCodeEdit.getLineIndex()
-		selectedNode = ppCodeEdit.getNodeByLineIndex(lineIndex)
-		if tagName(selectedNode) in functionNodeTagNames:
-			selectedOldNode = ppCodeEdit.getOldNodeByLineIndex(lineIndex)
-			if tagName(selectedOldNode) in functionNodeTagNames:
-				nameNew = getElementByTagName(selectedNode, "name")
-				nameOld = getElementByTagName(selectedOldNode, "name")
-				
-				if nameOld and nameNew and nameNew.childNodes[0].nodeValue != nameOld.childNodes[0].nodeValue:
-					ppCodeEdit.rehighlightFunctionUsage()
-		
-		#lineIndex = self.codeEdit.getLineIndex()
-		#selectedNode = self.codeEdit.getNodeByLineIndex(lineIndex)
-		#previousLineNode = self.codeEdit.getNodeByLineIndex(lineIndex - 1)
-		#previousLineOldNode = self.codeEdit.getOldNodeByLineIndex(lineIndex - 1)
-		
-		#currentLine = self.codeEdit.getCurrentLine()
-		#currentTag = tagName(selectedNode)
-		#previousLineTag = tagName(previousLineNode)
-		#previousLineOldTag = tagName(previousLineOldNode)
-		
-		#if currentTag == "function" or (previousLineTag == "function" and currentLine == '\t') or (previousLineOldTag == "function" and currentLine == ""):#(tagName(selectedNode) == "function") or ((tagName(previousLine) == "function") and self.getCurrentLine() == "\t"):
-		#	self.codeEdit.rehighlightFunctionUsage(selectedNode)
-		
-		#del gc.garbage[:]
-		
-		# Leak detection
-		# if 0:
-			# import flua.Compiler.Utils.GC as gcInfo
-			# print("[--------")
-			# gcInfo.showMostCommonTypes()
-			# print("BPC Files: %d" % gcInfo.countByTypename("BPCFile"))
-			# print("PP Files: %d" % gcInfo.countByTypename("BPPostProcessorFile"))
-			# for x in gcInfo.byType("BPPostProcessorFile"):
-				# print(x.getFilePath())
-			# print("--------]")
 		
 	def getXMLDocument(self):
 		if self.codeEdit is None:

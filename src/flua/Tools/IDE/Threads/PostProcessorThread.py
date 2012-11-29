@@ -14,8 +14,9 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 		self.ppFile = None
 		self.lastException = None
 		self.numTasksHandled = 0
-		self.ceQueue = collections.deque()
-		self.finished.connect(codeEdit.bpIDE.postProcessorFinished)
+		self.version = 0
+		#self.ceQueue = collections.deque()
+		self.finished.connect(codeEdit.postProcessorFinished)
 		
 	def startWith(self):
 		self.numTasksHandled = self.codeEdit.ppOutstandingTasks
@@ -27,27 +28,30 @@ class BPPostProcessorThread(QtCore.QThread, Benchmarkable):
 				self.run()
 				self.finished.emit()
 		
-	def queue(self, codeEdit):
-		self.ceQueue.append(codeEdit)
+	#def queue(self, codeEdit):
+	#	self.ceQueue.append(codeEdit)
 		
 	def run(self):
+		self.version = self.codeEdit.version
 		filePath = self.codeEdit.getFilePath()
 		
-		try:
-			self.processor.resetDTreesForFile(filePath)
-			self.processor.cleanUpFile(filePath)
-			
-			self.startBenchmark("[%s] PostProcessor" % stripDir(filePath))
-			self.ppFile = self.processor.process(self.codeEdit.root, filePath)
-			self.endBenchmark()
-			
-			#self.bpIDE.processorOutFile = self.processor.processExistingInputFile(self.codeEdit.bpcFile)
-			self.lastException = None
-		except PostProcessorException as e:
-			self.lastException = e
-			
-			# Try to get line information
+		with self.processor.lock:
 			try:
-				e.lineNumber = self.codeEdit.bpcFile.nodeToOriginalLineNumber[e.node]
-			except:
-				pass
+				if self.bpIDE.loadingFinished:
+					self.processor.resetDTreesForFile(filePath)
+					self.processor.cleanUpFile(filePath)
+				
+				self.startBenchmark("[%s : %d] PostProcessor" % (stripDir(filePath), self.version))
+				self.ppFile = self.processor.process(self.codeEdit.root, filePath)
+				self.endBenchmark()
+				
+				#self.bpIDE.processorOutFile = self.processor.processExistingInputFile(self.codeEdit.bpcFile)
+				self.lastException = None
+			except PostProcessorException as e:
+				self.lastException = e
+				
+				# Try to get line information
+				try:
+					e.lineNumber = self.codeEdit.bpcFile.nodeToOriginalLineNumber[e.node]
+				except:
+					pass
