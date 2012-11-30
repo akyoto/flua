@@ -232,6 +232,8 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.inCompilerFlags = 0
 		self.inPublic = 0
 		self.inInterface = 0
+		self.inLineContinuation = 0
+		self.linesContinued = 0
 		
 		self.parser = self.compiler.parser
 		self.isMainFile = isMainFile
@@ -460,7 +462,11 @@ class BPCFile(ScopeController, Benchmarkable):
 		
 		# Go through every line -> build the structure
 		for lineIndex in range(0, len(lines)):
-			line = lines[lineIndex]
+			if self.inLineContinuation:
+				line += lines[lineIndex].lstrip()
+			else:
+				line = lines[lineIndex]
+			
 			tabCount = countTabs(line)
 			line = line.strip()
 			
@@ -470,6 +476,10 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			# Remove strings, comments and check brackets
 			line = prepareLine(line)
+			
+			if self.inLineContinuation:
+				self.linesContinued += 1
+				continue
 			
 			# Next line indented?
 			self.nextLineIndented = False
@@ -541,6 +551,11 @@ class BPCFile(ScopeController, Benchmarkable):
 			# Save the connection for debugging purposes
 			#if self.nodes and (currentLine == None or self.nodes[-1] != currentLine):
 			registerNode(currentLine)
+			
+			if self.linesContinued:
+				for l in range(self.linesContinued):
+					self.nodes.append(None)
+				self.linesContinued = 0
 			
 			# Tab level hierarchy
 			if tabCount > prevTabCount:
@@ -1841,6 +1856,14 @@ class BPCFile(ScopeController, Benchmarkable):
 				self.keyword = "elif"
 				return "elif" + line[4:]
 		
+		if self.inLineContinuation:
+			if line.endswith("]"):
+				self.inLineContinuation = squareBracketsBalance
+		
+		# Line continuation
+		if line.endswith("["):
+			self.inLineContinuation = squareBracketsBalance
+		
 		# ()
 		if roundBracketsBalance > 0:
 			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
@@ -1848,7 +1871,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			raise CompilerException("You forgot to open the round bracket: '(' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
 		
 		# []
-		if squareBracketsBalance > 0:
+		if squareBracketsBalance > 0 and not self.inLineContinuation:
 			raise CompilerException("You forgot to close the square bracket: ']' missing%s" % ([" %d times" % (abs(squareBracketsBalance)), ""][abs(squareBracketsBalance) == 1]))
 		elif squareBracketsBalance < 0:
 			raise CompilerException("You forgot to open the square bracket: '[' missing%s" % ([" %d times" % (abs(squareBracketsBalance)), ""][abs(squareBracketsBalance) == 1]))

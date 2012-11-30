@@ -94,6 +94,32 @@
 								</new>
 							</value>
 						</assign>
+						<assign>
+							<value>
+								<access>
+									<value>my</value>
+									<value>attributes</value>
+								</access>
+							</value>
+							<value>
+								<new>
+									<type>
+										<template-call>
+											<value>Map</value>
+											<value>
+												<parameters>
+													<parameter>String</parameter>
+													<parameter>String</parameter>
+												</parameters>
+											</value>
+										</template-call>
+									</type>
+									<parameters>
+										<parameter>8</parameter>
+									</parameters>
+								</new>
+							</value>
+						</assign>
 						<if-block>
 							<if>
 								<condition>
@@ -130,6 +156,7 @@
 					</code>
 					<meta/>
 				</function>
+				<comment>\SReturns\San\SXML\Sversion\Sof\Sthe\Snode</comment>
 				<function>
 					<name>toXML</name>
 					<code>
