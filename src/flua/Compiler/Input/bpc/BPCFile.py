@@ -466,9 +466,8 @@ class BPCFile(ScopeController, Benchmarkable):
 				line += lines[lineIndex].lstrip()
 			else:
 				line = lines[lineIndex]
-			
-			tabCount = countTabs(line)
-			line = line.strip()
+				tabCount = countTabs(line)
+				line = line.strip()
 			
 			# Set last line for exception handling
 			self.lastLine = line
@@ -1859,13 +1858,21 @@ class BPCFile(ScopeController, Benchmarkable):
 		if self.inLineContinuation:
 			if line.endswith("]"):
 				self.inLineContinuation = squareBracketsBalance
+			elif line.endswith(")"):
+				self.inLineContinuation = roundBracketsBalance
+			elif line.endswith("}"):
+				self.inLineContinuation = curlyBracketsBalance
 		
 		# Line continuation
 		if line.endswith("["):
 			self.inLineContinuation = squareBracketsBalance
+		elif line.endswith("("):
+			self.inLineContinuation = roundBracketsBalance
+		elif line.endswith("{"):
+			self.inLineContinuation = curlyBracketsBalance
 		
 		# ()
-		if roundBracketsBalance > 0:
+		if roundBracketsBalance > 0 and not self.inLineContinuation:
 			raise CompilerException("You forgot to close the round bracket: ')' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
 		elif roundBracketsBalance < 0:
 			raise CompilerException("You forgot to open the round bracket: '(' missing%s" % ([" %d times" % (abs(roundBracketsBalance)), ""][abs(roundBracketsBalance) == 1]))
