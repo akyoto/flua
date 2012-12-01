@@ -167,23 +167,29 @@ class BaseFunction:
 			#print(classImplA.classObj.hasCast(typeB))
 			#print("<----------------")
 			
+			# Type A is the type the call has been requested with.
+			# Type B is the type that has been defined in the function by definition.
+			
 			# Exact match
 			if typeA == typeB:
-				score += 6
+				score += 7
 			# BigInt -> String
 			elif typeA == "BigInt" and (typeB == "MemPointer<Byte>" or typeB == "~MemPointer<Byte>"):
-				score += 5
+				score += 6
 			# Inheritance: Derived class -> Base class
 			elif self.cppFile.isDerivedClass(typeA, typeB):
-				score += 4
+				score += 5
 			# A implemented a cast to B
 			elif classImplA and classImplA.classObj.hasCast(typeB):
-				score += 3
+				score += 4
 			# "I don't care about the type of A"
 			elif typeB == "":
-				score += 2
+				score += 3
 			# A can be naturally casted to B
 			elif canBeCastedTo(typeA, typeB):
+				score += 2
+			# A is null
+			elif typeA == "MemPointer<void>" and not typeB in nonPointerClasses:
 				score += 1
 			# Does not match
 			else:

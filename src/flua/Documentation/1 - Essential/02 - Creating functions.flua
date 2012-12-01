@@ -70,7 +70,8 @@
 		<comment>\S(well,\Sit's\SC++\Sfiles\Safter\Sall...)\Syou\Sshould\Sleave\Sout</comment>
 		<comment>\Sthe\Stype\Sspecifiers\Sas\Soften\Sas\Spossible\Sbecause\Syour\Sfunction</comment>
 		<comment>\Scan\Sthen\Sbe\Sused\Swith\Smany\Spossible\Stypes,\Snot\Sjust\Sthe\Sones</comment>
-		<comment>\Syou\Sthought\Sof.\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour</comment>
+		<comment>\Syou\Sthought\Sof.</comment>
+		<comment>\SIf\Syou\SREALLY\Swant\Sto\Slimit\Sthe\Suse\Sof\Syour</comment>
 		<comment>\Sfunction\Sto\Sa\Sspecific\Stype,\Syou\Sneed\Sto\Swrite:</comment>
 		<function>
 			<name>func2</name>
@@ -107,7 +108,6 @@
 					</add>
 				</return>
 			</code>
-			<meta/>
 		</function>
 		<call>
 			<function>print</function>

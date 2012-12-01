@@ -9,20 +9,26 @@
 	<code>
 		<comment>\SWelcome\Sto\Sthe\SFlua\Sprogramming\Slanguage!\SIt\Sis\Sa\Slanguage\Sthat\Sis\Scurrently</comment>
 		<comment>\Sin\Sdevelopment\Sand\Saims\Sto\Scombine\Sall\Spowerful\Sfeatures\Sin\Scurrent\Slanguages.</comment>
-		<comment>\SYou\Scan\Sprogram\Sin\Sa\Sfunctional,\Sobject-oriented\Sor\Simperative\Sstyle\S-\Sthat's\Sup\Sto\Syou.</comment>
-		<comment>\SHowever\Syou\Scan\S*not*\Sprogram\Spurely\Sfunctional\Sbecause\Sit's\Snot\Sa\Spurely\Sfunctional\Slanguage.</comment>
-		<comment>\SI\Srecommend\Syou\Sto\Smix\Sall\Sof\Sthese\Sstyles\Sin\Smost\Scases.\SFunctional\Sprogramming\Shas\Sbecome</comment>
-		<comment>\Squite\Simportant\Sfor\Stask\Sparallelism\Snowadays\Sand\Syou\Swill\Sdo\Syourself\Sa\Sfavour\Slearning\Sit.</comment>
-		<comment>\S---------------------------------------------</comment>
-		<comment>\SFlua\Scan\Sbe\Sseen\Sas\Sa\Scode\Sgenerator.</comment>
-		<comment>\S---------------------------------------------</comment>
+		<comment>\E</comment>
+		<comment>\SFlua\Sis\Sa\Smulti-paradigm\Slanguage.\SIt\Smeans\Syou\Scan\Sprogram\Sin\Sa\Sfunctional,\Sobject-oriented</comment>
+		<comment>\Sor\Simperative\Sstyle\S-\Sthat's\Sup\Sto\Syou.\SI\Srecommend\Syou\Sto\Slearn\Sabout\Sall\Sof\Sthese\Sstyles.</comment>
+		<comment>\SFunctional\Sprogramming\Shas\Sbecome\Squite\Simportant\Sfor\Stask\Sparallelism\Snowadays\Sand\Syou\Swill</comment>
+		<comment>\Sdo\Syourself\Sa\Sfavour\Slearning\Sit.</comment>
+		<comment>\E</comment>
+		<comment>\SOkay\Sso\Swhat's\Sthis\SFlua\Sthing\Sabout?\SFlua\Scan\Sbe\Sseen\Sas\Sa\Scode\Sgenerator.</comment>
+		<comment>\E</comment>
 		<comment>\S[Syntax\S1]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[C++]</comment>
 		<comment>\S[Syntax\S2]\S&lt;&lt;----&gt;&gt;\S[XML]\S------&gt;&gt;\S[Python\S3]</comment>
-		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[HTML5]</comment>
-		<comment>\S---------------------------------------------</comment>
+		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[JavaScript]</comment>
+		<comment>\E</comment>
+		<comment>\SIt\Suses\Sa\Ssyntax\Smodule\Sto\Sconvert\Scode\Sto\SXML\Sand\Svice\Sversa.\SThis\Sgeneric\SXML\Sfile\Scan\Sthen\Sbe\Sused</comment>
+		<comment>\Sto\Sgenerate\Scode\Sfor\Sdifferent\Slanguages\Susing\SOutput\Smodules,\Se.g.\SC++\Sor\SPython.\SThere\Scan\Sbe\Smultiple</comment>
+		<comment>\Ssyntax\Smodules\Sand\Smultiple\Soutput\Smodules,\Showever\Sthe\SXML\Sformat\Salways\Sstays\Sthe\Ssame.</comment>
+		<comment>\E</comment>
 		<comment>\SCurrently\Sthere\Sis\Sone\Ssyntax\Smodule\Scalled\S&quot;Flua\SSyntax&quot;\Swhich\Shas\S4\Ssub-syntaxes\S(in\Syour\Sstatus\Sbar).</comment>
 		<comment>\SThe\Sonly\Savailable\Soutput\Starget\Sat\Sthe\Stime\Sof\Swriting\Sthis\Sis\SC++.\SPython\S3\Sand\SHTML5</comment>
 		<comment>\Saren't\Sworking\Syet.</comment>
+		<comment>\E</comment>
 		<comment>\SFlua\Salso\Sintroduces\Sthe\S(actually\Sold)\Sconcept\Sof\Sdata\Sflow\Sprogramming\Swhich\Ssimply\Smeans\Syou\Scan</comment>
 		<comment>\Sdescribe\Show\Sdata\Sis\Sgoing\Sto\Schange\Sinstead\Sof\Smanually\Schanging\Sit\Syourself.\SYou\Scan\Sdescribe\Show</comment>
 		<comment>\Sone\Svariable\Srelates\Sto\Sanother\Sand\Sthat\Srelation\Swill\Sbe\Skept\Sup\Sto\Sdate\Sall\Sthe\Stime\Swithout</comment>

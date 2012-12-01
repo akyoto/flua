@@ -12,6 +12,7 @@
 			<string id="flua_string_0">module</string>
 			<string id="flua_string_1">header</string>
 			<string id="flua_string_2">code</string>
+			<string id="flua_string_3">unknown</string>
 		</strings>
 	</header>
 	<code>
@@ -22,41 +23,6 @@
 				<parameter>text</parameter>
 			</parameters>
 			<code>
-				<assign>
-					<value>root</value>
-					<value>
-						<new>
-							<type>ASTNode</type>
-							<parameters>
-								<parameter>flua_string_0</parameter>
-							</parameters>
-						</new>
-					</value>
-				</assign>
-				<assign>
-					<value>header</value>
-					<value>
-						<new>
-							<type>ASTNode</type>
-							<parameters>
-								<parameter>flua_string_1</parameter>
-								<parameter>root</parameter>
-							</parameters>
-						</new>
-					</value>
-				</assign>
-				<assign>
-					<value>code</value>
-					<value>
-						<new>
-							<type>ASTNode</type>
-							<parameters>
-								<parameter>flua_string_2</parameter>
-								<parameter>root</parameter>
-							</parameters>
-						</new>
-					</value>
-				</assign>
 				<comment>\SDivide\Swork\Son\SX\Scores</comment>
 				<assign>
 					<value>lines</value>
@@ -101,7 +67,7 @@
 							<type>
 								<template-call>
 									<value>Vector</value>
-									<value>String</value>
+									<value>ASTNode</value>
 								</template-call>
 							</type>
 							<parameters>
@@ -201,15 +167,62 @@
 						<call>
 							<function>print</function>
 							<parameters>
-								<parameter>line</parameter>
+								<parameter>
+									<call>
+										<function>
+											<access>
+												<value>line</value>
+												<value>toXML</value>
+											</access>
+										</function>
+										<parameters/>
+									</call>
+								</parameter>
 							</parameters>
 						</call>
 					</code>
 				</foreach>
+				<comment>\SBasic\Snode\Sstructure</comment>
+				<assign>
+					<value>root</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_0</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign>
+					<value>header</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_1</parameter>
+								<parameter>root</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
+				<assign>
+					<value>code</value>
+					<value>
+						<new>
+							<type>ASTNode</type>
+							<parameters>
+								<parameter>flua_string_2</parameter>
+								<parameter>root</parameter>
+							</parameters>
+						</new>
+					</value>
+				</assign>
 				<return>root</return>
 			</code>
 			<meta/>
 		</function>
+		<comment>\SProcesses\S#lines\Sfrom\S#indexStart\Sto\S#indexEnd\Sand\Ssaves\Sit\Sin\S#result</comment>
 		<function>
 			<name>processLines</name>
 			<parameters>
@@ -232,15 +245,44 @@
 								</index>
 							</value>
 							<value>
-								<index>
-									<value>lines</value>
-									<value>h</value>
-								</index>
+								<call>
+									<function>processLine</function>
+									<parameters>
+										<parameter>
+											<index>
+												<value>lines</value>
+												<value>h</value>
+											</index>
+										</parameter>
+									</parameters>
+								</call>
 							</value>
 						</assign>
 					</code>
+					<meta/>
 				</for>
 			</code>
+			<meta/>
+		</function>
+		<comment>\SProcesses\Sa\Ssingle\S#line</comment>
+		<function>
+			<name>processLine</name>
+			<parameters>
+				<parameter>line</parameter>
+			</parameters>
+			<code>
+				<return>
+					<new>
+						<type>ASTNode</type>
+						<parameters>
+							<parameter>flua_string_3</parameter>
+							<parameter>null</parameter>
+							<parameter>line</parameter>
+						</parameters>
+					</new>
+				</return>
+			</code>
+			<meta/>
 		</function>
 	</code>
 </module>

@@ -172,16 +172,26 @@
 															<add>
 																<value>
 																	<add>
-																		<value>flua_string_1</value>
 																		<value>
-																			<access>
-																				<value>my</value>
-																				<value>name</value>
-																			</access>
+																			<add>
+																				<value>flua_string_1</value>
+																				<value>
+																					<access>
+																						<value>my</value>
+																						<value>name</value>
+																					</access>
+																				</value>
+																			</add>
 																		</value>
+																		<value>flua_string_2</value>
 																	</add>
 																</value>
-																<value>flua_string_2</value>
+																<value>
+																	<access>
+																		<value>my</value>
+																		<value>value</value>
+																	</access>
+																</value>
 															</add>
 														</value>
 														<value>

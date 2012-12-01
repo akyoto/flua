@@ -246,6 +246,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		self.lastLineCount = 0
 		self.maxLineIndex = -1
 		self.currentLineComment = ""
+		self.currentLineHasComment = False
 		self.nodeToOriginalLine = dict()
 		self.nodeToOriginalLineNumber = dict()
 		self.nodes = list()
@@ -504,7 +505,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			
 			#debug(line, ">>", self.nextLineIndented)
 			
-			if not line and not self.currentLineComment:
+			if not line and not self.currentLineHasComment:
 				# Function block error checking
 				if currentLine and currentLine.nodeType == Node.ELEMENT_NODE and ((currentLine.tagName in simpleBlocks) or currentLine.tagName in {"if-block", "try-block", "catch", "if", "elif", "else"}):
 					codeNode = getElementByTagName(currentLine, "code")
@@ -569,7 +570,7 @@ class BPCFile(ScopeController, Benchmarkable):
 			self.savedNextNode = self.nextNode
 			
 			# Comment-ception
-			if self.currentLineComment:
+			if self.currentLineHasComment:
 				if line:
 					currentComment = self.handleComment(self.currentLineComment, inline = True)
 					
@@ -1696,6 +1697,7 @@ class BPCFile(ScopeController, Benchmarkable):
 		comprPrefix = "_flua_compr"
 		comprPrefixLen = len(comprPrefix)
 		
+		self.currentLineHasComment = False
 		self.currentLineComment = None
 		self.keyword = ""
 		
@@ -1706,6 +1708,7 @@ class BPCFile(ScopeController, Benchmarkable):
 				lineContent = line[:i].rstrip()
 				comment = line[i+1:]
 				self.currentLineComment = comment
+				self.currentLineHasComment = True
 				return lineContent
 			# Number of brackets check
 			elif line[i] == '(':

@@ -14,6 +14,7 @@
 		<comment>\Sshown\Sin\Sthe\Ssyntax\Syou\Sselected.\STo\Sdo\Sthat\Sset</comment>
 		<comment>\S&quot;Flua\SSyntax&quot;\Sin\Sthe\Sstatus\Sbar\Sto\Sone\Syou\Slike\Sor\Sjust</comment>
 		<comment>\Sleave\Sit\Sas\Sit\Sis\Sif\Syou\Slike\Sthe\SFlua\Sdefault\Ssyntax.</comment>
+		<comment>\E</comment>
 		<comment>\SHere's\Ssome\Spreview\Scode:</comment>
 		<if-block>
 			<if>

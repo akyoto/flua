@@ -810,9 +810,10 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if op1bpc.startswith("_flua_"): #== "_flua_seq":
 				op1bpc = ""
 			
+			# TODO: Split among multiple lines using an intelligent algorithm
 			#if len(op2bpc) >= 40:
-			#	tabs = "\t" * tabLevel
-			#	op2bpc = "%s%s%s%s%s" % ("\n", tabs, "\t", op2bpc, "\n", tabs)
+			#	tabs = "\t" * (tabLevel + 1)
+			#	op2bpc = "%s%s%s%s%s%s" % ("\n", tabs, "\t", op2bpc, "\n", tabs)
 			#	
 			#	# 2 more lines
 			#	if conv:

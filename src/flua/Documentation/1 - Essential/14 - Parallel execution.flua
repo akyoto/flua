@@ -25,10 +25,14 @@
 		<comment>\SOne\Sof\Sthem\Sis\Sthe\Smanual\Screation\Sof\Sthreads\Susing\Sthe\S'parallel'\Skeyword.</comment>
 		<comment>\SEach\Sline\Sinside\Sa\Sparallel\Sblock\Swill\Sbe\Sexecuted\Sasynchronously\Swhich</comment>
 		<comment>\Smeans\Sthe\Scalls\Sdon't\Sblock\Seach\Sother.</comment>
+		<comment>\E</comment>
 		<comment>\SIn\Sthe\Scurrent\Sversion\Syou\Scan\Sonly\Suse\Sfunctions\Sinside\Sa\Sparallel\Sblock,</comment>
 		<comment>\Sassignments\Saren't\Sworking\Syet.</comment>
+		<comment>\E</comment>
 		<comment>\SYou\Scan\Suse\Sany\Snumber\Sof\Sfunction\Sarguments.</comment>
-		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread:</comment>
+		<comment>\E</comment>
+		<comment>\SExample:</comment>
+		<comment>\SDefine\Sa\Sfunction\Swhich\Swill\Sbe\Scalled\Sin\Seach\Sthread</comment>
 		<function>
 			<name>func</name>
 			<parameters>
@@ -56,7 +60,6 @@
 					</parameters>
 				</call>
 			</code>
-			<meta/>
 		</function>
 		<comment>\SExecute\Sall\Scalls\Sto\Sfunc\Sin\Sparallel</comment>
 		<parallel>
