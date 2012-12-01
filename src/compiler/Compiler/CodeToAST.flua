@@ -38,6 +38,7 @@
 						</new>
 					</value>
 				</assign>
+				<comment>\STODO:\Slines\S=\Stext.lines</comment>
 				<foreach>
 					<iterator>line</iterator>
 					<collection>

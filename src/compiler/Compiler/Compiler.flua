@@ -16,16 +16,19 @@
 		</strings>
 	</header>
 	<code>
+		<comment>\SFlua\Scompiler\Swritten\Sin\SFlua\Sitself.</comment>
+		<comment>\SCurrently\Sin\Sdevelopment.</comment>
+		<comment>\E</comment>
 		<comment>\SOverview:</comment>
-		<comment>\S---------------------------------------------</comment>
+		<comment>\E</comment>
 		<comment>\S[Syntax\S1]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[C++]</comment>
 		<comment>\S[Syntax\S2]\S&lt;&lt;----&gt;&gt;\S[AST]\S------&gt;&gt;\S[Python\S3]</comment>
-		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[HTML5]</comment>
-		<comment>\S---------------------------------------------</comment>
+		<comment>\S[Syntax\S3]\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S\S[JavaScript]</comment>
+		<comment>\E</comment>
 		<comment>\S*\SCodeToAST:\S\S\Sconverts\Sa\Ssyntax\Sto\San\SAST</comment>
 		<comment>\S*\SASTToCode:\S\S\Sis\Sthe\Sinverse</comment>
 		<comment>\S*\SASTToOutput:\Sgenerates\Scompilable\Sfiles</comment>
-		<comment>\S---------------------------------------------</comment>
+		<comment>\E</comment>
 		<assign>
 			<value>args</value>
 			<value>
