@@ -810,6 +810,15 @@ def nodeToBPC(node, tabLevel = 0, conv = None):
 			if op1bpc.startswith("_flua_"): #== "_flua_seq":
 				op1bpc = ""
 			
+			#if len(op2bpc) >= 40:
+			#	tabs = "\t" * tabLevel
+			#	op2bpc = "%s%s%s%s%s" % ("\n", tabs, "\t", op2bpc, "\n", tabs)
+			#	
+			#	# 2 more lines
+			#	if conv:
+			#		conv.add(None)
+			#		conv.add(None)
+			
 			return op1bpc + "[" + op2bpc + "]"
 		elif nodeName == "slice":
 			return op1bpc + "[" + op2bpc + "]"
