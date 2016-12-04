@@ -14,6 +14,8 @@ Its main features are:
  * Automatic Parallelization based on Whitelists
  * Code is saved in XML files which hold all the data about them (documentation, etc.)
 
+![Screenshot](screenshot.png)
+
 It is currently in the Alpha phase.
 
  * Website: http://flua-lang.org/
@@ -50,7 +52,7 @@ Afterwards:
  * Compile SIP for Python 3.x
  * Download PyQt 4 source: http://www.riverbankcomputing.co.uk/software/pyqt/download
  * Compile PyQt 4 for Python 3.x
- 
+
 Compiling these libraries can be done via:
 
     python3 configure.py
@@ -60,11 +62,11 @@ Compiling these libraries can be done via:
 Download Flua via git (unless you already downloaded it):
 
     git clone git://github.com/blitzprog/flua.git
-    
+
 Start flua-studio.py which is in the top-level flua directory:
-    
+
     python3 ./flua/flua-studio.py
-    
+
 On 64-Bit systems you might need to install libc-i386-dev as well.
 If you want to compile the graphics examples you'll need X11 and OpenGL
 development packages (libx11-dev libxt-dev libxext-dev libgl1-mesa-dev libglu1-mesa-dev).
